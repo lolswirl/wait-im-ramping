@@ -1,29 +1,38 @@
-import './App.css';
-import * as React from 'react';
-import { useState } from 'react';
+import "./App.css";
+import * as React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { AppBar, Toolbar, Typography } from "@mui/material";
 
-import RampCalc from './RampCalc.tsx';
+import Home from "./pages/Home.tsx";
+import Graphs from "./pages/graphs/Graphs.tsx";
+import AbsorbVsDRCompare from "./pages/graphs/AbsorbVsDRCompare.tsx";
+import SheilunVSJadeEmpowerment from "./pages/graphs/SheilunVSJadeEmpowerment.tsx";
+import Timeline from "./pages/Timeline.tsx";
+import NavBar from "./components/NavBar/NavBar.tsx"
 
 function App() {
-  const [totalCastTime, setTotalCastTime] = useState(0);
-
-  const handleTotalCastTimeChange = (newTotalTime: number) => {
-    setTotalCastTime(newTotalTime);
-  };
 
   return (
+    <Router>
       <div className="App">
-        <header className="App-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-          <h1 style={{ marginBottom: '0px' }}>When do I ramp?</h1>
-          
-          <RampCalc onTotalCastTimeChange={handleTotalCastTimeChange} />
-          {totalCastTime > 0 && (
-            <h1 style={{ marginTop: '0px' }}>
-              Start ramping ~{Math.ceil(totalCastTime)}s before a mechanic
-            </h1>
-          )}
-        </header>
+        <AppBar position="static">
+          <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography variant="h6" component="div">
+              When do I ramp?
+            </Typography>
+            <NavBar></NavBar>
+          </Toolbar>
+        </AppBar>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/timeline" element={<Timeline />} />
+          <Route path="/graphs" element={<Graphs />} />
+          <Route path="/graphs/external-comparison" element={<AbsorbVsDRCompare />} />
+          <Route path="/graphs/spellpower-comparison" element={<SheilunVSJadeEmpowerment />} />
+        </Routes>
       </div>
+    </Router>
   );
 }
 

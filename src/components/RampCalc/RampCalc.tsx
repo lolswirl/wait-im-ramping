@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { TextField, InputAdornment } from '@mui/material';
-import { spell } from './data/spell.ts';
+import { spell } from '../../data/spell.ts';
 import { v4 as uuidv4 } from 'uuid';
 
-import SpecializationSelect from './components/SpecializationSelect/SpecializationSelect.tsx';
-import SpellButtons from './components/SpellButtons/SpellButtons.tsx';
-import SpellTable from './components/SpellTable/SpellTable.tsx';
+import SpecializationSelect from '../SpecializationSelect/SpecializationSelect.tsx';
+import SpellButtons from '../SpellButtons/SpellButtons.tsx';
+import SpellTable from '../SpellTable/SpellTable.tsx';
 
 interface RampCalcProps {
 	onTotalCastTimeChange: (totalTime: number) => void;
@@ -77,7 +77,7 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
 					onBlur={() => {
 						setHaste((prev) => (prev === "" ? 0 : prev)); // Reset empty to 0 when focus is lost
 					}}
-					sx={{ width: '6ch' }}
+					sx={{ width: '10ch' }}
 					InputProps={{
 						endAdornment: (
 							<InputAdornment position="end">
@@ -88,15 +88,6 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
 				/>
 			</div>
 			<SpellButtons selectedSpec={selectedSpec} addSpellToTable={addSpellToTable} />
-			<SpellLine
-				spellList={spellList} 
-				setSpellList={setSpellList}
-				removeSpellFromTable={removeSpellFromTable}
-				selectedSpec={selectedSpec}
-				haste={haste === "" ? 0 : haste}
-				onTotalCastTimeChange={onTotalCastTimeChange}
-				clearTable={clearTable}
-			/>
 			<SpellTable 
 				spellList={spellList} 
 				setSpellList={setSpellList}
@@ -106,17 +97,6 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
 				onTotalCastTimeChange={onTotalCastTimeChange}
 				clearTable={clearTable}
 			/>
-
-
-			{/* {spellList.length > 0 && (
-				<Button 
-					variant="contained" 
-					color="error" 
-					onClick={clearTable}
-				>
-					Clear Spells
-				</Button>
-			)} */}
 		</div>
 	);
 }
