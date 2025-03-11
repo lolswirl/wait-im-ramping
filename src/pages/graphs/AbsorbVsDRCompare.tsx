@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { TextField, Box, Container, Typography } from "@mui/material";
-import PageTitle from "../../components/PageTitle/PageTitle.tsx"
+import { TextField, Box, Container, Typography, useTheme } from "@mui/material";
+import PageTitle from "../../components/PageTitle/PageTitle.tsx";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -10,7 +10,9 @@ const AbsorbVsDRCompare: React.FC = () => {
   const [absorbValue, setAbsorbValue] = useState(8);
   const [damageReduction, setDamageReduction] = useState(40.5);
   const [maxXAxis, setMaxXAxis] = useState(30); // New state for max x-axis
-  const [intersectionPoint, setIntersectionPoint] = useState<{ x: number; y: number } | null>(null);
+  const [intersectionPoint, setIntersectionPoint] = useState<{ x: number | null; y: number | null }>({ x: null, y: null });
+
+  const theme = useTheme();
 
   const damageValues = useMemo(() => Array.from({ length: maxXAxis }, (_, i) => i * 1000000), [maxXAxis]);
 
@@ -21,14 +23,13 @@ const AbsorbVsDRCompare: React.FC = () => {
   }, [absorbValue, damageValues]);
 
   const reductionDamageIntake = useMemo(() => {
-    return damageValues.map(
-      (value) => value * (1 - damageReduction / 100)
-    );
-  }, [damageReduction, damageValues]);
+    return damageValues.map((value) => value * (1 - damageReduction / 100));
+  }, [damageReduction, damageValues]); // Add damageValues as dependency
 
   useEffect(() => {
-    let intersectX = null;
-    let intersectY = null;
+    let intersectX: number | null = null;
+    let intersectY: number | null = null;
+  
     for (let i = 0; i < damageValues.length; i++) {
       if (reductionDamageIntake[i] < absorbDamageIntake[i]) {
         intersectX = damageValues[i] / 1000000;
@@ -36,8 +37,12 @@ const AbsorbVsDRCompare: React.FC = () => {
         break;
       }
     }
-    setIntersectionPoint(intersectX && intersectY ? { x: intersectX, y: intersectY } : null);
-  }, [absorbValue, damageReduction]);
+  
+    setIntersectionPoint({
+      x: intersectX,
+      y: intersectY,
+    });
+  }, [absorbValue, damageReduction, damageValues, absorbDamageIntake, reductionDamageIntake]);
 
   const chartData = useMemo(() => ({
     labels: damageValues.map((value) => `${value / 1000000}M`),
@@ -65,12 +70,44 @@ const AbsorbVsDRCompare: React.FC = () => {
         borderDash: [5, 5],
       },
     ],
-  }), [absorbValue, damageReduction, absorbDamageIntake, reductionDamageIntake]);
+  }), [absorbValue, damageReduction, absorbDamageIntake, reductionDamageIntake, damageValues]);
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 800, marginTop: 4, alignItems: "center" }}>
-      <PageTitle title="External Comparison"/>
-      <Box sx={{ display: "flex", gap: 2, width: "50%" }}>
+      <PageTitle title="External Comparison" />
+
+      <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
+        <Line
+          data={chartData}
+          options={{
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Absorb vs. Damage Reduction Comparison",
+              },
+            },
+            scales: {
+              x: {
+                title: { display: true, text: "Incoming Damage (Million)" },
+                max: 50,
+                grid: {
+                  color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
+                },
+              },
+              y: {
+                title: { display: true, text: "Damage Taken (Million)" },
+                max: maxXAxis,
+                grid: {
+                  color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
+                },
+              },
+            },
+          }}
+        />
+      </Box>
+
+      <Box sx={{ display: "flex", gap: 2, width: "75%", justifyContent: "center" }}>
         <TextField
           label="Absorb Value (Million)"
           variant="outlined"
@@ -94,31 +131,6 @@ const AbsorbVsDRCompare: React.FC = () => {
           onChange={(e) => setMaxXAxis(parseFloat(e.target.value) || 10)}
           type="number"
           fullWidth
-        />
-      </Box>
-
-      <Box sx={{ height: 500, width: "100%" }}>
-        <Line
-          data={chartData}
-          options={{
-            responsive: true,
-            plugins: {
-              title: {
-                display: true,
-                text: "Absorb vs. Damage Reduction Comparison",
-              },
-            },
-            scales: {
-              x: {
-                title: { display: true, text: "Incoming Damage (Million)" },
-                max: 50,
-              },
-              y: {
-                title: { display: true, text: "Damage Taken (Million)" },
-                max: maxXAxis,
-              },
-            },
-          }}
         />
       </Box>
 

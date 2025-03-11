@@ -1,24 +1,24 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Box, Container } from "@mui/material";
-import PageTitle from "../../components/PageTitle/PageTitle.tsx"
+import { Box, Container, useTheme } from "@mui/material";
+import PageTitle from "../../components/PageTitle/PageTitle.tsx";
 
-// Register chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const SheilunVSJadeEmpowerment: React.FC = () => {
+  const theme = useTheme();
 
   const sheilunSpellpowerPerStack = 684.9;
 
   const jeSpellpowerCalc = (value: number) => 154.5 * (value / 100) * 1.9;
   const jeBaseSpellpower = 2500;
   const jeChainValue = jeBaseSpellpower * 0.15;
-  const jeValues = Array.from({length: 5}, (_, i) => 2500 + i * jeChainValue);
+  const jeValues = Array.from({ length: 5 }, (_, i) => 2500 + i * jeChainValue);
   const jeSpellpowers = jeValues.map(value => jeSpellpowerCalc(value));
-  
+
   const xValues = Array.from({ length: 10 }, (_, i) => i + 1);
-  
+
   const sheilunSpellpowers = xValues.map(i => sheilunSpellpowerPerStack * i);
 
   const chartData = {
@@ -59,6 +59,9 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
           display: true,
           text: "Sheilun's Gift Stacks",
         },
+        grid: {
+          color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
+        },
       },
       y: {
         title: {
@@ -66,14 +69,17 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
           text: "Spellpower",
         },
         beginAtZero: true,
+        grid: {
+          color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
+        },
       },
     },
   };
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 4, alignItems: "center", justifyContent: "center" }}>
-      <PageTitle title="Spellpower Comparison"/>
-      <Box sx={{ height: 500, width: "80%", display: "flex", justifyContent: "center" }}>
+      <PageTitle title="Spellpower Comparison" />
+      <Box sx={{ height: 600, width: "100%", display: "flex", justifyContent: "center" }}>
         <Line data={chartData} options={chartOptions} />
       </Box>
     </Container>

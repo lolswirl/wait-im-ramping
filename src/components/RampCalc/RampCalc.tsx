@@ -77,7 +77,8 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
 					onBlur={() => {
 						setHaste((prev) => (prev === "" ? 0 : prev)); // Reset empty to 0 when focus is lost
 					}}
-					sx={{ width: '10ch' }}
+					error={selectedSpec !== "" && haste === ""}
+					sx={{ width: '12ch' }}
 					InputProps={{
 						endAdornment: (
 							<InputAdornment position="end">

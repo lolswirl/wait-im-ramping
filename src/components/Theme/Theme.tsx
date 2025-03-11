@@ -1,50 +1,47 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline"; // Import CssBaseline
-import { ReactNode } from "react";
+import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { useThemeContext } from './ThemeContext.tsx';
 
-const theme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-  components: {
-    MuiTableBody: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "#121212",
+const Theme = ({ children }: { children: React.ReactNode }) => {
+  const { themeMode } = useThemeContext();
+
+  const theme = createTheme({
+    palette: {
+      mode: themeMode,
+    },
+    components: {
+      MuiTableBody: {
+        styleOverrides: {
+          root: {
+            backgroundColor: themeMode === 'dark' ? '#121212' : '#f5f5f5',
+          },
         },
       },
-    },
-    MuiTableRow: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "#1e1e1e",
+      MuiTableRow: {
+        styleOverrides: {
+          root: {
+            backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#e0e0e0',
+          },
         },
       },
-    },
-    // Add styling for hover effects to customize the transparency and tint behavior
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          '&:hover': {
-            backgroundColor: 'transparent', // Prevent changing the button background color
-            // Additional hover effect styling can be added here
-            // You could use the same hover color adjustments as before
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            '&:hover': {
+              backgroundColor: 'transparent',
+            },
           },
         },
       },
     },
-  },
-});
+  });
 
-interface ThemeProps {
-  children: ReactNode;
-}
-
-export const Theme = ({ children }: ThemeProps) => {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline /> {/* Ensures global background & text color respects theme */}
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
       {children}
-    </ThemeProvider>
+    </MuiThemeProvider>
   );
 };
+
+export default Theme;
