@@ -21,7 +21,9 @@ const pages = [
 
 const dropdownPages = [
   { label: "Absorb vs. Damage Reduction", path: "/graphs/external-comparison" },
-  { label: "Sheilun's Gift vs. Jade Empowerment", path: "/graphs/spellpower-comparison" },
+  { label: "Sheilun's Gift vs. Jade Empowerment", path: "/graphs/jade-empowerment-sheiluns" },
+  { label: "Jade Empowerment vs. DocJ", path: "/graphs/jade-empowerment-docj" },
+  { label: "ST Rotation vs. Spinning Crane Kick", path: "/graphs/st-spinning" }
 ];
 
 function ResponsiveAppBar() {
