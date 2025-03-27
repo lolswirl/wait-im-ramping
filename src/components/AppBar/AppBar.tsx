@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
 import AdbIcon from "@mui/icons-material/Adb";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Container from "@mui/material/Container";
@@ -22,6 +23,12 @@ const dropdownPages = [
   { label: "Jade Empowerment vs. DocJ", path: "/graphs/jade-empowerment-docj" },
   { label: "ST Rotation vs. Spinning Crane Kick", path: "/graphs/st-spinning" }
 ];
+
+// const SwirlIcon = (props: SvgIconProps) => (
+//   <SvgIcon {...props} viewBox="0 0 32 32">
+//     <text x="4" y="26" fontSize="24">𖦹</text>
+//   </SvgIcon>
+// );
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -68,8 +75,8 @@ function ResponsiveAppBar() {
               },
             }}
           >
-            <AdbIcon sx={{ fontSize: 24, cursor: "pointer" }} />
-            When do I ramp?
+            {/* <SwirlIcon/> */}
+            𖦹 When do I ramp?
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
