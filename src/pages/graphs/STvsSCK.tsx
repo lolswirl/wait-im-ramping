@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Box, Container, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Container, TextField, Typography } from "@mui/material";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const DamageOverTimeGraph: React.FC = () => {
-  const theme = useTheme();
   const [timeSpent, setTimeSpent] = useState(30); // Default time spent is 30 seconds
   const [targetCount, setTargetCount] = useState(1);
   const [damageData, setDamageData] = useState({
