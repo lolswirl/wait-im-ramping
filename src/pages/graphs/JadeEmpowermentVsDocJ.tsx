@@ -36,35 +36,37 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
       : docjSpellpowerCalc(danceofChijiIncrease) * value * Math.sqrt(5 / value)
   );
 
+  let hasted = false
   let jeLabel = "Jade Empowerment";
   let docjLabel = "Dance of Chi-Ji";
+  const docjPpm = hasted ? (3 + 1.3) : 3
 
-    if (calcMode === "mode1") {
-        jeSpellpowers = jeSpellpowers.map(sp => sp * 2);
-        docjSpellpowers = docjSpellpowers.map(sp => sp * 3);
-        jeLabel += " (2 cast)";
-        docjLabel += " (3 procs)";
-    }
-    if (calcMode === "mode2") {
-        jeSpellpowers = jeSpellpowers.map(sp => sp);
-        docjSpellpowers = docjSpellpowers.map(sp => sp * 3);
-        jeLabel += " (1 cast)";
-        docjLabel += " (3 procs)";
-    } else if (calcMode === "mode3") {
-        jeSpellpowers = jeSpellpowers.map(sp => sp * 2);
-        docjSpellpowers = docjSpellpowers.map(sp => sp);
-        jeLabel += " (2 casts)";
-        docjLabel += " (1 proc)";
-    } else if (calcMode === "mode4") {
-        jeSpellpowers = jeSpellpowers.map(sp => sp * 4);
-        docjSpellpowers = docjSpellpowers.map(sp => sp);
-        jeLabel += " (4 casts)";
-        docjLabel += " (1 proc)";
-    }
+  if (calcMode === "mode1") {
+      jeSpellpowers = jeSpellpowers.map(sp => sp * 2);
+      docjSpellpowers = docjSpellpowers.map(sp => sp * docjPpm);
+      jeLabel += " (2 cast)";
+      docjLabel += " (" + docjPpm + " procs)";
+  }
+  if (calcMode === "mode2") {
+      jeSpellpowers = jeSpellpowers.map(sp => sp);
+      docjSpellpowers = docjSpellpowers.map(sp => sp * docjPpm);
+      jeLabel += " (1 cast)";
+      docjLabel += " (" + docjPpm + " procs)";
+  } else if (calcMode === "mode3") {
+      jeSpellpowers = jeSpellpowers.map(sp => sp * 2);
+      docjSpellpowers = docjSpellpowers.map(sp => sp);
+      jeLabel += " (2 casts)";
+      docjLabel += " (1 proc)";
+  } else if (calcMode === "mode4") {
+      jeSpellpowers = jeSpellpowers.map(sp => sp * 4);
+      docjSpellpowers = docjSpellpowers.map(sp => sp);
+      jeLabel += " (4 casts)";
+      docjLabel += " (1 proc)";
+  }
 
-    const docjBetterThanJE = docjValues.find(value =>
-        value <= 5 ? docjSpellpowers[value - 1] > jeSpellpowers[Math.min(value - 1, 4)] : docjSpellpowers[value - 1] > jeSpellpowers[4]
-    );
+  const docjBetterThanJE = docjValues.find(value =>
+      value <= 5 ? docjSpellpowers[value - 1] > jeSpellpowers[Math.min(value - 1, 4)] : docjSpellpowers[value - 1] > jeSpellpowers[4]
+  );
 
   const chartData = {
     labels: docjValues.map(value => `${value}`),
