@@ -20,6 +20,12 @@ export const mistweaverMonkSpells: spell[] = [
     castTime: 0
   },
   {
+    name: 'Tiger Palm',
+    id: 100780,
+    icon: 'ability_monk_tigerpalm',
+    castTime: 0,
+  },
+  {
     name: 'Vivify',
     id: 116670,
     icon: 'ability_monk_vivify',
@@ -68,13 +74,5 @@ export const mistweaverMonkSpells: spell[] = [
     icon: 'ability_monk_chicocoon',
     castTime: 0,
     gcd: false
-  },
-  {
-    name: 'Tiger Palm',
-    id: 100780,
-    icon: 'ability_monk_tigerpalm',
-    castTime: 0,
-  },
-  
-
+  }
 ];
