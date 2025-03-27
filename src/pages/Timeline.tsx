@@ -12,7 +12,7 @@ import PageTitle from "../components/PageTitle/PageTitle.tsx"
 
 const Timeline = () => {
 
-    const [selectedSpec, setSelectedSpec] = useState('');
+    const [selectedSpec, setSelectedSpec] = useState('Mistweaver Monk');
     const [spellList, setSpellList] = useState<spell[]>([]);
     const [currentRotation, setCurrentRotation] = useState<any[]>([]); // For the current rotation being built
     const [rotations, setRotations] = useState<any[][]>([]); // List to store up to 3 rotations
