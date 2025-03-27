@@ -10,15 +10,12 @@ import AdbIcon from "@mui/icons-material/Adb";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import MenuIcon from '@mui/icons-material/Menu';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { useThemeContext } from '../Theme/ThemeContext.tsx'; // Import the context
+import MenuIcon from "@mui/icons-material/Menu";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { useThemeContext } from "../Theme/ThemeContext.tsx";
 
-const pages = [
-  { label: "Spell Timeline", path: "/timeline" },
-];
-
+const pages = [{ label: "Spell Timeline", path: "/timeline" }];
 const dropdownPages = [
   { label: "Absorb vs. Damage Reduction", path: "/graphs/external-comparison" },
   { label: "Sheilun's Gift vs. Jade Empowerment", path: "/graphs/jade-empowerment-sheiluns" },
@@ -29,8 +26,8 @@ const dropdownPages = [
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElDropdown, setAnchorElDropdown] = React.useState<null | HTMLElement>(null);
-  const { toggleTheme, themeMode } = useThemeContext(); // Use theme context here
-
+  const { toggleTheme, themeMode } = useThemeContext();
+  
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -47,8 +44,7 @@ function ResponsiveAppBar() {
     setAnchorElDropdown(null);
   };
 
-  // Define the hover background color based on themeMode
-  const hoverColor = themeMode === "dark" ? "#90caf9" : "#212121"; // Different hover colors for light and dark modes
+  const hoverColor = themeMode === "dark" ? "#90caf9" : "#212121";
 
   return (
     <AppBar position="static">
@@ -77,31 +73,35 @@ function ResponsiveAppBar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="menu"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
+            <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-              keepMounted
-              transformOrigin={{ vertical: "top", horizontal: "left" }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{ display: { xs: "block", md: "none" } }}
-            >
+            <Menu anchorEl={anchorElNav} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu}>
               {pages.map(({ label, path }) => (
                 <MenuItem key={label} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: "center" }}>
-                    <a href={path} style={{ color: 'inherit', textDecoration: 'none' }}>{label}</a>
+                  <Typography>
+                    <a href={path} style={{ color: "inherit", textDecoration: "none" }}>{label}</a>
                   </Typography>
+                </MenuItem>
+              ))}
+              <MenuItem onClick={handleOpenDropdownMenu}>
+                <Typography sx={{ display: "flex", alignItems: "center" }}>
+                  Graphs <ArrowDropDownIcon sx={{ ml: 1 }} />
+                </Typography>
+              </MenuItem>
+            </Menu>
+            <Menu anchorEl={anchorElDropdown} open={Boolean(anchorElDropdown)} onClose={handleCloseDropdownMenu}>
+              {dropdownPages.map(({ label, path }) => (
+                <MenuItem
+                  key={label}
+                  component="a"
+                  href={path}
+                  onClick={() => {
+                    handleCloseDropdownMenu();
+                    handleCloseNavMenu();
+                  }}
+                >
+                  {label}
                 </MenuItem>
               ))}
             </Menu>
@@ -109,54 +109,16 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map(({ label, path }) => (
-              <Button
-                key={label}
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  "&:hover": {
-                    backgroundColor: hoverColor, // Apply dynamic hover color
-                  },
-                }}
-              >
-                <a href={path} style={{ color: 'inherit', textDecoration: 'none' }}>{label}</a>
+              <Button key={label} onClick={handleCloseNavMenu} sx={{ my: 2, color: "white" }}>
+                <a href={path} style={{ color: "inherit", textDecoration: "none" }}>{label}</a>
               </Button>
             ))}
-
-            <Button
-              onClick={handleOpenDropdownMenu}
-              sx={{
-                my: 2,
-                color: "white",
-                display: "flex",
-                alignItems: "center",
-                "&:hover": {
-                  backgroundColor: hoverColor, // Apply dynamic hover color
-                },
-              }}
-            >
-              Graphs
-              <ArrowDropDownIcon sx={{ marginLeft: 1 }} />
+            <Button onClick={handleOpenDropdownMenu} sx={{ my: 2, color: "white", display: "flex", alignItems: "center" }}>
+              Graphs <ArrowDropDownIcon sx={{ ml: 1 }} />
             </Button>
-            <Menu
-              anchorEl={anchorElDropdown}
-              open={Boolean(anchorElDropdown)}
-              onClose={handleCloseDropdownMenu}
-            >
+            <Menu anchorEl={anchorElDropdown} open={Boolean(anchorElDropdown)} onClose={handleCloseDropdownMenu}>
               {dropdownPages.map(({ label, path }) => (
-                <MenuItem
-                  key={label}
-                  component="a"
-                  href={path}
-                  onClick={handleCloseDropdownMenu}
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: hoverColor, // Apply dynamic hover color
-                    },
-                  }}
-                >
+                <MenuItem key={label} component="a" href={path} onClick={handleCloseDropdownMenu}>
                   {label}
                 </MenuItem>
               ))}
