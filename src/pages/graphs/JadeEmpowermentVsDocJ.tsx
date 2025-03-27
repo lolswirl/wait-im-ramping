@@ -11,21 +11,29 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
   const [maxTargets, setMaxTargets] = useState(13);
   const [calcMode, setCalcMode] = useState("default");
 
-  const jeSpellpowerCalc = (value: number) => 115.8 * (value / 100) * 1.9;
-  const docjSpellpowerCalc = (value: number) => 166.7 * (value / 100) * 2.2;
+  const intellect = 17647
+  const cracklingJadeLightningDamage = 19270
+  const spinningCraneKickDamage = 25217
+  const armorModifier = 0.7
 
-  const jeBaseSpellpower = 2500;
-  const jeChainValue = jeBaseSpellpower * 0.15;
-  const docjBuffedSpellpower = 400;
+  const jadefireTeachingsTransfer = 2.45
+  const awakenedJadefireTransfer = 1.2
+
+  const jadeEmpowermentIncrease = 2500;
+  const jadeEmpowermentChain = jadeEmpowermentIncrease * 0.15;
+  const danceofChijiIncrease = 400;
+
+  const jeSpellpowerCalc = (value: number) => (cracklingJadeLightningDamage / intellect)  * value * jadefireTeachingsTransfer;
+  const docjSpellpowerCalc = (value: number) => (spinningCraneKickDamage / intellect) * value * (awakenedJadefireTransfer * 3) * armorModifier;
 
   const jeValues = Array.from({ length: Math.min(maxTargets, 5) }, (_, i) => i + 1);
   const docjValues = Array.from({ length: maxTargets }, (_, i) => i + 1);
 
-  let jeSpellpowers = jeValues.map(value => jeSpellpowerCalc(jeBaseSpellpower + (value - 1) * jeChainValue));
+  let jeSpellpowers = jeValues.map(value => jeSpellpowerCalc(jadeEmpowermentIncrease + (value - 1) * jadeEmpowermentChain));
   let docjSpellpowers = docjValues.map(value =>
     value <= 5
-      ? docjSpellpowerCalc(docjBuffedSpellpower) * value
-      : docjSpellpowerCalc(docjBuffedSpellpower) * value * Math.sqrt(5 / value)
+      ? docjSpellpowerCalc(danceofChijiIncrease) * value
+      : docjSpellpowerCalc(danceofChijiIncrease) * value * Math.sqrt(5 / value)
   );
 
   let jeLabel = "Jade Empowerment";
