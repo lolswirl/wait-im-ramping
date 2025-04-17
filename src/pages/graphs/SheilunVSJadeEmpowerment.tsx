@@ -9,12 +9,12 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const SheilunVSJadeEmpowerment: React.FC = () => {
   const theme = useTheme();
 
-  const sheilunSpellpowerPerStack = 684.9;
+  const sheilunSpellpowerPerStack = 787.63;
 
-  const jeSpellpowerCalc = (value: number) => 154.5 * (value / 100) * 1.9;
-  const jeBaseSpellpower = 2500;
-  const jeChainValue = jeBaseSpellpower * 0.15;
-  const jeValues = Array.from({ length: 5 }, (_, i) => 2500 + i * jeChainValue);
+  const jeSpellpowerCalc = (value: number) => 109.197 * (value / 100) * 2.45;
+  const jeBaseSpellpower = 2000;
+  const jeChainValue = jeBaseSpellpower * 0.25;
+  const jeValues = Array.from({ length: 5 }, (_, i) => jeBaseSpellpowe + i * jeChainValue);
   const jeSpellpowers = jeValues.map(value => jeSpellpowerCalc(value));
 
   const xValues = Array.from({ length: 10 }, (_, i) => i + 1);
