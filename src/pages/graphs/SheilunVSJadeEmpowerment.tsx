@@ -14,7 +14,7 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
 
   const sheilunHealingPerStack = 25750;
   const sheilunTargetsHit = 5;
-  const sheilunSpellpowerPerStack = (sheilunHealingPerStack / intellect) * 5;
+  const sheilunSpellpowerPerStack = (sheilunHealingPerStack / intellect) * 100 * sheilunTargetsHit;
 
   const cjlDamage = 19271.08
   const ancientTeachingsTransfer = 2.45;
@@ -27,7 +27,7 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
 
   const xValues = Array.from({ length: 10 }, (_, i) => i + 1);
 
-  const sheilunSpellpowers = xValues.map(i => sheilunSpellpowerPerStack * i);
+  const sheilunSpellpowers = xValues.map(i => sheilunSpellpowerPerStack  * i);
 
   const chartData = {
     labels: xValues.map(value => `${value}`),
