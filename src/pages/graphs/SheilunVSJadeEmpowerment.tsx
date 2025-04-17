@@ -14,7 +14,7 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
   const jeSpellpowerCalc = (value: number) => 109.197 * (value / 100) * 2.45;
   const jeBaseSpellpower = 2000;
   const jeChainValue = jeBaseSpellpower * 0.25;
-  const jeValues = Array.from({ length: 5 }, (_, i) => jeBaseSpellpowe + i * jeChainValue);
+  const jeValues = Array.from({ length: 5 }, (_, i) => jeBaseSpellpower + i * jeChainValue);
   const jeSpellpowers = jeValues.map(value => jeSpellpowerCalc(value));
 
   const xValues = Array.from({ length: 10 }, (_, i) => i + 1);
