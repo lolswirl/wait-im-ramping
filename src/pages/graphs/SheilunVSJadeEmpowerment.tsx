@@ -9,9 +9,17 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const SheilunVSJadeEmpowerment: React.FC = () => {
   const theme = useTheme();
 
-  const sheilunSpellpowerPerStack = 787.63;
+  // TODO: make base player with these values
+  const intellect = 17648;
 
-  const jeSpellpowerCalc = (value: number) => 109.197 * (value / 100) * 2.45;
+  const sheilunHealingPerStack = 25750;
+  const sheilunTargetsHit = 5;
+  const sheilunSpellpowerPerStack = (sheilunHealingPerStack / intellect) * 5;
+
+  const cjlDamage = 19271.08
+  const ancientTeachingsTransfer = 2.45;
+
+  const jeSpellpowerCalc = (value: number) => (cjlDamage / intellect) * value * 2.45;
   const jeBaseSpellpower = 2000;
   const jeChainValue = jeBaseSpellpower * 0.25;
   const jeValues = Array.from({ length: 5 }, (_, i) => jeBaseSpellpower + i * jeChainValue);
