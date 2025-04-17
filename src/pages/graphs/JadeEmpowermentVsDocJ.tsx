@@ -19,8 +19,8 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
   const jadefireTeachingsTransfer = 2.45
   const awakenedJadefireTransfer = 1.2
 
-  const jadeEmpowermentIncrease = 2500;
-  const jadeEmpowermentChain = jadeEmpowermentIncrease * 0.15;
+  const jadeEmpowermentIncrease = 2000;
+  const jadeEmpowermentChain = jadeEmpowermentIncrease * 0.25;
   const danceofChijiIncrease = 400;
 
   const jeSpellpowerCalc = (value: number) => (cracklingJadeLightningDamage / intellect)  * value * jadefireTeachingsTransfer;
