@@ -3,6 +3,8 @@ import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, TextField, Typography } from "@mui/material";
 
+import { getSpec } from "../../data/class.ts";
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const DamageOverTimeGraph: React.FC = () => {
@@ -27,10 +29,12 @@ const DamageOverTimeGraph: React.FC = () => {
     let totmStacks = 0; // Teachings of the Monastery stacks
     let cumulativeDamage = 0;
     let rotationDamage = [];
+
+    const mistweaver = getSpec("mistweaver", "monk")!;
   
-    const risingSunKickDamage = 73532;
-    const tigerPalmDamage = 17234;
-    const blackoutKickDamage = 28198;
+    const risingSunKickDamage = mistweaver.getSpell!("Rising Sun Kick")!.value!.damage!;
+    const tigerPalmDamage = mistweaver.getSpell!("Tiger Palm")!.value!.damage!;
+    const blackoutKickDamage = mistweaver.getSpell!("Blackout Kick")!.value!.damage!;
   
     let bokHits = (1 + totmStacks); // Blackout Kick hits count based on TotM stacks
     let cleaveMultiplier = Math.min(targetCount, 3);
@@ -146,7 +150,8 @@ const DamageOverTimeGraph: React.FC = () => {
     let currentTime = 0;
     let cumulativeDamage = 0;
     let craneKickDamage = [];
-    const craneKickDamageValue = 29425;
+    const mistweaver = getSpec("mistweaver", "monk")!;
+    const craneKickDamageValue = mistweaver.getSpell!("Spinning Crane Kick").value!.damage;
 
     while (currentTime < totalTime) {
       const scaledDamage = targetCount <= 5

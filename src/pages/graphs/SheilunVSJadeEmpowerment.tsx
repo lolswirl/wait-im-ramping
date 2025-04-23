@@ -4,30 +4,40 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { Box, Container, useTheme } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle.tsx";
 
+import { getSpec } from "../../data/class.ts";
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const SheilunVSJadeEmpowerment: React.FC = () => {
   const theme = useTheme();
 
-  // TODO: make base player with these values
-  const intellect = 17648;
+  const mistweaver = getSpec("mistweaver", "monk")!;
+  
+  const intellect = mistweaver.intellect!; 
 
-  const sheilunHealingPerStack = 25750;
-  const sheilunTargetsHit = 5;
+  const sheilunHealingPerStack = mistweaver.getSpell!("Sheilun's Gift")!.value!.healing!;
+  const sheilunTargetsHit = mistweaver.getTalent!("Legacy of Wisdom")!.custom?.targetsHit;
   const sheilunSpellpowerPerStack = (sheilunHealingPerStack / intellect) * 100 * sheilunTargetsHit;
 
-  const cjlDamage = 19271.08
-  const ancientTeachingsTransfer = 2.45;
+  const cracklingJadeLightningDamage = mistweaver.getSpell!("Crackling Jade Lightning")!.value!.damage!;
 
-  const jeSpellpowerCalc = (value: number) => (cjlDamage / intellect) * value * 2.45;
-  const jeBaseSpellpower = 2000;
-  const jeChainValue = jeBaseSpellpower * 0.25;
-  const jeValues = Array.from({ length: 5 }, (_, i) => jeBaseSpellpower + i * jeChainValue);
+  const ancientTeachings = mistweaver.getTalent!("Ancient Teachings")!;
+  const ancientTeachingsTransfer = ancientTeachings.custom?.transferRate;
+  const ancientTeachingsArmorModifier = ancientTeachings.custom?.armorModifier;
+
+  const jadeEmpowerment = mistweaver.getTalent!("Jade Empowerment")!;
+  const jadeEmpowermentIncrease = jadeEmpowerment.custom?.spellpowerIncrease;
+  const jadeEmpowermentChain = jadeEmpowermentIncrease * jadeEmpowerment.custom?.chainVal;
+
+  const jeSpellpowerCalc = (value: number) => 
+    (cracklingJadeLightningDamage / intellect) * value * 
+    ancientTeachingsTransfer * ancientTeachingsArmorModifier;
+  const jeValues = Array.from({ length: 5 }, (_, i) => jadeEmpowermentIncrease + i * jadeEmpowermentChain);
   const jeSpellpowers = jeValues.map(value => jeSpellpowerCalc(value));
 
   const xValues = Array.from({ length: 10 }, (_, i) => i + 1);
 
-  const sheilunSpellpowers = xValues.map(i => sheilunSpellpowerPerStack  * i);
+  const sheilunSpellpowers = xValues.map(i => sheilunSpellpowerPerStack * i);
 
   const chartData = {
     labels: xValues.map(value => `${value}`),

@@ -4,6 +4,8 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { Box, Container, TextField, Typography, ToggleButton, ToggleButtonGroup, useTheme } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle.tsx";
 
+import { getSpec } from "../../data/class.ts";
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const JadeEmpowermentVsDocJ: React.FC = () => {
@@ -11,20 +13,33 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
   const [maxTargets, setMaxTargets] = useState(13);
   const [calcMode, setCalcMode] = useState("default");
 
-  const intellect = 17647
-  const cracklingJadeLightningDamage = 19270
-  const spinningCraneKickDamage = 25217
-  const armorModifier = 0.7
+  const mistweaver = getSpec("mistweaver", "monk")!;
 
-  const jadefireTeachingsTransfer = 2.45
-  const awakenedJadefireTransfer = 1.2
+  const intellect = mistweaver.intellect!;
+  const cjl = mistweaver.getSpell!("Crackling Jade Lightning")!;
+  const cracklingJadeLightningDamage = cjl.value!.damage!;
 
-  const jadeEmpowermentIncrease = 2000;
-  const jadeEmpowermentChain = jadeEmpowermentIncrease * 0.25;
-  const danceofChijiIncrease = 400;
+  const sck = mistweaver.getSpell!("Spinning Crane Kick")!;
+  const spinningCraneKickDamage = sck.value!.damage!;
 
-  const jeSpellpowerCalc = (value: number) => (cracklingJadeLightningDamage / intellect)  * value * jadefireTeachingsTransfer;
-  const docjSpellpowerCalc = (value: number) => (spinningCraneKickDamage / intellect) * value * (awakenedJadefireTransfer * 3) * armorModifier;
+  const awakenedJadefire = mistweaver.getTalent!("Awakened Jadefire")!;
+  const ancientTeachings = mistweaver.getTalent!("Ancient Teachings")!;
+
+  const awakenedJadefireArmorModifier = awakenedJadefire.custom?.armorModifier;
+  const ancientTeachingsArmorModifier = ancientTeachings.custom?.armorModifier;
+
+  const jadefireTeachingsTransfer = ancientTeachings.custom?.transferRate;
+  const awakenedJadefireTransfer = awakenedJadefire.custom?.transferRate;
+
+  const jadeEmpowerment = mistweaver.getTalent!("Jade Empowerment")!;
+  const jadeEmpowermentIncrease = jadeEmpowerment.custom?.spellpowerIncrease;
+  const jadeEmpowermentChain = jadeEmpowermentIncrease * jadeEmpowerment.custom?.chainVal;
+
+  const docj = mistweaver.getTalent!("Dance of Chi-Ji")!;
+  const danceofChijiIncrease = docj.custom?.spellpowerIncrease;
+
+  const jeSpellpowerCalc = (value: number) => (cracklingJadeLightningDamage / intellect)  * value * jadefireTeachingsTransfer * ancientTeachingsArmorModifier;
+  const docjSpellpowerCalc = (value: number) => (spinningCraneKickDamage / intellect) * value * (awakenedJadefireTransfer * 3) * awakenedJadefireArmorModifier;
 
   const jeValues = Array.from({ length: Math.min(maxTargets, 5) }, (_, i) => i + 1);
   const docjValues = Array.from({ length: maxTargets }, (_, i) => i + 1);
@@ -37,8 +52,8 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
   );
 
   let hasted = false
-  let jeLabel = "Jade Empowerment";
-  let docjLabel = "Dance of Chi-Ji";
+  let jeLabel = jadeEmpowerment.name;
+  let docjLabel = docj.name;
   const docjPpm = hasted ? (3 + 1.3) : 3
 
   if (calcMode === "mode1") {
@@ -93,7 +108,7 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
     plugins: {
       title: {
         display: true,
-        text: "Spellpower vs Target Count",
+        text: "Spellpower vs. Target Count",
       },
       tooltip: {
         mode: "index" as const,
@@ -168,7 +183,7 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
       </Box>
 
       <Typography variant="body1">
-        Target Count where Dance of Chi-Ji is better than Jade Empowerment: {docjBetterThanJE ?? "N/A"}
+        Target Count where {docj.name} is better than {jadeEmpowerment.name}: {docjBetterThanJE ?? "N/A"}
       </Typography>
     </Container>
   );

@@ -7,25 +7,45 @@ import { preservationEvokerSpells } from './spells/classes/evoker/preservation/p
 import { holyPaladinSpells } from './spells/classes/paladin/holy/holy.ts';
 import type { spell } from './spell';
 
+import { Capitalize } from "../util/stringManipulation.tsx";
+
+import { mistweaverMonkTalents } from './spells/classes/monk/mistweaver/talents.ts';
+
 interface classs {
-  name: class_names;
+  name: classNames;
   specializations: specialization[];
   color: string;
 }
 
-type class_names = 'Priest' | 'Druid' | 'Monk' | 'Shaman' | 'Evoker' | 'Paladin';
+type classNames = 'Priest' | 'Druid' | 'Monk' | 'Shaman' | 'Evoker' | 'Paladin';
+
+export function getSpec(specName: string, className: string) {
+  specName = Capitalize(specName.toLowerCase());
+  className = Capitalize(className.toLowerCase());
+  return classes.find(cls => cls.name === className)?.specializations.find(spec => spec.name === specName);
+}
 
 interface specialization {
   spells: spell[];
+  talents?: spell[];
   icon: string;
   name: string;
   color: string;
+  intellect?: number;
   buffs?: (spellList: spell[]) => spell[];
+  
+  getSpell?: (spellName: string) => spell | undefined;
+  getTalent?: (talentName: string) => spell | undefined;
 }
+
+const addSpecializationMethods = (spec: specialization) => {
+  spec.getSpell = (spellName: string) => spec.spells.find(spell => spell.name === spellName);
+  spec.getTalent = (talentName: string) => spec.talents?.find(talent => talent.name === talentName);
+};
 
 const classes: classs[] = [
   {
-    name: 'Priest',
+    name: 'Priest' as classNames,
     specializations: [
       {
         spells: disciplinePriestSpells,   
@@ -43,7 +63,7 @@ const classes: classs[] = [
     color: "#fffff6"
   },
   {
-    name: 'Druid',
+    name: 'Druid' as classNames,
     specializations: [
       {
         spells: restorationDruidSpells,   
@@ -55,19 +75,21 @@ const classes: classs[] = [
     color: "#ff7c0a"
   },
   {
-    name: 'Monk',
+    name: 'Monk' as classNames,
     specializations: [
       {
         spells: mistweaverMonkSpells,     
+        talents: mistweaverMonkTalents,
         icon: 'spell_monk_mistweaver_spec', 
         name: 'Mistweaver',
-        color: "#4ea55c"
+        color: "#4ea55c",
+        intellect: 17647
       }
     ],
     color: "#00ff96"
   },
   {
-    name: 'Shaman',
+    name: 'Shaman' as classNames,
     specializations: [
       {
         spells: restorationShamanSpells,  
@@ -79,7 +101,7 @@ const classes: classs[] = [
     color: "0070dd"
   },
   {
-    name: 'Evoker',
+    name: 'Evoker' as classNames,
     specializations: [
       {
         spells: preservationEvokerSpells, 
@@ -91,7 +113,7 @@ const classes: classs[] = [
     color: "#33937f"
   },
   {
-    name: 'Paladin',
+    name: 'Paladin' as classNames,
     specializations: [
       {
         spells: holyPaladinSpells,        
@@ -103,5 +125,10 @@ const classes: classs[] = [
     color: "#f48cba"
   }
 ];
+
+classes.forEach(cls => {
+  cls.specializations.forEach(addSpecializationMethods);
+});
+
 
 export { classes };

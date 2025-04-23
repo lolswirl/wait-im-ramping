@@ -17,13 +17,28 @@ export const mistweaverMonkSpells: spell[] = [
     name: 'Rising Sun Kick',
     id: 107428,
     icon: 'ability_monk_risingsunkick',
-    castTime: 0
+    castTime: 0,
+    value: {
+      damage: 40775
+    }
   },
   {
     name: 'Tiger Palm',
     id: 100780,
     icon: 'ability_monk_tigerpalm',
     castTime: 0,
+    value: {
+      damage: 14769
+    }
+  },
+  {
+    name: 'Blackout Kick',
+    id: 100784,
+    icon: 'ability_monk_roundhousekick',
+    castTime: 0,
+    value: {
+      damage: 26582
+    }
   },
   {
     name: 'Vivify',
@@ -48,7 +63,13 @@ export const mistweaverMonkSpells: spell[] = [
     name: "Sheilun's Gift",
     id: 205406,
     icon: 'inv_staff_2h_artifactshaohao_d_01',
-    castTime: 0
+    castTime: 0,
+    value: {
+      healing: 25750
+    }, 
+    custom: {
+      targetsHit: 3
+    }
   },
   {
     name: 'Chi-Ji',
@@ -66,7 +87,19 @@ export const mistweaverMonkSpells: spell[] = [
     name: 'Crackling Jade Lightning',
     id: 117952,
     icon: 'ability_monk_cracklingjadelightning',
-    castTime: 3
+    castTime: 3,
+    value: {
+      damage: 19270
+    }
+  },
+  {
+    name: 'Spinning Crane Kick',
+    id: 101546,
+    icon: 'ability_monk_cranekick_new',
+    castTime: 1.5,
+    value: {
+      damage: 25217
+    }
   },
   {
     name: 'Life Cocoon',

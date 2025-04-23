@@ -3,7 +3,17 @@ export interface spell {
     id: number;
     uuid?: string;
     icon: string;
-    castTime: number;
+    castTime?: number;
     gcd?: boolean;
     empowerLevel?: number;
+
+    value?: {
+        healing?: number;
+        damage?: number;
+        spellpower?: number;
+    }
+
+    custom?: {
+        [key: string]: any;
+    };
 }
