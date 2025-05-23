@@ -18,9 +18,21 @@ interface SpellTableProps {
 }
 
 const calculateCastTime = (spell: spell, haste: number): number => {
-  const baseCastTime = spell.castTime === 0 ? (spell.gcd === false ? 0 : 1.5) : spell.castTime;
-  const castTimeWithHaste = baseCastTime / (1 + haste / 100);
-  return spell.empowerLevel ? castTimeWithHaste * (spell.empowerLevel / 5) : castTimeWithHaste;
+  let baseCastTime = spell.castTime ?? 0;
+  if (baseCastTime === 0) {
+    baseCastTime = spell.gcd ? 1.5 : 0;
+  }
+
+  let castTime = baseCastTime;
+  if (spell.hasted !== false) {
+    castTime /= (1 + haste / 100);
+  }
+
+  if (spell.empowerLevel) {
+    castTime *= spell.empowerLevel / 5;
+  }
+
+  return castTime;
 };
 
 const SpellIcon: React.FC<{ spell: spell }> = ({ spell }) => (

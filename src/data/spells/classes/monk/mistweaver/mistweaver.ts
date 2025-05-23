@@ -50,7 +50,8 @@ export const mistweaverMonkSpells: spell[] = [
     name: 'Soothing Mist',
     id: 115175,
     icon: 'ability_monk_soothingmists',
-    castTime: 1
+    castTime: 1,
+    hasted: false
   },
   {
     name: 'Thunder Focus Tea',

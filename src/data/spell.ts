@@ -4,6 +4,7 @@ export interface spell {
     uuid?: string;
     icon: string;
     castTime?: number;
+    hasted?: boolean;
     gcd?: boolean;
     empowerLevel?: number;
 
