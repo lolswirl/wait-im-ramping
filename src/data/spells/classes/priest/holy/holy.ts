@@ -4,7 +4,7 @@ export const holyPriestSpells: spell[] = [
   {
     name: 'Holy Word: Chastise',
     id: 88625,
-    icon: 'spell_holy_holywordchastise'
+    icon: 'spell_holy_chastise'
   },
   {
     name: 'Guardian Spirit',
@@ -19,7 +19,7 @@ export const holyPriestSpells: spell[] = [
   {
     name: 'Prayer of Healing',
     id: 596,
-    icon: 'spell_holy_prayerofhealing'
+    icon: 'spell_holy_prayerofhealing02'
   },
   {
     name: 'Renew',
