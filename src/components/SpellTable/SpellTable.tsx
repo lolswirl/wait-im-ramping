@@ -5,7 +5,7 @@ import { applyBuffEffects } from '../../data/buffs.ts';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import DeleteIcon from "@mui/icons-material/Delete";
-import { toRoman } from '../../util/toRoman.ts';
+import { toRomanNumeral } from '../../util/toRomanNumeral.ts';
 
 interface SpellTableProps {
   spellList: spell[];
@@ -58,7 +58,7 @@ const SpellIcon: React.FC<{ spell: spell }> = ({ spell }) => (
           borderRadius: "4px",
         }}
       >
-        {toRoman(spell.empowerLevel)}
+        {toRomanNumeral(spell.empowerLevel)}
       </Box>
     )}
   </Box>
