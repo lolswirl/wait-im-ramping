@@ -24,7 +24,7 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({ selectedSpec, addSpellToTab
       {selectedSpec && (
         <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
           {specializations[selectedSpec]?.map((spell) => (
-            <SpellButton selectedSpell={spell} action={ addSpellToTable }/>
+            <SpellButton key={spell.id} selectedSpell={spell} action={ addSpellToTable }/>
           ))}
         </div>
       )}
