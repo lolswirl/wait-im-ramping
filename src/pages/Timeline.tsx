@@ -72,14 +72,14 @@ const Timeline = () => {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <PageTitle title="Spell Timeline"/>
             <h3>Timeline Setup</h3>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
                 <SpellButtons selectedSpec={selectedSpec} addSpellToTable={addSpellToRotation} />
             </div>
 
             {/* Only show the Current Rotation section if a specialization is selected */}
             {selectedSpec && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 5 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 20 }}>
                     <FormControl fullWidth variant="outlined" sx={{ flexGrow: 1 }}>
                         <InputLabel shrink>Current Rotation</InputLabel>
                         <OutlinedInput
