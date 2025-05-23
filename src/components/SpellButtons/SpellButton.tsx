@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Tooltip } from '@mui/material';
 import { spell } from '../../data/spell.ts';
+import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 
 interface SpellButtonProps {
   selectedSpell: spell;
@@ -14,9 +15,13 @@ const SpellButton: React.FC<SpellButtonProps> = ({ selectedSpell, action, isRemo
   const [src, setSrc] = useState('');
 
   useEffect(() => {
-    setSrc(`/icons/${selectedSpell.icon}.png`);
+    const img = new Image();
+    const localSrc = FormatIconImg(selectedSpell.icon);
+    const fallbackSrc = FormatIconLink(selectedSpell.icon);
+    img.onload = () => setSrc(localSrc);
+    img.onerror = () => setSrc(fallbackSrc);
+    img.src = localSrc;
   }, [selectedSpell.icon]);
-
 
   return (
     <Tooltip key={selectedSpell.id} title={selectedSpell.name} arrow disableInteractive>
@@ -58,7 +63,6 @@ const SpellButton: React.FC<SpellButtonProps> = ({ selectedSpell, action, isRemo
               transform: 'scale(1.1)',
               transformOrigin: 'center',
             }}
-            onError={() => setSrc(`https://wow.zamimg.com/images/wow/icons/large/${selectedSpell.icon}.jpg`)}
           />
         </div>
       </Button>

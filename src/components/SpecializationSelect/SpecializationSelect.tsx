@@ -35,15 +35,15 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({ selectedSpe
             <div className="spec">
               <img
                 src={FormatIconImg(specObj.icon)}
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = FormatIconLink(specObj.icon);
-                }}
                 alt={`${specObj.name} ${specObj.className}`}
                 className="spec_icon"
                 style={{
                   borderRadius: '8px',
                   objectFit: 'cover',
                   border: '1px solid #575757'
+                }}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = FormatIconLink(specObj.icon);
                 }}
               />
               {specObj.name}
