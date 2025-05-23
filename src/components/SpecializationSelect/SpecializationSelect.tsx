@@ -1,7 +1,7 @@
 import React from 'react';
 import './SpecializationSelect.css'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import FormatIconImg from '../../util/FormatIconImg.ts';
+import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 import { classes } from '../../data/class.ts';
 
 interface SpecializationSelectProps {
@@ -35,6 +35,9 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({ selectedSpe
             <div className="spec">
               <img
                 src={FormatIconImg(specObj.icon)}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = FormatIconLink(specObj.icon);
+                }}
                 alt={`${specObj.name} ${specObj.className}`}
                 className="spec_icon"
                 style={{
