@@ -54,12 +54,8 @@ const Timeline = () => {
 
     // Function to finalize and add the current rotation to the list of rotations
     const finalizeRotation = () => {
-        if (rotations.length < 3) {
         setRotations((prevRotations) => [...prevRotations, currentRotation]);
         setCurrentRotation([]); // Clear current rotation
-        } else {
-            alert('You can only add up to 3 rotations!');
-        }
     };
 
     // Function to clear all rotations
