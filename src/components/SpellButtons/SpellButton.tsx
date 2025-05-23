@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Tooltip } from '@mui/material';
 import { spell } from '../../data/spell.ts';
 
@@ -11,6 +11,12 @@ interface SpellButtonProps {
 const SpellButton: React.FC<SpellButtonProps> = ({ selectedSpell, action, isRemove = false }) => {
   const [empowerLevel] = useState<number>(1);
   const [isHovered, setIsHovered] = useState(false); // Track hover state
+  const [src, setSrc] = useState('');
+
+  useEffect(() => {
+    setSrc(`/icons/${selectedSpell.icon}.png`);
+  }, [selectedSpell.icon]);
+
 
   return (
     <Tooltip key={selectedSpell.id} title={selectedSpell.name} arrow disableInteractive>
@@ -39,18 +45,20 @@ const SpellButton: React.FC<SpellButtonProps> = ({ selectedSpell, action, isRemo
             width: '40px',
             height: '40px',
             borderRadius: '8px',
-            overflow: 'hidden',
           }}
         >
           <img
-            src={`https://wow.zamimg.com/images/wow/icons/large/${selectedSpell.icon}.jpg`}
+            src={src}
             alt={selectedSpell.name}
             width={40}
             height={40}
             style={{
               borderRadius: '8px',
               objectFit: 'cover',
+              transform: 'scale(1.1)',
+              transformOrigin: 'center',
             }}
+            onError={() => setSrc(`https://wow.zamimg.com/images/wow/icons/large/${selectedSpell.icon}.jpg`)}
           />
         </div>
       </Button>
