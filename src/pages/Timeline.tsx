@@ -3,7 +3,7 @@ import TimelineVisualizer from '../components/TimelineVisualizer/TimelineVisuali
 import SpecializationSelect from '../components/SpecializationSelect/SpecializationSelect.tsx';
 import SpellButtons from '../components/SpellButtons/SpellButtons.tsx';
 import SpellButton from '../components/SpellButtons/SpellButton.tsx';
-import { Button, Typography, FormControl, InputLabel, OutlinedInput, Box, Card, Stack, Divider, Chip, FormControlLabel, Switch, FormLabel, Input, FormHelperText } from '@mui/material';
+import { Button, Typography, FormControl, InputLabel, OutlinedInput, Box, Card, Stack, Divider, FormControlLabel, Switch } from '@mui/material';
 import { spell } from '../data/spell.ts';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteIcon from "@mui/icons-material/Delete";

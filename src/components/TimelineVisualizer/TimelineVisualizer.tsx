@@ -4,7 +4,6 @@ import { useTheme } from "@mui/material/styles";
 import { calculateCastTime, spell, GCD } from '../../data/spell.ts';
 import { applyBuffEffects } from '../../data/buffs.ts';
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
-import { Checkbox, colors, FormControl, FormControlLabel, formLabelClasses, Switch } from "@mui/material";
 import { toRomanNumeral } from "../../util/toRomanNumeral.ts";
 
 const RECT_HEIGHT = 100;
