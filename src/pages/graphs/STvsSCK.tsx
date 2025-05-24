@@ -4,6 +4,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { Box, Container, TextField, Typography } from "@mui/material";
 
 import { getSpec } from "../../data/class.ts";
+import { GCD } from "../../data/spell.ts";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -44,20 +45,20 @@ const DamageOverTimeGraph: React.FC = () => {
     cumulativeDamage += damage;
     rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "rsk" });
   
-    currentTime += 1.5; // Global cooldown after Rising Sun Kick
+    currentTime += GCD; // Global cooldown after Rising Sun Kick
   
     damage = tigerPalmDamage;
     cumulativeDamage += damage;
     totmStacks += 2; // Each Tiger Palm gives 2 stacks of ToTM
     rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "tp 1" });
   
-    currentTime += 1.5; // Global cooldown after first Tiger Palm
+    currentTime += GCD; // Global cooldown after first Tiger Palm
   
     damage = tigerPalmDamage;
     cumulativeDamage += damage;
     totmStacks += 2; // Each Tiger Palm gives 2 stacks of ToTM
     rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "tp 2" });
-    currentTime += 1.5;
+    currentTime += GCD;
   
     if (blackoutKickCooldown <= 0) {
       bokHits = (1 + totmStacks) * cleaveMultiplier; // Update Blackout Kick hits based on TotM
@@ -75,7 +76,7 @@ const DamageOverTimeGraph: React.FC = () => {
       }
   
       rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "bok" });
-      currentTime += 1.5; // The entire Blackout Kick happens at once (same as 1 cast)
+      currentTime += GCD; // The entire Blackout Kick happens at once (same as 1 cast)
       blackoutKickCooldown = 1.5; // Set Blackout Kick cooldown
   
       if (bokResetRsk) {
@@ -104,7 +105,7 @@ const DamageOverTimeGraph: React.FC = () => {
       cumulativeDamage += damage;
       totmStacks += 2;
       rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "tp1" });
-      currentTime += 1.5;
+      currentTime += GCD;
   
       if (currentTime >= totalTime) break;
   
@@ -112,7 +113,7 @@ const DamageOverTimeGraph: React.FC = () => {
       cumulativeDamage += damage;
       totmStacks += 2;
       rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "tp2" });
-      currentTime += 1.5;
+      currentTime += GCD;
   
       if (currentTime >= totalTime) break;
   
@@ -131,7 +132,7 @@ const DamageOverTimeGraph: React.FC = () => {
         }
   
         rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "bok" });
-        currentTime += 1.5;
+        currentTime += GCD;
         blackoutKickCooldown = 1.5;
   
         if (bokResetRsk) {

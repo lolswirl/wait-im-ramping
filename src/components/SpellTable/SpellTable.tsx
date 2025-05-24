@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, IconButton } from '@mui/material';
-import { spell } from '../../data/spell.ts';
+import { calculateCastTime, spell } from '../../data/spell.ts';
 import { applyBuffEffects } from '../../data/buffs.ts';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
@@ -16,24 +16,6 @@ interface SpellTableProps {
   onTotalCastTimeChange: (totalTime: number) => void;
   clearTable: () => void;
 }
-
-const calculateCastTime = (spell: spell, haste: number): number => {
-  let baseCastTime = spell.castTime ?? 0;
-  if (baseCastTime === 0) {
-    baseCastTime = spell.gcd ? 1.5 : 0;
-  }
-
-  let castTime = baseCastTime;
-  if (spell.hasted !== false) {
-    castTime /= (1 + haste / 100);
-  }
-
-  if (spell.empowerLevel) {
-    castTime *= spell.empowerLevel / 5;
-  }
-
-  return castTime;
-};
 
 const SpellIcon: React.FC<{ spell: spell }> = ({ spell }) => (
   <Box position="relative" display="inline-block">

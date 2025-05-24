@@ -1,4 +1,4 @@
-import { spell } from '../../../../spell.ts';
+import { spell, GCD } from '../../../../spell.ts';
 
 export const applyBuffs = (spellList: spell[]): spell[] => {
   let thunderFocusTeaUsed = false;
@@ -14,7 +14,7 @@ export const applyBuffs = (spellList: spell[]): spell[] => {
     else if (thunderFocusTeaUsed) {
       switch (spell.id) {
         case 124682: // Enveloping Mist
-          spell = { ...spell, castTime: 0 };
+          spell = { ...spell, castTime: GCD };
           thunderFocusTeaUsed = false;
           break;
         case 107428: // Rising Sun Kick
@@ -29,7 +29,7 @@ export const applyBuffs = (spellList: spell[]): spell[] => {
     else if (soothingMistUsed) {
       switch (spell.id) {
         case 124682: // Enveloping Mist
-          spell = { ...spell, castTime: 0 };
+          spell = { ...spell, castTime: GCD };
           break;
         case 116670: // Vivify (No change)
           thunderFocusTeaUsed = false;
