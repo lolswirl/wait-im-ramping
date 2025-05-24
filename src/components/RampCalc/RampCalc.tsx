@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, InputAdornment } from '@mui/material';
+import { TextField, InputAdornment, Card, Box, Stack } from '@mui/material';
 import { spell } from '../../data/spell.ts';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -64,31 +64,35 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
 
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-			<div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-				<SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
-				<TextField
-					label="Haste"
-					type="number"
-					value={haste}
-					onChange={(e) => {
-						const newValue = e.target.value;
-						setHaste(newValue === "" ? "" : parseFloat(newValue)); // Allow empty input
-					}}
-					onBlur={() => {
-						setHaste((prev) => (prev === "" ? 0 : prev)); // Reset empty to 0 when focus is lost
-					}}
-					error={selectedSpec !== "" && haste === ""}
-					sx={{ width: '12ch' }}
-					InputProps={{
-						endAdornment: (
-							<InputAdornment position="end">
-								%
-							</InputAdornment>
-						),
-					}}
-				/>
-			</div>
-			<SpellButtons selectedSpec={selectedSpec} addSpellToTable={addSpellToTable} />
+			<Card variant="outlined" sx={{ width: 'fit-content', maxWidth: '100%', overflowX: 'auto', }}>
+				<Box sx={{ p: 2 }}>
+					<Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+						<SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
+						<TextField
+							label="Haste"
+							type="number"
+							value={haste}
+							onChange={(e) => {
+								const newValue = e.target.value;
+								setHaste(newValue === "" ? "" : parseFloat(newValue)); // Allow empty input
+							}}
+							onBlur={() => {
+								setHaste((prev) => (prev === "" ? 0 : prev)); // Reset empty to 0 when focus is lost
+							}}
+							error={selectedSpec !== "" && haste === ""}
+							sx={{ m: 1, width: '12ch' }}
+							InputProps={{
+								endAdornment: (
+									<InputAdornment position="end">
+										%
+									</InputAdornment>
+								),
+							}}
+						/>
+					</Stack>
+					<SpellButtons selectedSpec={selectedSpec} addSpellToTable={addSpellToTable} />
+				</Box>
+			</Card>
 			<SpellTable 
 				spellList={spellList} 
 				setSpellList={setSpellList}

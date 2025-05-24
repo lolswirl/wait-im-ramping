@@ -25,6 +25,7 @@ const WHITE = "#ffffff";
 interface TimelineVisualizerProps {
   selectedSpec: string;
   rotations: spell[][];
+  condense: boolean;
 }
 
 interface IconProps {
@@ -37,18 +38,12 @@ interface IconProps {
   imageIndex: number;
 }
 
-export default function TimelineVisualizer({ selectedSpec, rotations = [] }: TimelineVisualizerProps) {
+export default function TimelineVisualizer({ selectedSpec, rotations = [], condense }: TimelineVisualizerProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const theme = useTheme();
   const ogcdImages: IconProps[] = [];
 
-  // State for container width (page width or container width)
   const [containerWidth, setContainerWidth] = useState<number>(window.innerWidth);
-  const [condense, setCondense] = useState(true);
-
-  const handleSetCondense = (value: boolean) => {
-    setCondense(value);
-  };
 
   useEffect(() => {
     function handleResize() {
@@ -57,17 +52,6 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [] }: Tim
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  function drawArrow(svg, startX, startY, endX, endY) {
-    svg.append("line")
-      .attr("x1", startX)
-      .attr("y1", startY)  
-      .attr("x2", endX)  
-      .attr("y2", endY)  
-      .attr("stroke","red")  
-      .attr("stroke-width",2)  
-      .attr("marker-end","url(#arrow)");  
-  }
 
   function createGlow(svg) {
     const defs = svg.append("defs");
@@ -376,18 +360,6 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [] }: Tim
 
   return (
     <>
-      <div>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={condense}
-              onChange={(e) => handleSetCondense(e.target.checked)}
-              color="primary"
-            />
-          }
-          label="Condensed"
-        />
-      </div>
       {rotations.length > 0 && (
         <svg ref={svgRef} />
       )}

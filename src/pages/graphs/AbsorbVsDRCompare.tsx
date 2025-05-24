@@ -7,7 +7,7 @@ import PageTitle from "../../components/PageTitle/PageTitle.tsx";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const AbsorbVsDRCompare: React.FC = () => {
-  const [absorbValue, setAbsorbValue] = useState(8);
+  const [absorbValue, setAbsorbValue] = useState(9.6);
   const [damageReduction, setDamageReduction] = useState(40.5);
   const [maxXAxis, setMaxXAxis] = useState(30); // New state for max x-axis
   const [intersectionPoint, setIntersectionPoint] = useState<{ x: number | null; y: number | null }>({ x: null, y: null });

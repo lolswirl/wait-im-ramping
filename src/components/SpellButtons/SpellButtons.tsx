@@ -21,17 +21,19 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({ selectedSpec, addSpellToTab
 
   return (
     <>
-      {selectedSpec && (
-        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-          {specializations[selectedSpec]?.map((spell) => (
-            <SpellButton key={spell.id} selectedSpell={spell} empowerLevel={empowerLevel} action={ addSpellToTable }/>
-          ))}
-        </div>
-      )}
-      
-      {selectedSpec === "Preservation Evoker" && (
-        <EmpowerLevelButtons empowerLevel={empowerLevel} setEmpowerLevel={setEmpowerLevel} />
-      )}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 5 }}>
+        {selectedSpec && (
+          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', alignItems: 'center' }}>
+            {specializations[selectedSpec]?.map((spell) => (
+              <SpellButton key={spell.id} selectedSpell={spell} empowerLevel={empowerLevel} action={ addSpellToTable }/>
+            ))}
+          </div>
+        )}
+        
+        {selectedSpec === "Preservation Evoker" && (
+          <EmpowerLevelButtons empowerLevel={empowerLevel} setEmpowerLevel={setEmpowerLevel} />
+        )}
+      </div>
     </>
   );
 };

@@ -220,9 +220,6 @@ const DamageOverTimeGraph: React.FC = () => {
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 4, alignItems: "center", justifyContent: "center" }}>
-      <Typography variant="h4" gutterBottom>
-        Cumulative Damage Over Time - Ability Rotation
-      </Typography>
       <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
         <Line data={chartData} options={chartOptions} />
       </Box>
