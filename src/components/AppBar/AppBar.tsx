@@ -76,8 +76,12 @@ function ResponsiveAppBar() {
             <Menu anchorEl={anchorElNav} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu}>
               {pages.map(({ label, path }) => (
                 <MenuItem key={label} onClick={handleCloseNavMenu}>
-                  <Typography>
-                    <a href={path} style={{ color: "inherit", textDecoration: "none" }}>{label}</a>
+                  <Typography component="a" href="{path}" sx={{ "&:hover": {
+                color: hoverColor,
+              }, }}>
+                    {/* <a href={path} style={{ color: "inherit", textDecoration: "none" }}> */}
+                      {label}
+                      {/* </a> */}
                   </Typography>
                 </MenuItem>
               ))}
@@ -106,18 +110,18 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map(({ label, path }) => (
-              <Button key={label} onClick={handleCloseNavMenu} sx={{ color: "white" }}>
-                <a href={path} style={{ color: "inherit", textDecoration: "none" }}>
-                  {label}
-                </a>
+              <Button key={label} component="a" href={path} onClick={handleCloseNavMenu} 
+                sx={{ color: "white", "&:hover": {color: hoverColor,}, }}
+              >
+                {label}
               </Button>
             ))}
-            <Button onClick={handleOpenDropdownMenu} sx={{ color: "white", display: "flex", alignItems: "center" }}>
+            <Button onClick={handleOpenDropdownMenu} sx={{ color: "white", display: "flex", alignItems: "center", "&:hover": {color: hoverColor,} }}>
               Graphs <ArrowDropDownIcon sx={{ ml: 1 }} />
             </Button>
             <Menu anchorEl={anchorElDropdown} open={Boolean(anchorElDropdown)} onClose={handleCloseDropdownMenu}>
               {dropdownPages.map(({ label, path }) => (
-                <MenuItem key={label} component="a" href={path} onClick={handleCloseDropdownMenu}>
+                <MenuItem key={label} component="a" href={path} onClick={handleCloseDropdownMenu} sx={{"&:hover": {color: hoverColor,}}}>
                   {label}
                 </MenuItem>
               ))}
