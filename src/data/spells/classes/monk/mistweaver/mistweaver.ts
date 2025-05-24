@@ -51,7 +51,10 @@ export const mistweaverMonkSpells: spell[] = [
     id: 115175,
     icon: 'ability_monk_soothingmists',
     castTime: 1,
-    hasted: false
+    hasted: false,
+    custom: {
+      replaceGCD: 1
+    }
   },
   {
     name: 'Thunder Focus Tea',
