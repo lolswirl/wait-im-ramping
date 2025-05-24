@@ -10,7 +10,7 @@ interface TilingBackgroundProps {
 
 const GridTiling = ({
   patternSrc,
-  maxTiles = 120,
+  maxTiles = 200,
   spacing = 2,
 }: TilingBackgroundProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);

@@ -22,16 +22,15 @@ const Tiling = ({ patternSrc }: { patternSrc: string }) => {
     canvas.height = screenHeight * dpr;
     canvas.style.width = `${screenWidth}px`;
     canvas.style.height = `${screenHeight}px`;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
     ctx.scale(dpr, dpr);
-    
+
     ctx.fillStyle = themeMode === 'dark' ? '#121212' : '#ffffff';
     ctx.fillRect(0, 0, screenWidth, screenHeight);
 
-    const maxTiles = 120;
+    const maxTiles = 200;
     const spacing = 2;
-
-    type Rect = [number, number, number, number];
-    const placedRects: Rect[] = [];
+    const placedRects: [number, number, number, number][] = [];
 
     function isOverlapping(rect1: Rect, rect2: Rect) {
       return !(
@@ -43,9 +42,12 @@ const Tiling = ({ patternSrc }: { patternSrc: string }) => {
     }
 
     const image = new Image();
-    image.src = patternSrc;
+    let isCancelled = false;
 
+    image.src = patternSrc;
     image.onload = () => {
+      if (isCancelled) return;
+
       let attempts = 0;
       const maxAttempts = maxTiles * 50;
 
@@ -77,15 +79,17 @@ const Tiling = ({ patternSrc }: { patternSrc: string }) => {
 
         const x = Math.floor(Math.random() * (screenWidth - w));
         const y = Math.floor(Math.random() * (screenHeight - h));
-
         const newRect: Rect = [x, y, x + w, y + h];
 
-        const overlaps = placedRects.some((rect) => isOverlapping(newRect, rect));
-        if (overlaps) continue;
+        if (placedRects.some((rect) => isOverlapping(newRect, rect))) continue;
 
         ctx.drawImage(offCanvas, x, y);
         placedRects.push(newRect);
       }
+    };
+
+    return () => {
+      isCancelled = true;
     };
   }, [location.pathname, patternSrc, themeMode]);
 

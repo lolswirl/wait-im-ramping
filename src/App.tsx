@@ -14,18 +14,27 @@ import AppBar from "./components/AppBar/AppBar.tsx"
 import Tiling from "./components/Tiling/Tiling.tsx";
 import GridTiling from "./components/Tiling/GridTiling.tsx";
 
+import { useThemeContext } from './components/Theme/ThemeContext.tsx';
+
 function App() {
+  const { themeMode } = useThemeContext();
+  const tile = themeMode === 'dark' ? "/tile_transparent.png" : "/tile_inverted.png";
+
+  const [useGrid, setUseGrid] = React.useState(false);
+
+  React.useEffect(() =>  {
+    setUseGrid(Math.random() < 0.5);
+  }, []);
 
   return (
     <Router>
-      <div className="App">
-        {Math.random() < 0.5 ? (
-          <Tiling patternSrc={"/tile_transparent.png"} />
+      <div className="App">    
+        <AppBar/>
+        {useGrid ? (
+          <GridTiling patternSrc={tile} />
         ) : (
-          <GridTiling patternSrc={"/tile_transparent.png"} />
+          <Tiling patternSrc={tile} />
         )}
-        
-        <AppBar></AppBar>
         <Analytics/>
 
         <Routes>
