@@ -3,12 +3,13 @@ import TimelineVisualizer from '../components/TimelineVisualizer/TimelineVisuali
 import SpecializationSelect from '../components/SpecializationSelect/SpecializationSelect.tsx';
 import SpellButtons from '../components/SpellButtons/SpellButtons.tsx';
 import SpellButton from '../components/SpellButtons/SpellButton.tsx';
-import { Button, Typography, FormControl, InputLabel, OutlinedInput } from '@mui/material';
+import { Button, Typography, FormControl, InputLabel, OutlinedInput, Box } from '@mui/material';
 import { spell } from '../data/spell.ts';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from '@mui/icons-material/Add';
 import PageTitle from "../components/PageTitle/PageTitle.tsx"
+import { toRomanNumeral } from '../util/toRomanNumeral.ts';
 
 const Timeline = () => {
 
@@ -72,14 +73,14 @@ const Timeline = () => {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <PageTitle title="Spell Timeline"/>
             <h3>Timeline Setup</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                 <SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
                 <SpellButtons selectedSpec={selectedSpec} addSpellToTable={addSpellToRotation} />
             </div>
 
             {/* Only show the Current Rotation section if a specialization is selected */}
             {selectedSpec && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 5 }}>
                     <FormControl fullWidth variant="outlined" sx={{ flexGrow: 1 }}>
                         <InputLabel shrink>Current Rotation</InputLabel>
                         <OutlinedInput
@@ -100,12 +101,31 @@ const Timeline = () => {
                                 children:
                                     currentRotation.length > 0 ? (
                                         currentRotation.map((spell, index) => (
-                                            <SpellButton
-                                                key={index}
-                                                selectedSpell={spell}
-                                                action={removeSpellFromRotation}
-                                                isRemove={true}
-                                            />
+                                            <Box position="relative" display="inline-block">
+                                                <SpellButton
+                                                    key={index}
+                                                    selectedSpell={spell}
+                                                    action={removeSpellFromRotation}
+                                                    isRemove={true}
+                                                />
+                                                {spell.empowerLevel && (
+                                                    <Box
+                                                        style={{
+                                                            position: "absolute",
+                                                            bottom: -2,
+                                                            right: -2,
+                                                            backgroundColor: "rgba(0, 0, 0, 0.75)",
+                                                            color: "white",
+                                                            fontSize: "0.75rem",
+                                                            fontWeight: "bold",
+                                                            padding: "2px 4px",
+                                                            borderRadius: "4px",
+                                                        }}
+                                                    >
+                                                        {toRomanNumeral(spell.empowerLevel)}
+                                                    </Box>
+                                                )}
+                                            </Box>
                                         ))
                                     ) : (
                                         <Typography variant="body2" color="textSecondary">
@@ -116,37 +136,32 @@ const Timeline = () => {
                         />
                     </FormControl>
 
-                    {/* Conditionally render Add and Delete buttons based on currentRotation */}
-                    {currentRotation.length > 0 && (
-                        <>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={finalizeRotation}
-                                disabled={currentRotation.length === 0}
-                                sx={{
-                                    width: 'auto', // Button width adjusts to content
-                                    height: '40px', // Ensures button height matches the text field height
-                                    whiteSpace: 'nowrap', // Prevents text from wrapping
-                                }}
-                            >
-                                <AddIcon />
-                            </Button>
-                            <Button
-                                variant="contained"
-                                color="error"
-                                onClick={clearCurrentRotation}
-                                disabled={currentRotation.length === 0}
-                                sx={{
-                                    width: 'auto', // Button width adjusts to content
-                                    height: '40px', // Ensures button height matches the text field height
-                                    whiteSpace: 'nowrap', // Prevents text from wrapping
-                                }}
-                            >
-                                <DeleteIcon />
-                            </Button>
-                        </>
-                    )}
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={finalizeRotation}
+                        disabled={currentRotation.length === 0}
+                        sx={{
+                            width: 'auto', // Button width adjusts to content
+                            height: '40px', // Ensures button height matches the text field height
+                            whiteSpace: 'nowrap', // Prevents text from wrapping
+                        }}
+                    >
+                        <AddIcon />
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={clearCurrentRotation}
+                        disabled={currentRotation.length === 0}
+                        sx={{
+                            width: 'auto', // Button width adjusts to content
+                            height: '40px', // Ensures button height matches the text field height
+                            whiteSpace: 'nowrap', // Prevents text from wrapping
+                        }}
+                    >
+                        <DeleteIcon />
+                    </Button>
                 </div>
             )}
 
@@ -163,7 +178,7 @@ const Timeline = () => {
             )}
                     
             {/* Render TimelineVisualizer with up to 3 rotations */}
-            <TimelineVisualizer rotations={rotations} />
+            <TimelineVisualizer selectedSpec={selectedSpec} rotations={rotations} />
         </div>
     );
 };
