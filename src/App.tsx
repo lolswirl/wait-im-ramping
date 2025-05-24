@@ -11,12 +11,20 @@ import JadeEmpowermentVsDocJ from "./pages/graphs/JadeEmpowermentVsDocJ.tsx";
 import STvsSCK from "./pages/graphs/STvsSCK.tsx";
 import Timeline from "./pages/Timeline.tsx";
 import AppBar from "./components/AppBar/AppBar.tsx"
+import Tiling from "./components/Tiling/Tiling.tsx";
+import GridTiling from "./components/Tiling/GridTiling.tsx";
 
 function App() {
 
   return (
     <Router>
       <div className="App">
+        {Math.random() < 0.5 ? (
+          <Tiling patternSrc={"/tile_transparent.png"} />
+        ) : (
+          <GridTiling patternSrc={"/tile_transparent.png"} />
+        )}
+        
         <AppBar></AppBar>
         <Analytics/>
 
