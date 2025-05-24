@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toRomanNumeral } from '../../util/toRomanNumeral.ts';
+import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 
 interface SpellTableProps {
   spellList: spell[];
@@ -20,11 +21,14 @@ interface SpellTableProps {
 const SpellIcon: React.FC<{ spell: spell }> = ({ spell }) => (
   <Box position="relative" display="inline-block">
     <img
-      src={`https://wow.zamimg.com/images/wow/icons/large/${spell.icon}.jpg`}
+      src={FormatIconImg(spell.icon)}
       alt={spell.name}
       width={32}
       height={32}
       style={{ borderRadius: 4, border: "1px solid #575757" }}
+      onError={(e) => {
+        (e.currentTarget as HTMLImageElement).src = FormatIconLink(spell.icon);
+      }}
     />
     {spell.empowerLevel && (
       <Box
