@@ -46,9 +46,9 @@ function ResponsiveAppBar() {
   const hoverColor = themeMode === "dark" ? "#90caf9" : "#212121";
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="100%">
-        <Toolbar disableGutters>
+    <AppBar position="sticky">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters variant="dense">
           <Typography
             variant="h5"
             component="a"
@@ -59,7 +59,6 @@ function ResponsiveAppBar() {
               alignItems: "center",
               gap: 1,
               fontWeight: 700,
-              letterSpacing: ".1rem",
               color: "inherit",
               textDecoration: "none",
               "&:hover": {
