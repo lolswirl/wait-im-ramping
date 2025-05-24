@@ -6,11 +6,11 @@ import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 interface SpellButtonProps {
   selectedSpell: spell;
   action: (spell: spell, empowerLevel: number) => void;
+  empowerLevel: number;
   isRemove?: boolean; // Optional flag to trigger hover effect
 }
 
-const SpellButton: React.FC<SpellButtonProps> = ({ selectedSpell, action, isRemove = false }) => {
-  const [empowerLevel] = useState<number>(1);
+const SpellButton: React.FC<SpellButtonProps> = ({ selectedSpell, action, empowerLevel, isRemove = false }) => {
   const [isHovered, setIsHovered] = useState(false); // Track hover state
   const [src, setSrc] = useState('');
 
