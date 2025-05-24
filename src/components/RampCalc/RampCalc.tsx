@@ -15,7 +15,7 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
 	const [selectedSpec, setSelectedSpec] = useState('Mistweaver Monk');
 	const [lockedSpec, setLockedSpec] = useState<string | null>(null);
 	const [spellList, setSpellList] = useState<spell[]>([]);
-	const [haste, setHaste] = useState<number | "">("30");
+	const [haste, setHaste] = useState<number | "">(30);
 	
 	const handleSpecChange = (event: React.ChangeEvent<{ value: unknown }>) => {
 		if (spellList.length === 0) {
