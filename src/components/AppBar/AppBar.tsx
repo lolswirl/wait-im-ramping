@@ -6,8 +6,6 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-// import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
-// import AdbIcon from "@mui/icons-material/Adb";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
@@ -23,12 +21,6 @@ const dropdownPages = [
   { label: "Jade Empowerment vs. DocJ", path: "/graphs/jade-empowerment-docj" },
   { label: "ST Rotation vs. Spinning Crane Kick", path: "/graphs/st-spinning" }
 ];
-
-// const SwirlIcon = (props: SvgIconProps) => (
-//   <SvgIcon {...props} viewBox="0 0 32 32">
-//     <text x="4" y="26" fontSize="24">𖦹</text>
-//   </SvgIcon>
-// );
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -58,7 +50,7 @@ function ResponsiveAppBar() {
       <Container maxWidth="100%">
         <Toolbar disableGutters>
           <Typography
-            variant="h6"
+            variant="h5"
             component="a"
             href="/"
             sx={{
@@ -75,7 +67,6 @@ function ResponsiveAppBar() {
               },
             }}
           >
-            {/* <SwirlIcon/> */}
             𖦹 When do I ramp?
           </Typography>
 
@@ -116,11 +107,13 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map(({ label, path }) => (
-              <Button key={label} onClick={handleCloseNavMenu} sx={{ my: 2, color: "white" }}>
-                <a href={path} style={{ color: "inherit", textDecoration: "none" }}>{label}</a>
+              <Button key={label} onClick={handleCloseNavMenu} sx={{ color: "white" }}>
+                <a href={path} style={{ color: "inherit", textDecoration: "none" }}>
+                  {label}
+                </a>
               </Button>
             ))}
-            <Button onClick={handleOpenDropdownMenu} sx={{ my: 2, color: "white", display: "flex", alignItems: "center" }}>
+            <Button onClick={handleOpenDropdownMenu} sx={{ color: "white", display: "flex", alignItems: "center" }}>
               Graphs <ArrowDropDownIcon sx={{ ml: 1 }} />
             </Button>
             <Menu anchorEl={anchorElDropdown} open={Boolean(anchorElDropdown)} onClose={handleCloseDropdownMenu}>
@@ -132,7 +125,7 @@ function ResponsiveAppBar() {
             </Menu>
           </Box>
 
-          <IconButton onClick={toggleTheme} sx={{ ml: 2, color: "white" }}>
+          <IconButton onClick={toggleTheme} sx={{ color: "white" }}>
             {themeMode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
         </Toolbar>
