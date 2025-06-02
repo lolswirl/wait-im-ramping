@@ -5,24 +5,28 @@ import SpellButtons from '../components/SpellButtons/SpellButtons.tsx';
 import SpellButton from '../components/SpellButtons/SpellButton.tsx';
 import { Button, Typography, FormControl, InputLabel, OutlinedInput, Box, Card, Stack, Divider, FormControlLabel, Switch } from '@mui/material';
 import { spell } from '../data/spell.ts';
+import { classes, getSpec } from '../data/class.ts';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from '@mui/icons-material/Add';
-import PageTitle from "../components/PageTitle/PageTitle.tsx"
+import PageTitle from "../components/PageTitle/PageTitle.tsx";
 import { toRomanNumeral } from '../util/toRomanNumeral.ts';
 
 const Timeline = () => {
-
     const [selectedSpec, setSelectedSpec] = useState('Mistweaver Monk');
+    const [specName, className] = selectedSpec.split(' ');
     const [spellList, setSpellList] = useState<spell[]>([]);
     const [currentRotation, setCurrentRotation] = useState<any[]>([]);
     const [rotations, setRotations] = useState<any[][]>([]);
     const [condense, setCondense] = useState(true);
-    
+
+    const spec = getSpec(specName, className);
+    const prebuiltRotations = spec?.prebuiltRotations || [];
+
     const handleSetCondense = (value: boolean) => {
         setCondense(value);
     };
-    
+
     const handleSpecChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         if (spellList.length === 0) {
             setSelectedSpec(event.target.value as string);
@@ -39,168 +43,202 @@ const Timeline = () => {
         setSpellList([]);
     };
 
-    // Function to add spell to current rotation
     const addSpellToRotation = (spell: spell, empowerLevel: number) => {
-        setCurrentRotation((prevRotation) => [
-        ...prevRotation,
-        {
-            ...spell,
-            ...(spell.hasOwnProperty("empowerLevel") ? { empowerLevel } : {}),
-            uuid: uuidv4(), // Ensure each spell added has a unique uuid
-        },
+        setCurrentRotation(prevRotation => [
+            ...prevRotation,
+            {
+                ...spell,
+                ...(spell.hasOwnProperty("empowerLevel") ? { empowerLevel } : {}),
+                uuid: uuidv4(),
+            },
         ]);
     };
 
-    // Function to remove spell from current rotation by uuid
     const removeSpellFromRotation = (spell: spell, empowerLevel: number) => {
-            setCurrentRotation((prevRotation) =>
-            prevRotation.filter((rotSpell) => rotSpell.uuid !== spell.uuid)
+        setCurrentRotation(prevRotation =>
+            prevRotation.filter(rotSpell => rotSpell.uuid !== spell.uuid)
         );
     };
 
-    // Function to finalize and add the current rotation to the list of rotations
     const finalizeRotation = () => {
-        setRotations((prevRotations) => [...prevRotations, currentRotation]);
-        setCurrentRotation([]); // Clear current rotation
+        setRotations(prevRotations => [...prevRotations, currentRotation]);
+        setCurrentRotation([]);
     };
 
-    // Function to clear all rotations
     const clearAllRotations = () => {
-        setRotations([]); // Clear the rotations array
+        setRotations([]);
         setCurrentRotation([]);
     };
 
     const clearCurrentRotation = () => {
         setCurrentRotation([]);
-    }
+    };
+
+    const loadPrebuiltRotation = (spellNames: string[]) => {
+        const resolved = spellNames
+            .map(name => spellList.find(sp => sp.name === name))
+            .filter(Boolean)
+            .map(spell => ({ ...spell, uuid: uuidv4() })) as spell[];
+
+        setCurrentRotation(resolved);
+    };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px'}}>
-            <PageTitle title="Spell Timeline"/>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+            <PageTitle title="Spell Timeline" />
             <h1 style={{ marginBottom: "0px" }}>Spell Timeline</h1>
 
-            <Card variant="outlined" sx={{ width: 'fit-content', maxWidth: '100%', overflowX: 'auto', }}>
-                <Box sx={{ p: 2 }}>
-                    <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                        <SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
-                        <Card variant="outlined" sx={{ width: 'fit-content', overflowX: 'auto', }}> 
-                            <Box sx={{ p: 2 }}>
-                                <div style={{display: 'flex', flexDirection: 'column'}}>
-                                    <FormControlLabel
-                                        control={
-                                            <Switch
-                                                checked={condense}
-                                                onChange={(e) => handleSetCondense(e.target.checked)}
-                                                color="primary"
-                                                size="small"
+            <Card variant="outlined" sx={{ width: 'fit-content', maxWidth: '100%', overflowX: 'auto' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                    {/* Left Column */}
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2, flex: 2 }}>
+                        {/* Top Section: Spec + Condense */}
+                        <Box>
+                            <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                                <SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
+                                <Card variant="outlined">
+                                    <Box sx={{ p: 2 }}>
+                                        <FormControlLabel
+                                            control={
+                                                <Switch
+                                                    checked={condense}
+                                                    onChange={(e) => handleSetCondense(e.target.checked)}
+                                                    color="primary"
+                                                    size="small"
+                                                />
+                                            }
+                                            label="Condensed"
+                                        />
+                                    </Box>
+                                </Card>
+                            </Stack>
+                        </Box>
+
+                        {/* Divider between sections */}
+                        <Divider />
+
+                        {/* Bottom Section: SpellButtons and Rotation Controls */}
+                        <Box>
+                            <SpellButtons selectedSpec={selectedSpec} addSpellToTable={addSpellToRotation} />
+
+                            <Box sx={{ mt: 2 }}>
+                                {selectedSpec && (
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 5 }}>
+                                        <FormControl fullWidth variant="outlined" sx={{ flexGrow: 1 }}>
+                                            <InputLabel shrink>Current Rotation</InputLabel>
+                                            <OutlinedInput
+                                                notched
+                                                readOnly
+                                                label="Current Rotation"
+                                                sx={{
+                                                    minHeight: 56,
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    paddingX: 1,
+                                                    overflowX: 'auto',
+                                                    whiteSpace: 'nowrap',
+                                                }}
+                                                inputComponent="div"
+                                                inputProps={{
+                                                    style: { display: 'flex', gap: 5, alignItems: 'center', flexWrap: 'nowrap' },
+                                                    children:
+                                                        currentRotation.length > 0 ? (
+                                                            currentRotation.map((spell, index) => (
+                                                                <Box position="relative" display="inline-block" key={spell.uuid}>
+                                                                    <SpellButton
+                                                                        selectedSpell={spell}
+                                                                        action={removeSpellFromRotation}
+                                                                        isRemove={true}
+                                                                    />
+                                                                    {spell.empowerLevel && (
+                                                                        <Box
+                                                                            style={{
+                                                                                position: "absolute",
+                                                                                bottom: -2,
+                                                                                right: -2,
+                                                                                backgroundColor: "rgba(0, 0, 0, 0.75)",
+                                                                                color: "white",
+                                                                                fontSize: "0.75rem",
+                                                                                fontWeight: "bold",
+                                                                                padding: "2px 4px",
+                                                                                borderRadius: "4px",
+                                                                            }}
+                                                                        >
+                                                                            {toRomanNumeral(spell.empowerLevel)}
+                                                                        </Box>
+                                                                    )}
+                                                                </Box>
+                                                            ))
+                                                        ) : (
+                                                            <Typography variant="body2" color="textSecondary">
+                                                                No spells added
+                                                            </Typography>
+                                                        ),
+                                                }}
                                             />
-                                        }
-                                        label="Condensed"
-                                    />
-                                </div>
+                                        </FormControl>
+                                        <div style={{ display: 'flex', flexDirection: 'row', gap: 5, marginTop: 5 }}>
+                                            <Button variant="contained" color="primary" onClick={finalizeRotation} disabled={currentRotation.length === 0}>
+                                                <AddIcon />
+                                            </Button>
+                                            <Button variant="contained" color="error" onClick={clearCurrentRotation} disabled={currentRotation.length === 0}>
+                                                <DeleteIcon />
+                                            </Button>
+                                            <Button variant="contained" color="error" onClick={clearAllRotations} disabled={rotations.length === 0}>
+                                                Clear All Rotations
+                                            </Button>
+                                        </div>
+                                    </div>
+                                )}
                             </Box>
-                        </Card>
-                    </Stack>
-                    <SpellButtons selectedSpec={selectedSpec} addSpellToTable={addSpellToRotation} />
-                </Box>
-                <Divider />
-                <Box sx={{ p: 2 }}>
-                    {selectedSpec && (
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 5 }}>
-                            <FormControl fullWidth variant="outlined" sx={{ flexGrow: 1 }}>
-                                <InputLabel shrink>Current Rotation</InputLabel>
-                                <OutlinedInput
-                                    notched
-                                    readOnly
-                                    label="Current Rotation"
-                                    sx={{
-                                        minHeight: 56,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        paddingX: 1,
-                                        overflowX: 'auto',
-                                        whiteSpace: 'nowrap',
-                                    }}
-                                    inputComponent="div"
-                                    inputProps={{
-                                        style: { display: 'flex', gap: 5, alignItems: 'center', flexWrap: 'nowrap' },
-                                        children:
-                                            currentRotation.length > 0 ? (
-                                                currentRotation.map((spell, index) => (
-                                                    <Box position="relative" display="inline-block">
-                                                        <SpellButton
-                                                            key={index}
-                                                            selectedSpell={spell}
-                                                            action={removeSpellFromRotation}
-                                                            isRemove={true}
-                                                        />
-                                                        {spell.empowerLevel && (
-                                                            <Box
-                                                                style={{
-                                                                    position: "absolute",
-                                                                    bottom: -2,
-                                                                    right: -2,
-                                                                    backgroundColor: "rgba(0, 0, 0, 0.75)",
-                                                                    color: "white",
-                                                                    fontSize: "0.75rem",
-                                                                    fontWeight: "bold",
-                                                                    padding: "2px 4px",
-                                                                    borderRadius: "4px",
-                                                                }}
-                                                            >
-                                                                {toRomanNumeral(spell.empowerLevel)}
-                                                            </Box>
-                                                        )}
-                                                    </Box>
-                                                ))
-                                            ) : (
-                                                <Typography variant="body2" color="textSecondary">
-                                                    No spells added
-                                                </Typography>
-                                            ),
-                                    }}
-                                />
-                            </FormControl>
-                            <div style={{ display: 'flex', alignItems: 'right', flexDirection: 'row', gap: 5, marginTop: 5 }}>
+                        </Box>
+                    </Box>
+
+                    <Divider orientation="vertical" flexItem />
+
+                    {/* Right Column: Prebuilt Rotations */}
+                    <Box sx={{ p: 2, minWidth: 200 }}>
+                        <Typography variant="subtitle1" gutterBottom>
+                            Prebuilt Rotations
+                        </Typography>
+                        {(() => {
+                            const [specName, className] = selectedSpec.split(' ');
+                            const spec = getSpec(specName, className);
+                            const prebuiltRotations = spec?.prebuiltRotations || [];
+
+                            const addUUIDsToRotation = (rotation) => {
+                                return rotation.spells.map(spell => ({
+                                    ...spell,
+                                    uuid: spell.uuid || uuidv4(),
+                                }));
+                            };
+
+                            return prebuiltRotations.map((rotation, index) => (
                                 <Button
-                                    variant="contained"
+                                    variant="outlined"
                                     color="primary"
-                                    onClick={finalizeRotation}
-                                    disabled={currentRotation.length === 0}
+                                    key={index}
                                     sx={{
-                                        width: 'auto', // Button width adjusts to content
-                                        height: '40px', // Ensures button height matches the text field height
-                                        whiteSpace: 'nowrap', // Prevents text from wrapping
+                                        display: 'flex',
+                                        gap: 0.5,
+                                        mb: 1,
+                                        flexWrap: 'nowrap',
+                                        alignItems: 'center',
+                                        cursor: 'pointer',
+                                        padding: 1,
                                     }}
+                                    onClick={() => setCurrentRotation(addUUIDsToRotation(rotation))}
                                 >
-                                    <AddIcon />
+                                    {rotation.spells.map((spell, i) => (
+                                        <SpellButton key={spell.uuid || i} selectedSpell={spell} action={() => { }} />
+                                    ))}
                                 </Button>
-                                <Button
-                                    variant="contained"
-                                    color="error"
-                                    onClick={clearCurrentRotation}
-                                    disabled={currentRotation.length === 0}
-                                    sx={{
-                                        width: 'auto', // Button width adjusts to content
-                                        height: '40px', // Ensures button height matches the text field height
-                                        whiteSpace: 'nowrap', // Prevents text from wrapping
-                                    }}
-                                >
-                                    <DeleteIcon />
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="error"
-                                    onClick={clearAllRotations}
-                                    disabled={rotations.length == 0}
-                                >
-                                    Clear All Rotations
-                                </Button>
-                            </div>
-                        </div>
-                    )}
+                            ));
+                        })()}
+                    </Box>
                 </Box>
             </Card>
+
             <TimelineVisualizer selectedSpec={selectedSpec} condense={condense} rotations={rotations} />
         </div>
     );

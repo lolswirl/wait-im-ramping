@@ -19,6 +19,11 @@ interface classs {
 
 type classNames = 'Priest' | 'Druid' | 'Monk' | 'Shaman' | 'Evoker' | 'Paladin';
 
+interface prebuiltRotation {
+  name: string;
+  spells: string[] | spell[];
+}
+
 export function getSpec(specName: string, className: string) {
   specName = Capitalize(specName.toLowerCase());
   className = Capitalize(className.toLowerCase());
@@ -33,29 +38,46 @@ interface specialization {
   color: string;
   intellect?: number;
   buffs?: (spellList: spell[]) => spell[];
-  
+
   getSpell?: (spellName: string) => spell | undefined;
   getTalent?: (talentName: string) => spell | undefined;
+
+  prebuiltRotations?: prebuiltRotation[];
 }
 
 const addSpecializationMethods = (spec: specialization) => {
   spec.getSpell = (spellName: string) => spec.spells.find(spell => spell.name === spellName);
   spec.getTalent = (talentName: string) => spec.talents?.find(talent => talent.name === talentName);
+
+  if (spec.prebuiltRotations) {
+    spec.prebuiltRotations = spec.prebuiltRotations.map(rotation => {
+      if (typeof rotation.spells[0] === "string") {
+        return {
+          name: rotation.name,
+          spells: (rotation.spells as string[])
+            .map(spellName => spec.getSpell ? spec.getSpell(spellName) : undefined)
+            .filter((s): s is spell => s !== undefined)
+        };
+      } else {
+        return rotation as prebuiltRotation;
+      }
+    });
+  }
 };
 
 const classes: classs[] = [
   {
-    name: 'Priest' as classNames,
+    name: 'Priest',
     specializations: [
       {
-        spells: disciplinePriestSpells,   
-        icon: 'spell_holy_powerwordshield',  
+        spells: disciplinePriestSpells,
+        icon: 'spell_holy_powerwordshield',
         name: 'Discipline',
-        color: "#e1cbd2",
+        color: "#e1cbd2"
       },
       {
-        spells: holyPriestSpells,         
-        icon: 'spell_holy_guardianspirit',  
+        spells: holyPriestSpells,
+        icon: 'spell_holy_guardianspirit',
         name: 'Holy',
         color: "#668ea7"
       }
@@ -63,37 +85,59 @@ const classes: classs[] = [
     color: "#fffff6"
   },
   {
-    name: 'Druid' as classNames,
+    name: 'Druid',
     specializations: [
       {
-        spells: restorationDruidSpells,   
-        icon: 'spell_nature_healingtouch',  
+        spells: restorationDruidSpells,
+        icon: 'spell_nature_healingtouch',
         name: 'Restoration',
-        color: "#29ab30",
+        color: "#29ab30"
       }
     ],
     color: "#ff7c0a"
   },
   {
-    name: 'Monk' as classNames,
+    name: 'Monk',
     specializations: [
       {
-        spells: mistweaverMonkSpells,     
+        spells: mistweaverMonkSpells,
         talents: mistweaverMonkTalents,
-        icon: 'spell_monk_mistweaver_spec', 
+        icon: 'spell_monk_mistweaver_spec',
         name: 'Mistweaver',
         color: "#4ea55c",
-        intellect: 17647
+        intellect: 17647,
+        prebuiltRotations: [
+          {
+            name: "SooM, EnvM, Vivify",
+            spells: ["Soothing Mist", "Enveloping Mist", ...Array(3).fill("Vivify")]
+          },
+          {
+            name: "EnvM, Vivify",
+            spells: ["Enveloping Mist", ...Array(3).fill("Vivify")]
+          },
+          {
+            name: "Pip Ramp",
+            spells: ["Soothing Mist", ...Array(3).fill("Enveloping Mist"), "Rising Sun Kick"]
+          },
+          {
+            name: "Chi-Ji Standard",
+            spells: [
+              "Chi-Ji", "Blackout Kick", "Enveloping Mist", "Rising Sun Kick", "Blackout Kick",
+              "Enveloping Mist", "Tiger Palm", "Blackout Kick", "Enveloping Mist",
+              "Rising Sun Kick", "Blackout Kick", "Enveloping Mist"
+            ]
+          }
+        ]
       }
     ],
     color: "#00ff96"
   },
   {
-    name: 'Shaman' as classNames,
+    name: 'Shaman',
     specializations: [
       {
-        spells: restorationShamanSpells,  
-        icon: 'spell_nature_magicimmunity', 
+        spells: restorationShamanSpells,
+        icon: 'spell_nature_magicimmunity',
         name: 'Restoration',
         color: "#7cb63c"
       }
@@ -101,11 +145,11 @@ const classes: classs[] = [
     color: "0070dd"
   },
   {
-    name: 'Evoker' as classNames,
+    name: 'Evoker',
     specializations: [
       {
-        spells: preservationEvokerSpells, 
-        icon: 'classicon_evoker_preservation', 
+        spells: preservationEvokerSpells,
+        icon: 'classicon_evoker_preservation',
         name: 'Preservation',
         color: "#175a2e"
       }
@@ -113,11 +157,11 @@ const classes: classs[] = [
     color: "#33937f"
   },
   {
-    name: 'Paladin' as classNames,
+    name: 'Paladin',
     specializations: [
       {
-        spells: holyPaladinSpells,        
-        icon: 'spell_holy_holybolt',        
+        spells: holyPaladinSpells,
+        icon: 'spell_holy_holybolt',
         name: 'Holy',
         color: "ffe38e"
       }
@@ -129,6 +173,5 @@ const classes: classs[] = [
 classes.forEach(cls => {
   cls.specializations.forEach(addSpecializationMethods);
 });
-
 
 export { classes };
