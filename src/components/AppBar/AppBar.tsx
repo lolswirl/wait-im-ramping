@@ -18,14 +18,9 @@ import {
 } from "@mui/icons-material";
 import { useThemeContext } from "../Theme/ThemeContext.tsx";
 import { GetTitle } from "../../util/stringManipulation.tsx";
+import { graphPages } from "../../pages/graphs/GraphPages.tsx";
 
 const pages = [{ label: "Spell Timeline", path: "/timeline" }];
-const dropdownPages = [
-  { label: "Absorb vs. Damage Reduction", path: "/graphs/external-comparison" },
-  { label: "Sheilun's Gift vs. Jade Empowerment", path: "/graphs/jade-empowerment-sheiluns" },
-  { label: "Jade Empowerment vs. Dance of Chi-Ji", path: "/graphs/jade-empowerment-docj" },
-  { label: "ST Rotation vs. Spinning Crane Kick", path: "/graphs/st-spinning" },
-];
 
 function ResponsiveAppBar() {
   const [navAnchor, setNavAnchor] = React.useState<null | HTMLElement>(null);
@@ -53,20 +48,22 @@ function ResponsiveAppBar() {
     ));
 
   const renderDropdownLinks = () =>
-    dropdownPages.map(({ label, path }) => (
-      <MenuItem
-        key={GetTitle(label)}
-        component="a"
-        href={path}
-        onClick={() => {
-          setDropdownAnchor(null);
-          setNavAnchor(null);
-        }}
-        sx={{ color: "white", "&:hover": { color: hoverColor }, textTransform: "none" }}
-      >
-        {GetTitle(label)}
-      </MenuItem>
-    ));
+    graphPages
+      .filter(({ label }) => label.toLowerCase() !== "graphs")
+      .map(({ label, path }) => (
+        <MenuItem
+          key={GetTitle(label)}
+          component="a"
+          href={path}
+          onClick={() => {
+            setDropdownAnchor(null);
+            setNavAnchor(null);
+          }}
+          sx={{ color: "white", "&:hover": { color: hoverColor }, textTransform: "none" }}
+        >
+          {GetTitle(label)}
+        </MenuItem>
+      ));
 
   return (
     <AppBar position="sticky">
