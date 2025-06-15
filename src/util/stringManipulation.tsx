@@ -1,5 +1,14 @@
+const CAPS = false;
+
+export const GetTitle = (str: string): string => {
+    return CAPS ? Capitalize(str) : lower(str);
+}
+
 export function Capitalize(str: string) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return str
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
 }
 
 export function lower(str: string) {

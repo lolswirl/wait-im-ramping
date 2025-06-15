@@ -11,6 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from '@mui/icons-material/Add';
 import PageTitle from "../components/PageTitle/PageTitle.tsx";
 import { toRomanNumeral } from '../util/toRomanNumeral.ts';
+import { GetTitle } from '../util/stringManipulation.tsx';
 
 const Timeline = () => {
     const [selectedSpec, setSelectedSpec] = useState('Mistweaver Monk');
@@ -85,14 +86,12 @@ const Timeline = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-            <PageTitle title="Spell Timeline" />
-            <h1 style={{ marginBottom: "0px" }}>Spell Timeline</h1>
+            <PageTitle title={GetTitle("Spell Timeline")} />
+            <h1 style={{ marginBottom: "0px" }}>{GetTitle("Spell Timeline")}</h1>
 
             <Card variant="outlined" sx={{ width: 'fit-content', maxWidth: '100%', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    {/* Left Column */}
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2, flex: 2 }}>
-                        {/* Top Section: Spec + Condense */}
                         <Box>
                             <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                                 <SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
@@ -113,11 +112,9 @@ const Timeline = () => {
                                 </Card>
                             </Stack>
                         </Box>
-
-                        {/* Divider between sections */}
+                        
                         <Divider />
 
-                        {/* Bottom Section: SpellButtons and Rotation Controls */}
                         <Box>
                             <SpellButtons selectedSpec={selectedSpec} addSpellToTable={addSpellToRotation} />
 

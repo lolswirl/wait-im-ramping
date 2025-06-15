@@ -1,6 +1,6 @@
 {
-  "short_name": "WDIR?",
-  "name": "When do I ramp?",
+  "short_name": "I'm Ramping!",
+  "name": "Wait, I'm Ramping!",
   "icons": [
     {
       "src": "favicon.ico",

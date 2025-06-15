@@ -17,6 +17,7 @@ import {
   Brightness7,
 } from "@mui/icons-material";
 import { useThemeContext } from "../Theme/ThemeContext.tsx";
+import { GetTitle } from "../../util/stringManipulation.tsx";
 
 const pages = [{ label: "Spell Timeline", path: "/timeline" }];
 const dropdownPages = [
@@ -40,24 +41,30 @@ function ResponsiveAppBar() {
 
   const renderNavLinks = (isMobile = false) =>
     pages.map(({ label, path }) => (
-      <Button key={label} onClick={handleCloseMenu(setNavAnchor)} component="a" href={path} sx={!isMobile ? { color: "white", "&:hover": { color: hoverColor }, textTransform: "none" } : {}}>
-        {label}
+      <Button 
+        key={GetTitle(label)} 
+        onClick={handleCloseMenu(setNavAnchor)}
+        component="a"
+        href={path}
+        sx={{ color: "white", "&:hover": { color: hoverColor }, textTransform: "none" }}
+      >
+        {GetTitle(label)}
       </Button>
     ));
 
   const renderDropdownLinks = () =>
     dropdownPages.map(({ label, path }) => (
       <MenuItem
-        key={label}
+        key={GetTitle(label)}
         component="a"
         href={path}
         onClick={() => {
           setDropdownAnchor(null);
           setNavAnchor(null);
         }}
-        sx={{ "&:hover": { color: hoverColor } }}
+        sx={{ color: "white", "&:hover": { color: hoverColor }, textTransform: "none" }}
       >
-        {label}
+        {GetTitle(label)}
       </MenuItem>
     ));
 
@@ -80,7 +87,7 @@ function ResponsiveAppBar() {
               "&:hover": { color: hoverColor },
             }}
           >
-            𖦹 When do I ramp?
+            𖦹 {GetTitle("Wait, I'm Ramping!")}
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -89,8 +96,10 @@ function ResponsiveAppBar() {
             </IconButton>
             <Menu anchorEl={navAnchor} open={Boolean(navAnchor)} onClose={handleCloseMenu(setNavAnchor)}>
               {renderNavLinks(true)}
-              <Button onClick={handleOpenMenu(setDropdownAnchor)} sx={{textTransform: "none"}}>
-                  Graphs <ArrowDropDown />
+              <Button onClick={handleOpenMenu(setDropdownAnchor)}
+                sx={{ color: "white", "&:hover": { color: hoverColor }, textTransform: "none" }}
+              >
+                {GetTitle("Graphs")} <ArrowDropDown />
               </Button>
             </Menu>
             <Menu anchorEl={dropdownAnchor} open={Boolean(dropdownAnchor)} onClose={handleCloseMenu(setDropdownAnchor)}>
@@ -103,7 +112,7 @@ function ResponsiveAppBar() {
             <Button onClick={handleOpenMenu(setDropdownAnchor)}
               sx={{ color: "white", "&:hover": { color: hoverColor }, textTransform: "none" }}
             >
-              Graphs <ArrowDropDown />
+              {GetTitle("Graphs")} <ArrowDropDown />
             </Button>
             <Menu anchorEl={dropdownAnchor} open={Boolean(dropdownAnchor)} onClose={handleCloseMenu(setDropdownAnchor)}>
               {renderDropdownLinks()}
