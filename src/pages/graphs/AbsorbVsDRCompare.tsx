@@ -3,13 +3,14 @@ import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { TextField, Box, Container, Typography, useTheme } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle.tsx";
+import { GetTitle } from "../../util/stringManipulation.tsx";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const AbsorbVsDRCompare: React.FC = () => {
   const [absorbValue, setAbsorbValue] = useState(9.6);
   const [damageReduction, setDamageReduction] = useState(40.5);
-  const [maxXAxis, setMaxXAxis] = useState(30); // New state for max x-axis
+  const [maxXAxis, setMaxXAxis] = useState(30);
   const [intersectionPoint, setIntersectionPoint] = useState<{ x: number | null; y: number | null }>({ x: null, y: null });
 
   const theme = useTheme();
@@ -24,7 +25,7 @@ const AbsorbVsDRCompare: React.FC = () => {
 
   const reductionDamageIntake = useMemo(() => {
     return damageValues.map((value) => value * (1 - damageReduction / 100));
-  }, [damageReduction, damageValues]); // Add damageValues as dependency
+  }, [damageReduction, damageValues]);
 
   useEffect(() => {
     let intersectX: number | null = null;
@@ -74,7 +75,7 @@ const AbsorbVsDRCompare: React.FC = () => {
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 800, marginTop: 4, alignItems: "center" }}>
-      <PageTitle title="External Comparison" />
+      <PageTitle title={GetTitle("External Comparison")} />
 
       <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
         <Line
@@ -84,19 +85,19 @@ const AbsorbVsDRCompare: React.FC = () => {
             plugins: {
               title: {
                 display: true,
-                text: "Absorb vs. Damage Reduction Comparison",
+                text: GetTitle("Absorb vs. Damage Reduction Comparison"),
               },
             },
             scales: {
               x: {
-                title: { display: true, text: "Incoming Damage (Million)" },
+                title: { display: true, text: GetTitle("Incoming Damage (Million)") },
                 max: 50,
                 grid: {
                   color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
                 },
               },
               y: {
-                title: { display: true, text: "Damage Taken (Million)" },
+                title: { display: true, text: GetTitle("Damage Taken (Million)") },
                 max: maxXAxis,
                 grid: {
                   color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
@@ -109,7 +110,7 @@ const AbsorbVsDRCompare: React.FC = () => {
 
       <Box sx={{ display: "flex", gap: 2, width: "75%", justifyContent: "center" }}>
         <TextField
-          label="Absorb Value (Million)"
+          label={GetTitle("Absorb Value (Million)")}
           variant="outlined"
           value={absorbValue}
           onChange={(e) => setAbsorbValue(parseFloat(e.target.value) || 0)}
@@ -117,7 +118,7 @@ const AbsorbVsDRCompare: React.FC = () => {
           fullWidth
         />
         <TextField
-          label="Damage Reduction (%)"
+          label={GetTitle("Damage Reduction (%)")}
           variant="outlined"
           value={damageReduction}
           onChange={(e) => setDamageReduction(parseFloat(e.target.value) || 0)}
@@ -125,7 +126,7 @@ const AbsorbVsDRCompare: React.FC = () => {
           fullWidth
         />
         <TextField
-          label="Max Axis (Million)"
+          label={GetTitle("Max Axis (Million)")}
           variant="outlined"
           value={maxXAxis}
           onChange={(e) => setMaxXAxis(parseFloat(e.target.value) || 10)}
@@ -136,7 +137,9 @@ const AbsorbVsDRCompare: React.FC = () => {
 
       {intersectionPoint && (
         <Typography variant="body1">
-          Damage Reduction becomes better than Absorb at <strong>{intersectionPoint.x}M damage</strong> ({intersectionPoint.y}M damage intake).
+          {GetTitle(
+            `Damage Reduction becomes better than Absorb at ${intersectionPoint.x}M damage (${intersectionPoint.y}M damage intake).`
+          )}
         </Typography>
       )}
     </Container>

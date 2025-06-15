@@ -23,7 +23,7 @@ const pages = [{ label: "Spell Timeline", path: "/timeline" }];
 const dropdownPages = [
   { label: "Absorb vs. Damage Reduction", path: "/graphs/external-comparison" },
   { label: "Sheilun's Gift vs. Jade Empowerment", path: "/graphs/jade-empowerment-sheiluns" },
-  { label: "Jade Empowerment vs. DocJ", path: "/graphs/jade-empowerment-docj" },
+  { label: "Jade Empowerment vs. Dance of Chi-Ji", path: "/graphs/jade-empowerment-docj" },
   { label: "ST Rotation vs. Spinning Crane Kick", path: "/graphs/st-spinning" },
 ];
 
