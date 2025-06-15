@@ -1,7 +1,7 @@
 const CAPS = false;
 
 export const GetTitle = (str: string): string => {
-    return CAPS ? Capitalize(str) : lower(str);
+    return CAPS ? str : lower(str);
 }
 
 export function Capitalize(str: string) {
