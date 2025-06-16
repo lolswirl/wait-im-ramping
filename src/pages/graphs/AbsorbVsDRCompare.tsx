@@ -74,7 +74,7 @@ const AbsorbVsDRCompare: React.FC = () => {
   }), [absorbValue, damageReduction, absorbDamageIntake, reductionDamageIntake, damageValues]);
 
   return (
-    <Container sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 800, marginTop: 4, alignItems: "center" }}>
+    <Container sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 4, alignItems: "center" }}>
       <PageTitle title={GetTitle("External Comparison")} />
 
       <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
