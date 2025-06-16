@@ -20,6 +20,12 @@ export const disciplinePriestSpells: spell[] = [
     castTime: 0    
   },
   {
+    name: 'Shadowfiend',
+    id: 34433,
+    icon: 'spell_shadow_shadowfiend',
+    castTime: 0    
+  },
+  {
     name: 'Mind Blast',
     id: 8092,
     icon: 'spell_shadow_unholyfrenzy',
@@ -47,6 +53,12 @@ export const disciplinePriestSpells: spell[] = [
     name: 'Void Blast',
     id: 450405,
     icon: 'inv_cosmicvoid_missile',
+    castTime: 1.5
+  },
+  {
+    name: 'Smite',
+    id: 585,
+    icon: 'spell_holy_holysmite',
     castTime: 1.5
   },
   {

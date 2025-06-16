@@ -12,6 +12,13 @@ export const mistweaverMonkRotations = [
     spells: ["Soothing Mist", ...Array(3).fill("Enveloping Mist"), "Rising Sun Kick"]
   },
   {
+    name: "TFT RSK",
+    spells: [
+      "Enveloping Mist", "Enveloping Mist", "Thunder Focus Tea",
+      "Rising Sun Kick", "Renewing Mist", "Rising Sun Kick"
+    ]
+  },
+  {
     name: "Chi-Ji Standard",
     spells: [
       "Chi-Ji", "Blackout Kick", "Enveloping Mist", 

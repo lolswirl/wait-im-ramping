@@ -4,11 +4,22 @@ import { mistweaverMonkTalents } from './spells/classes/monk/mistweaver/talents.
 import { mistweaverMonkRotations } from './spells/classes/monk/mistweaver/rotations.ts';
 
 import { disciplinePriestSpells } from './spells/classes/priest/discipline/discipline.ts';
+import { disciplinePriestRotations } from './spells/classes/priest/discipline/rotations.ts';
+
 import { holyPriestSpells } from './spells/classes/priest/holy/holy.ts';
+import { holyPriestRotations } from './spells/classes/priest/holy/rotations.ts';
+
 import { restorationDruidSpells } from './spells/classes/druid/restoration/restoration.ts';
+import { restorationDruidRotations } from './spells/classes/druid/restoration/rotations.ts';
+
 import { restorationShamanSpells } from './spells/classes/shaman/restoration/restoration.ts';
+import { restorationShamanRotations } from './spells/classes/shaman/restoration/rotations.ts';
+
 import { preservationEvokerSpells } from './spells/classes/evoker/preservation/preservation.ts';
+import { preservationEvokerRotations } from './spells/classes/evoker/preservation/rotations.ts';
+
 import { holyPaladinSpells } from './spells/classes/paladin/holy/holy.ts';
+import { holyPaladinRotations } from './spells/classes/paladin/holy/rotations.ts';
 
 import { Capitalize } from "../util/stringManipulation.tsx";
 
@@ -74,13 +85,15 @@ const classes: classs[] = [
         spells: disciplinePriestSpells,
         icon: 'spell_holy_powerwordshield',
         name: 'Discipline',
-        color: "#e1cbd2"
+        color: "#e1cbd2",
+        prebuiltRotations: disciplinePriestRotations,
       },
       {
         spells: holyPriestSpells,
         icon: 'spell_holy_guardianspirit',
         name: 'Holy',
-        color: "#668ea7"
+        color: "#668ea7",
+        prebuiltRotations: holyPriestRotations,
       }
     ],
     color: "#fffff6"
@@ -92,7 +105,8 @@ const classes: classs[] = [
         spells: restorationDruidSpells,
         icon: 'spell_nature_healingtouch',
         name: 'Restoration',
-        color: "#29ab30"
+        color: "#29ab30",
+        prebuiltRotations: restorationDruidRotations,
       }
     ],
     color: "#ff7c0a"
@@ -119,7 +133,8 @@ const classes: classs[] = [
         spells: restorationShamanSpells,
         icon: 'spell_nature_magicimmunity',
         name: 'Restoration',
-        color: "#7cb63c"
+        color: "#7cb63c",
+        prebuiltRotations: restorationShamanRotations,
       }
     ],
     color: "0070dd"
@@ -131,7 +146,8 @@ const classes: classs[] = [
         spells: preservationEvokerSpells,
         icon: 'classicon_evoker_preservation',
         name: 'Preservation',
-        color: "#175a2e"
+        color: "#175a2e",
+        prebuiltRotations: preservationEvokerRotations,
       }
     ],
     color: "#33937f"
@@ -143,7 +159,8 @@ const classes: classs[] = [
         spells: holyPaladinSpells,
         icon: 'spell_holy_holybolt',
         name: 'Holy',
-        color: "ffe38e"
+        color: "ffe38e",
+        prebuiltRotations: holyPaladinRotations,
       }
     ],
     color: "#f48cba"

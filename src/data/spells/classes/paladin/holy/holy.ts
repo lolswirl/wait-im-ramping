@@ -95,4 +95,10 @@ export const holyPaladinSpells: spell[] = [
     castTime: 0,
     gcd: false
   },
+  {
+    name: 'Divine Toll',
+    id: 375576,
+    icon: 'inv_ability_paladin_divinetoll',
+    castTime: 0,
+  },
 ];

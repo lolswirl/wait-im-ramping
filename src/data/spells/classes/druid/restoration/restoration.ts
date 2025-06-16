@@ -63,6 +63,11 @@ export const restorationDruidSpells: spell[] = [
     castTime: 0,
     gcd: false
   },
-  
-  
+  {
+    name: 'Grove Guardian',
+    id: 102693,
+    icon: 'ability_druid_forceofnature',
+    castTime: 0,
+    gcd: false
+  },
 ];

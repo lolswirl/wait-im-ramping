@@ -49,12 +49,18 @@ export const preservationEvokerSpells: spell[] = [
     name: 'Stasis',
     id: 370537,
     icon: 'ability_evoker_stasis',
-    castTime: 5
+    castTime: 0,
   },
   {
     name: 'Emerald Communion',
     id: 370984,
     icon: 'ability_evoker_green_01',
     castTime: 5
+  },
+  {
+    name: 'Engulf',
+    id: 443328,
+    icon: 'inv_ability_flameshaperevoker_engulf',
+    castTime: 0,
   },
 ];
