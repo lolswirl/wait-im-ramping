@@ -1,4 +1,4 @@
-import "./App.css";
+import "./css/App.css";
 import * as React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react"
@@ -13,10 +13,8 @@ import GridTiling from "./components/Tiling/GridTiling.tsx";
 import tileTransparent from "./assets/tile_transparent.png";
 import tileInverted from "./assets/tile_inverted.png";
 
-
 import { useThemeContext } from './context/ThemeContext.tsx';
 import { graphPages } from "./pages/graphs/GraphPages.tsx";
-import { SpecProvider } from "./context/SpecContext.tsx";
 
 function App() {
   const { themeMode } = useThemeContext();
@@ -29,7 +27,6 @@ function App() {
   }, []);
 
   return (
-    <SpecProvider>
       <Router>
         <div className="App">    
           <div id="root">
@@ -54,7 +51,6 @@ function App() {
           </div>
         </div>
       </Router>
-    </SpecProvider>
   );
 }
 
