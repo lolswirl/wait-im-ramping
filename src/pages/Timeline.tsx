@@ -5,26 +5,22 @@ import SpellButtons from '../components/SpellButtons/SpellButtons.tsx';
 import SpellButton from '../components/SpellButtons/SpellButton.tsx';
 import { Button, Typography, FormControl, InputLabel, OutlinedInput, Box, Card, Stack, Divider, FormControlLabel, Switch } from '@mui/material';
 import { spell } from '../data/spell.ts';
-import { classes, getSpec } from '../data/class.ts';
+import { getSpec } from '../data/class.ts';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from '@mui/icons-material/Add';
 import PageTitle from "../components/PageTitle/PageTitle.tsx";
 import { toRomanNumeral } from '../util/toRomanNumeral.ts';
 import { GetTitle } from '../util/stringManipulation.tsx';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { SelectChangeEvent } from '@mui/material/Select';
 import { useSpec } from '../context/SpecContext.tsx';
 
 const Timeline = () => {
     const { spec: selectedSpec, setSpec } = useSpec();
-    const [specName, className] = selectedSpec.split(' ');
     const [spellList, setSpellList] = useState<spell[]>([]);
     const [currentRotation, setCurrentRotation] = useState<any[]>([]);
     const [rotations, setRotations] = useState<any[][]>([]);
     const [condense, setCondense] = useState(true);
-
-    const spec = getSpec(specName, className);
-    const prebuiltRotations = spec?.prebuiltRotations || [];
 
     const handleSetCondense = (value: boolean) => {
         setCondense(value);
@@ -77,21 +73,12 @@ const Timeline = () => {
         setCurrentRotation([]);
     };
 
-    const loadPrebuiltRotation = (spellNames: string[]) => {
-        const resolved = spellNames
-            .map(name => spellList.find(sp => sp.name === name))
-            .filter(Boolean)
-            .map(spell => ({ ...spell, uuid: uuidv4() })) as spell[];
-
-        setCurrentRotation(resolved);
-    };
-
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             <PageTitle title={GetTitle("Spell Timeline!")} />
             <h1 style={{ marginBottom: "0px" }}>{GetTitle("Spell Timeline!")}</h1>
 
-            <Card variant="outlined" sx={{ width: 'fit-content', maxWidth: '100%', overflowX: 'auto' }}>
+            <Card variant="outlined" sx={{ width: 'fit-content', maxWidth: '85%', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2, flex: 2 }}>
                         <Box>

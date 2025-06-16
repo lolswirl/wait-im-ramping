@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, InputAdornment, Card, Box, Stack } from '@mui/material';
 import { spell } from '../../data/spell.ts';
 import { v4 as uuidv4 } from 'uuid';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 import SpecializationSelect from '../SpecializationSelect/SpecializationSelect.tsx';
 import SpellButtons from '../SpellButtons/SpellButtons.tsx';
