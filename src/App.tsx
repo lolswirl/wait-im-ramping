@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react"
 
 import Home from "./pages/Home.tsx";
-import Graphs from "./pages/graphs/Graphs.tsx";
+import WhenDoIRamp from "./pages/WhenDoIRamp.tsx";
 import Timeline from "./pages/Timeline.tsx";
 import AppBar from "./components/AppBar/AppBar.tsx"
 import Tiling from "./components/Tiling/Tiling.tsx";
@@ -36,6 +36,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/when-do-i-ramp" element={<WhenDoIRamp />} />
           <Route path="/timeline" element={<Timeline />} />
           {graphPages.map(({ path, element }) => (
             <Route key={path} path={path} element={element} />

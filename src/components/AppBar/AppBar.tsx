@@ -20,7 +20,9 @@ import { useThemeContext } from "../Theme/ThemeContext.tsx";
 import { GetTitle } from "../../util/stringManipulation.tsx";
 import { graphPages } from "../../pages/graphs/GraphPages.tsx";
 
-const pages = [{ label: "Spell Timeline", path: "/timeline" }];
+const pages = [
+  { label: "When do I ramp?", path: "/when-do-i-ramp" },
+  { label: "Spell Timeline", path: "/timeline" }];
 
 function ResponsiveAppBar() {
   const [navAnchor, setNavAnchor] = React.useState<null | HTMLElement>(null);
@@ -34,7 +36,7 @@ function ResponsiveAppBar() {
   const handleCloseMenu = (setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => () => 
     setter(null);
 
-  const renderNavLinks = (isMobile = false) =>
+  const renderNavLinks = () =>
     pages.map(({ label, path }) => (
       <Button 
         key={GetTitle(label)} 
@@ -92,7 +94,7 @@ function ResponsiveAppBar() {
               <MenuIcon />
             </IconButton>
             <Menu anchorEl={navAnchor} open={Boolean(navAnchor)} onClose={handleCloseMenu(setNavAnchor)}>
-              {renderNavLinks(true)}
+              {renderNavLinks()}
               <Button onClick={handleOpenMenu(setDropdownAnchor)}
                 sx={{ color: "white", "&:hover": { color: hoverColor }, textTransform: "none" }}
               >
