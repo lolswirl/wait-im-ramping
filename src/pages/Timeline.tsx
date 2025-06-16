@@ -13,9 +13,10 @@ import PageTitle from "../components/PageTitle/PageTitle.tsx";
 import { toRomanNumeral } from '../util/toRomanNumeral.ts';
 import { GetTitle } from '../util/stringManipulation.tsx';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useSpec } from '../context/SpecContext.tsx';
 
 const Timeline = () => {
-    const [selectedSpec, setSelectedSpec] = useState('Mistweaver Monk');
+    const { spec: selectedSpec, setSpec } = useSpec();
     const [specName, className] = selectedSpec.split(' ');
     const [spellList, setSpellList] = useState<spell[]>([]);
     const [currentRotation, setCurrentRotation] = useState<any[]>([]);
@@ -31,10 +32,10 @@ const Timeline = () => {
 
     const handleSpecChange = (event: SelectChangeEvent<string>) => {
         if (spellList.length === 0) {
-            setSelectedSpec(event.target.value as string);
+            setSpec(event.target.value as string);
         } else {
             clearTable();
-            setSelectedSpec(event.target.value as string);
+            setSpec(event.target.value as string);
             console.warn("You cannot change specialization while spells are in the table. Clear the table first.");
         }
         setCurrentRotation([]);

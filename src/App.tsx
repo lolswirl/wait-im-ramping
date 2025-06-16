@@ -12,6 +12,7 @@ import GridTiling from "./components/Tiling/GridTiling.tsx";
 
 import { useThemeContext } from './components/Theme/ThemeContext.tsx';
 import { graphPages } from "./pages/graphs/GraphPages.tsx";
+import { SpecProvider } from "./context/SpecContext.tsx";
 
 function App() {
   const { themeMode } = useThemeContext();
@@ -24,26 +25,28 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="App">    
-        <AppBar/>
-        {useGrid ? (
-          <GridTiling patternSrc={tile} />
-        ) : (
-          <Tiling patternSrc={tile} />
-        )}
-        <Analytics/>
+    <SpecProvider>
+      <Router>
+        <div className="App">    
+          <AppBar/>
+          {useGrid ? (
+            <GridTiling patternSrc={tile} />
+          ) : (
+            <Tiling patternSrc={tile} />
+          )}
+          <Analytics/>
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/when-do-i-ramp" element={<WhenDoIRamp />} />
-          <Route path="/timeline" element={<Timeline />} />
-          {graphPages.map(({ path, element }) => (
-            <Route key={path} path={path} element={element} />
-          ))}
-        </Routes>
-      </div>
-    </Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/when-do-i-ramp" element={<WhenDoIRamp />} />
+            <Route path="/timeline" element={<Timeline />} />
+            {graphPages.map(({ path, element }) => (
+              <Route key={path} path={path} element={element} />
+            ))}
+          </Routes>
+        </div>
+      </Router>
+    </SpecProvider>
   );
 }
 
