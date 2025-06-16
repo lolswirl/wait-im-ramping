@@ -121,7 +121,7 @@ const Timeline = () => {
 
                             <Box sx={{ mt: 2 }}>
                                 {selectedSpec && (
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 5 }}>
+                                    <Stack direction="column" alignItems="center" spacing={2} sx={{ mb: 1 }}>
                                         <FormControl fullWidth variant="outlined" sx={{ flexGrow: 1 }}>
                                             <InputLabel shrink>{GetTitle("Current Rotation")}</InputLabel>
                                             <OutlinedInput
@@ -175,7 +175,7 @@ const Timeline = () => {
                                                 }}
                                             />
                                         </FormControl>
-                                        <div style={{ display: 'flex', flexDirection: 'row', gap: 5, marginTop: 5 }}>
+                                        <Stack direction="row" spacing={1}>
                                             <Button variant="contained" color="primary" onClick={finalizeRotation} disabled={currentRotation.length === 0}>
                                                 <AddIcon />
                                             </Button>
@@ -185,8 +185,8 @@ const Timeline = () => {
                                             <Button variant="contained" color="error" onClick={clearAllRotations} disabled={rotations.length === 0} sx={{ textTransform: "none" }}>
                                                 {GetTitle("CLEAR ALL ROTATIONS")}
                                             </Button>
-                                        </div>
-                                    </div>
+                                        </Stack>
+                                    </Stack>
                                 )}
                             </Box>
                         </Box>
@@ -194,7 +194,6 @@ const Timeline = () => {
 
                     <Divider orientation="vertical" flexItem />
 
-                    {/* Right Column: Prebuilt Rotations */}
                     <Box sx={{ p: 2, minWidth: 200 }}>
                         <Typography variant="subtitle1" gutterBottom>
                             {GetTitle("Prebuilt Rotations")}
