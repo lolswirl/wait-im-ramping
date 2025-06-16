@@ -1,5 +1,11 @@
-export function FormatIconImg(image) {
-    return `/icons/${image}.png`;
+const icons = require.context("../assets/icons", false, /\.png$/);
+
+export function FormatIconImg(image: string): string {
+  try {
+    return icons(`./${image}.png`);
+  } catch {
+    return "";
+  }
 }
 
 export function FormatIconLink(image) {
