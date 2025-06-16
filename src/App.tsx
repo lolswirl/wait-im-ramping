@@ -30,23 +30,26 @@ function App() {
     <SpecProvider>
       <Router>
         <div className="App">    
-          <AppBar/>
-          {useGrid ? (
-            <GridTiling patternSrc={tile} />
-          ) : (
-            <Tiling patternSrc={tile} />
-          )}
-          <Analytics/>
-
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/when-do-i-ramp" element={<WhenDoIRamp />} />
-            <Route path="/timeline" element={<Timeline />} />
-            {graphPages.map(({ path, element }) => (
-              <Route key={path} path={path} element={element} />
-            ))}
-          </Routes>
-          <FooterBar />
+          <div id="root">
+            <div className="app-content">
+              <AppBar />
+              {useGrid ? (
+                <GridTiling patternSrc={tile} />
+              ) : (
+                <Tiling patternSrc={tile} />
+              )}
+              <Analytics />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/when-do-i-ramp" element={<WhenDoIRamp />} />
+                <Route path="/timeline" element={<Timeline />} />
+                {graphPages.map(({ path, element }) => (
+                  <Route key={path} path={path} element={element} />
+                ))}
+              </Routes>
+            </div>
+            <FooterBar />
+          </div>
         </div>
       </Router>
     </SpecProvider>
