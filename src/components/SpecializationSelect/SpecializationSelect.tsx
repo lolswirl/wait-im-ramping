@@ -2,9 +2,9 @@ import React from 'react';
 import './SpecializationSelect.css'
 import { FormControl, InputLabel, MenuItem } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 import { classes } from '../../data/class.ts';
 import { GetTitle } from "../../util/stringManipulation.tsx";
+import SpecDisplay from "./SpecDisplay.tsx";
 
 interface SpecializationSelectProps {
   selectedSpec: string;
@@ -17,7 +17,6 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   onSpecChange,
   size = "medium"
 }) => {
-
   const allSpecializations = classes.flatMap((classObj) =>
     classObj.specializations.map((specialization) => ({
       name: specialization.name,
@@ -39,22 +38,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
       >
         {allSpecializations.map((specObj, index) => (
           <MenuItem key={index} value={`${specObj.name} ${specObj.className}`}>
-            <div className="spec">
-              <img
-                src={FormatIconImg(specObj.icon)}
-                alt={GetTitle(`${specObj.name} ${specObj.className}`)}
-                className="spec_icon"
-                style={{
-                  borderRadius: '8px',
-                  objectFit: 'cover',
-                  border: '1px solid #575757'
-                }}
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = FormatIconLink(specObj.icon);
-                }}
-              />
-              {GetTitle(specObj.name)}
-            </div>
+            <SpecDisplay specObj={specObj} />
           </MenuItem>
         ))}
       </Select>

@@ -155,3 +155,17 @@ classes.forEach(cls => {
 });
 
 export { classes };
+
+export function getSpecObject(specString: string) {
+  const [name, ...classParts] = specString.split(" ");
+  const className = classParts.join(" ");
+  return classes
+    .flatMap((c) =>
+      c.specializations.map((s) => ({
+        name: s.name,
+        className: c.name,
+        icon: s.icon,
+      }))
+    )
+    .find((s) => s.name === name && s.className === className);
+}
