@@ -106,7 +106,7 @@ const Timeline = () => {
                                                     size="small"
                                                 />
                                             }
-                                            label="Condensed"
+                                            label={GetTitle("Condensed")}
                                         />
                                     </Box>
                                 </Card>
@@ -122,11 +122,11 @@ const Timeline = () => {
                                 {selectedSpec && (
                                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 5 }}>
                                         <FormControl fullWidth variant="outlined" sx={{ flexGrow: 1 }}>
-                                            <InputLabel shrink>Current Rotation</InputLabel>
+                                            <InputLabel shrink>{GetTitle("Current Rotation")}</InputLabel>
                                             <OutlinedInput
                                                 notched
                                                 readOnly
-                                                label="Current Rotation"
+                                                label={GetTitle("Current Rotation")}
                                                 sx={{
                                                     minHeight: 56,
                                                     display: 'flex',
@@ -168,7 +168,7 @@ const Timeline = () => {
                                                             ))
                                                         ) : (
                                                             <Typography variant="body2" color="textSecondary">
-                                                                No spells added
+                                                                {GetTitle("No spells added")}
                                                             </Typography>
                                                         ),
                                                 }}
@@ -181,8 +181,8 @@ const Timeline = () => {
                                             <Button variant="contained" color="error" onClick={clearCurrentRotation} disabled={currentRotation.length === 0}>
                                                 <DeleteIcon />
                                             </Button>
-                                            <Button variant="contained" color="error" onClick={clearAllRotations} disabled={rotations.length === 0}>
-                                                Clear All Rotations
+                                            <Button variant="contained" color="error" onClick={clearAllRotations} disabled={rotations.length === 0} sx={{ textTransform: "none" }}>
+                                                {GetTitle("CLEAR ALL ROTATIONS")}
                                             </Button>
                                         </div>
                                     </div>
@@ -196,7 +196,7 @@ const Timeline = () => {
                     {/* Right Column: Prebuilt Rotations */}
                     <Box sx={{ p: 2, minWidth: 200 }}>
                         <Typography variant="subtitle1" gutterBottom>
-                            Prebuilt Rotations
+                            {GetTitle("Prebuilt Rotations")}
                         </Typography>
                         {(() => {
                             const [specName, className] = selectedSpec.split(' ');

@@ -5,6 +5,7 @@ import { calculateCastTime, spell, GCD } from '../../data/spell.ts';
 import { applyBuffEffects } from '../../data/buffs.ts';
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 import { toRomanNumeral } from "../../util/toRomanNumeral.ts";
+import { GetTitle } from "../../util/stringManipulation.tsx";
 
 const RECT_HEIGHT = 100;
 const RECT_HEIGHT_CONDENSED = 35;
@@ -240,8 +241,8 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
       .attr("class", "legend");
 
     const legendItems = [
-      { label: "GCD", shape: "rect", color: condense ? GREY : ORANGE },
-      { label: "Cast", shape: "rect", color: condense ? ORANGE : WHITE }
+      { label: GetTitle("GCD"), shape: "rect", color: condense ? GREY : ORANGE },
+      { label: GetTitle("Cast"), shape: "rect", color: condense ? ORANGE : WHITE }
     ];
 
     // Position at top-right with padding
