@@ -14,9 +14,9 @@ export const mistweaverMonkRotations = [
   {
     name: "Chi-Ji Standard",
     spells: [
-      "Chi-Ji", "Blackout Kick", "Enveloping Mist", "Rising Sun Kick", "Blackout Kick",
-      "Enveloping Mist", "Tiger Palm", "Blackout Kick", "Enveloping Mist",
-      "Rising Sun Kick", "Blackout Kick", "Enveloping Mist"
+      "Chi-Ji", "Blackout Kick", "Enveloping Mist", 
+      "Rising Sun Kick", "Blackout Kick", "Enveloping Mist", 
+      "Tiger Palm", "Blackout Kick", "Enveloping Mist",
     ]
   }
 ];
