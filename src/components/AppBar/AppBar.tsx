@@ -19,6 +19,9 @@ import {
 import { useThemeContext } from "../Theme/ThemeContext.tsx";
 import { GetTitle } from "../../util/stringManipulation.tsx";
 import { graphPages } from "../../pages/graphs/GraphPages.tsx";
+import SpecializationSelect from "../SpecializationSelect/SpecializationSelect.tsx";
+import { SelectChangeEvent } from "@mui/material/Select";
+import { useSpec } from "../../context/SpecContext.tsx";
 
 const pages = [
   { label: "When do I ramp?", path: "/when-do-i-ramp" },
@@ -28,6 +31,7 @@ function ResponsiveAppBar() {
   const [navAnchor, setNavAnchor] = React.useState<null | HTMLElement>(null);
   const [dropdownAnchor, setDropdownAnchor] = React.useState<null | HTMLElement>(null);
   const { toggleTheme, themeMode } = useThemeContext();
+  const { spec, setSpec } = useSpec();
   const hoverColor = themeMode === "dark" ? "#90caf9" : "#212121";
 
   const handleOpenMenu = (setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => 
@@ -117,10 +121,16 @@ function ResponsiveAppBar() {
               {renderDropdownLinks()}
             </Menu>
           </Box>
-
-          <IconButton onClick={toggleTheme} sx={{ color: "white" }}>
-            {themeMode === "dark" ? <Brightness7 /> : <Brightness4 />}
-          </IconButton>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <SpecializationSelect
+              selectedSpec={spec}
+              onSpecChange={(event: SelectChangeEvent<string>) => setSpec(event.target.value as string)}
+              size="small"
+            />
+            <IconButton onClick={toggleTheme} sx={{ color: "white" }}>
+              {themeMode === "dark" ? <Brightness7 /> : <Brightness4 />}
+            </IconButton>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>

@@ -9,9 +9,14 @@ import { GetTitle } from "../../util/stringManipulation.tsx";
 interface SpecializationSelectProps {
   selectedSpec: string;
   onSpecChange: (event: SelectChangeEvent<string>) => void;
+  size?: "small" | "medium";
 }
 
-const SpecializationSelect: React.FC<SpecializationSelectProps> = ({ selectedSpec, onSpecChange }) => {
+const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
+  selectedSpec,
+  onSpecChange,
+  size = "medium"
+}) => {
 
   const allSpecializations = classes.flatMap((classObj) =>
     classObj.specializations.map((specialization) => ({
@@ -22,7 +27,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({ selectedSpe
   );
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 150 }}>
+    <FormControl sx={{ m: 1, minWidth: 150 }} size={size}>
       <InputLabel id="spec-select-label">{GetTitle("Specialization")}</InputLabel>
       <Select
         labelId="spec-select-label"
