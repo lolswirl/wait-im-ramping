@@ -112,12 +112,13 @@ function ResponsiveAppBar() {
               href="/"
               sx={{
                 mr: 2,
-                display: "flex",
+                display: "inline-flex", // changed from "flex" to "inline-flex"
                 alignItems: "center",
                 gap: 1,
                 fontWeight: location.pathname === "/" ? 700 : 700,
                 color: location.pathname === "/" ? hoverColor : "inherit",
                 textDecoration: "none",
+                whiteSpace: "nowrap", // prevent wrapping
                 "&:hover": { color: hoverColor },
               }}
             >
