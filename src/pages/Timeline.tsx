@@ -181,7 +181,7 @@ const Timeline = () => {
                     maxWidth: { xs: '90%', sm: '90%', md: 600 },
                     width: { xs: "90%", sm: "90%", md: "100%" },
                     mx: "auto",
-                    mb: { xs: 4, sm: 6 },
+                    mb: { xs: 2, sm: 3 },
                     boxSizing: "border-box",
                 }}
             >

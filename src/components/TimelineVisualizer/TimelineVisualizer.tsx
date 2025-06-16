@@ -198,7 +198,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
 
   useEffect(() => {
     if (rotations.length === 0) return;
-  
+
     let totalTime = 0;
     rotations.forEach(rotation => {
       let time = 0;
@@ -213,7 +213,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
     const roundedTime = Math.ceil(totalTime * 2) / 2;
 
     // Margins
-    const margin = { top: 50, right: 20, bottom: 75, left: 50 };
+    const margin = { top: 50, right: 50, bottom: 75, left: 50 };
     const availableWidth = containerWidth - margin.left - margin.right;
 
     // calculate scale to fit the timeline inside availableWidth
@@ -223,11 +223,12 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
     if (scale < MIN_SCALE) scale = MIN_SCALE;
 
     const width = roundedTime * scale;
+    const svgWidth = Math.min(width + margin.left + margin.right, containerWidth); // Clamp SVG width to container
     const height = (condense ? ROW_TOTAL_HEIGHT_CONDENSED : ROW_TOTAL_HEIGHT) * rotations.length + 130;
 
     const svg = d3
       .select(svgRef.current)
-      .attr("width", width + margin.left + margin.right)
+      .attr("width", svgWidth)
       .attr("height", height)
       .style("background-color", theme.palette.background.default || theme.palette.background);
 
@@ -361,7 +362,10 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
   return (
     <>
       {rotations.length > 0 && (
-        <svg ref={svgRef} />
+        <svg
+          ref={svgRef}
+          style={{ maxWidth: "100%", display: "block" }}
+        />
       )}
     </>
   );
