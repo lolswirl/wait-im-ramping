@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { TextField, InputAdornment, Card, Box, Stack } from '@mui/material';
 import { spell } from '../../data/spell.ts';
 import { v4 as uuidv4 } from 'uuid';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import SpecializationSelect from '../SpecializationSelect/SpecializationSelect.tsx';
 import SpellButtons from '../SpellButtons/SpellButtons.tsx';
 import SpellTable from '../SpellTable/SpellTable.tsx';
+import { GetTitle } from "../../util/stringManipulation.tsx";
 
 interface RampCalcProps {
 	onTotalCastTimeChange: (totalTime: number) => void;
@@ -17,7 +19,7 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
 	const [spellList, setSpellList] = useState<spell[]>([]);
 	const [haste, setHaste] = useState<number | "">(30);
 	
-	const handleSpecChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+	const handleSpecChange = (event: SelectChangeEvent<string>) => {
 		if (spellList.length === 0) {
 			setSelectedSpec(event.target.value as string);
 			setLockedSpec(null); // Reset the lock if the table is empty
@@ -69,7 +71,7 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
 					<Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
 						<SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
 						<TextField
-							label="Haste"
+							label={GetTitle("Haste")}
 							type="number"
 							value={haste}
 							onChange={(e) => {

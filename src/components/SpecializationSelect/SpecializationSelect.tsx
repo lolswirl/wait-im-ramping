@@ -1,12 +1,14 @@
 import React from 'react';
 import './SpecializationSelect.css'
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { FormControl, InputLabel, MenuItem } from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 import { classes } from '../../data/class.ts';
+import { GetTitle } from "../../util/stringManipulation.tsx";
 
 interface SpecializationSelectProps {
   selectedSpec: string;
-  onSpecChange: (event: React.ChangeEvent<{ value: unknown }>) => void;
+  onSpecChange: (event: SelectChangeEvent<string>) => void;
 }
 
 const SpecializationSelect: React.FC<SpecializationSelectProps> = ({ selectedSpec, onSpecChange }) => {
@@ -21,21 +23,21 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({ selectedSpe
 
   return (
     <FormControl sx={{ m: 1, minWidth: 150 }}>
-      <InputLabel id="spec-select-label">Specialization</InputLabel>
+      <InputLabel id="spec-select-label">{GetTitle("Specialization")}</InputLabel>
       <Select
         labelId="spec-select-label"
         id="spec-select"
         value={selectedSpec}
         onChange={onSpecChange}
         autoWidth
-        label="Specialization"
+        label={GetTitle("Specialization")}
       >
         {allSpecializations.map((specObj, index) => (
           <MenuItem key={index} value={`${specObj.name} ${specObj.className}`}>
             <div className="spec">
               <img
                 src={FormatIconImg(specObj.icon)}
-                alt={`${specObj.name} ${specObj.className}`}
+                alt={GetTitle(`${specObj.name} ${specObj.className}`)}
                 className="spec_icon"
                 style={{
                   borderRadius: '8px',
@@ -46,7 +48,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({ selectedSpe
                   (e.currentTarget as HTMLImageElement).src = FormatIconLink(specObj.icon);
                 }}
               />
-              {specObj.name}
+              {GetTitle(specObj.name)}
             </div>
           </MenuItem>
         ))}

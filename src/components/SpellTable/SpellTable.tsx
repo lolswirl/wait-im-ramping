@@ -7,6 +7,7 @@ import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toRomanNumeral } from '../../util/toRomanNumeral.ts';
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
+import { GetTitle } from "../../util/stringManipulation.tsx";
 
 interface SpellTableProps {
   spellList: spell[];
@@ -19,29 +20,31 @@ interface SpellTableProps {
 }
 
 const SpellIcon: React.FC<{ spell: spell }> = ({ spell }) => (
-  <Box position="relative" display="inline-block">
+  <Box sx={{ position: "relative", display: "flex", alignItems: "center", height: 32, width: 32 }}>
     <img
       src={FormatIconImg(spell.icon)}
       alt={spell.name}
       width={32}
       height={32}
-      style={{ borderRadius: 4, border: "1px solid #575757" }}
+      style={{ borderRadius: 4, border: "1px solid #575757", display: "block" }}
       onError={(e) => {
         (e.currentTarget as HTMLImageElement).src = FormatIconLink(spell.icon);
       }}
     />
     {spell.empowerLevel && (
       <Box
-        style={{
+        sx={{
           position: "absolute",
-          bottom: -2,
-          right: -2,
+          bottom: 0,
+          right: 0,
           backgroundColor: "rgba(0, 0, 0, 0.75)",
           color: "white",
           fontSize: "0.75rem",
           fontWeight: "bold",
-          padding: "2px 4px",
+          px: "4px",
+          py: "1px",
           borderRadius: "4px",
+          lineHeight: 1,
         }}
       >
         {toRomanNumeral(spell.empowerLevel)}
@@ -92,9 +95,9 @@ const SpellTable: React.FC<SpellTableProps> = ({ spellList, setSpellList, remove
       <Table>
         <TableHead>
           <TableRow sx={{ color: "white" }}>
-            <TableCell><b>Selected Spells</b></TableCell>
-            <TableCell align="center"><b>Cast Time (s)</b></TableCell>
-            <TableCell align="center"><b>Actions</b></TableCell>
+            <TableCell><b>{GetTitle("Selected Spells")}</b></TableCell>
+            <TableCell align="center"><b>{GetTitle("Cast Time (s)")}</b></TableCell>
+            <TableCell align="center"><b>{GetTitle("Actions")}</b></TableCell>
           </TableRow>
         </TableHead>
 
@@ -112,7 +115,7 @@ const SpellTable: React.FC<SpellTableProps> = ({ spellList, setSpellList, remove
                 <TableCell>
                   <Box display="flex" alignItems="center" gap={1}>
                     <SpellIcon spell={spell} />
-                    <span>{spell.name}</span>
+                    <span>{GetTitle(spell.name)}</span>
                   </Box>
                 </TableCell>
 
@@ -121,7 +124,7 @@ const SpellTable: React.FC<SpellTableProps> = ({ spellList, setSpellList, remove
                 </TableCell>
 
                 <TableCell align="center">
-                  <Box display="flex" gap={1}>
+                  <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
                     <IconButton onClick={() => moveSpell(index, 'up')} size="small" disabled={index === 0}>
                       <ArrowUpward />
                     </IconButton>
@@ -138,18 +141,21 @@ const SpellTable: React.FC<SpellTableProps> = ({ spellList, setSpellList, remove
           </AnimatePresence>
 
           <TableRow>
-            <TableCell><b>Total Cast Time:</b></TableCell>
+            <TableCell><b>{GetTitle("Total Cast Time:")}</b></TableCell>
             <TableCell align="center">
               <b>{timelineData.length > 0 ? timelineData[timelineData.length - 1].end.toFixed(2) : "0"}s</b>
             </TableCell>
             <TableCell>
-              <Button 
-                variant="contained" 
-                color="error" 
-                onClick={clearTable}
-              >
-                Clear Spells
-              </Button>
+              <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
+                <Button 
+                  variant="contained" 
+                  color="error" 
+                  onClick={clearTable}
+                  sx={{ textTransform: "none" }}
+                >
+                  {GetTitle("CLEAR ALL SPELLS")}
+                </Button>
+              </Box>
             </TableCell>
           </TableRow>
         </TableBody>
