@@ -1,6 +1,6 @@
 import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useThemeContext } from './ThemeContext.tsx';
+import { useThemeContext } from '../../context/ThemeContext.tsx';
 
 const Theme = ({ children }: { children: React.ReactNode }) => {
   const { themeMode } = useThemeContext();

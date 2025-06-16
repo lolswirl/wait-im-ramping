@@ -24,7 +24,7 @@ import {
   Brightness7,
   ArrowDropDown as ArrowDownIcon,
 } from "@mui/icons-material";
-import { useThemeContext } from "../Theme/ThemeContext.tsx";
+import { useThemeContext } from "../../context/ThemeContext.tsx";
 import { GetTitle } from "../../util/stringManipulation.tsx";
 import { graphPages } from "../../pages/graphs/GraphPages.tsx";
 import { useSpec } from "../../context/SpecContext.tsx";

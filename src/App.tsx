@@ -14,7 +14,7 @@ import tileTransparent from "./assets/tile_transparent.png";
 import tileInverted from "./assets/tile_inverted.png";
 
 
-import { useThemeContext } from './components/Theme/ThemeContext.tsx';
+import { useThemeContext } from './context/ThemeContext.tsx';
 import { graphPages } from "./pages/graphs/GraphPages.tsx";
 import { SpecProvider } from "./context/SpecContext.tsx";
 
