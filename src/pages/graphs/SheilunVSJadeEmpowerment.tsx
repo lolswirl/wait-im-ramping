@@ -97,7 +97,7 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 4, alignItems: "center", justifyContent: "center" }}>
-      <PageTitle title={GetTitle("JE vs. SG")} />
+      <PageTitle title={GetTitle("JE vs. SG!")} />
       <Box sx={{ height: 600, width: "100%", display: "flex", justifyContent: "center" }}>
         <Line data={chartData} options={chartOptions} />
       </Box>

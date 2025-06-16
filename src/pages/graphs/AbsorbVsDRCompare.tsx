@@ -75,7 +75,7 @@ const AbsorbVsDRCompare: React.FC = () => {
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 4, alignItems: "center" }}>
-      <PageTitle title={GetTitle("External Comparison")} />
+      <PageTitle title={GetTitle("Absorb vs. DR!")} />
 
       <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
         <Line

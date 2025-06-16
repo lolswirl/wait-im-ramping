@@ -6,6 +6,7 @@ import { Box, Container, TextField } from "@mui/material";
 import { getSpec } from "../../data/class.ts";
 import { GCD } from "../../data/spell.ts";
 import { GetTitle } from "../../util/stringManipulation.tsx";
+import PageTitle from "../../components/PageTitle/PageTitle.tsx";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -205,6 +206,7 @@ const DamageOverTimeGraph: React.FC = () => {
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 4, alignItems: "center", justifyContent: "center" }}>
+      <PageTitle title={GetTitle("ST vs. SCK!")} />
       <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
         <Line data={chartData} options={chartOptions} />
       </Box>

@@ -88,8 +88,8 @@ const Timeline = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-            <PageTitle title={GetTitle("Spell Timeline")} />
-            <h1 style={{ marginBottom: "0px" }}>{GetTitle("Spell Timeline")}</h1>
+            <PageTitle title={GetTitle("Spell Timeline!")} />
+            <h1 style={{ marginBottom: "0px" }}>{GetTitle("Spell Timeline!")}</h1>
 
             <Card variant="outlined" sx={{ width: 'fit-content', maxWidth: '100%', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>

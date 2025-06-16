@@ -156,7 +156,7 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 4, alignItems: "center", justifyContent: "center" }}>
-      <PageTitle title={GetTitle("Spellpower Comparison")} />
+      <PageTitle title={GetTitle("JE vs. DocJ!")} />
       <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
         <Line data={chartData} options={chartOptions} />
       </Box>
