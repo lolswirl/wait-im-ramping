@@ -7,8 +7,10 @@ import Home from "./pages/Home.tsx";
 import WhenDoIRamp from "./pages/WhenDoIRamp.tsx";
 import Timeline from "./pages/Timeline.tsx";
 import AppBar from "./components/AppBar/AppBar.tsx"
+import FooterBar from "./components/AppBar/FooterBar.tsx";
 import Tiling from "./components/Tiling/Tiling.tsx";
 import GridTiling from "./components/Tiling/GridTiling.tsx";
+
 
 import { useThemeContext } from './components/Theme/ThemeContext.tsx';
 import { graphPages } from "./pages/graphs/GraphPages.tsx";
@@ -44,6 +46,7 @@ function App() {
               <Route key={path} path={path} element={element} />
             ))}
           </Routes>
+          <FooterBar />
         </div>
       </Router>
     </SpecProvider>
