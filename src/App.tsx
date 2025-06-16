@@ -10,6 +10,8 @@ import AppBar from "./components/AppBar/AppBar.tsx"
 import FooterBar from "./components/AppBar/FooterBar.tsx";
 import Tiling from "./components/Tiling/Tiling.tsx";
 import GridTiling from "./components/Tiling/GridTiling.tsx";
+import tileTransparent from "./assets/tile_transparent.png";
+import tileInverted from "./assets/tile_inverted.png";
 
 
 import { useThemeContext } from './components/Theme/ThemeContext.tsx';
@@ -18,7 +20,7 @@ import { SpecProvider } from "./context/SpecContext.tsx";
 
 function App() {
   const { themeMode } = useThemeContext();
-  const tile = themeMode === 'dark' ? "/tile_transparent.png" : "/tile_inverted.png";
+  const tile = themeMode === 'dark' ? tileTransparent : tileInverted;
 
   const [useGrid, setUseGrid] = React.useState(false);
 

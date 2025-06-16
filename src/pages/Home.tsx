@@ -2,6 +2,8 @@ import * as React from "react";
 import { Typography, Card, CardContent, Divider, Link, Stack, Box } from "@mui/material";
 import PageTitle from "../components/PageTitle/PageTitle.tsx";
 import { GetTitle } from "../util/stringManipulation.tsx";
+import swirlImg from "../assets/swirl.png";
+import mistweaverLogo from "../assets/mistweaver-bad.png";
 
 const pageTitle = GetTitle("Wait, I'm Ramping!");
 
@@ -30,7 +32,7 @@ const About = () => (
           <Stack direction="row" alignItems="center" spacing={2}>
             <Box
               component="img"
-              src="/swirl.png"
+              src={swirlImg}
               alt="swirl"
               sx={imageStyle}
               onMouseOver={e => (e.currentTarget.style.transform = "scale(1.1)")}
@@ -52,7 +54,7 @@ const About = () => (
             </Typography>
             <Box
               component="img"
-              src="/mistweaver-bad.png"
+              src={mistweaverLogo}
               alt="mistweaver"
               sx={imageStyle}
               onMouseOver={e => (e.currentTarget.style.transform = "scale(1.1)")}
