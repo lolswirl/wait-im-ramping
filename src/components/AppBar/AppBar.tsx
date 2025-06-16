@@ -10,12 +10,19 @@ import {
   Container,
   Button,
   Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
   ArrowDropDown,
+  ArrowRight,
   Brightness4,
   Brightness7,
+  ArrowDropDown as ArrowDownIcon,
 } from "@mui/icons-material";
 import { useThemeContext } from "../Theme/ThemeContext.tsx";
 import { GetTitle } from "../../util/stringManipulation.tsx";
@@ -27,41 +34,21 @@ import SpecDisplay from "../SpecializationSelect/SpecDisplay.tsx";
 
 const pages = [
   { label: "When do I ramp?", path: "/when-do-i-ramp" },
-  { label: "Spell Timeline", path: "/timeline" }];
+  { label: "Spell Timeline", path: "/timeline" },
+];
 
 function ResponsiveAppBar() {
   const location = useLocation();
-  const [navAnchor, setNavAnchor] = React.useState<null | HTMLElement>(null);
   const [dropdownAnchor, setDropdownAnchor] = React.useState<null | HTMLElement>(null);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [mobileGraphsOpen, setMobileGraphsOpen] = React.useState(false);
   const { toggleTheme, themeMode } = useThemeContext();
-  const { spec, setSpec } = useSpec();
+  const { spec } = useSpec();
   const hoverColor = themeMode === "dark" ? "#90caf9" : "#212121";
-
-  const handleOpenMenu = (setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => 
-    (event: React.MouseEvent<HTMLElement>) => setter(event.currentTarget);
-
-  const handleCloseMenu = (setter: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => () => 
-    setter(null);
 
   const isGraphPage = graphPages.some(({ path }) => location.pathname === path);
 
-  const renderNavLinks = () =>
-    pages.map(({ label, path }) => (
-      <Button 
-        key={GetTitle(label)} 
-        onClick={handleCloseMenu(setNavAnchor)}
-        component="a"
-        href={path}
-        sx={{
-          color: location.pathname === path ? hoverColor : "inherit",
-          fontWeight: location.pathname === path ? 700 : 400,
-          "&:hover": { color: hoverColor },
-          textTransform: "none"
-        }}
-      >
-        {GetTitle(label)}
-      </Button>
-    ));
+  const handleDrawerToggle = () => setDrawerOpen((prev) => !prev);
 
   const renderDropdownLinks = () =>
     graphPages
@@ -71,10 +58,7 @@ function ResponsiveAppBar() {
           key={GetTitle(label)}
           component="a"
           href={path}
-          onClick={() => {
-            setDropdownAnchor(null);
-            setNavAnchor(null);
-          }}
+          onClick={() => setDropdownAnchor(null)}
           sx={{
             color: location.pathname === path ? hoverColor : "inherit",
             fontWeight: location.pathname === path ? 700 : 400,
@@ -87,6 +71,75 @@ function ResponsiveAppBar() {
       ));
 
   const specObj = getSpecObject(spec);
+
+  // sidebar drawer for mobile
+  const drawer = (
+    <Box
+      sx={{ width: 250, display: "flex", flexDirection: "column", height: "100%" }}
+      role="presentation"
+      onClick={handleDrawerToggle}
+      onKeyDown={handleDrawerToggle}
+    >
+      <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 1, whiteSpace: "nowrap" }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 700,
+            flexGrow: 1,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          𖦹 {GetTitle("Wait, I'm Ramping!")}
+        </Typography>
+      </Box>
+      <Divider />
+      <List>
+        {pages.map(({ label, path }) => (
+          <ListItem key={label} disablePadding>
+            <ListItemButton component="a" href={path} selected={location.pathname === path}>
+              <ListItemText primary={GetTitle(label)} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={e => {
+              e.stopPropagation();
+              setMobileGraphsOpen(open => !open);
+            }}
+            sx={{ pl: 2 }}
+          >
+            <ListItemText primary={GetTitle("Graphs")} />
+            {mobileGraphsOpen ? <ArrowDownIcon /> : <ArrowRight />}
+          </ListItemButton>
+        </ListItem>
+        {mobileGraphsOpen &&
+          graphPages
+            .filter(({ label }) => label.toLowerCase() !== "graphs")
+            .map(({ label, path }) => (
+              <ListItem key={label} disablePadding>
+                <ListItemButton
+                  component="a"
+                  href={path}
+                  selected={location.pathname === path}
+                  sx={{ pl: 4 }}
+                >
+                  <ListItemText primary={GetTitle(label)} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+      </List>
+      <Box sx={{ flexGrow: 1 }} />
+      <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 1 }}>
+        {specObj && <SpecDisplay specObj={specObj} />}
+        <IconButton onClick={toggleTheme} sx={{ color: "inherit", ml: "auto" }}>
+          {themeMode === "dark" ? <Brightness7 /> : <Brightness4 />}
+        </IconButton>
+      </Box>
+    </Box>
+  );
 
   return (
     <AppBar
@@ -105,79 +158,112 @@ function ResponsiveAppBar() {
             height: 48,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", width: "100%", height: "100%" }}>
-            <Typography
-              variant="h5"
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: "inline-flex", // changed from "flex" to "inline-flex"
-                alignItems: "center",
-                gap: 1,
-                fontWeight: location.pathname === "/" ? 700 : 700,
-                color: location.pathname === "/" ? hoverColor : "inherit",
-                textDecoration: "none",
-                whiteSpace: "nowrap", // prevent wrapping
-                "&:hover": { color: hoverColor },
+          {/* hamburger for mobile */}
+          <Box sx={{ display: { xs: "flex", md: "none" }, alignItems: "center", mr: 1 }}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={e => {
+                e.stopPropagation();
+                setDrawerOpen(true);
               }}
+              sx={{ mr: 1 }}
             >
-              𖦹 {GetTitle("Wait, I'm Ramping!")}
-            </Typography>
+              <MenuIcon />
+            </IconButton>
+          </Box>
 
-            <Divider
-              orientation="vertical"
-              flexItem
-              sx={{
-                mx: 1,
-                height: "100%",
-                alignSelf: "stretch",
-              }}
-            />
+          <Typography
+            variant="h5"
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 1,
+              fontWeight: 700,
+              color: location.pathname === "/" ? hoverColor : "inherit",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+              fontSize: { xs: "1.1rem", md: "1.5rem" },
+              flexGrow: { xs: 1, md: 0 },
+              "&:hover": { color: hoverColor },
+            }}
+          >
+            𖦹 {GetTitle("Wait, I'm Ramping!")}
+          </Typography>
 
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton size="large" onClick={handleOpenMenu(setNavAnchor)} color="inherit">
-                <MenuIcon />
-              </IconButton>
-              <Menu anchorEl={navAnchor} open={Boolean(navAnchor)} onClose={handleCloseMenu(setNavAnchor)}>
-                {renderNavLinks()}
-                <Button onClick={handleOpenMenu(setDropdownAnchor)}
-                  sx={{ color: "white", "&:hover": { color: hoverColor }, textTransform: "none" }}
-                >
-                  {GetTitle("Graphs")} <ArrowDropDown />
-                </Button>
-              </Menu>
-              <Menu anchorEl={dropdownAnchor} open={Boolean(dropdownAnchor)} onClose={handleCloseMenu(setDropdownAnchor)}>
-                {renderDropdownLinks()}
-              </Menu>
-            </Box>
+          {/* desktop divider */}
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{
+              display: { xs: "none", md: "block" },
+              mx: 0.5,
+              height: "100%",
+              alignSelf: "center",
+              borderColor: "rgba(255,255,255,0.2)"
+            }}
+          />
 
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {renderNavLinks()}
+          {/* desktop left side */}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map(({ label, path }) => (
               <Button
-                onClick={handleOpenMenu(setDropdownAnchor)}
+                key={GetTitle(label)}
+                component="a"
+                href={path}
                 sx={{
-                  color: isGraphPage ? hoverColor : "white",
-                  fontWeight: isGraphPage ? 700 : 400,
+                  color: location.pathname === path ? hoverColor : "inherit",
+                  fontWeight: location.pathname === path ? 700 : 400,
                   "&:hover": { color: hoverColor },
                   textTransform: "none"
                 }}
               >
-                {GetTitle("Graphs")} <ArrowDropDown />
+                {GetTitle(label)}
               </Button>
-              <Menu anchorEl={dropdownAnchor} open={Boolean(dropdownAnchor)} onClose={handleCloseMenu(setDropdownAnchor)}>
-                {renderDropdownLinks()}
-              </Menu>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              {specObj && <SpecDisplay specObj={specObj} />}
-              <IconButton onClick={toggleTheme} sx={{ color: "white" }}>
-                {themeMode === "dark" ? <Brightness7 /> : <Brightness4 />}
-              </IconButton>
-            </Box>
+            ))}
+            <Button
+              onClick={e => setDropdownAnchor(e.currentTarget)}
+              sx={{
+                color: isGraphPage ? hoverColor : "white",
+                fontWeight: isGraphPage ? 700 : 400,
+                "&:hover": { color: hoverColor },
+                textTransform: "none"
+              }}
+            >
+              {GetTitle("Graphs")} <ArrowDropDown />
+            </Button>
+            <Menu
+              anchorEl={dropdownAnchor}
+              open={Boolean(dropdownAnchor)}
+              onClose={() => setDropdownAnchor(null)}
+            >
+              {renderDropdownLinks()}
+            </Menu>
+          </Box>
+          {/* desktop right side */}
+          <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1 }}>
+            {specObj && <SpecDisplay specObj={specObj} />}
+            <IconButton onClick={toggleTheme} sx={{ color: "white" }}>
+              {themeMode === "dark" ? <Brightness7 /> : <Brightness4 />}
+            </IconButton>
           </Box>
         </Toolbar>
       </Container>
+
+      {/* mobile drawer */}
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{ keepMounted: true }}
+      >
+        {drawer}
+      </Drawer>
     </AppBar>
   );
 }
