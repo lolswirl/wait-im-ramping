@@ -1,15 +1,16 @@
+import type { spell } from './spell';
+import { mistweaverMonkSpells } from './spells/classes/monk/mistweaver/mistweaver.ts';
+import { mistweaverMonkTalents } from './spells/classes/monk/mistweaver/talents.ts';
+import { mistweaverMonkRotations } from './spells/classes/monk/mistweaver/rotations.ts';
+
 import { disciplinePriestSpells } from './spells/classes/priest/discipline/discipline.ts';
 import { holyPriestSpells } from './spells/classes/priest/holy/holy.ts';
 import { restorationDruidSpells } from './spells/classes/druid/restoration/restoration.ts';
-import { mistweaverMonkSpells } from './spells/classes/monk/mistweaver/mistweaver.ts';
 import { restorationShamanSpells } from './spells/classes/shaman/restoration/restoration.ts';
 import { preservationEvokerSpells } from './spells/classes/evoker/preservation/preservation.ts';
 import { holyPaladinSpells } from './spells/classes/paladin/holy/holy.ts';
-import type { spell } from './spell';
 
 import { Capitalize } from "../util/stringManipulation.tsx";
-
-import { mistweaverMonkTalents } from './spells/classes/monk/mistweaver/talents.ts';
 
 interface classs {
   name: classNames;
@@ -106,28 +107,7 @@ const classes: classs[] = [
         name: 'Mistweaver',
         color: "#4ea55c",
         intellect: 17647,
-        prebuiltRotations: [
-          {
-            name: "SooM, EnvM, Vivify",
-            spells: ["Soothing Mist", "Enveloping Mist", ...Array(3).fill("Vivify")]
-          },
-          {
-            name: "EnvM, Vivify",
-            spells: ["Enveloping Mist", ...Array(3).fill("Vivify")]
-          },
-          {
-            name: "Pip Ramp",
-            spells: ["Soothing Mist", ...Array(3).fill("Enveloping Mist"), "Rising Sun Kick"]
-          },
-          {
-            name: "Chi-Ji Standard",
-            spells: [
-              "Chi-Ji", "Blackout Kick", "Enveloping Mist", "Rising Sun Kick", "Blackout Kick",
-              "Enveloping Mist", "Tiger Palm", "Blackout Kick", "Enveloping Mist",
-              "Rising Sun Kick", "Blackout Kick", "Enveloping Mist"
-            ]
-          }
-        ]
+        prebuiltRotations: mistweaverMonkRotations,
       }
     ],
     color: "#00ff96"
