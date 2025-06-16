@@ -31,8 +31,8 @@ const SpellButton: React.FC<SpellButtonProps> = ({ selectedSpell, action, empowe
         sx={{
           minWidth: 25,
           minHeight: 25,
-          width: 40,
-          height: 40,
+          width: 42,
+          height: 42,
           padding: 0,
           borderRadius: '8px',
           overflow: 'hidden',

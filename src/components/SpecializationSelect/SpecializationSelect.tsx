@@ -26,7 +26,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   );
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 150 }} size={size}>
+    <FormControl sx={{ minWidth: 150 }} size={size}>
       <InputLabel id="spec-select-label">{GetTitle("Specialization")}</InputLabel>
       <Select
         labelId="spec-select-label"

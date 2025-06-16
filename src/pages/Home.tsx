@@ -23,7 +23,16 @@ const About = () => (
     <PageTitle title={pageTitle} />
     <h1 style={{ marginBottom: "0px" }}>{pageTitle}</h1>
 
-    <Card variant="outlined" sx={{ maxWidth: 600, width: "100%" }}>
+    <Card
+      variant="outlined"
+      sx={{
+        maxWidth: 600,
+        width: { xs: "90%", sm: "90%", md: "100%" },
+        mx: "auto",
+        mb: { xs: 4, sm: 6 },
+        boxSizing: "border-box",
+      }}
+    >
       <CardContent>
         <Stack spacing={2}>
           <Typography variant="h4" gutterBottom align="left">
@@ -61,7 +70,17 @@ const About = () => (
               onMouseOut={e => (e.currentTarget.style.transform = "scale(1)")}
             />
           </Stack>
-          <Divider sx={{ my: 2 }} />
+          <Divider
+            sx={{
+              position: "relative",
+              left: "50%",
+              right: "50%",
+              width: "calc(100% + 32px)",
+              transform: "translateX(-50%)",
+              my: 2,
+              mx: 0,
+            }}
+          />
           <Typography variant="h4" gutterBottom align="left">
             about this project
           </Typography>

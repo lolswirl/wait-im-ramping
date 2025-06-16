@@ -91,7 +91,20 @@ const SpellTable: React.FC<SpellTableProps> = ({ spellList, setSpellList, remove
   if (spellList.length === 0) return null;
 
   return (
-    <TableContainer component={Paper} sx={{ marginTop: 1, marginBottom: 1, boxShadow: 3, borderRadius: 2, overflow: 'hidden' }}>
+    <TableContainer 
+      component={Paper}
+      sx={
+        { 
+          marginTop: 1, 
+          marginBottom: 1, 
+          boxShadow: 3, 
+          borderRadius: 2, 
+          overflow: 'hidden',
+          maxWidth: 600,
+          width: { xs: "90%", sm: "90%", md: "100%" },
+          mx: "auto",
+          boxSizing: "border-box",
+      }}>
       <Table>
         <TableHead>
           <TableRow sx={{ color: "white" }}>

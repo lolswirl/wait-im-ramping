@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, InputAdornment, Card, Box, Stack } from '@mui/material';
+import { TextField, InputAdornment, Card, Box, Stack, Divider } from '@mui/material';
 import { spell } from '../../data/spell.ts';
 import { v4 as uuidv4 } from 'uuid';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -67,8 +67,15 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            <Card variant="outlined" sx={{ width: 'fit-content', maxWidth: '100%', overflowX: 'auto', }}>
-                <Box sx={{ p: 2 }}>
+            <Card variant="outlined"
+                sx={{
+                    maxWidth: 600,
+                    width: { xs: "90%", sm: "90%", md: "100%" },
+                    mx: "auto",
+                    boxSizing: "border-box",
+                }}
+            >
+                <Box sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
                     <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
                         <TextField
@@ -83,7 +90,7 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
                                 setHaste((prev) => (prev === "" ? 0 : prev)); // Reset empty to 0 when focus is lost
                             }}
                             error={selectedSpec !== "" && haste === ""}
-                            sx={{ m: 1, width: '12ch' }}
+                            sx={{ m: 0, width: '12ch' }}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -93,6 +100,7 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
                             }}
                         />
                     </Stack>
+                    <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
                     <SpellButtons selectedSpec={selectedSpec} addSpellToTable={addSpellToTable} />
                 </Box>
             </Card>

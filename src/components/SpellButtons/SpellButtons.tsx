@@ -21,11 +21,19 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({ selectedSpec, addSpellToTab
 
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 5 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {selectedSpec && (
-          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', alignItems: 'center' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: 5,
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             {specializations[selectedSpec]?.map((spell) => (
-              <SpellButton key={spell.id} selectedSpell={spell} empowerLevel={empowerLevel} action={ addSpellToTable }/>
+              <SpellButton key={spell.id} selectedSpell={spell} empowerLevel={empowerLevel} action={addSpellToTable} />
             ))}
           </div>
         )}

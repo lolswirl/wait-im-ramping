@@ -73,153 +73,220 @@ const Timeline = () => {
         setCurrentRotation([]);
     };
 
+    // Prebuilt Rotations JSX
+    const PrebuiltRotations = () => {
+        const [specName, className] = selectedSpec.split(' ');
+        const spec = getSpec(specName, className);
+        const prebuiltRotations = spec?.prebuiltRotations || [];
+
+        const addUUIDsToRotation = (rotation) => {
+            return rotation.spells.map(spell => ({
+                ...spell,
+                uuid: spell.uuid || uuidv4(),
+            }));
+        };
+
+        return (
+            <FormControl
+                fullWidth
+                variant="outlined"
+                sx={{
+                    maxWidth: "100%",
+                    width: "100%",
+                    alignItems: "center",
+                }}
+            >
+                <InputLabel shrink htmlFor="prebuilt-rotations-outlined">
+                    {GetTitle("Prebuilt Rotations")}
+                </InputLabel>
+                <OutlinedInput
+                    id="prebuilt-rotations-outlined"
+                    label={GetTitle("Prebuilt Rotations")}
+                    readOnly
+                    notched
+                    inputComponent="div"
+                    inputProps={{
+                        style: {
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            padding: 0,
+                            height: "100%",
+                            boxSizing: "border-box",
+                            width: "100%",
+                        },
+                        children: (
+                            <Box sx={{ width: "auto", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                {prebuiltRotations.map((rotation, index) => (
+                                    <Box
+                                        key={index}
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            p: 1,
+                                            border: "1px solid",
+                                            borderColor: "divider",
+                                            borderRadius: 1,
+                                            backgroundColor: "background.paper",
+                                            width: "auto",
+                                            maxWidth: "100%",
+                                            margin: 0.5,
+                                            cursor: "pointer",
+                                            transition: "box-shadow 0.2s",
+                                            justifyContent: "center",
+                                            "&:hover": {
+                                                boxShadow: 3,
+                                                backgroundColor: "action.hover",
+                                            },
+                                            gap: 0.5,
+                                        }}
+                                        onClick={() => setCurrentRotation(addUUIDsToRotation(rotation))}
+                                    >
+                                        {rotation.spells.map((spell, i) => (
+                                            <SpellButton key={spell.uuid || i} selectedSpell={spell} action={() => { }} />
+                                        ))}
+                                    </Box>
+                                ))}
+                            </Box>
+                        ),
+                    }}
+                    sx={{
+                        height: "auto",
+                        alignItems: "flex-start",
+                        py: 1,
+                        width: "100%",
+                    }}
+                />
+            </FormControl>
+        );
+    };
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             <PageTitle title={GetTitle("Spell Timeline!")} />
             <h1 style={{ marginBottom: "0px" }}>{GetTitle("Spell Timeline!")}</h1>
 
-            <Card variant="outlined" sx={{ width: 'fit-content', maxWidth: '85%', overflowX: 'auto' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2, flex: 2 }}>
-                        <Box>
-                            <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                                <SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
-                                <Card variant="outlined">
-                                    <Box sx={{ p: 2 }}>
-                                        <FormControlLabel
-                                            control={
-                                                <Switch
-                                                    checked={condense}
-                                                    onChange={(e) => handleSetCondense(e.target.checked)}
-                                                    color="primary"
-                                                    size="small"
-                                                />
-                                            }
-                                            label={GetTitle("Condensed")}
+            {/* warn for horizontal mode on mobile */}
+            <Box sx={{ display: { xs: "block", md: "none" }, mb: 2, px: 2, textAlign: "center" }}>
+                <Typography variant="body2" color="textSecondary">
+                    {GetTitle("For the best experience, rotate your device to")}{" "}
+                    <b>{GetTitle("horizontal (landscape)")}</b>{" "}
+                    {GetTitle("mode.")}
+                </Typography>
+            </Box>
+
+            <Card variant="outlined"
+                sx={{
+                    overflowX: { xs: 'auto', md: 'visible' },
+                    maxWidth: { xs: '90%', sm: '90%', md: 600 },
+                    width: { xs: "90%", sm: "90%", md: "100%" },
+                    mx: "auto",
+                    mb: { xs: 4, sm: 6 },
+                    boxSizing: "border-box",
+                }}
+            >
+                <Box sx={{ display: 'flex', flexDirection: 'column', p: 2, }}>
+                    <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                        <SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
+                        <Card variant="outlined">
+                            <Box sx={{ p: 2 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={condense}
+                                            onChange={(e) => handleSetCondense(e.target.checked)}
+                                            color="primary"
+                                            size="small"
                                         />
-                                    </Box>
-                                </Card>
-                            </Stack>
-                        </Box>
-                        
-                        <Divider />
-
-                        <Box>
-                            <SpellButtons selectedSpec={selectedSpec} addSpellToTable={addSpellToRotation} />
-
-                            <Box sx={{ mt: 2 }}>
-                                {selectedSpec && (
-                                    <Stack direction="column" alignItems="center" spacing={2} sx={{ mb: 1 }}>
-                                        <FormControl fullWidth variant="outlined" sx={{ flexGrow: 1 }}>
-                                            <InputLabel shrink>{GetTitle("Current Rotation")}</InputLabel>
-                                            <OutlinedInput
-                                                notched
-                                                readOnly
-                                                label={GetTitle("Current Rotation")}
-                                                sx={{
-                                                    minHeight: 56,
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    paddingX: 1,
-                                                    overflowX: 'auto',
-                                                    whiteSpace: 'nowrap',
-                                                }}
-                                                inputComponent="div"
-                                                inputProps={{
-                                                    style: { display: 'flex', gap: 5, alignItems: 'center', flexWrap: 'nowrap' },
-                                                    children:
-                                                        currentRotation.length > 0 ? (
-                                                            currentRotation.map((spell, index) => (
-                                                                <Box position="relative" display="inline-block" key={spell.uuid}>
-                                                                    <SpellButton
-                                                                        selectedSpell={spell}
-                                                                        action={removeSpellFromRotation}
-                                                                        isRemove={true}
-                                                                    />
-                                                                    {spell.empowerLevel && (
-                                                                        <Box
-                                                                            style={{
-                                                                                position: "absolute",
-                                                                                bottom: -2,
-                                                                                right: -2,
-                                                                                backgroundColor: "rgba(0, 0, 0, 0.75)",
-                                                                                color: "white",
-                                                                                fontSize: "0.75rem",
-                                                                                fontWeight: "bold",
-                                                                                padding: "2px 4px",
-                                                                                borderRadius: "4px",
-                                                                            }}
-                                                                        >
-                                                                            {toRomanNumeral(spell.empowerLevel)}
-                                                                        </Box>
-                                                                    )}
-                                                                </Box>
-                                                            ))
-                                                        ) : (
-                                                            <Typography variant="body2" color="textSecondary">
-                                                                {GetTitle("No spells added")}
-                                                            </Typography>
-                                                        ),
-                                                }}
-                                            />
-                                        </FormControl>
-                                        <Stack direction="row" spacing={1}>
-                                            <Button variant="contained" color="primary" onClick={finalizeRotation} disabled={currentRotation.length === 0}>
-                                                <AddIcon />
-                                            </Button>
-                                            <Button variant="contained" color="error" onClick={clearCurrentRotation} disabled={currentRotation.length === 0}>
-                                                <DeleteIcon />
-                                            </Button>
-                                            <Button variant="contained" color="error" onClick={clearAllRotations} disabled={rotations.length === 0} sx={{ textTransform: "none" }}>
-                                                {GetTitle("CLEAR ALL ROTATIONS")}
-                                            </Button>
-                                        </Stack>
-                                    </Stack>
-                                )}
+                                    }
+                                    label={GetTitle("Condensed")}
+                                />
                             </Box>
-                        </Box>
-                    </Box>
+                        </Card>
+                    </Stack>
 
-                    <Divider orientation="vertical" flexItem />
+                    <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
 
-                    <Box sx={{ p: 2, minWidth: 200 }}>
-                        <Typography variant="subtitle1" gutterBottom>
-                            {GetTitle("Prebuilt Rotations")}
-                        </Typography>
-                        {(() => {
-                            const [specName, className] = selectedSpec.split(' ');
-                            const spec = getSpec(specName, className);
-                            const prebuiltRotations = spec?.prebuiltRotations || [];
+                    <SpellButtons selectedSpec={selectedSpec} addSpellToTable={addSpellToRotation} />
+                    
+                    <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
 
-                            const addUUIDsToRotation = (rotation) => {
-                                return rotation.spells.map(spell => ({
-                                    ...spell,
-                                    uuid: spell.uuid || uuidv4(),
-                                }));
-                            };
+                    <PrebuiltRotations />
 
-                            return prebuiltRotations.map((rotation, index) => (
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    key={index}
-                                    sx={{
-                                        display: 'flex',
-                                        gap: 0.5,
-                                        mb: 1,
-                                        flexWrap: 'nowrap',
-                                        alignItems: 'center',
-                                        cursor: 'pointer',
-                                        padding: 1,
-                                    }}
-                                    onClick={() => setCurrentRotation(addUUIDsToRotation(rotation))}
-                                >
-                                    {rotation.spells.map((spell, i) => (
-                                        <SpellButton key={spell.uuid || i} selectedSpell={spell} action={() => { }} />
-                                    ))}
-                                </Button>
-                            ));
-                        })()}
+                    <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
+
+                    <Box sx={{ mt: 0 }}>
+                        {selectedSpec && (
+                            <Stack direction="column" alignItems="center" spacing={2} sx={{ mb: 1 }}>
+                                <FormControl fullWidth variant="outlined" sx={{ flexGrow: 1 }}>
+                                    <InputLabel shrink>{GetTitle("Current Rotation")}</InputLabel>
+                                    <OutlinedInput
+                                        notched
+                                        readOnly
+                                        label={GetTitle("Current Rotation")}
+                                        inputComponent="div"
+                                        inputProps={{
+                                            style: { width: "100%", height: "100%" },
+                                            children: (
+                                                <Box
+                                                    sx={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        gap: 0.5,
+                                                        width: "100%"
+                                                    }}
+                                                >
+                                                    {currentRotation.length > 0 ? (
+                                                        currentRotation.map((spell, index) => (
+                                                            <Box position="relative" display="inline-block" key={spell.uuid}>
+                                                                <SpellButton
+                                                                    selectedSpell={spell}
+                                                                    action={removeSpellFromRotation}
+                                                                    isRemove={true}
+                                                                />
+                                                                {spell.empowerLevel && (
+                                                                    <Box
+                                                                        style={{
+                                                                            position: "absolute",
+                                                                            bottom: -2,
+                                                                            right: -2,
+                                                                            backgroundColor: "rgba(0, 0, 0, 0.75)",
+                                                                            color: "white",
+                                                                            fontSize: "0.75rem",
+                                                                            fontWeight: "bold",
+                                                                            padding: "2px 4px",
+                                                                            borderRadius: "4px",
+                                                                        }}
+                                                                    >
+                                                                        {toRomanNumeral(spell.empowerLevel)}
+                                                                    </Box>
+                                                                )}
+                                                            </Box>
+                                                        ))
+                                                    ) : (
+                                                        <Typography variant="body2" color="textSecondary">
+                                                            {GetTitle("No spells added")}
+                                                        </Typography>
+                                                    )}
+                                                </Box>
+                                            ),
+                                        }}
+                                    />
+                                </FormControl>
+                                <Stack direction="row" spacing={1}>
+                                    <Button variant="contained" color="primary" onClick={finalizeRotation} disabled={currentRotation.length === 0}>
+                                        <AddIcon />
+                                    </Button>
+                                    <Button variant="contained" color="error" onClick={clearCurrentRotation} disabled={currentRotation.length === 0}>
+                                        <DeleteIcon />
+                                    </Button>
+                                    <Button variant="contained" color="error" onClick={clearAllRotations} disabled={rotations.length === 0} sx={{ textTransform: "none" }}>
+                                        {GetTitle("CLEAR ALL ROTATIONS")}
+                                    </Button>
+                                </Stack>
+                            </Stack>
+                        )}
                     </Box>
                 </Box>
             </Card>
