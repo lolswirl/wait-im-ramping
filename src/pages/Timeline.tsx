@@ -73,7 +73,6 @@ const Timeline = () => {
         setCurrentRotation([]);
     };
 
-    // Prebuilt Rotations JSX
     const PrebuiltRotations = () => {
         const [specName, className] = selectedSpec.split(' ');
         const spec = getSpec(specName, className);
@@ -188,21 +187,55 @@ const Timeline = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column', p: 2, }}>
                     <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
-                        <Card variant="outlined">
-                            <Box sx={{ p: 2 }}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            checked={condense}
-                                            onChange={(e) => handleSetCondense(e.target.checked)}
-                                            color="primary"
-                                            size="small"
+                        <FormControl
+                            variant="outlined"
+                            sx={{
+                                minWidth: 120,
+                                maxWidth: 250,
+                                ml: 2,
+                            }}
+                        >
+                            <InputLabel shrink htmlFor="options-outlined">
+                                {GetTitle("Options")}
+                            </InputLabel>
+                            <OutlinedInput
+                                id="options-outlined"
+                                label={GetTitle("Options")}
+                                notched
+                                readOnly
+                                inputComponent="div"
+                                inputProps={{
+                                    style: {
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 8,
+                                        width: "100%",
+                                        minHeight: 44,
+                                        padding: 0,
+                                    },
+                                    children: (
+                                        <FormControlLabel
+                                            control={
+                                                <Switch
+                                                    checked={condense}
+                                                    onChange={(e) => handleSetCondense(e.target.checked)}
+                                                    color="primary"
+                                                    size="small"
+                                                />
+                                            }
+                                            label={GetTitle("Condensed")}
+                                            sx={{ ml: 1 }}
                                         />
-                                    }
-                                    label={GetTitle("Condensed")}
-                                />
-                            </Box>
-                        </Card>
+                                    ),
+                                }}
+                                sx={{
+                                    height: "auto",
+                                    alignItems: "center",
+                                    py: 1,
+                                    width: "100%",
+                                }}
+                            />
+                        </FormControl>
                     </Stack>
 
                     <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
@@ -218,7 +251,7 @@ const Timeline = () => {
                     <Box sx={{ mt: 0 }}>
                         {selectedSpec && (
                             <Stack direction="column" alignItems="center" spacing={2} sx={{ mb: 1 }}>
-                                <FormControl fullWidth variant="outlined" sx={{ flexGrow: 1 }}>
+                                <FormControl fullWidth variant="outlined" sx={{ flexGrow: 1, m: 0 }}>
                                     <InputLabel shrink>{GetTitle("Current Rotation")}</InputLabel>
                                     <OutlinedInput
                                         notched
@@ -234,7 +267,9 @@ const Timeline = () => {
                                                         justifyContent: "center",
                                                         alignItems: "center",
                                                         gap: 0.5,
-                                                        width: "100%"
+                                                        width: "100%",
+                                                        p: 0,
+                                                        boxSizing: "border-box",
                                                     }}
                                                 >
                                                     {currentRotation.length > 0 ? (
@@ -271,6 +306,12 @@ const Timeline = () => {
                                                     )}
                                                 </Box>
                                             ),
+                                        }}
+                                        sx={{
+                                            height: "auto",
+                                            alignItems: "center",
+                                            py: 0,
+                                            width: "100%",
                                         }}
                                     />
                                 </FormControl>
