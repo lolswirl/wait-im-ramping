@@ -87,7 +87,7 @@ const About = () => (
           <Typography variant="body1" paragraph align="left">
             <b>wait, i'm ramping!</b>{" "}
             is a site full of tools to help world of warcraft healers plan, visualize, and{" "}
-            fine-tune their ramp windows. it includes a ramp timer calculator, a spell timeline{" "}
+            fine-tune their healing. it includes a ramp timer calculator, a spell timeline{" "}
             visualizer, and graphs that compare healing spells and cooldowns (that i've implemented :p).
           </Typography>
           <Typography variant="body1" paragraph align="left">
