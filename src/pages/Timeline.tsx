@@ -103,7 +103,7 @@ const Timeline = () => {
                     label={GetTitle("Prebuilt Rotations")}
                     readOnly
                     notched
-                    inputComponent="div"
+                    inputComponent="span"
                     inputProps={{
                         style: {
                             display: "flex",
@@ -203,7 +203,7 @@ const Timeline = () => {
                                 label={GetTitle("Options")}
                                 notched
                                 readOnly
-                                inputComponent="div"
+                                inputComponent="span"
                                 inputProps={{
                                     style: {
                                         display: "flex",
@@ -257,7 +257,7 @@ const Timeline = () => {
                                         notched
                                         readOnly
                                         label={GetTitle("Current Rotation")}
-                                        inputComponent="div"
+                                        inputComponent="span"
                                         inputProps={{
                                             style: { width: "100%", height: "100%" },
                                             children: (
