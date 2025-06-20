@@ -1,0 +1,41 @@
+import spell from "../../spells/spell"
+import SPELLS from "../../spells/index.ts";
+
+const rotations = {
+  SOOM_ENV_VIVIFY: [
+    SPELLS.SOOTHING_MIST,
+    SPELLS.ENVELOPING_MIST,
+    ...Array(3).fill(SPELLS.VIVIFY)
+  ],
+  ENV_VIVIFY: [
+    SPELLS.ENVELOPING_MIST,
+    ...Array(3).fill(SPELLS.VIVIFY)
+  ],
+  PIP_RAMP: [
+    SPELLS.SOOTHING_MIST,
+    ...Array(3).fill(SPELLS.ENVELOPING_MIST),
+    SPELLS.RISING_SUN_KICK
+  ],
+  TFT_RSK: [
+    SPELLS.ENVELOPING_MIST,
+    SPELLS.ENVELOPING_MIST,
+    SPELLS.THUNDER_FOCUS_TEA,
+    SPELLS.RISING_SUN_KICK,
+    SPELLS.RENEWING_MIST,
+    SPELLS.RISING_SUN_KICK
+  ],
+  CHI_JI_STANDARD: [
+    SPELLS.CHI_JI,
+    SPELLS.BLACKOUT_KICK,
+    SPELLS.ENVELOPING_MIST,
+    SPELLS.RISING_SUN_KICK,
+    SPELLS.BLACKOUT_KICK,
+    SPELLS.ENVELOPING_MIST,
+    SPELLS.TIGER_PALM,
+    SPELLS.BLACKOUT_KICK,
+    SPELLS.ENVELOPING_MIST
+  ]
+} satisfies Record<string, spell[]>;
+
+export default rotations;
+

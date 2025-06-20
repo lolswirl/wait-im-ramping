@@ -1,24 +1,39 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { CLASSES, specialization, getSpecializationByKey } from "../data/class/class.ts";
 
 interface SpecContextType {
-  spec: string;
-  setSpec: (spec: string) => void;
+  spec: specialization;
+  setSpec: (spec: specialization) => void;
 }
 
 const SpecContext = createContext<SpecContextType | undefined>(undefined);
 
 export const SpecProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [spec, setSpecState] = useState<string>(() => localStorage.getItem("selectedSpec") || "Mistweaver Monk");
+  const [specKey, setSpecKey] = useState<string>(
+    () => localStorage.getItem("selectedSpec") || "MONK:MISTWEAVER"
+  );
 
-  const setSpec = (newSpec: string) => {
-    setSpecState(newSpec);
-    localStorage.setItem("selectedSpec", newSpec);
+  const spec = getSpecializationByKey(specKey)!;
+
+  const setSpec = (newSpec: specialization) => {
+    const classKey = Object.entries(CLASSES).find(([, c]) =>
+      Object.values(c.SPECS).includes(newSpec)
+    )?.[0];
+
+    if (!classKey) {
+      console.warn("Invalid spec passed to setSpec");
+      return;
+    }
+
+    const newKey = `${classKey}:${newSpec.name.toUpperCase()}`;
+    setSpecKey(newKey);
+    localStorage.setItem("selectedSpec", newKey);
   };
 
   useEffect(() => {
     const stored = localStorage.getItem("selectedSpec");
-    if (stored && stored !== spec) setSpecState(stored);
-  }, []);
+    if (stored && stored !== specKey) setSpecKey(stored);
+  }, [specKey]);
 
   return (
     <SpecContext.Provider value={{ spec, setSpec }}>
@@ -27,7 +42,7 @@ export const SpecProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-export const useSpec = () => {
+export const useSpec = (): SpecContextType => {
   const context = useContext(SpecContext);
   if (!context) throw new Error("useSpec must be used within a SpecProvider");
   return context;

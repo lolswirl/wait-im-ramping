@@ -1,48 +1,43 @@
 import React, { useState } from 'react';
-import { spell } from '../../data/spell.ts';
-import { classes } from '../../data/class.ts';
+import type Spell from "../../data/spells/spell.ts"
+import { specialization } from '../../data/class/class.ts';
 import EmpowerLevelButtons from '../EmpowerLevel/EmpowerLevel.tsx';
 import SpellButton from './SpellButton.tsx';
 
 interface SpellButtonsProps {
-  selectedSpec: string;
-  addSpellToTable: (spell: spell, empowerLevel: number) => void;
+  selectedSpec: specialization;
+  addSpellToTable: (spell: Spell, empowerLevel: number) => void;
 }
 
 const SpellButtons: React.FC<SpellButtonsProps> = ({ selectedSpec, addSpellToTable }) => {
   const [empowerLevel, setEmpowerLevel] = useState<number>(1);
-
-  const specializations = classes.reduce((acc, classObj) => {
-    classObj.specializations.forEach((spec) => {
-      acc[`${spec.name} ${classObj.name}`] = spec.spells;
-    });
-    return acc;
-  }, {} as Record<string, spell[]>);
+  if (!selectedSpec) return null;
 
   return (
-    <>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        {selectedSpec && (
-          <div
-            style={{
-              display: 'flex',
-              gap: 5,
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {specializations[selectedSpec]?.map((spell) => (
-              <SpellButton key={spell.id} selectedSpell={spell} empowerLevel={empowerLevel} action={addSpellToTable} />
-            ))}
-          </div>
-        )}
-        
-        {selectedSpec === "Preservation Evoker" && (
-          <EmpowerLevelButtons empowerLevel={empowerLevel} setEmpowerLevel={setEmpowerLevel} />
-        )}
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div
+        style={{
+          display: 'flex',
+          gap: 5,
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {Object.values(selectedSpec.spells).map((spell) => (
+          <SpellButton
+            key={spell.id}
+            selectedSpell={spell}
+            empowerLevel={empowerLevel}
+            action={addSpellToTable}
+          />
+        ))}
       </div>
-    </>
+
+      {selectedSpec.name === "Preservation" && (
+        <EmpowerLevelButtons empowerLevel={empowerLevel} setEmpowerLevel={setEmpowerLevel} />
+      )}
+    </div>
   );
 };
 

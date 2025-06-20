@@ -1,18 +1,13 @@
 import React from "react";
 import { GetTitle } from "../../util/stringManipulation.tsx";
 import { FormatIconImg, FormatIconLink } from "../../util/FormatIconImg.ts";
+import { specialization } from "../../data/class/class.ts";
 
-export interface SpecObj {
-  name: string;
-  className: string;
-  icon: string;
-}
-
-const SpecDisplay: React.FC<{ specObj: SpecObj }> = ({ specObj }) => (
+const SpecDisplay: React.FC<{ spec: specialization }> = ({ spec }) => (
   <div className="spec">
     <img
-      src={FormatIconImg(specObj.icon)}
-      alt={GetTitle(`${specObj.name} ${specObj.className}`)}
+      src={FormatIconImg(spec.icon)}
+      alt={GetTitle(`${spec.name}`)}
       className="spec_icon"
       style={{
         borderRadius: "8px",
@@ -20,10 +15,10 @@ const SpecDisplay: React.FC<{ specObj: SpecObj }> = ({ specObj }) => (
         border: "1px solid #575757",
       }}
       onError={(e) => {
-        (e.currentTarget as HTMLImageElement).src = FormatIconLink(specObj.icon);
+        (e.currentTarget as HTMLImageElement).src = FormatIconLink(spec.icon);
       }}
     />
-    {GetTitle(specObj.name)}
+    {GetTitle(spec.name)}
   </div>
 );
 

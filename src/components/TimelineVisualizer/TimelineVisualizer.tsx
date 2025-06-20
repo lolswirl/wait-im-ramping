@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { useTheme } from "@mui/material/styles";
-import { calculateCastTime, spell, GCD } from '../../data/spell.ts';
-import { applyBuffEffects } from '../../data/buffs.ts';
+import spell, { calculateCastTime, GCD } from '../../data/spells/spell.ts';
+import { applyBuffEffects } from '../../data/buffs/buffs.ts';
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 import { toRomanNumeral } from "../../util/toRomanNumeral.ts";
 import { GetTitle } from "../../util/stringManipulation.tsx";
+import { specialization } from "../../data/class/class.ts";
 
 const RECT_HEIGHT = 100;
 const RECT_HEIGHT_CONDENSED = 35;
@@ -13,7 +14,6 @@ const ROW_PADDING = 20;
 const ROW_TOTAL_HEIGHT = RECT_HEIGHT + ROW_PADDING;
 const ROW_TOTAL_HEIGHT_CONDENSED = RECT_HEIGHT_CONDENSED + ROW_PADDING;
 const TRANSITION_DURATION = 500;
-const OFF_GCD_STACK_HEIGHT = 60;
 const IMAGE_OFFSET = 25;
 
 const GREY = "#575757";
@@ -23,7 +23,7 @@ const LIGHT_ORANGE = "#ffde00";
 const WHITE = "#ffffff";
 
 interface TimelineVisualizerProps {
-  selectedSpec: string;
+  selectedSpec: specialization;
   rotations: spell[][];
   condense: boolean;
 }
@@ -41,7 +41,6 @@ interface IconProps {
 export default function TimelineVisualizer({ selectedSpec, rotations = [], condense }: TimelineVisualizerProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const theme = useTheme();
-  const ogcdImages: IconProps[] = [];
 
   const [containerWidth, setContainerWidth] = useState<number>(window.innerWidth);
 
@@ -53,128 +52,131 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  function createGlow(svg) {
-    const defs = svg.append("defs");
+  useEffect(() => {
+    if (rotations.length === 0) return;
 
-    const glow = defs.append("filter")
-      .attr("id", "glow")
-      .attr("x", "-50%")
-      .attr("y", "-50%")
-      .attr("width", "200%")
-      .attr("height", "200%");
+    function createGlow(svg) {
+      const defs = svg.append("defs");
 
-    glow.append("feGaussianBlur")
-      .attr("stdDeviation", 2)
-      .attr("result", "blur");
+      const glow = defs.append("filter")
+        .attr("id", "glow")
+        .attr("x", "-50%")
+        .attr("y", "-50%")
+        .attr("width", "200%")
+        .attr("height", "200%");
 
-    glow.append("feFlood")
-      .attr("flood-color", GREY)
-      .attr("result", "whiteGlow");
+      glow.append("feGaussianBlur")
+        .attr("stdDeviation", 2)
+        .attr("result", "blur");
 
-    glow.append("feComposite")
-      .attr("in", "whiteGlow")
-      .attr("in2", "blur")
-      .attr("operator", "in")
-      .attr("result", "glowEffect");
+      glow.append("feFlood")
+        .attr("flood-color", GREY)
+        .attr("result", "whiteGlow");
 
-    glow.append("feMerge")
-      .selectAll("feMergeNode")
-      .data(["glowEffect", "SourceGraphic"])
-      .enter()
-      .append("feMergeNode")
-      .attr("in", d => d);
-  }
+      glow.append("feComposite")
+        .attr("in", "whiteGlow")
+        .attr("in2", "blur")
+        .attr("operator", "in")
+        .attr("result", "glowEffect");
 
-  function drawCast(graph, x, y, duration, scale, castFirst: boolean) {
-    graph.append("rect")
-      .attr("x", x)
-      .attr("y", y)
-      .attr("width", duration * scale)
-      .attr("height", condense ? RECT_HEIGHT_CONDENSED : RECT_HEIGHT)
-      .attr("fill", condense ? ORANGE : "none")
-      .attr("opacity", 0)
-      .attr("rx", condense ? 9 : 0)
-      .attr("ry", condense ? 9 : 0)
-      .attr("stroke", condense ? LIGHT_ORANGE : WHITE)
-      .attr("filter", condense ? "url(#glow)" : "")
-      .transition()
-      .duration(TRANSITION_DURATION)
-      .attr("opacity", 1);
-  }
-  
-  function drawGCD(graph, x, y, gcd, scale, GCDFirst: boolean) {
-    graph.append("rect")
-      .attr("x", x)
-      .attr("y", y + (condense ? -1 : RECT_HEIGHT / 2) )
-      .attr("width", (condense ? gcd : gcd - 0.01) * scale)
-      .attr("height", (condense ? RECT_HEIGHT_CONDENSED + 2 : RECT_HEIGHT / 2))
-      .attr("fill", condense ? GREY : "none")
-      .attr("stroke", condense ? LIGHT_GREY : ORANGE)
-      .attr("stroke-dasharray", condense ? "" : "5,5")
-      .attr("opacity", 0)
-      .attr("rx", condense ? 9 : 0)
-      .attr("ry", condense ? 9 : 0)
-      .transition()
-      .duration(TRANSITION_DURATION)
-      .attr("opacity", 1);
-  }
+      glow.append("feMerge")
+        .selectAll("feMergeNode")
+        .data(["glowEffect", "SourceGraphic"])
+        .enter()
+        .append("feMergeNode")
+        .attr("in", d => d);
+    }
 
-  function drawIcon(graph, x, y, ability, xOffset, rotationIndex, imageIndex ) {
-    const imageSize = 50;
-    const borderX = x - (condense ? 1 : IMAGE_OFFSET) + xOffset;
-    const borderY = y + ((condense ? RECT_HEIGHT_CONDENSED : RECT_HEIGHT) - imageSize) / 2;
-    const clipId = `clip-${rotationIndex}-${imageIndex}`;
+    function drawCast(graph, x, y, duration, scale, castFirst: boolean) {
+      graph.append("rect")
+        .attr("x", x)
+        .attr("y", y)
+        .attr("width", duration * scale)
+        .attr("height", condense ? RECT_HEIGHT_CONDENSED : RECT_HEIGHT)
+        .attr("fill", condense ? ORANGE : "none")
+        .attr("opacity", 0)
+        .attr("rx", condense ? 9 : 0)
+        .attr("ry", condense ? 9 : 0)
+        .attr("stroke", condense ? LIGHT_ORANGE : WHITE)
+        .attr("filter", condense ? "url(#glow)" : "")
+        .transition()
+        .duration(TRANSITION_DURATION)
+        .attr("opacity", 1);
+    }
 
-    graph.append("clipPath")
-      .attr("id", clipId)
-      .append("rect")
-      .attr("x", borderX)
-      .attr("y", borderY)
-      .attr("width", imageSize)
-      .attr("height", imageSize)
-      .attr("rx", 8)
-      .attr("ry", 8);
+    function drawGCD(graph, x, y, gcd, scale, GCDFirst: boolean) {
+      graph.append("rect")
+        .attr("x", x)
+        .attr("y", y + (condense ? -1 : RECT_HEIGHT / 2))
+        .attr("width", (condense ? gcd : gcd - 0.01) * scale)
+        .attr("height", (condense ? RECT_HEIGHT_CONDENSED + 2 : RECT_HEIGHT / 2))
+        .attr("fill", condense ? GREY : "none")
+        .attr("stroke", condense ? LIGHT_GREY : ORANGE)
+        .attr("stroke-dasharray", condense ? "" : "5,5")
+        .attr("opacity", 0)
+        .attr("rx", condense ? 9 : 0)
+        .attr("ry", condense ? 9 : 0)
+        .transition()
+        .duration(TRANSITION_DURATION)
+        .attr("opacity", 1);
+    }
 
-    graph.append("rect")
-      .attr("x", borderX)
-      .attr("y", borderY)
-      .attr("width", imageSize)
-      .attr("height", imageSize)
-      .attr("rx", 8)
-      .attr("ry", 8)
-      .attr("fill", "none")
-      .attr("stroke", GREY)
-      .attr("stroke-width", 1)
-      .attr("opacity", 0)
-      .transition()
-      .duration(TRANSITION_DURATION)
-      .attr("opacity", 1);
+    function drawIcon(graph, x, y, ability, xOffset, rotationIndex, imageIndex) {
+      const imageSize = 50;
+      const borderX = x - (condense ? 1 : IMAGE_OFFSET) + xOffset;
+      const borderY = y + ((condense ? RECT_HEIGHT_CONDENSED : RECT_HEIGHT) - imageSize) / 2;
+      const clipId = `clip-${rotationIndex}-${imageIndex}`;
 
-    const zoomFactor = 1.1;
-    const zoomedSize = imageSize * zoomFactor;
-    const offset = (zoomedSize - imageSize) / 2;
+      graph.append("clipPath")
+        .attr("id", clipId)
+        .append("rect")
+        .attr("x", borderX)
+        .attr("y", borderY)
+        .attr("width", imageSize)
+        .attr("height", imageSize)
+        .attr("rx", 8)
+        .attr("ry", 8);
 
-    graph.append("image")
-      .attr("x", borderX - offset)
-      .attr("y", borderY - offset)
-      .attr("width", zoomedSize)
-      .attr("height", zoomedSize)
-      .attr("clip-path", `url(#${clipId})`)
-      .attr("opacity", 0)
-      .attr("href", FormatIconImg(ability.icon))
-      .on("error", function () {
-        d3.select(this).attr("href", FormatIconLink(ability.icon));
-      })
-      .transition()
-      .duration(TRANSITION_DURATION)
-      .attr("opacity", 1);
+      graph.append("rect")
+        .attr("x", borderX)
+        .attr("y", borderY)
+        .attr("width", imageSize)
+        .attr("height", imageSize)
+        .attr("rx", 8)
+        .attr("ry", 8)
+        .attr("fill", "none")
+        .attr("stroke", GREY)
+        .attr("stroke-width", 1)
+        .attr("opacity", 0)
+        .transition()
+        .duration(TRANSITION_DURATION)
+        .attr("opacity", 1);
 
-    if (ability.empowerLevel) {
-      const roman = toRomanNumeral(ability.empowerLevel);
-      const labelGroup = graph.append("g")
+      const zoomFactor = 1.1;
+      const zoomedSize = imageSize * zoomFactor;
+      const offset = (zoomedSize - imageSize) / 2;
+
+      graph.append("image")
+        .attr("x", borderX - offset)
+        .attr("y", borderY - offset)
+        .attr("width", zoomedSize)
+        .attr("height", zoomedSize)
+        .attr("clip-path", `url(#${clipId})`)
+        .attr("opacity", 0)
+        .attr("href", FormatIconImg(ability.icon))
+        .on("error", function () {
+          d3.select(this).attr("href", FormatIconLink(ability.icon));
+        })
+        .transition()
+        .duration(TRANSITION_DURATION)
+        .attr("opacity", 1);
+
+      if (ability.empowerLevel) {
+        const roman = toRomanNumeral(ability.empowerLevel);
+        const labelGroup = graph.append("g")
           .attr("class", "empower-label");
 
-      const text = labelGroup.append("text")
+        const text = labelGroup.append("text")
           .text(roman)
           .style("fill", "white")
           .style("font-size", "0.75rem")
@@ -183,9 +185,9 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
           .attr("x", borderX + imageSize)
           .attr("y", borderY + imageSize);
 
-      const bbox = text.node().getBBox();
+        const bbox = text.node().getBBox();
 
-      labelGroup.insert("rect", "text")
+        labelGroup.insert("rect", "text")
           .attr("x", bbox.x - 2)
           .attr("y", bbox.y - 2)
           .attr("width", bbox.width + 4)
@@ -193,11 +195,10 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
           .attr("rx", 4)
           .attr("ry", 4)
           .style("fill", "rgba(0, 0, 0, 0.75)");
+      }
     }
-  }
 
-  useEffect(() => {
-    if (rotations.length === 0) return;
+    const ogcdImages: IconProps[] = [];
 
     let totalTime = 0;
     rotations.forEach(rotation => {
@@ -212,7 +213,6 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
     });
     const roundedTime = Math.ceil(totalTime * 2) / 2;
 
-    // Margins
     const margin = { top: 50, right: 50, bottom: 75, left: 50 };
     const availableWidth = containerWidth - margin.left - margin.right;
 
@@ -246,7 +246,6 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
       { label: GetTitle("Cast"), shape: "rect", color: condense ? ORANGE : WHITE }
     ];
 
-    // Position at top-right with padding
     const legendPadding = 10;
     const legendX = width + margin.left - 150;
     const legendY = legendPadding;
@@ -305,7 +304,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
         const y = baseY + yOffset;
 
         if (!isOffGCDInstant) {
-          
+
           const gcd = ability.custom?.replaceGCD ?? GCD;
           if (duration > gcd) {
             drawCast(g, x, y, duration, scale, true);
@@ -318,7 +317,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
             drawGCD(g, x, y, gcd, scale, true);
           }
 
-          drawIcon(g, x, y, ability, iconXOffset, rotationIndex, imageIndex )
+          drawIcon(g, x, y, ability, iconXOffset, rotationIndex, imageIndex)
         } else {
           const icon: IconProps = {
             graph: g,
@@ -338,7 +337,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
 
         imageIndex++;
       });
-      
+
       ogcdImages.forEach((icon) => {
         drawIcon(
           icon.graph,
@@ -357,7 +356,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
       .attr("transform", `translate(${margin.left}, ${height - margin.bottom})`)
       .call(d3.axisBottom(xScale).ticks(roundedTime * 2).tickFormat(d3.format(".1f")));
 
-  }, [rotations, containerWidth, theme.palette.background, condense]);
+  }, [rotations, containerWidth, theme.palette.background, condense, selectedSpec]);
 
   return (
     <>

@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, IconButton } from '@mui/material';
-import { calculateCastTime, spell } from '../../data/spell.ts';
-import { applyBuffEffects } from '../../data/buffs.ts';
+import spell, { calculateCastTime } from '../../data/spells/spell.ts';
+import { applyBuffEffects } from '../../data/buffs/buffs.ts';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toRomanNumeral } from '../../util/toRomanNumeral.ts';
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 import { GetTitle } from "../../util/stringManipulation.tsx";
+import { specialization } from '../../data/class/class.ts';
 
 interface SpellTableProps {
   spellList: spell[];
   setSpellList: React.Dispatch<React.SetStateAction<spell[]>>;
   removeSpellFromTable: (index: number) => void;
-  selectedSpec: string;
+  selectedSpec: specialization;
   haste: number;
   onTotalCastTimeChange: (totalTime: number) => void;
   clearTable: () => void;

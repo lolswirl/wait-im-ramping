@@ -3,10 +3,11 @@ import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, TextField } from "@mui/material";
 
-import { getSpec } from "../../data/class.ts";
-import { GCD } from "../../data/spell.ts";
+import { GCD } from "../../data/spells/spell.ts";
 import { GetTitle } from "../../util/stringManipulation.tsx";
 import PageTitle from "../../components/PageTitle/PageTitle.tsx";
+
+import SPELLS from "../../data/spells/index.ts";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -32,21 +33,13 @@ const DamageOverTimeGraph: React.FC = () => {
     let cumulativeDamage = 0;
     const rotationDamage: { time: number; damage: number; name: string }[] = [];
 
-    const mistweaver = getSpec("mistweaver", "monk");
-    if (!mistweaver) return [];
-
-    const getDamage = (spellName: string) => {
-      const spell = mistweaver.getSpell && mistweaver.getSpell(spellName);
-      return spell?.value?.damage ?? 0;
-    };
-
-    const risingSunKickDamage = getDamage("Rising Sun Kick");
-    const tigerPalmDamage = getDamage("Tiger Palm");
-    const blackoutKickDamage = getDamage("Blackout Kick");
+    const risingSunKickDamage = SPELLS.RISING_SUN_KICK.value.damage;
+    const tigerPalmDamage = SPELLS.TIGER_PALM.value.damage;
+    const blackoutKickDamage = SPELLS.BLACKOUT_KICK.value.damage;
 
     const cleaveMultiplier = Math.min(targetCount, 3);
 
-    // Initial rotation
+    // initial rotation
     let damage = risingSunKickDamage;
     cumulativeDamage += damage;
     rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "rsk" });
@@ -82,7 +75,7 @@ const DamageOverTimeGraph: React.FC = () => {
     if (risingSunKickCooldown > 0) risingSunKickCooldown -= 1.5;
     blackoutKickCooldown -= 1.5;
 
-    // Main loop
+    // loop rotation
     while (currentTime < totalTime) {
       if (risingSunKickCooldown <= 0) {
         damage = risingSunKickDamage;
@@ -132,10 +125,8 @@ const DamageOverTimeGraph: React.FC = () => {
     let currentTime = 0;
     let cumulativeDamage = 0;
     const craneKickDamage: DamagePoint[] = [];
-    const mistweaver = getSpec("mistweaver", "monk");
-    if (!mistweaver) return [];
 
-    const craneKickDamageValue = mistweaver.getSpell!("Spinning Crane Kick")?.value?.damage ?? 0;
+    const craneKickDamageValue = SPELLS.SPINNING_CRANE_KICK.value.damage;
 
     while (currentTime < totalTime) {
       const scaledDamage =
