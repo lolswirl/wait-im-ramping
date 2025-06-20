@@ -4,29 +4,30 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { Box, Container, useTheme } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle.tsx";
 import { GetTitle } from "../../util/stringManipulation.tsx";
+import SPELLS from "../../data/spells/index.ts";
+import TALENTS from "../../data/talents/monk/mistweaver.ts";
 
-import { getSpec } from "../../data/class.ts";
+import { CLASSES } from "../../data/class/class.ts";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const SheilunVSJadeEmpowerment: React.FC = () => {
   const theme = useTheme();
 
-  const mistweaver = getSpec("mistweaver", "monk")!;
-  
-  const intellect = mistweaver.intellect!; 
+  const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
+  const intellect = mistweaver.intellect;
 
-  const sheilunHealingPerStack = mistweaver.getSpell!("Sheilun's Gift")!.value!.healing!;
-  const sheilunTargetsHit = mistweaver.getTalent!("Legacy of Wisdom")!.custom?.targetsHit;
+  const sheilunHealingPerStack = SPELLS.SHEILUNS_GIFT.value.healing;
+  const sheilunTargetsHit = TALENTS.LEGACY_OF_WISDOM.custom?.targetsHit;
   const sheilunSpellpowerPerStack = (sheilunHealingPerStack / intellect) * 100 * sheilunTargetsHit;
 
-  const cracklingJadeLightningDamage = mistweaver.getSpell!("Crackling Jade Lightning")!.value!.damage!;
+  const cracklingJadeLightningDamage = SPELLS.CRACKLING_JADE_LIGHTNING.value.damage;
 
-  const ancientTeachings = mistweaver.getTalent!("Ancient Teachings")!;
+  const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
   const ancientTeachingsTransfer = ancientTeachings.custom?.transferRate;
   const ancientTeachingsArmorModifier = ancientTeachings.custom?.armorModifier;
 
-  const jadeEmpowerment = mistweaver.getTalent!("Jade Empowerment")!;
+  const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
   const jadeEmpowermentIncrease = jadeEmpowerment.custom?.spellpowerIncrease;
   const jadeEmpowermentChain = jadeEmpowermentIncrease * jadeEmpowerment.custom?.chainVal;
 

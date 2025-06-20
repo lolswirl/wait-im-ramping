@@ -4,8 +4,10 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { Box, Container, TextField, Typography, useTheme, MenuItem, FormControl, InputLabel } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle.tsx";
 import { GetTitle } from "../../util/stringManipulation.tsx";
-import { getSpec } from "../../data/class.ts";
+import { CLASSES } from "../../data/class/class.ts";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import SPELLS from "../../data/spells/index.ts";
+import TALENTS from "../../data/talents/monk/mistweaver.ts";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -22,30 +24,30 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
   const [maxTargets, setMaxTargets] = useState<number>(13);
   const [calcMode, setCalcMode] = useState<string>("default");
 
-  const mistweaver = getSpec("mistweaver", "monk")!;
+  const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
 
-  const intellect = mistweaver.intellect!;
-  const cjl = mistweaver.getSpell!("Crackling Jade Lightning")!;
-  const cracklingJadeLightningDamage = cjl.value!.damage!;
+  const intellect = mistweaver.intellect;
+  const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
+  const cracklingJadeLightningDamage = cjl.value.damage;
 
-  const sck = mistweaver.getSpell!("Spinning Crane Kick")!;
-  const spinningCraneKickDamage = sck.value!.damage!;
+  const sck = SPELLS.SPINNING_CRANE_KICK;
+  const spinningCraneKickDamage = sck.value.damage;
 
-  const awakenedJadefire = mistweaver.getTalent!("Awakened Jadefire")!;
-  const ancientTeachings = mistweaver.getTalent!("Ancient Teachings")!;
+  const awakenedJadefire = TALENTS.AWAKENED_JADEFIRE;
+  const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
 
-  const awakenedJadefireArmorModifier = awakenedJadefire.custom?.armorModifier;
-  const ancientTeachingsArmorModifier = ancientTeachings.custom?.armorModifier;
+  const awakenedJadefireArmorModifier = awakenedJadefire.custom.armorModifier;
+  const ancientTeachingsArmorModifier = ancientTeachings.custom.armorModifier;
 
-  const jadefireTeachingsTransfer = ancientTeachings.custom?.transferRate;
-  const awakenedJadefireTransfer = awakenedJadefire.custom?.transferRate;
+  const jadefireTeachingsTransfer = ancientTeachings.custom.transferRate;
+  const awakenedJadefireTransfer = awakenedJadefire.custom.transferRate;
 
-  const jadeEmpowerment = mistweaver.getTalent!("Jade Empowerment")!;
-  const jadeEmpowermentIncrease = jadeEmpowerment.custom?.spellpowerIncrease;
-  const jadeEmpowermentChain = jadeEmpowermentIncrease * jadeEmpowerment.custom?.chainVal;
+  const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
+  const jadeEmpowermentIncrease = jadeEmpowerment.custom.spellpowerIncrease;
+  const jadeEmpowermentChain = jadeEmpowermentIncrease * jadeEmpowerment.custom.chainVal;
 
-  const docj = mistweaver.getTalent!("Dance of Chi-Ji")!;
-  const danceofChijiIncrease = docj.custom?.spellpowerIncrease;
+  const docj = TALENTS.DANCE_OF_CHI_JI;
+  const danceofChijiIncrease = docj.custom.spellpowerIncrease;
 
   const jeSpellpowerCalc = (value: number) => (cracklingJadeLightningDamage / intellect)  * value * jadefireTeachingsTransfer * ancientTeachingsArmorModifier;
   const docjSpellpowerCalc = (value: number) => (spinningCraneKickDamage / intellect) * value * (awakenedJadefireTransfer * 3) * awakenedJadefireArmorModifier;

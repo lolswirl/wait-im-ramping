@@ -29,7 +29,6 @@ import { GetTitle } from "../../util/stringManipulation.tsx";
 import { graphPages } from "../../pages/graphs/GraphPages.tsx";
 import { useSpec } from "../../context/SpecContext.tsx";
 import { useLocation } from "react-router-dom";
-import { getSpecObject } from "../../data/class.ts";
 import SpecDisplay from "../SpecializationSelect/SpecDisplay.tsx";
 
 const pages = [
@@ -69,8 +68,6 @@ function ResponsiveAppBar() {
           {GetTitle(label)}
         </MenuItem>
       ));
-
-  const specObj = getSpecObject(spec);
 
   // sidebar drawer for mobile
   const drawer = (
@@ -133,7 +130,7 @@ function ResponsiveAppBar() {
       </List>
       <Box sx={{ flexGrow: 1 }} />
       <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 1 }}>
-        {specObj && <SpecDisplay specObj={specObj} />}
+        {spec && <SpecDisplay spec={spec} />}
         <IconButton onClick={toggleTheme} sx={{ color: "inherit", ml: "auto" }}>
           {themeMode === "dark" ? <Brightness7 /> : <Brightness4 />}
         </IconButton>
@@ -247,7 +244,7 @@ function ResponsiveAppBar() {
           </Box>
           {/* desktop right side */}
           <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1 }}>
-            {specObj && <SpecDisplay specObj={specObj} />}
+            {spec && <SpecDisplay spec={spec} />}
             <IconButton onClick={toggleTheme} sx={{ color: "white" }}>
               {themeMode === "dark" ? <Brightness7 /> : <Brightness4 />}
             </IconButton>

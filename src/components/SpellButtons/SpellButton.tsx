@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Tooltip } from '@mui/material';
-import { spell } from '../../data/spell.ts';
+import type Spell from "../../data/spells/spell.ts"
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 
 interface SpellButtonProps {
-  selectedSpell: spell;
-  action: (spell: spell, empowerLevel: number) => void;
+  selectedSpell: Spell;
+  action: (spell: Spell, empowerLevel: number) => void;
   empowerLevel?: number;
-  isRemove?: boolean; // Optional flag to trigger hover effect
+  isRemove?: boolean; 
 }
 
 const SpellButton: React.FC<SpellButtonProps> = ({ selectedSpell, action, empowerLevel, isRemove = false }) => {
   empowerLevel = empowerLevel || 0;
-  const [isHovered, setIsHovered] = useState(false); // Track hover state
+  const [isHovered, setIsHovered] = useState(false);
   const [src, setSrc] = useState('');
 
   useEffect(() => {
@@ -37,13 +37,13 @@ const SpellButton: React.FC<SpellButtonProps> = ({ selectedSpell, action, empowe
           borderRadius: '8px',
           overflow: 'hidden',
           boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
-          transition: 'transform 0.3s ease', // Smooth transition for transform
+          transition: 'transform 0.3s ease',
           border: '1px solid #575757',
-          transform: isHovered ? 'scale(1.1)' : 'scale(1)', // Scale effect on hover
-          backgroundColor: 'transparent', // Ensure button has no background
+          transform: isHovered ? 'scale(1.1)' : 'scale(1)', 
+          backgroundColor: 'transparent',
         }}
-        onMouseOver={() => setIsHovered(true)} // Set hover state to true
-        onMouseOut={() => setIsHovered(false)} // Reset hover state to false
+        onMouseOver={() => setIsHovered(true)}
+        onMouseOut={() => setIsHovered(false)}
       >
         <div
           style={{

@@ -4,19 +4,18 @@ import SpecializationSelect from '../components/SpecializationSelect/Specializat
 import SpellButtons from '../components/SpellButtons/SpellButtons.tsx';
 import SpellButton from '../components/SpellButtons/SpellButton.tsx';
 import { Button, Typography, FormControl, InputLabel, OutlinedInput, Box, Card, Stack, Divider, FormControlLabel, Switch } from '@mui/material';
-import { spell } from '../data/spell.ts';
-import { getSpec } from '../data/class.ts';
+import spell from '../data/spells/spell.ts';
+import { specialization } from '../data/class/class.ts';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from '@mui/icons-material/Add';
 import PageTitle from "../components/PageTitle/PageTitle.tsx";
 import { toRomanNumeral } from '../util/toRomanNumeral.ts';
 import { GetTitle } from '../util/stringManipulation.tsx';
-import { SelectChangeEvent } from '@mui/material/Select';
 import { useSpec } from '../context/SpecContext.tsx';
 
 const Timeline = () => {
-    const { spec: selectedSpec, setSpec } = useSpec();
+    const { spec, setSpec } = useSpec();
     const [spellList, setSpellList] = useState<spell[]>([]);
     const [currentRotation, setCurrentRotation] = useState<any[]>([]);
     const [rotations, setRotations] = useState<any[][]>([]);
@@ -26,13 +25,13 @@ const Timeline = () => {
         setCondense(value);
     };
 
-    const handleSpecChange = (event: SelectChangeEvent<string>) => {
+    const handleSpecChange = (newSpec: specialization) => {
         if (spellList.length === 0) {
-            setSpec(event.target.value as string);
+          setSpec(newSpec);
         } else {
-            clearTable();
-            setSpec(event.target.value as string);
-            console.warn("You cannot change specialization while spells are in the table. Clear the table first.");
+          clearTable();
+          setSpec(newSpec);
+          console.warn("You cannot change specialization while spells are in the table. Table cleared.");
         }
         setCurrentRotation([]);
         clearAllRotations();
@@ -74,14 +73,19 @@ const Timeline = () => {
     };
 
     const PrebuiltRotations = () => {
-        const [specName, className] = selectedSpec.split(' ');
-        const spec = getSpec(specName, className);
-        const prebuiltRotations = spec?.prebuiltRotations || [];
+        if (!spec) return null;
 
-        const addUUIDsToRotation = (rotation) => {
-            return rotation.spells.map(spell => ({
-                ...spell,
-                uuid: spell.uuid || uuidv4(),
+        if (!spec?.rotations) {
+            return <Typography>No rotations available for {spec.name}</Typography>;
+        }
+
+        // rotations is an object, convert to entries array: [rotationName, spell[]]
+        const rotationEntries = Object.entries(spec.rotations) as [string, spell[]][];
+
+        const addUUIDsToRotation = (spells: spell[]) => {
+            return spells.map(spell => ({
+            ...spell,
+            uuid: spell.uuid || uuidv4(),
             }));
         };
 
@@ -116,7 +120,7 @@ const Timeline = () => {
                         },
                         children: (
                             <Box sx={{ width: "auto", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                                {prebuiltRotations.map((rotation, index) => (
+                                {rotationEntries.map(([rotationName, spells], index) => (
                                     <Box
                                         key={index}
                                         sx={{
@@ -139,9 +143,9 @@ const Timeline = () => {
                                             },
                                             gap: 0.5,
                                         }}
-                                        onClick={() => setCurrentRotation(addUUIDsToRotation(rotation))}
+                                        onClick={() => setCurrentRotation(addUUIDsToRotation(spells))}
                                     >
-                                        {rotation.spells.map((spell, i) => (
+                                        {spells.map((spell, i) => (
                                             <SpellButton key={spell.uuid || i} selectedSpell={spell} action={() => { }} />
                                         ))}
                                     </Box>
@@ -186,7 +190,7 @@ const Timeline = () => {
             >
                 <Box sx={{ display: 'flex', flexDirection: 'column', p: 2, }}>
                     <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                        <SpecializationSelect selectedSpec={selectedSpec} onSpecChange={handleSpecChange} />
+                        <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
                         <FormControl
                             variant="outlined"
                             sx={{
@@ -240,7 +244,7 @@ const Timeline = () => {
 
                     <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
 
-                    <SpellButtons selectedSpec={selectedSpec} addSpellToTable={addSpellToRotation} />
+                    <SpellButtons selectedSpec={spec} addSpellToTable={addSpellToRotation} />
                     
                     <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
 
@@ -249,7 +253,7 @@ const Timeline = () => {
                     <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
 
                     <Box sx={{ mt: 0 }}>
-                        {selectedSpec && (
+                        {spec && (
                             <Stack direction="column" alignItems="center" spacing={2} sx={{ mb: 1 }}>
                                 <FormControl fullWidth variant="outlined" sx={{ flexGrow: 1, m: 0 }}>
                                     <InputLabel shrink>{GetTitle("Current Rotation")}</InputLabel>
@@ -332,7 +336,7 @@ const Timeline = () => {
                 </Box>
             </Card>
 
-            <TimelineVisualizer selectedSpec={selectedSpec} condense={condense} rotations={rotations} />
+            <TimelineVisualizer selectedSpec={spec} condense={condense} rotations={rotations} />
         </div>
     );
 };

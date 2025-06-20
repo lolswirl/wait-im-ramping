@@ -1,14 +1,14 @@
 import React from 'react';
 import './SpecializationSelect.css'
 import { FormControl, InputLabel, MenuItem } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { classes } from '../../data/class.ts';
+import Select from '@mui/material/Select';
+import { specialization, getSpecs, getSpecializationByKey } from '../../data/class/class.ts';
 import { GetTitle } from "../../util/stringManipulation.tsx";
 import SpecDisplay from "./SpecDisplay.tsx";
 
 interface SpecializationSelectProps {
-  selectedSpec: string;
-  onSpecChange: (event: SelectChangeEvent<string>) => void;
+  selectedSpec: specialization;
+  onSpecChange: (spec: specialization) => void;
   size?: "small" | "medium";
 }
 
@@ -17,13 +17,6 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   onSpecChange,
   size = "medium"
 }) => {
-  const allSpecializations = classes.flatMap((classObj) =>
-    classObj.specializations.map((specialization) => ({
-      name: specialization.name,
-      className: classObj.name,
-      icon: specialization.icon,
-    }))
-  );
 
   return (
     <FormControl sx={{ minWidth: 150 }} size={size}>
@@ -31,17 +24,21 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
       <Select
         labelId="spec-select-label"
         id="spec-select"
-        value={selectedSpec}
-        onChange={onSpecChange}
+        value={`${selectedSpec.class}:${selectedSpec.name}`}
+        onChange={(e) => {
+          const spec = getSpecializationByKey(e.target.value as string);
+          if (spec) onSpecChange(spec);
+        }}
         autoWidth
         label={GetTitle("Specialization")}
       >
-        {allSpecializations.map((specObj, index) => (
-          <MenuItem key={index} value={`${specObj.name} ${specObj.className}`}>
-            <SpecDisplay specObj={specObj} />
+        {getSpecs().map((spec, index) => (
+          <MenuItem key={index} value={`${spec.class}:${spec.name}`}>
+            <SpecDisplay spec={spec} />
           </MenuItem>
         ))}
       </Select>
+
     </FormControl>
   );
 };

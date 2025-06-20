@@ -6,8 +6,7 @@ import { GetTitle } from "../../util/stringManipulation.tsx";
 
 const Graphs = () => {
   const navigate = useNavigate();
-
-  // Filter out any entry with label "Graphs" (case-insensitive)
+  
   const filteredGraphPages = graphPages.filter(
     (graph) => graph.label.toLowerCase() !== "graphs"
   );

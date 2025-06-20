@@ -22,7 +22,7 @@ const Tiling = ({ patternSrc }: { patternSrc: string }) => {
     canvas.height = screenHeight * dpr;
     canvas.style.width = `${screenWidth}px`;
     canvas.style.height = `${screenHeight}px`;
-    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
 
     ctx.fillStyle = themeMode === 'dark' ? '#121212' : '#ffffff';
