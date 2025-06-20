@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type Spell from "../../data/spells/spell.ts"
-import { specialization } from '../../data/class/class.ts';
+import { CLASSES, specialization } from '../../data/class/class.ts';
 import EmpowerLevelButtons from '../EmpowerLevel/EmpowerLevel.tsx';
 import SpellButton from './SpellButton.tsx';
 
@@ -34,7 +34,7 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({ selectedSpec, addSpellToTab
         ))}
       </div>
 
-      {selectedSpec.name === "Preservation" && (
+      {selectedSpec === CLASSES.EVOKER.SPECS.PRESERVATION && (
         <EmpowerLevelButtons empowerLevel={empowerLevel} setEmpowerLevel={setEmpowerLevel} />
       )}
     </div>
