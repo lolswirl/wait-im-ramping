@@ -1,6 +1,6 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, useTheme } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle.tsx";
 import { GetTitle } from "../../util/stringManipulation.tsx";
@@ -9,7 +9,7 @@ import TALENTS from "../../data/talents/monk/mistweaver.ts";
 
 import { CLASSES } from "../../data/class/class.ts";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const SheilunVSJadeEmpowerment: React.FC = () => {
   const theme = useTheme();
@@ -38,26 +38,43 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
   const jeSpellpowers = jeValues.map(value => jeSpellpowerCalc(value));
 
   const xValues = Array.from({ length: 10 }, (_, i) => i + 1);
-
   const sheilunSpellpowers = xValues.map(i => sheilunSpellpowerPerStack * i);
 
+  // Create combined data with all abilities
+  const allAbilities = [
+    ...xValues.map((value, index) => ({
+      label: `SG ${value} Stack${value > 1 ? 's' : ''}`,
+      value: sheilunSpellpowers[index],
+      type: 'sheilun'
+    })),
+    ...jeValues.map((_, index) => ({
+      label: `JE ${index + 1} Target${index > 0 ? 's' : ''}`,
+      value: jeSpellpowers[index],
+      type: 'jade'
+    }))
+  ];
+
+  // Sort by spellpower value (lowest to highest)
+  const sortedAbilities = allAbilities.sort((a, b) => a.value - b.value);
+
   const chartData = {
-    labels: xValues.map(value => `${value}`),
+    labels: sortedAbilities.map(ability => ability.label),
     datasets: [
       {
-        label: GetTitle("Sheilun's Gift"),
-        data: sheilunSpellpowers,
-        borderColor: "rgba(255, 99, 132, 0.6)",
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        fill: false,
+        label: GetTitle(" Spellpower"),
+        data: sortedAbilities.map(ability => ability.value),
+        backgroundColor: sortedAbilities.map(ability => 
+          ability.type === 'sheilun' 
+            ? "rgba(255, 99, 132, 0.8)" 
+            : "rgba(54, 162, 235, 0.8)"
+        ),
+        borderColor: sortedAbilities.map(ability => 
+          ability.type === 'sheilun' 
+            ? "rgba(255, 99, 132, 1)" 
+            : "rgba(54, 162, 235, 1)"
+        ),
+        borderWidth: 2,
       },
-      ...jeValues.map((value, index) => ({
-        label: GetTitle(`JE ${index + 1} Target`),
-        data: Array(xValues.length).fill(jeSpellpowers[index]),
-        borderColor: `rgba(${50 + index * 40}, 162, 235, 0.6)`,
-        backgroundColor: `rgba(${50 + index * 40}, 162, 235, 0.2)`,
-        fill: false,
-      })),
     ],
   };
 
@@ -72,12 +89,16 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
         mode: "index" as const,
         intersect: false,
       },
+      legend: {
+        display: false,
+        position: 'top' as const,
+      },
     },
     scales: {
       x: {
         title: {
           display: true,
-          text: GetTitle("Sheilun's Gift Stacks"),
+          text: GetTitle("Abilities"),
         },
         grid: {
           color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
@@ -100,7 +121,7 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 4, alignItems: "center", justifyContent: "center" }}>
       <PageTitle title={GetTitle("JE vs. SG!")} />
       <Box sx={{ height: 600, width: "100%", display: "flex", justifyContent: "center" }}>
-        <Line data={chartData} options={chartOptions} />
+        <Bar data={chartData} options={chartOptions} />
       </Box>
     </Container>
   );
