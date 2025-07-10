@@ -3,8 +3,7 @@ import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 import spell, { calculateCastTime } from '../../data/spells/spell.ts';
 import { applyBuffEffects } from '../../data/buffs/buffs.ts';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
-import DeleteIcon from "@mui/icons-material/Delete";
+import { ArrowUpward, ArrowDownward, DeleteTwoTone, DeleteForever } from '@mui/icons-material';
 import { toRomanNumeral } from '../../util/toRomanNumeral.ts';
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 import { GetTitle } from "../../util/stringManipulation.tsx";
@@ -146,7 +145,7 @@ const SpellTable: React.FC<SpellTableProps> = ({ spellList, setSpellList, remove
                       <ArrowDownward color={index === adjustedSpells.length - 1 ? "disabled" : "inherit"} />
                     </IconButton>
                     <IconButton onClick={() => removeSpellFromTable(index)} sx={{ color: "inherit" }}>
-                      <DeleteIcon sx={{ fill: "#d32f2f !important" }} />
+                      <DeleteTwoTone sx={{ fill: "#d32f2f !important" }} />
                     </IconButton>
                   </Box>
                 </TableCell>
@@ -165,9 +164,10 @@ const SpellTable: React.FC<SpellTableProps> = ({ spellList, setSpellList, remove
                   variant="contained" 
                   color="error" 
                   onClick={clearTable}
+                  startIcon={<DeleteForever />}
                   sx={{ textTransform: "none" }}
                 >
-                  {GetTitle("CLEAR ALL SPELLS")}
+                  {GetTitle("CLEAR ALL")}
                 </Button>
               </Box>
             </TableCell>

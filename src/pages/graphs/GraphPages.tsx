@@ -6,12 +6,12 @@ import STvsSCK from "./STvsSCK.tsx";
 import HarmonicSurge from "./HarmonicSurge.tsx";
 import RisingSunKickResets from "./RisingSunKickResets.tsx";
 
-import risingStunKickPreview from '../../assets/graph-previews/rising-sun-kick-resets.png';
-import externalComparisonPreview from '../../assets/graph-previews/external-comparison.png';
-import jadeEmpowermentSheilunsPreview from '../../assets/graph-previews/jade-empowerment-sheiluns.png';
-import jadeEmpowermentDocjPreview from '../../assets/graph-previews/jade-empowerment-docj.png';
-import stSpinningPreview from '../../assets/graph-previews/st-spinning.png';
-import harmonicSurgePreview from '../../assets/graph-previews/harmonic-surge.png';
+import risingStunKickPreview from '../../assets/previews/rising-sun-kick-resets.png';
+import externalComparisonPreview from '../../assets/previews/external-comparison.png';
+import jadeEmpowermentSheilunsPreview from '../../assets/previews/jade-empowerment-sheiluns.png';
+import jadeEmpowermentDocjPreview from '../../assets/previews/jade-empowerment-docj.png';
+import stSpinningPreview from '../../assets/previews/st-spinning.png';
+import harmonicSurgePreview from '../../assets/previews/harmonic-surge.png';
 
 export interface GraphPage {
   label: string;
