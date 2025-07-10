@@ -1,8 +1,7 @@
-import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider as MuiThemeProvider, PaletteMode } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useThemeContext } from '../../context/ThemeContext.tsx';
 
-// Extend the theme interface to include custom properties
 declare module '@mui/material/styles' {
     interface Theme {
         custom: {
@@ -26,7 +25,7 @@ const Theme = ({ children }: { children: React.ReactNode }) => {
 
     const theme = createTheme({
         palette: {
-            mode: themeMode,
+            mode: themeMode as PaletteMode,
         },
         custom: {
             chart: {
