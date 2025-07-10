@@ -1,131 +1,242 @@
 import React from "react";
-import { Typography, Card, CardContent, Divider, Link, Stack, Box } from "@mui/material";
+import { 
+    Typography, 
+    Card, 
+    CardContent, 
+    CardActionArea,
+    Container, 
+    Box, 
+    Button,
+    Stack,
+    Chip
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Timeline, Analytics, TrendingUp, Person, TimerTwoTone } from "@mui/icons-material";
 import PageTitle from "../components/PageTitle/PageTitle.tsx";
 import { GetTitle } from "../util/stringManipulation.tsx";
-import swirlImg from "../assets/swirl.png";
-import mistweaverLogo from "../assets/mistweaver-bad.png";
+
+import wdirPreview from '../assets/previews/when-do-i-ramp.png';
+import spellTimelinePreview from '../assets/previews/timeline.png';
+import graphsPreview from '../assets/previews/harmonic-surge.png';
 
 const pageTitle = GetTitle("Wait, I'm Ramping!");
 
-const imageStyle: React.CSSProperties = {
-  width: 128,
-  height: 128,
-  borderRadius: "8px",
-  objectFit: "cover",
-  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-  border: "1px solid #575757",
-  backgroundColor: "transparent",
-  transition: "transform 0.3s ease",
+const Home = () => {
+    const navigate = useNavigate();
+    
+    const quickAccessPages = [
+        {
+            title: "When Do I Ramp?",
+            description: "Calculate ramp timings for spell cast efficiency and planning",
+            icon: <TimerTwoTone sx={{ fontSize: 30 }} />,
+            path: "/when-do-i-ramp",
+            preview: wdirPreview
+        },
+        {
+            title: "Spell Timeline", 
+            description: "Create customized timelines for spell casts and cooldowns",
+            icon: <Timeline sx={{ fontSize: 30 }} />,
+            path: "/timeline",
+            preview: spellTimelinePreview
+        },
+        {
+            title: "Graph & Analysis Tools",
+            description: "Compare healing mechanics with data-driven insights",
+            icon: <Analytics sx={{ fontSize: 30 }} />,
+            path: "/graphs",
+            preview: graphsPreview
+        }
+    ];
+
+    const customButtonStyles = {
+        borderRadius: 3,
+        px: 4,
+        py: 1.5,
+        fontWeight: 600,
+        textTransform: 'none',
+        fontSize: '1rem',
+        boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)',
+        '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: '0 6px 20px 0 rgba(0,0,0,0.15)',
+        }
+    };
+
+    const outlineButtonStyles = {
+        ...customButtonStyles,
+        borderWidth: 2,
+        '&:hover': {
+            ...customButtonStyles['&:hover'],
+            borderWidth: 2,
+        }
+    };
+
+    return (
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 6 }}>
+            <PageTitle title={pageTitle} />
+            
+            <Box sx={{ textAlign: 'center', mb: 6 }}>
+                <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    {pageTitle}
+                </Typography>
+                <Typography variant="h5" color="text.secondary" sx={{ mb: 4, maxWidth: 600, mx: 'auto' }}>
+                    {GetTitle("Healing optimization tools for World of Warcraft")}
+                </Typography>
+                <Stack direction="row" spacing={2} justifyContent="center" sx={{ flexWrap: 'wrap', gap: 2 }}>
+                    <Chip 
+                        label={GetTitle("Comprehensive Healing Analysis")} 
+                        color="primary" 
+                        size="medium"
+                        sx={{ fontSize: '1rem', px: 2, py: 1 }}
+                    />
+                    <Chip 
+                        label={GetTitle("Growing Spec Support")} 
+                        color="secondary" 
+                        size="medium"
+                        sx={{ fontSize: '1rem', px: 2, py: 1 }}
+                    />
+                    <Chip 
+                        label={GetTitle("Data-Driven Optimization")} 
+                        color="success" 
+                        size="medium"
+                        sx={{ fontSize: '1rem', px: 2, py: 1 }}
+                    />
+                </Stack>
+            </Box>
+            
+            <Box sx={{ mb: 6, display: 'flex', justifyContent: 'center' }}>
+                <Box sx={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: 'repeat(3, 1fr)', 
+                    gap: 3,
+                    width: '100%',
+                    maxWidth: 1200,
+                    '@media (max-width: 900px)': {
+                        gridTemplateColumns: '1fr',
+                        maxWidth: 400
+                    },
+                    '@media (max-width: 600px)': {
+                        gridTemplateColumns: '1fr',
+                        maxWidth: '100%'
+                    }
+                }}>
+                    {quickAccessPages.map((tool, index) => (
+                        <Card 
+                            key={index}
+                            variant="outlined"
+                            sx={{ 
+                                height: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                transition: 'all 0.3s ease',
+                                '&:hover': {
+                                    transform: 'translateY(-4px)',
+                                    boxShadow: 6,
+                                    borderColor: 'primary.main'
+                                }
+                            }}
+                        >
+                            <CardActionArea 
+                                onClick={() => navigate(tool.path)}
+                                sx={{ 
+                                    height: '100%',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'stretch'
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        height: 160,
+                                        position: 'relative',
+                                        overflow: 'hidden',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            width: '100%',
+                                            height: '100%',
+                                            backgroundImage: `url(${tool.preview})`,
+                                            backgroundSize: 'cover',
+                                            backgroundPosition: 'center',
+                                            opacity: 0.8,
+                                            filter: 'blur(0.5px)'
+                                        }}
+                                    />
+                                    
+                                    <Box sx={{ 
+                                        position: 'relative', 
+                                        zIndex: 1, 
+                                        color: 'white',
+                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                        backdropFilter: 'blur(8px)',
+                                        px: 1.5,
+                                        py: 1.5,
+                                        borderRadius: 3,
+                                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                                        border: '1px solid rgba(255,255,255,0.1)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}>
+                                        {tool.icon}
+                                    </Box>
+                                </Box>
+                                <Box sx={{ 
+                                    height: 0.001, 
+                                    backgroundColor: 'divider',
+                                    width: '100%'
+                                }} />
+                                <CardContent sx={{ flexGrow: 1 }}>
+                                    <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+                                        {GetTitle(tool.title)}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {GetTitle(tool.description)}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                    ))}
+                </Box>
+            </Box>
+
+            <Box sx={{ textAlign: 'center', mt: 6, mb: 6 }}>
+                <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    {GetTitle("Ready to improve your healing?")}
+                </Typography>
+                <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+                    {GetTitle("Start optimizing your gameplay with personalized analysis tools")}
+                </Typography>
+                <Stack direction="row" spacing={2} justifyContent="center" sx={{ flexWrap: 'wrap', gap: 2 }}>
+                    <Button 
+                        variant="contained" 
+                        size="large"
+                        onClick={() => navigate('/graphs')}
+                        startIcon={<TrendingUp />}
+                        sx={customButtonStyles}
+                    >
+                        {GetTitle("Start Optimizing")}
+                    </Button>
+                    <Button 
+                        variant="outlined" 
+                        size="large"
+                        onClick={() => navigate('/about')}
+                        startIcon={<Person />}
+                        sx={outlineButtonStyles}
+                    >
+                        {GetTitle("About Me")}
+                    </Button>
+                </Stack>
+            </Box>
+        </Container>
+    );
 };
 
-const About = () => {
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
-      <PageTitle title={pageTitle} />
-      <h1 style={{ marginBottom: "0px" }}>{pageTitle}</h1>
-
-      <Card
-        variant="outlined"
-        sx={{
-          maxWidth: 600,
-          width: { xs: "90%", sm: "90%", md: "100%" },
-          mx: "auto",
-          mb: { xs: 4, sm: 6 },
-          boxSizing: "border-box",
-        }}
-      >
-        <CardContent>
-          <Stack spacing={2}>
-            <Typography variant="h4" gutterBottom align="left">
-              about me
-            </Typography>
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <Box
-                component="img"
-                src={swirlImg}
-                alt="swirl"
-                sx={imageStyle}
-                onMouseOver={e => (e.currentTarget.style.transform = "scale(1.1)")}
-                onMouseOut={e => (e.currentTarget.style.transform = "scale(1)")}
-              />
-              <Typography variant="body1" paragraph align="left" sx={{ mb: 0 }}>
-                hi, i'm swirl — a gamer and software engineer who enjoys digging into how healing{" "}
-                works across different games, mostly aligned with world of warcraft.{" "}
-                i’ve been playing wow since cataclysm, and started maining mistweaver monk{" "}
-                in mists of pandaria.
-              </Typography>
-            </Stack>
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <Typography variant="body1" paragraph align="left" sx={{ mb: 0 }}>
-                ever since, competitive healing has been a major focus in my gameplay.{" "}
-                i've reached world rank 20 in raid, earned multiple 0.1% titles in mythic+{" "}
-                season to season, and i'm currently a mistweaver veteran in peak of serenity.{" "}
-                i love helping other healers improve and enjoy the role more!
-              </Typography>
-              <Box
-                component="img"
-                src={mistweaverLogo}
-                alt="mistweaver"
-                sx={imageStyle}
-                onMouseOver={e => (e.currentTarget.style.transform = "scale(1.1)")}
-                onMouseOut={e => (e.currentTarget.style.transform = "scale(1)")}
-              />
-            </Stack>
-            <Divider
-              sx={{
-                position: "relative",
-                left: "50%",
-                right: "50%",
-                width: "calc(100% + 32px)",
-                transform: "translateX(-50%)",
-                my: 2,
-                mx: 0,
-              }}
-            />
-            <Typography variant="h4" gutterBottom align="left">
-              about this project
-            </Typography>
-            <Typography variant="body1" paragraph align="left">
-              <b>wait, i'm ramping!</b>{" "}
-              is a site full of tools to help world of warcraft healers plan, visualize, and{" "}
-              fine-tune their healing. it includes a ramp timer calculator, a spell timeline{" "}
-              visualizer, and graphs that compare healing spells and cooldowns (that i've implemented :p).
-            </Typography>
-            <Typography variant="body1" paragraph align="left">
-              i created this website as a way to share useful tools for planning and optimizing{" "}
-              healing — whether you're trying to clean up your ramp windows, or just trying to{" "}
-              understand your spells a bit better.
-            </Typography>
-            <Typography variant="body1" paragraph align="left">
-              i have a lot of ideas for future features,{" "}
-              so feel free to reach out in my{" "}
-              <Link
-                href="https://discord.gg/ZU5rhXtbNd"
-                target="_blank"
-                rel="noopener noreferrer"
-                color="#7289da"
-                underline="hover"
-              >
-                discord
-              </Link>{" "}
-              or during my{" "}
-              <Link
-                href="https://www.twitch.tv/lolswirl"
-                target="_blank"
-                rel="noopener noreferrer"
-                color="#9147ff"
-                underline="hover"
-              >
-                twitch
-              </Link>{" "}
-              streams if you have any suggestions!
-            </Typography>
-          </Stack>
-        </CardContent>
-      </Card>
-    </div>
-  );
-};
-
-export default About;
+export default Home;
