@@ -14,18 +14,18 @@ import {
     Card,
     Stack,
     Divider,
-    Button,
     IconButton,
     OutlinedInput
 } from "@mui/material";
-import { Add, Delete } from "@mui/icons-material";
+import { DeleteTwoTone } from "@mui/icons-material";
 import PageTitle from "../../components/PageTitle/PageTitle.tsx";
 import { GetTitle, pluralize } from "../../util/stringManipulation.tsx";
 import { MISTWEAVER_SPELLS } from "../../data/spells/monk/mistweaver.ts";
 import TALENTS from "../../data/talents/monk/mistweaver.ts";
 import SpellButton from "../../components/SpellButtons/SpellButton.tsx";
 import type Spell from "../../data/spells/spell.ts";
-import { v4 as uuidv4 } from 'uuid';
+import CurrentRotationControl from "../../components/CurrentRotationControl/CurrentRotationControl.tsx";
+import { useRotationManager } from "../../hooks/useRotationManager.ts";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -42,16 +42,10 @@ const DEFAULT_STATS = {
 
 const title = GetTitle("Rising Sun Kick Resets");
 
-interface RotationStep {
-    id: string;
-    spell: Spell;
-    uuid: string;
-}
-
 interface Rotation {
     id: string;
     name: string;
-    steps: RotationStep[];
+    steps: Spell[];
 }
 
 const ProgressBar: React.FC<{
@@ -320,8 +314,6 @@ const createChartOptions = (theme: any, rotations: Rotation[], calculateRotation
 
 const RisingSunKickResets: React.FC = () => {
     const theme = useTheme();
-    const [currentRotation, setCurrentRotation] = useState<RotationStep[]>([]);
-    const [rotations, setRotations] = useState<Rotation[]>([]);
     const [attempts, setAttempts] = useState<number>(1);
     const [awakenedJadefire, setAwakenedJadefire] = useState<boolean>(false);
     const [targets, setTargets] = useState<number>(1);
@@ -329,19 +321,39 @@ const RisingSunKickResets: React.FC = () => {
     const totm = TALENTS.TEACHINGS_OF_THE_MONASTERY;
     const totmResetChance = totm.custom.resetChance;
     
-    const generateRotationName = (steps: RotationStep[]) => {
+    const generateRotationName = (steps: Spell[]) => {
         if (steps.length === 0) return GetTitle("Empty Rotation");
         return steps.map(step => {
-            if (step.spell.id === MISTWEAVER_SPELLS.TIGER_PALM.id) {
+            if (step.id === MISTWEAVER_SPELLS.TIGER_PALM.id) {
                 return GetTitle('TP');
-            } else if (step.spell.id === MISTWEAVER_SPELLS.BLACKOUT_KICK.id) {
+            } else if (step.id === MISTWEAVER_SPELLS.BLACKOUT_KICK.id) {
                 return GetTitle('BOK');
             }
-            return GetTitle(step.spell.name);
+            return GetTitle(step.name);
         }).join(' → ');
     };
+
+    const validateSpell = (spell: Spell) => {
+        return spell.id === MISTWEAVER_SPELLS.TIGER_PALM.id || 
+               spell.id === MISTWEAVER_SPELLS.BLACKOUT_KICK.id;
+    };
+
+    const {
+        currentRotation,
+        rotations,
+        addSpellToRotation,
+        removeSpellFromRotation,
+        finalizeRotation,
+        clearCurrentRotation,
+        clearAllRotations,
+        removeRotation,
+        hasRotations
+    } = useRotationManager({
+        generateRotationName,
+        validateSpell
+    });
     
-    const calculateRotationStats = (steps: RotationStep[]) => {
+    const calculateRotationStats = (steps: Spell[]) => {
         let totalHits = 0;
         let totalGCDs = steps.length;
         
@@ -351,10 +363,10 @@ const RisingSunKickResets: React.FC = () => {
         
         let totmStacks = 0;
         steps.forEach(step => {
-            if (step.spell.id === MISTWEAVER_SPELLS.TIGER_PALM.id) {
+            if (step.id === MISTWEAVER_SPELLS.TIGER_PALM.id) {
                 const stacksToAdd = awakenedJadefire ? 2 : 1;
                 totmStacks = Math.min(totmStacks + stacksToAdd, totm.custom.maxStacks);
-            } else if (step.spell.id === MISTWEAVER_SPELLS.BLACKOUT_KICK.id) {
+            } else if (step.id === MISTWEAVER_SPELLS.BLACKOUT_KICK.id) {
                 const totalBokHits = 1 + totmStacks;
                 const hitsPerTarget = awakenedJadefire ? Math.min(3, targets) : 1;
                 totalHits += totalBokHits * hitsPerTarget;
@@ -374,52 +386,6 @@ const RisingSunKickResets: React.FC = () => {
             totalHits,
             totalGCDs
         };
-    };
-    
-    const addSpellToRotation = (spell: Spell, empowerLevel: number) => {
-        if (spell.id !== MISTWEAVER_SPELLS.TIGER_PALM.id && 
-            spell.id !== MISTWEAVER_SPELLS.BLACKOUT_KICK.id) {
-            return;
-        }
-        
-        setCurrentRotation(prev => [
-            ...prev,
-            {
-                id: Date.now().toString(),
-                spell: spell,
-                uuid: uuidv4()
-            }
-        ]);
-    };
-    
-    const removeSpellFromRotation = (stepToRemove: RotationStep) => {
-        setCurrentRotation(prev => prev.filter(step => step.uuid !== stepToRemove.uuid));
-    };
-    
-    const finalizeRotation = () => {
-        if (currentRotation.length === 0) return;
-        
-        const newRotation: Rotation = {
-            id: Date.now().toString(),
-            name: generateRotationName(currentRotation),
-            steps: [...currentRotation]
-        };
-        
-        setRotations(prev => [...prev, newRotation]);
-        setCurrentRotation([]);
-    };
-    
-    const clearCurrentRotation = () => {
-        setCurrentRotation([]);
-    };
-    
-    const clearAllRotations = () => {
-        setRotations([]);
-        setCurrentRotation([]);
-    };
-    
-    const removeRotation = (rotationId: string) => {
-        setRotations(prev => prev.filter(r => r.id !== rotationId));
     };
     
     const chartData = useMemo(() => 
@@ -482,83 +448,14 @@ const RisingSunKickResets: React.FC = () => {
                 
                 <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
                 
-                <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
-                    <InputLabel shrink>{GetTitle("Current Rotation")}</InputLabel>
-                    <OutlinedInput
-                        notched
-                        readOnly
-                        label={GetTitle("Current Rotation")}
-                        inputComponent="span"
-                        inputProps={{
-                            style: { width: "100%", height: "100%" },
-                            children: (
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        gap: 0.5,
-                                        width: "100%",
-                                        p: 1,
-                                        boxSizing: "border-box",
-                                    }}
-                                >
-                                    {currentRotation.length > 0 ? (
-                                        currentRotation.map((step) => (
-                                            <Box key={step.uuid} sx={{ position: 'relative' }}>
-                                                <SpellButton
-                                                    selectedSpell={step.spell}
-                                                    action={() => removeSpellFromRotation(step)}
-                                                    isRemove={true}
-                                                />
-                                            </Box>
-                                        ))
-                                    ) : (
-                                        <Typography variant="body2" color="textSecondary">
-                                            {GetTitle("No spells added")}
-                                        </Typography>
-                                    )}
-                                </Box>
-                            ),
-                        }}
-                        sx={{
-                            height: "auto",
-                            alignItems: "center",
-                            py: 0,
-                            width: "100%",
-                        }}
-                    />
-                </FormControl>
-
-                <Stack direction="row" spacing={1} sx={{ justifyContent: 'center' }}>
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
-                        onClick={finalizeRotation} 
-                        disabled={currentRotation.length === 0}
-                        startIcon={<Add />}
-                    >
-                        {GetTitle("Add Rotation")}
-                    </Button>
-                    <Button 
-                        variant="contained" 
-                        color="error" 
-                        onClick={clearCurrentRotation} 
-                        disabled={currentRotation.length === 0}
-                        startIcon={<Delete />}
-                    >
-                        {GetTitle("Clear Current")}
-                    </Button>
-                    <Button 
-                        variant="contained" 
-                        color="error" 
-                        onClick={clearAllRotations} 
-                        disabled={rotations.length === 0}
-                        startIcon={<Delete />}
-                    >
-                        {GetTitle("Clear All")}
-                    </Button>
-                </Stack>
+                <CurrentRotationControl
+                    currentRotation={currentRotation}
+                    onRemoveSpell={removeSpellFromRotation}
+                    onFinalizeRotation={finalizeRotation}
+                    onClearCurrentRotation={clearCurrentRotation}
+                    onClearAllRotations={clearAllRotations}
+                    hasRotations={hasRotations}
+                />
             </Card>
             
             {rotations.length > 0 && (
@@ -573,7 +470,7 @@ const RisingSunKickResets: React.FC = () => {
                                             {rotation.steps.map((step) => (
                                                 <SpellButton
                                                     key={step.uuid}
-                                                    selectedSpell={step.spell}
+                                                    selectedSpell={step}
                                                     action={() => {}}
                                                 />
                                             ))}
@@ -583,7 +480,7 @@ const RisingSunKickResets: React.FC = () => {
                                             onClick={() => removeRotation(rotation.id)}
                                             color="error"
                                         >
-                                            <Delete fontSize="small" />
+                                            <DeleteTwoTone fontSize="small" />
                                         </IconButton>
                                     </Box>
                                      
