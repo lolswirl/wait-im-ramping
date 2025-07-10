@@ -1,15 +1,9 @@
-import React, { useState } from "react";
-import { Typography, Card, CardContent, Divider, Link, Stack, Box, Collapse, Button, } from "@mui/material";
+import React from "react";
+import { Typography, Card, CardContent, Divider, Link, Stack, Box } from "@mui/material";
 import PageTitle from "../components/PageTitle/PageTitle.tsx";
 import { GetTitle } from "../util/stringManipulation.tsx";
 import swirlImg from "../assets/swirl.png";
 import mistweaverLogo from "../assets/mistweaver-bad.png";
-import Changelog from "../components/Changelog/Changelog.tsx";
-import CHANGELOG from "../data/changelog/changelogs.tsx";
-import {
-  ArrowDropDown,
-  ArrowRight,
-} from "@mui/icons-material";
 
 const pageTitle = GetTitle("Wait, I'm Ramping!");
 
@@ -25,7 +19,6 @@ const imageStyle: React.CSSProperties = {
 };
 
 const About = () => {
-  const [changesOpen, setChangesOpen] = useState(false);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
@@ -128,58 +121,6 @@ const About = () => {
               </Link>{" "}
               streams if you have any suggestions!
             </Typography>
-
-            <Divider
-              sx={{
-                position: "relative",
-                left: "50%",
-                right: "50%",
-                width: "calc(100% + 32px)",
-                transform: "translateX(-50%)",
-                my: 2,
-                mx: 0,
-              }}
-            />
-
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ userSelect: "none", cursor: "pointer" }}
-                onClick={() => setChangesOpen(!changesOpen)}
-              >
-                recent changes
-              </Typography>
-
-              <Button
-                size="small"
-                onClick={() => setChangesOpen(!changesOpen)}
-                aria-expanded={changesOpen}
-                aria-label={changesOpen ? "Collapse changes" : "Expand changes"}
-              >
-                {changesOpen ? <ArrowRight /> : <ArrowDropDown />}
-              </Button>
-            </Stack>
-              
-            <Collapse in={changesOpen} timeout="auto" unmountOnExit>
-              <Box
-                sx={{
-                  // maxHeight: 400,
-                  overflowY: "auto",
-                  pr: 1,
-                  "&::-webkit-scrollbar": { width: 8 },
-                  "&::-webkit-scrollbar-thumb": {
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                    borderRadius: 4,
-                  },
-                  "&::-webkit-scrollbar-thumb:hover": {
-                    backgroundColor: "rgba(0,0,0,0.2)",
-                  },
-                }}
-              >
-                <Changelog changelog={CHANGELOG} limit={5} />
-              </Box>
-            </Collapse>
           </Stack>
         </CardContent>
       </Card>
