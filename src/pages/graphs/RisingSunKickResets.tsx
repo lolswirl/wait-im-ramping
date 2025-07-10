@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { 
@@ -41,12 +41,6 @@ const DEFAULT_STATS = {
 };
 
 const title = GetTitle("Rising Sun Kick Resets");
-
-interface Rotation {
-    id: string;
-    name: string;
-    steps: Spell[];
-}
 
 const ProgressBar: React.FC<{
     label: string;
@@ -222,7 +216,7 @@ const rotationItemSx = (isDark: boolean) => ({
     backgroundColor: isDark ? '#2a2a2a' : '#f5f5f5'
 });
 
-const createChartData = (rotations: Rotation[], calculateRotationStats: Function) => ({
+const createChartData = (rotations: any[], calculateRotationStats: Function) => ({
     labels: rotations.map(r => r.name),
     datasets: [
         {
@@ -244,7 +238,7 @@ const createChartData = (rotations: Rotation[], calculateRotationStats: Function
     ],
 });
 
-const createChartOptions = (theme: any, rotations: Rotation[], calculateRotationStats: Function) => ({
+const createChartOptions = (theme: any, rotations: any[], calculateRotationStats: Function) => ({
     responsive: true,
     plugins: {
         title: {
@@ -353,7 +347,7 @@ const RisingSunKickResets: React.FC = () => {
         validateSpell
     });
     
-    const calculateRotationStats = (steps: Spell[]) => {
+    const calculateRotationStats = useCallback((steps: Spell[]) => {
         let totalHits = 0;
         let totalGCDs = steps.length;
         
@@ -386,16 +380,16 @@ const RisingSunKickResets: React.FC = () => {
             totalHits,
             totalGCDs
         };
-    };
+    }, [awakenedJadefire, targets, attempts, totm.custom.maxStacks, totmResetChance]);
     
     const chartData = useMemo(() => 
         createChartData(rotations, calculateRotationStats), 
-        [rotations, awakenedJadefire, targets, attempts]
+        [rotations, calculateRotationStats]
     );
 
     const chartOptions = useMemo(() => 
         createChartOptions(theme, rotations, calculateRotationStats), 
-        [theme, rotations, awakenedJadefire, targets, attempts]
+        [theme, rotations, calculateRotationStats]
     );
     
     return (
