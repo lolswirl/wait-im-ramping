@@ -1,4 +1,4 @@
-const CAPS = false;
+export const CAPS = false;
 
 export const GetTitle = (str: string): string => {
     return CAPS ? str : lower(str);
