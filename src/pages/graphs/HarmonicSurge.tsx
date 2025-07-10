@@ -186,7 +186,7 @@ const HarmonicSurge: React.FC = () => {
           text: GetTitle("Abilities"),
         },
         grid: {
-          color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
+          color: theme.custom.chart.gridColor,
         },
       },
       y: {
@@ -196,7 +196,7 @@ const HarmonicSurge: React.FC = () => {
         },
         beginAtZero: true,
         grid: {
-          color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
+          color: theme.custom.chart.gridColor,  
         },
       },
     },

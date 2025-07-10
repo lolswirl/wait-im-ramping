@@ -73,7 +73,8 @@ const talents = {
         id: 116645,
         icon: 'inv_misc_book_06',
         custom: {
-            maxStacks: 4
+            maxStacks: 4,
+            resetChance: 0.2,
         }
     },
     GUST_OF_MISTS: {

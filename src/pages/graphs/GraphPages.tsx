@@ -4,6 +4,7 @@ import SheilunVSJadeEmpowerment from "./SheilunVSJadeEmpowerment.tsx";
 import JadeEmpowermentVsDocJ from "./JadeEmpowermentVsDocJ.tsx";
 import STvsSCK from "./STvsSCK.tsx";
 import HarmonicSurge from "./HarmonicSurge.tsx";
+import RisingSunKickResets from "./RisingSunKickResets.tsx";
 
 export const graphPages = [
   { label: "Graphs", path: "/graphs", element: <Graphs /> },
@@ -12,4 +13,5 @@ export const graphPages = [
   { label: "Jade Empowerment vs. Dance of Chi-Ji", path: "/graphs/jade-empowerment-docj", element: <JadeEmpowermentVsDocJ /> },
   { label: "ST Rotation vs. Spinning Crane Kick", path: "/graphs/st-spinning", element: <STvsSCK /> },
   { label: "Harmonic Surge", path: "/graphs/harmonic-surge", element: <HarmonicSurge /> },
+  { label: "Rising Sun Kick Resets", path: "/graphs/rising-sun-kick-resets", element: <RisingSunKickResets /> },
 ];
