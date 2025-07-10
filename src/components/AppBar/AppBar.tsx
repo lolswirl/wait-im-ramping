@@ -34,6 +34,7 @@ import SpecDisplay from "../SpecializationSelect/SpecDisplay.tsx";
 const pages = [
   { label: "When do I ramp?", path: "/when-do-i-ramp" },
   { label: "Spell Timeline", path: "/timeline" },
+  { label: "Graphs & Analysis Tools", path: "/graphs" },
 ];
 
 function ResponsiveAppBar() {
@@ -100,33 +101,7 @@ function ResponsiveAppBar() {
             </ListItemButton>
           </ListItem>
         ))}
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={e => {
-              e.stopPropagation();
-              setMobileGraphsOpen(open => !open);
-            }}
-            sx={{ pl: 2 }}
-          >
-            <ListItemText primary={GetTitle("Graphs")} />
-            {mobileGraphsOpen ? <ArrowDownIcon /> : <ArrowRight />}
-          </ListItemButton>
-        </ListItem>
-        {mobileGraphsOpen &&
-          graphPages
-            .filter(({ label }) => label.toLowerCase() !== "graphs")
-            .map(({ label, path }) => (
-              <ListItem key={label} disablePadding>
-                <ListItemButton
-                  component="a"
-                  href={path}
-                  selected={location.pathname === path}
-                  sx={{ pl: 4 }}
-                >
-                  <ListItemText primary={GetTitle(label)} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+        
       </List>
       <Box sx={{ flexGrow: 1 }} />
       <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 1 }}>
@@ -223,24 +198,6 @@ function ResponsiveAppBar() {
                 {GetTitle(label)}
               </Button>
             ))}
-            <Button
-              onClick={e => setDropdownAnchor(e.currentTarget)}
-              sx={{
-                color: isGraphPage ? hoverColor : "white",
-                fontWeight: isGraphPage ? 700 : 400,
-                "&:hover": { color: hoverColor },
-                textTransform: "none"
-              }}
-            >
-              {GetTitle("Graphs")} <ArrowDropDown />
-            </Button>
-            <Menu
-              anchorEl={dropdownAnchor}
-              open={Boolean(dropdownAnchor)}
-              onClose={() => setDropdownAnchor(null)}
-            >
-              {renderDropdownLinks()}
-            </Menu>
           </Box>
           {/* desktop right side */}
           <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1 }}>
