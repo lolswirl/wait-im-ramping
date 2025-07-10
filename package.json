@@ -33,6 +33,7 @@
   },
   "scripts": {
     "prestart": "node scripts/setup-index-env.js",
+    "prebuild": "node scripts/setup-index-env.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
