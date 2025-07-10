@@ -93,14 +93,14 @@ const AbsorbVsDRCompare: React.FC = () => {
                 title: { display: true, text: GetTitle("Incoming Damage (Million)") },
                 max: 50,
                 grid: {
-                  color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
+                  color: theme.custom.chart.gridColor,
                 },
               },
               y: {
                 title: { display: true, text: GetTitle("Damage Taken (Million)") },
                 max: maxXAxis,
                 grid: {
-                  color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
+                  color: theme.custom.chart.gridColor,
                 },
               },
             },

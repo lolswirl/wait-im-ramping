@@ -133,7 +133,7 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
           text: GetTitle("Target Count"),
         },
         grid: {
-          color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
+          color: theme.custom.chart.gridColor,
         },
       },
       y: {
@@ -143,7 +143,7 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
         },
         beginAtZero: true,
         grid: {
-          color: theme.palette.mode === "dark" ? "#494949" : "#c4c4c4",
+          color: theme.custom.chart.gridColor,
         },
       },
     },
