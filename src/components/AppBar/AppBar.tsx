@@ -100,62 +100,68 @@ function ResponsiveAppBar() {
 
             {/* mobile nav */}
             <List sx={{ px: 1, py: 2 }}>
-                {pages.map(({ label, path }) => (
-                    <ListItem key={label} disablePadding sx={{ mb: 0.5 }}>
-                        <ListItemButton 
-                            component="a" 
-                            href={path} 
-                            selected={location.pathname === path}
-                            onClick={handleDrawerToggle}
-                            sx={{
-                                borderRadius: 2,
-                                mx: 1,
-                                position: "relative",
-                                color: "white",
-                                width: 'fit-content',
-                                minWidth: 'auto',
-                                flex: 'none',
-                                '&.MuiListItemButton-root': {
+                {pages.map(({ label, path }) => {
+                    const isActive = path === "/graphs" 
+                        ? location.pathname.startsWith("/graphs") 
+                        : location.pathname === path;
+                    
+                    return (
+                        <ListItem key={label} disablePadding sx={{ mb: 0.5 }}>
+                            <ListItemButton 
+                                component="a" 
+                                href={path} 
+                                selected={isActive}
+                                onClick={handleDrawerToggle}
+                                sx={{
+                                    borderRadius: 2,
+                                    mx: 1,
+                                    position: "relative",
+                                    color: "white",
                                     width: 'fit-content',
                                     minWidth: 'auto',
                                     flex: 'none',
-                                },
-                                '&.Mui-selected': {
-                                    bgcolor: 'transparent',
-                                    '&:hover': {
-                                        bgcolor: 'rgba(255,255,255,0.1)',
-                                    }
-                                },
-                                "&::after": {
-                                    content: '""',
-                                    position: "absolute",
-                                    bottom: 0,
-                                    left: 8,
-                                    right: 8,
-                                    height: 2,
-                                    bgcolor: hoverColor,
-                                    borderRadius: 1,
-                                    transform: location.pathname === path ? "scaleX(1)" : "scaleX(0)",
-                                    transition: "transform 0.3s ease",
-                                    zIndex: 2,
-                                },
-                                '&:hover': {
-                                    bgcolor: 'action.hover',
+                                    '&.MuiListItemButton-root': {
+                                        width: 'fit-content',
+                                        minWidth: 'auto',
+                                        flex: 'none',
+                                    },
+                                    '&.Mui-selected': {
+                                        bgcolor: 'transparent',
+                                        '&:hover': {
+                                            bgcolor: 'rgba(255,255,255,0.1)',
+                                        }
+                                    },
                                     "&::after": {
-                                        transform: "scaleX(1)",
+                                        content: '""',
+                                        position: "absolute",
+                                        bottom: 0,
+                                        left: 8,
+                                        right: 8,
+                                        height: 2,
+                                        bgcolor: hoverColor,
+                                        borderRadius: 1,
+                                        transform: isActive ? "scaleX(1)" : "scaleX(0)",
+                                        transition: "transform 0.3s ease",
+                                        zIndex: 2,
+                                    },
+                                    '&:hover': {
+                                        bgcolor: 'action.hover',
+                                        "&::after": {
+                                            transform: "scaleX(1)",
+                                        }
                                     }
-                                }
-                            }}
-                        >
-                            <ListItemText 
-                                primary={GetTitle(label)}
-                                primaryTypographyProps={{
-                                    fontWeight: location.pathname === path ? 600 : 400
                                 }}
-                            />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                            >
+                                <ListItemText 
+                                    primary={GetTitle(label)}
+                                    primaryTypographyProps={{
+                                        fontWeight: isActive ? 600 : 400
+                                    }}
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                    );
+                })}
             </List>
 
             <Box sx={{ flexGrow: 1 }} />
@@ -252,37 +258,43 @@ function ResponsiveAppBar() {
 
                         {/* desktop navigation */}
                         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1 }}>
-                            {pages.map(({ label, path }) => (
-                                <Button
-                                    key={GetTitle(label)}
-                                    component="a"
-                                    href={path}
-                                    sx={{
-                                        color: "inherit",
-                                        fontWeight: 400,
-                                        textTransform: "none",
-                                        position: "relative",
-                                        "&::before": {
-                                            content: '""',
-                                            position: "absolute",
-                                            bottom: 0,
-                                            left: 0,
-                                            right: 0,
-                                            height: 2,
-                                            bgcolor: hoverColor,
-                                            borderRadius: 1,
-                                            transform: location.pathname === path ? "scaleX(1)" : "scaleX(0)",
-                                            transition: "transform 0.3s ease",
-                                            zIndex: 2,
-                                        },
-                                        "&:hover::before": {
-                                            transform: "scaleX(1)",
-                                        },
-                                    }}
-                                >
-                                    {GetTitle(label)}
-                                </Button>
-                            ))}
+                            {pages.map(({ label, path }) => {
+                                const isActive = path === "/graphs" 
+                                    ? location.pathname.startsWith("/graphs") 
+                                    : location.pathname === path;
+                                
+                                return (
+                                    <Button
+                                        key={GetTitle(label)}
+                                        component="a"
+                                        href={path}
+                                        sx={{
+                                            color: "inherit",
+                                            fontWeight: 400,
+                                            textTransform: "none",
+                                            position: "relative",
+                                            "&::before": {
+                                                content: '""',
+                                                position: "absolute",
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                height: 2,
+                                                bgcolor: hoverColor,
+                                                borderRadius: 1,
+                                                transform: isActive ? "scaleX(1)" : "scaleX(0)",
+                                                transition: "transform 0.3s ease",
+                                                zIndex: 2,
+                                            },
+                                            "&:hover::before": {
+                                                transform: "scaleX(1)",
+                                            },
+                                        }}
+                                    >
+                                        {GetTitle(label)}
+                                    </Button>
+                                );
+                            })}
                         </Box>
 
                         <Box 
