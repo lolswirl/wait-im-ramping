@@ -1,7 +1,15 @@
-export const CAPS = false;
+let CAPS = false;
 
 export const GetTitle = (str: string): string => {
     return CAPS ? str : lower(str);
+}
+
+export const getCapsMode = (): boolean => {
+    return CAPS;
+}
+
+export const setCapsMode = (enabled: boolean): void => {
+    CAPS = enabled;
 }
 
 export function Capitalize(str: string) {
