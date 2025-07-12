@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { graphPages } from "./GraphPages.tsx";
-import { CAPS, GetTitle } from "../../util/stringManipulation.tsx";
+import { getCapsMode, GetTitle } from "../../util/stringManipulation.tsx";
 import PageTitle from "../../components/PageTitle/PageTitle.tsx";
 
 const title = "Graphs & Analysis Tools";
@@ -179,7 +179,7 @@ const Graphs = () => {
                                             fontSize: '0.7rem',
                                             fontWeight: 500,
                                             letterSpacing: '0.02em',
-                                            textTransform: CAPS ? 'none' : 'lowercase',
+                                            textTransform: getCapsMode() ? 'none' : 'lowercase',
                                             boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                                             border: '1px solid rgba(255,255,255,0.1)'
                                         }}>

@@ -3,7 +3,7 @@ import { GetTitle } from "../../util/stringManipulation.tsx";
 import { FormatIconImg, FormatIconLink } from "../../util/FormatIconImg.ts";
 import { specialization } from "../../data/class/class.ts";
 
-const SpecDisplay: React.FC<{ spec: specialization }> = ({ spec }) => (
+const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec, short }) => (
   <div className="spec">
     <img
       src={FormatIconImg(spec.icon)}
@@ -18,7 +18,11 @@ const SpecDisplay: React.FC<{ spec: specialization }> = ({ spec }) => (
         (e.currentTarget as HTMLImageElement).src = FormatIconLink(spec.icon);
       }}
     />
-    {GetTitle(spec.name)}
+    {!short && (
+      <>
+        {GetTitle(spec.name)}
+      </>
+    )}
   </div>
 );
 
