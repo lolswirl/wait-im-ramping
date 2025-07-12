@@ -7,7 +7,6 @@ import {
     Typography,
     Container,
     Button,
-    Divider,
     Drawer,
     List,
     ListItem,
@@ -20,7 +19,6 @@ import { useThemeContext } from "../../context/ThemeContext.tsx";
 import { GetTitle } from "../../util/stringManipulation.tsx";
 import { useSpec } from "../../context/SpecContext.tsx";
 import { useLocation } from "react-router-dom";
-import SpecDisplay from "../SpecializationSelect/SpecDisplay.tsx";
 import SpecializationSelect from "../SpecializationSelect/SpecializationSelect.tsx";
 
 const MoonIcon = () => (
@@ -64,51 +62,145 @@ function ResponsiveAppBar() {
     // sidebar drawer for mobile
     const drawer = (
         <Box
-            sx={{ width: 250, display: "flex", flexDirection: "column", height: "100%" }}
+            sx={{ 
+                width: 280, 
+                display: "flex", 
+                flexDirection: "column", 
+                height: "100%",
+                bgcolor: themeMode === "light" ? "primary.main" : "#171717"
+            }}
             role="presentation"
-            onClick={handleDrawerToggle}
-            onKeyDown={handleDrawerToggle}
         >
-            <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 1, whiteSpace: "nowrap" }}>
+            <Box sx={{ 
+                p: 3, 
+                display: "flex", 
+                alignItems: "center", 
+                gap: 2,
+                borderBottom: "1px solid",
+                borderColor: "rgba(255,255,255,0.1)"
+            }}>
                 <Typography
                     variant="h6"
                     sx={{
                         fontWeight: 700,
                         flexGrow: 1,
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
+                        color: "white"
                     }}
                 >
                     𖦹 {GetTitle("Wait, I'm Ramping!")}
                 </Typography>
+                <IconButton 
+                    onClick={handleDrawerToggle}
+                    size="small"
+                    sx={{ color: "white" }}
+                >
+                    ✕
+                </IconButton>
             </Box>
-            <Divider />
-            <List>
+
+            {/* mobile nav */}
+            <List sx={{ px: 1, py: 2 }}>
                 {pages.map(({ label, path }) => (
-                    <ListItem key={label} disablePadding>
-                        <ListItemButton component="a" href={path} selected={location.pathname === path}>
-                            <ListItemText primary={GetTitle(label)} />
+                    <ListItem key={label} disablePadding sx={{ mb: 0.5 }}>
+                        <ListItemButton 
+                            component="a" 
+                            href={path} 
+                            selected={location.pathname === path}
+                            onClick={handleDrawerToggle}
+                            sx={{
+                                borderRadius: 2,
+                                mx: 1,
+                                position: "relative",
+                                color: "white",
+                                width: 'fit-content',
+                                minWidth: 'auto',
+                                flex: 'none',
+                                '&.MuiListItemButton-root': {
+                                    width: 'fit-content',
+                                    minWidth: 'auto',
+                                    flex: 'none',
+                                },
+                                '&.Mui-selected': {
+                                    bgcolor: 'transparent',
+                                    '&:hover': {
+                                        bgcolor: 'rgba(255,255,255,0.1)',
+                                    }
+                                },
+                                "&::after": {
+                                    content: '""',
+                                    position: "absolute",
+                                    bottom: 0,
+                                    left: 8,
+                                    right: 8,
+                                    height: 2,
+                                    bgcolor: hoverColor,
+                                    borderRadius: 1,
+                                    transform: location.pathname === path ? "scaleX(1)" : "scaleX(0)",
+                                    transition: "transform 0.3s ease",
+                                    zIndex: 2,
+                                },
+                                '&:hover': {
+                                    bgcolor: 'action.hover',
+                                    "&::after": {
+                                        transform: "scaleX(1)",
+                                    }
+                                }
+                            }}
+                        >
+                            <ListItemText 
+                                primary={GetTitle(label)}
+                                primaryTypographyProps={{
+                                    fontWeight: location.pathname === path ? 600 : 400
+                                }}
+                            />
                         </ListItemButton>
                     </ListItem>
                 ))}
-                
             </List>
+
             <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 1 }}>
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        p: 1,
-                        border: "1px solid rgba(255,255,255,0.2)",
-                        borderRadius: 2,
-                        bgcolor: "rgba(255,255,255,0.05)",
+
+            <Box sx={{ 
+                p: 3, 
+                borderTop: "1px solid",
+                borderColor: "rgba(255,255,255,0.1)"
+            }}>
+                <Typography 
+                    variant="subtitle2" 
+                    sx={{ 
+                        mb: 2, 
+                        color: "rgba(255,255,255,0.7)",
+                        fontSize: "0.75rem",
+                        fontWeight: 600,
+                        letterSpacing: "0.5px"
                     }}
                 >
-                    {spec && <SpecializationSelect selectedSpec={spec} onSpecChange={() => {}} />}
-                    <IconButton onClick={toggleTheme} sx={{ color: "white" }}>
+                    {GetTitle("Settings")}
+                </Typography>
+                <Box 
+                    sx={{ 
+                        position: 'relative', 
+                        zIndex: 1, 
+                        color: 'white',
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        backdropFilter: 'blur(8px)',
+                        px: 1,
+                        py: 0.5,
+                        borderRadius: 3,
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: 'fit-content',
+                        width: 'fit-content'
+                    }}
+                >
+                    {spec && <SpecializationSelect selectedSpec={spec} onSpecChange={setSpec} short={true} />}
+                    <IconButton 
+                        onClick={toggleTheme}
+                        sx={{ color: "white" }}
+                    >
                         {themeMode === "dark" ? <MoonIcon /> : <SunIcon />}
                     </IconButton>
                 </Box>
@@ -117,138 +209,149 @@ function ResponsiveAppBar() {
     );
 
     return (
-        <AppBar
-            position="sticky"
-            sx={{
-                height: 48,
-                minHeight: 48,
-                justifyContent: "center",
-            }}
-        >
-            <Container maxWidth="xl">
-                <Toolbar
-                    disableGutters
-                    variant="dense"
-                    sx={{
-                        height: 48,
-                    }}
-                >
-                    {/* hamburger for mobile */}
-                    <Box sx={{ display: { xs: "flex", md: "none" }, alignItems: "center", mr: 1 }}>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setDrawerOpen(true);
-                            }}
-                            sx={{ mr: 1 }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                    </Box>
-
-                    <Typography
-                        variant="h5"
-                        component="a"
-                        href="/"
+        <>
+            <AppBar
+                position="sticky"
+                sx={{
+                    height: 48,
+                    minHeight: 48,
+                    justifyContent: "center",
+                    backgroundImage: "none",
+                    bgcolor: themeMode === "light" ? "primary.main" : "#171717"
+                }}
+            >
+                <Container maxWidth="xl">
+                    <Toolbar
+                        disableGutters
+                        variant="dense"
                         sx={{
-                            mr: 2,
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: 1,
-                            fontWeight: 700,
-                            color: location.pathname === "/" ? hoverColor : "inherit",
-                            textDecoration: "none",
-                            whiteSpace: "nowrap",
-                            fontSize: { xs: "1.1rem", md: "1.5rem" },
-                            flexGrow: { xs: 1, md: 0 },
-                            "&:hover": { color: hoverColor },
+                            height: 48,
                         }}
                     >
-                        𖦹 {GetTitle("Wait, I'm Ramping!")}
-                    </Typography>
-
-                    <Box sx={{ flexGrow: 1 }} />
-
-                    {/* desktop navigation */}
-                    <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1 }}>
-                        {pages.map(({ label, path }) => (
-                            <Button
-                                key={GetTitle(label)}
-                                component="a"
-                                href={path}
-                                sx={{
-                                    color: "inherit",
-                                    fontWeight: 400,
-                                    textTransform: "none",
-                                    position: "relative",
-                                    "&::before": {
-                                        content: '""',
-                                        position: "absolute",
-                                        bottom: 0,
-                                        left: 0,
-                                        right: 0,
-                                        height: 2,
-                                        bgcolor: "primary.main",
-                                        borderRadius: 1,
-                                        transform: location.pathname === path ? "scaleX(1)" : "scaleX(0)",
-                                        transition: "transform 0.3s ease",
-                                        zIndex: 2,
-                                    },
-                                    "&:hover::before": {
-                                        transform: "scaleX(1)",
-                                    },
-                                }}
-                            >
-                                {GetTitle(label)}
-                            </Button>
-                        ))}
-                    </Box>
-
-                    {/* desktop settings box */}
-                    <Box 
-                        sx={{ 
-                            position: 'relative', 
-                            zIndex: 1, 
-                            color: 'white',
-                            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                            backdropFilter: 'blur(8px)',
-                            ml: 2,
-                            px: 1,
-                            py: 0.5,
-                            borderRadius: 3,
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            height: 'fit-content',
-                        }}
-                    >
-                        {spec && <SpecializationSelect selectedSpec={spec} onSpecChange={setSpec} short={true} />}
-                        <IconButton 
-                            onClick={toggleTheme}
-                            sx={{ color: "white" }}
+                        <Typography
+                            variant="h5"
+                            component="a"
+                            href="/"
+                            sx={{
+                                mr: 2,
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: 1,
+                                fontWeight: 700,
+                                color: location.pathname === "/" ? hoverColor : "inherit",
+                                textDecoration: "none",
+                                whiteSpace: "nowrap",
+                                fontSize: { xs: "1.1rem", md: "1.5rem" },
+                                "&:hover": { color: hoverColor },
+                            }}
                         >
-                            {themeMode === "dark" ? <MoonIcon /> : <SunIcon />}
-                        </IconButton>
-                    </Box>
-                </Toolbar>
-            </Container>
+                            𖦹 {GetTitle("Wait, I'm Ramping!")}
+                        </Typography>
 
-            {/* mobile drawer */}
+                        <Box sx={{ flexGrow: 1 }} />
+
+                        {/* desktop navigation */}
+                        <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1 }}>
+                            {pages.map(({ label, path }) => (
+                                <Button
+                                    key={GetTitle(label)}
+                                    component="a"
+                                    href={path}
+                                    sx={{
+                                        color: "inherit",
+                                        fontWeight: 400,
+                                        textTransform: "none",
+                                        position: "relative",
+                                        "&::before": {
+                                            content: '""',
+                                            position: "absolute",
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            height: 2,
+                                            bgcolor: hoverColor,
+                                            borderRadius: 1,
+                                            transform: location.pathname === path ? "scaleX(1)" : "scaleX(0)",
+                                            transition: "transform 0.3s ease",
+                                            zIndex: 2,
+                                        },
+                                        "&:hover::before": {
+                                            transform: "scaleX(1)",
+                                        },
+                                    }}
+                                >
+                                    {GetTitle(label)}
+                                </Button>
+                            ))}
+                        </Box>
+
+                        <Box 
+                            sx={{ 
+                                position: 'relative', 
+                                zIndex: 1, 
+                                color: 'white',
+                                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                backdropFilter: 'blur(8px)',
+                                ml: 2,
+                                px: 1,
+                                py: 0.5,
+                                borderRadius: 3,
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                display: { xs: "none", md: "flex" },
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                height: 'fit-content',
+                            }}
+                        >
+                            {spec && <SpecializationSelect selectedSpec={spec} onSpecChange={setSpec} short={true} />}
+                            <IconButton 
+                                onClick={toggleTheme}
+                                sx={{ color: "white" }}
+                            >
+                                {themeMode === "dark" ? <MoonIcon /> : <SunIcon />}
+                            </IconButton>
+                        </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+            
+            {/* mobile stuff */}
+            <Box
+                onClick={handleDrawerToggle}
+                sx={{
+                    position: 'fixed',
+                    bottom: 16,
+                    right: 16,
+                    display: { xs: "flex", md: "none" },
+                    zIndex: 1000,
+                    color: 'white',
+                    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                    backdropFilter: 'blur(8px)',
+                    px: 1.5,
+                    py: 1.5,
+                    borderRadius: 3,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    '&:hover': {
+                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                    }
+                }}
+            >
+                <MenuIcon />
+            </Box>
             <Drawer
-                anchor="left"
+                anchor="right"
                 open={drawerOpen}
                 onClose={handleDrawerToggle}
                 ModalProps={{ keepMounted: true }}
             >
                 {drawer}
             </Drawer>
-        </AppBar>
+        </>
     );
 }
 
