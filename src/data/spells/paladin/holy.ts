@@ -101,6 +101,15 @@ const spells = {
     icon: 'inv_ability_paladin_divinetoll',
     castTime: 0,
   },
+  AVENGING_WRATH: {
+    name: 'Avenging Wrath',
+    id: 31884,
+    icon: 'spell_holy_avenginewrath',
+    castTime: 0,
+    custom: {
+      duration: 20,
+    }
+  }
 } satisfies Record<string, spell>;
 
 export default spells;

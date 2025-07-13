@@ -16,6 +16,7 @@ import tileInverted from "./assets/tile_inverted.png";
 
 import { useThemeContext } from './context/ThemeContext.tsx';
 import { graphPages } from "./pages/graphs/GraphPages.tsx";
+import MissingIcons from "./components/MissingIcons/MissingIcons.tsx";
 
 function App() {
   const { themeMode } = useThemeContext();
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/when-do-i-ramp" element={<WhenDoIRamp />} />
                 <Route path="/timeline" element={<Timeline />} />
+                <Route path="/missing" element={<MissingIcons />} />
                 {graphPages.map(({ path, element }) => (
                   <Route key={path} path={path} element={element} />
                 ))}

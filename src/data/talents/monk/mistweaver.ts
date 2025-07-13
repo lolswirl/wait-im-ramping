@@ -88,6 +88,19 @@ const talents = {
             multiplier: 6.93,
         }
     },
+    CELESTIAL_HARMONY: {
+        name: "Celestial Harmony",
+        id: 343655,
+        icon: 'ability_monk_jadeserpentbreath',
+        custom: {
+            chiCocoonTargets: 5,
+            chiCocoonFormula: (sourceHp: number, versatility: number) => {
+                return sourceHp * 24 / 100 * (1 + versatility);
+            },
+            envelopingBreathAmp: 0.1,
+            envelopingBreathTargets: 5,
+        }
+    }
 } satisfies Record<string, spell>;
 
 export default talents;
