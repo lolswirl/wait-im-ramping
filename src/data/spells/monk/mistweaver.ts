@@ -79,7 +79,19 @@ const spells = {
     name: 'Chi-Ji',
     id: 198664,
     icon: 'inv_pet_cranegod',
-    castTime: 0
+    castTime: 0,
+    custom: {
+      duration: 12,
+    }
+  },
+  YULON: {
+    name: "Yu'lon",
+    id: 322118,
+    icon: 'ability_monk_dragonkick',
+    castTime: 0,
+    custom: {
+      duration: 12,
+    }
   },
   REVIVAL: {
     name: 'Revival',
