@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, InputAdornment, Card, Box, Stack, Divider } from '@mui/material';
+import { TextField, InputAdornment, Card, Box, Stack, Divider, Chip } from '@mui/material';
 import spell from '../../data/spells/spell.ts';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -8,7 +8,7 @@ import SpellButtons from '../SpellButtons/SpellButtons.tsx';
 import SpellTable from '../SpellTable/SpellTable.tsx';
 import { GetTitle } from "../../util/stringManipulation.tsx";
 import { useSpec } from '../../context/SpecContext.tsx';
-import { specialization } from '../../data/class/class.ts';
+import { CLASSES, specialization } from '../../data/class/class.ts';
 
 interface RampCalcProps {
   onTotalCastTimeChange: (totalTime: number) => void;
@@ -106,6 +106,30 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
               }}
             />
           </Stack>
+          {spec != CLASSES.MONK.SPECS.MISTWEAVER && (
+            <Box sx={{ mt: 2}}>
+                <Chip 
+                    label={GetTitle("This spec has limited support for cast time reductions and haste buff gains")} 
+                    color="warning" 
+                    size="small"
+                    variant="outlined"
+                    sx={{ 
+                        fontSize: '0.875rem',
+                        fontWeight: 500,
+                        px: 1.5,
+                        py: 0.5,
+                        '& .MuiChip-label': {
+                            px: 1
+                        },
+                        borderColor: 'warning.main',
+                        backgroundColor: 'rgba(255, 152, 0, 0.08)',
+                        '&:hover': {
+                            backgroundColor: 'rgba(255, 152, 0, 0.12)',
+                        }
+                    }}
+                />
+            </Box>
+        )}
           <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
           <SpellButtons selectedSpec={spec} addSpellToTable={addSpellToTable} />
         </Box>
