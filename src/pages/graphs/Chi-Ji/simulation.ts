@@ -426,7 +426,9 @@ export const calculateRotationHPS = async (
     }
 
     // Create breakdown array
-    const rotationBreakdown = Object.entries(healingBySpell).map(([spellName, data]) => ({
+    const rotationBreakdown = Object.entries(healingBySpell)
+    .filter(([spellName, data]) => data.healing > 0)
+    .map(([spellName, data]) => ({
         spellName,
         healing: data.healing,
         percentage: totalHealing > 0 ? (data.healing / totalHealing) * 100 : 0,
