@@ -77,6 +77,13 @@ export const applyEnvelopingMist = (allies: AllyState[], options: SimulationOpti
     return target;
 };
 
+export const applyRenewingMistToTarget = (target: AllyState, options: SimulationOptions) => {
+    target.buffs.renewingMist.remaining = SPELLS.RENEWING_MIST.custom.duration;
+    target.buffs.renewingMist.amp = options.chiHarmony ? TALENTS.CHI_HARMONY.custom.amp : 1;
+
+    return target;
+};
+
 export const applyRapidDiffusionRenewingMist = (allies: AllyState[], options: SimulationOptions) => {
     const target = getRandomAlly(allies);
 
@@ -316,12 +323,19 @@ export const calculateRotationHPS = async (
                 break;
             
             case SPELLS.VIVIFY.id:
-            case SPELLS.RENEWING_MIST.id:
-                const gomSpellTarget = getRandomAlly(allies);
-                const gomSpellBaseHealing = spell.value?.healing || 0;
-                breakdown.baseHealing = calculateHealingWithAmp(gomSpellBaseHealing, gomSpellTarget);
+                const vivifyTarget = getRandomAlly(allies);
+                const vivifyBaseHealing = spell.value?.healing || 0;
+                breakdown.baseHealing = calculateHealingWithAmp(vivifyBaseHealing, vivifyTarget);
 
-                breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistSpellpower / 100 * options.intellect, gomSpellTarget);
+                breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistSpellpower / 100 * options.intellect, vivifyTarget);
+                break;
+            case SPELLS.RENEWING_MIST.id:
+                const renewingMistTarget = getRandomAlly(allies);
+                applyRenewingMistToTarget(renewingMistTarget, options);
+                const renewingMistBaseHealing = spell.value?.healing || 0;
+                breakdown.baseHealing = calculateHealingWithAmp(renewingMistBaseHealing, renewingMistTarget);
+
+                breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistSpellpower / 100 * options.intellect, renewingMistTarget);
                 break;
             default:
                 const defaultTarget = getRandomAlly(allies);
