@@ -42,6 +42,13 @@ const MissingIcons: React.FC = () => {
                     className: spec.class
                 });
             });
+            Object.values(spec.talents ?? {}).forEach(talent => {
+                allSpells.push({
+                    spell: talent,
+                    spec: spec.name,
+                    className: spec.class
+                });
+            }); 
         });
 
         return allSpells;
