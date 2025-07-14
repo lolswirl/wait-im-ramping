@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Tooltip } from '@mui/material';
 import type Spell from "../../data/spells/spell.ts"
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
+import { GetTitle } from '../../util/stringManipulation.tsx';
 
 interface SpellButtonProps {
   selectedSpell: Spell;
@@ -25,7 +26,7 @@ const SpellButton: React.FC<SpellButtonProps> = ({ selectedSpell, action, empowe
   }, [selectedSpell.icon]);
 
   return (
-    <Tooltip key={selectedSpell.id} title={selectedSpell.name} arrow disableInteractive>
+    <Tooltip key={selectedSpell.id} title={GetTitle(selectedSpell.name)} arrow disableInteractive>
       <Button
         onClick={() => action(selectedSpell, empowerLevel)}
         sx={{
@@ -55,7 +56,7 @@ const SpellButton: React.FC<SpellButtonProps> = ({ selectedSpell, action, empowe
         >
           <img
             src={src}
-            alt={selectedSpell.name}
+            alt={GetTitle(selectedSpell.name)}
             width={40}
             height={40}
             style={{
