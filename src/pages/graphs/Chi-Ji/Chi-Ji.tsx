@@ -181,18 +181,25 @@ const ChiJiHPS: React.FC = () => {
                         {GetTitle(isSimulating ? 'Simulating...' : 'Re-simulate')}
                     </Button>
                     <Box sx={{ width: "100%", maxWidth: 1400, px: 2 }}>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                        <Grid container spacing={2}>
                             {rotationHPS.map((rotation, index) => (
-                                <RotationCard
+                                <Grid 
+                                    item 
+                                    xs={12} 
+                                    md={rotationHPS.length === 1 ? 12 : 6} 
+                                    lg={rotationHPS.length === 1 ? 12 : rotationHPS.length === 2 ? 6 : 4} 
                                     key={index}
-                                    rotation={rotation}
-                                    index={index}
-                                    expanded={expandedRotations.has(index)}
-                                    onToggleExpansion={() => toggleRotationExpansion(index)}
-                                    theme={theme}
-                                />
+                                >
+                                    <RotationCard
+                                        rotation={rotation}
+                                        index={index}
+                                        expanded={expandedRotations.has(index)}
+                                        onToggleExpansion={() => toggleRotationExpansion(index)}
+                                        theme={theme}
+                                    />
+                                </Grid>
                             ))}
-                        </Box>
+                        </Grid>
                     </Box>
                     <Box sx={{ height: 400, width: 600, display: "flex", justifyContent: "center", mb: 3 }}>
                         <Bar data={chartData} options={chartOptions} />
