@@ -397,7 +397,6 @@ export const calculateRotationHPS = async (
                 
                 totalHealing += spellHealing;
 
-                // Track renewing mist as its own entry
                 if (renewingMistHealing > 0) {
                     const renewingMistKey = SPELLS.RENEWING_MIST.name;
                     if (!healingBySpell[renewingMistKey]) {
@@ -466,7 +465,6 @@ export const calculateRotationHPS = async (
         }
     }
 
-    // Create breakdown array
     const rotationBreakdown = Object.entries(healingBySpell)
     .filter(([spellName, data]) => data.healing > 0)
     .map(([spellName, data]) => ({
