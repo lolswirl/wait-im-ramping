@@ -98,6 +98,8 @@ const spells = {
     castTime: 0,
     custom: {
       duration: 12,
+      maxStacks: 3,
+      reductionPerStack: 0.33,
     }
   },
   YULON: {
