@@ -1,3 +1,4 @@
+import { Inventory } from '@mui/icons-material';
 import spell from '../../spells/spell.ts';
 
 const talents = {
@@ -35,14 +36,26 @@ const talents = {
             armorModifier: 1,
         }
     },
+    JADEFIRE_TEACHINGS: {
+        name: "Jadefire Teachings",
+        id: 467293,
+        icon: 'inv_misc_book_07',
+        custom: {
+            transferRate: 2.45,
+            armorModifier: 1,
+        }
+    },
     AWAKENED_JADEFIRE: {
         name: "Awakened Jadefire",
         id: 388779,
         icon: 'inv_leather_raidmonkt2_d_01_helm',
         custom: {
+            targetsPerSCK: 3,
             transferRate: 1.20,
             armorModifier: 0.7,
             tigerPalmHits: 2,
+            blackoutKickHits: 2,
+            blackoutKickEffectiveness: 0.2,
         }
     },
     CRANE_STYLE: {
@@ -71,7 +84,7 @@ const talents = {
     TEACHINGS_OF_THE_MONASTERY: {
         name: "Teachings of the Monastery",
         id: 116645,
-        icon: 'inv_misc_book_06',
+        icon: 'passive_monk_teachingsofmonastery',
         custom: {
             maxStacks: 4,
             resetChance: 0.2,
@@ -97,10 +110,50 @@ const talents = {
             chiCocoonFormula: (sourceHp: number, versatility: number) => {
                 return sourceHp * 24 / 100 * (1 + versatility);
             },
-            envelopingBreathAmp: 0.1,
+            envelopingBreathAmp: 1.1,
             envelopingBreathTargets: 5,
+            envelopingBreathHealing: 19011,
+            envelopingBreathDuration: 6
         }
-    }
+    },
+    JADE_BOND: {
+        name: "Jade Bond",
+        id: 336773,
+        icon: 'inv_inscription_deck_jadeserpent',
+        custom: {
+            duration: 25,
+            gustIncrease: 0.2,
+            soothingBreathIncrease: 5,
+            chiCocoonEnvmDuration: 4, 
+        }
+    },
+    MIST_WRAP: {
+        name: "Mist Wrap",
+        id: 197900,
+        icon: 'ability_monk_pathofmists',
+        custom: {
+            duration: 1,
+            amp: 0.1,
+        }
+    },
+    RAPID_DIFFUSION: {
+        name: "Rapid Diffusion",
+        id: 388847,
+        icon: 'ability_monk_chiswirl',
+        custom: {
+            duration: 6,
+        }
+    },
+    CHI_HARMONY: {
+        name: "Chi Harmony",
+        id: 448392,
+        icon: 'ability_monk_counteractmagic',
+        custom: {
+            duration: 8,
+            amp: 1.5,
+        }
+    },
+
 } satisfies Record<string, spell>;
 
 export default talents;

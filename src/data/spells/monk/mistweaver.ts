@@ -6,12 +6,25 @@ const spells = {
     id: 119611,
     icon: 'ability_monk_renewingmists',
     castTime: 0,
+    value: {
+      healing: 36437
+    },
+    custom: {
+      duration: 20
+    }
   },
   ENVELOPING_MIST: {
     name: 'Enveloping Mist',
     id: 124682,
     icon: 'spell_monk_envelopingmist',
-    castTime: 2
+    castTime: 2,
+    value: {
+      healing: 57811
+    },
+    custom: {
+      duration: 6,
+      amp: 1.3,
+    }
   },
   RISING_SUN_KICK: {
     name: 'Rising Sun Kick',
@@ -44,7 +57,10 @@ const spells = {
     name: 'Vivify',
     id: 116670,
     icon: 'ability_monk_vivify',
-    castTime: 1.5
+    castTime: 1.5,
+    value: {
+      healing: 111865
+    }
   },
   SOOTHING_MIST: {
     name: 'Soothing Mist',
