@@ -32,7 +32,7 @@ const talents = {
         id: 388023,
         icon: 'inv_misc_book_07',
         custom: {
-            transferRate: 2.45,
+            transferRate: 0.3,
             armorModifier: 1,
         }
     },
@@ -41,7 +41,7 @@ const talents = {
         id: 467293,
         icon: 'inv_misc_book_07',
         custom: {
-            transferRate: 2.45,
+            transferRate: 2.15,
             armorModifier: 1,
         }
     },

@@ -24,7 +24,8 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
   const cracklingJadeLightningDamage = SPELLS.CRACKLING_JADE_LIGHTNING.value.damage;
 
   const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
-  const ancientTeachingsTransfer = ancientTeachings.custom?.transferRate;
+  const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
+  const ancientTeachingsTransfer = ancientTeachings.custom?.transferRate + jadefireTeachings.custom?.transferRate;
   const ancientTeachingsArmorModifier = ancientTeachings.custom?.armorModifier;
 
   const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;

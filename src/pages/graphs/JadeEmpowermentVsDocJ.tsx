@@ -35,11 +35,12 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
 
   const awakenedJadefire = TALENTS.AWAKENED_JADEFIRE;
   const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
+  const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
 
   const awakenedJadefireArmorModifier = awakenedJadefire.custom.armorModifier;
   const ancientTeachingsArmorModifier = ancientTeachings.custom.armorModifier;
 
-  const jadefireTeachingsTransfer = ancientTeachings.custom.transferRate;
+  const jadefireTeachingsTransfer = ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate;
   const awakenedJadefireTransfer = awakenedJadefire.custom.transferRate;
 
   const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;

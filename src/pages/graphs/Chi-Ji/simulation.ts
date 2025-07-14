@@ -169,7 +169,8 @@ export const calculateRotationHPS = async (
     let chiJiTimeRemaining = 0;
 
     const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
-    const ancientTeachingsTransfer = ancientTeachings.custom.transferRate;
+    const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
+    const ancientTeachingsTransfer = options.jadefireTeachings ? ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate : ancientTeachings.custom.transferRate;
     const ancientTeachingsArmorModifier = ancientTeachings.custom.armorModifier;
     
     const awakenedJadefire = TALENTS.AWAKENED_JADEFIRE;
