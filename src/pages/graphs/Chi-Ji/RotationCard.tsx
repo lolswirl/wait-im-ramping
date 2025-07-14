@@ -173,9 +173,9 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                             { key: 'chiJiGusts', title: 'Chi-Ji Gusts', color: 'rgb(255, 152, 0)', value: item.sources.chiJiGusts },
                                             { key: 'ancientTeachings', title: TALENTS.ANCIENT_TEACHINGS.name, color: 'rgb(156, 39, 176)', value: item.sources.ancientTeachings },
                                             { key: 'awakenedJadefire', title: TALENTS.AWAKENED_JADEFIRE.name, color: 'rgb(156, 39, 176)', value: item.sources.awakenedJadefire },
-                                            { key: 'gustOfMists', title: TALENTS.GUST_OF_MISTS.name, color: 'rgb(33, 150, 243)', value: item.sources.gustOfMists },
                                             { key: 'envelopingBreath', title: "Enveloping Breath", color: 'rgb(255, 193, 7)', value: item.sources.envelopingBreath },
                                             { key: 'rapidDiffusion', title: "Rapid Diffusion", color: 'rgb(255, 87, 34)', value: item.sources.rapidDiffusion },
+                                            { key: 'gustOfMists', title: TALENTS.GUST_OF_MISTS.name, color: 'rgb(33, 150, 243)', value: item.sources.gustOfMists },
                                         ];
 
                                         return healingSources

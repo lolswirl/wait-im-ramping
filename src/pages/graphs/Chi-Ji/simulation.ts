@@ -295,6 +295,8 @@ export const calculateRotationHPS = async (
                 const envBaseHealing = spell.value?.healing || 0;
                 breakdown.baseHealing = calculateHealingWithAmp(envBaseHealing, envTarget);
 
+                breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistSpellpower / 100 * options.intellect, envTarget);
+
                 if (chiJiActive && options.celestialHarmony) {
                     const envBTargets = applyEnvelopingBreath(allies, options);
                     const envBHealing = celestialHarmony.custom.envelopingBreathHealing;
@@ -314,6 +316,12 @@ export const calculateRotationHPS = async (
             
             case SPELLS.VIVIFY.id:
             case SPELLS.RENEWING_MIST.id:
+                const gomSpellTarget = getRandomAlly(allies);
+                const gomSpellBaseHealing = spell.value?.healing || 0;
+                breakdown.baseHealing = calculateHealingWithAmp(gomSpellBaseHealing, gomSpellTarget);
+
+                breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistSpellpower / 100 * options.intellect, gomSpellTarget);
+                break;
             default:
                 const defaultTarget = getRandomAlly(allies);
                 const defaultBaseHealing = spell.value?.healing || 0;
