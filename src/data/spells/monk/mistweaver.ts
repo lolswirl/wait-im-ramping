@@ -1,40 +1,7 @@
 import spell from '../spell.ts';
 
 const spells = {
-  RENEWING_MIST: {
-    name: 'Renewing Mist',
-    id: 119611,
-    icon: 'ability_monk_renewingmists',
-    castTime: 0,
-    value: {
-      healing: 36437
-    },
-    custom: {
-      duration: 20
-    }
-  },
-  ENVELOPING_MIST: {
-    name: 'Enveloping Mist',
-    id: 124682,
-    icon: 'spell_monk_envelopingmist',
-    castTime: 2,
-    value: {
-      healing: 57811
-    },
-    custom: {
-      duration: 6,
-      amp: 1.3,
-    }
-  },
-  RISING_SUN_KICK: {
-    name: 'Rising Sun Kick',
-    id: 107428,
-    icon: 'ability_monk_risingsunkick',
-    castTime: 0,
-    value: {
-      damage: 40775
-    }
-  },
+  // damaging abilities
   TIGER_PALM: {
     name: 'Tiger Palm',
     id: 100780,
@@ -53,13 +20,45 @@ const spells = {
       damage: 26582
     }
   },
-  VIVIFY: {
-    name: 'Vivify',
-    id: 116670,
-    icon: 'ability_monk_vivify',
+  RISING_SUN_KICK: {
+    name: 'Rising Sun Kick',
+    id: 107428,
+    icon: 'ability_monk_risingsunkick',
+    castTime: 0,
+    value: {
+      damage: 40775
+    }
+  },
+  CRACKLING_JADE_LIGHTNING: {
+    name: 'Crackling Jade Lightning',
+    id: 117952,
+    icon: 'ability_monk_cracklingjadelightning',
+    castTime: 3,
+    value: {
+      damage: 19270
+    }
+  },
+  SPINNING_CRANE_KICK: {
+    name: 'Spinning Crane Kick',
+    id: 101546,
+    icon: 'ability_monk_cranekick_new',
     castTime: 1.5,
     value: {
-      healing: 111865
+      damage: 25217
+    }
+  },
+
+  // healing abilities
+  RENEWING_MIST: {
+    name: 'Renewing Mist',
+    id: 119611,
+    icon: 'ability_monk_renewingmists',
+    castTime: 0,
+    value: {
+      healing: 36437
+    },
+    custom: {
+      duration: 20
     }
   },
   SOOTHING_MIST: {
@@ -72,6 +71,28 @@ const spells = {
       replaceGCD: 1
     }
   },
+  ENVELOPING_MIST: {
+    name: 'Enveloping Mist',
+    id: 124682,
+    icon: 'spell_monk_envelopingmist',
+    castTime: 2,
+    value: {
+      healing: 57811
+    },
+    custom: {
+      duration: 6,
+      amp: 1.3,
+    }
+  },
+  VIVIFY: {
+    name: 'Vivify',
+    id: 116670,
+    icon: 'ability_monk_vivify',
+    castTime: 1.5,
+    value: {
+      healing: 111865
+    }
+  },
   THUNDER_FOCUS_TEA: {
     name: 'Thunder Focus Tea',
     id: 116680,
@@ -79,18 +100,8 @@ const spells = {
     castTime: 0,
     gcd: false
   },
-  SHEILUNS_GIFT: {
-    name: "Sheilun's Gift",
-    id: 205406,
-    icon: 'inv_staff_2h_artifactshaohao_d_01',
-    castTime: 0,
-    value: {
-      healing: 25750
-    }, 
-    custom: {
-      targetsHit: 3
-    }
-  },
+
+  // cooldowns
   CHI_JI: {
     name: 'Chi-Ji',
     id: 198664,
@@ -111,29 +122,23 @@ const spells = {
       duration: 12,
     }
   },
+  SHEILUNS_GIFT: {
+    name: "Sheilun's Gift",
+    id: 205406,
+    icon: 'inv_staff_2h_artifactshaohao_d_01',
+    castTime: 0,
+    value: {
+      healing: 25750
+    }, 
+    custom: {
+      targetsHit: 3
+    }
+  },
   REVIVAL: {
     name: 'Revival',
     id: 115310,
     icon: 'spell_monk_revival',
     castTime: 0
-  },
-  CRACKLING_JADE_LIGHTNING: {
-    name: 'Crackling Jade Lightning',
-    id: 117952,
-    icon: 'ability_monk_cracklingjadelightning',
-    castTime: 3,
-    value: {
-      damage: 19270
-    }
-  },
-  SPINNING_CRANE_KICK: {
-    name: 'Spinning Crane Kick',
-    id: 101546,
-    icon: 'ability_monk_cranekick_new',
-    castTime: 1.5,
-    value: {
-      damage: 25217
-    }
   },
   LIFE_COCON: {
     name: 'Life Cocoon',
