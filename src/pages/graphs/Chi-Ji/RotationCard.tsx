@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Box, Typography, IconButton, Collapse, LinearProgress, Chip } from '@mui/material';
-import { ExpandMore, ExpandLess } from '@mui/icons-material';
+import { ExpandMore, ExpandLess, DeleteTwoTone } from '@mui/icons-material';
 import { RotationResult } from './types.ts';
 import SpellButton from "../../../components/SpellButtons/SpellButton.tsx";
 import { GetTitle } from "../../../util/stringManipulation.tsx";
@@ -12,6 +12,7 @@ interface RotationCardProps {
     index: number;
     expanded: boolean;
     onToggleExpansion: () => void;
+    onDelete: () => void;
     theme: any;
 }
 
@@ -20,6 +21,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
     index, 
     expanded, 
     onToggleExpansion, 
+    onDelete,
     theme 
 }) => {
     return (
@@ -41,26 +43,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                 }
             }}
         >
-            <Box sx={{ 
-                position: 'absolute', 
-                top: 8, 
-                right: 8,
-                color: 'white',
-                backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                backdropFilter: 'blur(8px)',
-                px: 1.5,
-                py: 1.5,
-                borderRadius: 3,
-                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                {GetTitle(`${index + 1}`)}
-            </Box>
-
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, flexWrap: 'wrap', pr: 4 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1, mb: 2 }}>
                 <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
                     {rotation.spells.map((spell, spellIndex) => (
                         <SpellButton
@@ -70,6 +53,13 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                         />
                     ))}
                 </Box>
+                <IconButton
+                    size="small"
+                    onClick={onDelete}
+                    color="error"
+                >
+                    <DeleteTwoTone fontSize="small" />
+                </IconButton>
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>

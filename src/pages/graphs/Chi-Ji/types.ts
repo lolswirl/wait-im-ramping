@@ -19,6 +19,7 @@ export interface AllyState {
 }
 
 export interface RotationResult {
+    id: string;
     name: string;
     hps: number;
     totalHealing: number;

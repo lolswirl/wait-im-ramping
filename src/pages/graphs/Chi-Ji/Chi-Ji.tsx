@@ -53,6 +53,7 @@ const ChiJiHPS: React.FC = () => {
         finalizeRotation,
         clearCurrentRotation,
         clearAllRotations,
+        removeRotation,
         hasRotations,
     } = useRotationManager();
 
@@ -203,6 +204,7 @@ const ChiJiHPS: React.FC = () => {
                                         index={index}
                                         expanded={expandedRotations.has(index)}
                                         onToggleExpansion={() => toggleRotationExpansion(index)}
+                                        onDelete={() => removeRotation(rotations[index].id)}
                                         theme={theme}
                                     />
                                 </Grid>
