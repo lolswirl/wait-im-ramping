@@ -171,7 +171,8 @@ export const calculateRotationHPS = async (
     let spellsCastInChiJi: spell[] = [];
     let totmStacks = 0;
     
-    const CHI_JI_DURATION = SPELLS.CHI_JI.custom.duration;
+    const jadeBond = TALENTS.JADE_BOND;
+    const CHI_JI_DURATION = options.jadeBond ? jadeBond.custom.duration : SPELLS.CHI_JI.custom.duration;
     let chiJiActive = false;
     let chiJiTimeRemaining = 0;
 
@@ -477,6 +478,7 @@ export const calculateRotationHPS = async (
     const hps = totalTime > 0 ? totalHealing / totalTime : 0;
 
     return {
+        id: `Rotation ${rotationIndex + 1}`,
         name: `Rotation ${rotationIndex + 1}`,
         hps,
         totalHealing,
