@@ -196,9 +196,6 @@ export const calculateRotationHPS = async (
     const teachingsOfTheMonastery = TALENTS.TEACHINGS_OF_THE_MONASTERY;
     const totmMaxStacks = teachingsOfTheMonastery.custom.maxStacks;
 
-    const gustOfMists = TALENTS.GUST_OF_MISTS;
-    const gustOfMistsMasteryCoeff = gustOfMists.custom.multiplier;
-
     const gomSpellpower = options.mastery * 1.05;
     const gustOfMistHealing = gomSpellpower / 100 * options.intellect;
 
@@ -388,7 +385,8 @@ export const calculateRotationHPS = async (
                 chiJiTimeRemaining = CHI_JI_DURATION;
             }
 
-            if (totalTime + castTime <= CHI_JI_DURATION || spell.id === SPELLS.CHI_JI.id) {
+            // Only apply duration limit after Chi-Ji has been cast
+            if (!chiJiActive || (chiJiTimeRemaining > 0) || spell.id === SPELLS.CHI_JI.id) {
                 const { breakdown, totalHealing: spellHealing, renewingMistHealing } = calculateSpellHealingBreakdown(
                     spell, 
                     totmStacks, 
@@ -440,6 +438,7 @@ export const calculateRotationHPS = async (
                 break;
             }
         } else {
+            // Off-GCD spells always execute
             const { breakdown, totalHealing: spellHealing } = calculateSpellHealingBreakdown(
                 spell, 
                 totmStacks, 
