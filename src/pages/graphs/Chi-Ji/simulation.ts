@@ -189,7 +189,8 @@ export const calculateRotationHPS = async (
     const craneStyle = TALENTS.CRANE_STYLE;
     const craneStyleRisingSunKickGOM = craneStyle.custom.risingSunKickGOM;
     const craneStyleBlackoutKickGOM = craneStyle.custom.blackoutKickGOM;
-    const craneStyleBlackoutKickGOMChance = craneStyle.custom.gomChance;
+    const craneStyleSpinningCraneKickGOM = craneStyle.custom.spinningCraneKickGOM;
+    const craneStyleGOMChance = craneStyle.custom.gomChance;
 
     const teachingsOfTheMonastery = TALENTS.TEACHINGS_OF_THE_MONASTERY;
     const totmMaxStacks = teachingsOfTheMonastery.custom.maxStacks;
@@ -197,13 +198,10 @@ export const calculateRotationHPS = async (
     const gustOfMists = TALENTS.GUST_OF_MISTS;
     const gustOfMistsMasteryCoeff = gustOfMists.custom.multiplier;
 
-    const baseMastery = gustOfMistsMasteryCoeff / 100 * 8;
-    const masteryFromRating = options.mastery / 180 * gustOfMistsMasteryCoeff / 100;
-    const totalMasteryMultiplier = 1 + (baseMastery + masteryFromRating);
-    const gustOfMistHealingAbsolute = (0.1 + totalMasteryMultiplier) * options.intellect;
-    const gustOfMistSpellpower = (gustOfMistHealingAbsolute / options.intellect) * 100;
+    const gomSpellpower = options.mastery * 1.05;
+    const gustOfMistHealing = gomSpellpower / 100 * options.intellect;
 
-    const chijiGustHealing = gustOfMistSpellpower / 100 * options.intellect * (options.jadeBond ? 1.2 : 1);
+    const chijiGustHealing = gustOfMistHealing * (options.jadeBond ? 1.2 : 1);
     const celestialHarmony = TALENTS.CELESTIAL_HARMONY;
     const celestialHarmonyChiCocoonAmount = celestialHarmony.custom.chiCocoonFormula(options.totalHp, options.versatility / 100);
     const celestialHarmonyChiCocoonMaxTargets = celestialHarmony.custom.chiCocoonTargets;
@@ -249,10 +247,12 @@ export const calculateRotationHPS = async (
                 if (chiJiActive) {
                     breakdown.chiJiGusts = distributeGusts(allies, 6, chijiGustHealing);
                 }
-                
-                const rskGOMTarget = getRandomAlly(allies);
-                const rskGOMHealing = gustOfMistSpellpower / 100 * options.intellect * craneStyleRisingSunKickGOM;
-                breakdown.gustOfMists = calculateHealingWithAmp(rskGOMHealing, rskGOMTarget);
+
+                if (options.craneStyle) {
+                    const rskGOMTarget = getRandomAlly(allies);
+                    const rskgustOfMistHealing = gustOfMistHealing * craneStyleRisingSunKickGOM;
+                    breakdown.gustOfMists = calculateHealingWithAmp(rskgustOfMistHealing, rskGOMTarget);
+                }
 
                 const rskRenewingMist = applyRapidDiffusionRenewingMist(allies, options);
                 renewingMistHealing = rskRenewingMist.healing;
@@ -280,15 +280,24 @@ export const calculateRotationHPS = async (
                 
                 breakdown.ancientTeachings = distributeAncientTeachings(allies, bokATHealing);
                 
-                const bokGOMTarget = getRandomAlly(allies);
-                const bokGOMHealing = gustOfMistSpellpower / 100 * options.intellect * craneStyleBlackoutKickGOM * craneStyleBlackoutKickGOMChance;
-                breakdown.gustOfMists = calculateHealingWithAmp(bokGOMHealing, bokGOMTarget);
+                if (options.craneStyle) {
+                    let totalBokGOMHealing = 0;
+                    for (let i = 0; i < bokHits; i++) {
+                        if (Math.random() < craneStyleGOMChance) {
+                            const bokGOMTarget = getRandomAlly(allies);
+                            const bokGOMHealing = gustOfMistHealing * craneStyleBlackoutKickGOM;
+                            totalBokGOMHealing += calculateHealingWithAmp(bokGOMHealing, bokGOMTarget);
+                        }
+                    }
+                    breakdown.gustOfMists = totalBokGOMHealing;
+                }
+
                 break;
             
             case SPELLS.SPINNING_CRANE_KICK.id:
                 const sckDamage = spell.value?.damage || 0;
                 const sckTargetMultiplier = options.enemyCount <= 5 
-                    ? options.enemyCount 
+                    ? options.enemyCount
                     : options.enemyCount * Math.sqrt(5 / options.enemyCount);
                 const sckAJHealing = sckDamage * (awakenedJadefireTransfer * awakenedJadefireTargetsPerSCK) * awakenedJadefireArmorModifier * sckTargetMultiplier;
                 breakdown.awakenedJadefire = sckAJHealing;
@@ -296,6 +305,15 @@ export const calculateRotationHPS = async (
                 if (chiJiActive) {
                     breakdown.chiJiGusts = chijiGustHealing * 6;
                 }
+                
+                if (options.craneStyle) {
+                    if (Math.random() < craneStyleGOMChance) {
+                        const sckGomTarget = getRandomAlly(allies);
+                        const sckGOMHealing = gustOfMistHealing * craneStyleSpinningCraneKickGOM;
+                        breakdown.gustOfMists = calculateHealingWithAmp(sckGOMHealing, sckGomTarget);
+                    }
+                }
+                
                 break;
             
             case SPELLS.ENVELOPING_MIST.id:
@@ -303,7 +321,7 @@ export const calculateRotationHPS = async (
                 const envBaseHealing = spell.value?.healing || 0;
                 breakdown.baseHealing = calculateHealingWithAmp(envBaseHealing, envTarget);
 
-                breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistSpellpower / 100 * options.intellect, envTarget);
+                breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistHealing, envTarget);
 
                 if (chiJiActive && options.celestialHarmony) {
                     const envBTargets = applyEnvelopingBreath(allies, options);
@@ -327,7 +345,7 @@ export const calculateRotationHPS = async (
                 const vivifyBaseHealing = spell.value?.healing || 0;
                 breakdown.baseHealing = calculateHealingWithAmp(vivifyBaseHealing, vivifyTarget);
 
-                breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistSpellpower / 100 * options.intellect, vivifyTarget);
+                breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistHealing, vivifyTarget);
                 break;
             case SPELLS.RENEWING_MIST.id:
                 const renewingMistTarget = getRandomAlly(allies);
@@ -335,7 +353,7 @@ export const calculateRotationHPS = async (
                 const renewingMistBaseHealing = spell.value?.healing || 0;
                 breakdown.baseHealing = calculateHealingWithAmp(renewingMistBaseHealing, renewingMistTarget);
 
-                breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistSpellpower / 100 * options.intellect, renewingMistTarget);
+                breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistHealing, renewingMistTarget);
                 break;
             default:
                 const defaultTarget = getRandomAlly(allies);

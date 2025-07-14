@@ -54,6 +54,7 @@ export interface SimulationOptions {
     jadeBond: boolean;
     mistWrap: boolean;
     chiHarmony: boolean;
+    craneStyle: boolean;
     jadefireTeachings: boolean;
     awakenedJadefire: boolean;
 }

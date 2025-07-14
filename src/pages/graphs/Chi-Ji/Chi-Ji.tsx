@@ -40,6 +40,7 @@ const ChiJiHPS: React.FC = () => {
         jadeBond: false,
         mistWrap: true,
         chiHarmony: true,
+        craneStyle: true,
         jadefireTeachings: true,
         awakenedJadefire: true,
     });

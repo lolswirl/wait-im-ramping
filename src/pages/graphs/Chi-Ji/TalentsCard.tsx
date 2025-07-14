@@ -11,6 +11,7 @@ interface TalentsCardProps {
         jadeBond: boolean;
         mistWrap: boolean;
         chiHarmony: boolean;
+        craneStyle: boolean;
         jadefireTeachings: boolean;
         awakenedJadefire: boolean;
     };
@@ -43,6 +44,10 @@ const TalentsCard: React.FC<TalentsCardProps> = ({ options, onOptionsChange }) =
         {
             key: 'chiHarmony',
             talent: TALENTS.CHI_HARMONY
+        },
+        { 
+            key: 'craneStyle', 
+            talent: TALENTS.CRANE_STYLE 
         },
         { 
             key: 'jadefireTeachings', 
