@@ -55,6 +55,11 @@ const ChiJiHPS: React.FC = () => {
         hasRotations,
     } = useRotationManager();
 
+    const addSpellToRotationCollapse = (spell: any) => {
+        addSpellToRotation(spell);
+        setExpandedRotations(new Set());
+    }
+
     useEffect(() => {
         const updateHPS = async () => {
             if (rotations.length > 0) {
@@ -151,7 +156,7 @@ const ChiJiHPS: React.FC = () => {
             <Card variant="outlined" sx={{ maxWidth: 1200, width: "100%", mx: "auto" }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: '400px' }}>
                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
-                        <SpellButtons selectedSpec={mistweaver} addSpellToTable={addSpellToRotation} />
+                        <SpellButtons selectedSpec={mistweaver} addSpellToTable={addSpellToRotationCollapse} />
                         <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
                         <Box sx={{ mt: 0 }}>
                             <CurrentRotationControl
