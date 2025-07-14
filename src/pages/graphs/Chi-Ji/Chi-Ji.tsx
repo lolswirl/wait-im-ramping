@@ -173,19 +173,21 @@ const ChiJiHPS: React.FC = () => {
 
                     <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', md: 'block' } }} />
 
-                    <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '600px', overflowY: 'auto' }}>
+                    <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '700', overflowY: 'auto' }}>
                         <StatsCard options={options} onOptionsChange={setOptions} />
                         <TargetCountsCard options={options} onOptionsChange={setOptions} />
                         <TalentsCard options={options} onOptionsChange={setOptions} />
+                        {rotationHPS.length > 0 && (
+                            <Button variant="contained" startIcon={<Refresh />} onClick={handleRefresh} disabled={isSimulating} sx={{ textTransform: 'none' }}>
+                                {GetTitle(isSimulating ? 'Simulating...' : 'Re-simulate')}
+                            </Button>
+                        )}
                     </Box>
                 </Box>
             </Card>
 
             {rotationHPS.length > 0 && (
                 <>
-                    <Button variant="contained" startIcon={<Refresh />} onClick={handleRefresh} disabled={isSimulating}>
-                        {GetTitle(isSimulating ? 'Simulating...' : 'Re-simulate')}
-                    </Button>
                     <Box sx={{ width: "100%", maxWidth: 1400, px: 2 }}>
                         <Grid container spacing={2}>
                             {rotationHPS.map((rotation, index) => (
