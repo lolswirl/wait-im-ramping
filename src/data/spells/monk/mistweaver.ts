@@ -47,6 +47,21 @@ const spells = {
       damage: 25217
     }
   },
+  JADEFIRE_STOMP: {
+    name: 'Jadefire Stomp',
+    id: 338193,
+    icon: 'inv_ability_monk_jadefirestomp',
+    castTime: 0,
+    value: {
+      damage: 15945,
+      healing: 32880,
+    },
+    custom: {
+      enemyTargets: 5,
+      friendlyTargets: 5,
+      resetChance: 0.06,
+    }
+  },
 
   // healing abilities
   RENEWING_MIST: {
