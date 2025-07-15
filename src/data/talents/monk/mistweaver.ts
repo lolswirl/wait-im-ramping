@@ -1,4 +1,3 @@
-import { Inventory } from '@mui/icons-material';
 import spell from '../../spells/spell.ts';
 
 const talents = {
