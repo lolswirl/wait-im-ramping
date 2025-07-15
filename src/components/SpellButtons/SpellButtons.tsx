@@ -6,7 +6,7 @@ import SpellButton from './SpellButton.tsx';
 
 interface SpellButtonsProps {
   selectedSpec?: specialization;
-  spells?: Record<string, Spell>;
+  spells?: Spell[];
   addSpellToTable: (spell: Spell, empowerLevel: number) => void;
 }
 
