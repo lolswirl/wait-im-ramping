@@ -160,7 +160,12 @@ const spells = {
     id: 116849,
     icon: 'ability_monk_chicocoon',
     castTime: 0,
-    gcd: false
+    gcd: false,
+    custom: {
+      absorbFormula: (sourceHp: number, versatility: number) => {
+        return sourceHp * 48 / 100 * (1 + versatility);
+      },
+    }
   }
 } satisfies Record<string, spell>;
 
@@ -178,8 +183,6 @@ const CHIJI_ABILITIES = [
   spells.RENEWING_MIST,
   spells.VIVIFY,
   spells.THUNDER_FOCUS_TEA,
-  spells.SHEILUNS_GIFT,
-  spells.LIFE_COCOON,
 ];
 
 export default spells;
