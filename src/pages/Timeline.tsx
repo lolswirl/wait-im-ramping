@@ -62,83 +62,82 @@ const Timeline = () => {
 
         const addUUIDsToRotation = (spells: spell[]) => {
             return spells.map(spell => ({
-            ...spell,
-            uuid: spell.uuid || uuidv4(),
+                ...spell,
+                uuid: spell.uuid || uuidv4(),
             }));
         };
 
+        // Helper function to convert hex to RGB
+        const hexToRgb = (hex: string) => {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : { r: 54, g: 162, b: 235 }; // fallback blue
+        };
+
+        const baseColor = hexToRgb(spec.color);
+
         return (
-            <FormControl
-                fullWidth
-                variant="outlined"
-                sx={{
-                    maxWidth: "100%",
-                    width: "100%",
-                    alignItems: "center",
-                }}
-            >
-                <InputLabel shrink htmlFor="prebuilt-rotations-outlined">
-                    {GetTitle("Prebuilt Rotations")}
-                </InputLabel>
-                <OutlinedInput
-                    id="prebuilt-rotations-outlined"
-                    label={GetTitle("Prebuilt Rotations")}
-                    readOnly
-                    notched
-                    inputComponent="span"
-                    inputProps={{
-                        style: {
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            padding: 0,
-                            height: "100%",
-                            boxSizing: "border-box",
-                            width: "100%",
-                        },
-                        children: (
-                            <Box sx={{ width: "auto", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                                {rotationEntries.map(([rotationName, spells], index) => (
-                                    <Box
-                                        key={index}
-                                        sx={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            p: 1,
-                                            border: "1px solid",
-                                            borderColor: "divider",
-                                            borderRadius: 1,
-                                            backgroundColor: "background.paper",
-                                            width: "auto",
-                                            maxWidth: "100%",
-                                            margin: 0.5,
-                                            cursor: "pointer",
-                                            transition: "box-shadow 0.2s",
-                                            justifyContent: "center",
-                                            "&:hover": {
-                                                boxShadow: 3,
-                                                backgroundColor: "action.hover",
-                                            },
-                                            gap: 0.5,
-                                        }}
-                                        onClick={() => setCurrentRotation(addUUIDsToRotation(spells))}
-                                    >
-                                        {spells.map((spell, i) => (
-                                            <SpellButton key={spell.uuid || i} selectedSpell={spell} action={() => { }} />
-                                        ))}
-                                    </Box>
-                                ))}
-                            </Box>
-                        ),
-                    }}
+            <Box sx={{ width: '100%' }}>
+                <Box
                     sx={{
-                        height: "auto",
-                        alignItems: "flex-start",
-                        py: 1,
-                        width: "100%",
+                        columnCount: { xs: 1, sm: 1, md: 1 },
+                        columnGap: 1.5,
+                        columnFill: 'balance',
                     }}
-                />
-            </FormControl>
+                >
+                    {rotationEntries.map(([rotationName, spells], index) => {
+                        const darknessFactor = 0.8 - (index * 0.1);
+                        const adjustedColor = {
+                            r: Math.max(0, Math.floor(baseColor.r * darknessFactor)),
+                            g: Math.max(0, Math.floor(baseColor.g * darknessFactor)),
+                            b: Math.max(0, Math.floor(baseColor.b * darknessFactor))
+                        };
+
+                        return (
+                            <Card 
+                                key={index}
+                                variant="outlined" 
+                                sx={{ 
+                                    p: 1,
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease',
+                                    background: `linear-gradient(135deg, rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.1), rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.05))`,
+                                    borderColor: `rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.3)`,
+                                    breakInside: 'avoid',
+                                    marginBottom: index !== rotationEntries.length - 1 ? 0.5 : 0,
+                                    display: 'inline-block',
+                                    width: '100%',
+                                    '&:hover': {
+                                        transform: 'translateY(-2px)',
+                                        boxShadow: 4,
+                                        borderColor: `rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.5)`,
+                                        background: `linear-gradient(135deg, rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.15), rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.08))`,
+                                    }
+                                }}
+                                onClick={() => setCurrentRotation(addUUIDsToRotation(spells))}
+                            >
+                                <Box sx={{ 
+                                    display: 'flex', 
+                                    gap: 0.5, 
+                                    flexWrap: 'wrap',
+                                    justifyContent: 'center'
+                                }}>
+                                    {spells.map((spell, i) => (
+                                        <SpellButton 
+                                            key={spell.uuid || i} 
+                                            selectedSpell={spell} 
+                                            action={() => {}} 
+                                        />
+                                    ))}
+                                </Box>
+                            </Card>
+                        );
+                    })}
+                </Box>
+            </Box>
         );
     };
 
@@ -220,7 +219,7 @@ const Timeline = () => {
                         </FormControl>
                     </Stack>
 
-                    {spec != CLASSES.MONK.SPECS.MISTWEAVER && (
+                    {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
                         <Box sx={{ mt: 2}}>
                             <Chip 
                                 label={GetTitle("This spec has limited support for cast time reductions and haste buff gains")} 
