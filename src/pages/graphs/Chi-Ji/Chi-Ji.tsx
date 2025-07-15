@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
-import { Box, useTheme, Typography, Card, Divider, TextField, Grid, Checkbox, Button } from "@mui/material";
+import { Box, useTheme, Card, Divider, Grid, Button } from "@mui/material";
 import { Refresh } from "@mui/icons-material";
 import PageTitle from "../../../components/PageTitle/PageTitle.tsx";
 import { GetTitle } from "../../../util/stringManipulation.tsx";
@@ -82,7 +80,7 @@ const ChiJiHPS: React.FC = () => {
         };
 
         updateHPS();
-    }, [rotations, options]);
+    }, [rotations, options, mistweaver]);
 
     const handleRefresh = async () => {
         if (rotations.length > 0) {
@@ -108,44 +106,6 @@ const ChiJiHPS: React.FC = () => {
             newExpanded.add(index);
         }
         setExpandedRotations(newExpanded);
-    };
-
-    const chartData = {
-        labels: rotationHPS.map((rotation, index) => GetTitle(`${index + 1}`)),
-        datasets: [{
-            label: "HPS",
-            data: rotationHPS.map(rotation => rotation.hps),
-            backgroundColor: rotationHPS.map((_, index) => `rgba(${54 + index * 40}, 162, 235, 0.8)`),
-            borderColor: rotationHPS.map((_, index) => `rgba(${54 + index * 40}, 162, 235, 1)`),
-            borderWidth: 2,
-        }],
-    };
-
-    const chartOptions = {
-        responsive: true,
-        plugins: {
-            title: { display: true, text: GetTitle("Chi-Ji HPS Comparison") },
-            tooltip: {
-                mode: "index" as const,
-                intersect: false,
-                callbacks: {
-                    label: function(context: any) {
-                        const rotationData = rotationHPS[context.dataIndex];
-                        return [
-                            `HPS: ${context.parsed.y.toLocaleString()}`,
-                            `Total Healing: ${rotationData.totalHealing.toLocaleString()}`,
-                            `Duration: ${rotationData.duration.toFixed(1)}s`,
-                            `Spells Cast: ${rotationData.spells.length}`
-                        ];
-                    }
-                }
-            },
-            legend: { display: false },
-        },
-        scales: {
-            x: { title: { display: true, text: GetTitle("Rotations") } },
-            y: { title: { display: true, text: GetTitle("HPS") }, beginAtZero: true },
-        },
     };
 
     return (
@@ -210,9 +170,6 @@ const ChiJiHPS: React.FC = () => {
                                 </Grid>
                             ))}
                         </Grid>
-                    </Box>
-                    <Box sx={{ height: 400, width: 600, display: "flex", justifyContent: "center", mb: 3 }}>
-                        <Bar data={chartData} options={chartOptions} />
                     </Box>
                 </>
             )}
