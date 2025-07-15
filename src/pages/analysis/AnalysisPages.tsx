@@ -1,4 +1,4 @@
-import Graphs from "./Graphs.tsx";
+import Analysis from "../Analysis.tsx";
 import AbsorbVsDRCompare from "./AbsorbVsDRCompare.tsx";
 import SheilunVSJadeEmpowerment from "./SheilunVSJadeEmpowerment.tsx";
 import JadeEmpowermentVsDocJ from "./JadeEmpowermentVsDocJ.tsx";
@@ -14,7 +14,7 @@ import jadeEmpowermentDocjPreview from '../../assets/previews/jade-empowerment-d
 import stSpinningPreview from '../../assets/previews/st-spinning.png';
 import harmonicSurgePreview from '../../assets/previews/harmonic-surge.png';
 
-export interface GraphPage {
+export interface AnalysisPage {
   label: string;
   path: string;
   element: React.ReactElement;
@@ -24,11 +24,11 @@ export interface GraphPage {
   createdDate: string;
 }
 
-export const graphPages: GraphPage[] = [
+export const analysisPages: AnalysisPage[] = [
   { 
-    label: "Graphs", 
-    path: "/graphs", 
-    element: <Graphs />,
+    label: "Analysis", 
+    path: "/analysis", 
+    element: <Analysis />,
     preview: "",
     description: "",
     tags: [],
@@ -36,7 +36,7 @@ export const graphPages: GraphPage[] = [
   },
   { 
     label: "Absorb vs. Damage Reduction", 
-    path: "/graphs/external-comparison", 
+    path: "/analysis/external-comparison", 
     element: <AbsorbVsDRCompare />,
     preview: externalComparisonPreview,
     description: "Compare the effectiveness of Damage Reduction to find how damage can scale past Absorbs",
@@ -45,7 +45,7 @@ export const graphPages: GraphPage[] = [
   },
   { 
     label: "Sheilun's Gift vs. Jade Empowerment", 
-    path: "/graphs/jade-empowerment-sheiluns", 
+    path: "/analysis/jade-empowerment-sheiluns", 
     element: <SheilunVSJadeEmpowerment />,
     preview: jadeEmpowermentSheilunsPreview,
     description: "Analyze the spellpower differences between Sheilun's Gift's stacks and Jade Empowerment's chaining",
@@ -54,7 +54,7 @@ export const graphPages: GraphPage[] = [
   },
   { 
     label: "Jade Empowerment vs. Dance of Chi-Ji", 
-    path: "/graphs/jade-empowerment-docj", 
+    path: "/analysis/jade-empowerment-docj", 
     element: <JadeEmpowermentVsDocJ />,
     preview: jadeEmpowermentDocjPreview,
     description: "Compare the spellpower output of Jade Empowerment and Dance of Chi-Ji on different target counts",
@@ -63,7 +63,7 @@ export const graphPages: GraphPage[] = [
   },
   { 
     label: "Single Target Rotation vs. Spinning Crane Kick", 
-    path: "/graphs/st-spinning", 
+    path: "/analysis/st-spinning", 
     element: <STvsSCK />,
     preview: stSpinningPreview,
     description: "Evaluate simulated single target rotation damage output compared to Spinning Crane Kick",
@@ -72,7 +72,7 @@ export const graphPages: GraphPage[] = [
   },
   { 
     label: "Harmonic Surge", 
-    path: "/graphs/harmonic-surge", 
+    path: "/analysis/harmonic-surge", 
     element: <HarmonicSurge />,
     preview: harmonicSurgePreview,
     description: "Analyze Harmonic Surge's spellpower output compared to the other Ancient Teachings abilities",
@@ -81,7 +81,7 @@ export const graphPages: GraphPage[] = [
   },
   { 
     label: "Rising Sun Kick Resets", 
-    path: "/graphs/rising-sun-kick-resets", 
+    path: "/analysis/rising-sun-kick-resets", 
     element: <RisingSunKickResets />,
     preview: risingStunKickPreview,
     description: "Find the probabilities of Rising Sun Kick resets based on various input rotations",

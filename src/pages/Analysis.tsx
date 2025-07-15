@@ -10,41 +10,68 @@ import {
     Grid,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { graphPages } from "./GraphPages.tsx";
-import { getCapsMode, GetTitle } from "../../util/stringManipulation.tsx";
-import PageTitle from "../../components/PageTitle/PageTitle.tsx";
+import { analysisPages, AnalysisPage } from "./analysis/AnalysisPages.tsx";
+import { getCapsMode, GetTitle } from "../util/stringManipulation.tsx";
+import PageTitle from "../components/PageTitle/PageTitle.tsx";
 
-const title = "Graphs & Analysis Tools";
+import WhenDoIRamp from "./WhenDoIRamp.tsx";
+import Timeline from "./Timeline.tsx"
+import wdirPreview from '../assets/previews/when-do-i-ramp.png';
+import spellTimelinePreview from '../assets/previews/timeline.png';
 
-const Graphs = () => {
+const title = "Analysis Tools";
+
+const Analysis = () => {
     const navigate = useNavigate();
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
-    
-    const filteredGraphPages = graphPages.filter(
-        (graph) => graph.label.toLowerCase() !== "graphs"
+
+    const pages: AnalysisPage[] = [
+        ...analysisPages,
+        { 
+            label: "When Do I Ramp?", 
+            path: "/when-do-i-ramp", 
+            element: <WhenDoIRamp />,
+            preview: wdirPreview,
+            description: "Calculate ramp timings for spell cast efficiency and planning",
+            tags: ["Healing", "Damage", "Rotation"],
+            createdDate: "2025-02-28"
+        },
+        { 
+            label: "Spell Timeline", 
+            path: "/timeline", 
+            element: <Timeline />,
+            preview: spellTimelinePreview,
+            description: "Create customized timelines for spell casts and cooldowns",
+            tags: ["Healing", "Damage", "Rotation"],
+            createdDate: "2025-03-10"
+        },
+    ];
+
+    const filteredAnalysisPages = pages.filter(
+        (tool) => tool.label.toLowerCase() !== "analysis"
     );
 
     const allTags = useMemo(() => {
         const tags = new Set<string>();
-        filteredGraphPages.forEach(graph => {
-            graph.tags.forEach(tag => tags.add(tag));
+        filteredAnalysisPages.forEach(tool => {
+            tool.tags.forEach(tag => tags.add(tag));
         });
         return Array.from(tags).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-    }, [filteredGraphPages]);
+    }, [filteredAnalysisPages]);
 
     const displayedPages = useMemo(() => {
-        let filtered = filteredGraphPages;
-        
+        let filtered = filteredAnalysisPages;
+
         if (selectedTags.length > 0) {
-            filtered = filtered.filter(graph => 
-                selectedTags.every(selectedTag => graph.tags.includes(selectedTag))
+            filtered = filtered.filter(tool => 
+                selectedTags.every(selectedTag => tool.tags.includes(selectedTag))
             );
         }
         
         return filtered.sort((a, b) => 
             new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
         );
-    }, [filteredGraphPages, selectedTags]);
+    }, [filteredAnalysisPages, selectedTags]);
 
     const handleTagToggle = (tag: string) => {
         setSelectedTags(prev => 
@@ -106,7 +133,7 @@ const Graphs = () => {
                     {selectedTags.length > 0 && (
                         <>
                             <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>
-                                {GetTitle(`${displayedPages.length} of ${filteredGraphPages.length} tools`)}
+                                {GetTitle(`${displayedPages.length} of ${filteredAnalysisPages.length} tools`)}
                             </Typography>
                             <Chip 
                                 label={GetTitle(`Clear (${selectedTags.length})`)}
@@ -122,10 +149,10 @@ const Graphs = () => {
             </Box>
 
             <Grid container spacing={3}>
-                {displayedPages.map((graph) => {
-                    
+                {displayedPages.map((tool) => {
+
                     return (
-                        <Grid item xs={12} sm={6} md={4} key={graph.path}>
+                        <Grid item xs={12} sm={6} md={4} key={tool.path}>
                             <Card 
                                 variant="outlined" 
                                 sx={{ 
@@ -141,7 +168,7 @@ const Graphs = () => {
                                 }}
                             >
                                 <CardActionArea 
-                                    onClick={() => navigate(graph.path)}
+                                    onClick={() => navigate(tool.path)}
                                     sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
                                 >
                                     <Box
@@ -159,7 +186,7 @@ const Graphs = () => {
                                         <Box sx={{ 
                                             position: 'absolute', 
                                             inset: 0, 
-                                            backgroundImage: `url(${graph.preview})`,
+                                            backgroundImage: `url(${tool.preview})`,
                                             backgroundSize: 'cover',
                                             backgroundPosition: 'center',
                                             opacity: 0.8,
@@ -183,7 +210,7 @@ const Graphs = () => {
                                             boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                                             border: '1px solid rgba(255,255,255,0.1)'
                                         }}>
-                                            {formatDate(graph.createdDate)}
+                                            {formatDate(tool.createdDate)}
                                         </Box>
                                     </Box>
                                     
@@ -202,7 +229,7 @@ const Graphs = () => {
                                                 lineHeight: 1.3
                                             }}
                                         >
-                                            {GetTitle(graph.label)}
+                                            {GetTitle(tool.label)}
                                         </Typography>
                                         
                                         <Typography 
@@ -218,11 +245,11 @@ const Graphs = () => {
                                                 flexGrow: 1
                                             }}
                                         >
-                                            {GetTitle(graph.description)}
+                                            {GetTitle(tool.description)}
                                         </Typography>
                                         
                                         <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap', mt: 'auto' }}>
-                                            {graph.tags.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())).map((tag) => (
+                                            {tool.tags.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())).map((tag) => (
                                                 <Chip 
                                                     key={tag}
                                                     label={GetTitle(tag)} 
@@ -258,4 +285,4 @@ const Graphs = () => {
     );
 };
 
-export default Graphs;
+export default Analysis;
