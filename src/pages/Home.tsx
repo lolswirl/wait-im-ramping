@@ -17,7 +17,7 @@ import { GetTitle } from "../util/stringManipulation.tsx";
 
 import wdirPreview from '../assets/previews/when-do-i-ramp.png';
 import spellTimelinePreview from '../assets/previews/timeline.png';
-import graphsPreview from '../assets/previews/harmonic-surge.png';
+import analysisPreview from '../assets/previews/harmonic-surge.png';
 
 const pageTitle = GetTitle("Wait, I'm Ramping!");
 
@@ -43,8 +43,8 @@ const Home = () => {
             title: "Graph & Analysis Tools",
             description: "Compare healing mechanics with data-driven insights",
             icon: <Analytics sx={{ fontSize: 30 }} />,
-            path: "/graphs",
-            preview: graphsPreview
+            path: "/analysis",
+            preview: analysisPreview
         }
     ];
 
@@ -218,7 +218,7 @@ const Home = () => {
                     <Button 
                         variant="contained" 
                         size="large"
-                        onClick={() => navigate('/graphs')}
+                        onClick={() => navigate('/analysis')}
                         startIcon={<TrendingUp />}
                         sx={customButtonStyles}
                     >

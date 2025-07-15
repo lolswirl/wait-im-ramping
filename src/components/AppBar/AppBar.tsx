@@ -47,7 +47,7 @@ const pages = [
     { label: "Home", path: "/" },
     { label: "When do I ramp?", path: "/when-do-i-ramp" },
     { label: "Spell Timeline", path: "/timeline" },
-    { label: "Graphs & Analysis Tools", path: "/graphs" },
+    { label: "Analysis Tools", path: "/analysis" },
 ];
 
 function ResponsiveAppBar() {
@@ -101,8 +101,8 @@ function ResponsiveAppBar() {
             {/* mobile nav */}
             <List sx={{ px: 1, py: 2 }}>
                 {pages.map(({ label, path }) => {
-                    const isActive = path === "/graphs" 
-                        ? location.pathname.startsWith("/graphs") 
+                    const isActive = path === "/analysis" 
+                        ? location.pathname.startsWith("/analysis") 
                         : location.pathname === path;
                     
                     return (
@@ -259,8 +259,8 @@ function ResponsiveAppBar() {
                         {/* desktop navigation */}
                         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1 }}>
                             {pages.map(({ label, path }) => {
-                                const isActive = path === "/graphs" 
-                                    ? location.pathname.startsWith("/graphs") 
+                                const isActive = path === "/analysis" 
+                                    ? location.pathname.startsWith("/analysis") 
                                     : location.pathname === path;
                                 
                                 return (
