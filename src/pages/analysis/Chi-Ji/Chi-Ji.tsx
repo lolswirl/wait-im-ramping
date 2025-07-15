@@ -149,7 +149,7 @@ const ChiJiHPS: React.FC = () => {
 
             {rotationHPS.length > 0 && (
                 <>
-                    <Box sx={{ width: "100%", maxWidth: 1400, px: 2 }}>
+                    <Box sx={{ width: "100%", maxWidth: 1400, px: 2, mb: 2 }}>
                         <Grid container spacing={2}>
                             {rotationHPS.map((rotation, index) => (
                                 <Grid 
