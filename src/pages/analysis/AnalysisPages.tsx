@@ -13,6 +13,7 @@ import jadeEmpowermentSheilunsPreview from '../../assets/previews/jade-empowerme
 import jadeEmpowermentDocjPreview from '../../assets/previews/jade-empowerment-docj.png';
 import stSpinningPreview from '../../assets/previews/st-spinning.png';
 import harmonicSurgePreview from '../../assets/previews/harmonic-surge.png';
+import chijiPreview from '../../assets/previews/chi-ji.png';
 
 export interface AnalysisPage {
   label: string;
@@ -92,7 +93,7 @@ export const analysisPages: AnalysisPage[] = [
     label: 'Chi-Ji "Simulation"',
     path: "/graphs/chi-ji",
     element: <ChiJi />,
-    preview: null,
+    preview: chijiPreview,
     description: "Simulate the HPS of various rotations done inside of Chi-Ji",
     tags: ["Healing", "Monk", "Rotation"],
     createdDate: "2025-07-12"
