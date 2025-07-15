@@ -150,10 +150,12 @@ export const distributeGusts = (allies: AllyState[], gustCount: number, chiJiGus
     
     for (let i = 0; i < gustCount; i += 6) {
         const selectedTargets = getRandomAllies(allies, targetsPerGust);
-        selectedTargets.forEach(target => {
-            const baseGustHealing = chiJiGustHealing * gustsPerTarget;
+        const baseGustHealing = chiJiGustHealing * gustsPerTarget;
+        
+        // Calculate healing for each target and accumulate
+        for (const target of selectedTargets) {
             totalHealing += calculateHealingWithAmp(baseGustHealing, target);
-        });
+        }
     }
     
     return totalHealing;
