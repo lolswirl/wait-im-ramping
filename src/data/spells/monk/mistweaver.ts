@@ -155,7 +155,7 @@ const spells = {
     icon: 'spell_monk_revival',
     castTime: 0
   },
-  LIFE_COCON: {
+  LIFE_COCOON: {
     name: 'Life Cocoon',
     id: 116849,
     icon: 'ability_monk_chicocoon',
@@ -164,5 +164,23 @@ const spells = {
   }
 } satisfies Record<string, spell>;
 
+const CHIJI_ABILITIES = [
+  // direct interaction
+  spells.CHI_JI,
+  spells.ENVELOPING_MIST,
+  spells.TIGER_PALM,
+  spells.BLACKOUT_KICK,
+  spells.RISING_SUN_KICK,
+  spells.SPINNING_CRANE_KICK,
+
+  // indirect interactions
+  spells.JADEFIRE_STOMP,
+  spells.RENEWING_MIST,
+  spells.VIVIFY,
+  spells.THUNDER_FOCUS_TEA,
+  spells.SHEILUNS_GIFT,
+  spells.LIFE_COCOON,
+];
+
 export default spells;
-export { spells as MISTWEAVER_SPELLS };
+export { spells as MISTWEAVER_SPELLS, CHIJI_ABILITIES };

@@ -11,6 +11,8 @@ import { RotationCard } from './RotationCard.tsx';
 import { calculateRotationHPS } from './simulation.ts';
 import { RotationResult, SimulationOptions } from './types.ts';
 
+import { CHIJI_ABILITIES } from "../../../data/spells/monk/mistweaver.ts";
+
 import StatsCard from "./StatsCard.tsx";
 import TargetCountsCard from "./TargetCountsCard.tsx";
 import TalentsCard from "./TalentsCard.tsx";
@@ -118,7 +120,7 @@ const ChiJiHPS: React.FC = () => {
             <Card variant="outlined" sx={{ maxWidth: 1200, width: "100%", mx: "auto" }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: '400px' }}>
                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
-                        <SpellButtons selectedSpec={mistweaver} addSpellToTable={addSpellToRotationCollapse} />
+                        <SpellButtons spells={CHIJI_ABILITIES} addSpellToTable={addSpellToRotationCollapse} />
                         <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
                         <Box sx={{ mt: 0 }}>
                             <CurrentRotationControl
