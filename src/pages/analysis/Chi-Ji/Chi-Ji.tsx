@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, useTheme, Card, Divider, Grid, Button } from "@mui/material";
 import { Refresh } from "@mui/icons-material";
-import PageTitle from "../../../components/PageTitle/PageTitle.tsx";
+import PageHeader from "../../../components/PageHeader/PageHeader.tsx";
 import { GetTitle } from "../../../util/stringManipulation.tsx";
 import { CLASSES } from "../../../data/class/class.ts";
 import SpellButtons from "../../../components/SpellButtons/SpellButtons.tsx";
@@ -110,10 +110,10 @@ const ChiJiHPS: React.FC = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-            <PageTitle title={GetTitle("Chi-Ji HPS!")} />
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 0 }}>
-                <h1 style={{ marginBottom: "0px" }}>{GetTitle("Chi-Ji HPS")}</h1>
-            </Box>
+            <PageHeader 
+                title={'Chi-Ji "Simulation"'} 
+                subtitle={"Simulate the theoretical HPS outcome of rotations that affect Chi-Ji with tuning knobs for stats, enemy count, and talent choices"} 
+            />
 
             <Card variant="outlined" sx={{ maxWidth: 1200, width: "100%", mx: "auto" }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: '400px' }}>

@@ -5,7 +5,7 @@ import { Box, Container, TextField } from "@mui/material";
 
 import { GCD } from "../../data/spells/spell.ts";
 import { GetTitle } from "../../util/stringManipulation.tsx";
-import PageTitle from "../../components/PageTitle/PageTitle.tsx";
+import PageHeader from "../../components/PageHeader/PageHeader.tsx";
 
 import SPELLS from "../../data/spells/index.ts";
 
@@ -161,7 +161,6 @@ const DamageOverTimeGraph: React.FC = () => {
   const chartOptions = {
     responsive: true,
     plugins: {
-      title: { display: true, text: GetTitle("Cumulative Damage over Time") },
       tooltip: { mode: "index" as const, intersect: false },
     },
     scales: {
@@ -196,8 +195,11 @@ const DamageOverTimeGraph: React.FC = () => {
   };
 
   return (
-    <Container sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 4, alignItems: "center", justifyContent: "center" }}>
-      <PageTitle title={GetTitle("ST vs. SCK!")} />
+    <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
+      <PageHeader
+        title={"Single Target Rotation vs. Spinning Crane Kick"}
+        subtitle={"Evaluate simulated single target rotation (Tiger Palm, Blackout Kick, Rising Sun Kick + resets) damage output compared to Spinning Crane Kick"}
+      />
       <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
         <Line data={chartData} options={chartOptions} />
       </Box>

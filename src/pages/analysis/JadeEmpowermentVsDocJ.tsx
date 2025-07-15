@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, TextField, Typography, useTheme, MenuItem, FormControl, InputLabel } from "@mui/material";
-import PageTitle from "../../components/PageTitle/PageTitle.tsx";
+import PageHeader from "../../components/PageHeader/PageHeader.tsx";
 import { GetTitle } from "../../util/stringManipulation.tsx";
 import { CLASSES } from "../../data/class/class.ts";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -118,10 +118,6 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
   const chartOptions = {
     responsive: true,
     plugins: {
-      title: {
-        display: true,
-        text: GetTitle("Jade Empowerment vs. Dance of Chi-Ji Spellpower Comparison"),
-      },
       tooltip: {
         mode: "index" as const,
         intersect: false,
@@ -158,8 +154,11 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
   };
 
   return (
-    <Container sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 4, alignItems: "center", justifyContent: "center" }}>
-      <PageTitle title={GetTitle("JE vs. DocJ!")} />
+    <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
+      <PageHeader
+        title={"Jade Empowerment vs. Dance of Chi-Ji"}
+        subtitle={"Compare the spellpower output of Jade Empowerment and Dance of Chi-Ji on different target counts"}
+      />
       <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
         <Line data={chartData} options={chartOptions} />
       </Box>

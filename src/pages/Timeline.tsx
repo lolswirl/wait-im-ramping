@@ -8,7 +8,7 @@ import {Typography, FormControl, InputLabel, OutlinedInput, Box, Card, Stack, Di
 import spell from '../data/spells/spell.ts';
 import { CLASSES, specialization } from '../data/class/class.ts';
 import { v4 as uuidv4 } from 'uuid';
-import PageTitle from "../components/PageTitle/PageTitle.tsx";
+import PageHeader from '../components/PageHeader/PageHeader.tsx';
 import { GetTitle } from '../util/stringManipulation.tsx';
 import { useSpec } from '../context/SpecContext.tsx';
 import { useRotationManager } from '../hooks/useRotationManager.ts';
@@ -143,9 +143,11 @@ const Timeline = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-            <PageTitle title={GetTitle("Spell Timeline!")} />
-            <h1 style={{ marginBottom: "0px" }}>{GetTitle("Spell Timeline!")}</h1>
-
+            <PageHeader 
+                title={"Spell Timeline!"} 
+                subtitle={"Create customized timelines for spell casts and cooldowns to analyze cast efficiencies and sunken time costs"} 
+            />
+            
             {/* warn for horizontal mode on mobile */}
             <Box sx={{ display: { xs: "block", md: "none" }, mb: 2, px: 2, textAlign: "center" }}>
                 <Typography variant="body2" color="textSecondary">

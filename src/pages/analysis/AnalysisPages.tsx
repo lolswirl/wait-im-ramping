@@ -94,7 +94,7 @@ export const analysisPages: AnalysisPage[] = [
     path: "/graphs/chi-ji",
     element: <ChiJi />,
     preview: chijiPreview,
-    description: "Simulate the HPS of various rotations done inside of Chi-Ji",
+    description: "Simulate the theoretical HPS of various rotations done inside of Chi-Ji",
     tags: ["Healing", "Monk", "Rotation"],
     createdDate: "2025-07-12"
   }

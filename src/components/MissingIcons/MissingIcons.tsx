@@ -15,7 +15,7 @@ import {
 import { GetTitle, pluralize } from '../../util/stringManipulation.tsx';
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 import { getSpecs } from '../../data/class/class.ts';
-import PageTitle from '../PageTitle/PageTitle.tsx';
+import PageHeader from '../PageHeader/PageHeader.tsx';
 import type Spell from "../../data/spells/spell.ts";
 
 interface MissingIconData {
@@ -126,8 +126,9 @@ const MissingIcons: React.FC = () => {
 
     return (
         <Container maxWidth="lg">
-            <PageTitle title={GetTitle("Missing Icons")} />
-            <h1 style={{ marginBottom: "0px" }}>{GetTitle("Missing Icons")}</h1>
+            <PageHeader 
+                title={"Missing Icons"}
+            />
             
             <Box sx={{ py: 4, maxWidth: 600, mx: 'auto' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
