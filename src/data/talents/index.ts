@@ -1,5 +1,6 @@
 // import RESTORATION_DRUID from './druid/restoration.ts';
 // import PRESERVATION_EVOKER from './evoker/preservation.ts';
+import MONK from './monk/shared.ts';
 import MISTWEAVER_MONK from './monk/mistweaver.ts';
 // import HOLY_PALADIN from './paladin/holy.ts';
 // import DISCIPLINE_PRIEST from './priest/discipline.ts';
@@ -8,6 +9,7 @@ import MISTWEAVER_MONK from './monk/mistweaver.ts';
 
 const TALENTS = {
     // ...RESTORATION_DRUID,
+    ...MONK,
     ...MISTWEAVER_MONK,
     // ...PRESERVATION_EVOKER,
     // ...HOLY_PALADIN,
