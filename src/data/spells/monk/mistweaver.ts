@@ -1,3 +1,4 @@
+import { SCHOOLS } from '../../schools.ts';
 import spell from '../spell.ts';
 
 const spells = {
@@ -7,6 +8,7 @@ const spells = {
     id: 100780,
     icon: 'ability_monk_tigerpalm',
     castTime: 0,
+    school: SCHOOLS.PHYSICAL,
     value: {
       damage: 14769
     }
@@ -16,6 +18,7 @@ const spells = {
     id: 100784,
     icon: 'ability_monk_roundhousekick',
     castTime: 0,
+    school: SCHOOLS.PHYSICAL,
     value: {
       damage: 26582
     }
@@ -25,6 +28,7 @@ const spells = {
     id: 107428,
     icon: 'ability_monk_risingsunkick',
     castTime: 0,
+    school: SCHOOLS.PHYSICAL,
     value: {
       damage: 40775
     }
@@ -34,6 +38,7 @@ const spells = {
     id: 117952,
     icon: 'ability_monk_cracklingjadelightning',
     castTime: 3,
+    school: SCHOOLS.NATURE,
     value: {
       damage: 19270
     }
@@ -42,6 +47,7 @@ const spells = {
     name: 'Spinning Crane Kick',
     id: 101546,
     icon: 'ability_monk_cranekick_new',
+    school: SCHOOLS.PHYSICAL,
     castTime: 1.5,
     value: {
       damage: 25217
@@ -51,6 +57,7 @@ const spells = {
     name: 'Jadefire Stomp',
     id: 338193,
     icon: 'inv_ability_monk_jadefirestomp',
+    school: SCHOOLS.NATURE,
     castTime: 0,
     value: {
       damage: 15945,
@@ -69,6 +76,7 @@ const spells = {
     id: 119611,
     icon: 'ability_monk_renewingmists',
     castTime: 0,
+    school: SCHOOLS.NATURE,
     value: {
       healing: 36437
     },
@@ -82,6 +90,7 @@ const spells = {
     icon: 'ability_monk_soothingmists',
     castTime: 1,
     hasted: false,
+    school: SCHOOLS.NATURE,
     custom: {
       replaceGCD: 1
     }
@@ -91,6 +100,7 @@ const spells = {
     id: 124682,
     icon: 'spell_monk_envelopingmist',
     castTime: 2,
+    school: SCHOOLS.NATURE,
     value: {
       healing: 57811
     },
@@ -104,6 +114,7 @@ const spells = {
     id: 116670,
     icon: 'ability_monk_vivify',
     castTime: 1.5,
+    school: SCHOOLS.NATURE,
     value: {
       healing: 111865
     }
@@ -142,6 +153,7 @@ const spells = {
     id: 205406,
     icon: 'inv_staff_2h_artifactshaohao_d_01',
     castTime: 0,
+    school: SCHOOLS.NATURE,
     value: {
       healing: 25750
     }, 
@@ -153,7 +165,8 @@ const spells = {
     name: 'Revival',
     id: 115310,
     icon: 'spell_monk_revival',
-    castTime: 0
+    castTime: 0,
+    school: SCHOOLS.NATURE,
   },
   LIFE_COCOON: {
     name: 'Life Cocoon',

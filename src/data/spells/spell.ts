@@ -1,3 +1,5 @@
+import { SCHOOLS } from "../schools.ts";
+
 export default interface spell {
   name: string;
   id: number;
@@ -7,6 +9,7 @@ export default interface spell {
   hasted?: boolean;
   gcd?: boolean;
   empowerLevel?: number;
+  school?: (typeof SCHOOLS)[keyof typeof SCHOOLS];
 
   value?: {
     healing?: number;
