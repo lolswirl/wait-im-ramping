@@ -26,6 +26,14 @@ const talents = {
         custom: {
             damageIncrease: 0.02,
         }
+    },
+    MARTIAL_INSTINCTS: {
+        name: "Martial Instincts",
+        id: 450427,
+        icon: 'ability_monk_palmstrike',
+        custom: {
+            damageIncrease: 0.04,
+        }
     }
 } satisfies Record<string, spell>;
 
