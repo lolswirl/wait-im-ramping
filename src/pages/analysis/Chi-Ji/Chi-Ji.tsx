@@ -131,7 +131,7 @@ const ChiJiHPS: React.FC = () => {
                 subtitle={"Simulate the theoretical HPS outcome of rotations that affect Chi-Ji with tuning knobs for stats, enemy count, and talent choices"} 
             />
 
-            <Card variant="outlined" sx={{ maxWidth: 1200, width: "100%", mx: "auto" }}>
+            <Card variant="outlined" sx={{ maxWidth: 1200, width: "100%", mx: "auto", mb: rotationHPS.length > 0 ? 0 : 3 }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: '400px' }}>
                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
                         <SpellButtons spells={CHIJI_ABILITIES} addSpellToTable={addSpellToRotationCollapse} />
