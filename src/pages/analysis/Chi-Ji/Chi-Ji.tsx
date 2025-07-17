@@ -36,6 +36,7 @@ const ChiJiHPS: React.FC = () => {
         [TALENTS.MIST_WRAP, true],
         [TALENTS.CHI_HARMONY, true],
         [TALENTS.CRANE_STYLE, true],
+        [TALENTS.RAPID_DIFFUSION, true],
         [TALENTS.JADEFIRE_TEACHINGS, true],
         [TALENTS.AWAKENED_JADEFIRE, true],
     ])

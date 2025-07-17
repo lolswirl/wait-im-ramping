@@ -193,7 +193,7 @@ export const calculateRotationHPS = async (
     
     const jadeBond = TALENTS.JADE_BOND;
     const jadeBondOpt = isTalentEnabled(options, TALENTS.JADE_BOND);
-    const CHI_JI_DURATION = jadeBondOpt ? jadeBond.custom.duration : SPELLS.CHI_JI.custom.duration;
+    const chijiDuration = jadeBondOpt ? jadeBond.custom.duration : SPELLS.CHI_JI.custom.duration;
     let chiJiActive = false;
     let chiJiTimeRemaining = 0;
 
@@ -226,6 +226,8 @@ export const calculateRotationHPS = async (
     const celestialHarmony = TALENTS.CELESTIAL_HARMONY;
     const celestialHarmonyChiCocoonAmount = celestialHarmony.custom.chiCocoonFormula(options.totalHp, options.versatility / 100);
     const celestialHarmonyChiCocoonMaxTargets = celestialHarmony.custom.chiCocoonTargets;
+
+    const rapidDiffusionOpt = isTalentEnabled(options, TALENTS.RAPID_DIFFUSION);
 
     const allies: AllyState[] = Array.from({ length: options.allyCount }, (_, i) => createAllyState(i));
 
@@ -308,10 +310,13 @@ export const calculateRotationHPS = async (
                     const rskgustOfMistHealing = gustOfMistHealing * craneStyleRisingSunKickGOM;
                     breakdown.gustOfMists = calculateHealingWithAmp(rskgustOfMistHealing, rskGOMTarget);
                 }
+
+                if (rapidDiffusionOpt) {
+                    renewingMistHealing = calculateHealing(SPELLS.RENEWING_MIST);
+                    const rdRemHealing = applyRapidDiffusionRenewingMist(allies, options, renewingMistHealing);
+                    renewingMistHealing = rdRemHealing.healing;
+                }
                 
-                renewingMistHealing = calculateHealing(SPELLS.RENEWING_MIST);
-                const rskRenewingMist = applyRapidDiffusionRenewingMist(allies, options, renewingMistHealing);
-                renewingMistHealing = rskRenewingMist.healing;
                 break;
             
             case SPELLS.BLACKOUT_KICK.id:
@@ -390,10 +395,12 @@ export const calculateRotationHPS = async (
                     
                     breakdown.envelopingBreath = envBTotalHealing;
                 }
-                
-                renewingMistHealing = calculateHealing(SPELLS.RENEWING_MIST);
-                const envRenewingMist = applyRapidDiffusionRenewingMist(allies, options, renewingMistHealing);
-                renewingMistHealing = envRenewingMist.healing;
+
+                if (rapidDiffusionOpt) {
+                    renewingMistHealing = calculateHealing(SPELLS.RENEWING_MIST);
+                    const rdRemHealing = applyRapidDiffusionRenewingMist(allies, options, renewingMistHealing);
+                    renewingMistHealing = rdRemHealing.healing;
+                }
                 
                 break;
             
@@ -441,7 +448,7 @@ export const calculateRotationHPS = async (
 
             if (spell.id === SPELLS.CHI_JI.id) {
                 chiJiActive = true;
-                chiJiTimeRemaining = CHI_JI_DURATION;
+                chiJiTimeRemaining = chijiDuration;
             }
 
             // Only apply duration limit after Chi-Ji has been cast
