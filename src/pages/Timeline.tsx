@@ -9,7 +9,7 @@ import spell from '../data/spells/spell.ts';
 import { CLASSES, specialization } from '../data/class/class.ts';
 import { v4 as uuidv4 } from 'uuid';
 import PageHeader from '../components/PageHeader/PageHeader.tsx';
-import { GetTitle } from '../util/stringManipulation.tsx';
+import { GetTitle, hexToRgb } from '../util/stringManipulation.tsx';
 import { useSpec } from '../context/SpecContext.tsx';
 import { useRotationManager } from '../hooks/useRotationManager.ts';
 
@@ -65,16 +65,6 @@ const Timeline = () => {
                 ...spell,
                 uuid: spell.uuid || uuidv4(),
             }));
-        };
-
-        // Helper function to convert hex to RGB
-        const hexToRgb = (hex: string) => {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : { r: 54, g: 162, b: 235 }; // fallback blue
         };
 
         const baseColor = hexToRgb(spec.color);
