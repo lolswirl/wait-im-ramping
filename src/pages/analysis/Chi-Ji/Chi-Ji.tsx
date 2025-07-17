@@ -42,8 +42,9 @@ const ChiJiHPS: React.FC = () => {
 
     const sharedTalents = new Map<spell, boolean>([
         [SHARED.FAST_FEET, true],
-        [SHARED.CHI_PROFICIENCY, true],
         [SHARED.FEROCITY_OF_XUEN, true],
+        [SHARED.CHI_PROFICIENCY, true],
+        [SHARED.MARTIAL_INSTINCTS, true],
     ])
     
     const [options, setOptions] = useState<SimulationOptions>({
