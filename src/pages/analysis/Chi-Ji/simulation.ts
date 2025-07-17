@@ -176,6 +176,13 @@ export const calculateRotationHPS = async (
     let spellsCastInChiJi: spell[] = [];
     let totmStacks = 0;
 
+    const calcWithStats = (spellpower: number) => {
+        // law of large numbers lets us directly multiply by the percentage of crit
+        const critMultiplier = (1 + (options.crit / 100));
+        const versMultiplier = (1 + (options.versatility / 100));
+        return spellpower * options.intellect * critMultiplier * versMultiplier;
+    };
+
     const baseIntellect = CLASSES.MONK.SPECS.MISTWEAVER.intellect;
 
     const fastFeet = isTalentEnabled(options, SHARED.FAST_FEET);
@@ -220,7 +227,8 @@ export const calculateRotationHPS = async (
     const totmMaxStacks = teachingsOfTheMonastery.custom.maxStacks;
 
     const gomSpellpower = options.mastery * 1.05;
-    const gustOfMistHealing = (gomSpellpower / 100 * options.intellect) * chiProficiencyHealing;
+    const gustOfMistSpellpower = gomSpellpower / 100;
+    const gustOfMistHealing = calcWithStats(gustOfMistSpellpower) * chiProficiencyHealing;
 
     const chijiGustHealing = gustOfMistHealing * ( 1 + (jadeBondOpt ? TALENTS.JADE_BOND.custom.gustIncrease : 0));
     const celestialHarmony = TALENTS.CELESTIAL_HARMONY;
@@ -236,7 +244,7 @@ export const calculateRotationHPS = async (
     const calculateDamage = (spellObj: spell): number => {
         const baseDamage = spellObj.value?.damage || 0;
         const spellpower = baseDamage / baseIntellect;
-        let damage = spellpower * options.intellect * ferocityOfXuenMulti;
+        let damage = calcWithStats(spellpower) * ferocityOfXuenMulti;
         if (spellObj.school === SCHOOLS.NATURE) {
             damage *= chiProficiencyDamage;
         } 
@@ -260,7 +268,7 @@ export const calculateRotationHPS = async (
     const calculateHealing = (spellObj: spell): number => {
         const baseHealing = spellObj.value?.healing || 0;
         const spellpower = baseHealing / baseIntellect;
-        let healing = spellpower * options.intellect;
+        let healing = calcWithStats(spellpower);
         if (spellObj.school === SCHOOLS.NATURE) {
             healing *= chiProficiencyHealing;
         }

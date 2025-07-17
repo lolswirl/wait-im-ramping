@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Grid, TextField } from '@mui/material';
+import { Card, Grid, TextField, Tooltip } from '@mui/material';
 import { GetTitle } from '../../../util/stringManipulation.tsx';
 
 interface StatsCardProps {
@@ -18,6 +18,7 @@ interface StatField {
     key: keyof StatsCardProps['options'];
     label: string;
     min?: number;
+    tooltip?: string;
 }
 
 const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
@@ -38,7 +39,12 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
     const statFields: StatField[] = [
         { key: 'intellect', label: 'Intellect', min: 1 },
         { key: 'totalHp', label: 'Total HP', min: 1 },
-        { key: 'crit', label: 'Critical Strike %', min: 0 },
+        { 
+            key: 'crit', 
+            label: 'Critical Strike %', 
+            min: 0,
+            tooltip: "We're using the law of large numbers to assume that, out of a large number of casts, you will critically strike as often as your crit percentage."
+        },
         { key: 'versatility', label: 'Versatility %', min: 0 },
         { key: 'mastery', label: 'Mastery %', min: 55.4 },
         { key: 'haste', label: 'Haste %', min: 0 },
@@ -61,40 +67,79 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
             <Grid container spacing={2}>
                 {statFields.map((field) => (
                     <Grid item xs={6} key={field.key}>
-                        <TextField
-                            label={GetTitle(field.label)}
-                            type="text"
-                            size="small"
-                            fullWidth
-                            value={localValues[field.key] !== undefined ? localValues[field.key] : formatNumber(options[field.key])}
-                            onChange={(e) => {
-                                const inputValue = e.target.value;
-                                setLocalValues(prev => ({ ...prev, [field.key]: inputValue }));
-                                
-                                const rawValue = parseNumber(inputValue);
-                                if (!isNaN(rawValue)) {
-                                    handleChange(field.key, rawValue);
-                                }
-                            }}
-                            onBlur={() => {
-                                const currentValue = options[field.key];
-                                const minValue = field.min || 0;
-                                if (currentValue < minValue) {
-                                    handleChange(field.key, minValue);
-                                }
-                                setLocalValues(prev => {
-                                    const newState = { ...prev };
-                                    delete newState[field.key];
-                                    return newState;
-                                });
-                            }}
-                            inputProps={{ 
-                                min: field.min,
-                                inputMode: 'numeric',
-                                pattern: '[0-9,]*'
-                            }}
-                            sx={fieldStyles}
-                        />
+                        {field.tooltip ? (
+                            <Tooltip title={GetTitle(field.tooltip)} arrow>
+                                <TextField
+                                    label={GetTitle(field.label)}
+                                    type="text"
+                                    size="small"
+                                    fullWidth
+                                    value={localValues[field.key] !== undefined ? localValues[field.key] : formatNumber(options[field.key])}
+                                    onChange={(e) => {
+                                        const inputValue = e.target.value;
+                                        setLocalValues(prev => ({ ...prev, [field.key]: inputValue }));
+                                        
+                                        const rawValue = parseNumber(inputValue);
+                                        if (!isNaN(rawValue)) {
+                                            handleChange(field.key, rawValue);
+                                        }
+                                    }}
+                                    onBlur={() => {
+                                        const currentValue = options[field.key];
+                                        const minValue = field.min || 0;
+                                        if (currentValue < minValue) {
+                                            handleChange(field.key, minValue);
+                                        }
+                                        setLocalValues(prev => {
+                                            const newState = { ...prev };
+                                            delete newState[field.key];
+                                            return newState;
+                                        });
+                                    }}
+                                    inputProps={{ 
+                                        min: field.min,
+                                        inputMode: 'numeric',
+                                        pattern: '[0-9,]*'
+                                    }}
+                                    sx={fieldStyles}
+                                />
+                            </Tooltip>
+                        ) : (
+                            <TextField
+                                label={GetTitle(field.label)}
+                                type="text"
+                                size="small"
+                                fullWidth
+                                value={localValues[field.key] !== undefined ? localValues[field.key] : formatNumber(options[field.key])}
+                                onChange={(e) => {
+                                    const inputValue = e.target.value;
+                                    setLocalValues(prev => ({ ...prev, [field.key]: inputValue }));
+                                    
+                                    const rawValue = parseNumber(inputValue);
+                                    if (!isNaN(rawValue)) {
+                                        handleChange(field.key, rawValue);
+                                    }
+                                }}
+                                onBlur={() => {
+                                    const currentValue = options[field.key];
+                                    const minValue = field.min || 0;
+                                    if (currentValue < minValue) {
+                                        handleChange(field.key, minValue);
+                                    }
+                                    setLocalValues(prev => {
+                                        const newState = { ...prev };
+                                        delete newState[field.key];
+                                        return newState;
+                                    });
+                                }}
+                                inputProps={{ 
+                                    min: field.min,
+                                    inputMode: 'numeric',
+                                    pattern: '[0-9,]*'
+                                }}
+                                sx={fieldStyles}
+                            />
+                        )}
                     </Grid>
                 ))}
             </Grid>
