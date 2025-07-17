@@ -42,6 +42,16 @@ export interface RotationResult {
     }>;
 }
 
+export function isTalentEnabled(
+  options: SimulationOptions,
+  talent: spell
+): boolean {
+  return (
+    options.specTalents.get(talent) === true ||
+    options.classTalents.get(talent) === true
+  );
+}
+
 export interface SimulationOptions {
     intellect: number;
     totalHp: number;
@@ -51,11 +61,6 @@ export interface SimulationOptions {
     haste: number;
     enemyCount: number;
     allyCount: number;
-    celestialHarmony: boolean;
-    jadeBond: boolean;
-    mistWrap: boolean;
-    chiHarmony: boolean;
-    craneStyle: boolean;
-    jadefireTeachings: boolean;
-    awakenedJadefire: boolean;
+    specTalents: Map<spell, boolean>;
+    classTalents: Map<spell, boolean>;
 }

@@ -1,4 +1,4 @@
-import { AllyState, RotationResult, SimulationOptions } from './types.ts';
+import { AllyState, isTalentEnabled, RotationResult, SimulationOptions } from './types.ts';
 import { applyBuffEffects } from "../../../data/buffs/buffs.ts";
 import { calculateCastTime } from "../../../data/spells/spell.ts";
 import spell from "../../../data/spells/spell.ts";
@@ -174,13 +174,13 @@ export const calculateRotationHPS = async (
     let totmStacks = 0;
     
     const jadeBond = TALENTS.JADE_BOND;
-    const CHI_JI_DURATION = options.jadeBond ? jadeBond.custom.duration : SPELLS.CHI_JI.custom.duration;
+    const CHI_JI_DURATION = isTalentEnabled(options, TALENTS.JADE_BOND) ? jadeBond.custom.duration : SPELLS.CHI_JI.custom.duration;
     let chiJiActive = false;
     let chiJiTimeRemaining = 0;
 
     const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
     const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
-    const ancientTeachingsTransfer = options.jadefireTeachings ? ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate : ancientTeachings.custom.transferRate;
+    const ancientTeachingsTransfer = isTalentEnabled(options, TALENTS.JADEFIRE_TEACHINGS) ? ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate : ancientTeachings.custom.transferRate;
     const ancientTeachingsArmorModifier = ancientTeachings.custom.armorModifier;
     
     const awakenedJadefire = TALENTS.AWAKENED_JADEFIRE;
@@ -201,7 +201,7 @@ export const calculateRotationHPS = async (
     const gomSpellpower = options.mastery * 1.05;
     const gustOfMistHealing = gomSpellpower / 100 * options.intellect;
 
-    const chijiGustHealing = gustOfMistHealing * (options.jadeBond ? 1.2 : 1);
+    const chijiGustHealing = gustOfMistHealing * ( 1 + (isTalentEnabled(options, TALENTS.JADE_BOND) ? TALENTS.JADE_BOND.custom.gustIncrease : 0));
     const celestialHarmony = TALENTS.CELESTIAL_HARMONY;
     const celestialHarmonyChiCocoonAmount = celestialHarmony.custom.chiCocoonFormula(options.totalHp, options.versatility / 100);
     const celestialHarmonyChiCocoonMaxTargets = celestialHarmony.custom.chiCocoonTargets;
@@ -227,14 +227,14 @@ export const calculateRotationHPS = async (
 
         switch (spell.id) {
             case SPELLS.CHI_JI.id:
-                if (options.celestialHarmony) {
+                if (isTalentEnabled(options, TALENTS.CELESTIAL_HARMONY)) {
                     breakdown.chiCocoons = celestialHarmonyChiCocoonAmount * Math.min(celestialHarmonyChiCocoonMaxTargets, allies.length);
                 }
                 break;
 
             case SPELLS.TIGER_PALM.id:
                 const tigerPalmDamage = spell.value?.damage || 0;
-                const tigerPalmHits = options.awakenedJadefire ? awakenedJadefireTigerPalmHits : 1;
+                const tigerPalmHits = isTalentEnabled(options, TALENTS.AWAKENED_JADEFIRE) ? awakenedJadefireTigerPalmHits : 1;
                 const tigerPalmATHealing = tigerPalmDamage * ancientTeachingsTransfer * ancientTeachingsArmorModifier * tigerPalmHits;
                 breakdown.ancientTeachings = distributeAncientTeachings(allies, tigerPalmATHealing);
                 break;
@@ -248,7 +248,7 @@ export const calculateRotationHPS = async (
                     breakdown.chiJiGusts = distributeGusts(allies, 6, chijiGustHealing);
                 }
 
-                if (options.craneStyle) {
+                if (isTalentEnabled(options, TALENTS.CRANE_STYLE)) {
                     const rskGOMTarget = getRandomAlly(allies);
                     const rskgustOfMistHealing = gustOfMistHealing * craneStyleRisingSunKickGOM;
                     breakdown.gustOfMists = calculateHealingWithAmp(rskgustOfMistHealing, rskGOMTarget);
@@ -266,8 +266,8 @@ export const calculateRotationHPS = async (
                 if (chiJiActive) {
                     breakdown.chiJiGusts = distributeGusts(allies, 6 * bokHits, chijiGustHealing);
                 }
-                
-                if (options.awakenedJadefire) {
+
+                if (isTalentEnabled(options, TALENTS.AWAKENED_JADEFIRE)) {
                     const bokEffectiveness = awakenedJadefire.custom.blackoutKickEffectiveness;
                     const bokMaxAdditionalHits = awakenedJadefire.custom.blackoutKickHits;
                     const awakenedJadefireBokHits = Math.min(options.enemyCount - 1, bokMaxAdditionalHits);
@@ -279,8 +279,8 @@ export const calculateRotationHPS = async (
                 }
                 
                 breakdown.ancientTeachings = distributeAncientTeachings(allies, bokATHealing);
-                
-                if (options.craneStyle) {
+
+                if (isTalentEnabled(options, TALENTS.CRANE_STYLE)) {
                     let totalBokGOMHealing = 0;
                     for (let i = 0; i < bokHits; i++) {
                         if (Math.random() < craneStyleGOMChance) {
@@ -305,8 +305,8 @@ export const calculateRotationHPS = async (
                 if (chiJiActive) {
                     breakdown.chiJiGusts = chijiGustHealing * 6;
                 }
-                
-                if (options.craneStyle) {
+
+                if (isTalentEnabled(options, TALENTS.CRANE_STYLE)) {
                     if (Math.random() < craneStyleGOMChance) {
                         const sckGomTarget = getRandomAlly(allies);
                         const sckGOMHealing = gustOfMistHealing * craneStyleSpinningCraneKickGOM;
@@ -323,7 +323,7 @@ export const calculateRotationHPS = async (
 
                 breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistHealing, envTarget);
 
-                if (chiJiActive && options.celestialHarmony) {
+                if (chiJiActive && isTalentEnabled(options, TALENTS.CELESTIAL_HARMONY)) {
                     const envBTargets = applyEnvelopingBreath(allies, options);
                     const envBHealing = celestialHarmony.custom.envelopingBreathHealing;
                     let envBTotalHealing = 0;
@@ -417,7 +417,7 @@ export const calculateRotationHPS = async (
                 spellsCastInChiJi.push(spell);
 
                 if (spell.id === SPELLS.TIGER_PALM.id) {
-                    const stacksGained = options.awakenedJadefire ? awakenedJadefireTigerPalmHits : 1;
+                    const stacksGained = isTalentEnabled(options, TALENTS.AWAKENED_JADEFIRE) ? awakenedJadefireTigerPalmHits : 1;
                     totmStacks = Math.min(totmStacks + stacksGained, totmMaxStacks);
                 } else if (spell.id === SPELLS.BLACKOUT_KICK.id) {
                     totmStacks = 0;

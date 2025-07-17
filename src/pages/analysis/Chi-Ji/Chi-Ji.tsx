@@ -16,6 +16,9 @@ import { CHIJI_ABILITIES } from "../../../data/spells/monk/mistweaver.ts";
 import StatsCard from "./StatsCard.tsx";
 import TargetCountsCard from "./TargetCountsCard.tsx";
 import TalentsCard from "./TalentsCard.tsx";
+import spell from "../../../data/spells/spell.ts";
+import TALENTS from "../../../data/talents/monk/mistweaver.ts";
+import SHARED from "../../../data/talents/monk/shared.ts";
 
 const ChiJiHPS: React.FC = () => {
     const theme = useTheme();
@@ -26,6 +29,22 @@ const ChiJiHPS: React.FC = () => {
     const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
     const intellect = mistweaver.intellect;
     const mastery = mistweaver.mastery;
+
+    const mistweaverTalents = new Map<spell, boolean>([
+        [TALENTS.CELESTIAL_HARMONY, true],
+        [TALENTS.JADE_BOND, false],
+        [TALENTS.MIST_WRAP, true],
+        [TALENTS.CHI_HARMONY, true],
+        [TALENTS.CRANE_STYLE, true],
+        [TALENTS.JADEFIRE_TEACHINGS, true],
+        [TALENTS.AWAKENED_JADEFIRE, true],
+    ])
+
+    const sharedTalents = new Map<spell, boolean>([
+        [SHARED.FAST_FEET, true],
+        [SHARED.CHI_PROFICIENCY, true],
+        [SHARED.FEROCITY_OF_XUEN, true],
+    ])
     
     const [options, setOptions] = useState<SimulationOptions>({
         intellect: intellect,
@@ -36,13 +55,8 @@ const ChiJiHPS: React.FC = () => {
         haste: 20,
         enemyCount: 1,
         allyCount: 5,
-        celestialHarmony: true,
-        jadeBond: false,
-        mistWrap: true,
-        chiHarmony: true,
-        craneStyle: true,
-        jadefireTeachings: true,
-        awakenedJadefire: true,
+        specTalents: mistweaverTalents,
+        classTalents: sharedTalents,
     });
 
     const {
@@ -139,7 +153,26 @@ const ChiJiHPS: React.FC = () => {
                     <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '700', overflowY: 'auto' }}>
                         <StatsCard options={options} onOptionsChange={setOptions} />
                         <TargetCountsCard options={options} onOptionsChange={setOptions} />
-                        <TalentsCard options={options} onOptionsChange={setOptions} />
+                        <TalentsCard
+                            options={options.specTalents}
+                            color={mistweaver.color}
+                            onChange={(talent, checked) => {
+                                setOptions(prev => ({
+                                    ...prev,
+                                    specTalents: new Map(prev.specTalents).set(talent, checked)
+                                }));
+                            }}
+                        />
+                        <TalentsCard
+                            options={options.classTalents} 
+                            color={CLASSES.MONK.color}
+                            onChange={(talent, checked) => {
+                                setOptions(prev => ({
+                                    ...prev,
+                                    classTalents: new Map(prev.classTalents).set(talent, checked)
+                                }));
+                            }}
+                        />
                         {rotationHPS.length > 0 && (
                             <Button variant="contained" startIcon={<Refresh />} onClick={handleRefresh} disabled={isSimulating} sx={{ textTransform: 'none' }}>
                                 {GetTitle(isSimulating ? 'Simulating...' : 'Re-simulate')}
