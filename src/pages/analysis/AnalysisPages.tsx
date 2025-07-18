@@ -91,7 +91,7 @@ export const analysisPages: AnalysisPage[] = [
   },
   {
     label: 'Chi-Ji "Simulation"',
-    path: "/graphs/chi-ji",
+    path: "/analysis/chi-ji",
     element: <ChiJi />,
     preview: chijiPreview,
     description: "Simulate the theoretical HPS of various rotations done inside of Chi-Ji",
