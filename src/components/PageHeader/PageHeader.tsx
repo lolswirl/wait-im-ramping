@@ -5,7 +5,7 @@ import PageTitle from '../PageTitle/PageTitle.tsx';
 
 interface PageHeaderProps {
     title: string;
-    subtitle?: string;
+    subtitle?: string | string[];
     maxWidth?: number | string;
     align?: 'left' | 'center' | 'right';
     marginBottom?: number;
@@ -35,7 +35,12 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                         mx: align === 'center' ? 'auto' : 0
                     }}
                 >
-                    {GetTitle(subtitle)}
+                    {Array.isArray(subtitle) ? subtitle.map((line, index) => (
+                        <span key={index}>
+                            {GetTitle(line)}
+                            {index < subtitle.length - 1 && <br />}
+                        </span>
+                    )) : GetTitle(subtitle)}
                 </Typography>
             )}
         </Box>

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react"
 
 import Home from "./pages/Home.tsx";
+import NotFound from "./pages/NotFound.tsx";
 import About from "./pages/About.tsx";
 import WhenDoIRamp from "./pages/WhenDoIRamp.tsx";
 import Timeline from "./pages/Timeline.tsx";
@@ -49,6 +50,7 @@ function App() {
                 {analysisPages.map(({ path, element }) => (
                   <Route key={path} path={path} element={element} />
                 ))}
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
             <FooterBar />
