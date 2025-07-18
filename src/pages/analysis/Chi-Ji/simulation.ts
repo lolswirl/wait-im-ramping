@@ -155,7 +155,6 @@ export const distributeGusts = (allies: AllyState[], gustCount: number, chiJiGus
         const selectedTargets = getRandomAllies(allies, targetsPerGust);
         const baseGustHealing = chiJiGustHealing * gustsPerTarget;
         
-        // Calculate healing for each target and accumulate
         for (const target of selectedTargets) {
             totalHealing += calculateHealingWithAmp(baseGustHealing, target);
         }
@@ -226,7 +225,7 @@ export const calculateRotationHPS = async (
     const teachingsOfTheMonastery = TALENTS.TEACHINGS_OF_THE_MONASTERY;
     const totmMaxStacks = teachingsOfTheMonastery.custom.maxStacks;
 
-    const gomSpellpower = options.mastery * 1.05;
+    const gomSpellpower = options.mastery * 1.05; // 5% is from effect #1 of mw core passive
     const gustOfMistSpellpower = gomSpellpower / 100;
     const gustOfMistHealing = calcWithStats(gustOfMistSpellpower) * chiProficiencyHealing;
 
