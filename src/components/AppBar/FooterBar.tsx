@@ -27,7 +27,7 @@ const TwitchSVG = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const FooterBar = () => {
-    const { toggleTheme, themeMode } = useThemeContext();
+    const { themeMode } = useThemeContext();
 
     return (
         <AppBar

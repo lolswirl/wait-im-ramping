@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
     Box, 
     Typography, 
@@ -54,29 +54,30 @@ const MissingIcons: React.FC = () => {
         return allSpells;
     };
 
-    const checkAllIcons = async () => {
+    // Wrap checkAllIcons in useCallback to avoid recreating it on every render
+    const checkAllIcons = useCallback(async () => {
         setLoading(true);
         setMissingIcons([]);
-        
+
         const allSpells = getAllSpellsFromAllSpecs();
         setTotalIcons(allSpells.length);
-        
+
         const missingIcons: MissingIconData[] = [];
         let processed = 0;
 
         const batchSize = 10;
         for (let i = 0; i < allSpells.length; i += batchSize) {
             const batch = allSpells.slice(i, i + batchSize);
-            
+
             await Promise.all(batch.map(({ spell, spec, className }) => {
                 return new Promise<void>((resolve) => {
                     const img = new Image();
                     const localSrc = FormatIconImg(spell.icon);
-                    
+
                     img.onload = () => {
                         resolve();
                     };
-                    
+
                     img.onerror = () => {
                         missingIcons.push({
                             iconName: spell.icon,
@@ -86,7 +87,7 @@ const MissingIcons: React.FC = () => {
                         });
                         resolve();
                     };
-                    
+
                     if (localSrc) {
                         img.src = localSrc;
                     } else {
@@ -100,25 +101,25 @@ const MissingIcons: React.FC = () => {
                     }
                 });
             }));
-            
+
             processed += batch.length;
             setProgress((processed / allSpells.length) * 100);
-            
+
             await new Promise(resolve => setTimeout(resolve, 10));
         }
 
-        const uniqueMissingIcons = missingIcons.filter((icon, index, self) => 
+        const uniqueMissingIcons = missingIcons.filter((icon, index, self) =>
             index === self.findIndex(i => i.iconName === icon.iconName)
         );
 
         setMissingIcons(uniqueMissingIcons);
         setLoading(false);
         setProgress(100);
-    };
+    }, []);
 
     useEffect(() => {
         checkAllIcons();
-    }, []);
+    }, [checkAllIcons]);
 
     const handleRefresh = () => {
         checkAllIcons();

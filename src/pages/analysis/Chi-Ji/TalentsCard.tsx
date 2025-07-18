@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Grid, Box, Checkbox, Typography } from '@mui/material';
 import SpellButton from '../../../components/SpellButtons/SpellButton.tsx';
 import spell from '../../../data/spells/spell.ts';
-import { SimulationOptions } from './types.ts';
 import { GetTitle, hexToRgb } from '../../../util/stringManipulation.tsx';
 
 export interface TalentItem {
@@ -20,8 +19,7 @@ const TalentsCard: React.FC<TalentsCardProps> = ({ options, color, onChange }) =
 
     const rgb = hexToRgb(color);
 
-    const TalentOption: React.FC<{ config: TalentItem }> = ({ config }) => {
-        const { key, talent } = config;
+    const TalentOption: React.FC<{ talent: spell }> = ({ talent }) => {
         const isChecked = !!options.get(talent);
 
         return (
@@ -76,7 +74,7 @@ const TalentsCard: React.FC<TalentsCardProps> = ({ options, color, onChange }) =
         }}>
             <Grid container spacing={1}>
                 {Array.from(options.entries()).map(([talent, isChecked]) => (
-                    <TalentOption key={talent.name} config={{ key: talent.name, talent }} />
+                    <TalentOption key={talent.name} talent={talent} />
                 ))}
             </Grid>
         </Card>
