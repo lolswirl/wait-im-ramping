@@ -34,7 +34,7 @@ export interface specialization {
 export const CLASSES = {
   MONK: {
     name: 'Monk',
-    color: '#00ff96',
+    color: '#00cc77',
     SPECS: {
       MISTWEAVER: MISTWEAVER,
     },

@@ -5,6 +5,7 @@ import JadeEmpowermentVsDocJ from "./JadeEmpowermentVsDocJ.tsx";
 import STvsSCK from "./STvsSCK.tsx";
 import HarmonicSurge from "./HarmonicSurge.tsx";
 import RisingSunKickResets from "./RisingSunKickResets.tsx";
+import ChiJi from "./Chi-Ji/Chi-Ji.tsx";
 
 import risingStunKickPreview from '../../assets/previews/rising-sun-kick-resets.png';
 import externalComparisonPreview from '../../assets/previews/external-comparison.png';
@@ -12,6 +13,7 @@ import jadeEmpowermentSheilunsPreview from '../../assets/previews/jade-empowerme
 import jadeEmpowermentDocjPreview from '../../assets/previews/jade-empowerment-docj.png';
 import stSpinningPreview from '../../assets/previews/st-spinning.png';
 import harmonicSurgePreview from '../../assets/previews/harmonic-surge.png';
+import chijiPreview from '../../assets/previews/chi-ji.png';
 
 export interface AnalysisPage {
   label: string;
@@ -87,4 +89,13 @@ export const analysisPages: AnalysisPage[] = [
     tags: ["Probability", "Monk", "Rotation"],
     createdDate: "2025-07-10"
   },
+  {
+    label: 'Chi-Ji "Simulation"',
+    path: "/graphs/chi-ji",
+    element: <ChiJi />,
+    preview: chijiPreview,
+    description: "Simulate the theoretical HPS of various rotations done inside of Chi-Ji",
+    tags: ["Healing", "Monk", "Rotation"],
+    createdDate: "2025-07-12"
+  }
 ];

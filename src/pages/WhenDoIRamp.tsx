@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import RampCalc from "../components/RampCalc/RampCalc.tsx";
-import PageTitle from "../components/PageTitle/PageTitle.tsx"
+import PageHeader from '../components/PageHeader/PageHeader.tsx';
 import { GetTitle } from "../util/stringManipulation.tsx";
 
 const Home = () => {
@@ -13,10 +13,10 @@ const Home = () => {
 
      return (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
-            <PageTitle title={GetTitle("When Do I Ramp?")} />
-            <h1 style={{ marginBottom: "0px" }}>
-                {GetTitle("When Do I Ramp?")}
-            </h1>
+            <PageHeader
+                title={"When Do I Ramp?"}
+                subtitle={"Calculate ramp timings for spell cast efficiency and planning"}
+            />
             <RampCalc onTotalCastTimeChange={handleTotalCastTimeChange} />
             {totalCastTime > 0 && (
                 <h1 style={{ marginTop: "0px" }}>

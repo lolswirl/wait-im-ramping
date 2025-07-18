@@ -2,7 +2,7 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, useTheme } from "@mui/material";
-import PageTitle from "../../components/PageTitle/PageTitle.tsx";
+import PageHeader from "../../components/PageHeader/PageHeader.tsx";
 import { GetTitle } from "../../util/stringManipulation.tsx";
 import SPELLS from "../../data/spells/index.ts";
 import TALENTS from "../../data/talents/monk/mistweaver.ts";
@@ -24,7 +24,8 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
   const cracklingJadeLightningDamage = SPELLS.CRACKLING_JADE_LIGHTNING.value.damage;
 
   const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
-  const ancientTeachingsTransfer = ancientTeachings.custom?.transferRate;
+  const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
+  const ancientTeachingsTransfer = ancientTeachings.custom?.transferRate + jadefireTeachings.custom?.transferRate;
   const ancientTeachingsArmorModifier = ancientTeachings.custom?.armorModifier;
 
   const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
@@ -81,10 +82,6 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
   const chartOptions = {
     responsive: true,
     plugins: {
-      title: {
-        display: true,
-        text: GetTitle("Sheilun's Gift vs. Jade Empowerment Spellpower Comparison"),
-      },
       tooltip: {
         mode: "index" as const,
         intersect: false,
@@ -118,8 +115,11 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
   };
 
   return (
-    <Container sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 4, alignItems: "center", justifyContent: "center" }}>
-      <PageTitle title={GetTitle("JE vs. SG!")} />
+    <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
+      <PageHeader
+        title={"Sheilun's Gift vs. Jade Empowerment"}
+        subtitle={"Analyze the spellpower differences between Sheilun's Gift's stacks and Jade Empowerment's chaining"}
+      />
       <Box sx={{ height: 600, width: "100%", display: "flex", justifyContent: "center" }}>
         <Bar data={chartData} options={chartOptions} />
       </Box>

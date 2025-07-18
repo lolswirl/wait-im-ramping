@@ -12,14 +12,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import { analysisPages, AnalysisPage } from "./analysis/AnalysisPages.tsx";
 import { getCapsMode, GetTitle } from "../util/stringManipulation.tsx";
-import PageTitle from "../components/PageTitle/PageTitle.tsx";
+import PageHeader from "../components/PageHeader/PageHeader.tsx";
 
 import WhenDoIRamp from "./WhenDoIRamp.tsx";
 import Timeline from "./Timeline.tsx"
 import wdirPreview from '../assets/previews/when-do-i-ramp.png';
 import spellTimelinePreview from '../assets/previews/timeline.png';
-
-const title = "Analysis Tools";
 
 const Analysis = () => {
     const navigate = useNavigate();
@@ -96,14 +94,11 @@ const Analysis = () => {
 
     return (
         <Container sx={{ mt: 2, mb: 4 }}>
-            <PageTitle title={GetTitle(title)} />
-            <h1 style={{ marginBottom: "0px" }}>
-                {GetTitle(title)}
-            </h1>
-            
-            <Typography variant="body1" align="center" color="text.secondary" sx={{ mb: 3, maxWidth: 700, mx: 'auto' }}>
-                {GetTitle("Interactive graphs & tools for analyzing healing and damage mechanics, rotation optimizations, probability simulations, and more!")}
-            </Typography>
+            <PageHeader 
+                title={"Analysis"} 
+                subtitle={"Interactive graphs & tools for analyzing healing and damage mechanics, rotation optimizations, probability simulations, and more!"} 
+                marginBottom={3}
+            />
 
             <Box sx={{ mb: 3 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>

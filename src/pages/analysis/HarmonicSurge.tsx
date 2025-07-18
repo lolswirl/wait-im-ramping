@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, useTheme, FormControlLabel, Switch, Typography } from "@mui/material";
-import PageTitle from "../../components/PageTitle/PageTitle.tsx";
+import PageHeader from "../../components/PageHeader/PageHeader.tsx";
 import { GetTitle, pluralize } from "../../util/stringManipulation.tsx";
 import SPELLS from "../../data/spells/index.ts";
 import TALENTS from "../../data/talents/monk/mistweaver.ts";
@@ -20,7 +20,8 @@ const HarmonicSurge: React.FC = () => {
     const mastery = mistweaver.mastery;
 
     const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
-    const ancientTeachingsTransfer = ancientTeachings.custom.transferRate;
+    const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
+    const ancientTeachingsTransfer = ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate;
     const ancientTeachingsArmorModifier = ancientTeachings.custom.armorModifier;
 
     const awakenedJadefire = TALENTS.AWAKENED_JADEFIRE;
@@ -161,10 +162,6 @@ const HarmonicSurge: React.FC = () => {
     const chartOptions = {
         responsive: true,
         plugins: {
-            title: {
-                display: true,
-                text: GetTitle("Harmonic Surge Healing Comparison"),
-            },
             tooltip: {
                 mode: "index" as const,
                 intersect: false,
@@ -218,8 +215,11 @@ const HarmonicSurge: React.FC = () => {
     };
 
     return (
-        <Container sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 4, alignItems: "center", justifyContent: "center" }}>
-            <PageTitle title={GetTitle("Harmonic Surge!")} />
+        <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
+            <PageHeader
+                title={"Harmonic Surge!"}
+                subtitle={"Analyze Harmonic Surge's spellpower output compared to the other Ancient Teachings abilities"}
+            />
             
             <Box sx={{ height: 600, width: "100%", display: "flex", justifyContent: "center" }}>
                 <Bar data={chartData} options={chartOptions} />

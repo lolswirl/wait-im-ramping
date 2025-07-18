@@ -8,8 +8,8 @@ import {Typography, FormControl, InputLabel, OutlinedInput, Box, Card, Stack, Di
 import spell from '../data/spells/spell.ts';
 import { CLASSES, specialization } from '../data/class/class.ts';
 import { v4 as uuidv4 } from 'uuid';
-import PageTitle from "../components/PageTitle/PageTitle.tsx";
-import { GetTitle } from '../util/stringManipulation.tsx';
+import PageHeader from '../components/PageHeader/PageHeader.tsx';
+import { GetTitle, hexToRgb } from '../util/stringManipulation.tsx';
 import { useSpec } from '../context/SpecContext.tsx';
 import { useRotationManager } from '../hooks/useRotationManager.ts';
 
@@ -65,16 +65,6 @@ const Timeline = () => {
                 ...spell,
                 uuid: spell.uuid || uuidv4(),
             }));
-        };
-
-        // Helper function to convert hex to RGB
-        const hexToRgb = (hex: string) => {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : { r: 54, g: 162, b: 235 }; // fallback blue
         };
 
         const baseColor = hexToRgb(spec.color);
@@ -143,9 +133,11 @@ const Timeline = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-            <PageTitle title={GetTitle("Spell Timeline!")} />
-            <h1 style={{ marginBottom: "0px" }}>{GetTitle("Spell Timeline!")}</h1>
-
+            <PageHeader 
+                title={"Spell Timeline!"} 
+                subtitle={"Create customized timelines for spell casts and cooldowns to analyze cast efficiencies and sunken time costs"} 
+            />
+            
             {/* warn for horizontal mode on mobile */}
             <Box sx={{ display: { xs: "block", md: "none" }, mb: 2, px: 2, textAlign: "center" }}>
                 <Typography variant="body2" color="textSecondary">

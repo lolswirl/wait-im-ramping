@@ -5,13 +5,22 @@ import EmpowerLevelButtons from '../EmpowerLevel/EmpowerLevel.tsx';
 import SpellButton from './SpellButton.tsx';
 
 interface SpellButtonsProps {
-  selectedSpec: specialization;
+  selectedSpec?: specialization;
+  spells?: Spell[];
   addSpellToTable: (spell: Spell, empowerLevel: number) => void;
 }
 
-const SpellButtons: React.FC<SpellButtonsProps> = ({ selectedSpec, addSpellToTable }) => {
+const SpellButtons: React.FC<SpellButtonsProps> = ({ selectedSpec, spells, addSpellToTable }) => {
   const [empowerLevel, setEmpowerLevel] = useState<number>(1);
-  if (!selectedSpec) return null;
+  
+  let spellList: Spell[] = [];
+  if (spells) {
+    spellList = Object.values(spells);
+  } else if (selectedSpec) {
+    spellList = Object.values(selectedSpec.spells);
+  }
+
+  if (spellList.length === 0) return null;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -24,7 +33,7 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({ selectedSpec, addSpellToTab
           justifyContent: 'center',
         }}
       >
-        {Object.values(selectedSpec.spells).map((spell) => (
+        {spellList.map((spell) => (
           <SpellButton
             key={spell.id}
             selectedSpell={spell}

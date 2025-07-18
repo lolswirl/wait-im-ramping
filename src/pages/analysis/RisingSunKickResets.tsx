@@ -18,7 +18,7 @@ import {
     OutlinedInput
 } from "@mui/material";
 import { DeleteTwoTone } from "@mui/icons-material";
-import PageTitle from "../../components/PageTitle/PageTitle.tsx";
+import PageHeader from "../../components/PageHeader/PageHeader.tsx";
 import { GetTitle, pluralize } from "../../util/stringManipulation.tsx";
 import { MISTWEAVER_SPELLS } from "../../data/spells/monk/mistweaver.ts";
 import TALENTS from "../../data/talents/monk/mistweaver.ts";
@@ -39,8 +39,6 @@ const DEFAULT_STATS = {
     totalHits: 0,
     totalGCDs: 0
 };
-
-const title = GetTitle("Rising Sun Kick Resets");
 
 const ProgressBar: React.FC<{
     label: string;
@@ -241,10 +239,6 @@ const createChartData = (rotations: any[], calculateRotationStats: Function) => 
 const createChartOptions = (theme: any, rotations: any[], calculateRotationStats: Function) => ({
     responsive: true,
     plugins: {
-        title: {
-            display: true,
-            text: title,
-        },
         tooltip: {
             mode: "index" as const,
             intersect: false,
@@ -394,10 +388,10 @@ const RisingSunKickResets: React.FC = () => {
     
     return (
         <Container sx={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center", justifyContent: "center" }}>
-            <PageTitle title={title} />
-            <h1 style={{ marginBottom: "0px" }}>
-                {title}
-            </h1>
+            <PageHeader
+                title={"Rising Sun Kick Resets"}
+                subtitle={"Find the probabilities of Rising Sun Kick resets based on input rotations"}
+            />
             
             <Card variant="outlined" sx={cardSx}>
                 <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
