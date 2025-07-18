@@ -133,9 +133,15 @@ const ChiJiHPS: React.FC = () => {
                 subtitle={"Simulate the theoretical HPS outcome of rotations that affect Chi-Ji with tuning knobs for stats, enemy count, and talent choices"} 
             />
 
-            <Card variant="outlined" sx={{ maxWidth: 1200, width: "100%", mx: "auto", mb: rotationHPS.length > 0 ? 0 : 3 }}>
+            <Card variant="outlined" sx={{ maxWidth: 1200, width: "95%", mx: "auto", mb: rotationHPS.length > 0 ? 0 : 3 }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: '400px' }}>
                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
+
+                        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '700', overflowY: 'auto' }}>
+                            <StatsCard options={options} onOptionsChange={setOptions} />
+                            <TargetCountsCard options={options} onOptionsChange={setOptions} />
+                        </Box>  
+                        <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
                         <SpellButtons spells={CHIJI_ABILITIES} addSpellToTable={addSpellToRotationCollapse} />
                         <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
                         <Box sx={{ mt: 0 }}>
@@ -149,12 +155,11 @@ const ChiJiHPS: React.FC = () => {
                             />
                         </Box>
                     </Box>
-
+                    
                     <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', md: 'block' } }} />
+                    <Divider sx={{ display: { md: 'none' } }} />
 
                     <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '700', overflowY: 'auto' }}>
-                        <StatsCard options={options} onOptionsChange={setOptions} />
-                        <TargetCountsCard options={options} onOptionsChange={setOptions} />
                         <TalentsCard
                             options={options.specTalents}
                             color={mistweaver.color}
