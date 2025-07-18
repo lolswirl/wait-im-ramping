@@ -80,8 +80,8 @@ export const applyEnvelopingMist = (allies: AllyState[], options: SimulationOpti
     return target;
 };
 
-export const applyRenewingMistToTarget = (target: AllyState, options: SimulationOptions) => {
-    target.buffs.renewingMist.remaining = SPELLS.RENEWING_MIST.custom.duration;
+export const applyRenewingMistToTarget = (renewingMist: spell, target: AllyState, options: SimulationOptions) => {
+    target.buffs.renewingMist.remaining = renewingMist.custom?.duration;
     target.buffs.renewingMist.amp = isTalentEnabled(options, TALENTS.CHI_HARMONY) ? TALENTS.CHI_HARMONY.custom.amp : 1;
 
     return target;
@@ -275,6 +275,12 @@ export const calculateRotationHPS = async (
         return healing;
     };
 
+    const calculateRenewingMistHealing = (spellObj: spell): number => {
+        const renewingMistBaseHealing = calculateHealing(spellObj);
+        const renewingMistBaseHPS = renewingMistBaseHealing / SPELLS.RENEWING_MIST.custom.duration;
+        return renewingMistBaseHPS * spellObj.custom?.duration;
+    };
+
     const calculateSpellHealingBreakdown = (spellObj: spell, totmStacks: number, allies: AllyState[], chiJiActive: boolean) => {
         const breakdown = {
             baseHealing: 0,
@@ -320,7 +326,7 @@ export const calculateRotationHPS = async (
                 }
 
                 if (rapidDiffusionOpt) {
-                    renewingMistHealing = calculateHealing(SPELLS.RENEWING_MIST);
+                    renewingMistHealing = calculateRenewingMistHealing(SPELLS.RENEWING_MIST);
                     const rdRemHealing = applyRapidDiffusionRenewingMist(allies, options, renewingMistHealing);
                     renewingMistHealing = rdRemHealing.healing;
                 }
@@ -405,7 +411,7 @@ export const calculateRotationHPS = async (
                 }
 
                 if (rapidDiffusionOpt) {
-                    renewingMistHealing = calculateHealing(SPELLS.RENEWING_MIST);
+                    renewingMistHealing = calculateRenewingMistHealing(SPELLS.RENEWING_MIST);
                     const rdRemHealing = applyRapidDiffusionRenewingMist(allies, options, renewingMistHealing);
                     renewingMistHealing = rdRemHealing.healing;
                 }
@@ -421,8 +427,8 @@ export const calculateRotationHPS = async (
                 break;
             case SPELLS.RENEWING_MIST.id:
                 const renewingMistTarget = getRandomAlly(allies);
-                applyRenewingMistToTarget(renewingMistTarget, options);
-                const renewingMistBaseHealing = calculateHealing(spellObj);
+                applyRenewingMistToTarget(spellObj, renewingMistTarget, options);
+                const renewingMistBaseHealing = calculateRenewingMistHealing(spellObj);
                 breakdown.baseHealing = calculateHealingWithAmp(renewingMistBaseHealing, renewingMistTarget);
 
                 breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistHealing, renewingMistTarget);
