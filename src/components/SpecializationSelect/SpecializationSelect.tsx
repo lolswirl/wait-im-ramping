@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './SpecializationSelect.css'
-import { FormControl, InputLabel, MenuItem, Popover, Box, MenuList, Paper } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Popover, Box, MenuList } from '@mui/material';
 import Select from '@mui/material/Select';
 import { specialization, getSpecs, getSpecializationByKey } from '../../data/class/class.ts';
 import { GetTitle } from "../../util/stringManipulation.tsx";
