@@ -27,7 +27,8 @@ const Timeline = () => {
         clearCurrentRotation,
         clearAllRotations,
         setCurrentRotation,
-        hasRotations
+        hasRotations,
+        onReorderRotation,
     } = useRotationManager();
 
     const handleSetCondense = (value: boolean) => {
@@ -255,6 +256,7 @@ const Timeline = () => {
                                 onClearCurrentRotation={clearCurrentRotation}
                                 onClearAllRotations={clearAllRotations}
                                 hasRotations={hasRotations}
+                                onReorderRotation={onReorderRotation}
                             />
                         )}
                     </Box>

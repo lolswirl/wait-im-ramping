@@ -8,7 +8,7 @@ import { SpecProvider } from './context/SpecContext.tsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <ThemeProvider>
       <Theme>
         <SpecProvider>
@@ -16,5 +16,5 @@ root.render(
         </SpecProvider>
       </Theme>
     </ThemeProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
