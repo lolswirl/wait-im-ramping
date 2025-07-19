@@ -73,6 +73,10 @@ export const useRotationManager = (options: UseRotationManagerOptions = {}) => {
         setCurrentRotation(spells);
     };
 
+    const onReorderRotation = (newRotation: Spell[]) => {
+        setCurrentRotation(newRotation);
+    };
+
     return {
         currentRotation,
         rotations,
@@ -83,6 +87,7 @@ export const useRotationManager = (options: UseRotationManagerOptions = {}) => {
         clearAllRotations,
         removeRotation,
         setCurrentRotation: setCurrentRotationDirect,
+        onReorderRotation,
         hasRotations: rotations.length > 0
     };
 };

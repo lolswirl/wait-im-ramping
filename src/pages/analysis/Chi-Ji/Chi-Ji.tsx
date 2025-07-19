@@ -71,6 +71,7 @@ const ChiJiHPS: React.FC = () => {
         clearAllRotations,
         removeRotation,
         hasRotations,
+        onReorderRotation,
     } = useRotationManager();
 
     const addSpellToRotationCollapse = (spell: any) => {
@@ -152,6 +153,7 @@ const ChiJiHPS: React.FC = () => {
                                 onClearCurrentRotation={clearCurrentRotation}
                                 onClearAllRotations={clearAllRotations}
                                 hasRotations={hasRotations}
+                                onReorderRotation={onReorderRotation}
                             />
                         </Box>
                     </Box>

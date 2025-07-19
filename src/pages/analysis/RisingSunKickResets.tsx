@@ -335,7 +335,8 @@ const RisingSunKickResets: React.FC = () => {
         clearCurrentRotation,
         clearAllRotations,
         removeRotation,
-        hasRotations
+        hasRotations,
+        onReorderRotation,
     } = useRotationManager({
         generateRotationName,
         validateSpell
@@ -443,6 +444,7 @@ const RisingSunKickResets: React.FC = () => {
                     onClearCurrentRotation={clearCurrentRotation}
                     onClearAllRotations={clearAllRotations}
                     hasRotations={hasRotations}
+                    onReorderRotation={onReorderRotation}
                 />
             </Card>
             
