@@ -39,8 +39,8 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
             onMouseOut={() => setIsHovered(false)}
             {...rest}
             style={{
-                minWidth: 25,
-                minHeight: 25,
+                minWidth: size + 2,
+                minHeight: size + 2,
                 width: size + 2,
                 height: size + 2,
                 padding: 0,
