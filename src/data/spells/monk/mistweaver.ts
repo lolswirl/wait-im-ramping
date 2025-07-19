@@ -69,6 +69,13 @@ const spells = {
             resetChance: 0.06,
         },
     },
+    CHI_BURST: {
+        name: 'Chi Burst',
+        id: 123986,
+        icon: 'spell_arcane_arcanetorrent',
+        castTime: 1,
+        school: SCHOOLS.NATURE,
+    },
 
     // healing abilities
     RENEWING_MIST: {
@@ -155,7 +162,7 @@ const spells = {
         castTime: 0,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 30899,
+            healing: 25750,
         },
         custom: {
             targetsHit: 3,
@@ -178,8 +185,16 @@ const spells = {
             absorbFormula: (sourceHp: number, versatility: number) => {
                 return ((sourceHp * 48) / 100) * (1 + versatility);
             },
-        },
+        }
     },
+    CELESTIAL_CONDUIT: {
+        name: 'Celestial Conduit',
+        id: 443028,
+        icon: 'inv_ability_conduitofthecelestialsmonk_celestialconduit',
+        castTime: 4,
+        school: SCHOOLS.NATURE,
+    },
+
 } satisfies Record<string, spell>;
 
 const CHIJI_ABILITIES = [
