@@ -153,9 +153,9 @@ const SpellTable: React.FC<SpellTableProps> = ({ spellList, setSpellList, remove
             ))}
           </AnimatePresence>
 
-          <TableRow>
-            <TableCell><b>{GetTitle("Total Cast Time:")}</b></TableCell>
-            <TableCell align="center">
+          <TableRow sx={{ backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#1e1e1e' : '#f5f5f5' }}>
+            <TableCell sx={{ fontWeight: 'bold', fontSize: '1rem' }}><b>{GetTitle("Total Cast Time:")}</b></TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
               <b>{timelineData.length > 0 ? timelineData[timelineData.length - 1].end.toFixed(2) : "0"}s</b>
             </TableCell>
             <TableCell>

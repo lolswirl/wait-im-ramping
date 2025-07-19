@@ -33,17 +33,17 @@ const Theme = ({ children }: { children: React.ReactNode }) => {
             },
         },
         components: {
-            MuiTableBody: {
+            MuiTableHead: {
                 styleOverrides: {
                     root: {
-                        backgroundColor: themeMode === 'dark' ? '#121212' : '#f5f5f5',
+                        backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#f5f5f5', // <-- header
                     },
                 },
             },
-            MuiTableRow: {
+            MuiTableBody: {
                 styleOverrides: {
                     root: {
-                        backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#e0e0e0',
+                        backgroundColor: themeMode === 'dark' ? '#121212' : '#f5f5f5', // <-- rows
                     },
                 },
             },
