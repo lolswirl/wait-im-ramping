@@ -2,9 +2,8 @@ import React from 'react';
 import {
     Box,
     Button,
-    FormControl,
-    InputLabel,
-    OutlinedInput,
+    Card,
+    CardContent,
     Stack,
     Typography
 } from '@mui/material';
@@ -12,7 +11,8 @@ import { Add, DeleteForever, DeleteTwoTone } from '@mui/icons-material';
 import SpellButton from '../SpellButtons/SpellButton.tsx';
 import { GetTitle } from '../../util/stringManipulation.tsx';
 import { toRomanNumeral } from '../../util/toRomanNumeral.ts';
-import type Spell from "../../data/spells/spell.ts"
+import type Spell from "../../data/spells/spell.ts";
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 
 interface CurrentRotationControlProps {
     currentRotation: Spell[];
@@ -21,6 +21,7 @@ interface CurrentRotationControlProps {
     onClearCurrentRotation: () => void;
     onClearAllRotations: () => void;
     hasRotations: boolean;
+    onReorderRotation?: (newRotation: Spell[]) => void;
 }
 
 const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
@@ -30,105 +31,125 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
     onClearCurrentRotation,
     onClearAllRotations,
     hasRotations,
+    onReorderRotation,
 }) => {
+    const handleDragEnd = (result: DropResult) => {
+        if (!result.destination) return;
+        const reordered = Array.from(currentRotation);
+        const [removed] = reordered.splice(result.source.index, 1);
+        reordered.splice(result.destination.index, 0, removed);
+        if (onReorderRotation) onReorderRotation(reordered);
+    };
+
     return (
         <Stack direction="column" alignItems="center" spacing={2} sx={{ mb: 1 }}>
-            <FormControl fullWidth variant="outlined" sx={{ flexGrow: 1, m: 0 }}>
-                <InputLabel shrink>{GetTitle("Current Rotation")}</InputLabel>
-                <OutlinedInput
-                    notched
-                    readOnly
-                    label={GetTitle("Current Rotation")}
-                    inputComponent="span"
-                    inputProps={{
-                        style: { width: "100%", height: "100%" },
-                        children: (
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    gap: 0.5,
-                                    width: "100%",
-                                    p: 1,
-                                    boxSizing: "border-box",
-                                }}
-                            >
-                                {currentRotation.length > 0 ? (
-                                    currentRotation.map((spell) => (
-                                        <Box 
-                                            key={spell.uuid} 
-                                            sx={{ 
-                                                position: 'relative',
-                                                display: 'inline-block'
+            <Card variant="outlined" sx={{ width: "100%", mb: 2 }}>
+                <CardContent sx={{ p: 0, height: 60 }}>
+                    <DragDropContext onDragEnd={handleDragEnd}>
+                        <Droppable droppableId="rotation-droppable" direction="horizontal">
+                            {(provided) => (
+                                <Box
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        height: 60,
+                                        gap: 0.5,
+                                        p: 0,
+                                    }}
+                                >
+                                    {currentRotation.length > 0 ? (
+                                        currentRotation.map((spell, idx) => (
+                                            <Draggable key={spell.uuid} draggableId={spell.uuid} index={idx}>
+                                                {(provided, snapshot) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        style={{
+                                                            display: 'inline-block',
+                                                            opacity: snapshot.isDragging ? 0.7 : 1,
+                                                            position: 'relative',
+                                                            verticalAlign: 'middle',
+                                                            ...provided.draggableProps.style,
+                                                        }}
+                                                    >
+                                                        <SpellButton
+                                                            selectedSpell={spell}
+                                                            action={() => onRemoveSpell(spell)}
+                                                            isRemove={true}
+                                                        />
+                                                        {spell.empowerLevel && (
+                                                            <Box
+                                                                style={{
+                                                                    position: "absolute",
+                                                                    bottom: -2,
+                                                                    right: -2,
+                                                                    backgroundColor: "rgba(0, 0, 0, 0.75)",
+                                                                    color: "white",
+                                                                    fontSize: "0.75rem",
+                                                                    fontWeight: "bold",
+                                                                    padding: "2px 4px",
+                                                                    borderRadius: "4px",
+                                                                }}
+                                                            >
+                                                                {toRomanNumeral(spell.empowerLevel)}
+                                                            </Box>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))
+                                    ) : (
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                height: "100%", // <-- Fill parent height
+                                                m: 0,
+                                                p: 0,
                                             }}
                                         >
-                                            <SpellButton
-                                                selectedSpell={spell}
-                                                action={() => onRemoveSpell(spell)}
-                                                isRemove={true}
-                                            />
-                                            {spell.empowerLevel && (
-                                                <Box
-                                                    style={{
-                                                        position: "absolute",
-                                                        bottom: -2,
-                                                        right: -2,
-                                                        backgroundColor: "rgba(0, 0, 0, 0.75)",
-                                                        color: "white",
-                                                        fontSize: "0.75rem",
-                                                        fontWeight: "bold",
-                                                        padding: "2px 4px",
-                                                        borderRadius: "4px",
-                                                    }}
-                                                >
-                                                    {toRomanNumeral(spell.empowerLevel)}
-                                                </Box>
-                                            )}
+                                            <Typography variant="body2" color="textSecondary">
+                                                {GetTitle("No spells added")}
+                                            </Typography>
                                         </Box>
-                                    ))
-                                ) : (
-                                    <Typography variant="body2" color="textSecondary">
-                                        {GetTitle("No spells added")}
-                                    </Typography>
-                                )}
-                            </Box>
-                        ),
-                    }}
-                    sx={{
-                        height: "auto",
-                        alignItems: "center",
-                        py: 0,
-                        width: "100%",
-                    }}
-                />
-            </FormControl>
-            
+                                    )}
+                                    {provided.placeholder}
+                                </Box>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
+                </CardContent>
+            </Card>
             <Stack direction="row" spacing={1}>
-                <Button 
-                    variant="contained" 
-                    color="primary" 
-                    onClick={onFinalizeRotation} 
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={onFinalizeRotation}
                     disabled={currentRotation.length === 0}
                     startIcon={<Add />}
                     sx={{ textTransform: "none" }}
                 >
                     {GetTitle("Add Rotation")}
                 </Button>
-                <Button 
-                    variant="contained" 
-                    color="error" 
-                    onClick={onClearCurrentRotation} 
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={onClearCurrentRotation}
                     disabled={currentRotation.length === 0}
                     startIcon={<DeleteTwoTone />}
                     sx={{ textTransform: "none" }}
                 >
                     {GetTitle("Clear Current")}
                 </Button>
-                <Button 
-                    variant="contained" 
-                    color="error" 
-                    onClick={onClearAllRotations} 
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={onClearAllRotations}
                     disabled={!hasRotations}
                     startIcon={<DeleteForever />}
                     sx={{ textTransform: "none" }}
