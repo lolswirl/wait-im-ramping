@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, IconButton } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, IconButton } from '@mui/material';
 import spell, { calculateCastTime } from '../../data/spells/spell.ts';
 import { applyBuffEffects } from '../../data/buffs/buffs.ts';
 import { motion, AnimatePresence } from 'framer-motion';
