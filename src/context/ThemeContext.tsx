@@ -1,4 +1,6 @@
+"use client";
 import { createContext, useContext, useState, useEffect } from 'react';
+import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 
 const ThemeContext = createContext({
   themeMode: 'dark',
@@ -11,21 +13,31 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [themeMode, setThemeMode] = useState<'light' | 'dark'>('dark');
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('themeMode');
-    if (savedTheme) {
-      setThemeMode(savedTheme === 'dark' ? 'dark' : 'light');
+    const savedTheme = typeof window !== "undefined" ? localStorage.getItem('themeMode') : null;
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      setThemeMode(savedTheme);
     }
   }, []);
 
   const toggleTheme = () => {
     const newTheme = themeMode === 'dark' ? 'light' : 'dark';
     setThemeMode(newTheme);
-    localStorage.setItem('themeMode', newTheme);
+    if (typeof window !== "undefined") {
+      localStorage.setItem('themeMode', newTheme);
+    }
   };
+
+  const theme = createTheme({
+    palette: {
+      mode: themeMode,
+    },
+  });
 
   return (
     <ThemeContext.Provider value={{ themeMode, toggleTheme }}>
-      {children}
+      <MuiThemeProvider theme={theme}>
+        {children}
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   );
 };
