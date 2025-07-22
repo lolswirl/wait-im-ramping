@@ -36,14 +36,14 @@ const Theme = ({ children }: { children: React.ReactNode }) => {
             MuiTableHead: {
                 styleOverrides: {
                     root: {
-                        backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#f5f5f5', // <-- header
+                        backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#f5f5f5',
                     },
                 },
             },
             MuiTableBody: {
                 styleOverrides: {
                     root: {
-                        backgroundColor: themeMode === 'dark' ? '#121212' : '#f5f5f5', // <-- rows
+                        backgroundColor: themeMode === 'dark' ? '#121212' : '#e0e0e0',
                     },
                 },
             },
