@@ -8,6 +8,7 @@ import { toRomanNumeral } from '../../util/toRomanNumeral.ts';
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 import { GetTitle } from "../../util/stringManipulation.tsx";
 import { specialization } from '../../data/class/class.ts';
+import SwirlButton from '../Buttons/SwirlButton.tsx';
 
 interface SpellTableProps {
   spellList: spell[];
@@ -160,15 +161,14 @@ const SpellTable: React.FC<SpellTableProps> = ({ spellList, setSpellList, remove
             </TableCell>
             <TableCell>
               <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
-                <Button 
-                  variant="contained" 
-                  color="error" 
+                <SwirlButton
+                  color="error"
+                  textColor="error"
                   onClick={clearTable}
                   startIcon={<DeleteForever />}
-                  sx={{ textTransform: "none" }}
                 >
-                  {GetTitle("CLEAR ALL")}
-                </Button>
+                  {GetTitle("Clear All")}
+                </SwirlButton>
               </Box>
             </TableCell>
           </TableRow>

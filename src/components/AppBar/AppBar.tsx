@@ -20,6 +20,7 @@ import { GetTitle } from "../../util/stringManipulation.tsx";
 import { useSpec } from "../../context/SpecContext.tsx";
 import { useLocation } from "react-router-dom";
 import SpecializationSelect from "../SpecializationSelect/SpecializationSelect.tsx";
+import SwirlButton from "../Buttons/SwirlButton.tsx"
 
 const MoonIcon = () => (
     <SvgIcon viewBox="0 0 16 16" sx={{ fontSize: 15 }}>
@@ -264,35 +265,42 @@ function ResponsiveAppBar() {
                                     : location.pathname === path;
                                 
                                 return (
-                                    <Button
+                                    <SwirlButton 
                                         key={GetTitle(label)}
-                                        component="a"
                                         href={path}
-                                        sx={{
-                                            color: "inherit",
-                                            fontWeight: 400,
-                                            textTransform: "none",
-                                            position: "relative",
-                                            "&::before": {
-                                                content: '""',
-                                                position: "absolute",
-                                                bottom: 0,
-                                                left: 0,
-                                                right: 0,
-                                                height: 2,
-                                                bgcolor: hoverColor,
-                                                borderRadius: 1,
-                                                transform: isActive ? "scaleX(1)" : "scaleX(0)",
-                                                transition: "transform 0.3s ease",
-                                                zIndex: 2,
-                                            },
-                                            "&:hover::before": {
-                                                transform: "scaleX(1)",
-                                            },
-                                        }}
+                                        selected={isActive}
                                     >
                                         {GetTitle(label)}
-                                    </Button>
+                                    </SwirlButton>
+                                    // <Button
+                                    //     key={GetTitle(label)}
+                                    //     component="a"
+                                    //     href={path}
+                                    //     sx={{
+                                    //         color: "inherit",
+                                    //         fontWeight: 400,
+                                    //         textTransform: "none",
+                                    //         position: "relative",
+                                    //         "&::before": {
+                                    //             content: '""',
+                                    //             position: "absolute",
+                                    //             bottom: 0,
+                                    //             left: 0,
+                                    //             right: 0,
+                                    //             height: 2,
+                                    //             bgcolor: hoverColor,
+                                    //             borderRadius: 1,
+                                    //             transform: isActive ? "scaleX(1)" : "scaleX(0)",
+                                    //             transition: "transform 0.3s ease",
+                                    //             zIndex: 2,
+                                    //         },
+                                    //         "&:hover::before": {
+                                    //             transform: "scaleX(1)",
+                                    //         },
+                                    //     }}
+                                    // >
+                                    //     {GetTitle(label)}
+                                    // </Button>
                                 );
                             })}
                         </Box>
