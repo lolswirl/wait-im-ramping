@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, useTheme, Card, Divider, Grid, Button } from "@mui/material";
+import { Box, useTheme, Card, Divider, Grid } from "@mui/material";
 import { Refresh } from "@mui/icons-material";
 import PageHeader from "../../../components/PageHeader/PageHeader.tsx";
 import { GetTitle } from "../../../util/stringManipulation.tsx";
@@ -19,6 +19,7 @@ import TalentsCard from "./TalentsCard.tsx";
 import spell from "../../../data/spells/spell.ts";
 import TALENTS from "../../../data/talents/monk/mistweaver.ts";
 import SHARED from "../../../data/talents/monk/shared.ts";
+import SwirlButton from "../../../components/Buttons/SwirlButton.tsx";
 
 const ChiJiHPS: React.FC = () => {
     const theme = useTheme();
@@ -154,7 +155,18 @@ const ChiJiHPS: React.FC = () => {
                                 onClearAllRotations={clearAllRotations}
                                 hasRotations={hasRotations}
                                 onReorderRotation={onReorderRotation}
-                            />
+                            >
+                                <SwirlButton
+                                    key={"refresh-rotation"}
+                                    color="success"
+                                    textColor="success"
+                                    onClick={handleRefresh}
+                                    disabled={isSimulating || rotationHPS.length === 0}
+                                    startIcon={<Refresh />}
+                                >
+                                    {GetTitle(isSimulating ? 'Simulating...' : 'Re-simulate')}
+                                </SwirlButton>
+                            </CurrentRotationControl>
                         </Box>
                     </Box>
                     
@@ -182,11 +194,6 @@ const ChiJiHPS: React.FC = () => {
                                 }));
                             }}
                         />
-                        {rotationHPS.length > 0 && (
-                            <Button variant="contained" startIcon={<Refresh />} onClick={handleRefresh} disabled={isSimulating} sx={{ textTransform: 'none' }}>
-                                {GetTitle(isSimulating ? 'Simulating...' : 'Re-simulate')}
-                            </Button>
-                        )}
                     </Box>
                 </Box>
             </Card>

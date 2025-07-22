@@ -1,6 +1,9 @@
 let CAPS = false;
 
 export const GetTitle = (str: string): string => {
+    if (str === undefined || str === null) {
+        return "";
+    }
     return CAPS ? str : lower(str);
 }
 

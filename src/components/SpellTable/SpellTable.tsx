@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, IconButton } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, IconButton } from '@mui/material';
 import spell, { calculateCastTime } from '../../data/spells/spell.ts';
 import { applyBuffEffects } from '../../data/buffs/buffs.ts';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,6 +8,7 @@ import { toRomanNumeral } from '../../util/toRomanNumeral.ts';
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
 import { GetTitle } from "../../util/stringManipulation.tsx";
 import { specialization } from '../../data/class/class.ts';
+import SwirlButton from '../Buttons/SwirlButton.tsx';
 
 interface SpellTableProps {
   spellList: spell[];
@@ -153,22 +154,21 @@ const SpellTable: React.FC<SpellTableProps> = ({ spellList, setSpellList, remove
             ))}
           </AnimatePresence>
 
-          <TableRow>
-            <TableCell><b>{GetTitle("Total Cast Time:")}</b></TableCell>
-            <TableCell align="center">
+          <TableRow sx={{ backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#1e1e1e' : '#f5f5f5' }}>
+            <TableCell sx={{ fontWeight: 'bold', fontSize: '1rem' }}><b>{GetTitle("Total Cast Time:")}</b></TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
               <b>{timelineData.length > 0 ? timelineData[timelineData.length - 1].end.toFixed(2) : "0"}s</b>
             </TableCell>
             <TableCell>
               <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
-                <Button 
-                  variant="contained" 
-                  color="error" 
+                <SwirlButton
+                  color="error"
+                  textColor="error"
                   onClick={clearTable}
                   startIcon={<DeleteForever />}
-                  sx={{ textTransform: "none" }}
                 >
-                  {GetTitle("CLEAR ALL")}
-                </Button>
+                  {GetTitle("Clear All")}
+                </SwirlButton>
               </Box>
             </TableCell>
           </TableRow>

@@ -68,18 +68,6 @@ const talents = {
             gomChance: 0.1,
         }
     },
-    HARMONIC_SURGE: {
-        name: "Harmonic Surge",
-        id: 1239442,
-        icon: 'ability_socererking_forcenova',
-        value: {
-            healing: 74117,
-            damage: 1,
-        },
-        custom: {
-            targetsHit: 5
-        }
-    },
     TEACHINGS_OF_THE_MONASTERY: {
         name: "Teachings of the Monastery",
         id: 116645,
@@ -152,7 +140,152 @@ const talents = {
             amp: 1.5,
         }
     },
+    LOTUS_INFUSION: {
+        name: "Lotus Infusion",
+        id: 458431,
+        icon: 'inv_misc_herb_chamlotus',
+        custom: {
+            additionalDuration: 2,
+            amp: 1.1,
+        }
+    },
+    MISTY_PEAKS: {
+        name: "Misty Peaks",
+        id: 388682,
+        icon: 'achievement_zone_stormpeaks_10',
+    },
+    RESTORAL: {
+        name: "Restoral",
+        id: 388615,
+        icon: 'ability_monk_tigerstyle',
+    },
+    SECRET_INFUSION: {
+        name: "Secret Infusion",
+        id: 388491,
+        icon: 'ability_monk_chibrew',
+    },
+    TEAR_OF_MORNING: {
+        name: "Tear of Morning",
+        id: 387991,
+        icon: 'ability_monk_uplift',
+    },
+    TEA_OF_SERENITY: {
+        name: "Tea of Serenity",
+        id: 393460,
+        icon: 'inv_misc_food_vendor_roastedbarlytea',
+    },
+    TEA_OF_PLENTY: {
+        name: "Tea of Serenity",
+        id: 388517,
+        icon: 'inv_misc_pearlmilktea',
+    },
+    MENDING_PROLIFERATION: {
+        name: "Mending Proliferation",
+        id: 388509,
+        icon: 'inv_shoulder_inv_leather_raidmonk_s_01',
+    },
+    UNISON: {
+        name: "Unison",
+        id: 388477,
+        icon: 'ability_creature_cursed_04',
+    },
+    PEER_INTO_PEACE: {
+        name: "Peer into Peace",
+        id: 440008,
+        icon: 'inv_staff_2h_monk_c_01',
+    },
+    RUSHING_WIND_KICK: {
+        name: "Rushing Wind Kick",
+        id: 467307,
+        icon: 'ability_monk_ridethewind',
+    },
+    JADE_SERPENT_STATUE: {
+        name: "Jade Serpent Statue",
+        id: 115313,
+        icon: 'ability_monk_summonserpentstatue',
+    },
+    MANA_TEA: {
+        name: "Mana Tea",
+        id: 115869,
+        icon: 'monk_ability_cherrymanatea',
+    },
 
+    // hero talents
+    // master of harmony
+    HARMONIC_SURGE: {
+        name: "Harmonic Surge",
+        id: 1239442,
+        icon: 'ability_socererking_forcenova',
+        value: {
+            healing: 74117,
+            damage: 1,
+        },
+        custom: {
+            targetsHit: 5
+        }
+    },
+    ASPECT_OF_HARMONY: {
+        name: "Aspect of Harmony",
+        id: 450508,
+        icon: 'inv_ability_masterofharmonymonk_aspectofharmony',
+    },
+    CLARITY_OF_PURPOSE: {
+        name: "Clarity of Purpose",
+        id: 450509,
+        icon: 'ability_titankeeper_cleanse',
+    },
+    BALANCED_STRATAGEM: {
+        name: "Balanced Stratagem",
+        id: 450889,
+        icon: 'ability_monk_sphereharmonydiscord',
+    },
+    PATH_OF_RESURGENCE: {
+        name: "Path of Resurgence",
+        id: 451084,
+        icon: 'ability_monk_pathofmists',
+    },
+    OVERWHELMING_FORCE: {
+        name: "Overwhelming Force",
+        id: 451024,
+        icon: 'ability_titankeeper_piercingcorruption',
+    },
+    MANTRA_OF_PURITY: {
+        name: "Mantra of Purity",
+        id: 451036,
+        icon: 'ability_monk_domeofmist',
+    },
+    COALESCENCE: {
+        name: "Coalescence",
+        id: 450529,
+        icon: 'ability_monk_effuse',
+    },
+
+    // conduit of the celestials
+    FLIGHT_OF_THE_RED_CRANE: {
+        name: "Flight of the Red Crane",
+        id: 443255,
+        icon: 'inv_pet_cranegod',
+    },
+    COURAGE_OF_THE_WHITE_TIGER: {
+        name: "Courage of the White Tiger",
+        id: 443087,
+        icon: 'ability_monk_summontigerstatue',
+    },
+    HEART_OF_THE_JADE_SERPENT: {
+        name: "Heart of the Jade Serpent",
+        id: 443294,
+        icon: 'ability_monk_dragonkick',
+    },
+    STRENGTH_OF_THE_BLACK_OX: {
+        name: "Strength of the Black Ox",
+        id: 443110,
+        icon: 'ability_monk_chargingoxwave',
+    },
+    UNITY_WITHIN: {
+        name: "Unity Within",
+        id: 443589,
+        icon: 'ability_monk_prideofthetiger',
+    }
 } satisfies Record<string, spell>;
 
 export default talents;

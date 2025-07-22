@@ -11,13 +11,15 @@ interface SpecializationSelectProps {
   onSpecChange: (spec: specialization) => void;
   size?: "small" | "medium";
   short?: boolean;
+  height?: number;
 }
 
 const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   selectedSpec,
   onSpecChange,
   size = "medium",
-  short = false
+  short = false,
+  height = 50,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -116,6 +118,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
         }}
         autoWidth
         label={GetTitle("Specialization")}
+        sx={{ height: height }}
       >
         {getSpecs().map((spec, index) => (
           <MenuItem key={index} value={`${spec.class}:${spec.name}`}>

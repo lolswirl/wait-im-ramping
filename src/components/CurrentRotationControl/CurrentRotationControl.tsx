@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     Box,
-    Button,
     Card,
     CardContent,
     Stack,
@@ -13,8 +12,10 @@ import { GetTitle } from '../../util/stringManipulation.tsx';
 import { toRomanNumeral } from '../../util/toRomanNumeral.ts';
 import type Spell from "../../data/spells/spell.ts";
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import SwirlButton from '../Buttons/SwirlButton.tsx';
 
 interface CurrentRotationControlProps {
+    children?: React.ReactNode;
     currentRotation: Spell[];
     onRemoveSpell: (spell: Spell) => void;
     onFinalizeRotation: () => void;
@@ -25,6 +26,7 @@ interface CurrentRotationControlProps {
 }
 
 const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
+    children,
     currentRotation,
     onRemoveSpell,
     onFinalizeRotation,
@@ -42,8 +44,8 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
     };
 
     return (
-        <Stack direction="column" alignItems="center" spacing={2} sx={{ mb: 1 }}>
-            <Card variant="outlined" sx={{ width: "100%", mb: 2 }}>
+        <Stack direction="column" alignItems="center" spacing={1}>
+            <Card variant="outlined" sx={{ width: "100%", mb: 0 }}>
                 <CardContent sx={{ p: 0, height: 60 }}>
                     <DragDropContext onDragEnd={handleDragEnd}>
                         <Droppable droppableId="rotation-droppable" direction="horizontal">
@@ -108,7 +110,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
-                                                height: "100%", // <-- Fill parent height
+                                                height: "100%",
                                                 m: 0,
                                                 p: 0,
                                             }}
@@ -125,37 +127,37 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                     </DragDropContext>
                 </CardContent>
             </Card>
-            <Stack direction="row" spacing={1}>
-                <Button
-                    variant="contained"
+            <Stack direction="row" spacing={0.5} sx={{ mb: 0 }}>
+                <SwirlButton
+                    key={"add-rotation"}
                     color="primary"
                     onClick={onFinalizeRotation}
                     disabled={currentRotation.length === 0}
                     startIcon={<Add />}
-                    sx={{ textTransform: "none" }}
                 >
                     {GetTitle("Add Rotation")}
-                </Button>
-                <Button
-                    variant="contained"
+                </SwirlButton>
+                <SwirlButton
+                    key={"clear-current"}
                     color="error"
+                    textColor="error"
                     onClick={onClearCurrentRotation}
                     disabled={currentRotation.length === 0}
                     startIcon={<DeleteTwoTone />}
-                    sx={{ textTransform: "none" }}
                 >
                     {GetTitle("Clear Current")}
-                </Button>
-                <Button
-                    variant="contained"
+                </SwirlButton>
+                <SwirlButton
+                    key={"clear-all"}
                     color="error"
+                    textColor="error"
                     onClick={onClearAllRotations}
                     disabled={!hasRotations}
                     startIcon={<DeleteForever />}
-                    sx={{ textTransform: "none" }}
                 >
                     {GetTitle("Clear All")}
-                </Button>
+                </SwirlButton>
+                {children}
             </Stack>
         </Stack>
     );
