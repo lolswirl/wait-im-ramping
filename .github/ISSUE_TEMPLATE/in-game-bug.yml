@@ -1,0 +1,62 @@
+name: In-game Bug Report
+description: File an in-game bug report
+labels: ["ingame bug"]
+title: "[In-game Bug] "
+projects: ["lolswirl/2"]
+assignees:
+    - lolswirl
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Please fill out the form below to submit your in-game bug report.
+    - type: dropdown
+      id: specialization
+      attributes:
+          label: Specialization
+          description: What specialization is this bug related to?
+          options:
+              - Mistweaver Monk
+              - Discipline Priest
+              - Holy Priest
+              - Restoration Druid
+              - Restoration Shaman
+              - Preservation Evoker
+              - Holy Paladin
+              - Other
+      validations:
+          required: true
+    - type: input
+      id: bugged-spell
+      attributes:
+          label: Bugged Spell
+          description: What spell/talent is this bug related to?
+          placeholder: placeholder
+      validations:
+          required: true
+    - type: textarea
+      id: bug-description
+      attributes:
+          label: Describe the bug
+          description: Please provide a clear and concise description of what the in-game bug is.
+          placeholder: When selecting option zyx...
+      validations:
+          required: true
+    - type: input
+      id: last-build-tested
+      attributes:
+          label: Last Build Tested
+          description: What was the build number when this was last tested?
+          placeholder: placeholder
+    - type: dropdown
+      id: severity
+      attributes:
+          label: Severity
+          description: What is the severity of this bug?
+          options:
+              - Low
+              - Medium
+              - High
+              - Critical
+      validations:
+          required: true
