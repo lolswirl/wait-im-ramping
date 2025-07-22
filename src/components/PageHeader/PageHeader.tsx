@@ -26,21 +26,19 @@ const PageHeader: React.FC<PageHeaderProps> = ({
             </h1>
             
             {subtitle && (
-                <Typography 
-                    variant="body1" 
-                    align={align} 
-                    color="text.secondary" 
-                    sx={{ 
-                        maxWidth: maxWidth, 
+                <Typography
+                    variant="body1"
+                    align={align}
+                    color="text.secondary"
+                    sx={{
+                        maxWidth: maxWidth,
                         mx: align === 'center' ? 'auto' : 0
                     }}
+                    {...((typeof subtitle === "string" || Array.isArray(subtitle))
+                        ? { dangerouslySetInnerHTML: { __html: GetTitle(Array.isArray(subtitle) ? subtitle.join("<br>") : subtitle) } }
+                        : {})}
                 >
-                    {Array.isArray(subtitle) ? subtitle.map((line, index) => (
-                        <span key={index}>
-                            {GetTitle(line)}
-                            {index < subtitle.length - 1 && <br />}
-                        </span>
-                    )) : GetTitle(subtitle)}
+                    {typeof subtitle === "string" || Array.isArray(subtitle) ? null : subtitle}
                 </Typography>
             )}
         </Box>
