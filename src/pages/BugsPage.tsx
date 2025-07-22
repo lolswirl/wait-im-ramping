@@ -43,7 +43,16 @@ const BugsPage: React.FC = () => {
 
     return (
         <Container sx={{ mb: 3 }}>
-            <PageHeader title={"Bugs"} marginBottom={3} />
+            <PageHeader 
+                title={"Bugs"}
+                subtitle={
+                    [
+                        "Compiled list of bugs and issues for every specialization. ",
+                        "Don't see your spec's bugs? Report them <a href=\"https://github.com/lolswirl/wait-im-ramping/issues\" target=\"_blank\">here</a>!",
+                    ]
+                }
+                marginBottom={3}
+            />
             <Box sx={{ maxWidth: 900, mx: "auto" }}>
                 <BugFilters
                     selectedSpec={selectedSpec}
