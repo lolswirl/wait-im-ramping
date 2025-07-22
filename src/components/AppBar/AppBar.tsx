@@ -49,6 +49,7 @@ const pages = [
     { label: "When do I ramp?", path: "/when-do-i-ramp" },
     { label: "Spell Timeline", path: "/timeline" },
     { label: "Analysis Tools", path: "/analysis" },
+    { label: "Bugs", path: "/bugs" },
 ];
 
 function ResponsiveAppBar() {
@@ -265,7 +266,7 @@ function ResponsiveAppBar() {
                                     : location.pathname === path;
                                 
                                 return (
-                                    <SwirlButton 
+                                    <SwirlButton
                                         key={GetTitle(label)}
                                         href={path}
                                         selected={isActive}

@@ -7,6 +7,7 @@ import RESTO_DRUID from './druid/restoration.ts';
 import RESTO_SHAMAN from './shaman/restoration.ts';
 import PRESERVATION from './evoker/preservation.ts';
 import HOLY_PALADIN from './paladin/holy.ts';
+import { Bug } from '../bugs/bugs.ts';
 
 type ClassInfo<TSpecs extends Record<string, specialization>> = {
   name: string;
@@ -29,6 +30,7 @@ export interface specialization {
   getTalent?: (talentName: string) => spell | undefined;
 
   rotations?: Record<string, spell[]>;
+  bugs?: Bug[];
 }
 
 export const CLASSES = {
