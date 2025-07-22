@@ -1,0 +1,40 @@
+name: Website Bug Report
+description: File a website bug report
+labels: ["bug"]
+title: "[Bug] "
+projects: ["lolswirl/2"]
+assignees:
+    - lolswirl
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Please fill out the form below to submit a report for a bug on the website.
+    - type: input
+      id: bugged-page
+      attributes:
+          label: Page
+          description: What page is this bug on?
+          placeholder: When Do I Ramp?
+      validations:
+          required: true
+    - type: textarea
+      id: bug-description
+      attributes:
+          label: Describe the bug
+          description: Please provide a clear and concise description of what the bug is.
+          placeholder: When selecting option zyx...
+      validations:
+          required: true
+    - type: dropdown
+      id: severity
+      attributes:
+          label: Severity
+          description: What is the severity of this bug?
+          options:
+              - Low
+              - Medium
+              - High
+              - Critical
+      validations:
+          required: true
