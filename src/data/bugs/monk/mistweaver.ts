@@ -10,6 +10,7 @@ const TAGS: Record<string, Tags> = {
     SPELL_QUEUE: { name: "Spell Queue", color: "#ff8c00" },
     MASTERY: { name: STATS.MASTERY, color: STAT_COLORS.MASTERY },
     HASTE: { name: STATS.HASTE, color: STAT_COLORS.HASTE },
+    PETS: { name: "Pets", color: "#ff5445ff" }
 };
 
 const BUGS: Bug[] = [
