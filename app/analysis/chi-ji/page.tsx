@@ -1,4 +1,4 @@
-import ChiJiHPS from "./ChiJiPage";
+import ChiJiPage from "./ChiJiPage";
 import { GetTitle } from "@util/stringManipulation";
 
 const title = GetTitle("Chi-Ji 'Simulation'");
@@ -10,5 +10,5 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <ChiJiHPS title={title} description={description} />;
+  return <ChiJiPage title={title} description={description} />;
 }

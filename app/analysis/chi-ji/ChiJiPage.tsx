@@ -22,7 +22,7 @@ import TALENTS from "@data/talents/monk/mistweaver";
 import SHARED from "@data/talents/monk/shared";
 import SwirlButton from "@components/Buttons/SwirlButton";
 
-const ChiJiHPS: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const theme = useTheme();
     const [rotationHPS, setRotationHPS] = useState<RotationResult[]>([]);
     const [expandedRotations, setExpandedRotations] = useState<Set<number>>(new Set());
@@ -230,4 +230,4 @@ const ChiJiHPS: React.FC<{ title: string; description: string }> = ({ title, des
     );
 };
 
-export default ChiJiHPS;
+export default ChiJiPage;
