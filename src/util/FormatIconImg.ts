@@ -1,5 +1,3 @@
-const icons = require.context("../assets/icons", false, /\.png$/);
-
 export function FormatIconImg(image: string): string {
   return image ? `/icons/${image}.png` : "";
 }
