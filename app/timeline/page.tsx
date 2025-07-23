@@ -1,17 +1,18 @@
+"use client";
 import React, { useState } from 'react';
-import TimelineVisualizer from '../components/TimelineVisualizer/TimelineVisualizer';
-import SpecializationSelect from '../components/SpecializationSelect/SpecializationSelect';
-import SpellButtons from '../components/SpellButtons/SpellButtons';
-import SpellButton from '../components/SpellButtons/SpellButton';
-import CurrentRotationControl from '../components/CurrentRotationControl/CurrentRotationControl';
+import TimelineVisualizer from '../../src/components/TimelineVisualizer/TimelineVisualizer';
+import SpecializationSelect from '../../src/components/SpecializationSelect/SpecializationSelect';
+import SpellButtons from '../../src/components/SpellButtons/SpellButtons';
+import SpellButton from '../../src/components/SpellButtons/SpellButton';
+import CurrentRotationControl from '../../src/components/CurrentRotationControl/CurrentRotationControl';
 import {Typography, FormControl, InputLabel, OutlinedInput, Box, Card, Stack, Divider, FormControlLabel, Switch, Chip } from '@mui/material';
-import spell from '../data/spells/spell';
-import { CLASSES, specialization } from '../data/class/class';
+import spell from '../../src/data/spells/spell';
+import { CLASSES, specialization } from '../../src/data/class/class';
 import { v4 as uuidv4 } from 'uuid';
-import PageHeader from '../components/PageHeader/PageHeader';
-import { GetTitle, hexToRgb } from '../util/stringManipulation';
-import { useSpec } from '../context/SpecContext';
-import { useRotationManager } from '../hooks/useRotationManager';
+import PageHeader from '../../src/components/PageHeader/PageHeader';
+import { GetTitle, hexToRgb } from '../../src/util/stringManipulation';
+import { useSpec } from '../../src/context/SpecContext';
+import { useRotationManager } from '../../src/hooks/useRotationManager';
 
 const Timeline = () => {
     const { spec, setSpec } = useSpec();

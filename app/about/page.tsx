@@ -1,14 +1,14 @@
 import React from "react";
 import { Typography, Card, CardContent, Divider, Link, Stack, Box } from "@mui/material";
-import PageTitle from "../components/PageTitle/PageTitle";
-import { GetTitle } from "../util/stringManipulation";
+import PageTitle from "../../src/components/PageTitle/PageTitle";
+import { GetTitle } from "../../src/util/stringManipulation";
 
 const swirlImg = "/swirl.png";
 const mistweaverLogo = "/mistweaver-bad.png";
 
 const pageTitle = GetTitle("about");
 
-const imageStyle: React.CSSProperties = {
+const imageStyle = {
   width: 128,
   height: 128,
   borderRadius: "8px",
@@ -20,7 +20,6 @@ const imageStyle: React.CSSProperties = {
 };
 
 const About = () => {
-
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
       <PageTitle title={pageTitle} />
@@ -46,9 +45,12 @@ const About = () => {
                 component="img"
                 src={swirlImg}
                 alt="swirl"
-                sx={imageStyle}
-                onMouseOver={e => (e.currentTarget.style.transform = "scale(1.1)")}
-                onMouseOut={e => (e.currentTarget.style.transform = "scale(1)")}
+                sx={{
+                  ...imageStyle,
+                  "&:hover": {
+                    transform: "scale(1.1)",
+                  },
+                }}
               />
               <Typography variant="body1" paragraph align="left" sx={{ mb: 0 }}>
                 hi, i'm swirl — a gamer and software engineer who enjoys digging into how healing{" "}
@@ -68,9 +70,12 @@ const About = () => {
                 component="img"
                 src={mistweaverLogo}
                 alt="mistweaver"
-                sx={imageStyle}
-                onMouseOver={e => (e.currentTarget.style.transform = "scale(1.1)")}
-                onMouseOut={e => (e.currentTarget.style.transform = "scale(1)")}
+                sx={{
+                  ...imageStyle,
+                  "&:hover": {
+                    transform: "scale(1.1)",
+                  },
+                }}
               />
             </Stack>
             <Divider

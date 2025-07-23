@@ -2,8 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { TextField, Box, Container, Typography, useTheme } from "@mui/material";
-import PageHeader from "../../components/PageHeader/PageHeader";
-import { GetTitle } from "../../util/stringManipulation";
+import PageHeader from "../../../src/components/PageHeader/PageHeader";
+import { GetTitle } from "../../../src/util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useMemo } from "react";
 import { 
     Card, 
@@ -9,27 +10,25 @@ import {
     Chip,
     Grid,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { analysisPages, AnalysisPage } from "./analysis/AnalysisPages";
-import { getCapsMode, GetTitle } from "../util/stringManipulation";
-import PageHeader from "../components/PageHeader/PageHeader";
+import Link from "next/link";
+import { analysisPages, AnalysisPage } from "../AnalysisPages";
+import { getCapsMode, GetTitle } from "../../src/util/stringManipulation";
+import PageHeader from "../../src/components/PageHeader/PageHeader";
 
-import WhenDoIRamp from "./WhenDoIRamp";
-import Timeline from "./Timeline";
+import WhenDoIRamp from "../when-do-i-ramp/page";
+import Timeline from "../timeline/page";
 
 const wdirPreview = "/previews/when-do-i-ramp.png";
 const spellTimelinePreview = "/previews/timeline.png";
 
 const Analysis = () => {
-    const navigate = useNavigate();
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
     const pages: AnalysisPage[] = [
         ...analysisPages,
         { 
             label: "When Do I Ramp?", 
-            path: "/when-do-i-ramp", 
-            element: <WhenDoIRamp />,
+            path: "/when-do-i-ramp",
             preview: wdirPreview,
             description: "Calculate ramp timings for spell cast efficiency and planning",
             tags: ["Healing", "Damage", "Rotation"],
@@ -37,8 +36,7 @@ const Analysis = () => {
         },
         { 
             label: "Spell Timeline", 
-            path: "/timeline", 
-            element: <Timeline />,
+            path: "/timeline",
             preview: spellTimelinePreview,
             description: "Create customized timelines for spell casts and cooldowns",
             tags: ["Healing", "Damage", "Rotation"],
@@ -145,26 +143,33 @@ const Analysis = () => {
             </Box>
 
             <Grid container spacing={3}>
-                {displayedPages.map((tool) => {
-
-                    return (
-                        <Grid item xs={12} sm={6} md={4} key={tool.path}>
-                            <Card 
-                                variant="outlined" 
-                                sx={{ 
-                                    height: '100%',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    transition: 'all 0.3s ease-in-out',
-                                    '&:hover': {
+                {displayedPages.map((tool) => (
+                    <Grid item xs={12} sm={6} md={4} key={tool.path}>
+                        <Link
+                            href={tool.path}
+                            style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                                display: "block",
+                                height: "100%",
+                            }}
+                        >
+                            <Card
+                                variant="outlined"
+                                sx={{
+                                    height: "100%",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    transition: "all 0.3s ease-in-out",
+                                    "&:hover": {
                                         boxShadow: 6,
-                                        transform: 'translateY(-4px)',
-                                        borderColor: 'primary.main'
-                                    }
+                                        transform: "translateY(-4px)",
+                                        borderColor: "primary.main",
+                                    },
+                                    cursor: "pointer",
                                 }}
                             >
-                                <CardActionArea 
-                                    onClick={() => navigate(tool.path)}
+                                <CardActionArea
                                     sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
                                 >
                                     <Box
@@ -262,9 +267,9 @@ const Analysis = () => {
                                     </CardContent>
                                 </CardActionArea>
                             </Card>
-                        </Grid>
-                    );
-                })}
+                        </Link>
+                    </Grid>
+                ))}
             </Grid>
 
             {displayedPages.length === 0 && (

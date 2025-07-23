@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import PageHeader from "../components/PageHeader/PageHeader";
+import PageHeader from "@components/PageHeader/PageHeader";
 
 const mistweaverLogo = "/mistweaver-bad.png";
 
@@ -19,9 +19,10 @@ const NotFound: React.FC = () => (
                 border: "1px solid #575757",
                 backgroundColor: "transparent",
                 transition: "transform 0.3s ease",
+                "&:hover": {
+                    transform: "scale(1.1)",
+                },
             }}
-            onMouseOver={e => (e.currentTarget.style.transform = "scale(1.1)")}
-            onMouseOut={e => (e.currentTarget.style.transform = "scale(1)")}
         />
         <PageHeader
             title="404 - whoops!"

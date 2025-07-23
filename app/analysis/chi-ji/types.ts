@@ -1,4 +1,4 @@
-import spell from "../../../data/spells/spell";
+import spell from "@data/spells/spell";
 
 export interface AllyState {
     id: number;

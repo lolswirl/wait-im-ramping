@@ -2,12 +2,12 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, useTheme } from "@mui/material";
-import PageHeader from "../../components/PageHeader/PageHeader";
-import { GetTitle } from "../../util/stringManipulation";
-import SPELLS from "../../data/spells/index";
-import TALENTS from "../../data/talents/monk/mistweaver";
+import PageHeader from "../../../src/components/PageHeader/PageHeader";
+import { GetTitle } from "../../../src/util/stringManipulation";
+import SPELLS from "../../../src/data/spells/index";
+import TALENTS from "../../../src/data/talents/monk/mistweaver";
 
-import { CLASSES } from "../../data/class/class";
+import { CLASSES } from "../../../src/data/class/class";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 

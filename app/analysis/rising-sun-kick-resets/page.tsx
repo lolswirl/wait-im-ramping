@@ -18,14 +18,14 @@ import {
     OutlinedInput
 } from "@mui/material";
 import { DeleteTwoTone } from "@mui/icons-material";
-import PageHeader from "../../components/PageHeader/PageHeader";
-import { GetTitle, pluralize } from "../../util/stringManipulation";
-import { MISTWEAVER_SPELLS } from "../../data/spells/monk/mistweaver";
-import TALENTS from "../../data/talents/monk/mistweaver";
-import SpellButton from "../../components/SpellButtons/SpellButton";
-import type Spell from "../../data/spells/spell";
-import CurrentRotationControl from "../../components/CurrentRotationControl/CurrentRotationControl";
-import { useRotationManager } from "../../hooks/useRotationManager";
+import PageHeader from "../../../src/components/PageHeader/PageHeader";
+import { GetTitle, pluralize } from "../../../src/util/stringManipulation";
+import { MISTWEAVER_SPELLS } from "../../../src/data/spells/monk/mistweaver";
+import TALENTS from "../../../src/data/talents/monk/mistweaver";
+import SpellButton from "../../../src/components/SpellButtons/SpellButton";
+import type Spell from "../../../src/data/spells/spell";
+import CurrentRotationControl from "../../../src/components/CurrentRotationControl/CurrentRotationControl";
+import { useRotationManager } from "../../../src/hooks/useRotationManager";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 

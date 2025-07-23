@@ -1,6 +1,7 @@
+"use client";
 import React, { useState } from 'react';
 import { Card, Grid, TextField, Tooltip } from '@mui/material';
-import { GetTitle } from '../../../util/stringManipulation';
+import { GetTitle } from '@util/stringManipulation';
 
 interface StatsCardProps {
     options: {

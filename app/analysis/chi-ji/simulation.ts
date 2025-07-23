@@ -1,12 +1,12 @@
 import { AllyState, isTalentEnabled, RotationResult, SimulationOptions } from './types';
-import { applyBuffEffects } from "../../../data/buffs/buffs";
-import { calculateCastTime } from "../../../data/spells/spell";
-import spell from "../../../data/spells/spell";
-import SPELLS from "../../../data/spells/index";
-import TALENTS from "../../../data/talents/monk/mistweaver";
-import SHARED from "../../../data/talents/monk/shared";
-import { CLASSES } from '../../../data/class/class';
-import { SCHOOLS } from '../../../data/schools';
+import { applyBuffEffects } from "@data/buffs/buffs";
+import { calculateCastTime } from "@data/spells/spell";
+import spell from "@data/spells/spell";
+import SPELLS from "@data/spells/index";
+import TALENTS from "@data/talents/monk/mistweaver";
+import SHARED from "@data/talents/monk/shared";
+import { CLASSES } from '@data/class/class';
+import { SCHOOLS } from '@data/schools';
 
 export const createAllyState = (id: number): AllyState => ({
     id,

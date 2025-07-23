@@ -2,10 +2,10 @@ import React from 'react';
 import { Card, Box, Typography, IconButton, Collapse, LinearProgress, Chip } from '@mui/material';
 import { ExpandMore, ExpandLess, DeleteTwoTone } from '@mui/icons-material';
 import { RotationResult } from './types';
-import SpellButton from "../../../components/SpellButtons/SpellButton";
-import { GetTitle } from "../../../util/stringManipulation";
-import TALENTS from "../../../data/talents/monk/mistweaver";
-import SPELLS from "../../../data/spells/index";
+import SpellButton from "@components/SpellButtons/SpellButton";
+import { GetTitle } from "@util/stringManipulation";
+import TALENTS from "@data/talents/monk/mistweaver";
+import SPELLS from "@data/spells/index";
 
 interface RotationCardProps {
     rotation: RotationResult;
@@ -63,8 +63,11 @@ export const RotationCard: React.FC<RotationCardProps> = ({
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                <Typography variant="h5" sx={{ fontWeight: 'bold', color: theme.palette.primary.main }}>
-                    {Math.round(rotation.hps).toLocaleString()} {GetTitle("HPS")}
+                <Typography
+                  variant="h5"
+                  sx={{ fontWeight: 'bold', color: theme.palette.primary.main, textAlign: 'center' }}
+                >
+                  {Math.round(rotation.hps).toLocaleString()} {GetTitle("HPS")}
                 </Typography>
                 
                 <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 1 }}>
@@ -158,14 +161,14 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                 <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 1 }}>
                                     {(() => {
                                         const healingSources = [
-                                            { key: 'chiCocoons', title: 'Chi Cocoon', color: 'rgb(76, 175, 76)', value: item.sources.chiCocoons },
-                                            { key: 'baseHealing', title: 'Base', color: 'rgb(76, 175, 76)', value: item.sources.baseHealing },
-                                            { key: 'chiJiGusts', title: 'Chi-Ji Gusts', color: 'rgb(255, 152, 0)', value: item.sources.chiJiGusts },
-                                            { key: 'ancientTeachings', title: TALENTS.ANCIENT_TEACHINGS.name, color: 'rgb(156, 39, 176)', value: item.sources.ancientTeachings },
-                                            { key: 'awakenedJadefire', title: TALENTS.AWAKENED_JADEFIRE.name, color: 'rgb(156, 39, 176)', value: item.sources.awakenedJadefire },
-                                            { key: 'envelopingBreath', title: "Enveloping Breath", color: 'rgb(255, 193, 7)', value: item.sources.envelopingBreath },
-                                            { key: 'rapidDiffusion', title: "Rapid Diffusion", color: 'rgb(255, 87, 34)', value: item.sources.rapidDiffusion },
-                                            { key: 'gustOfMists', title: TALENTS.GUST_OF_MISTS.name, color: 'rgb(33, 150, 243)', value: item.sources.gustOfMists },
+                                            { key: 'chiCocoons', title: 'Chi Cocoon', color: 'rgb(76, 175, 76)', value: Number(item.sources.chiCocoons) || 0 },
+                                            { key: 'baseHealing', title: 'Base', color: 'rgb(76, 175, 76)', value: Number(item.sources.baseHealing) || 0 },
+                                            { key: 'chiJiGusts', title: 'Chi-Ji Gusts', color: 'rgb(255, 152, 0)', value: Number(item.sources.chiJiGusts) || 0 },
+                                            { key: 'ancientTeachings', title: TALENTS.ANCIENT_TEACHINGS.name, color: 'rgb(156, 39, 176)', value: Number(item.sources.ancientTeachings) || 0 },
+                                            { key: 'awakenedJadefire', title: TALENTS.AWAKENED_JADEFIRE.name, color: 'rgb(156, 39, 176)', value: Number(item.sources.awakenedJadefire) || 0 },
+                                            { key: 'envelopingBreath', title: "Enveloping Breath", color: 'rgb(255, 193, 7)', value: Number(item.sources.envelopingBreath) || 0 },
+                                            { key: 'rapidDiffusion', title: "Rapid Diffusion", color: 'rgb(255, 87, 34)', value: Number(item.sources.rapidDiffusion) || 0 },
+                                            { key: 'gustOfMists', title: TALENTS.GUST_OF_MISTS.name, color: 'rgb(33, 150, 243)', value: Number(item.sources.gustOfMists) || 0 },
                                         ];
 
                                         return healingSources
@@ -177,10 +180,19 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                                         p: 1, 
                                                         bgcolor: `${source.color.replace('rgb', 'rgba').replace(')', ', 0.1)')}`, 
                                                         borderRadius: 1,
-                                                        border: `1px solid ${source.color.replace('rgb', 'rgba').replace(')', ', 0.3)')}`
+                                                        border: `1px solid ${source.color.replace('rgb', 'rgba').replace(')', ', 0.3)')}`,
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        alignItems: 'center',
                                                     }}
                                                 >
-                                                    <Typography variant="caption" sx={{ color: source.color, fontWeight: 'bold' }}>
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{ 
+                                                            color: source.color,
+                                                            fontWeight: 'bold',
+                                                        }}
+                                                    >
                                                         {GetTitle(source.title)}
                                                     </Typography>
                                                     <Typography variant="body2" sx={{ fontWeight: 'bold' }}>

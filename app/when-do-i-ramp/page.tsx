@@ -1,8 +1,9 @@
+"use client";
 import * as React from "react";
 import { useState } from "react";
-import RampCalc from "../components/RampCalc/RampCalc";
-import PageHeader from '../components/PageHeader/PageHeader';
-import { GetTitle } from "../util/stringManipulation";
+import RampCalc from "../../src/components/RampCalc/RampCalc";
+import PageHeader from '../../src/components/PageHeader/PageHeader';
+import { GetTitle } from "../../src/util/stringManipulation";
 import { Typography } from "@mui/material";
 
 const Home = () => {

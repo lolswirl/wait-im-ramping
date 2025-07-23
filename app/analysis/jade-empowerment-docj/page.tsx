@@ -1,13 +1,14 @@
+"use client";
 import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, TextField, Typography, useTheme, MenuItem, FormControl, InputLabel } from "@mui/material";
-import PageHeader from "../../components/PageHeader/PageHeader";
-import { GetTitle } from "../../util/stringManipulation";
-import { CLASSES } from "../../data/class/class";
+import PageHeader from "../../../src/components/PageHeader/PageHeader";
+import { GetTitle } from "../../../src/util/stringManipulation";
+import { CLASSES } from "../../../src/data/class/class";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import SPELLS from "../../data/spells/index";
-import TALENTS from "../../data/talents/monk/mistweaver";
+import SPELLS from "../../../src/data/spells/index";
+import TALENTS from "../../../src/data/talents/monk/mistweaver";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
