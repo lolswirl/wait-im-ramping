@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { usePathname } from "next/navigation";
 import { useThemeContext } from '../../context/ThemeContext';
 
 interface TilingBackgroundProps {
@@ -14,7 +14,7 @@ const GridTiling = ({
   spacing = 2,
 }: TilingBackgroundProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const location = useLocation();
+  const pathname = usePathname();
   const { themeMode } = useThemeContext();
 
   useEffect(() => {
@@ -106,7 +106,7 @@ const GridTiling = ({
         ctx.drawImage(offCanvas, drawX, drawY);
       }
     };
-  }, [location.pathname, patternSrc, maxTiles, spacing, themeMode]);
+  }, [pathname, patternSrc, maxTiles, spacing, themeMode]);
 
   return (
     <canvas

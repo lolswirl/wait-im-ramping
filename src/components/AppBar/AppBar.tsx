@@ -1,4 +1,6 @@
+"use client";
 import * as React from "react";
+import { usePathname } from "next/navigation";
 import {
     AppBar,
     Box,
@@ -14,12 +16,11 @@ import {
     SvgIcon,
 } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
-import { useThemeContext } from "../../context/ThemeContext";
-import { GetTitle } from "../../util/stringManipulation";
-import { useSpec } from "../../context/SpecContext";
-import { useLocation } from "react-router-dom";
-import SpecializationSelect from "../SpecializationSelect/SpecializationSelect";
-import SwirlButton from "../Buttons/SwirlButton"
+import { useThemeContext } from "@context/ThemeContext";
+import { GetTitle } from "@util/stringManipulation";
+import { useSpec } from "@context/SpecContext";
+import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
+import SwirlButton from "@components/Buttons/SwirlButton";
 
 const MoonIcon = () => (
     <SvgIcon viewBox="0 0 16 16" sx={{ fontSize: 15 }}>
@@ -52,7 +53,7 @@ const pages = [
 ];
 
 function ResponsiveAppBar() {
-    const location = useLocation();
+    const pathname = usePathname();
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const { toggleTheme, themeMode } = useThemeContext();
     const { spec, setSpec } = useSpec();
@@ -103,8 +104,8 @@ function ResponsiveAppBar() {
             <List sx={{ px: 1, py: 2 }}>
                 {pages.map(({ label, path }) => {
                     const isActive = path === "/analysis" 
-                        ? location.pathname.startsWith("/analysis") 
-                        : location.pathname === path;
+                        ? pathname.startsWith("/analysis") 
+                        : pathname === path;
                     
                     return (
                         <ListItem key={label} disablePadding sx={{ mb: 0.5 }}>
@@ -222,6 +223,7 @@ function ResponsiveAppBar() {
                 sx={{
                     height: 48,
                     minHeight: 48,
+                    mb: 3.5,
                     justifyContent: "center",
                     backgroundImage: "none",
                     bgcolor: themeMode === "light" ? "primary.main" : "#171717"
@@ -245,7 +247,7 @@ function ResponsiveAppBar() {
                                 alignItems: "center",
                                 gap: 1,
                                 fontWeight: 700,
-                                color: location.pathname === "/" ? hoverColor : "inherit",
+                                color: pathname === "/" ? hoverColor : "inherit",
                                 textDecoration: "none",
                                 whiteSpace: "nowrap",
                                 fontSize: { xs: "1.1rem", md: "1.5rem" },
@@ -261,8 +263,8 @@ function ResponsiveAppBar() {
                         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1 }}>
                             {pages.map(({ label, path }) => {
                                 const isActive = path === "/analysis" 
-                                    ? location.pathname.startsWith("/analysis") 
-                                    : location.pathname === path;
+                                    ? pathname.startsWith("/analysis") 
+                                    : pathname === path;
                                 
                                 return (
                                     <SwirlButton

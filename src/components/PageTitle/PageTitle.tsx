@@ -1,12 +1,10 @@
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+"use client";
+import { useEffect } from "react";
 
-const PageTitle = ({ title }) => {
-  const location = useLocation();
-
+const PageTitle = ({ title }: { title: string }) => {
   useEffect(() => {
     document.title = title;
-  }, [location, title]);
+  }, [title]);
 
   return null;
 };

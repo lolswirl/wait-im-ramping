@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { usePathname } from "next/navigation";
 import { useThemeContext } from '../../context/ThemeContext';
+
+type Rect = [number, number, number, number];
 
 const Tiling = ({ patternSrc }: { patternSrc: string }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const location = useLocation();
+  const pathname = usePathname();
   const { themeMode } = useThemeContext();
 
   useEffect(() => {
@@ -30,7 +32,7 @@ const Tiling = ({ patternSrc }: { patternSrc: string }) => {
 
     const maxTiles = 200;
     const spacing = 2;
-    const placedRects: [number, number, number, number][] = [];
+    const placedRects: Rect[] = [];
 
     function isOverlapping(rect1: Rect, rect2: Rect) {
       return !(
@@ -91,7 +93,7 @@ const Tiling = ({ patternSrc }: { patternSrc: string }) => {
     return () => {
       isCancelled = true;
     };
-  }, [location.pathname, patternSrc, themeMode]);
+  }, [pathname, patternSrc, themeMode]);
 
   return (
     <canvas
