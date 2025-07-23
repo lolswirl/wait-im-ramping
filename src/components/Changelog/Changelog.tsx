@@ -1,5 +1,5 @@
-import { ChangelogEntry } from '../../data/changelog/changelog.ts'
-import { GetTitle } from "../../util/stringManipulation.tsx";
+import { ChangelogEntry } from '../../data/changelog/changelog'
+import { GetTitle } from "../../util/stringManipulation";
 import {
   Box,
   List,

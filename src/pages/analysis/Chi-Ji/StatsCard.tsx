@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Grid, TextField, Tooltip } from '@mui/material';
-import { GetTitle } from '../../../util/stringManipulation.tsx';
+import { GetTitle } from '../../../util/stringManipulation';
 
 interface StatsCardProps {
     options: {

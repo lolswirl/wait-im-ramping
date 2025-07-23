@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { toRomanNumeral } from '../../util/toRomanNumeral.ts'
+import { toRomanNumeral } from '../../util/toRomanNumeral'
 
 interface EmpowerLevelButtonsProps {
   empowerLevel: number;

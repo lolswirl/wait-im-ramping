@@ -7,12 +7,12 @@ import {
     Typography
 } from '@mui/material';
 import { Add, DeleteForever, DeleteTwoTone } from '@mui/icons-material';
-import SpellButton from '../SpellButtons/SpellButton.tsx';
-import { GetTitle } from '../../util/stringManipulation.tsx';
-import { toRomanNumeral } from '../../util/toRomanNumeral.ts';
-import type Spell from "../../data/spells/spell.ts";
+import SpellButton from '../SpellButtons/SpellButton';
+import { GetTitle } from '../../util/stringManipulation';
+import { toRomanNumeral } from '../../util/toRomanNumeral';
+import type Spell from "../../data/spells/spell";
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
-import SwirlButton from '../Buttons/SwirlButton.tsx';
+import SwirlButton from '../Buttons/SwirlButton';
 
 interface CurrentRotationControlProps {
     children?: React.ReactNode;

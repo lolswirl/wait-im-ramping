@@ -1,6 +1,7 @@
+"use client"
 import { createTheme, ThemeProvider as MuiThemeProvider, PaletteMode } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useThemeContext } from '../../context/ThemeContext.tsx';
+import { useThemeContext } from '../../context/ThemeContext';
 
 declare module '@mui/material/styles' {
     interface Theme {

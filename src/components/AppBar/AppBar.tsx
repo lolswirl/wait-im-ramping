@@ -14,12 +14,12 @@ import {
     SvgIcon,
 } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
-import { useThemeContext } from "../../context/ThemeContext.tsx";
-import { GetTitle } from "../../util/stringManipulation.tsx";
-import { useSpec } from "../../context/SpecContext.tsx";
+import { useThemeContext } from "../../context/ThemeContext";
+import { GetTitle } from "../../util/stringManipulation";
+import { useSpec } from "../../context/SpecContext";
 import { useLocation } from "react-router-dom";
-import SpecializationSelect from "../SpecializationSelect/SpecializationSelect.tsx";
-import SwirlButton from "../Buttons/SwirlButton.tsx"
+import SpecializationSelect from "../SpecializationSelect/SpecializationSelect";
+import SwirlButton from "../Buttons/SwirlButton"
 
 const MoonIcon = () => (
     <SvgIcon viewBox="0 0 16 16" sx={{ fontSize: 15 }}>
@@ -272,35 +272,6 @@ function ResponsiveAppBar() {
                                     >
                                         {GetTitle(label)}
                                     </SwirlButton>
-                                    // <Button
-                                    //     key={GetTitle(label)}
-                                    //     component="a"
-                                    //     href={path}
-                                    //     sx={{
-                                    //         color: "inherit",
-                                    //         fontWeight: 400,
-                                    //         textTransform: "none",
-                                    //         position: "relative",
-                                    //         "&::before": {
-                                    //             content: '""',
-                                    //             position: "absolute",
-                                    //             bottom: 0,
-                                    //             left: 0,
-                                    //             right: 0,
-                                    //             height: 2,
-                                    //             bgcolor: hoverColor,
-                                    //             borderRadius: 1,
-                                    //             transform: isActive ? "scaleX(1)" : "scaleX(0)",
-                                    //             transition: "transform 0.3s ease",
-                                    //             zIndex: 2,
-                                    //         },
-                                    //         "&:hover::before": {
-                                    //             transform: "scaleX(1)",
-                                    //         },
-                                    //     }}
-                                    // >
-                                    //     {GetTitle(label)}
-                                    // </Button>
                                 );
                             })}
                         </Box>

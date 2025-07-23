@@ -3,11 +3,11 @@ import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, TextField } from "@mui/material";
 
-import { GCD } from "../../data/spells/spell.ts";
-import { GetTitle } from "../../util/stringManipulation.tsx";
-import PageHeader from "../../components/PageHeader/PageHeader.tsx";
+import { GCD } from "../../data/spells/spell";
+import { GetTitle } from "../../util/stringManipulation";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
-import SPELLS from "../../data/spells/index.ts";
+import SPELLS from "../../data/spells/index";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 

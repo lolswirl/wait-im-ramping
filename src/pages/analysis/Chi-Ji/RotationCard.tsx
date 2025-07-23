@@ -1,11 +1,11 @@
 import React from 'react';
 import { Card, Box, Typography, IconButton, Collapse, LinearProgress, Chip } from '@mui/material';
 import { ExpandMore, ExpandLess, DeleteTwoTone } from '@mui/icons-material';
-import { RotationResult } from './types.ts';
-import SpellButton from "../../../components/SpellButtons/SpellButton.tsx";
-import { GetTitle } from "../../../util/stringManipulation.tsx";
-import TALENTS from "../../../data/talents/monk/mistweaver.ts";
-import SPELLS from "../../../data/spells/index.ts";
+import { RotationResult } from './types';
+import SpellButton from "../../../components/SpellButtons/SpellButton";
+import { GetTitle } from "../../../util/stringManipulation";
+import TALENTS from "../../../data/talents/monk/mistweaver";
+import SPELLS from "../../../data/spells/index";
 
 interface RotationCardProps {
     rotation: RotationResult;

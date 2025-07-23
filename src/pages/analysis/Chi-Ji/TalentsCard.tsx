@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, Grid, Box, Checkbox, Typography } from '@mui/material';
-import SpellButton from '../../../components/SpellButtons/SpellButton.tsx';
-import spell from '../../../data/spells/spell.ts';
-import { GetTitle, hexToRgb } from '../../../util/stringManipulation.tsx';
+import SpellButton from '../../../components/SpellButtons/SpellButton';
+import spell from '../../../data/spells/spell';
+import { GetTitle, hexToRgb } from '../../../util/stringManipulation';
 
 export interface TalentItem {
   key: string;

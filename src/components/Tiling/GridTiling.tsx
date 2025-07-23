@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { useThemeContext } from '../../context/ThemeContext.tsx';
+import { useThemeContext } from '../../context/ThemeContext';
 
 interface TilingBackgroundProps {
   patternSrc: string;

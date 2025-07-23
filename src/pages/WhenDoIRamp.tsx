@@ -1,8 +1,9 @@
 import * as React from "react";
 import { useState } from "react";
-import RampCalc from "../components/RampCalc/RampCalc.tsx";
-import PageHeader from '../components/PageHeader/PageHeader.tsx';
-import { GetTitle } from "../util/stringManipulation.tsx";
+import RampCalc from "../components/RampCalc/RampCalc";
+import PageHeader from '../components/PageHeader/PageHeader';
+import { GetTitle } from "../util/stringManipulation";
+import { Typography } from "@mui/material";
 
 const Home = () => {
     const [totalCastTime, setTotalCastTime] = useState(0);
@@ -19,9 +20,17 @@ const Home = () => {
             />
             <RampCalc onTotalCastTimeChange={handleTotalCastTimeChange} />
             {totalCastTime > 0 && (
-                <h1 style={{ marginTop: "0px" }}>
+                <Typography
+                    variant="h1"
+                    sx={{
+                        mb: 0,
+                        fontWeight: 'bold',
+                        color: 'text.primary',
+                        fontSize: '2em',
+                    }}
+                >
                     {GetTitle(`Start ramping ~${Math.ceil(totalCastTime)}s before a mechanic`)}
-                </h1>
+                </Typography>
             )}
         </div>
     );

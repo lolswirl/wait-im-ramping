@@ -10,14 +10,15 @@ import {
     Grid,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { analysisPages, AnalysisPage } from "./analysis/AnalysisPages.tsx";
-import { getCapsMode, GetTitle } from "../util/stringManipulation.tsx";
-import PageHeader from "../components/PageHeader/PageHeader.tsx";
+import { analysisPages, AnalysisPage } from "./analysis/AnalysisPages";
+import { getCapsMode, GetTitle } from "../util/stringManipulation";
+import PageHeader from "../components/PageHeader/PageHeader";
 
-import WhenDoIRamp from "./WhenDoIRamp.tsx";
-import Timeline from "./Timeline.tsx"
-import wdirPreview from '../assets/previews/when-do-i-ramp.png';
-import spellTimelinePreview from '../assets/previews/timeline.png';
+import WhenDoIRamp from "./WhenDoIRamp";
+import Timeline from "./Timeline";
+
+const wdirPreview = "/previews/when-do-i-ramp.png";
+const spellTimelinePreview = "/previews/timeline.png";
 
 const Analysis = () => {
     const navigate = useNavigate();

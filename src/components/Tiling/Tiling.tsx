@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { useThemeContext } from '../../context/ThemeContext.tsx';
+import { useThemeContext } from '../../context/ThemeContext';
 
 const Tiling = ({ patternSrc }: { patternSrc: string }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);

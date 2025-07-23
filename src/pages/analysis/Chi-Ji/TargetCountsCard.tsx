@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Grid, TextField } from '@mui/material';
-import { GetTitle } from '../../../util/stringManipulation.tsx';
+import { GetTitle } from '../../../util/stringManipulation';
 
 interface TargetCountsCardProps {
     options: {

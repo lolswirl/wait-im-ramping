@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Box, useTheme, Card, Divider, Grid } from "@mui/material";
 import { Refresh } from "@mui/icons-material";
-import PageHeader from "../../../components/PageHeader/PageHeader.tsx";
-import { GetTitle } from "../../../util/stringManipulation.tsx";
-import { CLASSES } from "../../../data/class/class.ts";
-import SpellButtons from "../../../components/SpellButtons/SpellButtons.tsx";
-import { useRotationManager } from "../../../hooks/useRotationManager.ts";
-import CurrentRotationControl from "../../../components/CurrentRotationControl/CurrentRotationControl.tsx";
-import { RotationCard } from './RotationCard.tsx';
-import { calculateRotationHPS } from './simulation.ts';
-import { RotationResult, SimulationOptions } from './types.ts';
+import PageHeader from "../../../components/PageHeader/PageHeader";
+import { GetTitle } from "../../../util/stringManipulation";
+import { CLASSES } from "../../../data/class/class";
+import SpellButtons from "../../../components/SpellButtons/SpellButtons";
+import { useRotationManager } from "../../../hooks/useRotationManager";
+import CurrentRotationControl from "../../../components/CurrentRotationControl/CurrentRotationControl";
+import { RotationCard } from './RotationCard';
+import { calculateRotationHPS } from './simulation';
+import { RotationResult, SimulationOptions } from './types';
 
-import { CHIJI_ABILITIES } from "../../../data/spells/monk/mistweaver.ts";
+import { CHIJI_ABILITIES } from "../../../data/spells/monk/mistweaver";
 
-import StatsCard from "./StatsCard.tsx";
-import TargetCountsCard from "./TargetCountsCard.tsx";
-import TalentsCard from "./TalentsCard.tsx";
-import spell from "../../../data/spells/spell.ts";
-import TALENTS from "../../../data/talents/monk/mistweaver.ts";
-import SHARED from "../../../data/talents/monk/shared.ts";
-import SwirlButton from "../../../components/Buttons/SwirlButton.tsx";
+import StatsCard from "./StatsCard";
+import TargetCountsCard from "./TargetCountsCard";
+import TalentsCard from "./TalentsCard";
+import spell from "../../../data/spells/spell";
+import TALENTS from "../../../data/talents/monk/mistweaver";
+import SHARED from "../../../data/talents/monk/shared";
+import SwirlButton from "../../../components/Buttons/SwirlButton";
 
 const ChiJiHPS: React.FC = () => {
     const theme = useTheme();

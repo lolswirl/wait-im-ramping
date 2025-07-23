@@ -18,14 +18,14 @@ import {
     OutlinedInput
 } from "@mui/material";
 import { DeleteTwoTone } from "@mui/icons-material";
-import PageHeader from "../../components/PageHeader/PageHeader.tsx";
-import { GetTitle, pluralize } from "../../util/stringManipulation.tsx";
-import { MISTWEAVER_SPELLS } from "../../data/spells/monk/mistweaver.ts";
-import TALENTS from "../../data/talents/monk/mistweaver.ts";
-import SpellButton from "../../components/SpellButtons/SpellButton.tsx";
-import type Spell from "../../data/spells/spell.ts";
-import CurrentRotationControl from "../../components/CurrentRotationControl/CurrentRotationControl.tsx";
-import { useRotationManager } from "../../hooks/useRotationManager.ts";
+import PageHeader from "../../components/PageHeader/PageHeader";
+import { GetTitle, pluralize } from "../../util/stringManipulation";
+import { MISTWEAVER_SPELLS } from "../../data/spells/monk/mistweaver";
+import TALENTS from "../../data/talents/monk/mistweaver";
+import SpellButton from "../../components/SpellButtons/SpellButton";
+import type Spell from "../../data/spells/spell";
+import CurrentRotationControl from "../../components/CurrentRotationControl/CurrentRotationControl";
+import { useRotationManager } from "../../hooks/useRotationManager";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 

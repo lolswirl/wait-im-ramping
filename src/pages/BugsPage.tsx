@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
-import PageHeader from "../components/PageHeader/PageHeader.tsx";
-import BugTable from "../components/BugTable/BugTable.tsx";
-import BugDialog from "../components/BugDialog/BugDialog.tsx";
-import { CLASSES, specialization } from "../data/class/class.ts";
-import { Bug } from "../data/bugs/bugs.ts";
-import { useBugFilters } from "../hooks/useBugFilters.ts";
-import { GetTitle } from "../util/stringManipulation.tsx";
-import BugFilters from "../components/BugFilters/BugFilters.tsx";
+import PageHeader from "../components/PageHeader/PageHeader";
+import BugTable from "../components/BugTable/BugTable";
+import BugDialog from "../components/BugDialog/BugDialog";
+import { CLASSES, specialization } from "../data/class/class";
+import { Bug } from "../data/bugs/bugs";
+import { useBugFilters } from "../hooks/useBugFilters";
+import { GetTitle } from "../util/stringManipulation";
+import BugFilters from "../components/BugFilters/BugFilters";
 
 const BugsPage: React.FC = () => {
     const [selectedSpec, setSelectedSpec] = useState<specialization>(

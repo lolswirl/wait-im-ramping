@@ -1,7 +1,8 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import PageHeader from "../components/PageHeader/PageHeader.tsx";
-import mistweaverLogo from "../assets/mistweaver-bad.png";
+import PageHeader from "../components/PageHeader/PageHeader";
+
+const mistweaverLogo = "/mistweaver-bad.png";
 
 const NotFound: React.FC = () => (
     <div style={{ textAlign: "center", marginTop: "4rem" }}>

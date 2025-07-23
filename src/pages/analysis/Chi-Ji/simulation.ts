@@ -1,12 +1,12 @@
-import { AllyState, isTalentEnabled, RotationResult, SimulationOptions } from './types.ts';
-import { applyBuffEffects } from "../../../data/buffs/buffs.ts";
-import { calculateCastTime } from "../../../data/spells/spell.ts";
-import spell from "../../../data/spells/spell.ts";
-import SPELLS from "../../../data/spells/index.ts";
-import TALENTS from "../../../data/talents/monk/mistweaver.ts";
-import SHARED from "../../../data/talents/monk/shared.ts";
-import { CLASSES } from '../../../data/class/class.ts';
-import { SCHOOLS } from '../../../data/schools.ts';
+import { AllyState, isTalentEnabled, RotationResult, SimulationOptions } from './types';
+import { applyBuffEffects } from "../../../data/buffs/buffs";
+import { calculateCastTime } from "../../../data/spells/spell";
+import spell from "../../../data/spells/spell";
+import SPELLS from "../../../data/spells/index";
+import TALENTS from "../../../data/talents/monk/mistweaver";
+import SHARED from "../../../data/talents/monk/shared";
+import { CLASSES } from '../../../data/class/class';
+import { SCHOOLS } from '../../../data/schools';
 
 export const createAllyState = (id: number): AllyState => ({
     id,

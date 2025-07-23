@@ -1,8 +1,5 @@
-
-
 import React from 'react';
-import IconButtonBase from './IconButtonBase.tsx';
-
+import IconButtonBase from './IconButtonBase';
 import type Spell from "../../data/spells/spell.ts"
 
 interface SpellButtonProps {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import type Spell from "../../data/spells/spell.ts"
-import { CLASSES, specialization } from '../../data/class/class.ts';
-import EmpowerLevelButtons from '../EmpowerLevel/EmpowerLevel.tsx';
-import SpellButton from './SpellButton.tsx';
+import type Spell from "../../data/spells/spell"
+import { CLASSES, specialization } from '../../data/class/class';
+import EmpowerLevelButtons from '../EmpowerLevel/EmpowerLevel';
+import SpellButton from './SpellButton';
 
 interface SpellButtonsProps {
   selectedSpec?: specialization;

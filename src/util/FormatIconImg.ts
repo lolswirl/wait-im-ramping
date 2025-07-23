@@ -1,13 +1,9 @@
 const icons = require.context("../assets/icons", false, /\.png$/);
 
 export function FormatIconImg(image: string): string {
-  try {
-    return icons(`./${image}.png`);
-  } catch {
-    return "";
-  }
+  return image ? `/icons/${image}.png` : "";
 }
 
-export function FormatIconLink(image) {
-    return `https://wow.zamimg.com/images/wow/icons/large/${image}.jpg`;
+export function FormatIconLink(image: string): string {
+  return `https://wow.zamimg.com/images/wow/icons/large/${image}.jpg`;
 }

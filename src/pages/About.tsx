@@ -1,9 +1,10 @@
 import React from "react";
 import { Typography, Card, CardContent, Divider, Link, Stack, Box } from "@mui/material";
-import PageTitle from "../components/PageTitle/PageTitle.tsx";
-import { GetTitle } from "../util/stringManipulation.tsx";
-import swirlImg from "../assets/swirl.png";
-import mistweaverLogo from "../assets/mistweaver-bad.png";
+import PageTitle from "../components/PageTitle/PageTitle";
+import { GetTitle } from "../util/stringManipulation";
+
+const swirlImg = "/swirl.png";
+const mistweaverLogo = "/mistweaver-bad.png";
 
 const pageTitle = GetTitle("about");
 

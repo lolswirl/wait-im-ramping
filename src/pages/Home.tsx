@@ -12,12 +12,12 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Timeline, Analytics, TrendingUp, Person, TimerTwoTone } from "@mui/icons-material";
-import PageTitle from "../components/PageTitle/PageTitle.tsx";
-import { GetTitle } from "../util/stringManipulation.tsx";
+import PageTitle from "../components/PageTitle/PageTitle";
+import { GetTitle } from "../util/stringManipulation";
 
-import wdirPreview from '../assets/previews/when-do-i-ramp.png';
-import spellTimelinePreview from '../assets/previews/timeline.png';
-import analysisPreview from '../assets/previews/harmonic-surge.png';
+const wdirPreview = "/previews/when-do-i-ramp.png";
+const spellTimelinePreview = "/previews/timeline.png";
+const analysisPreview = "/previews/harmonic-surge.png";
 
 const pageTitle = GetTitle("Wait, I'm Ramping!");
 
@@ -76,8 +76,13 @@ const Home = () => {
             <PageTitle title={pageTitle} />
             
             <Box sx={{ textAlign: 'center', mb: 6 }}>
-                <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
-                    {pageTitle}
+                <Typography
+                  variant="h2"
+                  component="h1"
+                  gutterBottom
+                  sx={{ fontWeight: 'bold', color: 'text.primary' }}
+                >
+                  {pageTitle}
                 </Typography>
                 <Typography variant="h5" color="text.secondary" sx={{ mb: 4, maxWidth: 600, mx: 'auto' }}>
                     {GetTitle("Healing optimization tools for World of Warcraft")}
@@ -208,8 +213,12 @@ const Home = () => {
             </Box>
 
             <Box sx={{ textAlign: 'center', mt: 6, mb: 6 }}>
-                <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
-                    {GetTitle("Ready to improve your healing?")}
+                <Typography
+                  variant="h4"
+                  gutterBottom
+                  sx={{ fontWeight: 'bold', color: 'primary.main' }}
+                >
+                  {GetTitle("Ready to improve your healing?")}
                 </Typography>
                 <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
                     {GetTitle("Start optimizing your gameplay with personalized analysis tools")}

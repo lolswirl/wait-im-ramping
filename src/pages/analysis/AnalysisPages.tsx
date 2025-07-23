@@ -1,19 +1,19 @@
-import Analysis from "../Analysis.tsx";
-import AbsorbVsDRCompare from "./AbsorbVsDRCompare.tsx";
-import SheilunVSJadeEmpowerment from "./SheilunVSJadeEmpowerment.tsx";
-import JadeEmpowermentVsDocJ from "./JadeEmpowermentVsDocJ.tsx";
-import STvsSCK from "./STvsSCK.tsx";
-import HarmonicSurge from "./HarmonicSurge.tsx";
-import RisingSunKickResets from "./RisingSunKickResets.tsx";
-import ChiJi from "./Chi-Ji/Chi-Ji.tsx";
+import Analysis from "../Analysis";
+import AbsorbVsDRCompare from "./AbsorbVsDRCompare";
+import SheilunVSJadeEmpowerment from "./SheilunVSJadeEmpowerment";
+import JadeEmpowermentVsDocJ from "./JadeEmpowermentVsDocJ";
+import STvsSCK from "./STvsSCK";
+import HarmonicSurge from "./HarmonicSurge";
+import RisingSunKickResets from "./RisingSunKickResets";
+import ChiJi from "./Chi-Ji/Chi-Ji";
 
-import risingStunKickPreview from '../../assets/previews/rising-sun-kick-resets.png';
-import externalComparisonPreview from '../../assets/previews/external-comparison.png';
-import jadeEmpowermentSheilunsPreview from '../../assets/previews/jade-empowerment-sheiluns.png';
-import jadeEmpowermentDocjPreview from '../../assets/previews/jade-empowerment-docj.png';
-import stSpinningPreview from '../../assets/previews/st-spinning.png';
-import harmonicSurgePreview from '../../assets/previews/harmonic-surge.png';
-import chijiPreview from '../../assets/previews/chi-ji.png';
+const risingSunKickPreview = "/previews/rising-sun-kick-resets.png";
+const externalComparisonPreview = "/previews/external-comparison.png";
+const jadeEmpowermentSheilunsPreview = "/previews/jade-empowerment-sheiluns.png";
+const jadeEmpowermentDocjPreview = "/previews/jade-empowerment-docj.png";
+const stSpinningPreview = "/previews/st-spinning.png";
+const harmonicSurgePreview = "/previews/harmonic-surge.png";
+const chijiPreview = "/previews/chi-ji.png";
 
 export interface AnalysisPage {
   label: string;
@@ -84,7 +84,7 @@ export const analysisPages: AnalysisPage[] = [
     label: "Rising Sun Kick Resets", 
     path: "/analysis/rising-sun-kick-resets", 
     element: <RisingSunKickResets />,
-    preview: risingStunKickPreview,
+    preview: risingSunKickPreview,
     description: "Find the probabilities of Rising Sun Kick resets based on various input rotations",
     tags: ["Probability", "Monk", "Rotation"],
     createdDate: "2025-07-10"
