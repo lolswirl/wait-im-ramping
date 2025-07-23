@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { Bug, STATUS, SEVERITY } from "../data/bugs/bugs.ts";
-import { specialization } from "../data/class/class.ts";
+import { Bug, STATUS, SEVERITY, Tags } from "@data/bugs/bugs";
+import { specialization } from "@data/class/class";
 
 export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
     const [selectedSeverity, setSelectedSeverity] = useState<string>("All");
@@ -8,7 +8,7 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
     const [searchText, setSearchText] = useState<string>("");
 
     const allTags = useMemo(() => {
-        const tagSet = new Set<string>();
+        const tagSet = new Set<Tags>();
         bugs.forEach((bug) => {
             for (const tag of bug.tags) tagSet.add(tag);
         });
@@ -16,10 +16,13 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
     }, [bugs]);
 
     const severities = useMemo(
-        () => ["All", ...Object.values(SEVERITY).reverse()],
+        () => ["All", ...(Object.values(SEVERITY).reverse() as string[])],
         []
     );
-    const statuses = useMemo(() => ["All", ...Object.values(STATUS)], []);
+    const statuses = useMemo(
+        () => ["All", ...(Object.values(STATUS) as string[])],
+        []
+    );
 
     const filtered = useMemo(() => {
         let filtered = bugs;
@@ -51,7 +54,7 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
                     (selectedSpec?.name?.toLowerCase?.() || "").includes(
                         search
                     ) ||
-                    bug.tags.some((tag) => tag.toLowerCase().includes(search))
+                    bug.tags.some((tag) => tag.name.toLowerCase().includes(search))
                 );
             });
         }
