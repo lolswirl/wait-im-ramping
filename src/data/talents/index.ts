@@ -1,11 +1,11 @@
-// import RESTORATION_DRUID from './druid/restoration.ts';
-// import PRESERVATION_EVOKER from './evoker/preservation.ts';
-import MONK from './monk/shared.ts';
-import MISTWEAVER_MONK from './monk/mistweaver.ts';
-// import HOLY_PALADIN from './paladin/holy.ts';
-// import DISCIPLINE_PRIEST from './priest/discipline.ts';
-// import HOLY_PRIEST from './priest/holy.ts';
-// import RESTORATION_SHAMAN from './shaman/restoration.ts';
+// import RESTORATION_DRUID from './druid/restoration';
+// import PRESERVATION_EVOKER from './evoker/preservation';
+import MONK from './monk/shared';
+import MISTWEAVER_MONK from './monk/mistweaver';
+// import HOLY_PALADIN from './paladin/holy';
+// import DISCIPLINE_PRIEST from './priest/discipline';
+// import HOLY_PRIEST from './priest/holy';
+// import RESTORATION_SHAMAN from './shaman/restoration';
 
 const TALENTS = {
     // ...RESTORATION_DRUID,

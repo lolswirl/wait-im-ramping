@@ -1,6 +1,5 @@
-
-import { SCHOOLS } from '@data/schools';
 import spell from '@data/spells/spell';
+import { SCHOOLS } from '@data/schools';
 
 const spells = {
     // damaging abilities

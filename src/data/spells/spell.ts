@@ -1,4 +1,4 @@
-import { SCHOOLS } from "../schools.ts";
+import { SCHOOLS } from "../schools";
 
 export default interface spell {
   name: string;
