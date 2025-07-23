@@ -8,12 +8,13 @@ import {
     Box, 
     Button,
     Stack,
-    Chip
+    Chip,
+    ChipProps
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import Link from "next/link";
 import { Timeline, Analytics, TrendingUp, Person, TimerTwoTone } from "@mui/icons-material";
-import PageTitle from "../components/PageTitle/PageTitle";
-import { GetTitle } from "../util/stringManipulation";
+import PageTitle from "@components/PageTitle/PageTitle";
+import { GetTitle } from "@util/stringManipulation";
 
 const wdirPreview = "/previews/when-do-i-ramp.png";
 const spellTimelinePreview = "/previews/timeline.png";
@@ -21,58 +22,74 @@ const analysisPreview = "/previews/harmonic-surge.png";
 
 const pageTitle = GetTitle("Wait, I'm Ramping!");
 
-const Home = () => {
-    const navigate = useNavigate();
-    
-    const quickAccessPages = [
-        {
-            title: "When Do I Ramp?",
-            description: "Calculate ramp timings for spell cast efficiency and planning",
-            icon: <TimerTwoTone sx={{ fontSize: 30 }} />,
-            path: "/when-do-i-ramp",
-            preview: wdirPreview
-        },
-        {
-            title: "Spell Timeline", 
-            description: "Create customized timelines for spell casts and cooldowns",
-            icon: <Timeline sx={{ fontSize: 30 }} />,
-            path: "/timeline",
-            preview: spellTimelinePreview
-        },
-        {
-            title: "Graph & Analysis Tools",
-            description: "Compare healing mechanics with data-driven insights",
-            icon: <Analytics sx={{ fontSize: 30 }} />,
-            path: "/analysis",
-            preview: analysisPreview
-        }
-    ];
+const infoChips: { label: string; color: ChipProps["color"] }[] = [
+    {
+        label: GetTitle("Comprehensive Healing Analysis"),
+        color: "primary"
+    },
+    {
+        label: GetTitle("Growing Spec Support"),
+        color: "secondary"
+    },
+    {
+        label: GetTitle("Data-Driven Optimization"),
+        color: "success"
+    }
+];
 
-    const customButtonStyles = {
-        borderRadius: 3,
-        px: 4,
-        py: 1.5,
-        fontWeight: 600,
-        textTransform: 'none',
-        fontSize: '1rem',
-        boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)',
-        '&:hover': {
-            transform: 'translateY(-2px)',
-            boxShadow: '0 6px 20px 0 rgba(0,0,0,0.15)',
-        }
-    };
+const quickAccessPages = [
+    {
+        title: "When Do I Ramp?",
+        description: "Calculate ramp timings for spell cast efficiency and planning",
+        icon: <TimerTwoTone sx={{ fontSize: 30 }} />,
+        path: "/when-do-i-ramp",
+        preview: wdirPreview
+    },
+    {
+        title: "Spell Timeline", 
+        description: "Create customized timelines for spell casts and cooldowns",
+        icon: <Timeline sx={{ fontSize: 30 }} />,
+        path: "/timeline",
+        preview: spellTimelinePreview
+    },
+    {
+        title: "Graph & Analysis Tools",
+        description: "Compare healing mechanics with data-driven insights",
+        icon: <Analytics sx={{ fontSize: 30 }} />,
+        path: "/analysis",
+        preview: analysisPreview
+    }
+];
 
-    const outlineButtonStyles = {
-        ...customButtonStyles,
+const customButtonStyles = {
+    borderRadius: 3,
+    px: 4,
+    py: 1.5,
+    fontWeight: 600,
+    textTransform: 'none',
+    fontSize: '1rem',
+    boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)',
+    transition: "transform 0.3s ease",
+    '&:hover': {
+        transform: 'scale(1.1)',
+        boxShadow: '0 6px 20px 0 rgba(0,0,0,0.15)',
+        backgroundColor: 'primary.main',
+    }
+};
+
+const outlineButtonStyles = {
+    ...customButtonStyles,
+    borderWidth: 2,
+    '&:hover': {
+        ...customButtonStyles['&:hover'],
+        backgroundColor: 'transparent',
         borderWidth: 2,
-        '&:hover': {
-            ...customButtonStyles['&:hover'],
-            borderWidth: 2,
-        }
-    };
+    }
+};
 
+const Home = () => {
     return (
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 6 }}>
+        <Container maxWidth="lg" sx={{ mt: 1, mb: 6 }}>
             <PageTitle title={pageTitle} />
             
             <Box sx={{ textAlign: 'center', mb: 6 }}>
@@ -88,24 +105,15 @@ const Home = () => {
                     {GetTitle("Healing optimization tools for World of Warcraft")}
                 </Typography>
                 <Stack direction="row" spacing={2} justifyContent="center" sx={{ flexWrap: 'wrap', gap: 2 }}>
-                    <Chip 
-                        label={GetTitle("Comprehensive Healing Analysis")} 
-                        color="primary" 
-                        size="medium"
-                        sx={{ fontSize: '1rem', px: 2, py: 1 }}
-                    />
-                    <Chip 
-                        label={GetTitle("Growing Spec Support")} 
-                        color="secondary" 
-                        size="medium"
-                        sx={{ fontSize: '1rem', px: 2, py: 1 }}
-                    />
-                    <Chip 
-                        label={GetTitle("Data-Driven Optimization")} 
-                        color="success" 
-                        size="medium"
-                        sx={{ fontSize: '1rem', px: 2, py: 1 }}
-                    />
+                    {infoChips.map((chip, index) => (
+                        <Chip 
+                            key={index}
+                            label={chip.label} 
+                            color={chip.color} 
+                            size="medium"
+                            sx={{ fontSize: '1rem', px: 2, py: 1 }}
+                        />
+                    ))}
                 </Stack>
             </Box>
             
@@ -141,72 +149,82 @@ const Home = () => {
                                 }
                             }}
                         >
-                            <CardActionArea 
-                                onClick={() => navigate(tool.path)}
-                                sx={{ 
-                                    height: '100%',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'stretch'
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        height: 160,
-                                        position: 'relative',
-                                        overflow: 'hidden',
+                            <Link href={tool.path} style={{ textDecoration: "none", color: "inherit", height: "100%", display: "flex", flexDirection: "column", flex: 1 }}>
+                                <CardActionArea 
+                                    sx={{ 
+                                        height: '100%',
                                         display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
+                                        flexDirection: 'column',
+                                        alignItems: 'stretch'
                                     }}
+                                    component="div"
                                 >
                                     <Box
                                         sx={{
-                                            position: 'absolute',
-                                            top: 0,
-                                            left: 0,
-                                            width: '100%',
-                                            height: '100%',
-                                            backgroundImage: `url(${tool.preview})`,
-                                            backgroundSize: 'cover',
-                                            backgroundPosition: 'center',
-                                            opacity: 0.8,
-                                            filter: 'blur(0.5px)'
+                                            height: 160,
+                                            position: 'relative',
+                                            overflow: 'hidden',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
                                         }}
-                                    />
-                                    
-                                    <Box sx={{ 
-                                        position: 'relative', 
-                                        zIndex: 1, 
-                                        color: 'white',
-                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                                        backdropFilter: 'blur(8px)',
-                                        px: 1.5,
-                                        py: 1.5,
-                                        borderRadius: 3,
-                                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                                        border: '1px solid rgba(255,255,255,0.1)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    }}>
-                                        {tool.icon}
+                                    >
+                                        <Box
+                                            sx={{
+                                                position: 'absolute',
+                                                top: 0,
+                                                left: 0,
+                                                width: '100%',
+                                                height: '100%',
+                                                backgroundImage: `url(${tool.preview})`,
+                                                backgroundSize: 'cover',
+                                                backgroundPosition: 'center',
+                                                opacity: 0.8,
+                                                filter: 'blur(0.5px)'
+                                            }}
+                                        />
+                                        
+                                        <Box sx={{ 
+                                            position: 'relative', 
+                                            zIndex: 1, 
+                                            color: 'white',
+                                            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                            backdropFilter: 'blur(8px)',
+                                            px: 1.5,
+                                            py: 1.5,
+                                            borderRadius: 3,
+                                            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}>
+                                            {tool.icon}
+                                        </Box>
                                     </Box>
-                                </Box>
-                                <Box sx={{ 
-                                    height: 0.001, 
-                                    backgroundColor: 'divider',
-                                    width: '100%'
-                                }} />
-                                <CardContent sx={{ flexGrow: 1 }}>
-                                    <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
-                                        {GetTitle(tool.title)}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {GetTitle(tool.description)}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
+                                    <Box sx={{ 
+                                        height: 0.001, 
+                                        backgroundColor: 'divider',
+                                        width: '100%'
+                                    }} />
+                                    <CardContent sx={{ flexGrow: 1 }}>
+                                        <Typography
+                                            variant="h6"
+                                            gutterBottom
+                                            sx={{ fontWeight: 'bold', textAlign: 'center' }}
+                                        >
+                                            {GetTitle(tool.title)}
+                                        </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                            sx={{ textAlign: 'center' }}
+                                        >
+                                            {GetTitle(tool.description)}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Link>
                         </Card>
                     ))}
                 </Box>
@@ -224,24 +242,26 @@ const Home = () => {
                     {GetTitle("Start optimizing your gameplay with personalized analysis tools")}
                 </Typography>
                 <Stack direction="row" spacing={2} justifyContent="center" sx={{ flexWrap: 'wrap', gap: 2 }}>
-                    <Button 
-                        variant="contained" 
-                        size="large"
-                        onClick={() => navigate('/analysis')}
-                        startIcon={<TrendingUp />}
-                        sx={customButtonStyles}
-                    >
-                        {GetTitle("Start Optimizing")}
-                    </Button>
-                    <Button 
-                        variant="outlined" 
-                        size="large"
-                        onClick={() => navigate('/about')}
-                        startIcon={<Person />}
-                        sx={outlineButtonStyles}
-                    >
-                        {GetTitle("About Me")}
-                    </Button>
+                    <Link href="/analysis">
+                        <Button 
+                            variant="contained" 
+                            size="large"
+                            startIcon={<TrendingUp />}
+                            sx={customButtonStyles}
+                        >
+                            {GetTitle("Start Optimizing")}
+                        </Button>
+                    </Link>
+                    <Link href="/about">
+                        <Button 
+                            variant="outlined" 
+                            size="large"
+                            startIcon={<Person />}
+                            sx={outlineButtonStyles}
+                        >
+                            {GetTitle("About Me")}
+                        </Button>
+                    </Link>
                 </Stack>
             </Box>
         </Container>
