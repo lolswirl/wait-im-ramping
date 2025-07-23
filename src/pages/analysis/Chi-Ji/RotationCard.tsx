@@ -67,7 +67,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                     {Math.round(rotation.hps).toLocaleString()} {GetTitle("HPS")}
                 </Typography>
                 
-                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 1 }}>
+                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 1 }}>
                     <Box sx={{ textAlign: 'center', p: 1, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: 1 }}>
                         <Typography variant="caption" color="text.secondary">
                             {GetTitle("Duration")}
@@ -155,7 +155,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                     />
                                 </Box>
                                 
-                                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 1 }}>
+                                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 1 }}>
                                     {(() => {
                                         const healingSources = [
                                             { key: 'chiCocoons', title: 'Chi Cocoon', color: 'rgb(76, 175, 76)', value: item.sources.chiCocoons },

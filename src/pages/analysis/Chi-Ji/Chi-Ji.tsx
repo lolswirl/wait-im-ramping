@@ -26,6 +26,7 @@ const ChiJiHPS: React.FC = () => {
     const [rotationHPS, setRotationHPS] = useState<RotationResult[]>([]);
     const [expandedRotations, setExpandedRotations] = useState<Set<number>>(new Set());
     const [isSimulating, setIsSimulating] = useState(false);
+    const maxWidth = 1200;
 
     const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
     const intellect = mistweaver.intellect;
@@ -135,7 +136,7 @@ const ChiJiHPS: React.FC = () => {
                 subtitle={"Simulate the theoretical HPS outcome of rotations that affect Chi-Ji with tuning knobs for stats, enemy count, and talent choices"} 
             />
 
-            <Card variant="outlined" sx={{ maxWidth: 1200, width: "95%", mx: "auto", mb: rotationHPS.length > 0 ? 0 : 3 }}>
+            <Card variant="outlined" sx={{ maxWidth: maxWidth, width: "95%", mx: "auto", mb: rotationHPS.length > 0 ? 0 : 3 }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: '400px' }}>
                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
 
@@ -200,7 +201,7 @@ const ChiJiHPS: React.FC = () => {
 
             {rotationHPS.length > 0 && (
                 <>
-                    <Box sx={{ width: "100%", maxWidth: 1400, px: 2, mb: 2 }}>
+                    <Box sx={{ width: "95%", maxWidth: maxWidth, px: 0, mb: 2 }}>
                         <Grid container spacing={2}>
                             {rotationHPS.map((rotation, index) => (
                                 <Grid 
