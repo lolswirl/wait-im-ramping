@@ -47,7 +47,7 @@ export const useRotationManager = (options: UseRotationManagerOptions = {}) => {
         if (currentRotation.length === 0) return;
         
         const newRotation: Rotation = {
-            id: Date.now().toString(),
+            id: uuidv4(),
             name: generateRotationName(currentRotation),
             steps: [...currentRotation]
         };
