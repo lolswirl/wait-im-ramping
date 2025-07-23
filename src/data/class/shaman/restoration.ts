@@ -1,7 +1,7 @@
-import RESTORATION_SHAMAN_SPELLS from '../../spells/shaman/restoration.ts';
-import RESTORATION_SHAMAN_ROTATIONS from '../../rotations/shaman/restoration.ts';
-import { attachGetters } from '../attachGetters.ts';
-import { specialization } from '../class.ts';
+import RESTORATION_SHAMAN_SPELLS from '@data/spells/shaman/restoration';
+import RESTORATION_SHAMAN_ROTATIONS from '@data/rotations/shaman/restoration';
+import { attachGetters } from '../attachGetters';
+import { specialization } from '../class';
 
 const RESTORATION_SHAMAN = attachGetters({
   spells: RESTORATION_SHAMAN_SPELLS,

@@ -1,6 +1,6 @@
 
-import { SCHOOLS } from '../../schools.ts';
-import spell from '../spell.ts';
+import { SCHOOLS } from '@data/schools';
+import spell from '@data/spells/spell';
 
 const spells = {
     // damaging abilities

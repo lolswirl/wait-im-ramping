@@ -1,10 +1,10 @@
 import { attachGetters } from '../attachGetters.ts';
 import { specialization } from '../class.ts';
-import MISTWEAVER_MONK_SPELLS from '../../spells/monk/mistweaver.ts';
-import MISTWEAVER_MONK_TALENTS from '../../talents/monk/mistweaver.ts';
-import MISTWEAVER_MONK_ROTATIONS from '../../rotations/monk/mistweaver.ts';
-import { MISTWEAVER_MONK_BUFFS } from '../../buffs/monk/mistweaver.ts';
-import MISTWEAVER_MONK_BUGS from '../../bugs/monk/mistweaver.ts';
+import MISTWEAVER_MONK_SPELLS from '@data/spells/monk/mistweaver';
+import MISTWEAVER_MONK_TALENTS from '@data/talents/monk/mistweaver';
+import MISTWEAVER_MONK_ROTATIONS from '@data/rotations/monk/mistweaver';
+import { MISTWEAVER_MONK_BUFFS } from '@data/buffs/monk/mistweaver';
+import MISTWEAVER_MONK_BUGS from '@data/bugs/monk/mistweaver';
 
 const MISTWEAVER_MONK = attachGetters({
   spells: MISTWEAVER_MONK_SPELLS,

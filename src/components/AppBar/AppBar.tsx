@@ -104,7 +104,7 @@ function ResponsiveAppBar() {
             <List sx={{ px: 1, py: 2 }}>
                 {pages.map(({ label, path }) => {
                     const isActive = path === "/analysis" 
-                        ? pathname.startsWith("/analysis") 
+                        ? pathname?.startsWith("/analysis") 
                         : pathname === path;
                     
                     return (
@@ -263,7 +263,7 @@ function ResponsiveAppBar() {
                         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1 }}>
                             {pages.map(({ label, path }) => {
                                 const isActive = path === "/analysis" 
-                                    ? pathname.startsWith("/analysis") 
+                                    ? pathname?.startsWith("/analysis") 
                                     : pathname === path;
                                 
                                 return (

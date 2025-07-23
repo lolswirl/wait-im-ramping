@@ -1,5 +1,5 @@
-import spell from "../../spells/spell";
-import SPELLS from "../../spells/index.ts";
+import spell from '@data/spells/spell';
+import SPELLS from '@data/spells/index';
 
 const rotations = {
   VOIDWEAVER_UPPIES: [

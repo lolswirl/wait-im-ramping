@@ -1,6 +1,6 @@
-import spell, { GCD } from '../../spells/spell.ts';
-import SPELLS from '../../spells/index.ts';
-import TALENTS from '../../talents/monk/mistweaver.ts';
+import spell, { GCD } from '@data/spells/spell';
+import SPELLS from '@data/spells/index';
+import TALENTS from '@data/talents/monk/mistweaver';
 
 export const MISTWEAVER_MONK_BUFFS = (spellList: spell[]): spell[] => {
     let thunderFocusTeaUsed = false;

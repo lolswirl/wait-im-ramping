@@ -1,7 +1,7 @@
-import RESTORATION_DRUID_SPELLS from '../../spells/druid/restoration.ts';
-import RESTORATION_DRUID_ROTATIONS from '../../rotations/druid/restoration.ts';
-import { attachGetters } from '../attachGetters.ts';
-import { specialization } from '../class.ts';
+import RESTORATION_DRUID_SPELLS from '@data/spells/druid/restoration';
+import RESTORATION_DRUID_ROTATIONS from '@data/rotations/druid/restoration';
+import { attachGetters } from '../attachGetters';
+import { specialization } from '../class';
 
 const RESTORATION_DRUID = attachGetters({
   spells: RESTORATION_DRUID_SPELLS,

@@ -1,7 +1,7 @@
-import DISCIPLINE_PRIEST_SPELLS from '../../spells/priest/discipline.ts';
-import DISCIPLINE_PRIEST_ROTATIONS from '../../rotations/priest/discipline.ts';
-import { attachGetters } from '../attachGetters.ts';
-import { specialization } from '../class.ts';
+import DISCIPLINE_PRIEST_SPELLS from '@data/spells/priest/discipline';
+import DISCIPLINE_PRIEST_ROTATIONS from '@data/rotations/priest/discipline';
+import { attachGetters } from '../attachGetters';
+import { specialization } from '../class';
 
 const DISCIPLINE_PRIEST = attachGetters({
   spells: DISCIPLINE_PRIEST_SPELLS,
