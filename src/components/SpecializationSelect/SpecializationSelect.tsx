@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import './SpecializationSelect.css'
 import { FormControl, InputLabel, MenuItem, Popover, Box, MenuList } from '@mui/material';

@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from 'react';
 import { Tooltip } from '@mui/material';
 import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg';
