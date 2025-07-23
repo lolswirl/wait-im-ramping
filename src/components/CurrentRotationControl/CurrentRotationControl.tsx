@@ -64,7 +64,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                                 >
                                     {currentRotation.length > 0 ? (
                                         currentRotation.map((spell, idx) => (
-                                            <Draggable key={spell.uuid} draggableId={spell.uuid} index={idx}>
+                                            <Draggable key={spell.uuid ?? `spell-${idx}`} draggableId={spell.uuid ?? `spell-${idx}`} index={idx}>
                                                 {(provided, snapshot) => (
                                                     <div
                                                         ref={provided.innerRef}
