@@ -42,12 +42,13 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
   const svgRef = useRef<SVGSVGElement | null>(null);
   const theme = useTheme();
 
-  const [containerWidth, setContainerWidth] = useState<number>(window.innerWidth);
+  const [containerWidth, setContainerWidth] = useState<number>(0);
 
   useEffect(() => {
     function handleResize() {
       setContainerWidth(window.innerWidth);
     }
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
