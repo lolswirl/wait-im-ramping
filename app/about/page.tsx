@@ -54,17 +54,17 @@ const About = () => {
                 }}
               />
               <Typography variant="body1" paragraph align="left" sx={{ mb: 0 }}>
-                hi, i'm swirl — a gamer and software engineer who enjoys digging into how healing{" "}
+                hi, i&apos;m swirl — a gamer and software engineer who enjoys digging into how healing{" "}
                 works across different games, mostly aligned with world of warcraft.{" "}
-                i’ve been playing wow since cataclysm, and started maining mistweaver monk{" "}
+                i&apos;ve been playing wow since cataclysm, and started maining mistweaver monk{" "}
                 in mists of pandaria.
               </Typography>
             </Stack>
             <Stack direction="row" alignItems="center" spacing={2}>
               <Typography variant="body1" paragraph align="left" sx={{ mb: 0 }}>
                 ever since, competitive healing has been a major focus in my gameplay.{" "}
-                i've reached world rank 20 in raid, earned multiple 0.1% titles in mythic+{" "}
-                season to season, and i'm currently a mistweaver veteran in peak of serenity.{" "}
+                i&apos;ve reached world rank 20 in raid, earned multiple 0.1% titles in mythic+{" "}
+                season to season, and i&apos;m currently a mistweaver veteran in peak of serenity.{" "}
                 i love helping other healers improve and enjoy the role more!
               </Typography>
               <Box
@@ -94,14 +94,14 @@ const About = () => {
               about this project
             </Typography>
             <Typography variant="body1" paragraph align="left">
-              <b>wait, i'm ramping!</b>{" "}
+              <b>wait, i&apos;m ramping!</b>{" "}
               is a site full of tools to help world of warcraft healers plan, visualize, and{" "}
               fine-tune their healing. it includes a ramp timer calculator, a spell timeline{" "}
-              visualizer, and graphs that compare healing spells and cooldowns (that i've implemented :p).
+              visualizer, and graphs that compare healing spells and cooldowns (that i&apos;ve implemented :p).
             </Typography>
             <Typography variant="body1" paragraph align="left">
               i created this website as a way to share useful tools for planning and optimizing{" "}
-              healing — whether you're trying to clean up your ramp windows, or just trying to{" "}
+              healing — whether you&apos;re trying to clean up your ramp windows, or just trying to{" "}
               understand your spells a bit better.
             </Typography>
             <Typography variant="body1" paragraph align="left">
