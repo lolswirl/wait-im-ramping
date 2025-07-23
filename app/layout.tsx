@@ -1,7 +1,11 @@
+import "./globals.css";
 import type { Metadata } from "next";
-import { ThemeProvider } from "../src/context/ThemeContext";
-import { SpecProvider } from "../src/context/SpecContext";
-import Theme from "../src/components/Theme/Theme";
+import { ThemeProvider } from "@context/ThemeContext";
+import { SpecProvider } from "@context/SpecContext";
+import Theme from "@components/Theme/Theme";
+import AppBar from "@components/AppBar/AppBar";
+import FooterBar from "@components/AppBar/FooterBar";
+import ClientTilingBackground from "@components/Tiling/ClientTilingBackground";
 
 export const metadata: Metadata = {
     title: {
@@ -40,19 +44,15 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html
-            lang="en"
-            className={
-                typeof window !== "undefined"
-                    ? localStorage.getItem("themeMode") || "dark"
-                    : "dark"
-            }
-        >
+        <html lang="en">
             <body>
                 <ThemeProvider>
                     <Theme>
                         <SpecProvider>
-                            <div id="root">{children}</div>
+                            <ClientTilingBackground />
+                            <AppBar />
+                            <main>{children}</main>
+                            <FooterBar />
                         </SpecProvider>
                     </Theme>
                 </ThemeProvider>
