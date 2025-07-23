@@ -22,7 +22,7 @@ import TALENTS from "@data/talents/monk/mistweaver";
 import SHARED from "@data/talents/monk/shared";
 import SwirlButton from "@components/Buttons/SwirlButton";
 
-const ChiJiHPS: React.FC = () => {
+const ChiJiHPS: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const theme = useTheme();
     const [rotationHPS, setRotationHPS] = useState<RotationResult[]>([]);
     const [expandedRotations, setExpandedRotations] = useState<Set<number>>(new Set());
@@ -132,9 +132,9 @@ const ChiJiHPS: React.FC = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-            <PageHeader 
-                title={'Chi-Ji "Simulation"'} 
-                subtitle={"Simulate the theoretical HPS outcome of rotations that affect Chi-Ji with tuning knobs for stats, enemy count, and talent choices"} 
+            <PageHeader
+                title={title} 
+                subtitle={description} 
             />
 
             <Card variant="outlined" sx={{ maxWidth: maxWidth, width: "95%", mx: "auto", mb: rotationHPS.length > 0 ? 0 : 3 }}>
