@@ -11,7 +11,7 @@ import SpellButton from '../SpellButtons/SpellButton';
 import { GetTitle } from '../../util/stringManipulation';
 import { toRomanNumeral } from '../../util/toRomanNumeral';
 import type Spell from "../../data/spells/spell";
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import SwirlButton from '../Buttons/SwirlButton';
 
 interface CurrentRotationControlProps {
