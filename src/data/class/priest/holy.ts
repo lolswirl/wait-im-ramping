@@ -1,7 +1,7 @@
+import { attachGetters } from '@data/class/attachGetters';
+import { specialization } from '@data/class/class';
 import HOLY_PRIEST_SPELLS from '@data/spells/priest/holy';
 import HOLY_PRIEST_ROTATIONS from '@data/rotations/priest/holy';
-import { attachGetters } from '../attachGetters';
-import { specialization } from '../class';
 
 const HOLY_PRIEST = attachGetters({
   spells: HOLY_PRIEST_SPELLS,

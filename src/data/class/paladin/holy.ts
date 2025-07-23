@@ -1,7 +1,7 @@
+import { attachGetters } from '@data/class/attachGetters';
+import { specialization } from '@data/class/class';
 import HOLY_PALADIN_SPELLS from '@data/spells/paladin/holy';
 import HOLY_PALADIN_ROTATIONS from '@data/rotations/paladin/holy';
-import { attachGetters } from '../attachGetters';
-import { specialization } from '../class';
 
 const HOLY_PALADIN = attachGetters({
   spells: HOLY_PALADIN_SPELLS,

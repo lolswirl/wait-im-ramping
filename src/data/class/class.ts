@@ -1,13 +1,13 @@
-import spell from '../spells/spell.ts';
+import spell from '../spells/spell';
 
-import MISTWEAVER from './monk/mistweaver.ts';
-import DISCIPLINE from './priest/discipline.ts';
-import HOLY_PRIEST from './priest/holy.ts';
-import RESTO_DRUID from './druid/restoration.ts';
-import RESTO_SHAMAN from './shaman/restoration.ts';
-import PRESERVATION from './evoker/preservation.ts';
-import HOLY_PALADIN from './paladin/holy.ts';
-import { Bug } from '../bugs/bugs.ts';
+import MISTWEAVER from './monk/mistweaver';
+import DISCIPLINE from './priest/discipline';
+import HOLY_PRIEST from './priest/holy';
+import RESTO_DRUID from './druid/restoration';
+import RESTO_SHAMAN from './shaman/restoration';
+import PRESERVATION from './evoker/preservation';
+import HOLY_PALADIN from './paladin/holy';
+import { Bug } from '../bugs/bugs';
 
 type ClassInfo<TSpecs extends Record<string, specialization>> = {
   name: string;

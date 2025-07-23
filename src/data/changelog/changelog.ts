@@ -1,5 +1,5 @@
 import React from 'react';
-import { Contributor } from '../contributor/contributor.ts'
+import { Contributor } from '../contributor/contributor'
 
 export interface ChangelogEntry {
   date: Date;

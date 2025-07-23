@@ -1,5 +1,5 @@
-import { attachGetters } from '../attachGetters.ts';
-import { specialization } from '../class.ts';
+import { attachGetters } from '@data/class/attachGetters';
+import { specialization } from '@data/class/class';
 import MISTWEAVER_MONK_SPELLS from '@data/spells/monk/mistweaver';
 import MISTWEAVER_MONK_TALENTS from '@data/talents/monk/mistweaver';
 import MISTWEAVER_MONK_ROTATIONS from '@data/rotations/monk/mistweaver';
