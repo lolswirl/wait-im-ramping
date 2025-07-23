@@ -1,12 +1,14 @@
 import React from "react";
 import { Typography, Card, CardContent, Divider, Link, Stack, Box } from "@mui/material";
-import PageTitle from "../../src/components/PageTitle/PageTitle";
-import { GetTitle } from "../../src/util/stringManipulation";
+import { GetTitle } from "@util/stringManipulation";
+
+export const metadata = {
+  title: GetTitle("About"),
+  description: GetTitle("Learn more about the creator of Wait, I'm Ramping!"),
+};
 
 const swirlImg = "/swirl.png";
 const mistweaverLogo = "/mistweaver-bad.png";
-
-const pageTitle = GetTitle("about");
 
 const imageStyle = {
   width: 128,
@@ -22,7 +24,6 @@ const imageStyle = {
 const About = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
-      <PageTitle title={pageTitle} />
 
       <Card
         variant="outlined"
