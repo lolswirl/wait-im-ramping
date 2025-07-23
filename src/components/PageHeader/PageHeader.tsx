@@ -19,7 +19,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
     marginBottom = 1
 }) => {
     return (
-        <Box sx={{ mb: marginBottom, mt: 3.5 }}>
+        <Box sx={{ mb: marginBottom }}>
             <PageTitle title={GetTitle(title)} />
             <Typography
                 variant="h1"
