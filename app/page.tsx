@@ -13,14 +13,11 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { Timeline, Analytics, TrendingUp, Person, TimerTwoTone } from "@mui/icons-material";
-import PageTitle from "@components/PageTitle/PageTitle";
 import { GetTitle } from "@util/stringManipulation";
 
 const wdirPreview = "/previews/when-do-i-ramp.png";
 const spellTimelinePreview = "/previews/timeline.png";
 const analysisPreview = "/previews/harmonic-surge.png";
-
-const pageTitle = GetTitle("Wait, I'm Ramping!");
 
 const infoChips: { label: string; color: ChipProps["color"] }[] = [
     {
@@ -90,8 +87,6 @@ const outlineButtonStyles = {
 const Home = () => {
     return (
         <Container maxWidth="lg" sx={{ mt: 1, mb: 6 }}>
-            <PageTitle title={pageTitle} />
-            
             <Box sx={{ textAlign: 'center', mb: 6 }}>
                 <Typography
                   variant="h2"
@@ -99,7 +94,7 @@ const Home = () => {
                   gutterBottom
                   sx={{ fontWeight: 'bold', color: 'text.primary' }}
                 >
-                  {pageTitle}
+                  {GetTitle("Wait, I'm Ramping!")}
                 </Typography>
                 <Typography variant="h5" color="text.secondary" sx={{ mb: 4, maxWidth: 600, mx: 'auto' }}>
                     {GetTitle("Healing optimization tools for World of Warcraft")}
