@@ -1,6 +1,7 @@
 import React from "react";
-import { Typography, Card, CardContent, Divider, Link, Stack, Box } from "@mui/material";
+import { Typography, Card, CardContent, Divider, Link, Stack, Box, Chip } from "@mui/material";
 import { PageMetadata } from "@components/PageMetadata/PageMetadata";
+import { DiscordSVG, TwitchSVG } from "@components/AppBar/FooterBar";
 
 const title = "About";
 const description = "Learn more about the creator of Wait, I'm Ramping!";
@@ -23,7 +24,6 @@ const imageStyle = {
 const About = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
-
       <Card
         variant="outlined"
         sx={{
@@ -53,7 +53,7 @@ const About = () => {
                 }}
               />
               <Typography variant="body1" paragraph align="left" sx={{ mb: 0 }}>
-                hi, i&apos;m swirl — a gamer and software engineer who enjoys digging into how healing{" "}
+                hi, i&apos;m swirl :) — a gamer and software engineer who enjoys digging into how healing{" "}
                 works across different games, mostly aligned with world of warcraft.{" "}
                 i&apos;ve been playing wow since cataclysm, and started maining mistweaver monk{" "}
                 in mists of pandaria.
@@ -63,7 +63,7 @@ const About = () => {
               <Typography variant="body1" paragraph align="left" sx={{ mb: 0 }}>
                 ever since, competitive healing has been a major focus in my gameplay.{" "}
                 i&apos;ve reached world rank 20 in raid, earned multiple 0.1% titles in mythic+{" "}
-                season to season, and i&apos;m currently a mistweaver veteran in peak of serenity.{" "}
+                season to season, and i&apos;m currently a mistweaver veteran and moderator in peak of serenity.{" "}
                 i love helping other healers improve and enjoy the role more!
               </Typography>
               <Box
@@ -93,39 +93,70 @@ const About = () => {
               about this project
             </Typography>
             <Typography variant="body1" paragraph align="left">
-              <b>wait, i&apos;m ramping!</b>{" "}
+              <b>𖦹 wait, i&apos;m ramping!</b>{" "}
               is a site full of tools to help world of warcraft healers plan, visualize, and{" "}
-              fine-tune their healing. it includes a ramp timer calculator, a spell timeline{" "}
-              visualizer, and graphs that compare healing spells and cooldowns (that i&apos;ve implemented :p).
+              fine-tune their healing. it includes various components such as a ramp timer calculator,{" "}
+              a spell timeline visualizer, many tools that compare spells and cooldowns{" "}
+              (that i&apos;ve implemented :p), and much more.
             </Typography>
             <Typography variant="body1" paragraph align="left">
-              i created this website as a way to share useful tools for planning and optimizing{" "}
-              healing — whether you&apos;re trying to clean up your ramp windows, or just trying to{" "}
-              understand your spells a bit better.
+              i created this website as a way to share useful info for planning and optimizing{" "}
+              healing — whether you&apos;re trying to clean up your sequencing, or satiate the desire{" "}
+              to understand your spells a bit better.
             </Typography>
             <Typography variant="body1" paragraph align="left">
-              i have a lot of ideas for future features,{" "}
-              so feel free to reach out in my{" "}
+              i have a tons of ideas for this website&apos;s future. if you want to see anything{" "}
+              specific implemented, feel free to reach out in my{" "}
               <Link
                 href="https://discord.gg/ZU5rhXtbNd"
                 target="_blank"
                 rel="noopener noreferrer"
-                color="#7289da"
-                underline="hover"
+                underline="none"
+                sx={{ textDecoration: "none" }}
               >
-                discord
+                <Chip
+                  icon={<DiscordSVG style={{ marginLeft: 5, marginTop: 1, height: "1em", width: "1em" }} />}
+                  label="discord"
+                  size="small"
+                  color="primary"
+                  variant="outlined"
+                  sx={{
+                    borderColor: "#7289da",
+                    color: "#7289da",
+                    fontWeight: "bold",
+                    transition: "transform 0.3s ease",
+                    "&:hover": {
+                      transform: "scale(1.1)",
+                    },
+                  }}
+                />
               </Link>{" "}
               or during my{" "}
               <Link
                 href="https://www.twitch.tv/lolswirl"
                 target="_blank"
                 rel="noopener noreferrer"
-                color="#9147ff"
-                underline="hover"
+                underline="none"
+                sx={{ textDecoration: "none" }}
               >
-                twitch
+                <Chip
+                  icon={<TwitchSVG style={{ marginLeft: 5, marginTop: 1, height: "1em", width: "1em" }} />}
+                  label="twitch"
+                  size="small"
+                  color="primary"
+                  variant="outlined"
+                  sx={{
+                    borderColor: "#9147ff",
+                    color: "#9147ff",
+                    fontWeight: "bold",
+                    transition: "transform 0.3s ease",
+                    "&:hover": {
+                      transform: "scale(1.1)",
+                    },
+                  }}
+                />
               </Link>{" "}
-              streams if you have any suggestions!
+              streams for any suggestions!
             </Typography>
           </Stack>
         </CardContent>
