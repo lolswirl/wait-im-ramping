@@ -1,5 +1,4 @@
-import spell, { GCD } from '../../spells/spell.ts';
-import SPELLS from '../../spells/index.ts';
+import spell from '@data/spells/spell';
 
 export const applyBuffs = (spellList: spell[]): spell[] => {
   return spellList;

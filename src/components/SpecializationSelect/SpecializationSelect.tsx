@@ -1,10 +1,11 @@
+"use client";
 import React, { useState } from 'react';
 import './SpecializationSelect.css'
 import { FormControl, InputLabel, MenuItem, Popover, Box, MenuList } from '@mui/material';
 import Select from '@mui/material/Select';
-import { specialization, getSpecs, getSpecializationByKey } from '../../data/class/class.ts';
-import { GetTitle } from "../../util/stringManipulation.tsx";
-import SpecDisplay from "./SpecDisplay.tsx";
+import { specialization, getSpecs, getSpecializationByKey } from '../../data/class/class';
+import { GetTitle } from "../../util/stringManipulation";
+import SpecDisplay from "./SpecDisplay";
 
 interface SpecializationSelectProps {
   selectedSpec: specialization;

@@ -1,7 +1,8 @@
+"use client";
 import React, { useEffect, useState } from 'react';
 import { Tooltip } from '@mui/material';
-import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
-import { GetTitle } from '../../util/stringManipulation.tsx';
+import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg';
+import { GetTitle } from '../../util/stringManipulation';
 
 interface IconButtonBaseProps {
     icon: string;
@@ -57,18 +58,20 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
                 justifyContent: 'center',
             }}
         >
-            <img
-                src={src}
-                alt={GetTitle(name)}
-                width={size}
-                height={size}
-                style={{
-                    borderRadius: '8px',
-                    objectFit: 'cover',
-                    transform: 'scale(1.1)',
-                    transformOrigin: 'center',
-                }}
-            />
+            {src && (
+                <img
+                    src={src}
+                    alt={GetTitle(name)}
+                    width={size}
+                    height={size}
+                    style={{
+                        borderRadius: '8px',
+                        objectFit: 'cover',
+                        transform: 'scale(1.1)',
+                        transformOrigin: 'center',
+                    }}
+                />
+            )}
         </div>
     );
     return tooltip ? (

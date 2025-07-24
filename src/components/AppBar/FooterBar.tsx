@@ -1,9 +1,11 @@
+
+"use client"
 import { AppBar, Toolbar, IconButton, Box, Tooltip } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import { GetTitle } from "../../util/stringManipulation.tsx";
-import { useThemeContext } from "../../context/ThemeContext.tsx";
+import { GetTitle } from "../../util/stringManipulation";
+import { useThemeContext } from "../../context/ThemeContext";
 
 const DiscordSVG = (props: React.SVGProps<SVGSVGElement>) => (
     <svg  
@@ -36,6 +38,7 @@ const FooterBar = () => {
             sx={{
                 minHeight: 48,
                 height: 48,
+                mt: 3.5,
                 backgroundImage: 'none',
                 bgcolor: themeMode === "light" ? "primary.main" : "#171717",
                 '& .MuiToolbar-root': { minHeight: 48, height: 48, padding: 0 }

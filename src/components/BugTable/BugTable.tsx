@@ -11,9 +11,9 @@ import {
     Typography,
     Chip,
 } from "@mui/material";
-import SpellButton from "../SpellButtons/SpellButton.tsx";
-import { GetTitle } from "../../util/stringManipulation.tsx";
-import { Bug, SEVERITY_COLORS, STATUS } from "../../data/bugs/bugs.ts";
+import SpellButton from "../SpellButtons/SpellButton";
+import { GetTitle } from "../../util/stringManipulation";
+import { Bug, SEVERITY_COLORS, STATUS } from "../../data/bugs/bugs";
 
 interface BugTableProps {
     bugs: Bug[];

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { toRomanNumeral } from '../../util/toRomanNumeral.ts'
+import { toRomanNumeral } from '../../util/toRomanNumeral'
 
 interface EmpowerLevelButtonsProps {
   empowerLevel: number;
@@ -28,8 +28,12 @@ const EmpowerLevelButtons: React.FC<EmpowerLevelButtonsProps> = ({ empowerLevel,
             boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
             transition: 'transform 0.2s',
           }}
-          onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
-          onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+          sx={{
+            '&:hover': {
+              transform: 'scale(1.1)',
+            },
+            transform: empowerLevel === level ? 'scale(1.1)' : 'scale(1)',
+          }}
         >
           {toRomanNumeral(level)}
         </Button>

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, IconButton } from '@mui/material';
-import spell, { calculateCastTime } from '../../data/spells/spell.ts';
-import { applyBuffEffects } from '../../data/buffs/buffs.ts';
+import spell, { calculateCastTime } from '../../data/spells/spell';
+import { applyBuffEffects } from '../../data/buffs/buffs';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpward, ArrowDownward, DeleteTwoTone, DeleteForever } from '@mui/icons-material';
-import { toRomanNumeral } from '../../util/toRomanNumeral.ts';
-import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
-import { GetTitle } from "../../util/stringManipulation.tsx";
-import { specialization } from '../../data/class/class.ts';
-import SwirlButton from '../Buttons/SwirlButton.tsx';
+import { toRomanNumeral } from '../../util/toRomanNumeral';
+import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg';
+import { GetTitle } from "../../util/stringManipulation";
+import { specialization } from '../../data/class/class';
+import SwirlButton from '../Buttons/SwirlButton';
 
 interface SpellTableProps {
   spellList: spell[];

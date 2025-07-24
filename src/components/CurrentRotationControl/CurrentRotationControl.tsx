@@ -7,12 +7,12 @@ import {
     Typography
 } from '@mui/material';
 import { Add, DeleteForever, DeleteTwoTone } from '@mui/icons-material';
-import SpellButton from '../SpellButtons/SpellButton.tsx';
-import { GetTitle } from '../../util/stringManipulation.tsx';
-import { toRomanNumeral } from '../../util/toRomanNumeral.ts';
-import type Spell from "../../data/spells/spell.ts";
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
-import SwirlButton from '../Buttons/SwirlButton.tsx';
+import SpellButton from '../SpellButtons/SpellButton';
+import { GetTitle } from '../../util/stringManipulation';
+import { toRomanNumeral } from '../../util/toRomanNumeral';
+import type Spell from "../../data/spells/spell";
+import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
+import SwirlButton from '../Buttons/SwirlButton';
 
 interface CurrentRotationControlProps {
     children?: React.ReactNode;
@@ -64,7 +64,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                                 >
                                     {currentRotation.length > 0 ? (
                                         currentRotation.map((spell, idx) => (
-                                            <Draggable key={spell.uuid} draggableId={spell.uuid} index={idx}>
+                                            <Draggable key={spell.uuid ?? `spell-${idx}`} draggableId={spell.uuid ?? `spell-${idx}`} index={idx}>
                                                 {(provided, snapshot) => (
                                                     <div
                                                         ref={provided.innerRef}

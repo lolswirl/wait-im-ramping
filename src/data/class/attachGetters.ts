@@ -1,4 +1,4 @@
-import spell from '../../data/spells/spell.ts';
+import spell from '@data/spells/spell';
 
 interface SpecLike {
   spells: Record<string, spell>;
