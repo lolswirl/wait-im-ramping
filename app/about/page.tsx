@@ -1,11 +1,11 @@
 import React from "react";
 import { Typography, Card, CardContent, Divider, Link, Stack, Box } from "@mui/material";
-import { GetTitle } from "@util/stringManipulation";
+import { PageMetadata } from "@components/PageMetadata/PageMetadata";
 
-export const metadata = {
-  title: GetTitle("About"),
-  description: GetTitle("Learn more about the creator of Wait, I'm Ramping!"),
-};
+export const metadata = PageMetadata({
+  title: "About",
+  description: "Learn more about the creator of Wait, I'm Ramping!",
+});
 
 const swirlImg = "/swirl.png";
 const mistweaverLogo = "/mistweaver-bad.png";
