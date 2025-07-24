@@ -25,7 +25,7 @@ export function PageMetadata(
         openGraph: {
             type: "website",
             url,
-            title: GetTitle(`${title} | ${SITE_NAME}`),
+            title: title !== SITE_NAME ? GetTitle(`${title} | ${SITE_NAME}`) : formattedTitle,
             description: formattedDescription,
             images: [
                 {
