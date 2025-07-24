@@ -1,5 +1,6 @@
+"use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { CLASSES, specialization, getSpecializationByKey } from "../data/class/class.ts";
+import { CLASSES, specialization, getSpecializationByKey } from "@data/class/class";
 
 interface SpecContextType {
   spec: specialization;
@@ -9,9 +10,17 @@ interface SpecContextType {
 const SpecContext = createContext<SpecContextType | undefined>(undefined);
 
 export const SpecProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [specKey, setSpecKey] = useState<string>(
-    () => localStorage.getItem("selectedSpec") || "MONK:MISTWEAVER"
-  );
+  // Always use a default value on the server
+  const [specKey, setSpecKey] = useState<string>("MONK:MISTWEAVER");
+
+  // On mount (client), update from localStorage if present
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("selectedSpec");
+      if (stored && stored !== specKey) setSpecKey(stored);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const spec = getSpecializationByKey(specKey)!;
 
@@ -27,13 +36,10 @@ export const SpecProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const newKey = `${classKey}:${newSpec.name.toUpperCase()}`;
     setSpecKey(newKey);
-    localStorage.setItem("selectedSpec", newKey);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("selectedSpec", newKey);
+    }
   };
-
-  useEffect(() => {
-    const stored = localStorage.getItem("selectedSpec");
-    if (stored && stored !== specKey) setSpecKey(stored);
-  }, [specKey]);
 
   return (
     <SpecContext.Provider value={{ spec, setSpec }}>

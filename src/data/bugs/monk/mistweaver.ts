@@ -1,7 +1,7 @@
-import SPELLS from "../../spells/index.ts";
-import TALENTS from "../../talents/monk/mistweaver.ts";
-import { STATS, STAT_COLORS} from "../../stats/stats.ts";
-import { Bug, SEVERITY, STATUS, Tags } from "../bugs.ts";
+import SPELLS from '@data/spells/index';
+import TALENTS from '@data/talents/monk/mistweaver';
+import { STATS, STAT_COLORS} from '@data/stats/stats';
+import { Bug, SEVERITY, STATUS, Tags } from "@data/bugs/bugs";
 
 const TAGS: Record<string, Tags> = {
     CONDUIT: { name: "Conduit of the Celestials", color: "#7ee5ff" },

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import type Spell from '../data/spells/spell.ts';
+import type Spell from '@data/spells/spell';
 
 interface Rotation {
     id: string;
@@ -47,7 +47,7 @@ export const useRotationManager = (options: UseRotationManagerOptions = {}) => {
         if (currentRotation.length === 0) return;
         
         const newRotation: Rotation = {
-            id: Date.now().toString(),
+            id: uuidv4(),
             name: generateRotationName(currentRotation),
             steps: [...currentRotation]
         };

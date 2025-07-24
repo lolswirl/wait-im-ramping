@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, useTheme } from "@mui/material";
-import { GetTitle } from "../../util/stringManipulation.tsx";
+import { GetTitle } from "../../util/stringManipulation";
 
 interface SwirlButtonProps {
     children: React.ReactNode;

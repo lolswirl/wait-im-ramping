@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { GetTitle } from "../../util/stringManipulation.tsx";
-import SpecializationSelect from "../SpecializationSelect/SpecializationSelect.tsx";
-import { specialization } from "../../data/class/class.ts";
+import { GetTitle } from "../../util/stringManipulation";
+import SpecializationSelect from "../SpecializationSelect/SpecializationSelect";
+import { specialization } from "../../data/class/class";
 
 interface BugFiltersProps {
     selectedSpec: specialization;

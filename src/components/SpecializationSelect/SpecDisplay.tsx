@@ -1,7 +1,7 @@
 import React from "react";
-import { GetTitle } from "../../util/stringManipulation.tsx";
-import { FormatIconImg, FormatIconLink } from "../../util/FormatIconImg.ts";
-import { specialization } from "../../data/class/class.ts";
+import { GetTitle } from "../../util/stringManipulation";
+import { FormatIconImg, FormatIconLink } from "../../util/FormatIconImg";
+import { specialization } from "../../data/class/class";
 
 const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec, short }) => (
   <div className="spec">

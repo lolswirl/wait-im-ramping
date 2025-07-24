@@ -1,9 +1,6 @@
-
-
 import React from 'react';
-import IconButtonBase from './IconButtonBase.tsx';
-
-import type Spell from "../../data/spells/spell.ts"
+import IconButtonBase from './IconButtonBase';
+import type Spell from "@data/spells/spell"
 
 interface SpellButtonProps {
     selectedSpell: Spell;
@@ -24,12 +21,12 @@ const SpellButton: React.FC<SpellButtonProps> = ({
     showName = false,
     ...rest
 }) => {
-    empowerLevel = empowerLevel || 0;
+    const safeEmpowerLevel = empowerLevel ?? 0;
     return (
         <IconButtonBase
             icon={selectedSpell.icon}
             name={selectedSpell.name}
-            onClick={() => action(selectedSpell, empowerLevel)}
+            onClick={() => action(selectedSpell, safeEmpowerLevel)}
             size={size}
             {...rest}
         />

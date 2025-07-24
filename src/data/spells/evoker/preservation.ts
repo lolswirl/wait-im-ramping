@@ -1,4 +1,4 @@
-import spell from '../spell.ts';
+import spell from '@data/spells/spell';
 
 const spells = {
   TEMPORAL_ANOMALY: {

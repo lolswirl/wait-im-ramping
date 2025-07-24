@@ -8,11 +8,11 @@ import {
     Box,
     Chip,
 } from "@mui/material";
-import SpellButton from "../SpellButtons/SpellButton.tsx";
-import { GetTitle } from "../../util/stringManipulation.tsx";
-import { Bug, STATUS, SEVERITY_COLORS } from "../../data/bugs/bugs.ts";
-import { specialization } from "../../data/class/class.ts";
-import SwirlButton from "../Buttons/SwirlButton.tsx";
+import SpellButton from "../SpellButtons/SpellButton";
+import { GetTitle } from "../../util/stringManipulation";
+import { Bug, STATUS, SEVERITY_COLORS } from "../../data/bugs/bugs";
+import { specialization } from "../../data/class/class";
+import SwirlButton from "../Buttons/SwirlButton";
 
 interface BugDialogProps {
     open: boolean;

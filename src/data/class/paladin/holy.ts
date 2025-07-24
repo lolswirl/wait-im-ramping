@@ -1,7 +1,7 @@
-import HOLY_PALADIN_SPELLS from '../../spells/paladin/holy.ts';
-import HOLY_PALADIN_ROTATIONS from '../../rotations/paladin/holy.ts';
-import { attachGetters } from '../attachGetters.ts';
-import { specialization } from '../class.ts';
+import { attachGetters } from '@data/class/attachGetters';
+import { specialization } from '@data/class/class';
+import HOLY_PALADIN_SPELLS from '@data/spells/paladin/holy';
+import HOLY_PALADIN_ROTATIONS from '@data/rotations/paladin/holy';
 
 const HOLY_PALADIN = attachGetters({
   spells: HOLY_PALADIN_SPELLS,

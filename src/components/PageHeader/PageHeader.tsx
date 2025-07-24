@@ -1,7 +1,6 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
-import { GetTitle } from '../../util/stringManipulation.tsx';
-import PageTitle from '../PageTitle/PageTitle.tsx';
+import { GetTitle } from '../../util/stringManipulation';
 
 interface PageHeaderProps {
     title: string;
@@ -20,10 +19,18 @@ const PageHeader: React.FC<PageHeaderProps> = ({
 }) => {
     return (
         <Box sx={{ mb: marginBottom }}>
-            <PageTitle title={GetTitle(title)} />
-            <h1 style={{ marginBottom: "0px", textAlign: align }}>
+            <Typography
+                variant="h1"
+                sx={{
+                    mb: 0,
+                    textAlign: align,
+                    fontWeight: 'bold',
+                    color: 'text.primary',
+                    fontSize: '2em',
+                }}
+            >
                 {GetTitle(title)}
-            </h1>
+            </Typography>
             
             {subtitle && (
                 <Typography

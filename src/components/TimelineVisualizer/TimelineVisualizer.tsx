@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { useTheme } from "@mui/material/styles";
-import spell, { calculateCastTime, GCD } from '../../data/spells/spell.ts';
-import { applyBuffEffects } from '../../data/buffs/buffs.ts';
-import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg.ts';
-import { toRomanNumeral } from "../../util/toRomanNumeral.ts";
-import { GetTitle } from "../../util/stringManipulation.tsx";
-import { specialization } from "../../data/class/class.ts";
+import spell, { calculateCastTime, GCD } from '../../data/spells/spell';
+import { applyBuffEffects } from '../../data/buffs/buffs';
+import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg';
+import { toRomanNumeral } from "../../util/toRomanNumeral";
+import { GetTitle } from "../../util/stringManipulation";
+import { specialization } from "../../data/class/class";
 
 const RECT_HEIGHT = 100;
 const RECT_HEIGHT_CONDENSED = 35;
@@ -42,12 +42,13 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
   const svgRef = useRef<SVGSVGElement | null>(null);
   const theme = useTheme();
 
-  const [containerWidth, setContainerWidth] = useState<number>(window.innerWidth);
+  const [containerWidth, setContainerWidth] = useState<number>(0);
 
   useEffect(() => {
     function handleResize() {
       setContainerWidth(window.innerWidth);
     }
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);

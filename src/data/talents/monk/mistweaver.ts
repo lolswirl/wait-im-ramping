@@ -1,4 +1,4 @@
-import spell from '../../spells/spell.ts';
+import spell from '@data/spells/spell';
 
 const talents = {
     LEGACY_OF_WISDOM: {
