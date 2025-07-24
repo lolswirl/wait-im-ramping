@@ -92,7 +92,7 @@ const Analysis = () => {
     };
 
     return (
-        <Container sx={{ mt: 2, mb: 4 }}>
+        <Container>
             <PageHeader 
                 title={"Analysis"} 
                 subtitle={"Interactive graphs & tools for analyzing healing and damage mechanics, rotation optimizations, probability simulations, and more!"} 
