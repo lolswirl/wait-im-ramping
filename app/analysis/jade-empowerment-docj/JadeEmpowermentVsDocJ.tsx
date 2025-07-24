@@ -20,7 +20,7 @@ const modeOptions = [
   { value: "mode4", label: "4 JE vs. 1 DocJ", maxTargets: 180 },
 ];
 
-const JadeEmpowermentVsDocJ: React.FC = () => {
+const JadeEmpowermentVsDocJ: React.FC<{ title: string; description: string }> = ({ title, description }) => {
   const theme = useTheme();
   const [maxTargets, setMaxTargets] = useState<number>(13);
   const [calcMode, setCalcMode] = useState<string>("default");
@@ -157,8 +157,8 @@ const JadeEmpowermentVsDocJ: React.FC = () => {
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
       <PageHeader
-        title={"Jade Empowerment vs. Dance of Chi-Ji"}
-        subtitle={"Compare the spellpower output of Jade Empowerment and Dance of Chi-Ji on different target counts"}
+        title={title}
+        subtitle={description}
       />
       <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
         <Line data={chartData} options={chartOptions} />

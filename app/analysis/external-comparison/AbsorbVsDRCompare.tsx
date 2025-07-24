@@ -8,7 +8,7 @@ import { GetTitle } from "../../../src/util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const AbsorbVsDRCompare: React.FC = () => {
+const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ title, description }) => {
   const [absorbValue, setAbsorbValue] = useState(9.6);
   const [damageReduction, setDamageReduction] = useState(40.5);
   const [maxXAxis, setMaxXAxis] = useState(30);
@@ -77,8 +77,8 @@ const AbsorbVsDRCompare: React.FC = () => {
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
       <PageHeader
-        title={"Absorb vs. Damage Reduction!"}
-        subtitle={"Compare the effectiveness of Damage Reduction to find how damage can scale past Absorbs"}
+        title={title}
+        subtitle={description}
       />
 
       <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
