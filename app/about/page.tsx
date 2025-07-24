@@ -2,10 +2,10 @@ import React from "react";
 import { Typography, Card, CardContent, Divider, Link, Stack, Box } from "@mui/material";
 import { PageMetadata } from "@components/PageMetadata/PageMetadata";
 
-export const metadata = PageMetadata({
-  title: "About",
-  description: "Learn more about the creator of Wait, I'm Ramping!",
-});
+const title = "About";
+const description = "Learn more about the creator of Wait, I'm Ramping!";
+
+export const metadata = PageMetadata(title, description);
 
 const swirlImg = "/swirl.png";
 const mistweaverLogo = "/mistweaver-bad.png";

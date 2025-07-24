@@ -1,34 +1,46 @@
 import { GetTitle } from "@util/stringManipulation";
 
-export function PageMetadata({
-  title,
-  description,
-  image = "https://waitimramping.vercel.app/description.png",
-}: {
-  title: string;
-  description: string;
-  image?: string;
-}) {
-  return {
-    title: GetTitle(title),
-    description: GetTitle(description),
-    openGraph: {
-      title: GetTitle(title),
-      description: GetTitle(description),
-      images: [
-        {
-          url: image,
-          width: 1200,
-          height: 630,
-          alt: "wait, i'm ramping!",
+const SITE_NAME = "Wait, I'm Ramping!";
+const SITE_DESCRIPTION =
+    "A website full of tools used to help World of Warcraft healers plan, visualize, and optimize their healing. :3";
+const SITE_URL = "https://waitimramping.vercel.app/";
+const SITE_IMAGE = SITE_URL + "description.png";
+const TITLE_TEMPLATE = "%s | Wait, I'm Ramping!";
+
+export function PageMetadata(
+    title: string = SITE_NAME,
+    description: string = SITE_DESCRIPTION,
+    image: string = SITE_IMAGE,
+    url: string = SITE_URL
+) {
+    const formattedTitle = GetTitle(title);
+    const formattedDescription = GetTitle(description);
+
+    return {
+        title: {
+            default: formattedTitle,
+            template: GetTitle(TITLE_TEMPLATE),
         },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: GetTitle(title),
-      description: GetTitle(description),
-      images: [image],
-    },
-  };
+        description: formattedDescription,
+        openGraph: {
+            type: "website",
+            url,
+            title: GetTitle(`${title} | ${SITE_NAME}`),
+            description: formattedDescription,
+            images: [
+                {
+                    url: image,
+                    width: 1200,
+                    height: 630,
+                    alt: GetTitle(SITE_NAME),
+                },
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: GetTitle(`${title} | ${SITE_NAME}`),
+            description: formattedDescription,
+            images: [image],
+        },
+    };
 }
