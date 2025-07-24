@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useMemo } from "react";
+import Link from "next/link";
 import { 
     Card, 
     CardActionArea, 
@@ -10,18 +11,16 @@ import {
     Chip,
     Grid,
 } from "@mui/material";
-import Link from "next/link";
-import { analysisPages, AnalysisPage } from "../AnalysisPages";
-import { getCapsMode, GetTitle } from "../../src/util/stringManipulation";
-import PageHeader from "../../src/components/PageHeader/PageHeader";
 
-import WhenDoIRamp from "../when-do-i-ramp/page";
-import Timeline from "../timeline/page";
+import PageHeader from "@components/PageHeader/PageHeader";
+import { getCapsMode, GetTitle } from "@util/stringManipulation";
+
+import { analysisPages, AnalysisPage } from "../AnalysisPages";
 
 const wdirPreview = "/previews/when-do-i-ramp.png";
 const spellTimelinePreview = "/previews/timeline.png";
 
-const Analysis = () => {
+const Analysis: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
     const pages: AnalysisPage[] = [
@@ -94,8 +93,8 @@ const Analysis = () => {
     return (
         <Container>
             <PageHeader 
-                title={"Analysis"} 
-                subtitle={"Interactive graphs & tools for analyzing healing and damage mechanics, rotation optimizations, probability simulations, and more!"} 
+                title={title} 
+                subtitle={description} 
                 marginBottom={3}
             />
 

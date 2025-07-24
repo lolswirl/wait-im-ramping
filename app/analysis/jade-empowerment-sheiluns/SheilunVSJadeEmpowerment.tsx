@@ -3,16 +3,18 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, useTheme } from "@mui/material";
-import PageHeader from "../../../src/components/PageHeader/PageHeader";
-import { GetTitle } from "../../../src/util/stringManipulation";
-import SPELLS from "../../../src/data/spells/index";
-import TALENTS from "../../../src/data/talents/monk/mistweaver";
 
-import { CLASSES } from "../../../src/data/class/class";
+import PageHeader from "@components/PageHeader/PageHeader";
+
+import SPELLS from "@data/spells/index";
+import TALENTS from "@data/talents/monk/mistweaver";
+import { CLASSES } from "@data/class/class";
+
+import { GetTitle } from "@util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const SheilunVSJadeEmpowerment: React.FC = () => {
+const SheilunVSJadeEmpowerment: React.FC<{ title: string; description: string }> = ({ title, description }) => {
   const theme = useTheme();
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
@@ -118,8 +120,8 @@ const SheilunVSJadeEmpowerment: React.FC = () => {
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
       <PageHeader
-        title={"Sheilun's Gift vs. Jade Empowerment"}
-        subtitle={"Analyze the spellpower differences between Sheilun's Gift's stacks and Jade Empowerment's chaining"}
+        title={title}
+        subtitle={description}
       />
       <Box sx={{ height: 600, width: "100%", display: "flex", justifyContent: "center" }}>
         <Bar data={chartData} options={chartOptions} />

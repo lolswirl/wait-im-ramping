@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { 
     Typography, 
     Card, 
@@ -11,8 +12,8 @@ import {
     Chip,
     ChipProps
 } from "@mui/material";
-import Link from "next/link";
 import { Timeline, Analytics, TrendingUp, Person, TimerTwoTone } from "@mui/icons-material";
+
 import { GetTitle } from "@util/stringManipulation";
 
 const wdirPreview = "/previews/when-do-i-ramp.png";

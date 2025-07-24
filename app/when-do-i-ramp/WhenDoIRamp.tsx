@@ -1,12 +1,13 @@
 "use client";
 import * as React from "react";
 import { useState } from "react";
-import RampCalc from "../../src/components/RampCalc/RampCalc";
-import PageHeader from '../../src/components/PageHeader/PageHeader';
-import { GetTitle } from "../../src/util/stringManipulation";
 import { Typography } from "@mui/material";
 
-const Home = () => {
+import RampCalc from "@components/RampCalc/RampCalc";
+import PageHeader from '@components/PageHeader/PageHeader';
+import { GetTitle } from "@util/stringManipulation";
+
+const WhenDoIRamp: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const [totalCastTime, setTotalCastTime] = useState(0);
 
     const handleTotalCastTimeChange = (newTotalTime: number) => {
@@ -16,8 +17,8 @@ const Home = () => {
      return (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
             <PageHeader
-                title={"When Do I Ramp?"}
-                subtitle={"Calculate ramp timings for spell cast efficiency and planning"}
+                title={title}
+                subtitle={description}
             />
             <RampCalc onTotalCastTimeChange={handleTotalCastTimeChange} />
             {totalCastTime > 0 && (
@@ -37,4 +38,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default WhenDoIRamp;

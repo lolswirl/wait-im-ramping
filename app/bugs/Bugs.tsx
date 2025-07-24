@@ -1,16 +1,19 @@
 "use client";
 import React, { useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
+
 import PageHeader from "@components/PageHeader/PageHeader";
 import BugTable from "@components/BugTable/BugTable";
 import BugDialog from "@components/BugDialog/BugDialog";
-import { CLASSES, specialization } from "@data/class/class";
-import { Bug } from "@data/bugs/bugs";
-import { useBugFilters } from "@hooks/useBugFilters";
-import { GetTitle } from "@util/stringManipulation";
 import BugFilters from "@components/BugFilters/BugFilters";
 
-const BugsPage: React.FC = () => {
+import { CLASSES, specialization } from "@data/class/class";
+import { Bug } from "@data/bugs/bugs";
+
+import { useBugFilters } from "@hooks/useBugFilters";
+import { GetTitle } from "@util/stringManipulation";
+
+const BugsPage: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const [selectedSpec, setSelectedSpec] = useState<specialization>(
         CLASSES.MONK.SPECS.MISTWEAVER
     );
@@ -45,10 +48,10 @@ const BugsPage: React.FC = () => {
     return (
         <Container sx={{ mb: 3 }}>
             <PageHeader 
-                title={"Bugs"}
+                title={title}
                 subtitle={
                     [
-                        "Compiled list of bugs and issues for every specialization. ",
+                        description,
                         "Don't see your spec's bugs? Report them <a href=\"https://github.com/lolswirl/wait-im-ramping/issues\" target=\"_blank\">here</a>!",
                     ]
                 }
