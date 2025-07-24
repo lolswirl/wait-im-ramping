@@ -7,5 +7,5 @@ $ npm install
 ```
 #### local development:
 ```
-$ npm start
+$ npm run dev
 ```
