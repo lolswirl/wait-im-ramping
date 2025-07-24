@@ -19,14 +19,17 @@ import {
     OutlinedInput
 } from "@mui/material";
 import { DeleteTwoTone } from "@mui/icons-material";
-import PageHeader from "../../../src/components/PageHeader/PageHeader";
-import { GetTitle, pluralize } from "../../../src/util/stringManipulation";
-import { MISTWEAVER_SPELLS } from "../../../src/data/spells/monk/mistweaver";
-import TALENTS from "../../../src/data/talents/monk/mistweaver";
-import SpellButton from "../../../src/components/SpellButtons/SpellButton";
-import type Spell from "../../../src/data/spells/spell";
-import CurrentRotationControl from "../../../src/components/CurrentRotationControl/CurrentRotationControl";
-import { useRotationManager } from "../../../src/hooks/useRotationManager";
+
+import PageHeader from "@components/PageHeader/PageHeader";
+import SpellButton from "@components/SpellButtons/SpellButton";
+import CurrentRotationControl from "@components/CurrentRotationControl/CurrentRotationControl";
+
+import { MISTWEAVER_SPELLS } from "@data/spells/monk/mistweaver";
+import TALENTS from "@data/talents/monk/mistweaver";
+import type Spell from "@data/spells/spell";
+
+import { useRotationManager } from "@hooks/useRotationManager";
+import { GetTitle, pluralize } from "@util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -301,7 +304,7 @@ const createChartOptions = (theme: any, rotations: any[], calculateRotationStats
     },
 });
 
-const RisingSunKickResets: React.FC = () => {
+const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const theme = useTheme();
     const [attempts, setAttempts] = useState<number>(1);
     const [awakenedJadefire, setAwakenedJadefire] = useState<boolean>(false);
@@ -391,8 +394,8 @@ const RisingSunKickResets: React.FC = () => {
     return (
         <Container sx={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center", justifyContent: "center" }}>
             <PageHeader
-                title={"Rising Sun Kick Resets"}
-                subtitle={"Find the probabilities of Rising Sun Kick resets based on input rotations"}
+                title={title}
+                subtitle={description}
             />
             
             <Card variant="outlined" sx={cardSx}>

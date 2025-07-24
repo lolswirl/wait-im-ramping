@@ -1,20 +1,24 @@
 "use client";
 import React, { useState } from 'react';
-import TimelineVisualizer from '../../src/components/TimelineVisualizer/TimelineVisualizer';
-import SpecializationSelect from '../../src/components/SpecializationSelect/SpecializationSelect';
-import SpellButtons from '../../src/components/SpellButtons/SpellButtons';
-import SpellButton from '../../src/components/SpellButtons/SpellButton';
-import CurrentRotationControl from '../../src/components/CurrentRotationControl/CurrentRotationControl';
 import {Typography, FormControl, InputLabel, OutlinedInput, Box, Card, Stack, Divider, FormControlLabel, Switch, Chip } from '@mui/material';
-import spell from '../../src/data/spells/spell';
-import { CLASSES, specialization } from '../../src/data/class/class';
 import { v4 as uuidv4 } from 'uuid';
-import PageHeader from '../../src/components/PageHeader/PageHeader';
-import { GetTitle, hexToRgb } from '../../src/util/stringManipulation';
-import { useSpec } from '../../src/context/SpecContext';
-import { useRotationManager } from '../../src/hooks/useRotationManager';
 
-const Timeline = () => {
+import TimelineVisualizer from '@components/TimelineVisualizer/TimelineVisualizer';
+import SpecializationSelect from '@components/SpecializationSelect/SpecializationSelect';
+import SpellButtons from '@components/SpellButtons/SpellButtons';
+import SpellButton from '@components/SpellButtons/SpellButton';
+import CurrentRotationControl from '@components/CurrentRotationControl/CurrentRotationControl';
+import PageHeader from '@components/PageHeader/PageHeader';
+
+import { useSpec } from '@context/SpecContext';
+
+import spell from '@data/spells/spell';
+import { CLASSES, specialization } from '@data/class/class';
+
+import { useRotationManager } from '@hooks/useRotationManager';
+import { GetTitle, hexToRgb } from '@util/stringManipulation';
+
+const Timeline: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const { spec, setSpec } = useSpec();
     const [spellList, setSpellList] = useState<spell[]>([]);
     const [condense, setCondense] = useState(true);
@@ -138,8 +142,8 @@ const Timeline = () => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             <PageHeader 
-                title={"Spell Timeline!"} 
-                subtitle={"Create customized timelines for spell casts and cooldowns to analyze cast efficiencies and sunken time costs"} 
+                title={title} 
+                subtitle={description} 
             />
             
             {/* warn for horizontal mode on mobile */}

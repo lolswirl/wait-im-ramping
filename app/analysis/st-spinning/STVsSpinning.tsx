@@ -4,11 +4,12 @@ import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, TextField } from "@mui/material";
 
-import { GCD } from "../../../src/data/spells/spell";
-import { GetTitle } from "../../../src/util/stringManipulation";
-import PageHeader from "../../../src/components/PageHeader/PageHeader";
+import PageHeader from "@components/PageHeader/PageHeader";
 
-import SPELLS from "../../../src/data/spells/index";
+import { GCD } from "@data/spells/spell";
+import SPELLS from "@data/spells/index";
+
+import { GetTitle } from "@util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -18,7 +19,7 @@ type DamageData = {
   spinningCraneKick: DamagePoint[];
 };
 
-const DamageOverTimeGraph: React.FC = () => {
+const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title, description }) => {
   const [timeSpent, setTimeSpent] = useState(30);
   const [targetCount, setTargetCount] = useState(1);
   const [damageData, setDamageData] = useState<DamageData>({
@@ -198,9 +199,9 @@ const DamageOverTimeGraph: React.FC = () => {
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
       <PageHeader
-        title={"Single Target Rotation vs. Spinning Crane Kick"}
-        subtitle={"Evaluate simulated single target rotation (Tiger Palm, Blackout Kick, Rising Sun Kick + resets) damage output compared to Spinning Crane Kick"}
-      />
+          title={title}
+          subtitle={description}
+        />
       <Box sx={{ height: "100%", width: "100%", display: "flex", justifyContent: "center" }}>
         <Line data={chartData} options={chartOptions} />
       </Box>
@@ -212,4 +213,4 @@ const DamageOverTimeGraph: React.FC = () => {
   );
 };
 
-export default DamageOverTimeGraph;
+export default STVsSpinning;
