@@ -12,7 +12,7 @@ import { CLASSES } from "@data/class/class";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const HarmonicSurge: React.FC = () => {
+const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const theme = useTheme();
     const [includeJadeEmpowerment, setIncludeJadeEmpowerment] = useState(false);
 
@@ -218,8 +218,8 @@ const HarmonicSurge: React.FC = () => {
     return (
         <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
             <PageHeader
-                title={"Harmonic Surge!"}
-                subtitle={"Analyze Harmonic Surge's spellpower output compared to the other Ancient Teachings abilities"}
+                title={title}
+                subtitle={description}
             />
             
             <Box sx={{ height: 600, width: "100%", display: "flex", justifyContent: "center" }}>

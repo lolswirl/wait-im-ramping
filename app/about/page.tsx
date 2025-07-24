@@ -4,7 +4,6 @@ import { PageMetadata } from "@components/PageMetadata/PageMetadata";
 
 const title = "About";
 const description = "Learn more about the creator of Wait, I'm Ramping!";
-
 export const metadata = PageMetadata(title, description);
 
 const swirlImg = "/swirl.png";
