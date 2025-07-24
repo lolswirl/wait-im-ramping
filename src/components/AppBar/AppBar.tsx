@@ -300,7 +300,14 @@ function ResponsiveAppBar() {
                             {spec && <SpecializationSelect selectedSpec={spec} onSpecChange={setSpec} short={true} />}
                             <IconButton 
                                 onClick={toggleTheme}
-                                sx={{ color: "white" }}
+                                sx={{ 
+                                    color: "white",
+                                    transition: "transform 0.3s ease",
+                                    "&:hover": {
+                                        transform: "scale(1.1)",
+                                        backgroundColor: "transparent",
+                                    }, 
+                                }}
                             >
                                 {themeMode === "dark" ? <MoonIcon /> : <SunIcon />}
                             </IconButton>
