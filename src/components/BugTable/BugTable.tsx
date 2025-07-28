@@ -264,7 +264,10 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                                 label={GetTitle(tag.name)}
                                                 size="small"
                                                 variant="outlined"
-                                                sx={tag.color ? { borderColor: tag.color, color: tag.color } : undefined}
+                                                sx={{
+                                                    backgroundColor: tag.color ? `${tag.color}20` : "rgba(255,255,255,0.08)",
+                                                    ...(tag.color ? { borderColor: tag.color, color: tag.color } : undefined)
+                                                }}
                                             />
                                         );
                                     })}
