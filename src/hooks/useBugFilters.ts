@@ -7,6 +7,14 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
     const [selectedStatus, setSelectedStatus] = useState<string>(STATUS.OPEN);
     const [searchText, setSearchText] = useState<string>("");
 
+    const sortedBugs = useMemo(() => {
+        return [...bugs].sort((a, b) => {
+            const aBuild = a.lastBuildTested ? parseInt(a.lastBuildTested) : 0;
+            const bBuild = b.lastBuildTested ? parseInt(b.lastBuildTested) : 0;
+            return bBuild - aBuild;
+        });
+    }, [bugs]);
+
     const allTags = useMemo(() => {
         const tagSet = new Set<Tags>();
         bugs.forEach((bug) => {
@@ -25,7 +33,7 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
     );
 
     const filtered = useMemo(() => {
-        let filtered = bugs;
+        let filtered = sortedBugs;
         if (selectedStatus !== "All") {
             filtered = filtered.filter(
                 (bug) => (bug.status || STATUS.OPEN) === selectedStatus
@@ -59,7 +67,7 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
             });
         }
         return filtered;
-    }, [bugs, selectedSeverity, searchText, selectedStatus, selectedSpec]);
+    }, [sortedBugs, selectedSeverity, searchText, selectedStatus, selectedSpec]);
 
     const isDefault =
         searchText === "" &&
