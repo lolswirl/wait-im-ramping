@@ -3,6 +3,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/
 import { GetTitle } from "../../util/stringManipulation";
 import SpecializationSelect from "../SpecializationSelect/SpecializationSelect";
 import { specialization } from "../../data/class/class";
+import { SEVERITY_COLORS } from "@data/bugs/bugs";
 
 interface BugFiltersProps {
     selectedSpec: specialization;
@@ -85,7 +86,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                     sx={{ height: filtersHeight }}
                 >
                     {severities.map((severity) => (
-                        <MenuItem key={severity} value={severity}>
+                        <MenuItem key={severity} value={severity} sx={{ borderBottom: `3px solid ${SEVERITY_COLORS[severity]}` }}>
                             {GetTitle(severity)}
                         </MenuItem>
                     ))}
