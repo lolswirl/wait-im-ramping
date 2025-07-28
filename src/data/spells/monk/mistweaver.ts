@@ -123,7 +123,7 @@ const spells = {
         castTime: 1.5,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 111865
+            healing: 201357
         }
     },
     THUNDER_FOCUS_TEA: {
@@ -162,7 +162,7 @@ const spells = {
         castTime: 0,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 25750
+            healing: 30899
         }, 
         custom: {
             targetsHit: 3
