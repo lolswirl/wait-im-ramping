@@ -373,8 +373,19 @@ export const calculateRotationHPS = async (
                 const sckTargetMultiplier = options.enemyCount <= 5 
                     ? options.enemyCount
                     : options.enemyCount * Math.sqrt(5 / options.enemyCount);
-                const sckAJHealing = sckDamage * (awakenedJadefireTransfer * awakenedJadefireTargetsPerSCK) * awakenedJadefireArmorModifier * sckTargetMultiplier;
-                breakdown.awakenedJadefire = sckAJHealing;
+
+                const sckTicks = 4;
+                const sckPartDamage = (sckDamage * sckTargetMultiplier * awakenedJadefireTransfer * awakenedJadefireArmorModifier) / sckTicks;
+                
+                let sckAJTotalHealing = 0;
+                for (let i = 0; i < sckTicks; i++) {
+                    const targets = getRandomAllies(allies, awakenedJadefireTargetsPerSCK);
+                    for (const target of targets) {
+                        const sckHealing = calculateHealingWithAmp(sckPartDamage, target);
+                        sckAJTotalHealing += sckHealing;
+                    }
+                }
+                breakdown.awakenedJadefire = sckAJTotalHealing;
                 
                 if (chiJiActive) {
                     breakdown.chiJiGusts = chijiGustHealing * 6;
