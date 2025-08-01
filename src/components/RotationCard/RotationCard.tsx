@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Box, Typography, IconButton, Collapse, LinearProgress, Chip } from '@mui/material';
 import { ExpandMore, ExpandLess, DeleteTwoTone } from '@mui/icons-material';
-import { RotationResult } from './types';
+import { RotationResult } from '../../../app/analysis/chi-ji/types';
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { GetTitle } from "@util/stringManipulation";
 import TALENTS from "@data/talents/monk/mistweaver";

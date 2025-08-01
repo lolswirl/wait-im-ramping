@@ -3,24 +3,22 @@ import React, { useState, useEffect } from "react";
 import { Box, useTheme, Card, Divider, Grid } from "@mui/material";
 import { Refresh } from "@mui/icons-material";
 import PageHeader from "@components/PageHeader/PageHeader";
-import { GetTitle } from "@util/stringManipulation";
-import { CLASSES } from "@data/class/class";
 import SpellButtons from "@components/SpellButtons/SpellButtons";
-import { useRotationManager } from "@hooks/useRotationManager";
 import CurrentRotationControl from "@components/CurrentRotationControl/CurrentRotationControl";
-import { RotationCard } from './RotationCard';
-import { calculateRotationHPS } from './simulation';
-import { RotationResult, SimulationOptions } from './types';
-
-import { CHIJI_ABILITIES } from "@data/spells/monk/mistweaver";
-
-import StatsCard from "./StatsCard";
-import TargetCountsCard from "./TargetCountsCard";
-import TalentsCard from "./TalentsCard";
+import { RotationCard } from '@components/RotationCard/RotationCard';
+import StatsCard from "@components/StatsCard/StatsCard";
+import TargetCountsCard from "@components/TargetCountCard/TargetCountsCard";
+import TalentsCard from "@components/TalentsCard/TalentsCard";
+import SwirlButton from "@components/Buttons/SwirlButton";
+import { CLASSES } from "@data/class/class";
 import spell from "@data/spells/spell";
 import TALENTS from "@data/talents/monk/mistweaver";
 import SHARED from "@data/talents/monk/shared";
-import SwirlButton from "@components/Buttons/SwirlButton";
+import { CHIJI_ABILITIES } from "@data/spells/monk/mistweaver";
+import { useRotationManager } from "@hooks/useRotationManager";
+import { GetTitle } from "@util/stringManipulation";
+import { calculateRotationHPS } from './simulation';
+import { RotationResult, SimulationOptions } from './types';
 
 const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const theme = useTheme();
