@@ -213,11 +213,17 @@ const talents = {
         name: "Shaohao's Lessons",
         id: 400089,
         icon: "ability_monk_dematerialize",
+        custom: {
+            secondsPerCloud: 8,
+        }
     },
     VEIL_OF_PRIDE: {
         name: "Veil of Pride",
         id: 400053,
         icon: "ability_monk_vivify",
+        custom: {
+            secondsPerCloud: 4,
+        }
     },
 
     // hero talents
