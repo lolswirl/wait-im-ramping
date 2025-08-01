@@ -137,7 +137,7 @@ const talents = {
         icon: 'ability_monk_counteractmagic',
         custom: {
             duration: 8,
-            amp: 1.5,
+            amp: 1.25,
         }
     },
     LOTUS_INFUSION: {
@@ -233,7 +233,7 @@ const talents = {
         id: 1239442,
         icon: 'ability_socererking_forcenova',
         value: {
-            healing: 74117,
+            healing: 83382,
             damage: 1,
         },
         custom: {

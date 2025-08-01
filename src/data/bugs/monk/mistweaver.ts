@@ -414,18 +414,21 @@ const BUGS: Bug[] = [
         title: "Awakened Jadefire healing not increased by healing boosts",
         description:
             "Awakened Jadefire healing is not increased by healing increases (enveloping mist, chi harmony, etc.)",
+        notes:
+            "Fixed in 62253, however doesn't get increased by Coalescence.",
         tags: [TAGS.HEALING_INCREASE],
-        lastBuildTested: "57212",
+        lastBuildTested: "62253",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.COALESCENCE,
-        affectedSpells: [TALENTS.ANCIENT_TEACHINGS, TALENTS.ASPECT_OF_HARMONY],
+        affectedSpells: [TALENTS.ANCIENT_TEACHINGS, TALENTS.ASPECT_OF_HARMONY, TALENTS.AWAKENED_JADEFIRE],
         severity: SEVERITY.HIGH,
-        title: "Aspect of Harmony hot doesn't boost Ancient Teachings healing",
+        title: "Aspect of Harmony doesn't amp Ancient Teachings or Awakened Jadefire",
         description:
-            "Aspect of Harmony hot does not increase healing done by ancient teachings and the increased 20% damage done from the aspect of harmony dot does not transfer to ancient teachings healing",
+            "Aspect of Harmony hot does not increase healing done by ancient teachings or Awakened Jadefire and the increased 20% damage done from the aspect of harmony dot does not transfer to ancient teachings healing",
         tags: [TAGS.HEALING_INCREASE],
-        lastBuildTested: "56819",
+        lastBuildTested: "62253",
     },
     {
         spell: TALENTS.JADE_EMPOWERMENT,
@@ -477,6 +480,15 @@ const BUGS: Bug[] = [
             "When a single stack of Tea of Plenty's Rising Sun Kick buff is consumed, it does not reduce the cooldown of rising sun kick or rushing wind kick. Casting RSK or RWK with the Rising Sun Kick buff consumes both the buff and Thunder Focus Tea in the same cast and reduces the Cooldown. If the player has two stacks of the Rising Sun Kick buff and does NOT have the Thunder Focus Tea buff, One stack will be consumed and the cooldown will be reduced.",
         tags: [],
         lastBuildTested: "57292",
+    },
+    {
+        spell: TALENTS.MENDING_PROLIFERATION,
+        affectedSpells: [],
+        severity: SEVERITY.MEDIUM,
+        title: "Spreads to non-injured targets and pets again",
+        description: "Mending Proliferation with the PTR added range flags to its spell entry, which now reverted the change that it did not prefer pets. Currently, it is also spreading to full HP targets and targets that already have enveloping mist, as opposed to live.",
+        tags: [],
+        lastBuildTested: "62253",
     },
 ];
 
