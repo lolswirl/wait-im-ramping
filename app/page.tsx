@@ -97,8 +97,8 @@ const Home = () => {
                 >
                   {GetTitle("Wait, I'm Ramping!")}
                 </Typography>
-                <Typography variant="h5" color="text.secondary" sx={{ mb: 4, maxWidth: 600, mx: 'auto' }}>
-                    {GetTitle("Healing optimization tools for World of Warcraft")}
+                <Typography variant="h5" color="text.secondary" sx={{ mb: 4, maxWidth: 800, mx: 'auto' }}>
+                    {GetTitle("Healing theorycrafting and optimization tools for World of Warcraft")}
                 </Typography>
                 <Stack direction="row" spacing={2} justifyContent="center" sx={{ flexWrap: 'wrap', gap: 2 }}>
                     {infoChips.map((chip, index) => (
