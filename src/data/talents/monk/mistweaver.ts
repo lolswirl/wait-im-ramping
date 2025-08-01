@@ -209,6 +209,16 @@ const talents = {
         id: 115869,
         icon: 'monk_ability_cherrymanatea',
     },
+    SHAOHAOS_LESSONS: {
+        name: "Shaohao's Lessons",
+        id: 400089,
+        icon: "ability_monk_dematerialize",
+    },
+    VEIL_OF_PRIDE: {
+        name: "Veil of Pride",
+        id: 400053,
+        icon: "ability_monk_vivify",
+    },
 
     // hero talents
     // master of harmony
