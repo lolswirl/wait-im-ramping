@@ -5,6 +5,7 @@ const jadeEmpowermentDocjPreview = "/previews/jade-empowerment-docj.png";
 const stSpinningPreview = "/previews/st-spinning.png";
 const harmonicSurgePreview = "/previews/harmonic-surge.png";
 const chijiPreview = "/previews/chi-ji.png";
+const hotjsPreview = "/previews/heart-of-the-jade-serpent.png";
 
 export interface AnalysisPage {
   label: string;
@@ -71,5 +72,13 @@ export const analysisPages: AnalysisPage[] = [
     description: "Simulate the theoretical HPS of various rotations done inside of Chi-Ji",
     tags: ["Healing", "Monk", "Rotation"],
     createdDate: "2025-07-12"
-  }
+  },
+  {
+    label: 'Heart of the Jade Serpent',
+    path: "/analysis/heart-of-the-jade-serpent",
+    preview: hotjsPreview,
+    description: "Analyze the effects of Heart of the Jade Serpent's increased cooldown recovery rate to find how many extra casts are received during a fight",
+    tags: ["Monk"],
+    createdDate: "2025-08-01"
+  },
 ];
