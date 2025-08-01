@@ -28,6 +28,7 @@ const spells = {
         id: 107428,
         icon: 'ability_monk_risingsunkick',
         castTime: 0,
+        cooldown: 10,
         school: SCHOOLS.PHYSICAL,
         value: {
             damage: 40775
@@ -83,6 +84,7 @@ const spells = {
         id: 119611,
         icon: 'ability_monk_renewingmists',
         castTime: 0,
+        cooldown: 9,
         school: SCHOOLS.NATURE,
         value: {
             healing: 36437
@@ -131,6 +133,7 @@ const spells = {
         id: 116680,
         icon: 'ability_monk_thunderfocustea',
         castTime: 0,
+        cooldown: 30,
         gcd: false
     },
 
@@ -159,7 +162,7 @@ const spells = {
         name: "Sheilun's Gift",
         id: 205406,
         icon: 'inv_staff_2h_artifactshaohao_d_01',
-        castTime: 0,
+        castTime: 2,
         school: SCHOOLS.NATURE,
         value: {
             healing: 25750
@@ -180,6 +183,7 @@ const spells = {
         id: 116849,
         icon: 'ability_monk_chicocoon',
         castTime: 0,
+        cooldown: 120,
         gcd: false,
         custom: {
             absorbFormula: (sourceHp: number, versatility: number) => {

@@ -6,6 +6,7 @@ export default interface spell {
   uuid?: string;
   icon: string;
   castTime?: number;
+  cooldown?: number;
   hasted?: boolean;
   gcd?: boolean;
   empowerLevel?: number;
