@@ -168,7 +168,8 @@ const spells = {
             healing: 25750
         }, 
         custom: {
-            targetsHit: 3
+            targetsHit: 3,
+            maxStacks: 10,
         }
     },
     REVIVAL: {
@@ -196,6 +197,7 @@ const spells = {
         id: 443028,
         icon: 'inv_ability_conduitofthecelestialsmonk_celestialconduit',
         castTime: 4,
+        cooldown: 90,
         school: SCHOOLS.NATURE,
     },
 
