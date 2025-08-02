@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ThemeProvider } from "@context/ThemeContext";
 import { SpecProvider } from "@context/SpecContext";
 import Theme from "@components/Theme/Theme";
@@ -25,6 +26,7 @@ export default function RootLayout({
                             <ClientTilingBackground />
                             <AppBar />
                             <main>{children}</main>
+                            <SpeedInsights />
                             <Analytics />
                             <FooterBar />
                         </SpecProvider>
