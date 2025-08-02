@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Analytics } from '@vercel/analytics/next';
 import { ThemeProvider } from "@context/ThemeContext";
 import { SpecProvider } from "@context/SpecContext";
 import Theme from "@components/Theme/Theme";
@@ -24,6 +25,7 @@ export default function RootLayout({
                             <ClientTilingBackground />
                             <AppBar />
                             <main>{children}</main>
+                            <Analytics />
                             <FooterBar />
                         </SpecProvider>
                     </Theme>
