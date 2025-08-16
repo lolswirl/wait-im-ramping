@@ -428,7 +428,8 @@ const BUGS: Bug[] = [
         description:
             "Aspect of Harmony hot does not increase healing done by ancient teachings or Awakened Jadefire and the increased 20% damage done from the aspect of harmony dot does not transfer to ancient teachings healing",
         tags: [TAGS.HEALING_INCREASE],
-        lastBuildTested: "62253",
+        lastBuildTested: "62493",
+        notes: "Not sure if this is a bug or intended - the addition of Awakened Jadefire to other amps and skipped over Coalescence points to intentional design",
     },
     {
         spell: TALENTS.JADE_EMPOWERMENT,
@@ -489,6 +490,33 @@ const BUGS: Bug[] = [
         description: "Mending Proliferation with the PTR added range flags to its spell entry, which now reverted the change that it did not prefer pets. Currently, it is also spreading to full HP targets and targets that already have enveloping mist, as opposed to live.",
         tags: [],
         lastBuildTested: "62253",
+    },
+    {
+        spell: TALENTS.OVERWHELMING_FORCE,
+        affectedSpells: [],
+        severity: SEVERITY.LOW,
+        title: "Does not hit targets with absorbs",
+        description: "Overwhelming Force does not hit targets with absorbs or shields on them",
+        tags: [TAGS.MOH],
+        lastBuildTested: "62493",
+    },
+    {
+        spell: TALENTS.ASPECT_OF_HARMONY,
+        affectedSpells: [TALENTS.ASPECT_OF_HARMONY_T1, TALENTS.ASPECT_OF_HARMONY_T2, TALENTS.ASPECT_OF_HARMONY_T3],
+        severity: SEVERITY.LOW,
+        title: "Threshold buffs do not update or constantly update",
+        description: "Aspect of Harmony's 1st threshold buff (450521) no longer sends combat log refresh events when vitality is being added to the pool. The 2nd (450526) and 3rd (450531) threshold buffs constantly swap between each other while vitality is being added to the pool, causing the two buff IDs to swap between each other",
+        tags: [TAGS.MOH],
+        lastBuildTested: "62493",
+    },
+    {
+        spell: TALENTS.ASPECT_OF_HARMONY_WITHDRAW,
+        affectedSpells: [],
+        severity: SEVERITY.LOW,
+        title: "Withdraw buff does not send combat log events",
+        description: "Contrary to the fill buffs, the withdraw buff doesn't send any combat log events while its withdrawing vitality effectively making tracking have to use HEAL, PERIODIC_HEAL, DAMAGE, etc events in order to 'update' the buffs status",
+        tags: [TAGS.MOH],
+        lastBuildTested: "62493",
     },
 ];
 

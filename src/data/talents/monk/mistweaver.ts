@@ -245,6 +245,26 @@ const talents = {
         id: 450508,
         icon: 'inv_ability_masterofharmonymonk_aspectofharmony',
     },
+    ASPECT_OF_HARMONY_T1: {
+        name: "Aspect of Harmony",
+        id: 450521,
+        icon: 'inv_10_gathering_bioluminescentspores_small',
+    },
+    ASPECT_OF_HARMONY_T2: {
+        name: "Aspect of Harmony",
+        id: 450526,
+        icon: 'inv_10_gathering_bioluminescentspores_medium',
+    },
+    ASPECT_OF_HARMONY_T3: {
+        name: "Aspect of Harmony",
+        id: 450531,
+        icon: 'inv_10_gathering_bioluminescentspores_large',
+    },
+    ASPECT_OF_HARMONY_WITHDRAW: {
+        name: "Aspect of Harmony",
+        id: 450711,
+        icon: 'ability_evoker_essenceburst3',
+    },
     CLARITY_OF_PURPOSE: {
         name: "Clarity of Purpose",
         id: 450509,
