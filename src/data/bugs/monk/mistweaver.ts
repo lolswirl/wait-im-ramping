@@ -10,6 +10,7 @@ const TAGS: Record<string, Tags> = {
     SPELL_QUEUE: { name: "Spell Queue", color: "#ff8c00" },
     MASTERY: { name: STATS.MASTERY, color: STAT_COLORS.MASTERY },
     HASTE: { name: STATS.HASTE, color: STAT_COLORS.HASTE },
+    VERS: { name: STATS.VERS, color: STAT_COLORS.VERS },
     PETS: { name: "Pets", color: "#ff5445ff" }
 };
 
@@ -487,7 +488,7 @@ const BUGS: Bug[] = [
         affectedSpells: [],
         severity: SEVERITY.MEDIUM,
         title: "Spreads to non-injured targets and pets again",
-        description: "Mending Proliferation with the PTR added range flags to its spell entry, which now reverted the change that it did not prefer pets. Currently, it is also spreading to full HP targets and targets that already have enveloping mist, as opposed to live.",
+        description: "Mending Proliferation with the PTR added range flags to its spell entry, which now reverted the change that it did not prefer pets. Currently, it is also spreading to full HP targets and targets that already have enveloping mist",
         tags: [],
         lastBuildTested: "62253",
     },
@@ -501,8 +502,8 @@ const BUGS: Bug[] = [
         lastBuildTested: "62493",
     },
     {
-        spell: TALENTS.ASPECT_OF_HARMONY,
-        affectedSpells: [TALENTS.ASPECT_OF_HARMONY_T1, TALENTS.ASPECT_OF_HARMONY_T2, TALENTS.ASPECT_OF_HARMONY_T3],
+        spell: TALENTS.ASPECT_OF_HARMONY_T1,
+        affectedSpells: [TALENTS.ASPECT_OF_HARMONY_T2, TALENTS.ASPECT_OF_HARMONY_T3],
         severity: SEVERITY.LOW,
         title: "Threshold buffs do not update or constantly update",
         description: "Aspect of Harmony's 1st threshold buff (450521) no longer sends combat log refresh events when vitality is being added to the pool. The 2nd (450526) and 3rd (450531) threshold buffs constantly swap between each other while vitality is being added to the pool, causing the two buff IDs to swap between each other",
@@ -518,6 +519,33 @@ const BUGS: Bug[] = [
         tags: [TAGS.MOH],
         lastBuildTested: "62493",
     },
-];
+    {
+        spell: TALENTS.TEMPLE_TRAINING,
+        affectedSpells: [SPELLS.SPINNING_CRANE_KICK],
+        severity: SEVERITY.LOW,
+        title: "Incorrectly increases SCK damage by 10%",
+        description: "Taking effects from the Windwalker Temple Training, talenting this incorrectly increases Mistweaver SCK damage by 10% like it does on Windwalker.",
+        tags: [TAGS.CONDUIT],
+        lastBuildTested: "62748",
+    },
+    {
+        spell: TALENTS.ANCIENT_TEACHINGS,
+        affectedSpells: [TALENTS.SECRET_INFUSION, TALENTS.INNER_COMPASS],
+        severity: SEVERITY.MEDIUM,
+        title: "Versatility double dips with Ancient Teachings",
+        description: "Versatility gains from several sources (Secret Infusion, Inner Compass, Mark of the Wild, etc) double dips on Ancient Teachings - it increases the damage you deal which converts into Ancient Teachings healing, then that is increased by the extra Versatility % increase",
+        tags: [TAGS.VERS],
+        lastBuildTested: "62748",
+    },
+    {
+        spell: SPELLS.CELESTIAL_CONDUIT,
+        affectedSpells: [],
+        severity: SEVERITY.MEDIUM,
+        title: "Channel randomly cancels, usually from spellqueue",
+        description: "Celestial Conduit can randomly cancel its channel likely due to spell queuing. Anecdotally has cancelled from a previous Evenloping Mist cast directly into Conduit. The suspection is from Rapid Diffusion ReM being created from the Enveloping Mist",
+        tags: [TAGS.CONDUIT],
+        lastBuildTested: "62748",
+    },
+];  
 
 export default BUGS;

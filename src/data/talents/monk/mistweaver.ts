@@ -297,6 +297,11 @@ const talents = {
     },
 
     // conduit of the celestials
+    TEMPLE_TRAINING: {
+        name: "Temple Training",
+        id: 442743,
+        icon: 'ability_monk_provoke',
+    },
     FLIGHT_OF_THE_RED_CRANE: {
         name: "Flight of the Red Crane",
         id: 443255,
@@ -316,6 +321,11 @@ const talents = {
         name: "Strength of the Black Ox",
         id: 443110,
         icon: 'ability_monk_chargingoxwave',
+    },
+    INNER_COMPASS: {
+        name: "Inner Compass",
+        id: 443571,
+        icon: 'inv_10_dungeonjewelry_explorer_trinket_1compass_color2',
     },
     UNITY_WITHIN: {
         name: "Unity Within",
