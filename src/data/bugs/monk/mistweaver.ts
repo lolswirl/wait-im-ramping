@@ -506,9 +506,9 @@ const BUGS: Bug[] = [
         affectedSpells: [TALENTS.ASPECT_OF_HARMONY_T2, TALENTS.ASPECT_OF_HARMONY_T3],
         severity: SEVERITY.LOW,
         title: "Threshold buffs do not update or constantly update",
-        description: "Aspect of Harmony's 1st threshold buff (450521) no longer sends combat log refresh events when vitality is being added to the pool. The 2nd (450526) and 3rd (450531) threshold buffs constantly swap between each other while vitality is being added to the pool, causing the two buff IDs to swap between each other",
+        description: "Aspect of Harmony's 1st threshold buff (450521) no longer sends combat log refresh events when vitality is being added to the pool. Tested with build 162876 and seems this is only out of combat. The 2nd (450526) and 3rd (450531) threshold buffs constantly swap between each other while vitality is being added to the pool, causing the two buff IDs to swap between each other",
         tags: [TAGS.MOH],
-        lastBuildTested: "62493",
+        lastBuildTested: "62876",
     },
     {
         spell: TALENTS.ASPECT_OF_HARMONY_WITHDRAW,
