@@ -11,7 +11,13 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
         return [...bugs].sort((a, b) => {
             const aBuild = a.lastBuildTested ? parseInt(a.lastBuildTested) : 0;
             const bBuild = b.lastBuildTested ? parseInt(b.lastBuildTested) : 0;
-            return bBuild - aBuild;
+            
+            if (bBuild !== aBuild) return bBuild - aBuild;
+            
+            // reverse array for "newer" bug entries to appear first
+            const aIndex = bugs.indexOf(a);
+            const bIndex = bugs.indexOf(b);
+            return bIndex - aIndex;
         });
     }, [bugs]);
 
