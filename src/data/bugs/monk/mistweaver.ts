@@ -575,6 +575,16 @@ const BUGS: Bug[] = [
         tags: [TAGS.CONDUIT],
         lastBuildTested: "62958",
     },
+    {
+        spell: TALENTS.CHI_HARMONY,
+        affectedSpells: [TALENTS.RAPID_DIFFUSION],
+        severity: SEVERITY.LOW,
+        title: "Chi Harmony stays on target for 8s regardless of ReM duration",
+        description: "Chi Harmony's healing amp sticks on the target for 8s regardless of the Renewing Mist's duration. Relevant in the case of Rapid Diffusion ReMs which expire after 6s if not extended via Rising Mist - if the ReM expires, Chi Harmony is still active on the target for 2 more seconds",
+        tags: [TAGS.HEALING_INCREASE],
+        notes: "Most likely a hidden aura?",
+        lastBuildTested: "62958",
+    },
 ];  
 
 export default BUGS;
