@@ -585,6 +585,15 @@ const BUGS: Bug[] = [
         notes: "Most likely a hidden aura?",
         lastBuildTested: "62958",
     },
+    {
+        spell: TALENTS.ANCIENT_TEACHINGS,
+        affectedSpells: [TALENTS.ASPECT_OF_HARMONY],
+        severity: SEVERITY.LOW,
+        title: "Ancient Teachings doesn't apply Aspect of Harmony HoT",
+        description: "During Aspect of Harmony withdraw, Ancient Teachings healing does not apply the Aspect of Harmony HoT to any targets healed by it",
+        tags: [TAGS.MOH],
+        lastBuildTested: "62958",
+    },
 ];  
 
 export default BUGS;
