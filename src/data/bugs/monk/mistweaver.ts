@@ -566,6 +566,15 @@ const BUGS: Bug[] = [
         notes: "Sheilun's Gift cast start -> stacks fall off -> Sheilun's Gift cast finishes -> gain Shaohao's Lessons buff at 36s",
         lastBuildTested: "62958",
     },
+    {
+        spell: TALENTS.HEART_OF_THE_JADE_SERPENT,
+        affectedSpells: [SPELLS.SHEILUNS_GIFT, TALENTS.UNITY_WITHIN],
+        severity: SEVERITY.MEDIUM,
+        title: "Unity Within HotJS overrides Sheilun's Gift HotJS",
+        description: "Gaining Unity Within Heart of the Jade Serpent while Sheilun's Gift's Heart of the Jade Serpent is active overrides Sheilun's Gift's HotJS buff. This causes Jade Serpent's Blessing, 11.2 Conduit Tier 4-set, to not proc due to the override.",
+        tags: [TAGS.CONDUIT],
+        lastBuildTested: "62958",
+    },
 ];  
 
 export default BUGS;
