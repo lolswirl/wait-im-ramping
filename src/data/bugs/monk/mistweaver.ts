@@ -556,6 +556,16 @@ const BUGS: Bug[] = [
         tags: [],
         lastBuildTested: "62958",
     },
+    {
+        spell: TALENTS.SHAOHAOS_LESSONS,
+        affectedSpells: [],
+        severity: SEVERITY.LOW,
+        title: "Lessons still gained when cast right before stacks fall off",
+        description: "Casting Sheilun's Gift to have the cast occuring with the stacks falling off in the middle causes Shaohao's Lessons to still buff you however treats it as a 36s buff.",
+        tags: [],
+        notes: "Sheilun's Gift cast start -> stacks fall off -> Sheilun's Gift cast finishes -> gain Shaohao's Lessons buff at 36s",
+        lastBuildTested: "62958",
+    },
 ];  
 
 export default BUGS;
