@@ -490,6 +490,7 @@ const BUGS: Bug[] = [
         title: "Spreads to non-injured targets and pets again",
         description: "Mending Proliferation with the PTR added range flags to its spell entry, which now reverted the change that it did not prefer pets. Currently, it is also spreading to full HP targets and targets that already have enveloping mist",
         tags: [],
+        notes: "Unknown whether spreading to full hp targets and targets that have env is a bug, similarly unknown if the heal amp is meant to be multiplicative with env heal amp.",
         lastBuildTested: "62253",
     },
     {
@@ -545,6 +546,15 @@ const BUGS: Bug[] = [
         description: "Celestial Conduit can randomly cancel its channel likely due to spell queuing. Anecdotally has cancelled from a previous Evenloping Mist cast directly into Conduit. The suspection is from Rapid Diffusion ReM being created from the Enveloping Mist",
         tags: [TAGS.CONDUIT],
         lastBuildTested: "62748",
+    },
+    {
+        spell: TALENTS.MENDING_PROLIFERATION,
+        affectedSpells: [],
+        severity: SEVERITY.MEDIUM,
+        title: "Overrides existing higher duration buffs",
+        description: "The timing of the buff is bugged in that enveloping mists, regardless of its current duration, can spread Mending Proliferation and override an existing one that has a higher duration than it when spread. For example, a 2 second Enveloping Mist that spreads as Mending Proliferation (2 seconds at the time of spread) can override an existing Mending Proliferation that is 10 seconds long. This leads to a metric TON of remove, apply, and refresh events during peaks of Enveloping Mist usage",
+        tags: [],
+        lastBuildTested: "62958",
     },
 ];  
 
