@@ -40,7 +40,7 @@ export function PageMetadata(
             card: "summary_large_image",
             title: GetTitle(`${title} | ${SITE_NAME}`),
             description: formattedDescription,
-            images: [image],
+            // images: [image],
         },
     };
 }
