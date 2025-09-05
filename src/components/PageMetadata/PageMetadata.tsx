@@ -2,7 +2,7 @@ import { GetTitle } from "@util/stringManipulation";
 
 const SITE_NAME = "Wait, I'm Ramping!";
 const SITE_DESCRIPTION =
-    "A website full of tools used to help World of Warcraft healers plan, visualize, and optimize their healing. :3";
+    "Tools that help healers plan, visualize, and theorycraft their healing.";
 const SITE_URL = "https://www.waitimramping.com/";
 const SITE_IMAGE = SITE_URL + "description.png";
 const TITLE_TEMPLATE = "%s | Wait, I'm Ramping!";
