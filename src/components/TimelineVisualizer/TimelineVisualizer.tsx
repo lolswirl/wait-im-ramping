@@ -202,29 +202,41 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
     const ogcdImages: IconProps[] = [];
 
     let totalTime = 0;
+    let maxSpellCount = 0;
+    
     rotations.forEach(rotation => {
       let time = 0;
+      let spellCount = 0;
       rotation.forEach(ability => {
         const isOffGCDInstant = (ability.castTime === 0 || ability.castTime === undefined) && ability.gcd === false;
         if (!isOffGCDInstant) {
           time += calculateCastTime(ability, undefined);
+          spellCount++;
         }
       });
       totalTime = Math.max(totalTime, time);
+      maxSpellCount = Math.max(maxSpellCount, spellCount);
     });
+    
     const roundedTime = Math.ceil(totalTime * 2) / 2;
 
     const margin = { top: 50, right: 50, bottom: 75, left: 50 };
     const availableWidth = containerWidth - margin.left - margin.right;
 
     // calculate scale to fit the timeline inside availableWidth
-    // make sure scale is never below a minimum (e.g., 40 px/sec) for readability
-    const MIN_SCALE = 40;
-    let scale = availableWidth / roundedTime;
-    if (scale < MIN_SCALE) scale = MIN_SCALE;
+    // set scale to modify based on number of abilities used for readability
+    let scale;
+    if (maxSpellCount < 5) {
+      const MIN_SCALE_COMPACT = 90;
+      const MAX_SCALE_COMPACT = 200;
+      scale = Math.min(Math.max(availableWidth / roundedTime, MIN_SCALE_COMPACT), MAX_SCALE_COMPACT);
+    } else {
+      const MIN_SCALE = 40;
+      scale = Math.max(availableWidth / roundedTime, MIN_SCALE);
+    }
 
     const width = roundedTime * scale;
-    const svgWidth = Math.min(width + margin.left + margin.right, containerWidth); // Clamp SVG width to container
+    const svgWidth = Math.min(width + margin.left + margin.right, containerWidth);
     const height = (condense ? ROW_TOTAL_HEIGHT_CONDENSED : ROW_TOTAL_HEIGHT) * rotations.length + 130;
 
     const svg = d3
