@@ -199,175 +199,183 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
       }
     }
 
-    const ogcdImages: IconProps[] = [];
+    async function renderTimeline() {
+      const ogcdImages: IconProps[] = [];
 
-    let totalTime = 0;
-    let maxSpellCount = 0;
-    
-    rotations.forEach(rotation => {
-      let time = 0;
-      let spellCount = 0;
-      rotation.forEach(ability => {
-        const isOffGCDInstant = (ability.castTime === 0 || ability.castTime === undefined) && ability.gcd === false;
-        if (!isOffGCDInstant) {
-          time += calculateCastTime(ability, undefined);
-          spellCount++;
-        }
+      const updatedRotations = await Promise.all(
+        rotations.map(rotation => applyBuffEffects(selectedSpec, rotation))
+      );
+
+      let totalTime = 0;
+      let maxSpellCount = 0;
+      
+      updatedRotations.forEach(rotation => {
+        let time = 0;
+        let spellCount = 0;
+        rotation.forEach(ability => {
+          const isOffGCDInstant = (ability.castTime === 0 || ability.castTime === undefined) && ability.gcd === false;
+          if (!isOffGCDInstant) {
+            let castTime = calculateCastTime(ability, undefined);
+            let gcd = ability.custom?.replaceGCD ?? GCD;
+            time += castTime > gcd ? castTime : gcd;
+            spellCount++;
+          }
+        });
+        totalTime = Math.max(totalTime, time);
+        maxSpellCount = Math.max(maxSpellCount, spellCount);
       });
-      totalTime = Math.max(totalTime, time);
-      maxSpellCount = Math.max(maxSpellCount, spellCount);
-    });
-    
-    const roundedTime = Math.ceil(totalTime * 2) / 2;
+      
+      const roundedTime = Math.ceil(totalTime * 2) / 2;
 
-    const margin = { top: 50, right: 50, bottom: 75, left: 50 };
-    const availableWidth = containerWidth - margin.left - margin.right;
+      const margin = { top: 50, right: 50, bottom: 75, left: 50 };
+      const availableWidth = containerWidth - margin.left - margin.right;
 
-    // calculate scale to fit the timeline inside availableWidth
-    // set scale to modify based on number of abilities used for readability
-    let scale;
-    if (maxSpellCount < 5) {
-      const MIN_SCALE_COMPACT = 90;
-      const MAX_SCALE_COMPACT = 200;
-      scale = Math.min(Math.max(availableWidth / roundedTime, MIN_SCALE_COMPACT), MAX_SCALE_COMPACT);
-    } else {
-      const MIN_SCALE = 40;
-      scale = Math.max(availableWidth / roundedTime, MIN_SCALE);
+      // calculate scale to fit the timeline inside availableWidth
+      // set scale to modify based on number of abilities used for readability
+      let scale;
+      if (maxSpellCount < 5) {
+        const MIN_SCALE_COMPACT = 90;
+        const MAX_SCALE_COMPACT = 200;
+        scale = Math.min(Math.max(availableWidth / roundedTime, MIN_SCALE_COMPACT), MAX_SCALE_COMPACT);
+      } else {
+        const MIN_SCALE = 40;
+        scale = Math.max(availableWidth / roundedTime, MIN_SCALE);
+      }
+
+      const width = roundedTime * scale;
+      const svgWidth = Math.min(width + margin.left + margin.right, containerWidth);
+      const height = (condense ? ROW_TOTAL_HEIGHT_CONDENSED : ROW_TOTAL_HEIGHT) * rotations.length + 130;
+
+      const svg = d3
+        .select(svgRef.current)
+        .attr("width", svgWidth)
+        .attr("height", height)
+        .style("background-color", theme.palette.background.default || theme.palette.background);
+
+      svg.selectAll("*").remove();
+
+      createGlow(svg);
+
+      const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+      const legend = svg.append("g")
+        .attr("class", "legend");
+
+      const legendItems = [
+        { label: GetTitle("GCD"), shape: "rect", color: condense ? GREY : ORANGE },
+        { label: GetTitle("Cast"), shape: "rect", color: condense ? ORANGE : WHITE }
+      ];
+
+      const legendPadding = 10;
+      const legendX = width + margin.left - 150;
+      const legendY = legendPadding;
+
+      legend.attr("transform", `translate(${legendX}, ${legendY})`);
+
+      legendItems.forEach((item, i) => {
+        const y = i * 20;
+
+        const gItem = legend.append("g").attr("transform", `translate(0, ${y})`);
+
+        gItem.append("rect")
+          .attr("x", 0)
+          .attr("y", -7)
+          .attr("width", 20)
+          .attr("height", 14)
+          .attr("rx", 4)
+          .attr("ry", 4)
+          .attr("fill", item.color);
+
+        gItem.append("text")
+          .attr("x", 30)
+          .attr("y", 4)
+          .text(item.label)
+          .style("font-size", "0.8rem")
+          .style("fill", LIGHT_GREY);
+      });
+
+      // Use the updated rotations for rendering
+      updatedRotations.forEach((rotation, rotationIndex) => {
+        let time = 0;
+        let imageIndex = 0;
+
+        let offGCDStackMap: { [time: number]: number } = {};
+
+        rotation.forEach(ability => {
+          const duration = calculateCastTime(ability, undefined);
+          const isOffGCDInstant = (ability.castTime === 0 || ability.castTime === undefined) && ability.gcd === false;
+          const x = time * scale;
+
+          const baseY = rotationIndex * (condense ? ROW_TOTAL_HEIGHT_CONDENSED : ROW_TOTAL_HEIGHT);
+          let yOffset = 0;
+
+          let iconXOffset = Object.keys(offGCDStackMap).length * 55;
+
+          if (isOffGCDInstant) {
+            const t = +time.toFixed(3);
+            const count = offGCDStackMap[t] || 0;
+            offGCDStackMap[t] = count + 1;
+          } else {
+            offGCDStackMap = {};
+          }
+
+          const y = baseY + yOffset;
+
+          if (!isOffGCDInstant) {
+            const gcd = ability.custom?.replaceGCD ?? GCD;
+            if (duration > gcd) {
+              drawCast(g, x, y, duration, scale, true);
+              drawGCD(g, x, y, gcd, scale, false);
+            } else if (duration < gcd) {
+              drawGCD(g, x, y, gcd, scale, true);
+              drawCast(g, x, y, duration, scale, false);
+            } else {
+              drawCast(g, x, y, duration, scale, true);
+              drawGCD(g, x, y, gcd, scale, true);
+            }
+
+            drawIcon(g, x, y, ability, iconXOffset, rotationIndex, imageIndex)
+          } else {
+            const icon: IconProps = {
+              graph: g,
+              x,
+              y,
+              ability,
+              xOffset: iconXOffset,
+              rotationIndex,
+              imageIndex
+            }
+            ogcdImages.push(icon);
+          }
+
+          if (!isOffGCDInstant) {
+            time += duration;
+          }
+
+          imageIndex++;
+        });
+
+        ogcdImages.forEach((icon) => {
+          drawIcon(
+            icon.graph,
+            icon.x,
+            icon.y,
+            icon.ability,
+            icon.xOffset,
+            icon.rotationIndex,
+            icon.imageIndex
+          );
+        });
+      });
+
+      const xScale = d3.scaleLinear().domain([0, roundedTime]).range([0, roundedTime * scale]);
+      svg.append("g")
+        .attr("transform", `translate(${margin.left}, ${height - margin.bottom})`)
+        .call(d3.axisBottom(xScale).ticks(roundedTime * 2).tickFormat(d3.format(".1f")));
     }
 
-    const width = roundedTime * scale;
-    const svgWidth = Math.min(width + margin.left + margin.right, containerWidth);
-    const height = (condense ? ROW_TOTAL_HEIGHT_CONDENSED : ROW_TOTAL_HEIGHT) * rotations.length + 130;
-
-    const svg = d3
-      .select(svgRef.current)
-      .attr("width", svgWidth)
-      .attr("height", height)
-      .style("background-color", theme.palette.background.default || theme.palette.background);
-
-    svg.selectAll("*").remove();
-
-    createGlow(svg);
-
-    const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-    const legend = svg.append("g")
-      .attr("class", "legend");
-
-    const legendItems = [
-      { label: GetTitle("GCD"), shape: "rect", color: condense ? GREY : ORANGE },
-      { label: GetTitle("Cast"), shape: "rect", color: condense ? ORANGE : WHITE }
-    ];
-
-    const legendPadding = 10;
-    const legendX = width + margin.left - 150;
-    const legendY = legendPadding;
-
-    legend.attr("transform", `translate(${legendX}, ${legendY})`);
-
-    legendItems.forEach((item, i) => {
-      const y = i * 20;
-
-      const gItem = legend.append("g").attr("transform", `translate(0, ${y})`);
-
-      gItem.append("rect")
-        .attr("x", 0)
-        .attr("y", -7)
-        .attr("width", 20)
-        .attr("height", 14)
-        .attr("rx", 4)
-        .attr("ry", 4)
-        .attr("fill", item.color);
-
-      gItem.append("text")
-        .attr("x", 30)
-        .attr("y", 4)
-        .text(item.label)
-        .style("font-size", "0.8rem")
-        .style("fill", LIGHT_GREY);
-    });
-
-    rotations.forEach(async (rotation, rotationIndex) => {
-      let time = 0;
-      let imageIndex = 0;
-
-      let offGCDStackMap: { [time: number]: number } = {};
-
-      const updatedSpells = await applyBuffEffects(selectedSpec, rotation);
-
-      updatedSpells.forEach(ability => {
-
-        const duration = calculateCastTime(ability, undefined);
-        const isOffGCDInstant = (ability.castTime === 0 || ability.castTime === undefined) && ability.gcd === false;
-        const x = time * scale;
-
-        const baseY = rotationIndex * (condense ? ROW_TOTAL_HEIGHT_CONDENSED : ROW_TOTAL_HEIGHT);
-        let yOffset = 0;
-
-        let iconXOffset = Object.keys(offGCDStackMap).length * 55;
-
-        if (isOffGCDInstant) {
-          const t = +time.toFixed(3);
-          const count = offGCDStackMap[t] || 0;
-          offGCDStackMap[t] = count + 1;
-        } else {
-          offGCDStackMap = {};
-        }
-
-        const y = baseY + yOffset;
-
-        if (!isOffGCDInstant) {
-
-          const gcd = ability.custom?.replaceGCD ?? GCD;
-          if (duration > gcd) {
-            drawCast(g, x, y, duration, scale, true);
-            drawGCD(g, x, y, gcd, scale, false);
-          } else if (duration < gcd) {
-            drawGCD(g, x, y, gcd, scale, true);
-            drawCast(g, x, y, duration, scale, false);
-          } else {
-            drawCast(g, x, y, duration, scale, true);
-            drawGCD(g, x, y, gcd, scale, true);
-          }
-
-          drawIcon(g, x, y, ability, iconXOffset, rotationIndex, imageIndex)
-        } else {
-          const icon: IconProps = {
-            graph: g,
-            x,
-            y,
-            ability,
-            xOffset: iconXOffset,
-            rotationIndex,
-            imageIndex
-          }
-          ogcdImages.push(icon);
-        }
-
-        if (!isOffGCDInstant) {
-          time += duration;
-        }
-
-        imageIndex++;
-      });
-
-      ogcdImages.forEach((icon) => {
-        drawIcon(
-          icon.graph,
-          icon.x,
-          icon.y,
-          icon.ability,
-          icon.xOffset,
-          icon.rotationIndex,
-          icon.imageIndex
-        );
-      });
-    });
-
-    const xScale = d3.scaleLinear().domain([0, roundedTime]).range([0, roundedTime * scale]);
-    svg.append("g")
-      .attr("transform", `translate(${margin.left}, ${height - margin.bottom})`)
-      .call(d3.axisBottom(xScale).ticks(roundedTime * 2).tickFormat(d3.format(".1f")));
+    // Call the async function
+    renderTimeline();
 
   }, [rotations, containerWidth, theme.palette.background, condense, selectedSpec]);
 
