@@ -429,8 +429,9 @@ const BUGS: Bug[] = [
         description:
             "Aspect of Harmony hot does not increase healing done by ancient teachings or Awakened Jadefire and the increased 20% damage done from the aspect of harmony dot does not transfer to ancient teachings healing",
         tags: [TAGS.HEALING_INCREASE],
-        lastBuildTested: "62493",
+        lastBuildTested: "63003",
         notes: "Not sure if this is a bug or intended - the addition of Awakened Jadefire to other amps and skipped over Coalescence points to intentional design",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.JADE_EMPOWERMENT,
