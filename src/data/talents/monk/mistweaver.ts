@@ -175,7 +175,7 @@ const talents = {
         icon: 'inv_misc_food_vendor_roastedbarlytea',
     },
     TEA_OF_PLENTY: {
-        name: "Tea of Serenity",
+        name: "Tea of Plenty",
         id: 388517,
         icon: 'inv_misc_pearlmilktea',
     },
