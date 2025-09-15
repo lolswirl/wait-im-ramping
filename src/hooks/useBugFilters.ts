@@ -1,11 +1,70 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Bug, STATUS, SEVERITY, Tags } from "@data/bugs/bugs";
 import { specialization } from "@data/class/class";
 
 export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
-    const [selectedSeverity, setSelectedSeverity] = useState<string>("All");
-    const [selectedStatus, setSelectedStatus] = useState<string>(STATUS.OPEN);
-    const [searchText, setSearchText] = useState<string>("");
+    const searchParams = useSearchParams();
+    const router = useRouter();
+
+    const [selectedSeverity, setSelectedSeverity] = useState<string>(() => {
+        return searchParams.get('severity') || "All";
+    });
+    const [selectedStatus, setSelectedStatus] = useState<string>(() => {
+        return searchParams.get('status') || STATUS.OPEN;
+    });
+    const [searchText, setSearchText] = useState<string>(() => {
+        return searchParams.get('search') || "";
+    });
+
+    const updateURL = (updates: Partial<{
+        search: string;
+        severity: string;
+        status: string;
+    }>) => {
+        const params = new URLSearchParams(searchParams.toString());
+        
+        Object.entries(updates).forEach(([key, value]) => {
+            if (value && value !== "All" && value !== STATUS.OPEN) {
+                params.set(key, value);
+            } else {
+                params.delete(key);
+            }
+        });
+
+        if (updates.status && updates.status !== STATUS.OPEN) {
+            params.set('status', updates.status);
+        } else if (updates.hasOwnProperty('status')) {
+            params.delete('status');
+        }
+
+        router.replace(`?${params.toString()}`, { scroll: false });
+    };
+
+    const setSelectedSeverityWithURL = (severity: string) => {
+        setSelectedSeverity(severity);
+        updateURL({ severity });
+    };
+
+    const setSelectedStatusWithURL = (status: string) => {
+        setSelectedStatus(status);
+        updateURL({ status });
+    };
+
+    const setSearchTextWithURL = (search: string) => {
+        setSearchText(search);
+        updateURL({ search });
+    };
+
+    useEffect(() => {
+        const urlSearch = searchParams.get('search') || "";
+        const urlSeverity = searchParams.get('severity') || "All";
+        const urlStatus = searchParams.get('status') || STATUS.OPEN;
+
+        if (urlSearch !== searchText) setSearchText(urlSearch);
+        if (urlSeverity !== selectedSeverity) setSelectedSeverity(urlSeverity);
+        if (urlStatus !== selectedStatus) setSelectedStatus(urlStatus);
+    }, [searchParams]);
 
     const sortedBugs = useMemo(() => {
         return [...bugs].sort((a, b) => {
@@ -84,15 +143,16 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
         setSelectedSeverity("All");
         setSelectedStatus(STATUS.OPEN);
         setSearchText("");
+        router.replace(window.location.pathname, { scroll: false });
     };
 
     return {
         selectedSeverity,
-        setSelectedSeverity,
+        setSelectedSeverity: setSelectedSeverityWithURL,
         selectedStatus,
-        setSelectedStatus,
+        setSelectedStatus: setSelectedStatusWithURL,
         searchText,
-        setSearchText,
+        setSearchText: setSearchTextWithURL,
         allTags,
         severities,
         statuses,
