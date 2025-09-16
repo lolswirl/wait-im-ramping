@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from "@context/ThemeContext";
 import { SpecProvider } from "@context/SpecContext";
 import Theme from "@components/Theme/Theme";
@@ -20,18 +21,20 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
-                <ThemeProvider>
-                    <Theme>
-                        <SpecProvider>
-                            <ClientTilingBackground />
-                            <AppBar />
-                            <main>{children}</main>
-                            <SpeedInsights />
-                            <Analytics />
-                            <FooterBar />
-                        </SpecProvider>
-                    </Theme>
-                </ThemeProvider>
+                <AppRouterCacheProvider >
+                    <ThemeProvider>
+                        <Theme>
+                            <SpecProvider>
+                                <ClientTilingBackground />
+                                <AppBar />
+                                <main>{children}</main>
+                                <SpeedInsights />
+                                <Analytics />
+                                <FooterBar />
+                            </SpecProvider>
+                        </Theme>
+                    </ThemeProvider>
+                </AppRouterCacheProvider>
             </body>
         </html>
     );
