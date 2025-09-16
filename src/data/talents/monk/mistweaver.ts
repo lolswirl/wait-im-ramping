@@ -306,11 +306,21 @@ const talents = {
         name: "Flight of the Red Crane",
         id: 443255,
         icon: 'inv_pet_cranegod',
+        value: {
+            healing: 22033
+        },
+        custom: {
+            targetsHit: 5
+        }
     },
     COURAGE_OF_THE_WHITE_TIGER: {
         name: "Courage of the White Tiger",
         id: 443087,
         icon: 'ability_monk_summontigerstatue',
+        value: {
+            healing: 97656,
+            damage: 37560,
+        }
     },
     HEART_OF_THE_JADE_SERPENT: {
         name: "Heart of the Jade Serpent",
@@ -321,6 +331,10 @@ const talents = {
         name: "Strength of the Black Ox",
         id: 443110,
         icon: 'ability_monk_chargingoxwave',
+        custom: {
+            targets: 5,
+            absorbPercentage: 0.03,
+        }
     },
     INNER_COMPASS: {
         name: "Inner Compass",

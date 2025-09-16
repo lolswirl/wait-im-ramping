@@ -6,6 +6,7 @@ const stSpinningPreview = "/previews/st-spinning.png";
 const harmonicSurgePreview = "/previews/harmonic-surge.png";
 const chijiPreview = "/previews/chi-ji.png";
 const hotjsPreview = "/previews/heart-of-the-jade-serpent.png";
+const conduitPreview = "/previews/celestial-conduit.png";
 
 export interface AnalysisPage {
   label: string;
@@ -80,5 +81,13 @@ export const analysisPages: AnalysisPage[] = [
     description: "Analyze the effects of Heart of the Jade Serpent's increased cooldown recovery rate to find how many extra casts are received during a fight",
     tags: ["Monk"],
     createdDate: "2025-08-01"
+  },
+  {
+    label: 'Celestial Conduit Comparison',
+    path: "/analysis/celestial-conduit",
+    preview: conduitPreview,
+    description: "Analyze Celestial Conduit's output compared to other spells and abilities",
+    tags: ["Monk"],
+    createdDate: "2025-09-16"
   },
 ];

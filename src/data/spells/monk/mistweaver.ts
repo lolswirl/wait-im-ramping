@@ -199,6 +199,14 @@ const spells = {
         castTime: 4,
         cooldown: 90,
         school: SCHOOLS.NATURE,
+        value: {
+            healing: 1023377,
+            damage: 686376,
+        },
+        custom: {
+            maxTargets: 5,
+            multiplier: 0.06,
+        }
     },
 
 } satisfies Record<string, spell>;
