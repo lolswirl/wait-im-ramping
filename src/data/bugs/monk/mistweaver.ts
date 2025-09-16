@@ -595,6 +595,16 @@ const BUGS: Bug[] = [
         tags: [TAGS.MOH],
         lastBuildTested: "62958",
     },
+    {
+        spell: SPELLS.CELESTIAL_CONDUIT,
+        affectedSpells: [],
+        severity: SEVERITY.LOW,
+        title: "Conduit does 33% less damage than intended",
+        description: "Spellpower in spelldata is 1100% AP but the spell is doing 737.7% AP damage",
+        notes: "core passive has entries for -25% damage (effect 27 and 28) and -15% damage (effect 21) that would exit out to 701.25% AP.",
+        tags: [TAGS.CONDUIT],
+        lastBuildTested: "63163",
+    },
 ];  
 
 export default BUGS;
