@@ -13,17 +13,18 @@ interface TalentsCardProps {
   options: Map<spell, boolean>;
   color: string;
   onChange: (key: spell, checked: boolean) => void;
+  xs?: number;
 }
 
-const TalentsCard: React.FC<TalentsCardProps> = ({ options, color, onChange }) => {
-
+const TalentsCard: React.FC<TalentsCardProps> = ({ options, color, onChange, xs }) => {
+    if (!xs) xs = 6;
     const rgb = hexToRgb(color);
 
     const TalentOption: React.FC<{ talent: spell }> = ({ talent }) => {
         const isChecked = !!options.get(talent);
 
         return (
-            <Grid item xs={6}>
+            <Grid item xs={xs}>
                 <Box 
                     sx={{ 
                         display: 'flex', 
@@ -68,7 +69,9 @@ const TalentsCard: React.FC<TalentsCardProps> = ({ options, color, onChange }) =
 
     return (
         <Card variant="outlined" sx={{ 
-            p: 2, 
+            p: 2,
+            width: '100%',
+            maxWidth: '700px',
             background: `linear-gradient(135deg, rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.1), rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.05))`, 
             borderColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.3)`
         }}>
