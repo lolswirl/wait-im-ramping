@@ -6,9 +6,9 @@ import { Box, Container, useTheme } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 
-import SPELLS from "@data/spells/index";
-import TALENTS from "@data/talents/monk/mistweaver";
-import { CLASSES } from "@data/class/class";
+import SPELLS from "@data/spells";
+import TALENTS from "@data/specs/monk/mistweaver/talents";
+import { CLASSES } from "@data/class";
 
 import { GetTitle } from "@util/stringManipulation";
 

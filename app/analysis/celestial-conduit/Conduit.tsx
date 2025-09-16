@@ -15,9 +15,9 @@ import { Box, Container, useTheme } from "@mui/material";
 import PageHeader from "@components/PageHeader/PageHeader";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import spell, { calcSpellpower } from "@data/spells/spell";
-import SPELLS from "@data/spells/index";
-import TALENTS from "@data/talents/monk/mistweaver";
-import { CLASSES } from "@data/class/class";
+import SPELLS from "@data/spells";
+import TALENTS from "@data/specs/monk/mistweaver/talents";
+import { CLASSES } from "@data/class";
 import { GetTitle, pluralize } from "@util/stringManipulation";
 
 import calculateUnityWithin from "./UnityWithin";
@@ -72,7 +72,7 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
         { length: celestialConduit.custom?.maxTargets },
         (_, i) => i + 1
     );
-    
+
     const conduitSpellpower = calcSpellpower(celestialConduit.value.healing, intellect);
     const conduitSpellpowerCalc = (targets: number) =>
         conduitSpellpower * (1 + celestialConduit.custom.multiplier * targets);

@@ -1,4 +1,4 @@
-import TALENTS from "@data/talents/monk/mistweaver";
+import TALENTS from "@data/specs/monk/mistweaver/talents";
 
 interface UnityWithinResult {
     sotbo: number;

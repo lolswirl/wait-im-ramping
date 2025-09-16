@@ -12,11 +12,11 @@ import {
     CardContent,
     Grid,
 } from "@mui/material";
-import SpellButton from "../SpellButtons/SpellButton";
-import { GetTitle } from "../../util/stringManipulation";
-import { Bug, STATUS, SEVERITY_COLORS } from "../../data/bugs/bugs";
-import { specialization } from "../../data/class/class";
-import SwirlButton from "../Buttons/SwirlButton";
+import SpellButton from "@components/SpellButtons/SpellButton";
+import { GetTitle } from "@util/stringManipulation";
+import { Bug, STATUS, SEVERITY_COLORS } from "@data/bugs";
+import { specialization } from "@data/class";
+import SwirlButton from "@components/Buttons/SwirlButton";
 
 interface BugDialogProps {
     open: boolean;

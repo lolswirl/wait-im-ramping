@@ -13,7 +13,7 @@ import PageHeader from '@components/PageHeader/PageHeader';
 import { useSpec } from '@context/SpecContext';
 
 import spell from '@data/spells/spell';
-import { CLASSES, specialization } from '@data/class/class';
+import { CLASSES, specialization } from '@data/class';
 
 import { useRotationManager } from '@hooks/useRotationManager';
 import { GetTitle, hexToRgb } from '@util/stringManipulation';

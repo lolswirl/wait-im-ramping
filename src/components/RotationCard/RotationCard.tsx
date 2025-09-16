@@ -4,8 +4,8 @@ import { ExpandMore, ExpandLess, DeleteTwoTone } from '@mui/icons-material';
 import { RotationResult } from '../../../app/analysis/chi-ji/types';
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { GetTitle } from "@util/stringManipulation";
-import TALENTS from "@data/talents/monk/mistweaver";
-import SPELLS from "@data/spells/index";
+import TALENTS from "@data/specs/monk/mistweaver/talents";
+import SPELLS from "@data/spells";
 
 interface RotationCardProps {
     rotation: RotationResult;

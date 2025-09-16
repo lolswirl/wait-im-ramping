@@ -11,9 +11,9 @@ import {
     Typography,
     Chip,
 } from "@mui/material";
-import SpellButton from "../SpellButtons/SpellButton";
-import { GetTitle } from "../../util/stringManipulation";
-import { Bug, SEVERITY_COLORS, STATUS } from "../../data/bugs/bugs";
+import SpellButton from "@components/SpellButtons/SpellButton";
+import { GetTitle } from "@util/stringManipulation";
+import { Bug, SEVERITY_COLORS, STATUS } from "@data/bugs";
 
 interface BugTableProps {
     bugs: Bug[];

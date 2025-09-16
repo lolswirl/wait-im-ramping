@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Bug, STATUS, SEVERITY, Tags } from "@data/bugs/bugs";
-import { specialization } from "@data/class/class";
+import { Bug, STATUS, SEVERITY, Tags } from "@data/bugs";
+import { specialization } from "@data/class";
 
 export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
     const searchParams = useSearchParams();

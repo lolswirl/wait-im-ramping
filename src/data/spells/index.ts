@@ -1,10 +1,10 @@
-import RESTORATION_DRUID from './druid/restoration';
-import PRESERVATION_EVOKER from './evoker/preservation';
-import MISTWEAVER_MONK from './monk/mistweaver';
-import HOLY_PALADIN from './paladin/holy';
-import DISCIPLINE_PRIEST from './priest/discipline';
-import HOLY_PRIEST from './priest/holy';
-import RESTORATION_SHAMAN from './shaman/restoration';
+import RESTORATION_DRUID from '@data/specs/druid/restoration/druid/spells';
+import PRESERVATION_EVOKER from '@data/specs/evoker/preservation/spells';
+import MISTWEAVER_MONK from '@data/specs/monk/mistweaver/spells';
+import HOLY_PALADIN from '@data/specs/paladin/holy/spells';
+import DISCIPLINE_PRIEST from '@data/specs/priest/discipline/spells';
+import HOLY_PRIEST from '@data/specs/priest/holy/spells';
+import RESTORATION_SHAMAN from '@data/specs/shaman/restoration/spells';
 
 const SPELLS = {
     ...RESTORATION_DRUID,

@@ -12,11 +12,11 @@ import {
     LinearProgress,
     Grid
 } from '@mui/material';
-import { GetTitle, pluralize } from '../../util/stringManipulation';
-import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg';
-import { getSpecs } from '../../data/class/class';
-import PageHeader from '../PageHeader/PageHeader';
-import type Spell from "../../data/spells/spell";
+import { GetTitle, pluralize } from '@util/stringManipulation';
+import { FormatIconImg, FormatIconLink } from '@util/FormatIconImg';
+import { getSpecs } from '@data/class';
+import PageHeader from '@components/PageHeader/PageHeader';
+import type Spell from "@data/spells/spell";
 
 interface MissingIconData {
     iconName: string;

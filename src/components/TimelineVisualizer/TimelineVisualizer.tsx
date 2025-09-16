@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { useTheme } from "@mui/material/styles";
-import spell, { calculateCastTime, GCD } from '../../data/spells/spell';
-import { applyBuffEffects } from '../../data/buffs/buffs';
-import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg';
-import { toRomanNumeral } from "../../util/toRomanNumeral";
-import { GetTitle } from "../../util/stringManipulation";
-import { specialization } from "../../data/class/class";
+
+import spell, { calculateCastTime, GCD } from '@data/spells/spell';
+import { specialization } from "@data/class";
+import { applyBuffEffects } from '@data/buffs';
+
+import { FormatIconImg, FormatIconLink } from '@util/FormatIconImg';
+import { toRomanNumeral } from "@util/toRomanNumeral";
+import { GetTitle } from "@util/stringManipulation";
+
 
 const RECT_HEIGHT = 100;
 const RECT_HEIGHT_CONDENSED = 35;

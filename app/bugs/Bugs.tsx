@@ -7,8 +7,8 @@ import BugTable from "@components/BugTable/BugTable";
 import BugDialog from "@components/BugDialog/BugDialog";
 import BugFilters from "@components/BugFilters/BugFilters";
 
-import { CLASSES, specialization } from "@data/class/class";
-import { Bug } from "@data/bugs/bugs";
+import { CLASSES, specialization } from "@data/class";
+import { Bug } from "@data/bugs";
 
 import { useBugFilters } from "@hooks/useBugFilters";
 import { GetTitle } from "@util/stringManipulation";

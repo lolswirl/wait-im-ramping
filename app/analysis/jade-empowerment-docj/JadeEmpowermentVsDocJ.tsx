@@ -7,9 +7,9 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 
-import { CLASSES } from "@data/class/class";
-import SPELLS from "@data/spells/index";
-import TALENTS from "@data/talents/monk/mistweaver";
+import { CLASSES } from "@data/class";
+import SPELLS from "@data/spells";
+import TALENTS from "@data/specs/monk/mistweaver/talents";
 
 import { GetTitle } from "@util/stringManipulation";
 

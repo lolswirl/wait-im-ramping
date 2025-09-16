@@ -20,9 +20,9 @@ import IconButtonBase from '@components/SpellButtons/IconButtonBase';
 import SpellButton from '@components/SpellButtons/SpellButton';
 import PageHeader from '@components/PageHeader/PageHeader';
 import { useThemeContext } from '@context/ThemeContext';
-import SPELLS from "@data/spells/index";
+import SPELLS from "@data/spells";
 import spell, { GCD } from '@data/spells/spell';
-import TALENTS from "@data/talents/monk/mistweaver";
+import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { GetTitle, pluralize } from '@util/stringManipulation';
 
 const MAX_WIDTH = 1100;

@@ -1,4 +1,4 @@
-import { SCHOOLS } from "../schools";
+import { SCHOOLS } from "@data/shared/schools";
 
 export default interface spell {
   name: string;

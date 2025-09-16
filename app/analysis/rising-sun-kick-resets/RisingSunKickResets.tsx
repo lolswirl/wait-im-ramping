@@ -24,8 +24,8 @@ import PageHeader from "@components/PageHeader/PageHeader";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import CurrentRotationControl from "@components/CurrentRotationControl/CurrentRotationControl";
 
-import { MISTWEAVER_SPELLS } from "@data/spells/monk/mistweaver";
-import TALENTS from "@data/talents/monk/mistweaver";
+import { MISTWEAVER_SPELLS } from "@data/specs/monk/mistweaver/spells";
+import TALENTS from "@data/specs/monk/mistweaver/talents";
 import type Spell from "@data/spells/spell";
 
 import { useRotationManager } from "@hooks/useRotationManager";

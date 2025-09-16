@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { GetTitle } from "../../util/stringManipulation";
-import SpecializationSelect from "../SpecializationSelect/SpecializationSelect";
-import { specialization } from "../../data/class/class";
-import { SEVERITY_COLORS } from "@data/bugs/bugs";
+import { GetTitle } from "@util/stringManipulation";
+import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
+import { specialization } from "@data/class";
+import { SEVERITY_COLORS } from "@data/bugs";
 
 interface BugFiltersProps {
     selectedSpec: specialization;

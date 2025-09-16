@@ -7,7 +7,7 @@ import { Box, Container, TextField } from "@mui/material";
 import PageHeader from "@components/PageHeader/PageHeader";
 
 import { GCD } from "@data/spells/spell";
-import SPELLS from "@data/spells/index";
+import SPELLS from "@data/spells";
 
 import { GetTitle } from "@util/stringManipulation";
 

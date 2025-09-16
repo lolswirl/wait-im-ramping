@@ -1,11 +1,11 @@
-// import RESTORATION_DRUID from './druid/restoration';
-// import PRESERVATION_EVOKER from './evoker/preservation';
-import MONK from './monk/shared';
-import MISTWEAVER_MONK from './monk/mistweaver';
-// import HOLY_PALADIN from './paladin/holy';
-// import DISCIPLINE_PRIEST from './priest/discipline';
-// import HOLY_PRIEST from './priest/holy';
-// import RESTORATION_SHAMAN from './shaman/restoration';
+// import RESTORATION_DRUID from '@data/specs/druid/restoration/talents';
+// import PRESERVATION_EVOKER from '@data/specs/evoker/preservation/talents';
+import MONK from '@data/specs/monk/talents';
+import MISTWEAVER_MONK from '@data/specs/monk/mistweaver/talents';
+// import HOLY_PALADIN from '@data/specs/paladin/holy/talents';
+// import DISCIPLINE_PRIEST from '@data/specs/priest/discipline/talents';
+// import HOLY_PRIEST from '@data/specs/priest/holy/talents';
+// import RESTORATION_SHAMAN from '@data/specs/shaman/restoration/talents';
 
 const TALENTS = {
     // ...RESTORATION_DRUID,

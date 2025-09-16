@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { TextField, InputAdornment, Card, Box, Stack, Divider, Chip } from '@mui/material';
-import spell from '../../data/spells/spell';
 import { v4 as uuidv4 } from 'uuid';
 
-import SpecializationSelect from '../SpecializationSelect/SpecializationSelect';
-import SpellButtons from '../SpellButtons/SpellButtons';
-import SpellTable from '../SpellTable/SpellTable';
-import { GetTitle } from "../../util/stringManipulation";
-import { useSpec } from '../../context/SpecContext';
-import { CLASSES, specialization } from '../../data/class/class';
+import SpecializationSelect from '@components/SpecializationSelect/SpecializationSelect';
+import SpellButtons from '@components/SpellButtons/SpellButtons';
+import SpellTable from '@components/SpellTable/SpellTable';
+
+import { CLASSES, specialization } from '@data/class';
+import spell from '@data/spells/spell';
+
+import { GetTitle } from "@util/stringManipulation";
+import { useSpec } from '@context/SpecContext';
 
 interface RampCalcProps {
     onTotalCastTimeChange: (totalTime: number) => void;
