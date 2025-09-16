@@ -47,12 +47,12 @@ const SheilunVSJadeEmpowerment: React.FC<{ title: string; description: string }>
   // Create combined data with all abilities
   const allAbilities = [
     ...xValues.map((value, index) => ({
-      label: `SG ${value} Stack${value > 1 ? 's' : ''}`,
+      label: GetTitle(`SG ${value} Stack${value > 1 ? 's' : ''}`),
       value: sheilunSpellpowers[index],
       type: 'sheilun'
     })),
     ...jeValues.map((_, index) => ({
-      label: `JE ${index + 1} Target${index > 0 ? 's' : ''}`,
+      label: GetTitle(`JE ${index + 1} Target${index > 0 ? 's' : ''}`),
       value: jeSpellpowers[index],
       type: 'jade'
     }))
