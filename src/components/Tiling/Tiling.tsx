@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useThemeContext } from '../../context/ThemeContext';
 
@@ -8,8 +8,15 @@ const Tiling = ({ patternSrc }: { patternSrc: string }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const pathname = usePathname();
   const { themeMode } = useThemeContext();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -93,7 +100,9 @@ const Tiling = ({ patternSrc }: { patternSrc: string }) => {
     return () => {
       isCancelled = true;
     };
-  }, [pathname, patternSrc, themeMode]);
+  }, [mounted, pathname, patternSrc, themeMode]); // Added mounted to dependencies
+
+  if (!mounted) return null;
 
   return (
     <canvas

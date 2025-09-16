@@ -1,10 +1,8 @@
 "use client";
 import { useThemeContext } from "@context/ThemeContext";
-import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-
-const Tiling = dynamic(() => import("./Tiling"), { ssr: false });
-const GridTiling = dynamic(() => import("./GridTiling"), { ssr: false });
+import Tiling from "./Tiling";
+import GridTiling from "./GridTiling";
 
 export default function ClientTilingBackground() {
   const [useGrid, setUseGrid] = useState(false);
