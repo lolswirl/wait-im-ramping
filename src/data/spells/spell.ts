@@ -48,3 +48,7 @@ export const calculateCastTime = (spell: spell, haste: number | undefined): numb
 
   return castTime;
 };
+
+export const calcSpellpower = (baseValue: number, intellect: number) => {
+  return (baseValue / intellect) * 100;
+}
