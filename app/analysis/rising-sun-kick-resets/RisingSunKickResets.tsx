@@ -10,26 +10,26 @@ import {
     useTheme, 
     FormControl, 
     InputLabel,
-    Checkbox,
-    FormControlLabel,
     Card,
     Stack,
     Divider,
     IconButton,
-    OutlinedInput
+    OutlinedInput,
+    Grid
 } from "@mui/material";
 import { DeleteTwoTone } from "@mui/icons-material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import CurrentRotationControl from "@components/CurrentRotationControl/CurrentRotationControl";
+import { TalentOption } from "@components/TalentsCard/TalentsCard";
 
 import { MISTWEAVER_SPELLS } from "@data/specs/monk/mistweaver/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import type Spell from "@data/spells/spell";
 
 import { useRotationManager } from "@hooks/useRotationManager";
-import { GetTitle, pluralize } from "@util/stringManipulation";
+import { GetTitle, pluralize, hexToRgb } from "@util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -128,78 +128,10 @@ const SpellInfoDisplay: React.FC<{
                 {GetTitle("Formula:")}
             </Typography>
             <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: '0.9em' }}>
-                1 - (0.{(1 - totmResetChance) * 100})<sup>n</sup>
+                1 - (reset %)<sup>boks</sup>
             </Typography>
         </Box>
     </Box>
-);
-
-const OptionsForm: React.FC<{
-    awakenedJadefire: boolean;
-    setAwakenedJadefire: (value: boolean) => void;
-    attempts: number;
-    setAttempts: (value: number) => void;
-    targets: number;
-    setTargets: (value: number) => void;
-}> = ({ awakenedJadefire, setAwakenedJadefire, attempts, setAttempts, targets, setTargets }) => (
-    <FormControl variant="outlined" sx={{ minWidth: 120, maxWidth: 250, ml: 2 }}>
-        <InputLabel shrink htmlFor="options-outlined">{GetTitle("Options")}</InputLabel>
-        <OutlinedInput
-            id="options-outlined"
-            label={GetTitle("Options")}
-            notched
-            readOnly
-            inputComponent="span"
-            inputProps={{
-                style: {
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: 8,
-                    width: "100%",
-                    height: "100%",
-                    minHeight: 44,
-                    padding: 8,
-                },
-                children: (
-                    <>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={awakenedJadefire}
-                                    onChange={(e) => setAwakenedJadefire(e.target.checked)}
-                                />
-                            }
-                            label={GetTitle("Awakened Jadefire")}
-                            sx={{ ml: 1 }}
-                        />
-                        <TextField
-                            label={GetTitle("Attempts")}
-                            type="number"
-                            value={attempts}
-                            onChange={(e) => setAttempts(Math.max(MIN_INPUT_VALUE, parseInt(e.target.value) || MIN_INPUT_VALUE))}
-                            size="small"
-                            sx={{ width: "50%" }}
-                        />
-                        <TextField
-                            label={GetTitle("Targets")}
-                            type="number"
-                            value={targets}
-                            onChange={(e) => setTargets(Math.max(MIN_INPUT_VALUE, parseInt(e.target.value) || MIN_INPUT_VALUE))}
-                            size="small"
-                            sx={{ width: "50%" }}
-                        />
-                    </>
-                ),
-            }}
-            sx={{
-                height: "auto",
-                alignItems: "flex-start",
-                py: 1,
-                width: "100%",
-            }}
-        />
-    </FormControl>
 );
 
 const cardSx = {
@@ -307,11 +239,16 @@ const createChartOptions = (theme: any, rotations: any[], calculateRotationStats
 const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const theme = useTheme();
     const [attempts, setAttempts] = useState<number>(1);
-    const [awakenedJadefire, setAwakenedJadefire] = useState<boolean>(false);
     const [targets, setTargets] = useState<number>(1);
+    
+    const [selectedTalents, setSelectedTalents] = useState(new Map([[TALENTS.AWAKENED_JADEFIRE, false]]));
+    const awakenedJadefire = selectedTalents.get(TALENTS.AWAKENED_JADEFIRE) || false;
     
     const totm = TALENTS.TEACHINGS_OF_THE_MONASTERY;
     const totmResetChance = totm.custom.resetChance;
+    
+    // Get RGB values for TalentOption
+    const rgb = hexToRgb("4ea55c");
     
     const generateRotationName = (steps: Spell[]) => {
         if (steps.length === 0) return GetTitle("Empty Rotation");
@@ -390,6 +327,14 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
         createChartOptions(theme, rotations, calculateRotationStats), 
         [theme, rotations, calculateRotationStats]
     );
+
+    const handleTalentChange = (key: Spell, checked: boolean) => {
+        setSelectedTalents(prevTalents => {
+            const newTalents = new Map(prevTalents);
+            newTalents.set(key, checked);
+            return newTalents;
+        });
+    };
     
     return (
         <Container sx={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center", justifyContent: "center" }}>
@@ -399,21 +344,44 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
             />
             
             <Card variant="outlined" sx={cardSx}>
-                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                     <SpellInfoDisplay 
                         awakenedJadefire={awakenedJadefire}
                         targets={targets}
                         totmResetChance={totmResetChance}
                     />
 
-                    <OptionsForm
-                        awakenedJadefire={awakenedJadefire}
-                        setAwakenedJadefire={setAwakenedJadefire}
-                        attempts={attempts}
-                        setAttempts={setAttempts}
-                        targets={targets}
-                        setTargets={setTargets}
-                    />
+                    <Box sx={{  
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        gap: 1.6,
+                        width: '45%',
+                        alignItems: 'stretch'
+                    }}>
+                        <TextField
+                            label={GetTitle("Reset Attempts")}
+                            type="number"
+                            value={attempts}
+                            onChange={(e) => setAttempts(Math.max(MIN_INPUT_VALUE, parseInt(e.target.value) || MIN_INPUT_VALUE))}
+                            size="small"
+                            fullWidth
+                        />
+                        <TextField
+                            label={GetTitle("# of Targets")}
+                            type="number"
+                            value={targets}
+                            onChange={(e) => setTargets(Math.max(MIN_INPUT_VALUE, parseInt(e.target.value) || MIN_INPUT_VALUE))}
+                            size="small"
+                            fullWidth
+                        />
+                        <TalentOption
+                            talent={TALENTS.AWAKENED_JADEFIRE}
+                            isChecked={awakenedJadefire}
+                            onChange={handleTalentChange}
+                            rgb={rgb}
+                            xs={12}
+                        />
+                    </Box>
                 </Stack>
                 
                 <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
