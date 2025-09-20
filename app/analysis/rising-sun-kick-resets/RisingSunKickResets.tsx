@@ -26,7 +26,7 @@ import { TalentOption } from "@components/TalentsCard/TalentsCard";
 
 import { MISTWEAVER_SPELLS } from "@data/specs/monk/mistweaver/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
-import type Spell from "@data/spells/spell";
+import type spell from "@data/spells/spell";
 
 import { useRotationManager } from "@hooks/useRotationManager";
 import { GetTitle, pluralize, hexToRgb } from "@util/stringManipulation";
@@ -241,7 +241,7 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
     const [attempts, setAttempts] = useState<number>(1);
     const [targets, setTargets] = useState<number>(1);
     
-    const [selectedTalents, setSelectedTalents] = useState(new Map([[TALENTS.AWAKENED_JADEFIRE, false]]));
+    const [selectedTalents, setSelectedTalents] = useState(new Map<spell, boolean>([[TALENTS.AWAKENED_JADEFIRE, false]]));
     const awakenedJadefire = selectedTalents.get(TALENTS.AWAKENED_JADEFIRE) || false;
     
     const totm = TALENTS.TEACHINGS_OF_THE_MONASTERY;
@@ -250,7 +250,7 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
     // Get RGB values for TalentOption
     const rgb = hexToRgb("4ea55c");
     
-    const generateRotationName = (steps: Spell[]) => {
+    const generateRotationName = (steps: spell[]) => {
         if (steps.length === 0) return GetTitle("Empty Rotation");
         return steps.map(step => {
             if (step.id === MISTWEAVER_SPELLS.TIGER_PALM.id) {
@@ -262,7 +262,7 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
         }).join(' → ');
     };
 
-    const validateSpell = (spell: Spell) => {
+    const validateSpell = (spell: spell) => {
         return spell.id === MISTWEAVER_SPELLS.TIGER_PALM.id || 
                spell.id === MISTWEAVER_SPELLS.BLACKOUT_KICK.id;
     };
@@ -283,7 +283,7 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
         validateSpell
     });
     
-    const calculateRotationStats = useCallback((steps: Spell[]) => {
+    const calculateRotationStats = useCallback((steps: spell[]) => {
         let totalHits = 0;
         let totalGCDs = steps.length;
         
@@ -328,7 +328,8 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
         [theme, rotations, calculateRotationStats]
     );
 
-    const handleTalentChange = (key: Spell, checked: boolean) => {
+    // Update the handleTalentChange function to use the correct type
+    const handleTalentChange = (key: spell, checked: boolean) => {
         setSelectedTalents(prevTalents => {
             const newTalents = new Map(prevTalents);
             newTalents.set(key, checked);
