@@ -605,6 +605,15 @@ const BUGS: Bug[] = [
         tags: [TAGS.CONDUIT],
         lastBuildTested: "63163",
     },
+    {
+        spell: SPELLS.REVIVAL,
+        affectedSpells: [],
+        severity: SEVERITY.HIGH,
+        title: "Revival healing splits into pets",
+        description: "Revival does less healing when more targets are hit as expected however pets are being included in the split reduction",
+        tags: [TAGS.PETS],
+        lastBuildTested: "63305",
+    },
 ];  
 
 export default BUGS;
