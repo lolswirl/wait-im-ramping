@@ -4,6 +4,7 @@ import PRESERVATION_EVOKER_SPELLS from '@data/specs/evoker/preservation/spells';
 import PRESERVATION_EVOKER_ROTATIONS from '@data/specs/evoker/preservation/rotations';
 
 const PRESERVATION_EVOKER = attachGetters({
+  key: "evoker_preservation",
   spells: PRESERVATION_EVOKER_SPELLS,
   icon: 'classicon_evoker_preservation',
   name: 'Preservation',

@@ -10,34 +10,21 @@ interface SpecContextType {
 const SpecContext = createContext<SpecContextType | undefined>(undefined);
 
 export const SpecProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Always use a default value on the server
-  const [specKey, setSpecKey] = useState<string>("MONK:MISTWEAVER");
+  const [specKey, setSpecKey] = useState<string>("monk_mistweaver");
 
-  // On mount (client), update from localStorage if present
   useEffect(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("selectedSpec");
       if (stored && stored !== specKey) setSpecKey(stored);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const spec = getSpecializationByKey(specKey)!;
+  const spec = getSpecializationByKey(specKey) || CLASSES.MONK.SPECS.MISTWEAVER;
 
   const setSpec = (newSpec: specialization) => {
-    const classKey = Object.entries(CLASSES).find(([, c]) =>
-      Object.values(c.SPECS).includes(newSpec)
-    )?.[0];
-
-    if (!classKey) {
-      console.warn("Invalid spec passed to setSpec");
-      return;
-    }
-
-    const newKey = `${classKey}:${newSpec.name.toUpperCase()}`;
-    setSpecKey(newKey);
+    setSpecKey(newSpec.key);
     if (typeof window !== "undefined") {
-      localStorage.setItem("selectedSpec", newKey);
+      localStorage.setItem("selectedSpec", newSpec.key);
     }
   };
 

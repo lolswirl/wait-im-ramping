@@ -15,6 +15,7 @@ type ClassInfo<TSpecs extends Record<string, specialization>> = {
 }
 
 export interface specialization {
+  key: string; // unique key - class + spec name, e.g. "monk_mistweaver"
   spells: Record<string, spell>;
   talents?: Record<string, spell>;
   icon: string;
@@ -92,9 +93,14 @@ export function getSpecs(): specialization[] {
   return Object.values(CLASSES).flatMap(c => Object.values(c.SPECS));
 }
 
-export function getSpecializationByKey(key: string): specialization | undefined {
-  const [className, specName] = key.split(':');
-  const classData = CLASSES[className.toUpperCase() as keyof typeof CLASSES];
-  return classData?.SPECS[specName.toUpperCase() as keyof typeof classData.SPECS];
-}
+export const getSpecializationByKey = (key: string): specialization | undefined => {
+  for (const classData of Object.values(CLASSES)) {
+    for (const spec of Object.values(classData.SPECS)) {
+      if (spec.key === key) {
+        return spec;
+      }
+    }
+  }
+  return undefined;
+};
 

@@ -4,6 +4,7 @@ import DISCIPLINE_PRIEST_SPELLS from '@data/specs/priest/discipline/spells';
 import DISCIPLINE_PRIEST_ROTATIONS from '@data/specs/priest/discipline/rotations';
 
 const DISCIPLINE_PRIEST = attachGetters({
+  key: "priest_discipline",
   spells: DISCIPLINE_PRIEST_SPELLS,
   rotations: DISCIPLINE_PRIEST_ROTATIONS,
   icon: 'spell_holy_powerwordshield',

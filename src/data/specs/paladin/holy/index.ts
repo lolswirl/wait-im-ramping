@@ -5,6 +5,7 @@ import HOLY_PALADIN_ROTATIONS from '@data/specs/paladin/holy/rotations';
 import HOLY_PALADIN_BUGS from '@data/specs/paladin/holy/bugs';
 
 const HOLY_PALADIN = attachGetters({
+  key: "paladin_holy",
   spells: HOLY_PALADIN_SPELLS,
   icon: 'spell_holy_holybolt',
   name: 'Holy',

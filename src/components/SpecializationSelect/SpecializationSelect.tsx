@@ -114,7 +114,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
       <Select
         labelId="spec-select-label"
         id="spec-select"
-        value={`${selectedSpec.class}:${selectedSpec.name}`}
+        value={`${selectedSpec.class.toLowerCase()}_${selectedSpec.name.toLowerCase()}`}
         onChange={(e) => {
           const spec = getSpecializationByKey(e.target.value as string);
           if (spec) onSpecChange(spec);
@@ -124,7 +124,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
         sx={{ height: height }}
       >
         {getSpecs().map((spec, index) => (
-          <MenuItem key={index} value={`${spec.class}:${spec.name}`}>
+          <MenuItem key={index} value={`${spec.class.toLowerCase()}_${spec.name.toLowerCase()}`}>
             <SpecDisplay spec={spec} />
           </MenuItem>
         ))}

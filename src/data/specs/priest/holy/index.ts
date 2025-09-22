@@ -4,6 +4,7 @@ import HOLY_PRIEST_SPELLS from '@data/specs/priest/holy/spells';
 import HOLY_PRIEST_ROTATIONS from '@data/specs/priest/holy/rotations';
 
 const HOLY_PRIEST = attachGetters({
+  key: "priest_holy",
   spells: HOLY_PRIEST_SPELLS,
   rotations: HOLY_PRIEST_ROTATIONS,
   icon: 'spell_holy_guardianspirit',

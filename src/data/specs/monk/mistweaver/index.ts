@@ -7,6 +7,7 @@ import { MISTWEAVER_MONK_BUFFS } from '@data/specs/monk/mistweaver/buffs';
 import MISTWEAVER_MONK_BUGS from '@data/specs/monk/mistweaver/bugs';
 
 const MISTWEAVER_MONK = attachGetters({
+  key: "monk_mistweaver",
   spells: MISTWEAVER_MONK_SPELLS,
   talents: MISTWEAVER_MONK_TALENTS,
   rotations: MISTWEAVER_MONK_ROTATIONS,

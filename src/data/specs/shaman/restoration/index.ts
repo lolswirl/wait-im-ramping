@@ -4,6 +4,7 @@ import RESTORATION_SHAMAN_SPELLS from '@data/specs/shaman/restoration/spells';
 import RESTORATION_SHAMAN_ROTATIONS from '@data/specs/shaman/restoration/rotations';
 
 const RESTORATION_SHAMAN = attachGetters({
+  key: "shaman_restoration",
   spells: RESTORATION_SHAMAN_SPELLS,
   rotations: RESTORATION_SHAMAN_ROTATIONS,
   icon: 'spell_nature_magicimmunity',
