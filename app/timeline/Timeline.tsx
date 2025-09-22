@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
-import {Typography, FormControl, InputLabel, OutlinedInput, Box, Card, Stack, Divider, FormControlLabel, Switch, Chip } from '@mui/material';
+import {Typography, FormControl, InputLabel, OutlinedInput, Box, Card, Stack, Divider, FormControlLabel, Switch, Chip, IconButton, Collapse, CardHeader, CardContent } from '@mui/material';
+import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { v4 as uuidv4 } from 'uuid';
 
 import TimelineVisualizer from '@components/TimelineVisualizer/TimelineVisualizer';
@@ -22,6 +23,7 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
     const { spec, setSpec } = useSpec();
     const [spellList, setSpellList] = useState<spell[]>([]);
     const [condense, setCondense] = useState(true);
+    const [prebuiltExpanded, setPrebuiltExpanded] = useState(false);
 
     const {
         currentRotation,
@@ -59,12 +61,7 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
     const PrebuiltRotations = () => {
         if (!spec) return null;
 
-        if (!spec?.rotations) {
-            return <Typography>No rotations available for {spec.name}</Typography>;
-        }
-
-        // rotations is an object, convert to entries array: [rotationName, spell[]]
-        const rotationEntries = Object.entries(spec.rotations) as [string, spell[]][];
+        const rotationEntries = Object.entries(spec.rotations || {}) as [string, spell[]][];
 
         const addUUIDsToRotation = (spells: spell[]) => {
             return spells.map(spell => ({
@@ -77,64 +74,112 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
 
         return (
             <Box sx={{ width: '100%' }}>
-                <Box
-                    sx={{
-                        columnCount: { xs: 1, sm: 1, md: 1 },
-                        columnGap: 1.5,
-                        columnFill: 'balance',
+                <Box 
+                    sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'space-between',
+                        width: '100%',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        py: 1,
+                        px: 1.5,
+                        mb: prebuiltExpanded ? 1 : 0,
+                        borderRadius: 1,
+                        border: '1px solid',
+                        transition: 'all 0.2s ease',
+                        backgroundColor: 'primary',
+                        borderColor: 'divider',
+                        '&:hover': {
+                            backgroundColor: 'action.selected',
+                            borderColor: 'primary.main',
+                            boxShadow: 1,
+                        }
                     }}
+                    onClick={() => setPrebuiltExpanded(!prebuiltExpanded)}
                 >
-                    {rotationEntries.map(([rotationName, spells], index) => {
-                        const darknessFactor = 0.8 - (index * 0.1);
-                        const adjustedColor = {
-                            r: Math.max(0, Math.floor(baseColor.r * darknessFactor)),
-                            g: Math.max(0, Math.floor(baseColor.g * darknessFactor)),
-                            b: Math.max(0, Math.floor(baseColor.b * darknessFactor))
-                        };
-
-                        return (
-                            <Card 
-                                key={index}
-                                variant="outlined" 
-                                sx={{ 
-                                    p: 1,
-                                    px: 2,
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s ease',
-                                    background: `linear-gradient(135deg, rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.1), rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.05))`,
-                                    borderColor: `rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.3)`,
-                                    breakInside: 'avoid',
-                                    marginBottom: index !== rotationEntries.length - 1 ? 0.5 : 0,
-                                    display: 'inline-block',
-                                    width: '100%',
-                                    boxSizing: 'border-box',
-                                    '&:hover': {
-                                        transform: 'translateY(-2px)',
-                                        boxShadow: 4,
-                                        borderColor: `rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.5)`,
-                                        background: `linear-gradient(135deg, rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.15), rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.08))`,
-                                    }
-                                }}
-                                onClick={() => setCurrentRotation(addUUIDsToRotation(spells))}
-                            >
-                                <Box sx={{ 
-                                    display: 'flex', 
-                                    gap: 0.5, 
-                                    flexWrap: 'wrap',
-                                    justifyContent: 'center'
-                                }}>
-                                    {spells.map((spell, i) => (
-                                        <SpellButton 
-                                            key={spell.uuid || i} 
-                                            selectedSpell={spell} 
-                                            action={() => {}} 
-                                        />
-                                    ))}
-                                </Box>
-                            </Card>
-                        );
-                    })}
+                    <Typography 
+                        variant="body1"
+                    >
+                        {GetTitle("Prebuilt Rotations")}
+                    </Typography>
+                    <ExpandMore
+                        sx={{
+                            transform: prebuiltExpanded ? 'rotate(0deg)' : 'rotate(-90deg)',
+                            transition: 'transform 0.2s ease',
+                            color: 'action.active'
+                        }}
+                    />
                 </Box>
+                
+                <Collapse in={prebuiltExpanded}>
+                    <Box sx={{ px: 0, pb: 0 }}>
+                        {rotationEntries.length === 0 ? (
+                            <Typography color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>
+                                No rotations available for {spec.name}
+                            </Typography>
+                        ) : (
+                            <Box
+                                sx={{
+                                    columnCount: { xs: 1, sm: 1, md: 1 },
+                                    columnGap: 1.5,
+                                    columnFill: 'balance',
+                            }}
+                            >
+                                {rotationEntries.map(([rotationName, spells], index) => {
+                                    const darknessFactor = 0.8 - (index * 0.1);
+                                    const adjustedColor = {
+                                        r: Math.max(0, Math.floor(baseColor.r * darknessFactor)),
+                                        g: Math.max(0, Math.floor(baseColor.g * darknessFactor)),
+                                        b: Math.max(0, Math.floor(baseColor.b * darknessFactor))
+                                    };
+
+                                    return (
+                                        <Card 
+                                            key={index}
+                                            variant="outlined" 
+                                            sx={{ 
+                                                p: 1,
+                                                px: 2,
+                                                cursor: 'pointer',
+                                                transition: 'all 0.2s ease',
+                                                background: `linear-gradient(135deg, rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.1), rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.05))`,
+                                                borderColor: `rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.3)`,
+                                                breakInside: 'avoid',
+                                                marginBottom: index !== rotationEntries.length - 1 ? 0.5 : 0,
+                                                display: 'inline-block',
+                                                width: '100%',
+                                                boxSizing: 'border-box',
+                                                '&:hover': {
+                                                    transform: 'translateY(-2px)',
+                                                    boxShadow: 4,
+                                                    borderColor: `rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.5)`,
+                                                    background: `linear-gradient(135deg, rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.15), rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.08))`,
+                                                }
+                                            }}
+                                            onClick={() => setCurrentRotation(addUUIDsToRotation(spells))}
+                                        >
+                                            <Box sx={{ 
+                                                display: 'flex', 
+                                                gap: 0.5, 
+                                                flexWrap: 'wrap',
+                                                justifyContent: 'center'
+                                            }}>
+                                                {spells.map((spell, i) => (
+                                                    <SpellButton 
+                                                        key={spell.uuid || i} 
+                                                        selectedSpell={spell} 
+                                                        action={() => {}}
+                                                    />
+                                                ))}
+                                            </Box>
+                                        </Card>
+                                    );
+                                })}
+                            </Box>
+                        )}
+                    </Box>
+                </Collapse>
             </Box>
         );
     };
