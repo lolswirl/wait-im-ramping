@@ -1,22 +1,32 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Container, Typography } from "@mui/material";
+import { useSearchParams } from "next/navigation";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import BugTable from "@components/BugTable/BugTable";
 import BugDialog from "@components/BugDialog/BugDialog";
 import BugFilters from "@components/BugFilters/BugFilters";
 
-import { CLASSES, specialization } from "@data/class";
+import { CLASSES, specialization, getSpecializationByKey } from "@data/class";
 import { Bug } from "@data/bugs";
 
 import { useBugFilters } from "@hooks/useBugFilters";
 import { GetTitle } from "@util/stringManipulation";
 
 const BugsPage: React.FC<{ title: string; description: string }> = ({ title, description }) => {
-    const [selectedSpec, setSelectedSpec] = useState<specialization>(
-        CLASSES.MONK.SPECS.MISTWEAVER
-    );
+    const searchParams = useSearchParams();
+    
+    const getInitialSpec = (): specialization => {
+        const specParam = searchParams.get('spec');
+        if (specParam) {
+            const urlSpec = getSpecializationByKey(specParam);
+            if (urlSpec) return urlSpec;
+        }
+        return CLASSES.MONK.SPECS.MISTWEAVER;
+    };
+
+    const [selectedSpec, setSelectedSpec] = useState<specialization>(getInitialSpec());
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedBug, setSelectedBug] = useState<Bug | null>(null);
 
@@ -34,6 +44,16 @@ const BugsPage: React.FC<{ title: string; description: string }> = ({ title, des
         statuses,
         filtered,
     } = useBugFilters(bugs, selectedSpec);
+
+    useEffect(() => {
+        const specParam = searchParams.get('spec');
+        if (specParam) {
+            const urlSpec = getSpecializationByKey(specParam);
+            if (urlSpec && urlSpec !== selectedSpec) {
+                setSelectedSpec(urlSpec);
+            }
+        }
+    }, [searchParams, selectedSpec]);
 
     const handleRowClick = (bug: Bug) => {
         setSelectedBug(bug);

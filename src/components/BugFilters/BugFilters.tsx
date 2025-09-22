@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { useRouter, useSearchParams } from "next/navigation";
 import { GetTitle } from "@util/stringManipulation";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 import { specialization } from "@data/class";
@@ -30,13 +31,22 @@ const BugFilters: React.FC<BugFiltersProps> = ({
     statuses,
     severities,
 }) => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const filtersHeight = 45;
+
+    const handleSpecChange = (newSpec: specialization) => {
+        setSelectedSpec(newSpec);
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('spec', newSpec.key);
+        router.replace(`?${params.toString()}`, { scroll: false });
+    };
 
     return (
         <Box sx={{ mb: 1.5, display: "flex", alignItems: "center", gap: 1.5, flexWrap: "wrap", width: "100%" }}>
             <SpecializationSelect
                 selectedSpec={selectedSpec}
-                onSpecChange={setSelectedSpec}
+                onSpecChange={handleSpecChange}
                 height={45}
             />
             <Box sx={{ flexGrow: 1, minWidth: 200, maxWidth: 300 }}>
