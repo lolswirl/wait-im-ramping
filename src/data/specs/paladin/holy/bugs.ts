@@ -159,7 +159,7 @@ const BUGS: Bug[] = [
         lastBuildTested: "20 June",
     },
     {
-        spell: ITEMS.T32_LIGHTSMITH_4SET,
+        spell: ITEMS.T34_LIGHTSMITH_4SET,
         affectedSpells: [],
         severity: SEVERITY.MEDIUM,
         title: "Tier set buffs go on pets",
@@ -178,7 +178,7 @@ const BUGS: Bug[] = [
         status: STATUS.FIXED,
     },
     {
-        spell: ITEMS.T32_LIGHTSMITH_4SET,
+        spell: ITEMS.T34_LIGHTSMITH_4SET,
         affectedSpells: [TALENTS.MASTERWORK],
         severity: SEVERITY.HIGH,
         title: "Extra Masterwork stack applies 5 armaments instead of 1",
@@ -196,7 +196,7 @@ const BUGS: Bug[] = [
         status: STATUS.FIXED,
     },
     {
-        spell: ITEMS.T32_LIGHTSMITH_4SET,
+        spell: ITEMS.T34_LIGHTSMITH_4SET,
         affectedSpells: [],
         severity: SEVERITY.LOW,
         title: "Buffs can't go on Paladin if other targets available",
