@@ -10,6 +10,9 @@ export const TAGS: Record<string, Tags> = {
     HEALING_INCREASE: { name: "Healing Increase", color: "#fff871" },
     SPELL_QUEUE: { name: "Spell Queue", color: "#ff8c00" },
     PETS: { name: "Pets", color: "#ff5445" },
+    ITEMS: { name: "Items", color: "#00bfff" },
+    TRINKETS: { name: "Trinkets", color: "#1e90ff" },
+    TIER: { name: "Tier", color: "#ff69b4" },
     
     // stats
     MASTERY: { name: STATS.MASTERY, color: STAT_COLORS.MASTERY },
@@ -20,4 +23,6 @@ export const TAGS: Record<string, Tags> = {
     // hero tree
     CONDUIT: { name: "Conduit of the Celestials", color: "#7ee5ff" },
     MOH: { name: "Master of Harmony", color: "#89ff7f" },
+    HERALD_OF_THE_SUN: { name: "Herald of the Sun", color: "#ffd700" },
+    LIGHTSMITH: { name: "Lightsmith", color: "#c0c0c0" },
 };
