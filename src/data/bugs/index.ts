@@ -19,11 +19,6 @@ export const SEVERITY_COLORS: Record<SEVERITY, string> = {
     [SEVERITY.LOW]: "#388e3c",
 };
 
-export interface Tags {
-    name: string;
-    color?: string;
-}
-
 export interface Bug {
     spell: spell;
     affectedSpells?: spell[];
