@@ -1,4 +1,5 @@
 import spell from "@data/spells/spell";
+import { Tags } from "@data/shared/tags";
 
 export enum SEVERITY {
     CRITICAL = "Critical",
