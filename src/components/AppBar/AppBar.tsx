@@ -284,7 +284,7 @@ function ResponsiveAppBar() {
                                 color: 'white',
                                 backgroundColor: 'rgba(0, 0, 0, 0.3)',
                                 backdropFilter: 'blur(8px)',
-                                ml: 2,
+                                ml: 1,
                                 px: 1,
                                 py: 0.5,
                                 borderRadius: 1,
