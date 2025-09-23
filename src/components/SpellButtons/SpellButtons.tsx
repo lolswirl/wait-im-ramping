@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import EmpowerLevelButtons from "@components/EmpowerLevel/EmpowerLevel";
-import type Spell from "@data/spells/spell";
-import { CLASSES, specialization } from "@data/class";
+import EmpowerLevelDialog from "@components/EmpowerLevel/EmpowerLevelDialog";
+import type SPELL from "@data/spells/spell";
+import { specialization } from "@data/class";
 import SpellButton from "@components/SpellButtons/SpellButton";
 
 interface SpellButtonsProps {
     selectedSpec?: specialization;
-    spells?: Spell[];
-    addSpellToTable: (spell: Spell, empowerLevel: number) => void;
+    spells?: SPELL[];
+    addSpellToTable: (spell: SPELL, empowerLevel: number) => void;
 }
 
 const SpellButtons: React.FC<SpellButtonsProps> = ({
@@ -15,9 +15,10 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({
     spells,
     addSpellToTable,
 }) => {
-    const [empowerLevel, setEmpowerLevel] = useState<number>(1);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [selectedSpell, setSelectedSpell] = useState<SPELL | null>(null);
 
-    let spellList: Spell[] = [];
+    let spellList: SPELL[] = [];
     if (spells) {
         spellList = Object.values(spells);
     } else if (selectedSpec) {
@@ -25,6 +26,29 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({
     }
 
     if (spellList.length === 0) return null;
+
+    const handleSpellClick = (spell: SPELL, empowerLevel: number = 0) => {
+        if (spell.hasOwnProperty("empowerLevel")) {
+            setSelectedSpell(spell);
+            setDialogOpen(true);
+        } else {
+            addSpellToTable(spell, empowerLevel);
+        }
+    };
+
+    const handleEmpowerLevelSelect = (level: number) => {
+        if (selectedSpell) {
+            addSpellToTable(selectedSpell, level);
+        }
+        handleDialogClose();
+    };
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+        setTimeout(() => {
+            setSelectedSpell(null);
+        }, 200);
+    };
 
     return (
         <div
@@ -47,18 +71,17 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({
                     <SpellButton
                         key={spell.id}
                         selectedSpell={spell}
-                        empowerLevel={empowerLevel}
-                        action={addSpellToTable}
+                        action={handleSpellClick}
                     />
                 ))}
             </div>
 
-            {selectedSpec === CLASSES.EVOKER.SPECS.PRESERVATION && (
-                <EmpowerLevelButtons
-                    empowerLevel={empowerLevel}
-                    setEmpowerLevel={setEmpowerLevel}
-                />
-            )}
+            <EmpowerLevelDialog
+                open={dialogOpen}
+                spell={selectedSpell}
+                onSelect={handleEmpowerLevelSelect}
+                onClose={handleDialogClose}
+            />
         </div>
     );
 };

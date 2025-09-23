@@ -1,50 +1,56 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 
 import { toRomanNumeral } from "@util/toRomanNumeral";
 
 interface EmpowerLevelButtonsProps {
-    empowerLevel: number;
     setEmpowerLevel: (level: number) => void;
+    iconSize?: number;
+    levels?: number[];
 }
 
 const EmpowerLevelButtons: React.FC<EmpowerLevelButtonsProps> = ({
-    empowerLevel,
     setEmpowerLevel,
+    iconSize = 36,
+    levels = [1, 2, 3, 4, 5],
 }) => {
     return (
-        <div style={{ display: "flex", gap: 5, marginTop: 10 }}>
-            {[1, 2, 3, 4, 5].map((level) => (
+        <Box sx={{ display: "flex", gap: 1.5 }}>
+            {levels.map((level) => (
                 <Button
                     key={level}
+                    variant="outlined"
                     onClick={() => setEmpowerLevel(level)}
-                    style={{
-                        minWidth: 25,
-                        minHeight: 25,
-                        width: 40,
-                        height: 40,
-                        borderRadius: "8px",
-                        backgroundColor:
-                            empowerLevel === level ? "#33937f" : "#ddd",
-                        color: empowerLevel === level ? "white" : "black",
-                        border: "1px solid #000000",
-                        fontSize: "11x",
-                        fontWeight: "bold",
-                        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-                        transition: "transform 0.2s",
-                    }}
                     sx={{
+                        minWidth: 36,
+                        minHeight: 36,
+                        width: iconSize,
+                        height: iconSize,
+                        borderRadius: 2,
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
+                        p: 0,
+                        transition: "all 0.2s ease-in-out",
+                        borderColor: "divider",
+                        backgroundColor: "background.paper",
+                        color: "text.primary",
+                        boxShadow: 1,
                         "&:hover": {
-                            transform: "scale(1.1)",
+                            transform: "translateY(-2px)",
+                            boxShadow: 2,
+                            borderColor: "primary.main",
+                            backgroundColor: "action.hover",
                         },
-                        transform:
-                            empowerLevel === level ? "scale(1.1)" : "scale(1)",
+                        "&:active": {
+                            transform: "translateY(0px)",
+                            boxShadow: 1,
+                        },
                     }}
                 >
                     {toRomanNumeral(level)}
                 </Button>
             ))}
-        </div>
+        </Box>
     );
 };
 
