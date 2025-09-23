@@ -10,7 +10,7 @@ const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec
       alt={GetTitle(`${spec.name}`)}
       className="spec_icon"
       style={{
-        borderRadius: "8px",
+        borderRadius: "5px",
         objectFit: "cover",
         border: "1px solid #575757",
       }}
