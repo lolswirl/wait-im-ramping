@@ -105,6 +105,9 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
                                         %
                                     </InputAdornment>
                                 ),
+                                sx: {
+                                    height: 45,
+                                }
                             }}
                         />
                     </Stack>

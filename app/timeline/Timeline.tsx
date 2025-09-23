@@ -255,7 +255,7 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
                                     ),
                                 }}
                                 sx={{
-                                    height: "auto",
+                                    height: 45,
                                     alignItems: "center",
                                     py: 1,
                                     width: "100%",
