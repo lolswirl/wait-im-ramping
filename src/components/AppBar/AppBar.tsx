@@ -115,7 +115,6 @@ function ResponsiveAppBar() {
                                 selected={isActive}
                                 onClick={handleDrawerToggle}
                                 sx={{
-                                    borderRadius: 2,
                                     mx: 1,
                                     position: "relative",
                                     color: "white",
@@ -130,7 +129,7 @@ function ResponsiveAppBar() {
                                     '&.Mui-selected': {
                                         bgcolor: 'transparent',
                                         '&:hover': {
-                                            bgcolor: 'rgba(255,255,255,0.1)',
+                                            bgcolor: 'transparent',
                                         }
                                     },
                                     "&::after": {
@@ -141,13 +140,13 @@ function ResponsiveAppBar() {
                                         right: 8,
                                         height: 2,
                                         bgcolor: hoverColor,
-                                        borderRadius: 1,
+                                        borderColor: "transparent",
                                         transform: isActive ? "scaleX(1)" : "scaleX(0)",
                                         transition: "transform 0.3s ease",
                                         zIndex: 2,
                                     },
                                     '&:hover': {
-                                        bgcolor: 'action.hover',
+                                        bgcolor: 'transparent',
                                         "&::after": {
                                             transform: "scaleX(1)",
                                         }
@@ -194,7 +193,7 @@ function ResponsiveAppBar() {
                         backdropFilter: 'blur(8px)',
                         px: 1,
                         py: 0.5,
-                        borderRadius: 3,
+                        borderRadius: 1,
                         boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                         border: '1px solid rgba(255,255,255,0.1)',
                         display: 'flex',
@@ -288,7 +287,7 @@ function ResponsiveAppBar() {
                                 ml: 2,
                                 px: 1,
                                 py: 0.5,
-                                borderRadius: 3,
+                                borderRadius: 1,
                                 boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                                 border: '1px solid rgba(255,255,255,0.1)',
                                 display: { xs: "none", md: "flex" },
@@ -330,7 +329,7 @@ function ResponsiveAppBar() {
                     backdropFilter: 'blur(8px)',
                     px: 1.5,
                     py: 1.5,
-                    borderRadius: 3,
+                    borderRadius: 2,
                     boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                     border: '1px solid rgba(255,255,255,0.1)',
                     alignItems: 'center',
