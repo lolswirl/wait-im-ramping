@@ -110,7 +110,7 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
                     </Stack>
                     
                     {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
-                        <Box sx={{ mt: 2}}>
+                        <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'center' }}>
                             <Chip 
                                 label={GetTitle("This spec has limited support for cast time reductions and haste buff gains")} 
                                 color="warning" 
