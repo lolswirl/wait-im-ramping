@@ -1,10 +1,10 @@
-import React from 'react';
-import IconButtonBase from './IconButtonBase';
-import type Spell from "@data/spells/spell"
+import React from "react";
+import IconButtonBase from "./IconButtonBase";
+import type spell from "@data/spells/spell";
 
 interface SpellButtonProps {
-    selectedSpell: Spell;
-    action: (spell: Spell, empowerLevel: number) => void;
+    selectedSpell: spell;
+    action: (spell: spell, empowerLevel: number) => void;
     empowerLevel?: number;
     isRemove?: boolean;
     size?: number;

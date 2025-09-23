@@ -1,8 +1,9 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { Tooltip } from '@mui/material';
-import { FormatIconImg, FormatIconLink } from '../../util/FormatIconImg';
-import { GetTitle } from '../../util/stringManipulation';
+import React, { useEffect, useState } from "react";
+import { Tooltip } from "@mui/material";
+
+import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
+import { GetTitle } from "@util/stringManipulation";
 
 interface IconButtonBaseProps {
     icon: string;
@@ -22,7 +23,7 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
     ...rest
 }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const [src, setSrc] = useState('');
+    const [src, setSrc] = useState("");
 
     useEffect(() => {
         const img = new Image();
@@ -45,17 +46,17 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
                 width: size + 2,
                 height: size + 2,
                 padding: 0,
-                borderRadius: '8px',
-                overflow: 'hidden',
-                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
-                transition: 'transform 0.3s ease',
-                border: '1px solid #575757',
-                transform: isHovered ? 'scale(1.1)' : 'scale(1)',
-                backgroundColor: 'transparent',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                borderRadius: "8px",
+                overflow: "hidden",
+                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+                transition: "transform 0.3s ease",
+                border: "1px solid #575757",
+                transform: isHovered ? "scale(1.1)" : "scale(1)",
+                backgroundColor: "transparent",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
             }}
         >
             {src && (
@@ -65,10 +66,10 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
                     width={size}
                     height={size}
                     style={{
-                        borderRadius: '8px',
-                        objectFit: 'cover',
-                        transform: 'scale(1.1)',
-                        transformOrigin: 'center',
+                        borderRadius: "8px",
+                        objectFit: "cover",
+                        transform: "scale(1.1)",
+                        transformOrigin: "center",
                     }}
                 />
             )}
@@ -78,7 +79,9 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
         <Tooltip title={GetTitle(name)} arrow disableInteractive>
             {button}
         </Tooltip>
-    ) : button;
+    ) : (
+        button
+    );
 };
 
 export default IconButtonBase;
