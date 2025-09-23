@@ -24,6 +24,13 @@ export default interface spell {
 }
 
 export const GCD = 1.5;
+export const GCD_CAP = 0.75;
+
+export const calculateGCD = (haste: number): number => {
+  const hasteMultiplier = 1 + (haste / 100);
+  const adjustedGCD = GCD / hasteMultiplier;
+  return Math.max(GCD_CAP, adjustedGCD);
+};
 
 export const calculateCastTime = (spell: spell, haste: number | undefined): number => {
   let baseCastTime = spell.castTime ?? 0;
@@ -47,6 +54,28 @@ export const calculateCastTime = (spell: spell, haste: number | undefined): numb
   }
 
   return castTime;
+};
+
+export const calculateEffectiveCastTime = (spell: spell, haste: number): { 
+  castTime: number; 
+  effectiveTime: number; 
+  isGCDConstrained: boolean 
+} => {
+  const castTime = calculateCastTime(spell, haste);
+  
+  if (spell.gcd === false) {
+    return { 
+      castTime, 
+      effectiveTime: castTime, 
+      isGCDConstrained: false 
+    };
+  }
+  
+  const gcd = calculateGCD(haste);
+  const effectiveTime = Math.max(castTime, gcd);
+  const isGCDConstrained = castTime < gcd;
+  
+  return { castTime, effectiveTime, isGCDConstrained };
 };
 
 export const calcSpellpower = (baseValue: number, intellect: number) => {

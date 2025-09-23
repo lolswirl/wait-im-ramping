@@ -5,7 +5,7 @@ import { ArrowUpward, ArrowDownward, DeleteTwoTone, DeleteForever } from '@mui/i
 
 import SwirlButton from '@components/Buttons/SwirlButton';
 
-import spell, { calculateCastTime } from '@data/spells/spell';
+import spell, { calculateEffectiveCastTime } from '@data/spells/spell';
 import { applyBuffEffects } from '@data/buffs';
 import { specialization } from '@data/class';
 
@@ -72,9 +72,9 @@ const SpellTable: React.FC<SpellTableProps> = ({ spellList, setSpellList, remove
   useEffect(() => {
     let currentTime = 0;
     const newTimeline = adjustedSpells.map(spell => {
-      const castTime = calculateCastTime(spell, haste);
-      const event = { name: spell.name, start: currentTime, end: currentTime + castTime };
-      currentTime += castTime;
+      const { effectiveTime } = calculateEffectiveCastTime(spell, haste);
+      const event = { name: spell.name, start: currentTime, end: currentTime + effectiveTime };
+      currentTime += effectiveTime;
       return event;
     });
 
@@ -120,41 +120,51 @@ const SpellTable: React.FC<SpellTableProps> = ({ spellList, setSpellList, remove
 
         <TableBody>
           <AnimatePresence>
-            {adjustedSpells.map((spell, index) => (
-              <motion.tr
-                key={spell.uuid}
-                layout
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-              >
-                <TableCell>
-                  <Box display="flex" alignItems="center" gap={1}>
-                    <SpellIcon spell={spell} />
-                    <span>{GetTitle(spell.name)}</span>
-                  </Box>
-                </TableCell>
+            {adjustedSpells.map((spell, index) => {
+              const { castTime, effectiveTime, isGCDConstrained } = calculateEffectiveCastTime(spell, haste);
+              
+              return (
+                <motion.tr
+                  key={spell.uuid}
+                  layout
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <TableCell>
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <SpellIcon spell={spell} />
+                      <span>{GetTitle(spell.name)}</span>
+                    </Box>
+                  </TableCell>
 
-                <TableCell align="center">
-                  {calculateCastTime(spell, haste).toFixed(2)}
-                </TableCell>
+                  <TableCell align="center">
+                    {isGCDConstrained ? (
+                      <>
+                        {castTime.toFixed(2)} ({GetTitle("GCD")}: {effectiveTime.toFixed(2)})
+                      </>
+                    ) : (
+                      effectiveTime.toFixed(2)
+                    )}
+                  </TableCell>
 
-                <TableCell align="center">
-                  <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
-                    <IconButton onClick={() => moveSpell(index, 'up')} size="small" disabled={index === 0}>
-                      <ArrowUpward />
-                    </IconButton>
-                    <IconButton onClick={() => moveSpell(index, 'down')} size="small" disabled={index === adjustedSpells.length - 1}>
-                      <ArrowDownward color={index === adjustedSpells.length - 1 ? "disabled" : "inherit"} />
-                    </IconButton>
-                    <IconButton onClick={() => removeSpellFromTable(index)} sx={{ color: "inherit" }}>
-                      <DeleteTwoTone sx={{ fill: "#d32f2f !important" }} />
-                    </IconButton>
-                  </Box>
-                </TableCell>
-              </motion.tr>
-            ))}
+                  <TableCell align="center">
+                    <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
+                      <IconButton onClick={() => moveSpell(index, 'up')} size="small" disabled={index === 0}>
+                        <ArrowUpward />
+                      </IconButton>
+                      <IconButton onClick={() => moveSpell(index, 'down')} size="small" disabled={index === adjustedSpells.length - 1}>
+                        <ArrowDownward color={index === adjustedSpells.length - 1 ? "disabled" : "inherit"} />
+                      </IconButton>
+                      <IconButton onClick={() => removeSpellFromTable(index)} sx={{ color: "inherit" }}>
+                        <DeleteTwoTone sx={{ fill: "#d32f2f !important" }} />
+                      </IconButton>
+                    </Box>
+                  </TableCell>
+                </motion.tr>
+              );
+            })}
           </AnimatePresence>
 
           <TableRow sx={{ backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#1e1e1e' : '#f5f5f5' }}>
