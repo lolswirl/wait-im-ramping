@@ -316,13 +316,22 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                         backdropFilter: "blur(4px)",
                                         transition: "all 0.2s ease",
                                         flex: 1,
+                                        minHeight: 0,
                                         "&:hover": {
                                             backgroundColor: "rgba(50, 50, 50, 0.8)",
                                             border: "1px solid rgba(255,255,255,0.15)",
                                         }
                                     }}
                                 >
-                                    <CardContent sx={{ p: 2, "&:last-child": { pb: 2, pt: 2 }, height: "100%", display: "flex", flexDirection: "column" }}>
+                                    <CardContent sx={{ 
+                                        p: 2, 
+                                        "&:last-child": { pb: 2, pt: 2 }, 
+                                        height: "100%", 
+                                        display: "flex", 
+                                        flexDirection: "column",
+                                        minHeight: 0,
+                                        overflow: "hidden"
+                                    }}>
                                         <Typography
                                             variant="overline"
                                             sx={{
@@ -335,6 +344,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 lineHeight: 1,
                                                 display: "block",
                                                 textTransform: "none",
+                                                flexShrink: 0,
                                             }}
                                         >
                                             {GetTitle("Notes")}
@@ -347,7 +357,26 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 fontWeight: 400,
                                                 lineHeight: 1.7,
                                                 fontSize: "0.9rem",
-                                                flex: 1
+                                                flex: 1,
+                                                overflow: "auto",
+                                                wordBreak: "break-word",
+                                                overflowWrap: "break-word",
+                                                minHeight: 0,
+                                                paddingRight: "4px",
+                                                "&::-webkit-scrollbar": {
+                                                    width: "6px",
+                                                },
+                                                "&::-webkit-scrollbar-track": {
+                                                    background: "rgba(255,255,255,0.1)",
+                                                    borderRadius: "3px",
+                                                },
+                                                "&::-webkit-scrollbar-thumb": {
+                                                    background: "rgba(255,255,255,0.3)",
+                                                    borderRadius: "3px",
+                                                    "&:hover": {
+                                                        background: "rgba(255,255,255,0.5)",
+                                                    }
+                                                }
                                             }}
                                         >
                                             {GetTitle(bug.notes)}
