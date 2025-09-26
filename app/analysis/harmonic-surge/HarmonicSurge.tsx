@@ -122,7 +122,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const abilityData: AbilityDatum[] = [];
     
     abilityData.push({
-        label: GetTitle("Tiger Palm"),
+        label: GetTitle(SPELLS.TIGER_PALM.name),
         ancientTeachings: tigerPalmHealing,
         harmonicSurge: 0,
         gom: 0,
@@ -145,7 +145,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
 
     const rskTotal = risingSunKickAncientTeachingsHealing + risingSunKickNormalGOMHealing + risingSunKickChiJiGustHealing;
     abilityData.push({
-        label: GetTitle("Rising Sun Kick"),
+        label: GetTitle(SPELLS.RISING_SUN_KICK.name),
         ancientTeachings: risingSunKickAncientTeachingsHealing,
         harmonicSurge: 0,
         gom: risingSunKickNormalGOMHealing,
@@ -155,7 +155,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
 
     const totalHarmonicSurgeHealing = harmonicSurgePureHealing + tigerPalmHealing;
     abilityData.push({
-        label: GetTitle("Harmonic Surge"),
+        label: GetTitle(TALENTS.HARMONIC_SURGE.name),
         ancientTeachings: tigerPalmHealing,
         harmonicSurge: harmonicSurgePureHealing,
         gom: 0,
