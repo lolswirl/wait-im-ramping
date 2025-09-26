@@ -68,6 +68,24 @@ const spells = {
         icon: "ability_shaman_condensationtotem",
         castTime: 0,
     },
+    SPIRIT_LINK_TOTEM: {
+        name: "Spirit Link Totem",
+        id: 98008,
+        icon: "spell_shaman_spiritlink",
+        castTime: 0,
+    },
+    FLAME_SHOCK: {
+        name: "Flame Shock",
+        id: 188389,
+        icon: "spell_fire_flameshock",
+        castTime: 0,
+    },
+    LAVA_BURST: {
+        name: "Lava Burst",
+        id: 51505,
+        icon: "spell_shaman_lavaburst",
+        castTime: 0,
+    },
 } satisfies Record<string, spell>;
 
 export default spells;

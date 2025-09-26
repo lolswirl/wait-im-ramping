@@ -25,4 +25,6 @@ export const TAGS: Record<string, Tags> = {
     MOH: { name: "Master of Harmony", color: "#89ff7f" },
     HERALD_OF_THE_SUN: { name: "Herald of the Sun", color: "#ffd700" },
     LIGHTSMITH: { name: "Lightsmith", color: "#c0c0c0" },
+    TOTEMIC: { name: "Totemic", color: "#ff8876" },
+    FARSEER: { name: "Farseer", color: "#2546d4" },
 };
