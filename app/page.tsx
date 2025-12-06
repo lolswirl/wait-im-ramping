@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import { 
@@ -15,6 +16,7 @@ import {
 import { Timeline, Analytics, TrendingUp, Person, TimerTwoTone } from "@mui/icons-material";
 
 import { GetTitle } from "@util/stringManipulation";
+import { useIsBeta } from "@lib/betaModeClient";
 
 const wdirPreview = "/previews/when-do-i-ramp.png";
 const spellTimelinePreview = "/previews/timeline.png";
@@ -86,6 +88,8 @@ const outlineButtonStyles = {
 };
 
 const Home = () => {
+    const isBeta = useIsBeta();
+
     return (
         <Container maxWidth="lg" sx={{ mt: 1, mb: 6 }}>
             <Box sx={{ textAlign: 'center', mb: 6 }}>
@@ -98,7 +102,7 @@ const Home = () => {
                   {GetTitle("Wait, I'm Ramping!")}
                 </Typography>
                 <Typography variant="h5" color="text.secondary" sx={{ mb: 4, maxWidth: 800, mx: 'auto' }}>
-                    {GetTitle("Healing theorycrafting and optimization tools for World of Warcraft")}
+                    {GetTitle(`Healing theorycrafting and optimization tools for ${isBeta ? '(beta) ' : ''}World of Warcraft`)}
                 </Typography>
                 <Stack direction="row" spacing={2} justifyContent="center" sx={{ flexWrap: 'wrap', gap: 2 }}>
                     {infoChips.map((chip, index) => (
