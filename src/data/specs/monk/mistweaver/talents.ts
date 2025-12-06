@@ -44,10 +44,10 @@ const talents = {
             armorModifier: 1,
         }
     },
-    AWAKENED_JADEFIRE: {
-        name: "Awakened Jadefire",
+    WAY_OF_THE_CRANE: {
+        name: "Way of the Crane",
         id: 388779,
-        icon: 'inv_leather_raidmonkt2_d_01_helm',
+        icon: 'monk_stance_redcrane',
         custom: {
             targetsPerSCK: 3,
             transferRate: 1.20,

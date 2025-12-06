@@ -76,10 +76,10 @@ const ProgressBar: React.FC<{
 );
 
 const SpellInfoDisplay: React.FC<{
-    awakenedJadefire: boolean;
+    wayOfTheCrane: boolean;
     targets: number;
     totmResetChance: number;
-}> = ({ awakenedJadefire, targets, totmResetChance }) => (
+}> = ({ wayOfTheCrane, targets, totmResetChance }) => (
     <Box sx={{ 
         display: 'flex', 
         flexDirection: 'column', 
@@ -96,7 +96,7 @@ const SpellInfoDisplay: React.FC<{
                 {GetTitle("Tiger Palm:")}
             </Typography>
             <Typography variant="body2" color="primary.main" sx={{ fontWeight: 'bold' }}>
-                {awakenedJadefire ? '2' : '1'} {GetTitle(pluralize(awakenedJadefire, 'hit'))}
+                {wayOfTheCrane ? '2' : '1'} {GetTitle(pluralize(wayOfTheCrane, 'hit'))}
             </Typography>
         </Box>
         
@@ -105,7 +105,7 @@ const SpellInfoDisplay: React.FC<{
                 {GetTitle("Blackout Kick:")}
             </Typography>
             <Typography variant="body2" color="secondary.main" sx={{ fontWeight: 'bold' }}>
-                {awakenedJadefire ? Math.min(3, targets) : 1} {GetTitle(pluralize(awakenedJadefire ? Math.min(3, targets) : 1, 'hit'))}
+                {wayOfTheCrane ? Math.min(3, targets) : 1} {GetTitle(pluralize(wayOfTheCrane ? Math.min(3, targets) : 1, 'hit'))}
             </Typography>
             <Typography variant="caption" color="text.secondary">
                 ({targets} {GetTitle(pluralize(targets, "target"))})
@@ -241,8 +241,8 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
     const [attempts, setAttempts] = useState<number>(1);
     const [targets, setTargets] = useState<number>(1);
     
-    const [selectedTalents, setSelectedTalents] = useState(new Map<spell, boolean>([[TALENTS.AWAKENED_JADEFIRE, false]]));
-    const awakenedJadefire = selectedTalents.get(TALENTS.AWAKENED_JADEFIRE) || false;
+    const [selectedTalents, setSelectedTalents] = useState(new Map<spell, boolean>([[TALENTS.WAY_OF_THE_CRANE, false]]));
+    const wayOfTheCrane = selectedTalents.get(TALENTS.WAY_OF_THE_CRANE) || false;
     
     const totm = TALENTS.TEACHINGS_OF_THE_MONASTERY;
     const totmResetChance = totm.custom.resetChance;
@@ -294,11 +294,11 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
         let totmStacks = 0;
         steps.forEach(step => {
             if (step.id === MISTWEAVER_SPELLS.TIGER_PALM.id) {
-                const stacksToAdd = awakenedJadefire ? 2 : 1;
+                const stacksToAdd = wayOfTheCrane ? 2 : 1;
                 totmStacks = Math.min(totmStacks + stacksToAdd, totm.custom.maxStacks);
             } else if (step.id === MISTWEAVER_SPELLS.BLACKOUT_KICK.id) {
                 const totalBokHits = 1 + totmStacks;
-                const hitsPerTarget = awakenedJadefire ? Math.min(3, targets) : 1;
+                const hitsPerTarget = wayOfTheCrane ? Math.min(3, targets) : 1;
                 totalHits += totalBokHits * hitsPerTarget;
                 totmStacks = 0;
             }
@@ -316,7 +316,7 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
             totalHits,
             totalGCDs
         };
-    }, [awakenedJadefire, targets, attempts, totm.custom.maxStacks, totmResetChance]);
+    }, [wayOfTheCrane, targets, attempts, totm.custom.maxStacks, totmResetChance]);
     
     const chartData = useMemo(() => 
         createChartData(rotations, calculateRotationStats), 
@@ -347,7 +347,7 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
             <Card variant="outlined" sx={cardSx}>
                 <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                     <SpellInfoDisplay 
-                        awakenedJadefire={awakenedJadefire}
+                        wayOfTheCrane={wayOfTheCrane}
                         targets={targets}
                         totmResetChance={totmResetChance}
                     />
@@ -376,8 +376,8 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
                             fullWidth
                         />
                         <TalentOption
-                            talent={TALENTS.AWAKENED_JADEFIRE}
-                            isChecked={awakenedJadefire}
+                            talent={TALENTS.WAY_OF_THE_CRANE}
+                            isChecked={wayOfTheCrane}
                             onChange={handleTalentChange}
                             rgb={rgb}
                             xs={12}
