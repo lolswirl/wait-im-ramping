@@ -115,7 +115,7 @@ const spells = {
         },
         custom: {
             duration: 6,
-            amp: 1.3,
+            amp: 1.1,
         }
     },
     VIVIFY: {
@@ -145,8 +145,6 @@ const spells = {
         castTime: 0,
         custom: {
             duration: 12,
-            maxStacks: 3,
-            reductionPerStack: 0.33,
         }
     },
     YULON: {

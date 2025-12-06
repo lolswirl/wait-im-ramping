@@ -21,30 +21,12 @@ export const MISTWEAVER_MONK_BUFFS = (spellList: spell[]): spell[] => {
             insideChiji = true;
         }
         else if (insideChiji) {
-            switch (spell.id) {
-                case SPELLS.TIGER_PALM.id:
-                    const stacksGained = 2;
-                    totmStacks = Math.min(totmStacks + stacksGained, TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks);
-                    break;
-                case SPELLS.BLACKOUT_KICK.id:
-                    const bokHits = 1 + totmStacks;
-                    totmStacks = 0;
-                    chijiStacks = Math.min(chijiStacks + bokHits, SPELLS.CHI_JI.custom.maxStacks);
-                    break;
-                case SPELLS.RISING_SUN_KICK.id:
-                case SPELLS.SPINNING_CRANE_KICK.id:
-                    chijiStacks = Math.min(chijiStacks + 1, SPELLS.CHI_JI.custom.maxStacks);
-                    break;
-                case SPELLS.ENVELOPING_MIST.id:
-                    const reductionPerStack = SPELLS.CHI_JI.custom.reductionPerStack;
-                    const totalReduction = chijiStacks * reductionPerStack;
-                    const newCastTime = totalReduction >= 0.99 ? 0 : spell.castTime ? spell.castTime * (1 - totalReduction) : 0;
-                    spell = { 
-                        ...spell,
-                        castTime: newCastTime
-                    };
-                    break;
-            }
+            if (spell.id === SPELLS.ENVELOPING_MIST.id) {
+                spell = {
+                    ...spell,
+                    castTime: GCD,
+                };
+            };
         }
         else if (thunderFocusTeaUsed) {
             switch (spell.id) {
