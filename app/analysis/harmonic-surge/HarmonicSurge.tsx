@@ -36,8 +36,8 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const ancientTeachingsTransfer = ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate;
     const ancientTeachingsArmorModifier = ancientTeachings.custom.armorModifier;
 
-    const awakenedJadefire = TALENTS.AWAKENED_JADEFIRE;
-    const awakenedJadefireTigerPalmHits = awakenedJadefire.custom.tigerPalmHits;
+    const wayOfTheCrane = TALENTS.WAY_OF_THE_CRANE;
+    const wayOfTheCraneTigerPalmHits = wayOfTheCrane.custom.tigerPalmHits;
 
     const craneStyle = TALENTS.CRANE_STYLE;
     const craneStyleRisingSunKickGOM = craneStyle.custom.risingSunKickGOM;
@@ -65,7 +65,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const tigerPalmDamage = tigerPalm.value.damage;
     const tigerPalmHealing = (
         (tigerPalmDamage / intellect) * 100 * ancientTeachingsTransfer * ancientTeachingsArmorModifier *
-        awakenedJadefireTigerPalmHits
+        wayOfTheCraneTigerPalmHits
     );
 
     const blackoutKick = SPELLS.BLACKOUT_KICK;

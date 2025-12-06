@@ -37,16 +37,15 @@ const JadeEmpowermentVsDocJ: React.FC<{ title: string; description: string }> = 
   const sck = SPELLS.SPINNING_CRANE_KICK;
   const spinningCraneKickDamage = sck.value.damage;
 
-  const awakenedJadefire = TALENTS.AWAKENED_JADEFIRE;
+  const wayOfTheCrane = TALENTS.WAY_OF_THE_CRANE;
   const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
   const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
 
-  const awakenedJadefireArmorModifier = awakenedJadefire.custom.armorModifier;
+  const wayOfTheCraneArmorModifier = wayOfTheCrane.custom.armorModifier;
   const ancientTeachingsArmorModifier = ancientTeachings.custom.armorModifier;
 
   const jadefireTeachingsTransfer = ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate;
-  const awakenedJadefireTransfer = awakenedJadefire.custom.transferRate;
-
+  const wayOfTheCraneTransfer = wayOfTheCrane.custom.transferRate;
   const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
   const jadeEmpowermentIncrease = jadeEmpowerment.custom.spellpowerIncrease;
   const jadeEmpowermentChain = jadeEmpowermentIncrease * jadeEmpowerment.custom.chainVal;
@@ -55,8 +54,7 @@ const JadeEmpowermentVsDocJ: React.FC<{ title: string; description: string }> = 
   const danceofChijiIncrease = docj.custom.spellpowerIncrease;
 
   const jeSpellpowerCalc = (value: number) => (cracklingJadeLightningDamage / intellect)  * value * jadefireTeachingsTransfer * ancientTeachingsArmorModifier;
-  const docjSpellpowerCalc = (value: number) => (spinningCraneKickDamage / intellect) * value * (awakenedJadefireTransfer * 3) * awakenedJadefireArmorModifier;
-
+  const docjSpellpowerCalc = (value: number) => (spinningCraneKickDamage / intellect) * value * (wayOfTheCraneTransfer * 3) * wayOfTheCraneArmorModifier;
   const jeValues = Array.from({ length: Math.min(maxTargets, 5) }, (_, i) => i + 1);
   const docjValues = Array.from({ length: maxTargets }, (_, i) => i + 1);
 

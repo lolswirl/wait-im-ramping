@@ -208,12 +208,12 @@ export const calculateRotationHPS = async (
     const ancientTeachingsTransfer = isTalentEnabled(options, TALENTS.JADEFIRE_TEACHINGS) ? ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate : ancientTeachings.custom.transferRate;
     const ancientTeachingsArmorModifier = ancientTeachings.custom.armorModifier;
     
-    const awakenedJadefire = TALENTS.AWAKENED_JADEFIRE;
-    const awakenedJadefireOpt = isTalentEnabled(options, TALENTS.AWAKENED_JADEFIRE);
-    const awakenedJadefireTransfer = awakenedJadefire.custom.transferRate;
-    const awakenedJadefireTargetsPerSCK = awakenedJadefire.custom.targetsPerSCK;
-    const awakenedJadefireArmorModifier = awakenedJadefire.custom.armorModifier;
-    const awakenedJadefireTigerPalmHits = awakenedJadefireOpt ? awakenedJadefire.custom.tigerPalmHits : 1;
+    const wayOfTheCrane = TALENTS.WAY_OF_THE_CRANE;
+    const wayOfTheCraneOpt = isTalentEnabled(options, TALENTS.WAY_OF_THE_CRANE);
+    const wayOfTheCraneTransfer = wayOfTheCrane.custom.transferRate;
+    const wayOfTheCraneTargetsPerSCK = wayOfTheCrane.custom.targetsPerSCK;
+    const wayOfTheCraneArmorModifier = wayOfTheCrane.custom.armorModifier;
+    const wayOfTheCraneTigerPalmHits = wayOfTheCraneOpt ? wayOfTheCrane.custom.tigerPalmHits : 1;
 
     const craneStyle = TALENTS.CRANE_STYLE;
     const craneStyleOpt = isTalentEnabled(options, TALENTS.CRANE_STYLE);
@@ -285,7 +285,7 @@ export const calculateRotationHPS = async (
             baseHealing: 0,
             chiJiGusts: 0,
             ancientTeachings: 0,
-            awakenedJadefire: 0,
+            wayOfTheCrane: 0,
             gustOfMists: 0,
             envelopingMistAmp: 0,
             chiCocoons: 0,
@@ -304,7 +304,7 @@ export const calculateRotationHPS = async (
 
             case SPELLS.TIGER_PALM.id:
                 const tigerPalmDamage = calculateDamage(spellObj);
-                const tigerPalmHits = awakenedJadefireTigerPalmHits;
+                const tigerPalmHits = wayOfTheCraneTigerPalmHits;
                 const tigerPalmATHealing = tigerPalmDamage * ancientTeachingsTransfer * ancientTeachingsArmorModifier * tigerPalmHits;
                 breakdown.ancientTeachings = distributeAncientTeachings(allies, tigerPalmATHealing);
                 break;
@@ -341,14 +341,14 @@ export const calculateRotationHPS = async (
                     breakdown.chiJiGusts = distributeGusts(allies, 6 * bokHits, chijiGustHealing);
                 }
 
-                if (awakenedJadefireOpt) {
-                    const bokEffectiveness = awakenedJadefire.custom.blackoutKickEffectiveness;
-                    const bokMaxAdditionalHits = awakenedJadefire.custom.blackoutKickHits;
-                    const awakenedJadefireBokHits = Math.min(options.enemyCount - 1, bokMaxAdditionalHits);
+                if (wayOfTheCraneOpt) {
+                    const bokEffectiveness = wayOfTheCrane.custom.blackoutKickEffectiveness;
+                    const bokMaxAdditionalHits = wayOfTheCrane.custom.blackoutKickHits;
+                    const wayOfTheCraneBokHits = Math.min(options.enemyCount - 1, bokMaxAdditionalHits);
                     
-                    if (awakenedJadefireBokHits > 0) {
-                        const awakenedJadefireBokDamage = bokDamage * bokEffectiveness;
-                        bokATHealing += awakenedJadefireBokDamage * ancientTeachingsTransfer * ancientTeachingsArmorModifier * awakenedJadefireBokHits * bokHits;
+                    if (wayOfTheCraneBokHits > 0) {
+                        const wayOfTheCraneBokDamage = bokDamage * bokEffectiveness;
+                        bokATHealing += wayOfTheCraneBokDamage * ancientTeachingsTransfer * ancientTeachingsArmorModifier * wayOfTheCraneBokHits * bokHits;
                     }
                 }
                 
@@ -375,17 +375,17 @@ export const calculateRotationHPS = async (
                     : options.enemyCount * Math.sqrt(5 / options.enemyCount);
 
                 const sckTicks = 4;
-                const sckPartDamage = (sckDamage * sckTargetMultiplier * awakenedJadefireTransfer * awakenedJadefireArmorModifier) / sckTicks;
+                const sckPartDamage = (sckDamage * sckTargetMultiplier * wayOfTheCraneTransfer * wayOfTheCraneArmorModifier) / sckTicks;
                 
                 let sckAJTotalHealing = 0;
                 for (let i = 0; i < sckTicks; i++) {
-                    const targets = getRandomAllies(allies, awakenedJadefireTargetsPerSCK);
+                    const targets = getRandomAllies(allies, wayOfTheCraneTargetsPerSCK);
                     for (const target of targets) {
                         const sckHealing = calculateHealingWithAmp(sckPartDamage, target);
                         sckAJTotalHealing += sckHealing;
                     }
                 }
-                breakdown.awakenedJadefire = sckAJTotalHealing;
+                breakdown.wayOfTheCrane = sckAJTotalHealing;
                 
                 if (chiJiActive) {
                     breakdown.chiJiGusts = chijiGustHealing * 6;
@@ -450,7 +450,7 @@ export const calculateRotationHPS = async (
         }
 
         const totalHealing = breakdown.baseHealing + breakdown.chiJiGusts + breakdown.ancientTeachings + 
-                           breakdown.awakenedJadefire + breakdown.gustOfMists + 
+                           breakdown.wayOfTheCrane + breakdown.gustOfMists + 
                            breakdown.chiCocoons + breakdown.envelopingBreath;
 
         return { breakdown, totalHealing, renewingMistHealing };
@@ -505,7 +505,7 @@ export const calculateRotationHPS = async (
                 spellsCastInChiJi.push(spell);
 
                 if (spell.id === SPELLS.TIGER_PALM.id) {
-                    const stacksGained = isTalentEnabled(options, TALENTS.AWAKENED_JADEFIRE) ? awakenedJadefireTigerPalmHits : 1;
+                    const stacksGained = isTalentEnabled(options, TALENTS.WAY_OF_THE_CRANE) ? wayOfTheCraneTigerPalmHits : 1;
                     totmStacks = Math.min(totmStacks + stacksGained, totmMaxStacks);
                 } else if (spell.id === SPELLS.BLACKOUT_KICK.id) {
                     totmStacks = 0;

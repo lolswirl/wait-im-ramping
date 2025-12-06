@@ -33,7 +33,7 @@ export interface RotationResult {
             baseHealing?: number;
             chiJiGusts?: number;
             ancientTeachings?: number;
-            awakenedJadefire?: number;
+            wayOfTheCrane?: number;
             gustOfMists?: number;
             chiCocoons?: number;
             envelopingBreath?: number;
