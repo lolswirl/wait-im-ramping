@@ -37,20 +37,11 @@ export function PageMetadata(
             url,
             title: title ? GetTitle(`${title} | ${SITE_NAME}`) : formattedTitle,
             description: formattedDescription,
-            // images: [
-            //     {
-            //         url: image,
-            //         width: 1200,
-            //         height: 630,
-            //         alt: GetTitle(SITE_NAME),
-            //     },
-            // ],
         },
         twitter: {
             card: "summary_large_image",
             title: GetTitle(`${title || SITE_NAME} | ${SITE_NAME}`),
             description: formattedDescription,
-            // images: [image],
         },
     };
 }
