@@ -7,7 +7,18 @@ const talents = {
         id: 404408,
         icon: 'misc_legionfall_monk',
         custom: {
-            targetsHit: 5
+            targetsHit: 5,
+            castTime: -0.5,
+        }
+    },
+    EMPERORS_FAVOR: {
+        name: "Emperor's Favor",
+        id: 471761,
+        icon: 'inv_leather_raidmonkt2_d_01_helm',
+        custom: {
+            increase: 1.2,
+            castTime: 0,
+            targetsHit: 1,
         }
     },
     JADE_EMPOWERMENT: {
@@ -15,7 +26,7 @@ const talents = {
         id: 467317,
         icon: 'ability_thunderking_thunderstruck',
         custom: {
-            spellpowerIncrease: 2000,
+            spellpowerIncrease: 300,
             chainVal: 0.25,
         }
     },
