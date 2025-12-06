@@ -5,6 +5,7 @@ import MISTWEAVER_MONK_TALENTS from '@data/specs/monk/mistweaver/talents';
 import MISTWEAVER_MONK_ROTATIONS from '@data/specs/monk/mistweaver/rotations';
 import { MISTWEAVER_MONK_BUFFS } from '@data/specs/monk/mistweaver/buffs';
 import MISTWEAVER_MONK_BUGS from '@data/specs/monk/mistweaver/bugs';
+import MONK_BUGS from '@data/specs/monk/bugs';
 
 const MISTWEAVER_MONK = attachGetters({
   key: "monk_mistweaver",
@@ -12,7 +13,7 @@ const MISTWEAVER_MONK = attachGetters({
   talents: MISTWEAVER_MONK_TALENTS,
   rotations: MISTWEAVER_MONK_ROTATIONS,
   buffs: MISTWEAVER_MONK_BUFFS,
-  bugs: MISTWEAVER_MONK_BUGS,
+  bugs: MISTWEAVER_MONK_BUGS.concat(MONK_BUGS),
   icon: 'spell_monk_mistweaver_spec',
   name: 'Mistweaver',
   class: 'Monk',

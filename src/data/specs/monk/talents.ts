@@ -34,7 +34,12 @@ const talents = {
         custom: {
             damageIncrease: 0.04,
         }
-    }
+    },
+    STILLSTEP_COIL: {
+        name: "Stillstep Coil",
+        id: 1266733,
+        icon: 'inv_helm_leather_raidmonkprogenitormythic_d_01',
+    },
 } satisfies Record<string, spell>;
 
 export default talents;
