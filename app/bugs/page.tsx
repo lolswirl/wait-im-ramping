@@ -16,7 +16,7 @@ export async function generateMetadata({ searchParams }: Props) {
     const spec = typeof specParam === 'string' ? getSpecializationByKey(specParam) : null;
     
     const description = spec 
-        ? `Known bugs and issues affecting ${spec.name}`
+        ? `Known bugs and issues affecting ${spec.name} ${spec.class}`
         : "Known bugs and issues affecting specializations";
     
     return PageMetadata(title, description);
