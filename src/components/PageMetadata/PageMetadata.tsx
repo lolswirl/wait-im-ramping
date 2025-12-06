@@ -3,7 +3,7 @@ import { GetTitle } from "@util/stringManipulation";
 const isBetaEnv = () => process.env.NEXT_PUBLIC_IS_BETA === 'true';
 
 const getSiteName = () => 
-    isBetaEnv() ? "Wait, I'm Ramping! [Beta]" : "Wait, I'm Ramping!";
+    isBetaEnv() ? "[Beta] Wait, I'm Ramping!" : "Wait, I'm Ramping!";
 
 const SITE_DESCRIPTION =
     "Tools that help healers plan, visualize, and theorycraft their healing.";
@@ -11,7 +11,7 @@ const SITE_URL = "https://www.waitimramping.com/";
 const SITE_IMAGE = SITE_URL + "description.png";
 
 const getTitleTemplate = () => 
-    isBetaEnv() ? "%s | Wait, I'm Ramping! [Beta]" : "%s | Wait, I'm Ramping!";
+    isBetaEnv() ? "[Beta] %s | Wait, I'm Ramping!" : "%s | Wait, I'm Ramping!";
 
 export function PageMetadata(
     title: string = "",
