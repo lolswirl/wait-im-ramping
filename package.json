@@ -4,14 +4,15 @@
   "private": true,
   "dependencies": {
     "@emotion/cache": "^11.14.0",
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@fontsource/roboto": "^5.2.5",
     "@hello-pangea/dnd": "^18.0.1",
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "@mui/material-nextjs": "^7.3.6",
-    "@mui/x-data-grid": "^7.27.0",
+    "@mui/x-data-grid": "^7.29.0",
+    "@supabase/supabase-js": "^2.39.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -23,24 +24,22 @@
     "chartjs-plugin-annotation": "^3.1.0",
     "cheerio": "^1.0.0",
     "color-thief-browser": "^2.0.2",
+    "cookies-next": "^5.0.0",
     "d3": "^7.9.0",
-    "eslint": "^9.39.1",
     "framer-motion": "^12.4.7",
     "next": "^16.0.7",
-    "react": "^19.2.1",
+    "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
-    "react-dom": "^19.2.1",
+    "react-dom": "^19.0.0",
     "react-markdown": "^10.0.0",
-    "react-router-dom": "^7.2.0",
-    "react-scripts": "5.0.1",
     "recharts": "^2.15.1",
-    "typescript": "^5.9.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "npx serve@latest ./build"
+    "start": "next start",
+    "lint": "next lint"
   },
   "eslintConfig": {
     "extends": [
@@ -60,6 +59,11 @@
     ]
   },
   "devDependencies": {
-    "eslint-config-next": "^16.0.7"
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.0.7",
+    "typescript": "^5.6.0"
   }
 }
