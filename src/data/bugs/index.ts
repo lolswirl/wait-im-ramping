@@ -8,6 +8,15 @@ export enum SEVERITY {
     LOW = "Low",
 }
 
+export const SEVERITY_ORDER = [SEVERITY.CRITICAL, SEVERITY.HIGH, SEVERITY.MEDIUM, SEVERITY.LOW] as const;
+
+export const SEVERITY_COLORS: Record<SEVERITY, string> = {
+    [SEVERITY.CRITICAL]: "#d32f2f",
+    [SEVERITY.HIGH]: "#f57c00",
+    [SEVERITY.MEDIUM]: "#fbc02d",
+    [SEVERITY.LOW]: "#388e3c",
+};
+
 export enum STATUS {
     OPEN = "Open",
     FIXED = "Fixed",
@@ -24,13 +33,6 @@ export const STATUS_BADGES: Record<STATUS, string> = {
     [STATUS.OPEN]: "",
     [STATUS.FIXED]: "✓",
     [STATUS.REMOVED]: "⨉",
-};
-
-export const SEVERITY_COLORS: Record<SEVERITY, string> = {
-    [SEVERITY.CRITICAL]: "#d32f2f",
-    [SEVERITY.HIGH]: "#f57c00",
-    [SEVERITY.MEDIUM]: "#fbc02d",
-    [SEVERITY.LOW]: "#388e3c",
 };
 
 export interface Bug {
