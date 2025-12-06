@@ -337,7 +337,7 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.EMPERORS_ELIXIR,
-        affectedSpells: [SPELLS.JADEFIRE_STOMP],
+        affectedSpells: [TALENTS.JADEFIRE_STOMP],
         severity: SEVERITY.LOW,
         title: "Tooltip drastically lower than actual",
         description: "In game tooltip for Jadefire Stomp is drastically lower than the actual damage dealt",
@@ -449,7 +449,7 @@ const BUGS: Bug[] = [
         tags: [TAGS.MOH],
     },
     {
-        spell: SPELLS.JADEFIRE_STOMP,
+        spell: TALENTS.JADEFIRE_STOMP,
         affectedSpells: [TALENTS.ANCIENT_TEACHINGS],
         severity: SEVERITY.HIGH,
         title: "Damage is not transferring to healing through Ancient Teachings",

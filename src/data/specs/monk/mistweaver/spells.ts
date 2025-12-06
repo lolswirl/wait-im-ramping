@@ -33,7 +33,7 @@ const spells = {
         value: {
             damage: 40775
         }
-    },
+},
     CRACKLING_JADE_LIGHTNING: {
         name: 'Crackling Jade Lightning',
         id: 117952,
@@ -53,29 +53,6 @@ const spells = {
         value: {
             damage: 25217
         }
-    },
-    JADEFIRE_STOMP: {
-        name: 'Jadefire Stomp',
-        id: 338193,
-        icon: 'inv_ability_monk_jadefirestomp',
-        school: SCHOOLS.NATURE,
-        castTime: 0,
-        value: {
-            damage: 15945,
-            healing: 32880,
-        },
-        custom: {
-            enemyTargets: 5,
-            friendlyTargets: 5,
-            resetChance: 0.06,
-        }
-    },
-    CHI_BURST: {
-        name: 'Chi Burst',
-        id: 123986,
-        icon: 'spell_arcane_arcanetorrent',
-        castTime: 1,
-        school: SCHOOLS.NATURE,
     },
 
     // healing abilities
@@ -219,7 +196,6 @@ const CHIJI_ABILITIES = [
     spells.SPINNING_CRANE_KICK,
 
     // indirect interactions
-    spells.JADEFIRE_STOMP,
     spells.RENEWING_MIST,
     spells.VIVIFY,
     spells.THUNDER_FOCUS_TEA,
