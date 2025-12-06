@@ -151,9 +151,6 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                             height: 8,
                                             borderRadius: 4,
                                             backgroundColor: 'rgba(255,255,255,0.1)',
-                                            '& .MuiLinearProgress-bar': {
-                                                backgroundColor: `rgba(${54 + index * 40}, 162, 235, 0.8)`
-                                            }
                                         }}
                                     />
                                 </Box>

@@ -16,6 +16,7 @@ import {
     SvgIcon,
 } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
+import { useIsBeta } from "@lib/betaModeClient";
 import { useThemeContext } from "@context/ThemeContext";
 import { GetTitle } from "@util/stringManipulation";
 import { useSpec } from "@context/SpecContext";
@@ -57,7 +58,14 @@ function ResponsiveAppBar() {
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const { toggleTheme, themeMode } = useThemeContext();
     const { spec, setSpec } = useSpec();
-    const hoverColor = themeMode === "dark" ? "#90caf9" : "#212121";
+    const isBeta = useIsBeta();
+    
+    const hoverColor = 
+        themeMode === "dark"
+            ? isBeta 
+                ? "#ff7700ff" 
+                : "#90caf9"
+            : "#212121";
 
     const handleDrawerToggle = () => setDrawerOpen((prev) => !prev);
 

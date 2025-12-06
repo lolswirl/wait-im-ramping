@@ -1,6 +1,7 @@
 "use client"
 import { createTheme, ThemeProvider as MuiThemeProvider, PaletteMode } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { useIsBeta } from "@lib/betaModeClient";
 import { useThemeContext } from '../../context/ThemeContext';
 
 declare module '@mui/material/styles' {
@@ -23,10 +24,18 @@ declare module '@mui/material/styles' {
 
 const Theme = ({ children }: { children: React.ReactNode }) => {
     const { themeMode } = useThemeContext();
+    const isBeta = useIsBeta();
 
     const theme = createTheme({
         palette: {
             mode: themeMode as PaletteMode,
+            primary: {
+                main: isBeta 
+                    ? "#ff7700ff" 
+                    : themeMode === 'dark' 
+                        ? "#90caf9" 
+                        : "#1976d2",
+            }
         },
         custom: {
             chart: {

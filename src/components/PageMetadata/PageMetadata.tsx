@@ -1,11 +1,11 @@
 import { GetTitle } from "@util/stringManipulation";
 
-const SITE_NAME = "Wait, I'm Ramping!";
+const SITE_NAME = "[beta] Wait, I'm Ramping!";
 const SITE_DESCRIPTION =
     "Tools that help healers plan, visualize, and theorycraft their healing.";
 const SITE_URL = "https://www.waitimramping.com/";
 const SITE_IMAGE = SITE_URL + "description.png";
-const TITLE_TEMPLATE = "%s | Wait, I'm Ramping!";
+const TITLE_TEMPLATE = "[beta] %s | Wait, I'm Ramping!";
 
 export function PageMetadata(
     title: string = SITE_NAME,
