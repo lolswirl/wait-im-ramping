@@ -35,7 +35,7 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
         [TALENTS.CELESTIAL_HARMONY, true],
         [TALENTS.JADE_BOND, false],
         [TALENTS.MIST_WRAP, true],
-        [TALENTS.CHI_HARMONY, true],
+        [TALENTS.LOTUS_INFUSION, true],
         [TALENTS.CRANE_STYLE, true],
         [TALENTS.RAPID_DIFFUSION, true],
         [TALENTS.JADEFIRE_TEACHINGS, true],
