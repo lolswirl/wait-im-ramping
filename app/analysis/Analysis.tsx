@@ -144,7 +144,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
 
             <Grid container spacing={3}>
                 {displayedPages.map((tool) => (
-                    <Grid item xs={12} sm={6} md={4} key={tool.path}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={tool.path}>
                         <Link
                             href={tool.path}
                             style={{

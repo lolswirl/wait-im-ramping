@@ -32,7 +32,7 @@ export const TalentOption: React.FC<TalentOptionProps> = ({
   xs = 6 
 }) => {
     return (
-        <Grid item xs={xs}>
+        <Grid size={{ xs: xs }}>
             <Box 
                 sx={{ 
                     display: 'flex', 
