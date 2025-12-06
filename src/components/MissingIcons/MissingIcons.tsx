@@ -226,7 +226,7 @@ const MissingIcons: React.FC = () => {
                                     return acc;
                                 }, {} as Record<string, number>)
                             ).map(([className, count]) => (
-                                <Grid item xs={6} sm={4} md={3} key={className}>
+                                <Grid size={{ xs: 6, sm: 4, md: 3}} key={className}>
                                     <Paper sx={{ p: 2, textAlign: 'center' }}>
                                         <Typography variant="h6">{count}</Typography>
                                         <Typography variant="body2" color="text.secondary">

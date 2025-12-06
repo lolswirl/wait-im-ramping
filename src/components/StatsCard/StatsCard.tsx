@@ -67,7 +67,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
         }}>
             <Grid container spacing={2}>
                 {statFields.map((field) => (
-                    <Grid item xs={6} key={field.key}>
+                    <Grid size={{ xs: 6 }} key={field.key}>
                         {field.tooltip ? (
                             <Tooltip title={GetTitle(field.tooltip)} arrow>
                                 <TextField

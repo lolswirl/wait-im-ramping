@@ -204,10 +204,11 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
                         <Grid container spacing={2}>
                             {rotationHPS.map((rotation, index) => (
                                 <Grid 
-                                    item 
-                                    xs={12} 
-                                    md={rotationHPS.length === 1 ? 12 : 6} 
-                                    lg={rotationHPS.length === 1 ? 12 : rotationHPS.length === 2 ? 6 : 4} 
+                                    size={{
+                                        xs: 12,
+                                        md: rotationHPS.length === 1 ? 12 : 6,
+                                        lg: rotationHPS.length === 1 ? 12 : rotationHPS.length === 2 ? 6 : 4
+                                    }}
                                     key={index}
                                 >
                                     <RotationCard

@@ -39,7 +39,7 @@ const TargetCountsCard: React.FC<TargetCountsCardProps> = ({ options, onOptionsC
         }}>
             <Grid container spacing={2}>
                 {targets.map((target) => (
-                    <Grid item xs={6} key={target.key}>
+                    <Grid size={{ xs: 6 }} key={target.key}>
                         <TextField
                             label={GetTitle(target.label)}
                             type="number"

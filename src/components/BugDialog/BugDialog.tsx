@@ -118,7 +118,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                 </Box>
 
                 <Grid container spacing={1} sx={{ mt: 0.5, justifyContent: "flex-start", gap: 2 }}>
-                    <Grid item>
+                    <Grid>
                         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                             <Typography
                                 variant="caption"
@@ -143,7 +143,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                             </Typography>
                         </Box>
                     </Grid>
-                    <Grid item>
+                    <Grid>
                         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                             <Typography
                                 variant="caption"
@@ -168,7 +168,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                             </Typography>
                         </Box>
                     </Grid>
-                    <Grid item>
+                    <Grid>
                         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                             <Typography
                                 variant="caption"
@@ -205,7 +205,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
             >
                 <Box p={2}>
                     <Grid container spacing={1.5} sx={{ height: "100%" }}>
-                        <Grid item xs={12} md={7} sx={{ display: "flex" }}>
+                        <Grid size={{ xs: 12, md: 7 }} sx={{ display: "flex" }}>
                             <Card
                                 sx={{
                                     backgroundColor: "rgba(45, 45, 45, 0.7)",
@@ -256,7 +256,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                             </Card>
                         </Grid>
 
-                        <Grid item xs={12} md={5} sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+                        <Grid size={{ xs: 12, md: 5 }} sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
                             <Card
                                 sx={{
                                     backgroundColor: "rgba(45, 45, 45, 0.7)",
