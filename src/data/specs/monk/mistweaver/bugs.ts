@@ -514,6 +514,15 @@ const BUGS: Bug[] = [
         lastBuildTested: "64774",
         tags: [TAGS.MOH],
     },
+    {
+        spell: TALENTS.JADEFIRE_TEACHINGS,
+        affectedSpells: [],
+        severity: SEVERITY.LOW,
+        title: "Tooltip still shows 215% but only contributes 180% per nerf",
+        description: "JFT nerfed to +180% but tooltip has not been updated",
+        lastBuildTested: "64774",
+        tags: [],
+    },
 ];
 
 export default BUGS;
