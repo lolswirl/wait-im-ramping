@@ -29,6 +29,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
     const spellWidth = 200;
     const titleWidth = 450;
     const tagsWidth = 200;
+    const buildWidth = 55;
 
     const hideOverflowSx = {
         overflow: "hidden",
@@ -55,8 +56,8 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
     const sortedBugs = useMemo(() => {
         if (!sortBy) return bugs;
         return [...bugs].sort((a, b) => {
-            let aValue: string = "";
-            let bValue: string = "";
+            let aValue: string | number = "";
+            let bValue: string | number = "";
 
             switch (sortBy) {
                 case "spell":
@@ -68,8 +69,8 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                     bValue = b.title || "";
                     break;
                 case "lastBuildTested":
-                    aValue = a.lastBuildTested || "";
-                    bValue = b.lastBuildTested || "";
+                    aValue = parseInt(a.lastBuildTested || "0");
+                    bValue = parseInt(b.lastBuildTested || "0");
                     break;
                 case "tags":
                     aValue = (a.tags || []).join(",");
@@ -145,6 +146,18 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                         >
                             {GetTitle("Title")}
                             {getSortArrow("title")}
+                        </TableCell>
+                        <TableCell
+                            sx={{
+                                ...headerSx,
+                                minWidth: buildWidth,
+                                width: buildWidth,
+                                maxWidth: buildWidth,
+                            }}
+                            onClick={() => handleSort("lastBuildTested")}
+                        >
+                            {GetTitle("Build")}
+                            {getSortArrow("lastBuildTested")}
                         </TableCell>
                         <TableCell
                             sx={{
@@ -240,6 +253,24 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                     }}
                                 >
                                     {GetTitle(bug.title)}
+                                </Typography>
+                            </TableCell>
+                            <TableCell
+                                sx={{
+                                    border: 0,
+                                    minWidth: buildWidth,
+                                    maxWidth: buildWidth,
+                                    ...hideOverflowSx,
+                                }}
+                            >
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        transition: "color 0.2s ease",
+                                        color: STATUS_COLORS[bug.status ?? STATUS.OPEN],
+                                    }}
+                                >
+                                    {bug.lastBuildTested || "—"}
                                 </Typography>
                             </TableCell>
                             <TableCell

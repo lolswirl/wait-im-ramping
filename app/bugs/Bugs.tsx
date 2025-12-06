@@ -77,7 +77,7 @@ const BugsPage: React.FC<{ title: string; description: string }> = ({ title, des
                 }
                 marginBottom={3}
             />
-            <Box sx={{ maxWidth: 900, mx: "auto" }}>
+            <Box sx={{ mx: "auto" }}>
                 <BugFilters
                     selectedSpec={selectedSpec}
                     setSelectedSpec={setSelectedSpec}
