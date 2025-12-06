@@ -19,10 +19,6 @@ export const createAllyState = (id: number): AllyState => ({
             remaining: 0, 
             amp: 0 
         },
-        envelopingBreath: {
-            remaining: 0,
-            amp: 0
-        }
     }
 });
 
@@ -38,12 +34,6 @@ export const updateAllyBuffs = (allies: AllyState[], timeElapsed: number) => {
             ally.buffs.renewingMist.remaining -= timeElapsed;
             if (ally.buffs.renewingMist.remaining <= 0) {
                 ally.buffs.renewingMist.amp = 0;
-            }
-        }
-        if (ally.buffs.envelopingBreath.remaining > 0) {
-            ally.buffs.envelopingBreath.remaining -= timeElapsed;
-            if (ally.buffs.envelopingBreath.remaining <= 0) {
-                ally.buffs.envelopingBreath.amp = 0;
             }
         }
     });
@@ -82,7 +72,7 @@ export const applyEnvelopingMist = (allies: AllyState[], options: SimulationOpti
 
 export const applyRenewingMistToTarget = (renewingMist: spell, target: AllyState, options: SimulationOptions) => {
     target.buffs.renewingMist.remaining = renewingMist.custom?.duration;
-    target.buffs.renewingMist.amp = isTalentEnabled(options, TALENTS.CHI_HARMONY) ? TALENTS.CHI_HARMONY.custom.amp : 1;
+    target.buffs.renewingMist.amp = isTalentEnabled(options, TALENTS.LOTUS_INFUSION) ? TALENTS.LOTUS_INFUSION.custom.amp : 1;
 
     return target;
 };
@@ -92,44 +82,23 @@ export const applyRapidDiffusionRenewingMist = (allies: AllyState[], options: Si
 
     const renewingMist = SPELLS.RENEWING_MIST;
     const rapidDiffusion = TALENTS.RAPID_DIFFUSION;
-    const chiHarmony = TALENTS.CHI_HARMONY;
+    const lotusInfusion = TALENTS.LOTUS_INFUSION;
 
     const rapidDiffusionHealing = (renewingMistHealing  / renewingMist.custom.duration ) * rapidDiffusion.custom.duration;
 
     target.buffs.renewingMist.remaining = rapidDiffusion.custom.duration;
-    target.buffs.renewingMist.amp = isTalentEnabled(options, TALENTS.CHI_HARMONY) ? chiHarmony.custom.amp : 1;
+    target.buffs.renewingMist.amp = isTalentEnabled(options, TALENTS.LOTUS_INFUSION) ? lotusInfusion.custom.amp : 1;
 
     const amplifiedHealing = calculateHealingWithAmp(rapidDiffusionHealing, target);
     
     return { target, healing: amplifiedHealing };
 };
 
-export const applyEnvelopingBreath = (allies: AllyState[], options: SimulationOptions) => {
-    const celestialHarmony = TALENTS.CELESTIAL_HARMONY;
-    const mistWrap = TALENTS.MIST_WRAP;
-    
-    const maxTargets = celestialHarmony.custom.envelopingBreathTargets;
-    const baseDuration = celestialHarmony.custom.envelopingBreathDuration;
-    const baseAmp = celestialHarmony.custom.envelopingBreathAmp;
-
-    const duration = isTalentEnabled(options, TALENTS.MIST_WRAP) ? baseDuration + mistWrap.custom.duration : baseDuration;
-    const amp = baseAmp;
-    
-    const targets = getRandomAllies(allies, Math.min(maxTargets, allies.length));
-    
-    targets.forEach(target => {
-        target.buffs.envelopingBreath.remaining = duration;
-        target.buffs.envelopingBreath.amp = amp;
-    });
-    
-    return targets;
-};
 
 export const calculateHealingWithAmp = (baseHealing: number, ally: AllyState): number => {
     let totalAmp = 1;
     totalAmp *= ally.buffs.envelopingMist.amp || 1;
     totalAmp *= ally.buffs.renewingMist.amp || 1;
-    totalAmp *= ally.buffs.envelopingBreath.amp || 1;
     return baseHealing * totalAmp;
 };
 
@@ -225,7 +194,7 @@ export const calculateRotationHPS = async (
     const teachingsOfTheMonastery = TALENTS.TEACHINGS_OF_THE_MONASTERY;
     const totmMaxStacks = teachingsOfTheMonastery.custom.maxStacks;
 
-    const gomSpellpower = options.mastery * 1.05; // 5% is from effect #1 of mw core passive
+    const gomSpellpower = options.mastery * 0.95; // 5% is from effect #1 of mw core passive
     const gustOfMistSpellpower = gomSpellpower / 100;
     const gustOfMistHealing = calcWithStats(gustOfMistSpellpower) * chiProficiencyHealing;
 
@@ -289,7 +258,6 @@ export const calculateRotationHPS = async (
             gustOfMists: 0,
             envelopingMistAmp: 0,
             chiCocoons: 0,
-            envelopingBreath: 0,
             rapidDiffusion: 0,
         };
 
@@ -408,18 +376,6 @@ export const calculateRotationHPS = async (
 
                 breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistHealing, envTarget);
 
-                if (chiJiActive && isTalentEnabled(options, TALENTS.CELESTIAL_HARMONY)) {
-                    const envBTargets = applyEnvelopingBreath(allies, options);
-                    const envBHealing = celestialHarmony.custom.envelopingBreathHealing;
-                    let envBTotalHealing = 0;
-                    
-                    envBTargets.forEach(target => {
-                        envBTotalHealing += calculateHealingWithAmp(envBHealing, target);
-                    });
-                    
-                    breakdown.envelopingBreath = envBTotalHealing;
-                }
-
                 if (rapidDiffusionOpt) {
                     renewingMistHealing = calculateRenewingMistHealing(SPELLS.RENEWING_MIST);
                     const rdRemHealing = applyRapidDiffusionRenewingMist(allies, options, renewingMistHealing);
@@ -451,7 +407,7 @@ export const calculateRotationHPS = async (
 
         const totalHealing = breakdown.baseHealing + breakdown.chiJiGusts + breakdown.ancientTeachings + 
                            breakdown.wayOfTheCrane + breakdown.gustOfMists + 
-                           breakdown.chiCocoons + breakdown.envelopingBreath;
+                           breakdown.chiCocoons;
 
         return { breakdown, totalHealing, renewingMistHealing };
     };

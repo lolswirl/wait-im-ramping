@@ -11,10 +11,6 @@ export interface AllyState {
             remaining: number;
             amp: number;
         };
-        envelopingBreath: {
-            remaining: number;
-            amp: number;
-        };
     };
 }
 
@@ -36,7 +32,6 @@ export interface RotationResult {
             wayOfTheCrane?: number;
             gustOfMists?: number;
             chiCocoons?: number;
-            envelopingBreath?: number;
             rapidDiffusion?: number;
         };
     }>;
