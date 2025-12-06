@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { GetTitle } from "@util/stringManipulation";
-import { Bug, SEVERITY_COLORS, STATUS } from "@data/bugs";
+import { Bug, SEVERITY_COLORS, STATUS, STATUS_COLORS } from "@data/bugs";
 
 interface BugTableProps {
     bugs: Bug[];
@@ -216,10 +216,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                             variant="body2"
                                             sx={{
                                                 transition: "color 0.2s ease",
-                                                color:
-                                                    bug.status === STATUS.FIXED
-                                                        ? "#43a047"
-                                                        : "inherit",
+                                                color: STATUS_COLORS[bug.status ?? STATUS.OPEN],
                                             }}
                                         >
                                             {GetTitle(bug.spell.name)}
@@ -239,10 +236,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                     variant="body2"
                                     sx={{
                                         transition: "color 0.2s ease",
-                                        color:
-                                            bug.status === STATUS.FIXED
-                                                ? "#43a047"
-                                                : "inherit",
+                                        color: STATUS_COLORS[bug.status ?? STATUS.OPEN],
                                     }}
                                 >
                                     {GetTitle(bug.title)}

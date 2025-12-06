@@ -11,7 +11,20 @@ export enum SEVERITY {
 export enum STATUS {
     OPEN = "Open",
     FIXED = "Fixed",
+    REMOVED = "Removed",
 }
+
+export const STATUS_COLORS: Record<STATUS, string> = {
+    [STATUS.OPEN]: "",
+    [STATUS.FIXED]: "#43a047",
+    [STATUS.REMOVED]: "#ff5555ff",
+};
+
+export const STATUS_BADGES: Record<STATUS, string> = {
+    [STATUS.OPEN]: "",
+    [STATUS.FIXED]: "✓",
+    [STATUS.REMOVED]: "⨉",
+};
 
 export const SEVERITY_COLORS: Record<SEVERITY, string> = {
     [SEVERITY.CRITICAL]: "#d32f2f",
