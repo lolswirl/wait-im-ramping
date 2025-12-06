@@ -345,7 +345,102 @@ const talents = {
         name: "Unity Within",
         id: 443589,
         icon: 'ability_monk_prideofthetiger',
-    }
+    },
+    JADE_INFUSION: {
+        name: "Jade Infusion",
+        id: 1242910,
+        icon: 'ability_monk_summonserpentstatue',
+    },
+    PEACEFUL_MENDING: {
+        name: "Peaceful Mending",
+        id: 388593,
+        icon: 'pandarenracial_innerpeace',
+    },
+    SPIRITFONT: {
+        name: "Spiritfont",
+        id: 1260511,
+        icon: 'inv12_apextalent_monk_spiritfont',
+    },
+    ZEN_PULSE: {
+        name: "Zen Pulse",
+        id: 124081,
+        icon: 'ability_monk_forcesphere',
+    },
+    UPLIFTED_SPIRITS: {
+        name: "Uplifted Spirits",
+        id: 388551,
+        icon: 'inv_helm_leather_raidmonkgoblin_d_01',
+    },
+    CHI_COCOON: {
+        name: "Chi Cocoon",
+        id: 432772,
+        icon: 'ability_monk_chiexplosion',
+    },
+    CALMING_COALESCENCE: {
+        name: "Calming Coalescence",
+        id: 388218,
+        icon: 'ability_monk_healthsphere',
+    },
+    SOOTHING_BREATH: {
+        name: "Soothing Breath",
+        id: 343737,
+        icon: 'ability_monk_soothingmists',
+    },
+    YULONS_AVATAR: {
+        name: "Yulon's Avatar",
+        id: 1262667,
+        icon: 'inv_celestialserpentmount_jade',
+    },
+    FLOWING_WISDOM: {
+        name: "Flowing Wisdom",
+        id: 1262672,
+        icon: 'ability_monk_flyingdragonkick',
+    },
+    CHI_JIS_SWIFTNESS: {
+        name: "Chi-Ji's Swiftness",
+        id: 443566,
+        icon: 'inv_shoulder_leather_raidmonkemerald_d_01',
+    },
+    MANIFESTATION: {
+        name: "Manifestation",
+        id: 450875,
+        icon: 'inv_shoulder_inv_leather_raidmonk_s_01',
+    },
+    YULONS_KNOWLEDGE: {
+        name: "Yulon's Knowledge",
+        id: 443625,
+        icon: 'inv_jewelcrafting_jadeserpent',
+    },
+    MORNING_BREEZE: {
+        name: "Morning Breeze",
+        id: 1277302,
+        icon: 'expansionicon_mistsofpandaria',
+    },
+    EMPERORS_ELIXIR: {
+        name: "Emperor's Elixir",
+        id: 1268807,
+        icon: 'inv_drink_25_honeytea',
+    },
+    CHI_WARDING: {
+        name: "Chi Warding",
+        id: 1277444,
+        icon: 'inv_belt__inv_leather_raidmonkmythic_s_01',
+    },
+    FOCUSED_THUNDER: {
+        name: "Focused Thunder",
+        id: 197895,
+        icon: 'spell_monk_nimblebrew',
+    },
+    RISING_MIST: {
+        name: "Rising Mist",
+        id: 274909,
+        icon: 'ability_monk_effuse',
+    },
+    MISTS_OF_LIFE: {
+        name: "Mists of Life",
+        id: 388548,
+        icon: 'inv_shoulder__inv_leather_raidmonkmythic_s_01',
+    },
 } satisfies Record<string, spell>;
 
 export default talents;

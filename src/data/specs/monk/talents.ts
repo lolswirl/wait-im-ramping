@@ -40,6 +40,11 @@ const talents = {
         id: 1266733,
         icon: 'inv_helm_leather_raidmonkprogenitormythic_d_01',
     },
+    SAVE_THEM_ALL: {
+        name: "Save Them All",
+        id: 389579,
+        icon: 'inv_weapon_hand_22',
+    }
 } satisfies Record<string, spell>;
 
 export default talents;
