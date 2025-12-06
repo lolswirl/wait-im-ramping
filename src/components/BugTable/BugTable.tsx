@@ -10,10 +10,11 @@ import {
     Box,
     Typography,
     Chip,
+    Tooltip,
 } from "@mui/material";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { GetTitle } from "@util/stringManipulation";
-import { Bug, SEVERITY_COLORS, STATUS, STATUS_COLORS } from "@data/bugs";
+import { Bug, SEVERITY, SEVERITY_COLORS, SEVERITY_ORDER, STATUS, STATUS_COLORS } from "@data/bugs";
 
 interface BugTableProps {
     bugs: Bug[];
@@ -60,6 +61,10 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
             let bValue: string | number = "";
 
             switch (sortBy) {
+                case "severity":
+                    aValue = SEVERITY_ORDER.indexOf(a.severity);
+                    bValue = SEVERITY_ORDER.indexOf(b.severity);
+                    break;
                 case "spell":
                     aValue = a.spell?.name || "";
                     bValue = b.spell?.name || "";
@@ -120,9 +125,21 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
             <Table sx={{ minWidth: 600 }}>
                 <TableHead>
                     <TableRow>
-                        <TableCell
-                            sx={{ width: severityWidth, p: 0, border: 0 }}
-                        />
+                        <Tooltip title={GetTitle(`Sort by Severity${getSortArrow("severity")}`)} arrow>
+                            <TableCell
+                                sx={{ 
+                                    width: severityWidth, 
+                                    p: 0, 
+                                    border: 0,
+                                    cursor: "pointer",
+                                    transition: "opacity 0.2s",
+                                    "&:hover": {
+                                        opacity: 0.7,
+                                    }
+                                }}
+                                onClick={() => handleSort("severity")}
+                            />
+                        </Tooltip>
                         <TableCell
                             sx={{
                                 ...headerSx,
