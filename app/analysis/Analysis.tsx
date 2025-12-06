@@ -10,6 +10,7 @@ import {
     Box, 
     Chip,
     Grid,
+    Tooltip,
 } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
@@ -91,6 +92,10 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
         });
     };
 
+    const isOutdated = (tool: AnalysisPage) => {
+        return tool.tags.some(tag => tag.toLowerCase() === 'outdated');
+    };
+
     return (
         <Container>
             <PageHeader 
@@ -161,10 +166,12 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                                     display: "flex",
                                     flexDirection: "column",
                                     transition: "all 0.3s ease-in-out",
+                                    opacity: isOutdated(tool) ? 0.4 : 1,
                                     "&:hover": {
                                         boxShadow: 6,
                                         transform: "translateY(-4px)",
                                         borderColor: "primary.main",
+                                        opacity: isOutdated(tool) ? 0.6 : 1,
                                     },
                                     cursor: "pointer",
                                 }}
@@ -193,6 +200,37 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                                             opacity: 0.8,
                                             filter: 'blur(0.5px)'
                                         }} />
+
+                                        {isOutdated(tool) && (
+                                            <Tooltip 
+                                                title={GetTitle(tool.extra || "This tool is no longer maintained or supported")}
+                                                arrow
+                                                placement="top"
+                                            >
+                                                <Box sx={{ 
+                                                    position: 'absolute',
+                                                    top: '50%',
+                                                    left: '50%',
+                                                    transform: 'translate(-50%, -50%)',
+                                                    backgroundColor: 'error.main',
+                                                    backdropFilter: 'blur(8px)',
+                                                    color: 'white',
+                                                    px: 1.5,
+                                                    py: 0.75,
+                                                    borderRadius: 2,
+                                                    fontSize: '0.875rem',
+                                                    fontWeight: 600,
+                                                    letterSpacing: '0.05em',
+                                                    textTransform: getCapsMode() ? 'none' : 'lowercase',
+                                                    boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                                                    border: '2px solid rgba(255,255,255,0.1)',
+                                                    zIndex: 2,
+                                                    cursor: 'help'
+                                                }}>
+                                                    {GetTitle("Outdated")}
+                                                </Box>
+                                            </Tooltip>
+                                        )}
 
                                         <Box sx={{ 
                                             position: 'absolute', 

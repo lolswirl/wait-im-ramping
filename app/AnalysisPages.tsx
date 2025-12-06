@@ -13,6 +13,7 @@ export interface AnalysisPage {
   path: string;
   preview: string;
   description: string;
+  extra?: string;
   tags: string[];
   createdDate: string;
 }
@@ -31,7 +32,8 @@ export const analysisPages: AnalysisPage[] = [
     path: "/analysis/jade-empowerment-sheiluns", 
     preview: jadeEmpowermentSheilunsPreview,
     description: "Analyze the spellpower differences between Sheilun's Gift's stacks and Jade Empowerment's chaining",
-    tags: ["Healing", "Monk"],
+    extra: "Jade Empowerment was heavily nerfed in Midnight and thus no longer applicable to compare with a cooldown.",
+    tags: ["Healing", "Monk", "Outdated"],
     createdDate: "2025-03-10"
   },
   { 
@@ -39,7 +41,8 @@ export const analysisPages: AnalysisPage[] = [
     path: "/analysis/jade-empowerment-docj", 
     preview: jadeEmpowermentDocjPreview,
     description: "Compare the spellpower output of Jade Empowerment and Dance of Chi-Ji on different target counts",
-    tags: ["Healing", "Monk"],
+    extra: "Jade Empowerment was heavily nerfed in Midnight and no longer on the same node as Dance of Chi-Ji.",
+    tags: ["Healing", "Monk", "Outdated"],
     createdDate: "2025-03-26"
   },
   { 
