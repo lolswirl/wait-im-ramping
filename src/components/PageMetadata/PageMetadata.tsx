@@ -1,19 +1,29 @@
 import { GetTitle } from "@util/stringManipulation";
 
-const SITE_NAME = "[beta] Wait, I'm Ramping!";
+const isBetaEnv = () => process.env.NEXT_PUBLIC_IS_BETA === 'true';
+
+const getSiteName = () => 
+    isBetaEnv() ? "[BETA] Wait, I'm Ramping!" : "Wait, I'm Ramping!";
+
 const SITE_DESCRIPTION =
     "Tools that help healers plan, visualize, and theorycraft their healing.";
 const SITE_URL = "https://www.waitimramping.com/";
 const SITE_IMAGE = SITE_URL + "description.png";
-const TITLE_TEMPLATE = "[beta] %s | Wait, I'm Ramping!";
+
+const getTitleTemplate = () => 
+    isBetaEnv() ? "[BETA] %s | Wait, I'm Ramping!" : "%s | Wait, I'm Ramping!";
 
 export function PageMetadata(
-    title: string = SITE_NAME,
+    title: string = "",
     description: string = SITE_DESCRIPTION,
     image: string = SITE_IMAGE,
     url: string = SITE_URL
 ) {
-    const formattedTitle = GetTitle(title);
+    const SITE_NAME = getSiteName();
+    const TITLE_TEMPLATE = getTitleTemplate();
+    const displayTitle = title || SITE_NAME;
+    
+    const formattedTitle = GetTitle(displayTitle);
     const formattedDescription = GetTitle(description);
 
     return {
@@ -25,7 +35,7 @@ export function PageMetadata(
         openGraph: {
             type: "website",
             url,
-            title: title !== SITE_NAME ? GetTitle(`${title} | ${SITE_NAME}`) : formattedTitle,
+            title: title ? GetTitle(`${title} | ${SITE_NAME}`) : formattedTitle,
             description: formattedDescription,
             // images: [
             //     {
@@ -38,7 +48,7 @@ export function PageMetadata(
         },
         twitter: {
             card: "summary_large_image",
-            title: GetTitle(`${title} | ${SITE_NAME}`),
+            title: GetTitle(`${title || SITE_NAME} | ${SITE_NAME}`),
             description: formattedDescription,
             // images: [image],
         },
