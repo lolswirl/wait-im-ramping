@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { GetTitle } from "@util/stringManipulation";
-import { Bug, STATUS, SEVERITY_COLORS } from "@data/bugs";
+import { Bug, STATUS, SEVERITY_COLORS, STATUS_COLORS, STATUS_BADGES } from "@data/bugs";
 import { specialization } from "@data/class";
 import SwirlButton from "@components/Buttons/SwirlButton";
 
@@ -97,11 +97,11 @@ const BugDialog: React.FC<BugDialogProps> = ({
                             {GetTitle(bug.title)}
                         </Typography>
                         <Stack direction="row" spacing={1} alignItems="center">
-                            {bug.status === STATUS.FIXED && (
+                            {bug.status !== STATUS.OPEN && (
                                 <Chip
-                                    label={`✓ ${GetTitle(STATUS.FIXED)}`}
+                                    label={`${STATUS_BADGES[bug.status ?? STATUS.OPEN]} ${GetTitle(bug.status ?? STATUS.OPEN)}`}
                                     sx={{
-                                        backgroundColor: "#2e7d32",
+                                        backgroundColor: STATUS_COLORS[bug.status ?? STATUS.OPEN],
                                         color: "#fff",
                                         fontWeight: 700,
                                         fontSize: '0.7rem',
