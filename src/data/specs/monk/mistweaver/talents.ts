@@ -325,6 +325,11 @@ const talents = {
             friendlyTargets: 5,
         }
     },
+    OVERFLOWING_MISTS: {
+        name: "Overflowing Mists",
+        id: 388511,
+        icon: 'inv_legion_faction_dreamweavers',
+    },
 
     // hero talents
     // master of harmony
