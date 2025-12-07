@@ -82,7 +82,7 @@ const BUGS: Bug[] = [
         description: "Mistweaver's Celestial Conduit tooltip requires 'Xuen' to trigger the use of Celestial Conduit 1 minute after using Xuen. Intended for WW but is currently functioning this way for MW as well.",
         lastBuildTested: "64228",
         notes: "No longer requires celestial to be on CD but the tooltip is still the windwalker tooltip",
-        tags: [TAGS.CONDUIT],
+        tags: [TAGS.TOOLTIP, TAGS.CONDUIT],
     },
     {
         spell: TALENTS.SPIRITFONT,
@@ -181,7 +181,7 @@ const BUGS: Bug[] = [
         description: "Soothing Breath tooltip does not update when talented into Jade Bond. Soothing breath lasts 9s (Tooltip says 8.5 before haste). Tooltip does not match the actual amount healed for either JB or Gift",
         lastBuildTested: "64228",
         notes: "Multiple issues: https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1",
-        tags: [],
+        tags: [TAGS.TOOLTIP],
     },
     {
         spell: TALENTS.YULONS_AVATAR,
@@ -286,7 +286,7 @@ const BUGS: Bug[] = [
         title: "Tooltip still references Chi Burst",
         description: "Manifestation tooltip still references Chi Burst for mistweaver",
         lastBuildTested: "64529",
-        tags: [TAGS.MOH],
+        tags: [TAGS.TOOLTIP, TAGS.MOH],
     },
     {
         spell: TALENTS.YULONS_KNOWLEDGE,
@@ -322,7 +322,7 @@ const BUGS: Bug[] = [
         title: "Bonus not reflected in Rising Sun Kick/Rushing Wind Kick tooltips",
         description: "Morning Breeze is not reflected in the RWK/RSK tooltips",
         lastBuildTested: "64529",
-        tags: [],
+        tags: [TAGS.TOOLTIP],
     },
     {
         spell: TALENTS.EMPERORS_ELIXIR,
@@ -331,7 +331,7 @@ const BUGS: Bug[] = [
         title: "Tooltip drastically lower than actual",
         description: "In game tooltip for Jadefire Stomp is drastically lower than the actual damage dealt",
         lastBuildTested: "64339",
-        tags: [],
+        tags: [TAGS.TOOLTIP],
     },
     {
         spell: TALENTS.SECRET_INFUSION,
@@ -510,7 +510,7 @@ const BUGS: Bug[] = [
         title: "Tooltip still shows 215% but only contributes 180% per nerf",
         description: "JFT nerfed to +180% but tooltip has not been updated",
         lastBuildTested: "64774",
-        tags: [],
+        tags: [TAGS.TOOLTIP],
     },
     {
         spell: TALENTS.OVERFLOWING_MISTS,
@@ -519,7 +519,7 @@ const BUGS: Bug[] = [
         title: "Tooltip on buff still 1% heal but should be sp% value",
         description: "The buff of Overflowing Mists still shows a percentage heal value when it should be the sp% value",
         lastBuildTested: "64774",
-        tags: [],
+        tags: [TAGS.TOOLTIP],
     }
 ];
 

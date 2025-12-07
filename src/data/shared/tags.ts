@@ -14,6 +14,7 @@ export const TAGS: Record<string, Tags> = {
     TRINKETS: { name: "Trinkets", color: "#1e90ff" },
     TIER: { name: "Tier", color: "#ff69b4" },
     APEX: { name: "Apex", color: "#ff9a2fff" },
+    TOOLTIP: { name: "Tooltip", color: "#2fbaffff" },
     
     // stats
     MASTERY: { name: STATS.MASTERY, color: STAT_COLORS.MASTERY },
