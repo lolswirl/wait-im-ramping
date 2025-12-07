@@ -11,6 +11,7 @@ import {
     Card,
     CardContent,
     Grid,
+    Link,
 } from "@mui/material";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { GetTitle } from "@util/stringManipulation";
@@ -24,6 +25,44 @@ interface BugDialogProps {
     selectedSpec: specialization;
     onClose: () => void;
 }
+
+const parseNotesWithLinks = (text: string) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const parts = text.split(urlRegex);
+    
+    return parts.map((part, index) => {
+        if (part.match(urlRegex)) {
+            let displayText = part;
+            try {
+                const url = new URL(part);
+                displayText = url.hostname + (url.pathname !== '/' ? '/...' : '');
+            } catch (e) {
+                displayText = part.length > 50 ? part.substring(0, 47) + '...' : part;
+            }
+            
+            return (
+                <Link
+                    key={index}
+                    href={part}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                        color: "primary",
+                        textDecoration: "none",
+                        fontWeight: 500,
+                        "&:hover": {
+                            textDecoration: "underline",
+                            color: "primary.light",
+                        }
+                    }}
+                >
+                    {displayText}
+                </Link>
+            );
+        }
+        return <span key={index}>{GetTitle(part)}</span>;
+    });
+};
 
 const BugDialog: React.FC<BugDialogProps> = ({
     open,
@@ -350,6 +389,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                             {GetTitle("Notes")}
                                         </Typography>
                                         <Typography
+                                            component="div"
                                             variant="body2"
                                             sx={{
                                                 whiteSpace: "pre-line",
@@ -379,7 +419,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 }
                                             }}
                                         >
-                                            {GetTitle(bug.notes)}
+                                            {parseNotesWithLinks(bug.notes)}
                                         </Typography>
                                     </CardContent>
                                 </Card>
