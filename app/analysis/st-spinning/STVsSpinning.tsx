@@ -2,12 +2,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Box, Container, TextField } from "@mui/material";
+import { Box, Container, TextField, useTheme } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 
 import { GCD } from "@data/spells/spell";
 import SPELLS from "@data/spells";
+import TALENTS from "@data/specs/monk/mistweaver/talents";
+import { CLASSES } from "@data/class";
 
 import { GetTitle } from "@util/stringManipulation";
 
@@ -17,15 +19,28 @@ type DamagePoint = { time: number; damage: number };
 type DamageData = {
   rotationDamage: DamagePoint[];
   spinningCraneKick: DamagePoint[];
+  jadeEmpowerment: DamagePoint[];
 };
 
 const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+  const theme = useTheme();
   const [timeSpent, setTimeSpent] = useState(30);
   const [targetCount, setTargetCount] = useState(1);
   const [damageData, setDamageData] = useState<DamageData>({
     rotationDamage: [],
-    spinningCraneKick: []
+    spinningCraneKick: [],
+    jadeEmpowerment: []
   });
+
+  const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
+  const intellect = mistweaver.intellect;
+
+  const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
+  const cracklingJadeLightningDamage = cjl.value.damage;
+
+  const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
+  const jadeEmpowermentIncrease = jadeEmpowerment.custom.spellpowerIncrease;
+  const jadeEmpowermentChain = jadeEmpowerment.custom.chainVal;
 
   const simulateRotations = useCallback((totalTime: number) => {
     let currentTime = 0;
@@ -143,14 +158,47 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
     return craneKickDamage;
   }, [targetCount]);
 
+  const simulateJadeEmpowerment = useCallback((totalTime: number) => {
+    let currentTime = 0;
+    let cumulativeDamage = 0;
+    const jadeEmpowermentData: DamagePoint[] = [];
+
+    const channelDuration = cjl.castTime;
+    const tickInterval = 1.5;
+    const ticksPerChannel = channelDuration / tickInterval;
+
+    while (currentTime < totalTime) {
+      for (let tick = 0; tick < ticksPerChannel && currentTime < totalTime; tick++) {
+        const effectiveTargets = Math.min(targetCount, 5);
+        
+        const baseDamageWithIncrease = cracklingJadeLightningDamage * (1 + jadeEmpowerment.custom?.spellpowerIncrease / 100);
+        
+        let totalDamage = baseDamageWithIncrease;
+        if (effectiveTargets > 1) {
+          totalDamage += baseDamageWithIncrease * jadeEmpowermentChain * (effectiveTargets - 1); // Additional targets at 25%
+        }
+        
+        const damagePerTick = totalDamage / ticksPerChannel;
+        
+        cumulativeDamage += damagePerTick;
+        jadeEmpowermentData.push({ time: currentTime, damage: cumulativeDamage });
+        currentTime += tickInterval;
+      }
+    }
+
+    return jadeEmpowermentData;
+  }, [targetCount, cracklingJadeLightningDamage, cjl.castTime]);
+
   useEffect(() => {
     const rotations = simulateRotations(timeSpent);
     const spinningCraneKickData = simulateSpinningCraneKick(timeSpent);
+    const jadeEmpowermentData = simulateJadeEmpowerment(timeSpent);
     setDamageData({
       rotationDamage: rotations,
       spinningCraneKick: spinningCraneKickData,
+      jadeEmpowerment: jadeEmpowermentData,
     });
-  }, [timeSpent, targetCount, simulateRotations, simulateSpinningCraneKick]);
+  }, [timeSpent, targetCount, simulateRotations, simulateSpinningCraneKick, simulateJadeEmpowerment]);
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTimeSpent(Number(e.target.value));
@@ -166,16 +214,31 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
       tooltip: { mode: "index" as const, intersect: false },
     },
     scales: {
-      x: { title: { display: true, text: GetTitle("Time (Seconds)") }, ticks: { autoSkip: true } },
-      y: { title: { display: true, text: GetTitle("Cumulative Damage") }, beginAtZero: true },
+      x: { 
+        title: { display: true, text: GetTitle("Time (Seconds)") }, 
+        ticks: { autoSkip: true },
+        grid: {
+          color: theme.custom.chart.gridColor,
+        },
+      },
+      y: { 
+        title: { display: true, text: GetTitle("Cumulative Damage/Healing") }, 
+        beginAtZero: true,
+        grid: {
+          color: theme.custom.chart.gridColor,
+        },
+      },
     },
   };
+
+  console.log(damageData);
 
   const chartData = {
     labels: [
       ...new Set([
         ...damageData.rotationDamage.map(item => item.time),
         ...damageData.spinningCraneKick.map(item => item.time),
+        ...damageData.jadeEmpowerment.map(item => item.time),
       ])
     ],
     datasets: [
@@ -189,8 +252,15 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
       {
         label: GetTitle("Spinning Crane Kick"),
         data: damageData.spinningCraneKick.map(item => item.damage),
-        borderColor: "rgba(54, 162, 235, 1)",
-        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        borderColor: "rgba(42, 141, 31, 1)",
+        backgroundColor: "rgba(42, 141, 31, 0.2)",
+        fill: false,
+      },
+      {
+        label: GetTitle("Jade Empowerment (Crackling Jade Lightning)"),
+        data: damageData.jadeEmpowerment.map(item => item.damage),
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
         fill: false,
       }
     ]
