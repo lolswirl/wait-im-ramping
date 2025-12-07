@@ -10,7 +10,7 @@ const spells = {
         castTime: 0,
         school: SCHOOLS.PHYSICAL,
         value: {
-            damage: 14769
+            damage: 692
         }
     },
     BLACKOUT_KICK: {
@@ -20,7 +20,7 @@ const spells = {
         castTime: 0,
         school: SCHOOLS.PHYSICAL,
         value: {
-            damage: 26582
+            damage: 1245
         }
     },
     RISING_SUN_KICK: {
@@ -31,7 +31,7 @@ const spells = {
         cooldown: 10,
         school: SCHOOLS.PHYSICAL,
         value: {
-            damage: 40775
+            damage: 1910
         }
 },
     CRACKLING_JADE_LIGHTNING: {
@@ -41,7 +41,7 @@ const spells = {
         castTime: 3,
         school: SCHOOLS.NATURE,
         value: {
-            damage: 19270
+            damage: 903
         }
     },
     SPINNING_CRANE_KICK: {
@@ -51,7 +51,7 @@ const spells = {
         school: SCHOOLS.PHYSICAL,
         castTime: 1.5,
         value: {
-            damage: 25217
+            damage: 1181
         }
     },
 
@@ -64,7 +64,7 @@ const spells = {
         cooldown: 9,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 36437
+            healing: 1158
         },
         custom: {
             duration: 20
@@ -88,7 +88,7 @@ const spells = {
         castTime: 2,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 57811
+            healing: 5145
         },
         custom: {
             duration: 6,
@@ -102,7 +102,7 @@ const spells = {
         castTime: 1.5,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 201357
+            healing: 5689
         }
     },
     THUNDER_FOCUS_TEA: {
@@ -110,7 +110,7 @@ const spells = {
         id: 116680,
         icon: 'ability_monk_thunderfocustea',
         castTime: 0,
-        cooldown: 30,
+        cooldown: 45,
         gcd: false
     },
 
@@ -140,7 +140,7 @@ const spells = {
         castTime: 2,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 30899
+            healing: 1023
         }, 
         custom: {
             targetsHit: 3,
@@ -175,12 +175,11 @@ const spells = {
         cooldown: 90,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 1023377,
-            damage: 686376,
+            healing: 32394,
+            damage: 8539,
         },
         custom: {
             maxTargets: 5,
-            multiplier: 0.06,
         }
     },
 

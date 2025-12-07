@@ -18,8 +18,8 @@ const MISTWEAVER_MONK = attachGetters({
   name: 'Mistweaver',
   class: 'Monk',
   color: '#4ea55c',
-  intellect: 17647,
-  mastery: 55.44,
+  intellect: 620,
+  mastery: 110.879,
 } satisfies specialization )
 
 export default MISTWEAVER_MONK;
