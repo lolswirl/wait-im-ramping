@@ -102,10 +102,10 @@ const talents = {
         id: 117907,
         icon: 'ability_monk_souldance',
         value: {
-            healing: 10703
+            healing: 990
         },
         custom: {
-            multiplier: 6.93,
+            multiplier: 13.86,
         }
     },
     CELESTIAL_HARMONY: {
@@ -117,10 +117,6 @@ const talents = {
             chiCocoonFormula: (sourceHp: number, versatility: number) => {
                 return sourceHp * 24 / 100 * (1 + versatility);
             },
-            envelopingBreathAmp: 1.1,
-            envelopingBreathTargets: 5,
-            envelopingBreathHealing: 19011,
-            envelopingBreathDuration: 6
         }
     },
     JADE_BOND: {
@@ -322,8 +318,7 @@ const talents = {
         school: SCHOOLS.NATURE,
         castTime: 0,
         value: {
-            damage: 15945,
-            healing: 32880,
+            damage: 5637,
         },
         custom: {
             enemyTargets: 5,
@@ -338,8 +333,8 @@ const talents = {
         id: 1239442,
         icon: 'ability_socererking_forcenova',
         value: {
-            healing: 83382,
-            damage: 1,
+            healing: 1177,
+            damage: 248,
         },
         custom: {
             targetsHit: 5
