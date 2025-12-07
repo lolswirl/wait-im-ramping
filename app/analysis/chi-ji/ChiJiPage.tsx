@@ -51,7 +51,7 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
     
     const [options, setOptions] = useState<SimulationOptions>({
         intellect: intellect,
-        totalHp: 1729040,
+        totalHp: 99690,
         crit: 0,
         versatility: 0,
         mastery: mastery,
