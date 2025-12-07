@@ -163,7 +163,6 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                             { key: 'chiJiGusts', title: 'Chi-Ji Gusts', color: 'rgb(255, 152, 0)', value: Number(item.sources.chiJiGusts) || 0 },
                                             { key: 'ancientTeachings', title: TALENTS.ANCIENT_TEACHINGS.name, color: 'rgb(156, 39, 176)', value: Number(item.sources.ancientTeachings) || 0 },
                                             { key: 'wayOfTheCrane', title: TALENTS.WAY_OF_THE_CRANE.name, color: 'rgb(156, 39, 176)', value: Number(item.sources.wayOfTheCrane) || 0 },
-                                            { key: 'envelopingBreath', title: "Enveloping Breath", color: 'rgb(255, 193, 7)', value: Number(item.sources.envelopingBreath) || 0 },
                                             { key: 'rapidDiffusion', title: "Rapid Diffusion", color: 'rgb(255, 87, 34)', value: Number(item.sources.rapidDiffusion) || 0 },
                                             { key: 'gustOfMists', title: TALENTS.GUST_OF_MISTS.name, color: 'rgb(33, 150, 243)', value: Number(item.sources.gustOfMists) || 0 },
                                         ];
