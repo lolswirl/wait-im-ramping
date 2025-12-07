@@ -143,6 +143,7 @@ const spells = {
             healing: 1023
         }, 
         custom: {
+            healingPerStack: 542,
             targetsHit: 3,
             maxStacks: 10,
         }
