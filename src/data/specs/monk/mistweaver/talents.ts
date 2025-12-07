@@ -433,7 +433,7 @@ const talents = {
     STAMPEDE_OF_THE_ANCIENTS: {
         name: "Stampede of the Ancients",
         id: 443321,
-        icon: 'ability_monk_rushingjadewind',
+        icon: 'monk_ability_summonoxstatue',
         custom: {
             mainTargetIncrease: 4.0,
         }
