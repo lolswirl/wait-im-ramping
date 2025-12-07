@@ -40,8 +40,10 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
     const [selectedTalents, setSelectedTalents] = useState(
         new Map<spell, boolean>([
             [SPELLS.SHEILUNS_GIFT, false],
+            [TALENTS.LEGACY_OF_WISDOM, false],
+            [TALENTS.EMPERORS_FAVOR, false],
+            [TALENTS.UNITY_WITHIN, true],
             [TALENTS.JADE_EMPOWERMENT, false],
-            [TALENTS.UNITY_WITHIN, false],
         ])
     );
 
@@ -74,8 +76,7 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
     );
 
     const conduitSpellpower = calcSpellpower(celestialConduit.value.healing, intellect);
-    const conduitSpellpowerCalc = (targets: number) =>
-        conduitSpellpower * (1 + celestialConduit.custom.multiplier * targets);
+    const conduitSpellpowerCalc = (targets: number) => conduitSpellpower;
     const conduitSpellpowers = conduitValues.map(conduitSpellpowerCalc);
 
     const unityWithinSpellpowerCalc = (targets: number) =>
@@ -88,9 +89,37 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
             : 0;
     const unityWithinSpellpowers = conduitValues.map(unityWithinSpellpowerCalc);
 
-    const sheilunHealingPerStack = SPELLS.SHEILUNS_GIFT.value.healing;
-    const sheilunTargetsHit = TALENTS.LEGACY_OF_WISDOM.custom?.targetsHit;
-    const sheilunSpellpowerPerStack = calcSpellpower(sheilunHealingPerStack, intellect) * sheilunTargetsHit;
+    // Sheilun's Gift calculations
+    const sheilunsGift = SPELLS.SHEILUNS_GIFT;
+    const sheilunBaseHealing = sheilunsGift.value.healing;
+    const sheilunHealingPerStack = sheilunsGift.custom?.healingPerStack;
+    const sheilunMaxStacks = sheilunsGift.custom?.maxStacks;
+    const sheilunMainTargetIncrease = TALENTS.INVIGORATING_MISTS.custom?.sheilunsMainTargetIncrease;
+
+    const legacyOfWisdom = TALENTS.LEGACY_OF_WISDOM;
+    const emperorsFavor = TALENTS.EMPERORS_FAVOR;
+
+    const sheilunTargetsHit =
+        (selectedTalents.get(legacyOfWisdom) && legacyOfWisdom.custom?.targetsHit) ||
+        (selectedTalents.get(emperorsFavor) && emperorsFavor.custom?.targetsHit) ||
+        sheilunsGift.custom?.targetsHit;
+
+    const calculateSheilunSpellpower = (stacks: number) => {
+        const healingPerTarget = sheilunBaseHealing + (sheilunHealingPerStack * stacks);
+        
+        const mainTargetHealing = healingPerTarget * (1 + sheilunMainTargetIncrease);
+        
+        const emperorsFavorMultiplier = selectedTalents.get(emperorsFavor)
+            ? emperorsFavor.custom?.increase
+            : 1;
+        
+        const finalMainTargetHealing = mainTargetHealing * emperorsFavorMultiplier;
+        const otherTargetsHealing = healingPerTarget * (sheilunTargetsHit - 1);
+        
+        const totalHealing = finalMainTargetHealing + otherTargetsHealing;
+        
+        return calcSpellpower(totalHealing, intellect);
+    };
 
     const cracklingJadeLightningDamage =
         SPELLS.CRACKLING_JADE_LIGHTNING.value.damage;
@@ -119,9 +148,9 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
     );
     const jeSpellpowers = jeValues.map((value) => jeSpellpowerCalc(value));
 
-    const xValues = Array.from({ length: 10 }, (_, i) => i + 1);
-    const sheilunSpellpowers = xValues.map(
-        (i) => sheilunSpellpowerPerStack * i
+    const xValues = Array.from({ length: sheilunMaxStacks + 1 }, (_, i) => i);
+    const sheilunSpellpowers = xValues.map((stacks) => 
+        calculateSheilunSpellpower(stacks)
     );
 
     const allAbilities = [

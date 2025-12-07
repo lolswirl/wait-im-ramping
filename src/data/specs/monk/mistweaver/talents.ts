@@ -2,6 +2,14 @@ import { SCHOOLS } from '@data/shared/schools';
 import spell from '@data/spells/spell';
 
 const talents = {
+    INVIGORATING_MISTS: {
+        name: "Invigorating Mists",
+        id: 274586,
+        icon: 'ability_monk_vivify',
+        custom: {
+            sheilunsMainTargetIncrease: 5.0,
+        }
+    },
     LEGACY_OF_WISDOM: {
         name: "Legacy of Wisdom",
         id: 404408,
@@ -404,24 +412,13 @@ const talents = {
         id: 442743,
         icon: 'ability_monk_provoke',
     },
-    FLIGHT_OF_THE_RED_CRANE: {
-        name: "Flight of the Red Crane",
-        id: 443255,
-        icon: 'inv_pet_cranegod',
-        value: {
-            healing: 22033
-        },
-        custom: {
-            targetsHit: 5
-        }
-    },
     COURAGE_OF_THE_WHITE_TIGER: {
         name: "Courage of the White Tiger",
         id: 443087,
         icon: 'ability_monk_summontigerstatue',
         value: {
-            healing: 97656,
-            damage: 37560,
+            healing: 6399,
+            damage: 2133,
         }
     },
     HEART_OF_THE_JADE_SERPENT: {
@@ -435,7 +432,15 @@ const talents = {
         icon: 'ability_monk_chargingoxwave',
         custom: {
             targets: 5,
-            absorbPercentage: 0.03,
+            absorbAmount: 930,
+        }
+    },
+    STAMPEDE_OF_THE_ANCIENTS: {
+        name: "Stampede of the Ancients",
+        id: 443321,
+        icon: 'ability_monk_rushingjadewind',
+        custom: {
+            mainTargetIncrease: 4.0,
         }
     },
     INNER_COMPASS: {

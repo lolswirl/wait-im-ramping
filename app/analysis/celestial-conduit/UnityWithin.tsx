@@ -2,7 +2,6 @@ import TALENTS from "@data/specs/monk/mistweaver/talents";
 
 interface UnityWithinResult {
     sotbo: number;
-    fotrc: number;
     cotwt: number;
     total: number;
     spellpower: number;
@@ -16,30 +15,22 @@ interface UnityWithinResult {
  * @returns object with breakdown per talent, total healing, and spellpower
  */
 export const calculateUnityWithin = (intellect: number, targets: number, unityWithin: boolean): UnityWithinResult => {
-    const maxHP = 1729040; // default max hp with no gear at level 80
-
     const unityWithinMultiplier = unityWithin ? 2 : 1;
 
     const sotbo = TALENTS.STRENGTH_OF_THE_BLACK_OX;
     const sotboMaxTargets = sotbo.custom?.targets;
     const sotboTargetsHit = Math.min(targets, sotboMaxTargets);
-    const sotboAbsorb = sotboTargetsHit * (sotbo.custom?.absorbPercentage * unityWithinMultiplier * maxHP);
-
-    const fotrc = TALENTS.FLIGHT_OF_THE_RED_CRANE;
-    const fotrcMaxTargets = fotrc.custom?.targetsHit;
-    const fotrcTargetsHit = Math.min(targets, fotrcMaxTargets);
-    const fotrcHeal = fotrc.value.healing * unityWithinMultiplier * fotrcTargetsHit;
+    const sotboAbsorb = sotboTargetsHit * (sotbo.custom?.absorbAmount * unityWithinMultiplier);
 
     const cotwt = TALENTS.COURAGE_OF_THE_WHITE_TIGER;
     const cotwtHeal = cotwt.value.healing * unityWithinMultiplier;
 
-    const totalHealing = sotboAbsorb + fotrcHeal + cotwtHeal;
+    const totalHealing = sotboAbsorb + cotwtHeal;
     
     const spellpower = (totalHealing / intellect) * 100;
 
     return {
         sotbo: sotboAbsorb,
-        fotrc: fotrcHeal,
         cotwt: cotwtHeal,
         total: totalHealing,
         spellpower
