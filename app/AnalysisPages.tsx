@@ -2,7 +2,7 @@ const risingSunKickPreview = "/previews/rising-sun-kick-resets.png";
 const externalComparisonPreview = "/previews/external-comparison.png";
 const jadeEmpowermentSheilunsPreview = "/previews/jade-empowerment-sheiluns.png";
 const jadeEmpowermentDocjPreview = "/previews/jade-empowerment-docj.png";
-const stSpinningPreview = "/previews/st-spinning.png";
+const mwDamagePreview = "/previews/mw-damage.png";
 const harmonicSurgePreview = "/previews/harmonic-surge.png";
 const chijiPreview = "/previews/chi-ji.png";
 const hotjsPreview = "/previews/heart-of-the-jade-serpent.png";
@@ -46,10 +46,10 @@ export const analysisPages: AnalysisPage[] = [
     createdDate: "2025-03-26"
   },
   { 
-    label: "Single Target Rotation vs. Spinning Crane Kick", 
-    path: "/analysis/st-spinning", 
-    preview: stSpinningPreview,
-    description: "Evaluate simulated single target rotation damage output compared to Spinning Crane Kick",
+    label: "Mistweaver Damage Comparison", 
+    path: "/analysis/mw-damage", 
+    preview: mwDamagePreview,
+    description: "Evaluate simulated single target rotation damage output compared to Spinning Crane Kick and Jade Empowerment",
     tags: ["Rotation", "Damage"],
     createdDate: "2025-03-26"
   },
