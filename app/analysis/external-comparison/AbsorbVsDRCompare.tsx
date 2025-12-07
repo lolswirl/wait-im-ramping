@@ -11,18 +11,18 @@ import { GetTitle } from "@util/stringManipulation";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ title, description }) => {
-  const [absorbValue, setAbsorbValue] = useState(9.6);
+  const [absorbValue, setAbsorbValue] = useState(253000);
   const [damageReduction, setDamageReduction] = useState(40.5);
-  const [maxXAxis, setMaxXAxis] = useState(30);
+  const [maxXAxis, setMaxXAxis] = useState(1000000);
   const [intersectionPoint, setIntersectionPoint] = useState<{ x: number | null; y: number | null }>({ x: null, y: null });
 
   const theme = useTheme();
 
-  const damageValues = useMemo(() => Array.from({ length: maxXAxis }, (_, i) => i * 1000000), [maxXAxis]);
+  const damageValues = useMemo(() => Array.from({ length: Math.floor(maxXAxis / 20000) + 1 }, (_, i) => i * 20000), [maxXAxis]);
 
   const absorbDamageIntake = useMemo(() => {
     return damageValues.map(
-      (value) => (value <= absorbValue * 1000000 ? 0 : value - absorbValue * 1000000)
+      (value) => (value <= absorbValue ? 0 : value - absorbValue)
     );
   }, [absorbValue, damageValues]);
 
@@ -36,8 +36,8 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
   
     for (let i = 0; i < damageValues.length; i++) {
       if (reductionDamageIntake[i] < absorbDamageIntake[i]) {
-        intersectX = damageValues[i] / 1000000;
-        intersectY = reductionDamageIntake[i] / 1000000;
+        intersectX = damageValues[i];
+        intersectY = reductionDamageIntake[i];
         break;
       }
     }
@@ -48,26 +48,30 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
     });
   }, [absorbValue, damageReduction, damageValues, absorbDamageIntake, reductionDamageIntake]);
 
+  const formatNumber = (num: number) => {
+    return num.toLocaleString();
+  };
+
   const chartData = useMemo(() => ({
-    labels: damageValues.map((value) => `${value / 1000000}M`),
+    labels: damageValues.map((value) => formatNumber(value)),
     datasets: [
       {
-        label: GetTitle(`${absorbValue}M Absorb`),
-        data: absorbDamageIntake.map((value) => value / 1000000),
+        label: GetTitle(`${formatNumber(absorbValue)} Absorb`),
+        data: absorbDamageIntake,
         borderColor: "rgba(255, 99, 132, 0.6)",
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         fill: true,
       },
       {
         label: GetTitle(`${damageReduction}% damage reduction`),
-        data: reductionDamageIntake.map((value) => value / 1000000),
+        data: reductionDamageIntake,
         borderColor: "rgba(53, 162, 235, 0.6)",
         backgroundColor: "rgba(53, 162, 235, 0.2)",
         fill: true,
       },
       {
         label: GetTitle("No mitigation"),
-        data: damageValues.map((value) => value / 1000000),
+        data: damageValues,
         borderColor: "rgba(75, 192, 192, 0.6)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         fill: false,
@@ -90,14 +94,13 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
             responsive: true,
             scales: {
               x: {
-                title: { display: true, text: GetTitle("Incoming Damage (Million)") },
-                max: 50,
+                title: { display: true, text: GetTitle("Incoming Damage") },
                 grid: {
                   color: theme.custom.chart.gridColor,
                 },
               },
               y: {
-                title: { display: true, text: GetTitle("Damage Taken (Million)") },
+                title: { display: true, text: GetTitle("Damage Taken") },
                 max: maxXAxis,
                 grid: {
                   color: theme.custom.chart.gridColor,
@@ -110,7 +113,7 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
 
       <Box sx={{ display: "flex", gap: 2, width: "75%", justifyContent: "center" }}>
         <TextField
-          label={GetTitle("Absorb Value (Million)")}
+          label={GetTitle("Absorb Value")}
           variant="outlined"
           value={absorbValue}
           onChange={(e) => setAbsorbValue(parseFloat(e.target.value) || 0)}
@@ -126,7 +129,7 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
           fullWidth
         />
         <TextField
-          label={GetTitle("Max Axis (Million)")}
+          label={GetTitle("Max Axis")}
           variant="outlined"
           value={maxXAxis}
           onChange={(e) => setMaxXAxis(parseFloat(e.target.value) || 10)}
@@ -135,10 +138,10 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
         />
       </Box>
 
-      {intersectionPoint && (
+      {intersectionPoint.x !== null && intersectionPoint.y !== null && (
         <Typography variant="body1">
           {GetTitle(
-            `Damage Reduction becomes better than Absorb at ${intersectionPoint.x}M damage (${intersectionPoint.y}M damage intake).`
+            `Damage Reduction becomes better than Absorb at ${formatNumber(intersectionPoint.x)} damage (${formatNumber(intersectionPoint.y)} damage intake).`
           )}
         </Typography>
       )}
