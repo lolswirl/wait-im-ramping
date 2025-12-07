@@ -512,6 +512,15 @@ const BUGS: Bug[] = [
         lastBuildTested: "64774",
         tags: [],
     },
+    {
+        spell: TALENTS.OVERFLOWING_MISTS,
+        affectedSpells: [],
+        severity: SEVERITY.LOW,
+        title: "Tooltip on buff still 1% heal but should be sp% value",
+        description: "The buff of Overflowing Mists still shows a percentage heal value when it should be the sp% value",
+        lastBuildTested: "64774",
+        tags: [],
+    }
 ];
 
 export default BUGS;
