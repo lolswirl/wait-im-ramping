@@ -298,17 +298,6 @@ const BUGS: Bug[] = [
         tags: [TAGS.CONDUIT],
     },
     {
-        spell: TALENTS.FLIGHT_OF_THE_RED_CRANE,
-        affectedSpells: [TALENTS.INNER_COMPASS],
-        severity: SEVERITY.MEDIUM,
-        title: "Still proccing despite being removed",
-        description: "Flight of the Red crane is still proccing despite not being on the talent tree anymore",
-        lastBuildTested: "64124",
-        notes: "There is no way to proc crane stance for Inner Compass now",
-        tags: [TAGS.CONDUIT],
-        status: STATUS.FIXED,
-    },
-    {
         spell: TALENTS.JADE_SERPENT_STATUE,
         affectedSpells: [TALENTS.JADE_INFUSION, TALENTS.SPIRITFONT, SPELLS.SOOTHING_MIST],
         severity: SEVERITY.MEDIUM,
