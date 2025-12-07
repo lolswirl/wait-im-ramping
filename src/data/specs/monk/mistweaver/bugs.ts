@@ -281,7 +281,7 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.MANIFESTATION,
-        affectedSpells: [SPELLS.CHI_BURST],
+        affectedSpells: [],
         severity: SEVERITY.LOW,
         title: "Tooltip still references Chi Burst",
         description: "Manifestation tooltip still references Chi Burst for mistweaver",
@@ -384,7 +384,7 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.EMPERORS_ELIXIR,
-        affectedSpells: [SPELLS.THUNDER_FOCUS_TEA, TALENTS.RUSHING_WIND_KICK, SPELLS.JADEFIRE_STOMP],
+        affectedSpells: [SPELLS.THUNDER_FOCUS_TEA, TALENTS.RUSHING_WIND_KICK, TALENTS.JADEFIRE_STOMP],
         severity: SEVERITY.CRITICAL,
         title: "TFT RWK suddenly stopped proccing Jadefire Stomp in dungeon",
         description: "TFT RWK Suddenly stopped proccing Jadefire Stomp in the middle of a Skyreach Dungeon",
