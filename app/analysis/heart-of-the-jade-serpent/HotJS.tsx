@@ -15,15 +15,14 @@ import {
     Checkbox,
 } from '@mui/material';
 
-import TalentsCard from '@components/TalentsCard/TalentsCard';
 import IconButtonBase from '@components/SpellButtons/IconButtonBase';
 import SpellButton from '@components/SpellButtons/SpellButton';
 import PageHeader from '@components/PageHeader/PageHeader';
 import { useThemeContext } from '@context/ThemeContext';
 import SPELLS from "@data/spells";
 import spell, { GCD } from '@data/spells/spell';
-import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { GetTitle, pluralize } from '@util/stringManipulation';
+import TALENTS from '@data/talents';
 
 const MAX_WIDTH = 1100;
 const TIMELINE_HEIGHT = 500;
@@ -141,39 +140,57 @@ const generateConduitCasts = (timeRange: number, celestialConduitCastTime: numbe
     return { events, casts };
 };
 
-const generateSheilunsGiftCasts = (
-    timeRange: number,
-    stackGenerationTime: number,
-    sheilunsGiftCastTime: number,
-    blockedPeriods: CastPeriod[]
-): { events: HotJSEvent[], casts: CastPeriod[] } => {
+const generateYulonsAvatarProc = (
+    timeRange: number, 
+    procsPerMinute: number = 1.5,
+    conduitEvents: HotJSEvent[]
+): HotJSEvent[] => {
     const events: HotJSEvent[] = [];
-    const casts: CastPeriod[] = [];
-    const maxStacks = SPELLS.SHEILUNS_GIFT.custom.maxStacks;
-    let currentStacks = 0;
+    const totalProcs = Math.floor((timeRange / 60) * procsPerMinute);
     
-    for (let time = 0; time < timeRange; time += 0.1) {
-        if (time > 0 && time % stackGenerationTime < 0.1) {
-            currentStacks = Math.min(maxStacks, currentStacks + 1);
+    const blockedTimes = conduitEvents.map(e => e.castStartTime);
+    
+    const procTimes: number[] = [];
+    const minGapBetweenProcs = 10;
+    const minGapFromBlocked = 2;
+    
+    for (let i = 0; i < totalProcs; i++) {
+        let validTime = false;
+        let attempts = 0;
+        let procTime = 0;
+        
+        while (!validTime && attempts < 100) {
+            procTime = Math.random() * timeRange;
+            
+            const farFromOtherProcs = procTimes.every(existingTime => 
+                Math.abs(existingTime - procTime) > minGapBetweenProcs
+            );
+            
+            const notBlocked = blockedTimes.every(blockedTime => 
+                Math.abs(blockedTime - procTime) > minGapFromBlocked
+            );
+            
+            validTime = farFromOtherProcs && notBlocked;
+            attempts++;
         }
-
-        if (currentStacks === maxStacks && !isCurrentlyBlocked(time, blockedPeriods)) {
-            const duration = (currentStacks / maxStacks) * stackGenerationTime;
-
-            casts.push({ start: time, end: time + sheilunsGiftCastTime });
+        
+        if (validTime) {
+            procTimes.push(procTime);
             events.push({
-                castStartTime: time,
-                startTime: time + sheilunsGiftCastTime,
-                duration: duration,
+                castStartTime: procTime,
+                startTime: procTime,
+                duration: 4,
                 multiplier: 1.75,
-                source: SPELLS.SHEILUNS_GIFT,
-                castTime: sheilunsGiftCastTime
+                source: { 
+                    ...TALENTS.YULONS_AVATAR, 
+                    name: "Yulon's Avatar Proc" 
+                } as spell,
+                castTime: 0
             });
-            currentStacks = 0;
         }
     }
     
-    return { events, casts };
+    return events.sort((a, b) => a.startTime - b.startTime);
 };
 
 const simulateBaseline = (
@@ -215,12 +232,14 @@ const simulateWithHotJS = (
     abilities: AbilityCooldown[],
     events: HotJSEvent[],
     abilityData: SimulationData,
-    tierSet: boolean,
     cdrEnabled: boolean,
     allCastPeriods: CastPeriod[]
 ): HotJSEvent[] => {
     const updatedEvents = [...events];
     const simAbilities = abilities.map(a => ({ ...a, nextAvailable: 0 }));
+    
+    let tftNextAvailable = 0;
+    
     let nextGCDFree = 0;
     
     for (let time = 0; time < timeRange; time += 0.1) {
@@ -235,6 +254,24 @@ const simulateWithHotJS = (
             if (activeBuffs.length > 0) {
                 activeMultiplier = Math.max(...activeBuffs.map(buff => buff.multiplier));
             }
+        }
+
+        if (tftNextAvailable > time && cdrEnabled) {
+            const reduction = 0.1 * (activeMultiplier - 1);
+            tftNextAvailable = Math.max(time, tftNextAvailable - reduction);
+        }
+
+        if (time >= tftNextAvailable && !isCurrentlyBlocked(time, allCastPeriods)) {
+            updatedEvents.push({
+                castStartTime: time,
+                startTime: time,
+                duration: 8,
+                multiplier: 1.75,
+                source: SPELLS.THUNDER_FOCUS_TEA,
+                castTime: 0
+            });
+            
+            tftNextAvailable = time + (SPELLS.THUNDER_FOCUS_TEA.cooldown || 30);
         }
 
         simAbilities.forEach(ability => {
@@ -258,18 +295,6 @@ const simulateWithHotJS = (
                         }
 
                         ability.nextAvailable = time + (ability.spell.cooldown || 0);
-
-                        if (cast === SPELLS.THUNDER_FOCUS_TEA && tierSet) {
-                            updatedEvents.push({
-                                castStartTime: time,
-                                startTime: time,
-                                duration: 8,
-                                multiplier: 1.75,
-                                source: SPELLS.THUNDER_FOCUS_TEA,
-                                castTime: 0
-                            });
-                            updatedEvents.sort((a, b) => a.startTime - b.startTime);
-                        }
                         
                         abilityData[ability.spell.name].availableTimes.push(time);
                         abilityData[ability.spell.name].onCooldownPeriods.push({
@@ -331,11 +356,11 @@ const TimeSliderCard: React.FC<{
 );
 
 const OptionsCard: React.FC<{
-    tierSet: boolean;
     cdrEnabled: boolean;
-    onTierSetChange: (value: boolean) => void;
     onCdrEnabledChange: (value: boolean) => void;
-}> = ({ tierSet, cdrEnabled, onTierSetChange, onCdrEnabledChange }) => (
+    yulonsAvatarEnabled: boolean;
+    onYulonsAvatarEnabledChange: (value: boolean) => void;
+}> = ({ cdrEnabled, onCdrEnabledChange, yulonsAvatarEnabled, onYulonsAvatarEnabledChange }) => (
     <Card variant="outlined" sx={{ 
         p: 2, 
         background: `linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05))`, 
@@ -349,10 +374,10 @@ const OptionsCard: React.FC<{
                 description={GetTitle("Apply increased cooldown recovery rate effects from Heart of the Jade Serpent")}
             />
             <OptionCheckbox
-                checked={tierSet}
-                onChange={onTierSetChange}
-                title={GetTitle("11.2 Tier Set")}
-                description={GetTitle("Thunder Focus Tea procs Heart of the Jade Serpent for 8 seconds with the 4-set in 11.2")}
+                checked={yulonsAvatarEnabled}
+                onChange={onYulonsAvatarEnabledChange}
+                title={GetTitle("Enable Yulon's Avatar Procs")}
+                description={GetTitle("Include Yulon's Avatar procs (~1.5 per minute) that trigger Heart of the Jade Serpent")}
             />
         </Box>
     </Card>
@@ -698,44 +723,13 @@ const TimelineView: React.FC<{
 
 const HotJS: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const { themeMode } = useThemeContext();
-    const theme = useTheme();
-
-    const veilOfPride = TALENTS.VEIL_OF_PRIDE;
-    const shaohaosLessons = TALENTS.SHAOHAOS_LESSONS;
     
     const [timeRange, setTimeRange] = useState<number>(300);
-    const [tierSet, setTierSet] = useState<boolean>(false);
     const [cdrEnabled, setCdrEnabled] = useState<boolean>(true);
-    const [sheilunsGiftTalents, setSheilunsGiftTalents] = useState<Map<spell, boolean>>(new Map([
-        [veilOfPride, false],
-        [shaohaosLessons, true],
-    ]));
+    const [yulonsAvatarEnabled, setYulonsAvatarEnabled] = useState<boolean>(true);
 
     const affectedAbilities = useMemo(() => createAffectedAbilities(), []);
-    const sheilunsGiftCastTime = SPELLS.SHEILUNS_GIFT.castTime;
     const celestialConduitCastTime = SPELLS.CELESTIAL_CONDUIT.castTime;
-    const stackGenerationTime = sheilunsGiftTalents.get(shaohaosLessons) ?
-                                shaohaosLessons.custom.secondsPerCloud : 
-                                veilOfPride.custom.secondsPerCloud;
-
-    const handleSheilunsGiftTalentChange = (talent: spell, checked: boolean) => {
-        if (checked) {
-            const newTalents = new Map<spell, boolean>();
-            sheilunsGiftTalents.forEach((_, key) => newTalents.set(key, false));
-            newTalents.set(talent, true);
-            setSheilunsGiftTalents(newTalents);
-        } else {
-            const newTalents = new Map(sheilunsGiftTalents);
-            newTalents.set(talent, false);
-            
-            const hasAnySelected = Array.from(newTalents.values()).some(value => value);
-            if (!hasAnySelected) {
-                newTalents.set(TALENTS.SHAOHAOS_LESSONS, true);
-            }
-            
-            setSheilunsGiftTalents(newTalents);
-        }
-    };
 
     const simulation = useMemo(() => {
         const { abilityData, baselineData } = initializeAbilityData(affectedAbilities);
@@ -745,15 +739,12 @@ const HotJS: React.FC<{ title: string; description: string }> = ({ title, descri
             celestialConduitCastTime
         );
         
-        const { events: sgEvents, casts: sgCasts } = generateSheilunsGiftCasts(
-            timeRange,
-            stackGenerationTime,
-            sheilunsGiftCastTime,
-            conduitCasts
-        );
+        const yulonsAvatarProcEvents = yulonsAvatarEnabled 
+            ? generateYulonsAvatarProc(timeRange, 1.5, conduitEvents)
+            : [];
         
-        let allEvents = [...conduitEvents, ...sgEvents];
-        const allCastPeriods = [...conduitCasts, ...sgCasts];
+        const allEvents = [...conduitEvents, ...yulonsAvatarProcEvents];
+        const allCastPeriods = conduitCasts;
         
         simulateBaseline(timeRange, affectedAbilities, baselineData);
         
@@ -762,7 +753,6 @@ const HotJS: React.FC<{ title: string; description: string }> = ({ title, descri
             affectedAbilities,
             allEvents,
             abilityData,
-            tierSet,
             cdrEnabled,
             allCastPeriods
         );
@@ -775,11 +765,9 @@ const HotJS: React.FC<{ title: string; description: string }> = ({ title, descri
         };
     }, [
         timeRange, 
-        tierSet, 
-        stackGenerationTime, 
-        sheilunsGiftCastTime, 
         celestialConduitCastTime, 
         cdrEnabled,
+        yulonsAvatarEnabled,
         affectedAbilities
     ]);
 
@@ -810,15 +798,10 @@ const HotJS: React.FC<{ title: string; description: string }> = ({ title, descri
                             }}
                         />
                         <OptionsCard
-                            tierSet={tierSet}
                             cdrEnabled={cdrEnabled}
-                            onTierSetChange={setTierSet}
                             onCdrEnabledChange={setCdrEnabled}
-                        />
-                        <TalentsCard
-                            options={sheilunsGiftTalents}
-                            color={theme.palette.primary.main}
-                            onChange={handleSheilunsGiftTalentChange}
+                            yulonsAvatarEnabled={yulonsAvatarEnabled}
+                            onYulonsAvatarEnabledChange={setYulonsAvatarEnabled}
                         />
                         <TimeSliderCard
                             timeRange={timeRange}
