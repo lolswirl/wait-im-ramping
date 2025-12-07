@@ -83,6 +83,7 @@ const BUGS: Bug[] = [
         lastBuildTested: "64228",
         notes: "No longer requires celestial to be on CD but the tooltip is still the windwalker tooltip",
         tags: [TAGS.TOOLTIP, TAGS.CONDUIT],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.SPIRITFONT,
