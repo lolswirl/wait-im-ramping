@@ -16,7 +16,7 @@ import {
     SvgIcon,
 } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
-import { useIsBeta } from "@lib/betaModeClient";
+import { useBranchName, useIsNonProd } from "@lib/betaModeClient";
 import { useThemeContext } from "@context/ThemeContext";
 import { GetTitle } from "@util/stringManipulation";
 import { useSpec } from "@context/SpecContext";
@@ -58,11 +58,13 @@ function ResponsiveAppBar() {
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const { toggleTheme, themeMode } = useThemeContext();
     const { spec, setSpec } = useSpec();
-    const isBeta = useIsBeta();
+    const isNonProd = useIsNonProd();
+    const branchName = useBranchName();
+    const displayBranch = isNonProd && branchName ? ` [${branchName}]` : "";
     
     const hoverColor = 
         themeMode === "dark"
-            ? isBeta 
+            ? isNonProd 
                 ? "#ff7700ff" 
                 : "#90caf9"
             : "#212121";
@@ -89,16 +91,28 @@ function ResponsiveAppBar() {
                 borderBottom: "1px solid",
                 borderColor: "rgba(255,255,255,0.1)"
             }}>
-                <Typography
-                    variant="h6"
-                    sx={{
-                        fontWeight: 700,
-                        flexGrow: 1,
-                        color: "white"
-                    }}
-                >
-                    𖦹 {GetTitle("Wait, I'm Ramping!")}{isBeta && " [Beta]"}
-                </Typography>
+                <Box sx={{ display: "flex", alignItems: "baseline", gap: 0.5, flexGrow: 1 }}>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontWeight: 700,
+                            color: "white"
+                        }}
+                    >
+                        𖦹 {GetTitle("Wait, I'm Ramping!")}
+                    </Typography>
+                    {displayBranch && (
+                        <Typography
+                            sx={{
+                                fontSize: "0.7rem",
+                                fontWeight: 500,
+                                color: "rgba(255,255,255,0.7)",
+                            }}
+                        >
+                            {displayBranch}
+                        </Typography>
+                    )}
+                </Box>
                 <IconButton 
                     onClick={handleDrawerToggle}
                     size="small"
@@ -251,8 +265,8 @@ function ResponsiveAppBar() {
                             sx={{
                                 mr: 2,
                                 display: "inline-flex",
-                                alignItems: "center",
-                                gap: 1,
+                                alignItems: "baseline",
+                                gap: 0.5,
                                 fontWeight: 700,
                                 color: pathname === "/" ? hoverColor : "inherit",
                                 textDecoration: "none",
@@ -261,7 +275,19 @@ function ResponsiveAppBar() {
                                 "&:hover": { color: hoverColor },
                             }}
                         >
-                            𖦹 {GetTitle("Wait, I'm Ramping!")}{isBeta && " [BETA]"}
+                            <span>𖦹 {GetTitle("Wait, I'm Ramping!")}</span>
+                            {displayBranch && (
+                                <Typography
+                                    component="span"
+                                    sx={{
+                                        fontSize: { xs: "0.65rem", md: "0.75rem" },
+                                        fontWeight: 500,
+                                        color: "rgba(255,255,255,0.7)",
+                                    }}
+                                >
+                                    {displayBranch}
+                                </Typography>
+                            )}
                         </Typography>
 
                         <Box sx={{ flexGrow: 1 }} />
