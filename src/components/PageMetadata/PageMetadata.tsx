@@ -1,9 +1,22 @@
 import { GetTitle } from "@util/stringManipulation";
 
-const isBetaEnv = () => process.env.NEXT_PUBLIC_IS_BETA === 'true';
+const getBranchName = () => {
+    const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
+    
+    if (isProduction) {
+        return null;
+    }
+    
+    const vercelBranch = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF;
+    
+    if (vercelBranch === 'main' || vercelBranch === 'master') {
+        return null;
+    }
+    
+    return vercelBranch || process.env.NEXT_PUBLIC_BRANCH_NAME || null;
+};
 
 const SITE_NAME = "Wait, I'm Ramping!";
-const BETA_PREFIX = "[Beta] ";
 const SITE_DESCRIPTION =
     "Tools that help healers plan, visualize, and theorycraft their healing.";
 const SITE_URL = "https://www.waitimramping.com/";
@@ -15,13 +28,13 @@ export function PageMetadata(
     image: string = SITE_IMAGE,
     url: string = SITE_URL
 ) { 
-    const betaPrefix = isBetaEnv() ? BETA_PREFIX : "";
+    const branchName = getBranchName();
+    const branchPrefix = branchName ? `[${branchName}] ` : "";
     const formattedDescription = GetTitle(description);
     
-    // Build the full title with beta prefix BEFORE GetTitle
     const fullTitle = title !== SITE_NAME 
-        ? `${betaPrefix}${title} | ${SITE_NAME}` 
-        : `${betaPrefix}${title}`;
+        ? `${branchPrefix}${title} | ${SITE_NAME}` 
+        : `${branchPrefix}${title}`;
     
     const formattedFullTitle = GetTitle(fullTitle);
 
