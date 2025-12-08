@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, useTheme } from "@mui/material";
 import { GetTitle } from "../../util/stringManipulation";
-import { useIsBeta } from "@lib/betaModeClient";
+import { useIsNonProd } from "@lib/betaModeClient";
 
 interface SwirlButtonProps {
     children: React.ReactNode;
@@ -19,7 +19,7 @@ interface SwirlButtonProps {
 const resolveColor = (color: string, theme: any) => {
     if (!color || color === "inherit") {
         return theme.palette.mode === "dark" 
-                ? useIsBeta() 
+                ? useIsNonProd() 
                     ? "#ff7700ff" 
                     : "#90caf9" 
                 : "#171717";

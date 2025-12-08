@@ -1,20 +1,22 @@
 "use client";
 
-// simulated beta in local dev with NEXT_PUBLIC_IS_BETA=true in startup scripts
-export function useIsBeta(): boolean {
-    if (typeof window === 'undefined') {
-        return process.env.NEXT_PUBLIC_IS_BETA === 'true';
+export function useBranchName(): string | null {
+    const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
+    
+    if (isProduction) {
+        return null;
     }
     
-    const hostname = window.location.hostname;
+    const vercelBranch = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF;
     
-    if (hostname === 'beta.waitimramping.com' || hostname.startsWith('beta.')) {
-        return true;
+    if (vercelBranch === 'main' || vercelBranch === 'master') {
+        return null;
     }
     
-    if (hostname === 'localhost' || hostname === '127.0.0.1') {
-        return process.env.NEXT_PUBLIC_IS_BETA === 'true';
-    }
-    
-    return false;
+    return vercelBranch || process.env.NEXT_PUBLIC_BRANCH_NAME || null;
+}
+
+export function useIsNonProd(): boolean {
+    const branchName = useBranchName();
+    return branchName !== null;
 }
