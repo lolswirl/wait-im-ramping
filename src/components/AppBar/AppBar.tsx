@@ -97,7 +97,7 @@ function ResponsiveAppBar() {
                         color: "white"
                     }}
                 >
-                    𖦹 {GetTitle("Wait, I'm Ramping!")}
+                    𖦹 {GetTitle("Wait, I'm Ramping!")}{isBeta && " [Beta]"}
                 </Typography>
                 <IconButton 
                     onClick={handleDrawerToggle}
@@ -261,7 +261,7 @@ function ResponsiveAppBar() {
                                 "&:hover": { color: hoverColor },
                             }}
                         >
-                            𖦹 {GetTitle("Wait, I'm Ramping!")}
+                            𖦹 {GetTitle("Wait, I'm Ramping!")}{isBeta && " [BETA]"}
                         </Typography>
 
                         <Box sx={{ flexGrow: 1 }} />
