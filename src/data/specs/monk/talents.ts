@@ -59,7 +59,45 @@ const talents = {
         name: "Chi Wave",
         id: 450391,
         icon: 'ability_monk_chiwave',
-    }
+    },
+    TRANSCENDENCE: {
+        name: "Transcendence",
+        id: 101643,
+        icon: 'monk_ability_transcendence',
+    },
+    TRANSCENDENCE_TRANSFER: {
+        name: "Transcendence: Transfer",
+        id: 119996,
+        icon: 'spell_shaman_spectraltransformation',
+    },
+    TRANSCENDENCE_LINKED_SPIRITS: {
+        name: "Transcendence: Linked Spirits",
+        id: 434774,
+        icon: 'monk_ability_transcendence',
+    },
+    PARALYSIS: {
+        name: "Paralysis",
+        id: 115078,
+        icon: 'ability_monk_paralysis',
+    },
+    CRASHING_MOMENTUM: {
+        name: "Crashing Momentum",
+        id: 450342,
+        icon: 'ability_monk_blackoutkick',
+    },
+    CALMING_PRESENCE: {
+        name: "Calming Presence",
+        id: 388664,
+        icon: 'inv_misc_orb_01',
+        custom: {
+            damageReduction: 3, // percent
+        }
+    },
+    FORTIFYING_BREW: {
+        name: "Fortifying Brew",
+        id: 115203,
+        icon: 'ability_monk_fortifyingale_new',
+    },
 } satisfies Record<string, spell>;
 
 export default talents;

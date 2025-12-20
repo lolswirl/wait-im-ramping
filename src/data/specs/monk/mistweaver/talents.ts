@@ -399,6 +399,9 @@ const talents = {
         name: "Overwhelming Force",
         id: 451024,
         icon: 'ability_titankeeper_piercingcorruption',
+        custom: {
+            percentOfDamage: 15,
+        }
     },
     MANTRA_OF_PURITY: {
         name: "Mantra of Purity",
