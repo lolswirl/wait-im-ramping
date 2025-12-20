@@ -44,6 +44,21 @@ const talents = {
         name: "Save Them All",
         id: 389579,
         icon: 'inv_weapon_hand_22',
+    },
+    DIFFUSE_MAGIC: {
+        name: "Diffuse Magic",
+        id: 1243287,
+        icon: 'spell_monk_diffusemagic',
+    },
+    ELUSIVE_MISTS: {
+        name: "Elusive Mists",
+        id: 388681,
+        icon: 'ability_monk_soothingmists',
+    },
+    CHI_WAVE: {
+        name: "Chi Wave",
+        id: 450391,
+        icon: 'ability_monk_chiwave',
     }
 } satisfies Record<string, spell>;
 

@@ -330,6 +330,16 @@ const talents = {
         id: 388511,
         icon: 'inv_legion_faction_dreamweavers',
     },
+    WAY_OF_THE_SERPENT: {
+        name: "Way of the Serpent",
+        id: 1243155,
+        icon: 'monk_stance_wiseserpent',
+    },
+    YULONS_WHISPER: {
+        name: "Yulon's Whisper",
+        id: 388038,
+        icon: 'ability_monk_chiexplosion',
+    },
 
     // hero talents
     // master of harmony

@@ -1,6 +1,7 @@
 import SPELLS from '@data/spells';
 import TALENTS from '@data/talents';
 import ITEMS from '@data/items';
+import CORE_PASSIVE from '@data/core-passives';
 import { Bug, SEVERITY, STATUS } from "@data/bugs";
 import { TAGS } from "@data/shared/tags";
 
@@ -520,6 +521,62 @@ const BUGS: Bug[] = [
         title: "Tooltip on buff still 1% heal but should be sp% value",
         description: "The buff of Overflowing Mists still shows a percentage heal value when it should be the sp% value",
         lastBuildTested: "64774",
+        tags: [TAGS.TOOLTIP],
+    },
+    {
+        spell: TALENTS.DIFFUSE_MAGIC,
+        affectedSpells: [],
+        severity: SEVERITY.LOW,
+        title: "Debuffs reflect but damage not attributed in logs",
+        description: "Debuffs reflect and it can be seen on enemy debuffs but damage is not attributed in logs or details",
+        lastBuildTested: "64774",
+        notes: "https://www.warcraftlogs.com/reports/XRfBYrQqFHjNyphA?fight=8&type=damage-taken&start=2678030&end=2681031&hostility=1&source=158.2",
+        tags: [],
+    },
+    {
+        spell: TALENTS.ASPECT_OF_HARMONY,
+        affectedSpells: [],
+        severity: SEVERITY.HIGH,
+        title: "Entire tree stopped working mid-dungeon",
+        description: "Master of Harmony (the entire tree) suddenly stopped working midway through Windrunner Spire +12",
+        lastBuildTested: "64774",
+        tags: [TAGS.MOH],
+    },
+    {
+        spell: CORE_PASSIVE.MISTWEAVER_MONK,
+        affectedSpells: [TALENTS.ANCIENT_TEACHINGS, TALENTS.JADEFIRE_TEACHINGS],
+        severity: SEVERITY.HIGH,
+        title: "Never received 20% damage buff",
+        description: "Mistweaver never received the 20% damage buff in accordance to the global 20% healer damage buff",
+        lastBuildTested: "64914",
+        notes: "Ancient/Jadefire Teachings was nerfed by ~20% to account for the damage buff",
+        tags: [],
+    },
+    {
+        spell: TALENTS.WAY_OF_THE_SERPENT,
+        affectedSpells: [SPELLS.SOOTHING_MIST],
+        severity: SEVERITY.MEDIUM,
+        title: "Can bypass movement speed decrease",
+        description: "Can move freely without movement speed decrease by starting a new Soothing Mist channel while inside of one already (refreshing the buff)",
+        lastBuildTested: "64914",
+        tags: [],
+    },
+    {
+        spell: TALENTS.WAY_OF_THE_SERPENT,
+        affectedSpells: [SPELLS.SOOTHING_MIST],
+        severity: SEVERITY.LOW,
+        title: "Personal tooltip shows 0% movement speed reduction",
+        description: "Personal tooltip shows 0% movement speed reduction while inside of a Soothing Mist channel",
+        lastBuildTested: "64914",
+        tags: [TAGS.TOOLTIP],
+    },
+    {
+        spell: TALENTS.ELUSIVE_MISTS,
+        affectedSpells: [SPELLS.SOOTHING_MIST],
+        severity: SEVERITY.MEDIUM,
+        title: "Personal tooltip shows 0% damage reduction",
+        description: "Personal tooltip shows 0% damage reduction when casting Soothing Mist on another target while having Elusive Mists talented",
+        lastBuildTested: "64914",
         tags: [TAGS.TOOLTIP],
     }
 ];
