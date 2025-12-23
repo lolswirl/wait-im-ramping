@@ -8,12 +8,10 @@ import { TAGS } from "@data/shared/tags";
 const BUGS: Bug[] = [
     {
         spell: TALENTS.JADE_INFUSION,
-        affectedSpells: [],
         severity: SEVERITY.LOW,
         title: "Summoned statue does not function",
         description: "Jade Infusion's summoned statue does not function at all.",
         lastBuildTested: "63854",
-        tags: [],
         status: STATUS.FIXED,
     },
     {
@@ -23,7 +21,6 @@ const BUGS: Bug[] = [
         title: "Doesn't interact with Peaceful Mending",
         description: "Tear of Morning does not interact with Peaceful Mending at all. The healing replicated to targets with Renewing Mist is not increased.",
         lastBuildTested: "63534",
-        tags: [],
     },
     {
         spell: TALENTS.TEAR_OF_MORNING,
@@ -32,7 +29,6 @@ const BUGS: Bug[] = [
         title: "Doesn't interact with Spiritfont",
         description: "Tear of Morning does not interact with Spiritfont at all. The healing replicated to targets with Renewing Mist is not increased.",
         lastBuildTested: "63534",
-        tags: [],
     },
     {
         spell: TALENTS.ZEN_PULSE,
@@ -42,7 +38,6 @@ const BUGS: Bug[] = [
         description: "Something is messing with the spellpower on Zen Pulse making it do more/less than it should at times regardless of Renewing Mist count",
         lastBuildTested: "63534",
         notes: "Note from Vohrr: possible snapshotting of rem count when ZP buff is applied. NEEDS TO BE LOOKED INTO MORE",
-        tags: [],
     },
     {
         spell: SPELLS.REVIVAL,
@@ -51,7 +46,6 @@ const BUGS: Bug[] = [
         title: "RSK adds 30s to Revival/Restoral CD",
         description: "When talented into Uplifted Spirits, Rising Sun Kick adds 30 seconds to the Revival/Restoral CD.",
         lastBuildTested: "63534",
-        tags: [],
         status: STATUS.FIXED,
     },
     {
@@ -62,7 +56,6 @@ const BUGS: Bug[] = [
         description: "Stacks of instant cast Enveloping Mist get consumed by Chi Cocoon's Enveloping Mists",
         lastBuildTested: "63534",
         notes: "Talent Changed",
-        tags: [],
         status: STATUS.REMOVED,
     },
     {
@@ -73,11 +66,9 @@ const BUGS: Bug[] = [
         description: "Peaceful Mending does not interact with Spiritfont's Soothing Mist. It does not increase the healing of Enveloping Mist or Renewing Mist on targets with Spiritfont's Soothing Mist.",
         lastBuildTested: "64529",
         notes: "Was fixed in 64339, back to not working in 64529",
-        tags: [],
     },
     {
         spell: SPELLS.CELESTIAL_CONDUIT,
-        affectedSpells: [],
         severity: SEVERITY.MEDIUM,
         title: "Tooltip requires Xuen",
         description: "Mistweaver's Celestial Conduit tooltip requires 'Xuen' to trigger the use of Celestial Conduit 1 minute after using Xuen. Intended for WW but is currently functioning this way for MW as well.",
@@ -97,7 +88,6 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.SPIRITFONT,
-        affectedSpells: [],
         severity: SEVERITY.MEDIUM,
         title: "Doesn't heal NPCs",
         description: "Does not heal NPCs",
@@ -113,7 +103,6 @@ const BUGS: Bug[] = [
         description: "The buff stacks from the removed version of CC (Absorb amount of your next life cocoon is increased by 2% each time soothing mist heals) are being applied to my character when I am talented into Calming Coalescence & Unison",
         lastBuildTested: "63534",
         notes: "Only occurs when also talented into Unison. The stacks are only being applied from unison healing, not soothing mist. The stacks are consumed but don't actually increase the absorb amount",
-        tags: [],
         status: STATUS.FIXED,
     },
     {
@@ -154,17 +143,14 @@ const BUGS: Bug[] = [
         description: "Rushing Wind Kick does not consume the Rising Sun Kick buff of Tea of Plenty but still gives the benefit of the empower (cooldown reduced by 9 seconds)",
         lastBuildTested: "63534",
         notes: "Talent removed",
-        tags: [],
         status: STATUS.REMOVED,
     },
     {
         spell: SPELLS.SHEILUNS_GIFT,
-        affectedSpells: [],
         severity: SEVERITY.LOW,
         title: "Has no variance",
         description: "Sheilun's Gift has no variance",
         lastBuildTested: "64228",
-        tags: [],
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM,
@@ -188,7 +174,6 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.YULONS_AVATAR,
-        affectedSpells: [],
         severity: SEVERITY.HIGH,
         title: "Not implemented",
         description: "Tooltip updated but functionality is not implemented",
@@ -212,7 +197,6 @@ const BUGS: Bug[] = [
         title: "Doesn't increase Rapid Diffusion Renewing Mists by +2s",
         description: "Does not increase the duration of Rapid Diffusion Renewing Mists by +2s",
         lastBuildTested: "64228",
-        tags: [],
     },
     {
         spell: SPELLS.CELESTIAL_CONDUIT,
@@ -225,12 +209,10 @@ const BUGS: Bug[] = [
     },
     {
         spell: SPELLS.SOOTHING_MIST,
-        affectedSpells: [],
         severity: SEVERITY.HIGH,
         title: "Allows free movement without cancelling cast",
         description: "Can move freely after starting the channel without cancelling it (no emperor's elixir and no way of the serpent talented)",
         lastBuildTested: "63724",
-        tags: [],
         status: STATUS.FIXED,
     },
     {
@@ -249,7 +231,6 @@ const BUGS: Bug[] = [
         title: "Doesn't follow casts of Vivify/SG and Enveloping Mist",
         description: "Jade Serpent Statue's Soothing mist does not follow your casts of Vivify/SG and Enveloping Mist",
         lastBuildTested: "63937",
-        tags: [],
         status: STATUS.FIXED,
     },
     {
@@ -285,7 +266,6 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.MANIFESTATION,
-        affectedSpells: [],
         severity: SEVERITY.LOW,
         title: "Tooltip still references Chi Burst",
         description: "Manifestation tooltip still references Chi Burst for mistweaver",
@@ -294,7 +274,6 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.YULONS_KNOWLEDGE,
-        affectedSpells: [],
         severity: SEVERITY.LOW,
         title: "Shows as red and states 'Requires Refreshing Jade Wind Talent'",
         description: "Is marked red and states 'Requires Refreshing Jade Wind Talent'",
@@ -308,16 +287,13 @@ const BUGS: Bug[] = [
         title: "Statue does not cast Soothing Mist on Spiritfont Soothing Mist targets",
         description: "Jade Serpent Statue and Jade Infusion do not cast soom on the targets who have spiritfont soom on them",
         lastBuildTested: "64529",
-        tags: [],
     },
     {
         spell: TALENTS.RUSHING_WIND_KICK,
-        affectedSpells: [],
         severity: SEVERITY.LOW,
         title: "Has no variance",
         description: "Rushing Wind Kick does not have variance",
         lastBuildTested: "64529",
-        tags: [],
     },
     {
         spell: TALENTS.MORNING_BREEZE,
@@ -339,12 +315,10 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.SECRET_INFUSION,
-        affectedSpells: [],
         severity: SEVERITY.MEDIUM,
         title: "Gives 4% stat for both 1 and 2 talent points",
         description: "1 point investment gives 4% stat, 2 point investment also gives 4% stat",
         lastBuildTested: "64914",
-        tags: [],
         status: STATUS.FIXED,
     },
     {
@@ -365,7 +339,6 @@ const BUGS: Bug[] = [
         description: "Jade Serpent Statue's healing has historically been 50% of Soothing Mist, but it has not recieved the same buff that soothing mist did at the start of alpha (jss duration was increased but total spellpower remained the same, sooms duration and total sp were increased) so it is only 33% of soothing mist now",
         lastBuildTested: "64529",
         notes: "This combined with it not interacting with spiritfont leaves the talent doing barely 1% hps WITH unison talented and makes it effectively an elusive mist applier",
-        tags: [],
     },
     {
         spell: TALENTS.MORNING_BREEZE,
@@ -374,7 +347,6 @@ const BUGS: Bug[] = [
         title: "Suddenly stopped resetting cooldown of Rushing Wind Kick in dungeon",
         description: "Morning Breeze suddenly stopped resetting the cooldown of RWK in the middle of Pit of Saron (Replicated 4x)",
         lastBuildTested: "64499",
-        tags: [],
     },
     {
         spell: TALENTS.EMPERORS_ELIXIR,
@@ -383,35 +355,28 @@ const BUGS: Bug[] = [
         title: "TFT RWK suddenly stopped proccing Jadefire Stomp in dungeon",
         description: "TFT RWK Suddenly stopped proccing Jadefire Stomp in the middle of a Skyreach Dungeon",
         lastBuildTested: "64529",
-        tags: [],
     },
     {
         spell: TALENTS.CHI_WARDING,
-        affectedSpells: [],
         severity: SEVERITY.HIGH,
         title: "Does nothing, no healing in logs",
         description: "Does nothing, no healing showing up in logs (NYI?)",
         lastBuildTested: "64499",
-        tags: [],
     },
     {
         spell: TALENTS.JADEFIRE_TEACHINGS,
-        affectedSpells: [],
         severity: SEVERITY.CRITICAL,
         title: "Healing becoming greatly reduced mid dungeon back to AT ~25%",
         description: "JFT healing is becoming greatly reduced after death and/or mid dungeon via some other cause",
         lastBuildTested: "64529",
         notes: "1st: https://www.warcraftlogs.com/reports/4xvtJa6Q1mYZLHDA?fight=last&type=healing&source=1&ability=-388024\n2nd: https://www.warcraftlogs.com/reports/RX8kjbfA2vMztHQc?fight=last&type=healing&source=5&ability=-388024",
-        tags: [],
     },
     {
         spell: TALENTS.JADE_EMPOWERMENT,
-        affectedSpells: [],
         severity: SEVERITY.CRITICAL,
         title: "Chained damage not reduced to 25% effectiveness",
         description: "Jade Empowerment's Chained Damage is not reduced to 25% effectiveness",
         lastBuildTested: "64529",
-        tags: [],
     },
     {
         spell: TALENTS.EMPERORS_ELIXIR,
@@ -420,7 +385,6 @@ const BUGS: Bug[] = [
         title: "Soothing Mist channel interrupted by Focused Thunder's last charge",
         description: "The free-move Soothing Mist channel from Emperor's Elixir seems to be interrupted by Focused Thunder being fully consumed",
         lastBuildTested: "64529",
-        tags: [],
     },
     {
         spell: TALENTS.SPIRITFONT,
@@ -434,7 +398,6 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.HARMONIC_SURGE,
-        affectedSpells: [],
         severity: SEVERITY.HIGH,
         title: "Suddenly stops being consumed in dungeon",
         description: "Harmonic Surge suddenly stopped being consumed by any sources inside of Skyreach",
@@ -450,17 +413,14 @@ const BUGS: Bug[] = [
         description: "Jadefire Stomp damage is not transferring to healing through ancient teachings",
         lastBuildTested: "64529",
         notes: "https://www.warcraftlogs.com/reports/hL6Rw13bzBdxyXrH?fight=5&type=damage-done&source=3&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388024|388025",
-        tags: [],
     },
     {
         spell: TALENTS.RUSHING_WIND_KICK,
-        affectedSpells: [],
         severity: SEVERITY.HIGH,
         title: "Doesn't consistently hit 5 targets despite having more than 5 hots out",
         description: "Rushing Wind Kick does not consistently hit up to 5 targets despite having far more than 5 hots out",
         lastBuildTested: "64774",
         notes: "https://www.warcraftlogs.com/reports/9m2ntLC4wWyB6k83?fight=19&type=healing&source=22&view=events&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24467307^0%24Off%24%23909049%24auras-gained%24-1%240.0.0.Any%2413389582.0.0.Monk%24true%240.0.0.Any%24true%24119611&ability=1269159",
-        tags: [],
     },
     {
         spell: ITEMS.T35_MISTWEAVER_4SET,
@@ -487,7 +447,6 @@ const BUGS: Bug[] = [
         title: "Renewing Mist cannot be extended",
         description: "The renewing mist applied by mist of life cannot be extended by rising mist. However, the enveloping mist applied by mist of life can",
         lastBuildTested: "64611",
-        tags: [],
     },
     {
         spell: TALENTS.SAVE_THEM_ALL,
@@ -511,7 +470,6 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.JADEFIRE_TEACHINGS,
-        affectedSpells: [],
         severity: SEVERITY.LOW,
         title: "Tooltip still shows 215% but only contributes 205% per nerf",
         description: "JFT and AT nerfed to 180% and 25% respectively but tooltip has not been updated",
@@ -520,7 +478,6 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.OVERFLOWING_MISTS,
-        affectedSpells: [],
         severity: SEVERITY.LOW,
         title: "Tooltip on buff still 1% heal but should be sp% value",
         description: "The buff of Overflowing Mists still shows a percentage heal value when it should be the sp% value",
@@ -529,17 +486,14 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.DIFFUSE_MAGIC,
-        affectedSpells: [],
         severity: SEVERITY.LOW,
         title: "Debuffs reflect but damage not attributed in logs",
         description: "Debuffs reflect and it can be seen on enemy debuffs but damage is not attributed in logs or details",
         lastBuildTested: "64774",
         notes: "https://www.warcraftlogs.com/reports/XRfBYrQqFHjNyphA?fight=8&type=damage-taken&start=2678030&end=2681031&hostility=1&source=158.2",
-        tags: [],
     },
     {
         spell: TALENTS.ASPECT_OF_HARMONY,
-        affectedSpells: [],
         severity: SEVERITY.HIGH,
         title: "Entire tree stopped working mid-dungeon",
         description: "Master of Harmony (the entire tree) suddenly stopped working midway through Windrunner Spire +12",
@@ -554,7 +508,6 @@ const BUGS: Bug[] = [
         description: "Mistweaver never received the 20% damage buff in accordance to the global 20% healer damage buff",
         lastBuildTested: "64914",
         notes: "Ancient/Jadefire Teachings was nerfed by ~20% to account for the damage buff",
-        tags: [],
     },
     {
         spell: TALENTS.WAY_OF_THE_SERPENT,
@@ -563,7 +516,6 @@ const BUGS: Bug[] = [
         title: "Can bypass movement speed decrease",
         description: "Can move freely without movement speed decrease by starting a new Soothing Mist channel while inside of one already (refreshing the buff)",
         lastBuildTested: "64914",
-        tags: [],
     },
     {
         spell: TALENTS.WAY_OF_THE_SERPENT,

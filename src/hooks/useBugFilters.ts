@@ -84,7 +84,7 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
     const allTags = useMemo(() => {
         const tagSet = new Set<Tags>();
         bugs.forEach((bug) => {
-            for (const tag of bug.tags) tagSet.add(tag);
+            for (const tag of bug.tags || []) tagSet.add(tag);
         });
         return [...tagSet].sort();
     }, [bugs]);

@@ -41,7 +41,7 @@ export interface Bug {
     severity: SEVERITY;
     title: string;
     description: string;
-    tags: Tags[];
+    tags?: Tags[];
     status?: STATUS;
     lastBuildTested?: string;
     notes?: string;
