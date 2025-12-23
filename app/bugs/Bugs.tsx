@@ -12,7 +12,7 @@ import { CLASSES, specialization, getSpecializationByKey } from "@data/class";
 import { Bug } from "@data/bugs";
 
 import { useBugFilters } from "@hooks/useBugFilters";
-import { GetTitle } from "@util/stringManipulation";
+import { GetTitle, pluralize } from "@util/stringManipulation";
 
 const BugsPage: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const searchParams = useSearchParams();
@@ -103,6 +103,15 @@ const BugsPage: React.FC<{ title: string; description: string }> = ({ title, des
                             selectedSpec={selectedSpec}
                             onClose={handleDialogClose}
                         />
+                        <div>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{ textAlign: "center", mt: 2 }}
+                            >
+                                {filtered.length}/{bugs.length} {pluralize(bugs.length, "bug")}
+                            </Typography>
+                        </div>
                     </>
                 ) : (
                     <Typography
