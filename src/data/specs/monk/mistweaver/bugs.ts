@@ -172,8 +172,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Consumed by Soothing Mist without benefit",
         description: "Soothing Mist consumes balanced stratagem but its healing is not increased",
-        lastBuildTested: "64228",
+        lastBuildTested: "64914",
         tags: [TAGS.MOH],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.SOOTHING_BREATH,
@@ -277,9 +278,10 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Not consumed by Sheilun's Gift",
         description: "Sheilun's Gift does not consume Harmonic Surge (Vivify and Tiger Palm do)",
-        lastBuildTested: "64529",
+        lastBuildTested: "64914",
         notes: "Occasionally no abilities proc Harmonic Surge, fixed after a relog",
         tags: [TAGS.MOH],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.MANIFESTATION,
@@ -341,8 +343,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Gives 4% stat for both 1 and 2 talent points",
         description: "1 point investment gives 4% stat, 2 point investment also gives 4% stat",
-        lastBuildTested: "64529",
+        lastBuildTested: "64914",
         tags: [],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.SPIRITFONT,
@@ -502,8 +505,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Vivify still has old functionality prior to rework",
         description: "Coalesence only works for Sheilun's Gift, Vivify functions as it did prior to the rework still",
-        lastBuildTested: "64774",
+        lastBuildTested: "64914",
         tags: [TAGS.MOH],
+        status: STATUS.FIXED
     },
     {
         spell: TALENTS.JADEFIRE_TEACHINGS,
@@ -578,7 +582,16 @@ const BUGS: Bug[] = [
         description: "Personal tooltip shows 0% damage reduction when casting Soothing Mist on another target while having Elusive Mists talented",
         lastBuildTested: "64914",
         tags: [TAGS.TOOLTIP],
-    }
+    },
+    {
+        spell: TALENTS.HARMONIC_SURGE,
+        affectedSpells: [SPELLS.SHEILUNS_GIFT],
+        severity: SEVERITY.LOW,
+        title: "Buff and talent tooltip still reference Vivify if talented into Sheilun's Gift",
+        description: "Harmonic Surge tooltip references Vivify, even if Sheilun's Gift is talented. Functionally works correctly",
+        lastBuildTested: "64914",
+        tags: [TAGS.TOOLTIP, TAGS.MOH],
+    },
 ];
 
 export default BUGS;
