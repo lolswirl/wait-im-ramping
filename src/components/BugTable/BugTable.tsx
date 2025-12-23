@@ -299,7 +299,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                 }}
                             >
                                 <Box sx={{ gap: 0.5, display: "flex", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>
-                                    {bug.tags.map((tag) => {
+                                    {bug.tags?.map((tag) => {
                                         return (
                                             <Chip
                                                 key={tag.name}
