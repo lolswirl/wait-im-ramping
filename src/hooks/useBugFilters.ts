@@ -128,7 +128,7 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
                     (selectedSpec?.name?.toLowerCase?.() || "").includes(
                         search
                     ) ||
-                    bug.tags.some((tag) => tag.name.toLowerCase().includes(search))
+                    bug.tags?.some((tag) => tag.name.toLowerCase().includes(search))
                 );
             });
         }
