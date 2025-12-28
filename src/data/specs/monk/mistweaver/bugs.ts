@@ -269,8 +269,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Tooltip still references Chi Burst",
         description: "Manifestation tooltip still references Chi Burst for mistweaver",
-        lastBuildTested: "64529",
+        lastBuildTested: "64914",
         tags: [TAGS.TOOLTIP, TAGS.MOH],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.YULONS_KNOWLEDGE,
