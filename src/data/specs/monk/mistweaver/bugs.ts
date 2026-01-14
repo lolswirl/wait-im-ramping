@@ -64,7 +64,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Doesn't work with Spiritfont",
         description: "Peaceful Mending does not interact with Spiritfont's Soothing Mist. It does not increase the healing of Enveloping Mist or Renewing Mist on targets with Spiritfont's Soothing Mist.",
-        lastBuildTested: "64529",
+        lastBuildTested: "65337",
         notes: "Was fixed in 64339, back to not working in 64529",
     },
     {
@@ -83,7 +83,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Cancels if target is full HP",
         description: "Spiritfont will cancel the channel if the target is full HP with no injured player to jump to, even if the original target loses HP during the active Spiritfont buff",
-        lastBuildTested: "64339",
+        lastBuildTested: "65337",
         tags: [TAGS.APEX],
     },
     {
@@ -111,17 +111,19 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Increases SCK damage by 10%",
         description: "Temple Training increases the damage of spinning crane kick by 10%",
-        lastBuildTested: "64529",
+        lastBuildTested: "65337",
         notes: "Likely a side effect of the windwalker version of the talent",
         tags: [TAGS.CONDUIT],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.TEMPLE_TRAINING,
         affectedSpells: [SPELLS.SHEILUNS_GIFT, SPELLS.ENVELOPING_MIST, SPELLS.THUNDER_FOCUS_TEA],
         severity: SEVERITY.MEDIUM,
-        title: "Doesn't increase healing of Sheilun's Gift or TFT Enveloping Mist",
-        description: "Temple Training does not increase the healing of Sheilun's Gift. Temple Training does not increase the healing of TFT -> Enveloping Mist",
-        lastBuildTested: "64529",
+        title: "Doesn't increase healing of TFT Enveloping Mist",
+        description: "Temple Training does not increase the healing of TFT -> Enveloping Mist",
+        lastBuildTested: "65337",
+        notes: "SG fixed, TFT EnvM is not.",
         tags: [TAGS.CONDUIT],
     },
     {
@@ -150,7 +152,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Has no variance",
         description: "Sheilun's Gift has no variance",
-        lastBuildTested: "64228",
+        lastBuildTested: "65337",
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM,
@@ -168,7 +170,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Tooltip doesn't update when talented into Jade Bond",
         description: "Soothing Breath tooltip does not update when talented into Jade Bond. Soothing breath lasts 9s (Tooltip says 8.5 before haste). Tooltip does not match the actual amount healed for either JB or Gift",
-        lastBuildTested: "64228",
+        lastBuildTested: "65337",
         notes: "Multiple issues: https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1",
         tags: [TAGS.TOOLTIP],
     },
@@ -187,7 +189,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Does not increase haste when HotJS is active",
         description: "Does not increase haste when Heart of the Jade Serpent is active",
-        lastBuildTested: "64529",
+        lastBuildTested: "65337",
         tags: [TAGS.HASTE, TAGS.CONDUIT],
     },
     {
@@ -377,7 +379,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.CRITICAL,
         title: "Chained damage not reduced to 25% effectiveness",
         description: "Jade Empowerment's Chained Damage is not reduced to 25% effectiveness",
-        lastBuildTested: "64529",
+        lastBuildTested: "65337",
+        status: STATUS.FIXED,
+
     },
     {
         spell: TALENTS.EMPERORS_ELIXIR,
@@ -420,8 +424,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Doesn't consistently hit 5 targets despite having more than 5 hots out",
         description: "Rushing Wind Kick does not consistently hit up to 5 targets despite having far more than 5 hots out",
-        lastBuildTested: "64774",
+        lastBuildTested: "65337",
         notes: "https://www.warcraftlogs.com/reports/9m2ntLC4wWyB6k83?fight=19&type=healing&source=22&view=events&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24467307^0%24Off%24%23909049%24auras-gained%24-1%240.0.0.Any%2413389582.0.0.Monk%24true%240.0.0.Any%24true%24119611&ability=1269159",
+        status: STATUS.FIXED,
     },
     {
         spell: ITEMS.T35_MISTWEAVER_4SET,
@@ -474,16 +479,19 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Tooltip still shows 215% but only contributes 205% per nerf",
         description: "JFT and AT nerfed to 180% and 25% respectively but tooltip has not been updated",
-        lastBuildTested: "64774",
+        lastBuildTested: "65337",
         tags: [TAGS.TOOLTIP],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.OVERFLOWING_MISTS,
         severity: SEVERITY.LOW,
         title: "Tooltip on buff still 1% heal but should be sp% value",
         description: "The buff of Overflowing Mists still shows a percentage heal value when it should be the sp% value",
-        lastBuildTested: "64774",
+        lastBuildTested: "65337",
         tags: [TAGS.TOOLTIP],
+        status: STATUS.FIXED,
+        notes: "Sorta fixed, tooltip no longer gets pushed onto the player. Adding new entry"
     },
     {
         spell: TALENTS.DIFFUSE_MAGIC,
@@ -507,7 +515,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Never received 20% damage buff",
         description: "Mistweaver never received the 20% damage buff in accordance to the global 20% healer damage buff",
-        lastBuildTested: "64914",
+        lastBuildTested: "65337",
         notes: "Ancient/Jadefire Teachings was nerfed by ~20% to account for the damage buff",
     },
     {
@@ -516,7 +524,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Can bypass movement speed decrease",
         description: "Can move freely without movement speed decrease by starting a new Soothing Mist channel while inside of one already (refreshing the buff)",
-        lastBuildTested: "64914",
+        lastBuildTested: "65337",
     },
     {
         spell: TALENTS.WAY_OF_THE_SERPENT,
@@ -524,7 +532,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Personal tooltip shows 0% movement speed reduction",
         description: "Personal tooltip shows 0% movement speed reduction while inside of a Soothing Mist channel",
-        lastBuildTested: "64914",
+        lastBuildTested: "65337",
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -533,8 +541,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Personal tooltip shows 0% damage reduction",
         description: "Personal tooltip shows 0% damage reduction when casting Soothing Mist on another target while having Elusive Mists talented",
-        lastBuildTested: "64914",
+        lastBuildTested: "65337",
         tags: [TAGS.TOOLTIP],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.HARMONIC_SURGE,
@@ -542,8 +551,16 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Buff and talent tooltip still reference Vivify if talented into Sheilun's Gift",
         description: "Harmonic Surge tooltip references Vivify, even if Sheilun's Gift is talented. Functionally works correctly",
-        lastBuildTested: "64914",
+        lastBuildTested: "65337",
         tags: [TAGS.TOOLTIP, TAGS.MOH],
+    },
+    {
+        spell: TALENTS.JADE_SERPENT_STATUE,
+        affectedSpells: [SPELLS.SOOTHING_MIST],
+        severity: SEVERITY.MEDIUM,
+        title: "No longer heals at all",
+        description: "Does no healing at all",
+        lastBuildTested: "65337",
     },
 ];
 

@@ -10,9 +10,10 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Stillstep Coil requires melee range",
         description: "Player must be in melee range when Leg Sweep expires otherwise Disable is not applied",
-        lastBuildTested: "63728",
+        lastBuildTested: "65337",
         notes: "I assume bug because it says 'Leg Sweep applies' rather than 'When Leg Sweep ends, player applies'",
         tags: [],
+        status: STATUS.FIXED,
     },
 ];
 
