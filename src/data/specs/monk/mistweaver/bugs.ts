@@ -480,11 +480,10 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.JADEFIRE_TEACHINGS,
         severity: SEVERITY.LOW,
-        title: "Tooltip still shows 215% but only contributes 205% per nerf",
-        description: "JFT and AT nerfed to 180% and 25% respectively but tooltip has not been updated",
+        title: "Tooltip in the talent tree still shows 215% but only contributes 205% per nerf",
+        description: "JFT was nerfed to 180% but is not updated on the talent tree tooltip",
         lastBuildTested: "65337",
         tags: [TAGS.TOOLTIP],
-        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.OVERFLOWING_MISTS,
