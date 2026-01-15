@@ -557,14 +557,6 @@ const BUGS: Bug[] = [
         tags: [TAGS.TOOLTIP, TAGS.MOH],
     },
     {
-        spell: TALENTS.JADE_SERPENT_STATUE,
-        affectedSpells: [SPELLS.SOOTHING_MIST],
-        severity: SEVERITY.LOW,
-        title: "Does not heal outside of instances",
-        description: "Does no healing at all outside of instances",
-        lastBuildTested: "65337",
-    },
-    {
         spell: TALENTS.UNISON,
         affectedSpells: [SPELLS.SOOTHING_MIST],
         severity: SEVERITY.LOW,
