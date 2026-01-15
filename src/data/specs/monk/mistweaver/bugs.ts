@@ -91,7 +91,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Doesn't heal NPCs",
         description: "Does not heal NPCs",
-        lastBuildTested: "64529",
+        lastBuildTested: "65337",
         notes: "Tested with Valeera (Delve Companion) and Follower Dungeons",
         tags: [TAGS.APEX],
     },
@@ -199,7 +199,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Doesn't increase Rapid Diffusion Renewing Mists by +2s",
         description: "Does not increase the duration of Rapid Diffusion Renewing Mists by +2s",
-        lastBuildTested: "64228",
+        lastBuildTested: "65337",
     },
     {
         spell: SPELLS.CELESTIAL_CONDUIT,
@@ -281,7 +281,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Shows as red and states 'Requires Refreshing Jade Wind Talent'",
         description: "Is marked red and states 'Requires Refreshing Jade Wind Talent'",
-        lastBuildTested: "64529",
+        lastBuildTested: "65337",
         tags: [TAGS.CONDUIT],
     },
     {
@@ -290,7 +290,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Statue does not cast Soothing Mist on Spiritfont Soothing Mist targets",
         description: "Jade Serpent Statue and Jade Infusion do not cast soom on the targets who have spiritfont soom on them",
-        lastBuildTested: "64529",
+        lastBuildTested: "65337",
     },
     {
         spell: TALENTS.RUSHING_WIND_KICK,
@@ -305,7 +305,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Bonus not reflected in Rising Sun Kick/Rushing Wind Kick tooltips",
         description: "Morning Breeze is not reflected in the RWK/RSK tooltips",
-        lastBuildTested: "64529",
+        lastBuildTested: "65337",
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -314,7 +314,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Tooltip drastically lower than actual",
         description: "In game tooltip for Jadefire Stomp is drastically lower than the actual damage dealt",
-        lastBuildTested: "64339",
+        lastBuildTested: "65337",
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -390,7 +390,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Soothing Mist channel interrupted by Focused Thunder's last charge",
         description: "The free-move Soothing Mist channel from Emperor's Elixir seems to be interrupted by Focused Thunder being fully consumed",
-        lastBuildTested: "64529",
+        lastBuildTested: "65337",
     },
     {
         spell: TALENTS.SPIRITFONT,
@@ -417,7 +417,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Damage is not transferring to healing through Ancient Teachings",
         description: "Jadefire Stomp damage is not transferring to healing through ancient teachings",
-        lastBuildTested: "64529",
+        lastBuildTested: "65337",
         notes: "https://www.warcraftlogs.com/reports/hL6Rw13bzBdxyXrH?fight=5&type=damage-done&source=3&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388024|388025",
     },
     {
@@ -435,7 +435,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.CRITICAL,
         title: "Renewing Mist from 4pc cannot be extended",
         description: "The renewing mist applied by the 4pc cannot be extended",
-        lastBuildTested: "64774",
+        lastBuildTested: "65337",
         tags: [TAGS.TIER],
     },
     {
@@ -444,7 +444,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Renewing Mist from 4pc not increased by Lotus Infusion",
         description: "The duration of the renewing mist applied by the 4pc is not increased by lotus infusion",
-        lastBuildTested: "64774",
+        lastBuildTested: "65337s",
         tags: [TAGS.TIER],
     },
     {
@@ -453,7 +453,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Renewing Mist cannot be extended",
         description: "The renewing mist applied by mist of life cannot be extended by rising mist. However, the enveloping mist applied by mist of life can",
-        lastBuildTested: "64611",
+        lastBuildTested: "65337",
     },
     {
         spell: TALENTS.SAVE_THEM_ALL,
