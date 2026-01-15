@@ -557,8 +557,8 @@ const BUGS: Bug[] = [
         spell: TALENTS.JADE_SERPENT_STATUE,
         affectedSpells: [SPELLS.SOOTHING_MIST],
         severity: SEVERITY.MEDIUM,
-        title: "No longer heals at all",
-        description: "Does no healing at all",
+        title: "Does not heal outside of instances",
+        description: "Does no healing at all outside of instances",
         lastBuildTested: "65337",
     },
 ];
