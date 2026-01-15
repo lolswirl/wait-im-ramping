@@ -85,6 +85,7 @@ const BUGS: Bug[] = [
         description: "Spiritfont will cancel the channel if the target is full HP with no injured player to jump to, even if the original target loses HP during the active Spiritfont buff",
         lastBuildTested: "65337",
         tags: [TAGS.APEX],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.SPIRITFONT,
@@ -333,6 +334,7 @@ const BUGS: Bug[] = [
         lastBuildTested: "64529",
         notes: "https://www.warcraftlogs.com/reports/6xj1gnNLa34vzcr8?boss=-3&difficulty=0&type=healing&source=5&start=712274&end=725940&options=8&ability=1260617&target=9&view=events",
         tags: [TAGS.APEX],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.JADE_SERPENT_STATUE,
@@ -364,7 +366,8 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Does nothing, no healing in logs",
         description: "Does nothing, no healing showing up in logs (NYI?)",
-        lastBuildTested: "64499",
+        lastBuildTested: "65337",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.JADEFIRE_TEACHINGS,
@@ -556,11 +559,21 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.JADE_SERPENT_STATUE,
         affectedSpells: [SPELLS.SOOTHING_MIST],
-        severity: SEVERITY.MEDIUM,
+        severity: SEVERITY.LOW,
         title: "Does not heal outside of instances",
         description: "Does no healing at all outside of instances",
         lastBuildTested: "65337",
     },
+    {
+        spell: TALENTS.UNISON,
+        affectedSpells: [SPELLS.SOOTHING_MIST],
+        severity: SEVERITY.LOW,
+        title: "Unison is still healing, even though the talent doesn't exist",
+        description: "Unison is still healing, even though the talent doesn't exist anymore. Think its related to Mistline being talented",
+        lastBuildTested: "65337",
+        notes: "https://www.warcraftlogs.com/reports/pmdtLjDafFnyHV7P?fight=last&type=healing&source=333&ability=388480"
+    },
+    
 ];
 
 export default BUGS;
