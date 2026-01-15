@@ -191,6 +191,7 @@ const BUGS: Bug[] = [
         description: "Does not increase haste when Heart of the Jade Serpent is active",
         lastBuildTested: "65337",
         tags: [TAGS.HASTE, TAGS.CONDUIT],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.LOTUS_INFUSION,
