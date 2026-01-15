@@ -114,7 +114,6 @@ const BUGS: Bug[] = [
         lastBuildTested: "65337",
         notes: "Likely a side effect of the windwalker version of the talent",
         tags: [TAGS.CONDUIT],
-        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.TEMPLE_TRAINING,
