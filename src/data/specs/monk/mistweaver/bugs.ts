@@ -544,7 +544,6 @@ const BUGS: Bug[] = [
         description: "Personal tooltip shows 0% damage reduction when casting Soothing Mist on another target while having Elusive Mists talented",
         lastBuildTested: "65337",
         tags: [TAGS.TOOLTIP],
-        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.HARMONIC_SURGE,
