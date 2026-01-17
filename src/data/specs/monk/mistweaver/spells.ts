@@ -33,7 +33,7 @@ const spells = {
         value: {
             damage: 1910
         }
-},
+    },
     CRACKLING_JADE_LIGHTNING: {
         name: 'Crackling Jade Lightning',
         id: 117952,
