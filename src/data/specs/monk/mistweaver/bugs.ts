@@ -564,6 +564,16 @@ const BUGS: Bug[] = [
         lastBuildTested: "65337",
         notes: "https://www.warcraftlogs.com/reports/pmdtLjDafFnyHV7P?fight=last&type=healing&source=333&ability=388480"
     },
+    {
+        spell: TALENTS.ANCIENT_TEACHINGS,
+        affectedSpells: [TALENTS.JADEFIRE_TEACHINGS, SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, SPELLS.RISING_SUN_KICK],
+        severity: SEVERITY.CRITICAL,
+        title: "Ancient Teachings healing conversion reverted to post-armor values",
+        description: "Hotfix to Ancient Teachings healing on pre-armor damage values (physical abilities reducing actual damage dealt by 30% account for armor) was reverted at some point from Undermine -> Live. The conversion now only happens on post-armor values.",
+        lastBuildTested: "65337",
+        notes: "https://www.warcraftlogs.com/reports/hpTmN6FgCtaY9bvc?fight=11&source=1&type=summary&start=14048042&end=14286694&view=events&pins=2%24Separate%24%23244F4B%24casts%7Cdamage%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388025%7C388024"
+    },
+
     
 ];
 
