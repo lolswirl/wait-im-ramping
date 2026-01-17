@@ -52,7 +52,7 @@ const talents = {
         icon: 'inv_misc_book_07',
         custom: {
             transferRate: 0.25,
-            armorModifier: 1,
+            armorModifier: 0.7, // sad
         }
     },
     JADEFIRE_TEACHINGS: {
@@ -61,7 +61,7 @@ const talents = {
         icon: 'inv_misc_book_07',
         custom: {
             transferRate: 1.80,
-            armorModifier: 1,
+            armorModifier: 0.7, // sad
         }
     },
     WAY_OF_THE_CRANE: {
