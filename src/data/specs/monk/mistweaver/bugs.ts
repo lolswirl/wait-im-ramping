@@ -573,6 +573,14 @@ const BUGS: Bug[] = [
         lastBuildTested: "65337",
         notes: "https://www.warcraftlogs.com/reports/hpTmN6FgCtaY9bvc?fight=11&source=1&type=summary&start=14048042&end=14286694&view=events&pins=2%24Separate%24%23244F4B%24casts%7Cdamage%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388025%7C388024"
     },
+    {
+        spell: TALENTS.SPIRITFONT,
+        affectedSpells: [],
+        severity: SEVERITY.MEDIUM,
+        title: "Casting Enveloping Mist at 2 stacks consumes both, but doesn't increase healing",
+        description: "Casting Enveloping Mist at 2 stacks of banked Spiritfont causes both stacks to be consumed, but the healing of the outgoing Spiritfonts is not increased by double, if that is the design. Assuming that each stack should be separately consumed",
+        lastBuildTested: "65337",
+    },
 
     
 ];
