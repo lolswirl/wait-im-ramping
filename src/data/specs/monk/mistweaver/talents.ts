@@ -348,8 +348,8 @@ const talents = {
         id: 1239442,
         icon: 'ability_socererking_forcenova',
         value: {
-            healing: 1177,
-            damage: 248,
+            healing: 1225,
+            damage: 268,
         },
         custom: {
             targetsHit: 5
