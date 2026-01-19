@@ -581,6 +581,14 @@ const BUGS: Bug[] = [
         description: "Casting Enveloping Mist at 2 stacks of banked Spiritfont causes both stacks to be consumed, but the healing of the outgoing Spiritfonts is not increased by double, if that is the design. Assuming that each stack should be separately consumed",
         lastBuildTested: "65337",
     },
+    {
+        spell: SPELLS.SHEILUNS_GIFT,
+        severity: SEVERITY.HIGH,
+        title: "Sheilun's Gift stack generation breaks after swapping targets inside of Soothing Mist",
+        description: "Sheiluns gift stack generation breaks after casting sheiluns gift inside of a soothing mist channel on different targets while inside the channel. Seems to break in a weird way, in that the next SG stack count generated 1st and 2nd stacks at 140ms of each other, broke at some point between the 3rd stack gain and consumption of the stacks of the cast.",
+        lastBuildTested: "65337",
+        notes: "https://www.warcraftlogs.com/reports/pwqJc6jCbZGPxTKF?fight=1&type=auras&source=7&position=912989&ability=399497"
+    }
 
     
 ];
