@@ -28,7 +28,7 @@ const spells = {
         id: 107428,
         icon: 'ability_monk_risingsunkick',
         castTime: 0,
-        cooldown: 10,
+        cooldown: 12,
         school: SCHOOLS.PHYSICAL,
         value: {
             damage: 1910
