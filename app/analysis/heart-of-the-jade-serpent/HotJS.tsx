@@ -460,6 +460,16 @@ const StatsCard: React.FC<{
                 const extraCasts = withHotJS - baseline;
                 const castsPerMinute = (withHotJS / timeRange) * 60;
                 
+                const castTimes = abilityData[ability.spell.name].availableTimes;
+                let avgCooldown = 0;
+                if (castTimes.length > 1) {
+                    const cooldowns: number[] = [];
+                    for (let i = 1; i < castTimes.length; i++) {
+                        cooldowns.push(castTimes[i] - castTimes[i - 1]);
+                    }
+                    avgCooldown = cooldowns.reduce((sum, cd) => sum + cd, 0) / cooldowns.length;
+                }
+                
                 return (
                     <Card key={ability.spell.name} variant="outlined" sx={{ 
                         p: 2, 
@@ -515,6 +525,22 @@ const StatsCard: React.FC<{
                                     }
                                 }}
                             />
+                            {avgCooldown > 0 && (
+                                <Chip 
+                                    label={`${avgCooldown.toFixed(1)}s ${GetTitle("avg cd")}`} 
+                                    size="small"
+                                    variant='outlined'
+                                    sx={{
+                                        backgroundColor: themeMode === 'dark' ? 'rgba(255,255,255,0.1)' : '#f5f5f5',
+                                        color: themeMode === 'dark' ? 'white' : 'inherit',
+                                        borderColor: themeMode === 'dark' ? 'rgba(255,255,255,0.2)' : '#ddd',
+                                        '&:hover': {
+                                            backgroundColor: themeMode === 'dark' ? 'rgba(255,255,255,0.15)' : '#e8e8e8',
+                                            borderColor: themeMode === 'dark' ? 'rgba(255,255,255,0.3)' : '#bbb',
+                                        }
+                                    }}
+                                />
+                            )}
                         </Stack>
                     </Card>
                 );
