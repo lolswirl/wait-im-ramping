@@ -7,6 +7,135 @@ import { TAGS } from "@data/shared/tags";
 
 const BUGS: Bug[] = [
     {
+        spell: TALENTS.FLIGHT_OF_THE_RED_CRANE,
+        affectedSpells: [TALENTS.UNITY_WITHIN],
+        severity: SEVERITY.LOW,
+        title: "Despite its removal, still procs from Unity Within",
+        description: "Despite being removed from the talent tree, the spell still activates when Unity Within occurs. Only heals, as it has done since its inception from Unity Within to not proc mana tea despite its original talent's wording.",
+        lastBuildTested: "65337",
+    },
+    {
+        spell: SPELLS.REVIVAL,
+        severity: SEVERITY.HIGH,
+        title: "Revival healing splits into pets",
+        description: "Revival does less healing when more targets are hit as expected however pets are being included in the split reduction",
+        tags: [TAGS.PETS],
+        lastBuildTested: "65337",
+    },
+    {
+        spell: TALENTS.ANCIENT_TEACHINGS,
+        affectedSpells: [TALENTS.SECRET_INFUSION, TALENTS.INNER_COMPASS],
+        severity: SEVERITY.MEDIUM,
+        title: "Versatility double dips with Ancient Teachings",
+        description: "Versatility gains from several sources (Secret Infusion, Inner Compass, Mark of the Wild, etc) double dips on Ancient Teachings - it increases the damage you deal which converts into Ancient Teachings healing, then that is increased by the extra Versatility % increase",
+        tags: [TAGS.VERS],
+        lastBuildTested: "65337",
+    },
+    {
+        spell: TALENTS.ASPECT_OF_HARMONY_WITHDRAW,
+        severity: SEVERITY.LOW,
+        title: "Withdraw buff does not send combat log events",
+        description: "Contrary to the fill buffs, the withdraw buff doesn't send any combat log events while its withdrawing vitality effectively making tracking have to use HEAL, PERIODIC_HEAL, DAMAGE, etc events in order to 'update' the buffs status",
+        tags: [TAGS.MOH],
+        lastBuildTested: "62493",
+        notes: "Not really needed to be fixed, as addons cannot process the data ingame. Still, a bug nonetheless."
+    },
+    {
+        spell: TALENTS.ASPECT_OF_HARMONY_T1,
+        affectedSpells: [TALENTS.ASPECT_OF_HARMONY_T2, TALENTS.ASPECT_OF_HARMONY_T3],
+        severity: SEVERITY.LOW,
+        title: "Threshold buffs do not update or constantly update",
+        description: "Aspect of Harmony's 1st threshold buff (450521) no longer sends combat log refresh events when vitality is being added to the pool. Tested with build 162876 and seems this is only out of combat. The 2nd (450526) and 3rd (450531) threshold buffs constantly swap between each other while vitality is being added to the pool, causing the two buff IDs to swap between each other",
+        tags: [TAGS.MOH],
+        lastBuildTested: "65337",
+    },
+    {
+        spell: TALENTS.OVERWHELMING_FORCE,
+        severity: SEVERITY.LOW,
+        title: "Does not hit targets with absorbs",
+        description: "Overwhelming Force does not hit targets with absorbs or shields on them",
+        tags: [TAGS.MOH],
+        lastBuildTested: "62493",
+    },
+    {
+        spell: TALENTS.ANCIENT_TEACHINGS,
+        severity: SEVERITY.MEDIUM,
+        title: "Ancient Teachings doesn't always heal for 30% of damage",
+        description:
+            "Baseline Ancient Teachings does not consistenly heal for 30% of the damage dealt. It is consistently higher on Tiger Palm and Blackout Kick and is sometimes lower on Rising Sun/Rushing Wind Kick",
+        lastBuildTested: "57292",
+    },
+    {
+        spell: TALENTS.JADEFIRE_STOMP,
+        severity: SEVERITY.MEDIUM,
+        title: "Jadefire Stomp graphic variation causes target inconsistency",
+        description:
+            "Jadefire stomp's graphic variation causes inconsistency in the number of targets hit when cast from the exact same position.",
+        lastBuildTested: "65337",
+    },
+    {
+        spell: TALENTS.ASPECT_OF_HARMONY,
+        affectedSpells: [
+            TALENTS.JADE_SERPENT_STATUE,
+            SPELLS.SOOTHING_MIST,
+            TALENTS.UNISON,
+        ],
+        severity: SEVERITY.MEDIUM,
+        title: "Jade Serpent Statue/Unison healing don't apply Aspect of Harmony",
+        description:
+            "Jade Serpent Statue Soothing Mist healing does not apply aspect of harmony",
+        lastBuildTested: "65337",
+    },
+    {
+        spell: TALENTS.ASPECT_OF_HARMONY,
+        affectedSpells: [TALENTS.JADE_SERPENT_STATUE],
+        severity: SEVERITY.LOW,
+        title: "Jade Serpent Statue Soothing Mist doesn't contribute vitality",
+        description:
+            "Jade Serpent Statue's Soothing mist does not contribute vitality",
+        lastBuildTested: "65337",
+        status: STATUS.FIXED,
+    },
+    {
+        spell: TALENTS.BALANCED_STRATAGEM,
+        affectedSpells: [TALENTS.RAPID_DIFFUSION],
+        severity: SEVERITY.LOW,
+        title: "Rising Sun Kick w/ Rapid Diffusion adds/removes buffs",
+        description:
+            "With Rapid Diffusion Talented, Rising Sun Kick adds and removes several buff stacks in succession then consumed immediately and a Nature gets applied, consumed, and reapplied",
+        tags: [TAGS.MOH],
+        lastBuildTested: "65337",
+    },
+    {
+        spell: TALENTS.BALANCED_STRATAGEM,
+        affectedSpells: [TALENTS.MISTY_PEAKS, SPELLS.ENVELOPING_MIST],
+        severity: SEVERITY.LOW,
+        title: "Misty Peaks procs consume Physical, add Nature stack",
+        description:
+            "Misty Peaks Procs consume Physical and add a stack of Nature",
+        tags: [TAGS.MOH],
+        lastBuildTested: "56819",
+    },
+    {
+        spell: TALENTS.BALANCED_STRATAGEM,
+        affectedSpells: [TALENTS.RAPID_DIFFUSION, SPELLS.ENVELOPING_MIST],
+        severity: SEVERITY.LOW,
+        title: "Enveloping Mist w/ Rapid Diffusion procs 3 Nature stacks",
+        description:
+            "Hard Cast Enveloping Mist with Rapid diffusion procs 3 stacks of Nature. This is from Envelop apply and then the Rapid Diffusion Rem having travel time",
+        tags: [TAGS.MOH],
+        lastBuildTested: "65337",
+    },
+    {
+        spell: TALENTS.TEAR_OF_MORNING,
+        affectedSpells: [SPELLS.ENVELOPING_MIST],
+        severity: SEVERITY.MEDIUM,
+        title: "The cleave of Enveloping Mist doesn't scale with haste",
+        description:
+            "The '12% of Enveloping Mist' is calculated before haste is factored in and significatly reduces the cleaves value",
+        tags: [TAGS.HASTE],
+    },
+    {
         spell: TALENTS.JADE_INFUSION,
         severity: SEVERITY.LOW,
         title: "Summoned statue does not function",
@@ -589,16 +718,6 @@ const BUGS: Bug[] = [
         lastBuildTested: "65337",
         notes: "https://www.warcraftlogs.com/reports/pwqJc6jCbZGPxTKF?fight=1&type=auras&source=7&position=912989&ability=399497"
     },
-    {
-        spell: TALENTS.FLIGHT_OF_THE_RED_CRANE,
-        affectedSpells: [TALENTS.UNITY_WITHIN],
-        severity: SEVERITY.LOW,
-        title: "Despite its removal, still procs from Unity Within",
-        description: "Despite being removed from the talent tree, the spell still activates when Unity Within occurs. Only heals, as it has done since its inception from Unity Within",
-        lastBuildTested: "65337",
-    }
-
-    
 ];
 
 export default BUGS;
