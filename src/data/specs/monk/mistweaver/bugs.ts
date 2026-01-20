@@ -588,6 +588,14 @@ const BUGS: Bug[] = [
         description: "Sheiluns gift stack generation breaks after casting sheiluns gift inside of a soothing mist channel on different targets while inside the channel. Seems to break in a weird way, in that the next SG stack count generated 1st and 2nd stacks at 140ms of each other, broke at some point between the 3rd stack gain and consumption of the stacks of the cast.",
         lastBuildTested: "65337",
         notes: "https://www.warcraftlogs.com/reports/pwqJc6jCbZGPxTKF?fight=1&type=auras&source=7&position=912989&ability=399497"
+    },
+    {
+        spell: TALENTS.FLIGHT_OF_THE_RED_CRANE,
+        affectedSpells: [TALENTS.UNITY_WITHIN],
+        severity: SEVERITY.LOW,
+        title: "Despite its removal, still procs from Unity Within",
+        description: "Despite being removed from the talent tree, the spell still activates when Unity Within occurs. Only heals, as it has done since its inception from Unity Within",
+        lastBuildTested: "65337",
     }
 
     

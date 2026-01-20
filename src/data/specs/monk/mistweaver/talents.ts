@@ -448,6 +448,11 @@ const talents = {
             absorbAmount: 930,
         }
     },
+    FLIGHT_OF_THE_RED_CRANE: {
+        name: "Flight of the Red Crane",
+        id: 443255,
+        icon: 'inv_pet_cranegod',
+    },
     STAMPEDE_OF_THE_ANCIENTS: {
         name: "Stampede of the Ancients",
         id: 443321,
