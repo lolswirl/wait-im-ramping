@@ -64,7 +64,7 @@ const About = () => {
                 ever since, competitive healing has been a major focus in my gameplay.{" "}
                 i&apos;ve reached world rank 20 in raid, earned multiple 0.1% titles in mythic+{" "}
                 season to season. on another note, i am the mistweaver guide writer for wowhead{" "}
-                and i&apos;m currently a mistweaver veteran and moderator in peak of serenity.{" "}
+                and i&apos;m currently a veteran and moderator in peak of serenity.{" "}
                 i love helping other healers improve and enjoy the role more!
               </Typography>
               <Box
