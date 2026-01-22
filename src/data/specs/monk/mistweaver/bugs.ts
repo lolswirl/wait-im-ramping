@@ -505,7 +505,8 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Soothing Mist channel interrupted by Focused Thunder's last charge",
         description: "The free-move Soothing Mist channel from Emperor's Elixir seems to be interrupted by Focused Thunder being fully consumed",
-        lastBuildTested: "65337",
+        lastBuildTested: "65448",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.SPIRITFONT,
@@ -551,8 +552,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.CRITICAL,
         title: "Renewing Mist from 4pc cannot be extended",
         description: "The renewing mist applied by the 4pc cannot be extended",
-        lastBuildTested: "65337",
+        lastBuildTested: "65448",
         tags: [TAGS.TIER],
+        status: STATUS.FIXED,
     },
     {
         spell: ITEMS.T35_MISTWEAVER_4SET,
