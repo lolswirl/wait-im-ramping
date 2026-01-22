@@ -726,8 +726,8 @@ const BUGS: Bug[] = [
         spell: TALENTS.JADEFIRE_STOMP,
         affectedSpells: [TALENTS.ANCIENT_TEACHINGS, TALENTS.JADEFIRE_TEACHINGS, TALENTS.MEDITATIVE_FOCUS],
         severity: SEVERITY.HIGH,
-        title: "Damage is not transferring to healing through Ancient Teachings",
-        description: "Jadefire Stomp damage is not transferring to healing through ancient teachings",
+        title: "Transfer rate is inconsistent than actual transfer rate",
+        description: "Transfer is fixed however now transfers at a lower rate than advertised: 150% with Jadefire Teachings, 18% with Ancient Teachings, ~55% with AT + Meditative Focus, 186% with JFT + AT + Meditative Focus",
         lastBuildTested: "65448",
     },
 ];
