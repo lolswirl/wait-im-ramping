@@ -730,6 +730,16 @@ const BUGS: Bug[] = [
         description: "Transfer is fixed however now transfers at a lower rate than advertised: 150% with Jadefire Teachings, 18% with Ancient Teachings, ~55% with AT + Meditative Focus, 186% with JFT + AT + Meditative Focus",
         lastBuildTested: "65448",
     },
+    {
+        spell: TALENTS.SPIRITFONT,
+        affectedSpells: [SPELLS.SHEILUNS_GIFT],
+        severity: SEVERITY.MEDIUM,
+        title: "Rank 1 Spiritfont cannot proc via Sheilun's Gift",
+        description: "The first point in Spiritfont does not proc via Sheilun's Gift, as it should swap from Vivify after talenting SG.",
+        lastBuildTested: "65448",
+        notes: "https://www.warcraftlogs.com/reports/HvrkyFPnC6TxbBN3?fight=1&type=auras&source=1&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%7C1260670%2463",
+    },
+
 ];
 
 export default BUGS;
