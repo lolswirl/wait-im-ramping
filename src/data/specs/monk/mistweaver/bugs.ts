@@ -134,6 +134,7 @@ const BUGS: Bug[] = [
         title: "Doesn't interact with Peaceful Mending",
         description: "Tear of Morning does not interact with Peaceful Mending at all. The healing replicated to targets with Renewing Mist is not increased.",
         lastBuildTested: "63534",
+    },
     {
         spell: TALENTS.TEAR_OF_MORNING,
         affectedSpells: [TALENTS.SPIRITFONT, SPELLS.RENEWING_MIST],
