@@ -136,7 +136,7 @@ const spells = {
     SHEILUNS_GIFT: {
         name: "Sheilun's Gift",
         id: 205406,
-        icon: 'inv_staff_2h_artifactshaohao_d_01',
+        icon: 'inv12_ability_monk_sheilunsgift',
         castTime: 2,
         school: SCHOOLS.NATURE,
         value: {

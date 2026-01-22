@@ -213,7 +213,7 @@ const talents = {
     RUSHING_WIND_KICK: {
         name: "Rushing Wind Kick",
         id: 467307,
-        icon: 'ability_monk_ridethewind',
+        icon: 'inv12_ability_monk_rushingwindkick',
     },
     JADE_SERPENT_STATUE: {
         name: "Jade Serpent Statue",
