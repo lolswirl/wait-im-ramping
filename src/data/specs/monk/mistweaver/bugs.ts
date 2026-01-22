@@ -532,8 +532,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Damage is not transferring to healing through Ancient Teachings",
         description: "Jadefire Stomp damage is not transferring to healing through ancient teachings",
-        lastBuildTested: "65337",
+        lastBuildTested: "65448",
         notes: "https://www.warcraftlogs.com/reports/hL6Rw13bzBdxyXrH?fight=5&type=damage-done&source=3&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388024|388025",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.RUSHING_WIND_KICK,
@@ -576,9 +577,10 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Doesn't increase Ancient Teachings or Way of the Crane",
         description: "Ancient Teachings and Way of the Crane not increased by Save Them All",
-        lastBuildTested: "64611",
-        notes: "Maybe not a bug considering its not a damage increase",
+        lastBuildTested: "65448",
+        notes: "As of 65448, fixed to work with Way of the Crane as well",
         tags: [TAGS.HEALING_INCREASE],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.COALESCENCE,
@@ -717,6 +719,14 @@ const BUGS: Bug[] = [
         description: "Revival does less healing when more targets are hit as expected however pets are being included in the split reduction",
         tags: [TAGS.PETS],
         lastBuildTested: "65337",
+    },
+    {
+        spell: TALENTS.JADEFIRE_STOMP,
+        affectedSpells: [TALENTS.ANCIENT_TEACHINGS, TALENTS.JADEFIRE_TEACHINGS, TALENTS.MEDITATIVE_FOCUS],
+        severity: SEVERITY.HIGH,
+        title: "Damage is not transferring to healing through Ancient Teachings",
+        description: "Jadefire Stomp damage is not transferring to healing through ancient teachings",
+        lastBuildTested: "65448",
     },
 ];
 

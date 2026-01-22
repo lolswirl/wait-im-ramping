@@ -418,6 +418,14 @@ const talents = {
         id: 450875,
         icon: 'inv_shoulder_inv_leather_raidmonk_s_01',
     },
+    MEDITATIVE_FOCUS: {
+        name: "Meditative Focus",
+        id: 1271105,
+        icon: 'inv_misc_herb_mountainsilversage',
+        custom: {
+            transferRate: 0.50
+        }
+    },
 
     // conduit of the celestials
     TEMPLE_TRAINING: {
