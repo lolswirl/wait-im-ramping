@@ -134,7 +134,6 @@ const BUGS: Bug[] = [
         title: "Doesn't interact with Peaceful Mending",
         description: "Tear of Morning does not interact with Peaceful Mending at all. The healing replicated to targets with Renewing Mist is not increased.",
         lastBuildTested: "63534",
-    },
     {
         spell: TALENTS.TEAR_OF_MORNING,
         affectedSpells: [TALENTS.SPIRITFONT, SPELLS.RENEWING_MIST],
@@ -142,6 +141,7 @@ const BUGS: Bug[] = [
         title: "Doesn't interact with Spiritfont",
         description: "Tear of Morning does not interact with Spiritfont at all. The healing replicated to targets with Renewing Mist is not increased.",
         lastBuildTested: "63534",
+        tags: [TAGS.APEX],
     },
     {
         spell: TALENTS.ZEN_PULSE,
@@ -179,6 +179,7 @@ const BUGS: Bug[] = [
         description: "Peaceful Mending does not interact with Spiritfont's Soothing Mist. It does not increase the healing of Enveloping Mist or Renewing Mist on targets with Spiritfont's Soothing Mist.",
         lastBuildTested: "65337",
         notes: "Was fixed in 64339, back to not working in 64529",
+        tags: [TAGS.APEX],
     },
     {
         spell: SPELLS.CELESTIAL_CONDUIT,
@@ -697,6 +698,7 @@ const BUGS: Bug[] = [
         title: "Casting Enveloping Mist at 2 stacks consumes both, but doesn't increase healing",
         description: "Casting Enveloping Mist at 2 stacks of banked Spiritfont causes both stacks to be consumed, but the healing of the outgoing Spiritfonts is not increased by double, if that is the design. Assuming that each stack should be separately consumed",
         lastBuildTested: "65337",
+        tags: [TAGS.APEX],
     },
     {
         spell: SPELLS.SHEILUNS_GIFT,
@@ -738,6 +740,7 @@ const BUGS: Bug[] = [
         description: "The first point in Spiritfont does not proc via Sheilun's Gift, as it should swap from Vivify after talenting SG.",
         lastBuildTested: "65448",
         notes: "https://www.warcraftlogs.com/reports/HvrkyFPnC6TxbBN3?fight=1&type=auras&source=1&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%7C1260670%2463",
+        tags: [TAGS.APEX]
     },
 
 ];
