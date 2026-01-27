@@ -110,7 +110,7 @@ const spells = {
         id: 116680,
         icon: 'ability_monk_thunderfocustea',
         castTime: 0,
-        cooldown: 45,
+        cooldown: 30,
         gcd: false
     },
 
@@ -160,7 +160,7 @@ const spells = {
         id: 116849,
         icon: 'ability_monk_chicocoon',
         castTime: 0,
-        cooldown: 120,
+        cooldown: 75,
         gcd: false,
         custom: {
             absorbFormula: (sourceHp: number, versatility: number) => {
