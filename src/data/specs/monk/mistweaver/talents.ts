@@ -340,6 +340,14 @@ const talents = {
         id: 388038,
         icon: 'ability_monk_chiexplosion',
     },
+    MISTY_COALESCENCE: {
+        name: "Misty Coalescence",
+        id: 1268817,
+        icon: 'inv_ability_monk_renewingmists_active',
+        custom: {
+            maxIncrease: 300,
+        }
+    },
 
     // hero talents
     // master of harmony
