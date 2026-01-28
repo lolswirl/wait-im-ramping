@@ -743,6 +743,24 @@ const BUGS: Bug[] = [
         notes: "https://www.warcraftlogs.com/reports/HvrkyFPnC6TxbBN3?fight=1&type=auras&source=1&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%7C1260670%2463",
         tags: [TAGS.APEX]
     },
+    {
+        spell: TALENTS.STAMPEDE_OF_THE_ANCIENTS,
+        affectedSpells: [TALENTS.STRENGTH_OF_THE_BLACK_OX],
+        severity: SEVERITY.HIGH,
+        title: "Primary target of Enveloping Mist doesn't always receive shield",
+        description: "When casting Enveloping Mist, the primary target doesn't always receive one of the 5 shields from Strength of the Black Ox. This causes Stampede of the Ancients to appear broken, as it only strengthens the primary target's shield when that target actually receives one. Functionally works when the primary target does receive a shield.",
+        lastBuildTested: "65560",
+        notes: "https://www.warcraftlogs.com/reports/6Wfpry3mtxz84PHd?fight=8&type=auras&view=events&ability=443113",
+        tags: [TAGS.CONDUIT]
+    },
+    {
+        spell: TALENTS.UNITY_WITHIN,
+        affectedSpells: [TALENTS.STRENGTH_OF_THE_BLACK_OX],
+        severity: SEVERITY.LOW,
+        title: "Does not increase shield strength of Strength of the Black Ox",
+        description: "Unity Within procs Strength of the black Ox, but it does not increase the strength of any of the shields.",
+        lastBuildTested: "65560",
+    }
 
 ];
 
