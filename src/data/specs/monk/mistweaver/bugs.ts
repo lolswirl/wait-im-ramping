@@ -764,7 +764,6 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.ASPECT_OF_HARMONY,
-        affectedSpells: [TALENTS.SPIRITFONT],
         severity: SEVERITY.MEDIUM,
         title: "Vitality gain abruptly stopped mid-dungeon",
         description: "All vitality gain abruptly stopped mid-dungeon, with 0 sources of AoH healing, Purified Spirit healing, no combat log events on either of the three threshold buffs continued.",
