@@ -27,7 +27,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
     const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
     const severityWidth = 6;
-    const spellWidth = 200;
+    const spellWidth = 210;
     const titleWidth = 450;
     const tagsWidth = 200;
     const buildWidth = 55;
