@@ -763,6 +763,16 @@ const BUGS: Bug[] = [
         lastBuildTested: "65560",
         tags: [TAGS.CONDUIT]
     },
+    {
+        spell: TALENTS.ASPECT_OF_HARMONY,
+        affectedSpells: [TALENTS.SPIRITFONT],
+        severity: SEVERITY.MEDIUM,
+        title: "Vitality gain abruptly stopped mid-dungeon",
+        description: "All vitality gain abruptly stopped mid-dungeon, with 0 sources of AoH healing, Purified Spirit healing, no combat log events on either of the three threshold buffs continued.",
+        lastBuildTested: "65560",
+        notes: "https://www.warcraftlogs.com/reports/FMKmTZk9NhrwGqtp?fight=last&type=auras&source=255&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24450521%7C450526%7C450711%7C450769%7C450531",
+        tags: [TAGS.MOH]
+    }
 ];
 
 export default BUGS;
