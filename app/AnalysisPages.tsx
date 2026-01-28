@@ -7,6 +7,7 @@ const harmonicSurgePreview = "/previews/harmonic-surge.png";
 const chijiPreview = "/previews/chi-ji.png";
 const hotjsPreview = "/previews/heart-of-the-jade-serpent.png";
 const conduitPreview = "/previews/celestial-conduit.png";
+const mistyCoalescencePreview = "/previews/misty-coalescence.png";
 
 export interface AnalysisPage {
   label: string;
@@ -93,4 +94,12 @@ export const analysisPages: AnalysisPage[] = [
     tags: ["Monk"],
     createdDate: "2025-09-16"
   },
+  {
+    label: 'Misty Coalescence',
+    path: "/analysis/misty-coalescence",
+    preview: mistyCoalescencePreview,
+    description: "Visually graph Renewing Mist's healing increase based on group size with Misty Coalescence",
+    tags: ["Healing", "Monk"],
+    createdDate: "2026-1-25"
+  }
 ];
