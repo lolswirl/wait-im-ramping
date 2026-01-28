@@ -626,9 +626,8 @@ const BUGS: Bug[] = [
         spell: TALENTS.ASPECT_OF_HARMONY,
         severity: SEVERITY.HIGH,
         title: "Entire tree stopped working mid-dungeon",
-        description: "Master of Harmony (the entire tree) suddenly stopped working midway through Windrunner Spire +12, linked log is in Maisara Caverns +15",
-        lastBuildTested: "65448",
-        notes: "https://www.warcraftlogs.com/reports/FMKmTZk9NhrwGqtp?fight=last&type=auras&source=255&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24450521%7C450526%7C450711%7C450769%7C450531",
+        description: "Master of Harmony (the entire tree) suddenly stopped working midway through Windrunner Spire +12",
+        lastBuildTested: "64774",
         tags: [TAGS.MOH],
     },
     {
