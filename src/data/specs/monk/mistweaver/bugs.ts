@@ -760,6 +760,7 @@ const BUGS: Bug[] = [
         title: "Does not increase shield strength of Strength of the Black Ox",
         description: "Unity Within procs Strength of the black Ox, but it does not increase the strength of any of the shields.",
         lastBuildTested: "65560",
+        tags: [TAGS.CONDUIT]
     }
 
 ];
