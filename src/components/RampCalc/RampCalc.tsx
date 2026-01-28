@@ -11,6 +11,7 @@ import spell from '@data/spells/spell';
 
 import { GetTitle } from "@util/stringManipulation";
 import { useSpec } from '@context/SpecContext';
+import WarningChip from '@components/WarningChip/WarningChip';
 
 interface RampCalcProps {
     onTotalCastTimeChange: (totalTime: number) => void;
@@ -114,26 +115,7 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
                     
                     {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
                         <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'center' }}>
-                            <Chip 
-                                label={GetTitle("This spec has limited support for cast time reductions and haste buff gains")} 
-                                color="warning" 
-                                size="small"
-                                variant="outlined"
-                                sx={{ 
-                                    fontSize: '0.875rem',
-                                    fontWeight: 500,
-                                    px: 1.5,
-                                    py: 0.5,
-                                    '& .MuiChip-label': {
-                                        px: 1
-                                    },
-                                    borderColor: 'warning.main',
-                                    backgroundColor: 'rgba(255, 152, 0, 0.08)',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 152, 0, 0.12)',
-                                    }
-                                }}
-                            />
+                            <WarningChip message="This spec has limited support for cast time reductions and haste buff gains" showIcon/>
                         </Box>
                     )}
 

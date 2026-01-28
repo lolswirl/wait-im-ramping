@@ -18,6 +18,7 @@ import {
 import IconButtonBase from '@components/SpellButtons/IconButtonBase';
 import SpellButton from '@components/SpellButtons/SpellButton';
 import PageHeader from '@components/PageHeader/PageHeader';
+import WarningChip from '@components/WarningChip/WarningChip';
 import { useThemeContext } from '@context/ThemeContext';
 import SPELLS from "@data/spells";
 import spell, { GCD } from '@data/spells/spell';
@@ -804,25 +805,7 @@ const HotJS: React.FC<{ title: string; description: string }> = ({ title, descri
             <Card variant="outlined" sx={{ maxWidth: MAX_WIDTH, width: "95%", mx: "auto", mb: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2, gap: 2 }}>
-                        <Chip 
-                            label={GetTitle("⚠︎ We are assuming every spell is being used on cooldown as it becomes available")} 
-                            color="warning" 
-                            size="small"
-                            variant="outlined"
-                            sx={{ 
-                                fontSize: '0.875rem',
-                                fontWeight: 500,
-                                '& .MuiChip-label': {
-                                    px: 1
-                                },
-                                borderColor: 'warning.main',
-                                borderRadius: 1,
-                                backgroundColor: 'rgba(255, 152, 0, 0.08)',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 152, 0, 0.12)',
-                                }
-                            }}
-                        />
+                        <WarningChip message="We are assuming every spell is being used on cooldown as it becomes available" />
                         <OptionsCard
                             cdrEnabled={cdrEnabled}
                             onCdrEnabledChange={setCdrEnabled}

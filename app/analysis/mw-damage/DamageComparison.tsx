@@ -12,6 +12,7 @@ import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
 
 import { GetTitle } from "@util/stringManipulation";
+import WarningChip from "@components/WarningChip/WarningChip";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -317,25 +318,7 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
       <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
           <Box sx={{ flex: 1, p: 2, gap: 2, display: 'flex', flexDirection: 'column' }}>
-            <Chip 
-              label={GetTitle("⚠︎ Values may slightly shift with due to the RNG of Rising Sun Kick resets")} 
-              color="warning" 
-              size="small"
-              variant="outlined"
-              sx={{ 
-                  fontSize: '0.875rem',
-                  fontWeight: 500,
-                  '& .MuiChip-label': {
-                      px: 1
-                  },
-                  borderColor: 'warning.main',
-                  borderRadius: 1,
-                  backgroundColor: 'rgba(255, 152, 0, 0.08)',
-                  '&:hover': {
-                      backgroundColor: 'rgba(255, 152, 0, 0.12)',
-                  }
-              }}
-            />
+            <WarningChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon/>
             <Card variant="outlined" sx={{ 
               p: 2, 
               background: `linear-gradient(135deg, rgba(54, 162, 235, 0.1), rgba(54, 162, 235, 0.05))`, 

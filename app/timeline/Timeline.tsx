@@ -18,6 +18,7 @@ import { CLASSES, specialization } from '@data/class';
 
 import { useRotationManager } from '@hooks/useRotationManager';
 import { GetTitle, hexToRgb } from '@util/stringManipulation';
+import WarningChip from '@components/WarningChip/WarningChip';
 
 const Timeline: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const { spec, setSpec } = useSpec();
@@ -266,26 +267,7 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
 
                     {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
                         <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'center' }}>
-                            <Chip 
-                                label={GetTitle("This spec has limited support for cast time reductions and haste buff gains")} 
-                                color="warning" 
-                                size="small"
-                                variant="outlined"
-                                sx={{ 
-                                    fontSize: '0.875rem',
-                                    fontWeight: 500,
-                                    px: 1.5,
-                                    py: 0.5,
-                                    '& .MuiChip-label': {
-                                        px: 1
-                                    },
-                                    borderColor: 'warning.main',
-                                    backgroundColor: 'rgba(255, 152, 0, 0.08)',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 152, 0, 0.12)',
-                                    }
-                                }}
-                            />
+                            <WarningChip message="This spec has limited support for cast time reductions and haste buff gains" showIcon/>
                         </Box>
                     )}
 
