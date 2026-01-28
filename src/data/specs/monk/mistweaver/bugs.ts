@@ -116,7 +116,8 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "The cleave of Enveloping Mist doesn't scale with haste",
         description:
-            "The '12% of Enveloping Mist' is calculated before haste is factored in and significatly reduces the cleaves value",
+            "The '8% of Enveloping Mist' is calculated before haste is factored in and significatly reduces the cleaves value",
+        lastBuildTested: "65560",
         tags: [TAGS.HASTE],
     },
     {
