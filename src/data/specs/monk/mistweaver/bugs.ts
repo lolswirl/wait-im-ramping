@@ -142,8 +142,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Doesn't interact with Spiritfont",
         description: "Tear of Morning does not interact with Spiritfont at all. The healing replicated to targets with Renewing Mist is not increased.",
-        lastBuildTested: "63534",
+        lastBuildTested: "65448",
         tags: [TAGS.APEX],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.ZEN_PULSE,
