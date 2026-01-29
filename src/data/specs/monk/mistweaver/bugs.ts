@@ -414,7 +414,8 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Has no variance",
         description: "Rushing Wind Kick does not have variance",
-        lastBuildTested: "64529",
+        lastBuildTested: "65617",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.MORNING_BREEZE,
