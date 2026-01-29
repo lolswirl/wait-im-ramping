@@ -537,8 +537,8 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Damage is not transferring to healing through Ancient Teachings",
         description: "Jadefire Stomp damage is not transferring to healing through ancient teachings",
-        lastBuildTested: "65448",
-        notes: "https://www.warcraftlogs.com/reports/hL6Rw13bzBdxyXrH?fight=5&type=damage-done&source=3&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388024|388025",
+        lastBuildTested: "65617",
+        notes: "Fixed in 65448, reverted in 65617. https://www.warcraftlogs.com/reports/hL6Rw13bzBdxyXrH?fight=5&type=damage-done&source=3&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388024|388025",
         status: STATUS.FIXED,
     },
     {
@@ -700,8 +700,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Casting Enveloping Mist at 2 stacks consumes both, but doesn't increase healing",
         description: "Casting Enveloping Mist at 2 stacks of banked Spiritfont causes both stacks to be consumed, but the healing of the outgoing Spiritfonts is not increased by double, if that is the design. Assuming that each stack should be separately consumed",
-        lastBuildTested: "65337",
+        lastBuildTested: "65617",
         tags: [TAGS.APEX],
+        status: STATUS.FIXED,
     },
     {
         spell: SPELLS.SHEILUNS_GIFT,
