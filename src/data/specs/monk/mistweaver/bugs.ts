@@ -398,8 +398,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Shows as red and states 'Requires Refreshing Jade Wind Talent'",
         description: "Is marked red and states 'Requires Refreshing Jade Wind Talent'",
-        lastBuildTested: "65337",
+        lastBuildTested: "65617",
         tags: [TAGS.CONDUIT],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.JADE_SERPENT_STATUE,
