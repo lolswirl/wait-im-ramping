@@ -541,7 +541,6 @@ const BUGS: Bug[] = [
         description: "Jadefire Stomp damage is not transferring to healing through ancient teachings",
         lastBuildTested: "65617",
         notes: "Fixed in 65448, reverted in 65617. https://www.warcraftlogs.com/reports/hL6Rw13bzBdxyXrH?fight=5&type=damage-done&source=3&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388024|388025",
-        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.RUSHING_WIND_KICK,
