@@ -577,7 +577,8 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Renewing Mist cannot be extended",
         description: "The renewing mist applied by mist of life cannot be extended by rising mist. However, the enveloping mist applied by mist of life can",
-        lastBuildTested: "65337",
+        lastBuildTested: "65617",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.SAVE_THEM_ALL,
