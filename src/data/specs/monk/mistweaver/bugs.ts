@@ -625,7 +625,6 @@ const BUGS: Bug[] = [
         description: "Debuffs reflect and it can be seen on enemy debuffs but damage is not attributed in logs or details",
         lastBuildTested: "64774",
         notes: "https://www.warcraftlogs.com/reports/XRfBYrQqFHjNyphA?fight=8&type=damage-taken&start=2678030&end=2681031&hostility=1&source=158.2",
-        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.ASPECT_OF_HARMONY,
