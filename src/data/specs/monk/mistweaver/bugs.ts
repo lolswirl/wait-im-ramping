@@ -465,36 +465,12 @@ const BUGS: Bug[] = [
         notes: "This combined with it not interacting with spiritfont leaves the talent doing barely 1% hps WITH unison talented and makes it effectively an elusive mist applier",
     },
     {
-        spell: TALENTS.MORNING_BREEZE,
-        affectedSpells: [TALENTS.RUSHING_WIND_KICK],
-        severity: SEVERITY.CRITICAL,
-        title: "Suddenly stopped resetting cooldown of Rushing Wind Kick in dungeon",
-        description: "Morning Breeze suddenly stopped resetting the cooldown of RWK in the middle of Pit of Saron (Replicated 4x)",
-        lastBuildTested: "64499",
-    },
-    {
-        spell: TALENTS.EMPERORS_ELIXIR,
-        affectedSpells: [SPELLS.THUNDER_FOCUS_TEA, TALENTS.RUSHING_WIND_KICK, TALENTS.JADEFIRE_STOMP],
-        severity: SEVERITY.CRITICAL,
-        title: "TFT RWK suddenly stopped proccing Jadefire Stomp in dungeon",
-        description: "TFT RWK Suddenly stopped proccing Jadefire Stomp in the middle of a Skyreach Dungeon",
-        lastBuildTested: "64529",
-    },
-    {
         spell: TALENTS.CHI_WARDING,
         severity: SEVERITY.HIGH,
         title: "Does nothing, no healing in logs",
         description: "Does nothing, no healing showing up in logs (NYI?)",
         lastBuildTested: "65337",
         status: STATUS.FIXED,
-    },
-    {
-        spell: TALENTS.JADEFIRE_TEACHINGS,
-        severity: SEVERITY.CRITICAL,
-        title: "Healing becoming greatly reduced mid dungeon back to AT ~25%",
-        description: "JFT healing is becoming greatly reduced after death and/or mid dungeon via some other cause",
-        lastBuildTested: "64529",
-        notes: "1st: https://www.warcraftlogs.com/reports/4xvtJa6Q1mYZLHDA?fight=last&type=healing&source=1&ability=-388024\n2nd: https://www.warcraftlogs.com/reports/RX8kjbfA2vMztHQc?fight=last&type=healing&source=5&ability=-388024",
     },
     {
         spell: TALENTS.JADE_EMPOWERMENT,
@@ -523,15 +499,6 @@ const BUGS: Bug[] = [
         lastBuildTested: "64529",
         notes: "https://www.warcraftlogs.com/reports/9m2ntLC4wWyB6k83?fight=19&type=casts&source=22&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24191894|1260617&start=7033905&end=7103696",
         tags: [TAGS.APEX, TAGS.MASTERY],
-    },
-    {
-        spell: TALENTS.HARMONIC_SURGE,
-        severity: SEVERITY.HIGH,
-        title: "Suddenly stops being consumed in dungeon",
-        description: "Harmonic Surge suddenly stopped being consumed by any sources inside of Skyreach",
-        lastBuildTested: "64529",
-        notes: "https://www.warcraftlogs.com/reports/x4PZFHJkmXw98cjb?boss=-3&difficulty=0&type=auras&source=6&ability=1270990&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24100780",
-        tags: [TAGS.MOH],
     },
     {
         spell: TALENTS.JADEFIRE_STOMP,
@@ -625,14 +592,6 @@ const BUGS: Bug[] = [
         description: "Debuffs reflect and it can be seen on enemy debuffs but damage is not attributed in logs or details",
         lastBuildTested: "64774",
         notes: "https://www.warcraftlogs.com/reports/XRfBYrQqFHjNyphA?fight=8&type=damage-taken&start=2678030&end=2681031&hostility=1&source=158.2",
-    },
-    {
-        spell: TALENTS.ASPECT_OF_HARMONY,
-        severity: SEVERITY.HIGH,
-        title: "Entire tree stopped working mid-dungeon",
-        description: "Master of Harmony (the entire tree) suddenly stopped working midway through Windrunner Spire +12",
-        lastBuildTested: "64774",
-        tags: [TAGS.MOH],
     },
     {
         spell: CORE_PASSIVE.MISTWEAVER_MONK,
@@ -768,12 +727,35 @@ const BUGS: Bug[] = [
         tags: [TAGS.CONDUIT]
     },
     {
-        spell: TALENTS.ASPECT_OF_HARMONY,
-        severity: SEVERITY.MEDIUM,
-        title: "Vitality gain abruptly stopped mid-dungeon",
-        description: "All vitality gain abruptly stopped mid-dungeon, with 0 sources of AoH healing, Purified Spirit healing, no combat log events on either of the three threshold buffs continued.",
-        lastBuildTested: "65448",
-        notes: "https://www.warcraftlogs.com/reports/FMKmTZk9NhrwGqtp?fight=last&type=auras&source=255&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24450521%7C450526%7C450711%7C450769%7C450531",
+        spell: CORE_PASSIVE.MISTWEAVER_MONK,
+        affectedSpells: [
+            TALENTS.JADEFIRE_TEACHINGS,
+            TALENTS.RISING_MIST,
+            TALENTS.MORNING_BREEZE,
+            TALENTS.RUSHING_WIND_KICK,
+            TALENTS.EMPERORS_ELIXIR,
+            SPELLS.THUNDER_FOCUS_TEA,
+            TALENTS.JADEFIRE_STOMP,
+            TALENTS.HARMONIC_SURGE,
+            TALENTS.ASPECT_OF_HARMONY
+        ],
+        severity: SEVERITY.CRITICAL,
+        title: "Many talents stop working mid-dungeon",
+        description: "Multiple talents have been observed to suddenly stop functioning in the middle of dungeon runs in alpha/beta:\n\n" +
+            "- Jadefire Teachings: Healing becoming greatly reduced after death and/or mid dungeon via some other cause, reverting back to Ancient Teachings ~25% effectiveness\n" +
+            "- Rising Mist: Suddenly stopped extending HoTs in Algeth'ar Academy, specifically on bosses\n" +
+            "- Morning Breeze: Suddenly stopped resetting cooldown of Rushing Wind Kick in the middle of Pit of Saron (Replicated 4x)\n" +
+            "- Emperor's Elixir: TFT RWK suddenly stopped proccing Jadefire Stomp in the middle of a Skyreach Dungeon\n" +
+            "- Harmonic Surge: Suddenly stopped being consumed by any sources inside of Skyreach\n" +
+            "- Master of Harmony: The entire tree suddenly stopped working midway through Windrunner Spire +12\n" +
+            "- Aspect of Harmony: All vitality gain abruptly stopped mid-dungeon, with 0 sources of AoH healing, Purified Spirit healing, no combat log events on either of the three threshold buffs continued\n" +
+            "- Several others reported anecodtally - Way of the Crane, Tranquil Tea.",
+        lastBuildTested: "65617",
+        notes: "Jadefire Teachings (1st): https://www.warcraftlogs.com/reports/4xvtJa6Q1mYZLHDA?fight=last&type=healing&source=1&ability=-388024\n" +
+            "Jadefire Teachings (2nd): https://www.warcraftlogs.com/reports/RX8kjbfA2vMztHQc?fight=last&type=healing&source=5&ability=-388024\n" +
+            "Rising Mist: https://www.warcraftlogs.com/reports/hgHWMKn981b4CvXa?fight=6&pull=7&type=auras&ability=124682&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428\n" +
+            "Harmonic Surge: https://www.warcraftlogs.com/reports/x4PZFHJkmXw98cjb?boss=-3&difficulty=0&type=auras&source=6&ability=1270990&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24100780\n" +
+            "Aspect of Harmony (Vitality): https://www.warcraftlogs.com/reports/FMKmTZk9NhrwGqtp?fight=last&type=auras&source=255&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24450521%7C450526%7C450711%7C450769%7C450531",
         tags: [TAGS.MOH]
     }
 ];
