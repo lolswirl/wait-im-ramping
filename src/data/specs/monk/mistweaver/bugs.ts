@@ -180,9 +180,10 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Doesn't work with Spiritfont",
         description: "Peaceful Mending does not interact with Spiritfont's Soothing Mist. It does not increase the healing of Enveloping Mist or Renewing Mist on targets with Spiritfont's Soothing Mist.",
-        lastBuildTested: "65337",
-        notes: "Was fixed in 64339, back to not working in 64529",
+        lastBuildTested: "65617",
+        notes: "Was fixed in 64339, back to not working in 64529. Fixed as of 65617",
         tags: [TAGS.APEX],
+        status: STATUS.FIXED,
     },
     {
         spell: SPELLS.CELESTIAL_CONDUIT,
