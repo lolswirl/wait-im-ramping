@@ -313,7 +313,7 @@ const talents = {
     },
     JADEFIRE_STOMP: {
         name: 'Jadefire Stomp',
-        id: 338193,
+        id: 1248812,
         icon: 'inv_ability_monk_jadefirestomp',
         school: SCHOOLS.NATURE,
         castTime: 0,
