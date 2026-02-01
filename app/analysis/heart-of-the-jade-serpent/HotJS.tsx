@@ -478,7 +478,7 @@ const StatsCard: React.FC<{
                         borderColor: `${ability.color}50`
                     }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                            <SpellButton selectedSpell={ability.spell} action={() => {}} size={32} />
+                            <SpellButton selectedSpell={ability.spell} size={32} />
                             <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: ability.color }}>
                                 {GetTitle(ability.spell.name)}
                             </Typography>

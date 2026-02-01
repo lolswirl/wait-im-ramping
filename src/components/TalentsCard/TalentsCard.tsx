@@ -61,7 +61,7 @@ export const TalentOption: React.FC<TalentOptionProps> = ({
                     }}
                 />
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
-                    <SpellButton selectedSpell={talent} action={() => {}} />
+                    <SpellButton selectedSpell={talent}/>
                     <Typography variant="body2" sx={{ 
                         fontWeight: 'bold',
                         color: isChecked ? `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})` : 'text.primary',

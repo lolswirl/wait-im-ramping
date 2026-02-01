@@ -434,7 +434,6 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
                                                 <SpellButton
                                                     key={step.uuid}
                                                     selectedSpell={step}
-                                                    action={() => {}}
                                                 />
                                             ))}
                                         </Box>

@@ -8,6 +8,7 @@ import { GetTitle } from "@util/stringManipulation";
 interface IconButtonBaseProps {
     icon: string;
     name: string;
+    id?: number;
     onClick?: () => void;
     size?: number;
     tooltip?: boolean;
@@ -17,6 +18,7 @@ interface IconButtonBaseProps {
 const IconButtonBase: React.FC<IconButtonBaseProps> = ({
     icon,
     name,
+    id,
     onClick,
     size = 40,
     tooltip = true,
@@ -34,9 +36,17 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
         img.src = localSrc;
     }, [icon]);
 
+    const handleClick = () => {
+        if (onClick) {
+            onClick();
+        } else if (id) {
+            window.open(`https://www.wowhead.com/spell=${id}`, '_blank');
+        }
+    };
+
     const button = (
         <div
-            onClick={onClick}
+            onClick={handleClick}
             onMouseOver={() => setIsHovered(true)}
             onMouseOut={() => setIsHovered(false)}
             {...rest}

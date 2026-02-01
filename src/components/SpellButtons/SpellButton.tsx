@@ -4,7 +4,7 @@ import type spell from "@data/spells/spell";
 
 interface SpellButtonProps {
     selectedSpell: spell;
-    action: (spell: spell, empowerLevel: number) => void;
+    action?: (spell: spell, empowerLevel: number) => void;
     empowerLevel?: number;
     isRemove?: boolean;
     size?: number;
@@ -26,7 +26,8 @@ const SpellButton: React.FC<SpellButtonProps> = ({
         <IconButtonBase
             icon={selectedSpell.icon}
             name={selectedSpell.name}
-            onClick={() => action(selectedSpell, safeEmpowerLevel)}
+            id={selectedSpell.id}
+            onClick={action ? () => action(selectedSpell, safeEmpowerLevel) : undefined}
             size={size}
             {...rest}
         />

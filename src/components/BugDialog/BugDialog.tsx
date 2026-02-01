@@ -117,7 +117,6 @@ const BugDialog: React.FC<BugDialogProps> = ({
                             <SpellButton
                                 spell={bug.spell}
                                 selectedSpell={bug.spell}
-                                action={() => {}}
                                 size={52}
                             />
                         </Box>
@@ -331,14 +330,12 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                     <Stack direction="row" sx={{ gap: 0.75, flexWrap: "wrap", flex: bug.notes ? "none" : 1, alignItems: bug.notes ? "flex-start" : "center" }}>
                                         <SpellButton
                                             selectedSpell={bug.spell}
-                                            action={() => {}}
                                             size={38}
                                         />
                                         {bug.affectedSpells?.map((spell, i) => (
                                             <SpellButton
                                                 key={i}
                                                 selectedSpell={spell}
-                                                action={() => {}}
                                                 size={38}
                                             />
                                         ))}

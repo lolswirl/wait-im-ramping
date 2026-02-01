@@ -238,7 +238,6 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                     >
                                         <SpellButton
                                             selectedSpell={bug.spell}
-                                            action={() => {}}
                                             size={iconSize}
                                             showName
                                         />

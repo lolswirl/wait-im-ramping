@@ -74,7 +74,6 @@ const EmpowerLevelDialog: React.FC<EmpowerLevelDialogProps> = ({
                     >
                         <SpellButton
                             selectedSpell={spell}
-                            action={() => {}}
                         />
                         <Box>
                             <Typography

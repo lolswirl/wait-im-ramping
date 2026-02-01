@@ -169,8 +169,7 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
                                                 {spells.map((spell, i) => (
                                                     <SpellButton 
                                                         key={spell.uuid || i} 
-                                                        selectedSpell={spell} 
-                                                        action={() => {}}
+                                                        selectedSpell={spell}
                                                     />
                                                 ))}
                                             </Box>

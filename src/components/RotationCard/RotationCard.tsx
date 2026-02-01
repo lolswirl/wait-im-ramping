@@ -49,7 +49,6 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                         <SpellButton
                             key={`${spell.id}-${spellIndex}`}
                             selectedSpell={spell}
-                            action={() => {}}
                         />
                     ))}
                 </Box>
@@ -129,7 +128,6 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                                 SPELLS.RENEWING_MIST || 
                                                 rotation.spells[0]
                                             }
-                                            action={() => {}}
                                         />
                                         <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
                                             {GetTitle(item.spellName)}
