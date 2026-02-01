@@ -16,8 +16,8 @@ export async function generateMetadata({ searchParams }: Props) {
     const spec = typeof specParam === 'string' ? getSpecializationByKey(specParam) : null;
     
     const description = spec 
-        ? `Known bugs and issues affecting ${spec.name} ${spec.class}`
-        : "Known bugs and issues affecting specializations";
+        ? `Current known bugs and issues for ${spec.name} ${spec.class}`
+        : "Current known bugs and issues";
     
     return PageMetadata(title, description);
 }
@@ -25,7 +25,7 @@ export async function generateMetadata({ searchParams }: Props) {
 export default function Page() {
     return (
         <Suspense fallback={<Loading />}>
-            <Bugs title={title} description="Known bugs and issues affecting specializations" />
+            <Bugs title={title} description="Current known bugs and issues" />
         </Suspense>
     );
 }
