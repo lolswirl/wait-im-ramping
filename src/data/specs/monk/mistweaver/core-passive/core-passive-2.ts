@@ -3,7 +3,7 @@ import SPELLS from '@data/spells';
 import TALENTS from '@data/talents';
 
 const corePassive = {
-    MISTWEAVER_MONK: {
+    MISTWEAVER_MONK_2: {
         name: 'Mistweaver Monk',
         id: 1258138,
         icon: 'ability_mage_firestarter',
