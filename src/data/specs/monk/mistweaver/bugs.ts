@@ -758,7 +758,15 @@ const BUGS: Bug[] = [
             "Harmonic Surge: https://www.warcraftlogs.com/reports/x4PZFHJkmXw98cjb?boss=-3&difficulty=0&type=auras&source=6&ability=1270990&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24100780\n" +
             "Aspect of Harmony (Vitality): https://www.warcraftlogs.com/reports/FMKmTZk9NhrwGqtp?fight=last&type=auras&source=255&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24450521%7C450526%7C450711%7C450769%7C450531",
         tags: [TAGS.MOH]
-    }
+    },
+    {
+        spell: TALENTS.ELUSIVE_MISTS,
+        affectedSpells: [TALENTS.JADE_SERPENT_STATUE],
+        severity: SEVERITY.LOW,
+        title: "JSS Soothing Mist does not provide damage reduction",
+        description: "Elusive Mists does not provide damage reduction when Soothing Mist is cast by Jade Serpent Statue - only works with personal SooM and Spiritfont SooM",
+        lastBuildTested: "65617",
+    },
 ];
 
 export default BUGS;
