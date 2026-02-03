@@ -60,7 +60,7 @@ const talents = {
         id: 467293,
         icon: 'inv_misc_book_07',
         custom: {
-            transferRate: 1.80,
+            transferRate: 2.6,
             armorModifier: 0.7, // sad
         }
     },
@@ -70,7 +70,7 @@ const talents = {
         icon: 'monk_stance_redcrane',
         custom: {
             targetsPerSCK: 3,
-            transferRate: 1.20,
+            transferRate: 1.60,
             armorModifier: 0.7,
             tigerPalmHits: 2,
             blackoutKickHits: 2,
