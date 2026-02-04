@@ -98,7 +98,8 @@ const BUGS: Bug[] = [
         description:
             "Misty Peaks Procs consume Physical and add a stack of Nature",
         tags: [TAGS.MOH],
-        lastBuildTested: "56819",
+        lastBuildTested: "65701",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM,
@@ -573,8 +574,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Tooltip in the talent tree still shows 215% but only contributes 180% per nerf",
         description: "JFT was nerfed to 180% but is not updated on the talent tree tooltip",
-        lastBuildTested: "65337",
+        lastBuildTested: "65701",
         tags: [TAGS.TOOLTIP],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.OVERFLOWING_MISTS,
