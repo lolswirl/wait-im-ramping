@@ -591,8 +591,8 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.DIFFUSE_MAGIC,
         severity: SEVERITY.LOW,
-        title: "Debuffs reflect but damage not attributed in logs",
-        description: "Debuffs reflect and it can be seen on enemy debuffs but damage is not attributed in logs or details",
+        title: "Debuffs reflect but damage not attributed in damage meters",
+        description: "Debuffs reflect and it can be seen on enemy debuffs but damage is not attributed in logs, details, damage meters",
         lastBuildTested: "64774",
         notes: "https://www.warcraftlogs.com/reports/XRfBYrQqFHjNyphA?fight=8&type=damage-taken&start=2678030&end=2681031&hostility=1&source=158.2",
     },
