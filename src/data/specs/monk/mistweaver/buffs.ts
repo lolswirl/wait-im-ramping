@@ -57,13 +57,14 @@ export const MISTWEAVER_MONK_BUFFS = (spellList: spell[]): spell[] => {
         else if (soothingMistUsed) {
             switch (spell.id) {
                 case SPELLS.ENVELOPING_MIST.id:
+                case SPELLS.SHEILUNS_GIFT.id:
                     spell = {
                         ...spell,
                         castTime: GCD
                     };
                     break;
                 case SPELLS.VIVIFY.id:
-                    thunderFocusTeaUsed = false;
+                case SPELLS.LIFE_COCOON.id:
                     break;
                 default:
                     soothingMistUsed = false;
