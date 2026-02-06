@@ -15,6 +15,14 @@ const BUGS: Bug[] = [
         tags: [],
         status: STATUS.FIXED,
     },
+    {
+        spell: SPELLS.TOUCH_OF_DEATH,
+        affectedSpells: [SPELLS.CELESTIAL_CONDUIT],
+        severity: SEVERITY.LOW,
+        title: "ToD usable during Celestial Conduit channel",
+        description: "Touch of Death is usable during the Celestial Conduit channel, despite canceling on damage/healing abilities",
+        lastBuildTested: "65727",
+    }
 ];
 
 export default BUGS;
