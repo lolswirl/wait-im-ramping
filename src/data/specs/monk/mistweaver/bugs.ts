@@ -769,6 +769,14 @@ const BUGS: Bug[] = [
         description: "Elusive Mists does not provide damage reduction when Soothing Mist is cast by Jade Serpent Statue - only works with personal SooM and Spiritfont SooM",
         lastBuildTested: "65617",
     },
+    {
+        spell: SPELLS.TOUCH_OF_DEATH,
+        affectedSpells: [SPELLS.CELESTIAL_CONDUIT],
+        severity: SEVERITY.LOW,
+        title: "ToD usable during Celestial Conduit channel",
+        description: "Touch of Death is usable during the Celestial Conduit channel, despite canceling on damage/healing abilities",
+        lastBuildTested: "65727",
+    }
 ];
 
 export default BUGS;
