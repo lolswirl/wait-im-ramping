@@ -130,6 +130,11 @@ const talents = {
             chiCocoonEnvmDuration: 4, 
         }
     },
+    GIFT_OF_THE_CELESTIALS: {
+        name: "Gift of the Celestials",
+        id: 388212,
+        icon: 'inv_pet_jadeserpentpet',
+    },
     MIST_WRAP: {
         name: "Mist Wrap",
         id: 197900,

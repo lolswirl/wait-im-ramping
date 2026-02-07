@@ -13,16 +13,8 @@ const BUGS: Bug[] = [
         title: "Versatility double dips with Ancient Teachings",
         description: "Versatility gains from several sources (Secret Infusion, Inner Compass, Mark of the Wild, etc) double dips on Ancient Teachings - it increases the damage you deal which converts into Ancient Teachings healing, then that is increased by the extra Versatility % increase",
         tags: [TAGS.VERS],
-        lastBuildTested: "65337",
-    },
-    {
-        spell: TALENTS.ASPECT_OF_HARMONY_WITHDRAW,
-        severity: SEVERITY.LOW,
-        title: "Withdraw buff does not send combat log events",
-        description: "Contrary to the fill buffs, the withdraw buff doesn't send any combat log events while its withdrawing vitality effectively making tracking have to use HEAL, PERIODIC_HEAL, DAMAGE, etc events in order to 'update' the buffs status",
-        tags: [TAGS.MOH],
-        lastBuildTested: "62493",
-        notes: "Not really needed to be fixed, as addons cannot process the data ingame. Still, a bug nonetheless."
+        lastBuildTested: "65769",
+        notes: "https://www.warcraftlogs.com/reports/tvxZXBYQfmKpVdRF?fight=3&type=summary&source=11&start=511586&end=527359&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%7C388500%7C388024"
     },
     {
         spell: TALENTS.ASPECT_OF_HARMONY_T1,
@@ -31,7 +23,8 @@ const BUGS: Bug[] = [
         title: "Threshold buffs do not update or constantly update",
         description: "Aspect of Harmony's 1st threshold buff (450521) no longer sends combat log refresh events when vitality is being added to the pool. Tested with build 162876 and seems this is only out of combat. The 2nd (450526) and 3rd (450531) threshold buffs constantly swap between each other while vitality is being added to the pool, causing the two buff IDs to swap between each other",
         tags: [TAGS.MOH],
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.OVERWHELMING_FORCE,
@@ -39,7 +32,8 @@ const BUGS: Bug[] = [
         title: "Does not hit targets with absorbs",
         description: "Overwhelming Force does not hit targets with absorbs or shields on them",
         tags: [TAGS.MOH],
-        lastBuildTested: "62493",
+        lastBuildTested: "65769",
+        notes: "https://www.warcraftlogs.com/reports/BjAwXaHfYR4KGnd7?fight=18&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116849%7C100780%7C100784%7C228649%7C1269159%7C468179%7C467307%7C452333"
     },
     {
         spell: TALENTS.ANCIENT_TEACHINGS,
@@ -47,7 +41,8 @@ const BUGS: Bug[] = [
         title: "Ancient Teachings doesn't always heal for 30% of damage",
         description:
             "Baseline Ancient Teachings does not consistenly heal for 30% of the damage dealt. It is consistently higher on Tiger Palm and Blackout Kick and is sometimes lower on Rising Sun/Rushing Wind Kick",
-        lastBuildTested: "57292",
+        lastBuildTested: "65769",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.JADEFIRE_STOMP,
@@ -55,7 +50,9 @@ const BUGS: Bug[] = [
         title: "Jadefire Stomp graphic variation causes target inconsistency",
         description:
             "Jadefire stomp's graphic variation causes inconsistency in the number of targets hit when cast from the exact same position.",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
+        notes: "Doesn't seem to have the same inconsistency as before, but still worth monitoring.",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.ASPECT_OF_HARMONY,
@@ -65,10 +62,10 @@ const BUGS: Bug[] = [
             TALENTS.UNISON,
         ],
         severity: SEVERITY.MEDIUM,
-        title: "Jade Serpent Statue/Unison healing don't apply Aspect of Harmony",
+        title: "Jade Serpent Statue healing doesn't apply Aspect of Harmony",
         description:
             "Jade Serpent Statue Soothing Mist healing does not apply aspect of harmony",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
     },
     {
         spell: TALENTS.ASPECT_OF_HARMONY,
@@ -77,8 +74,7 @@ const BUGS: Bug[] = [
         title: "Jade Serpent Statue Soothing Mist doesn't contribute vitality",
         description:
             "Jade Serpent Statue's Soothing mist does not contribute vitality",
-        lastBuildTested: "65337",
-        status: STATUS.FIXED,
+        lastBuildTested: "65769",
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM,
@@ -88,7 +84,8 @@ const BUGS: Bug[] = [
         description:
             "With Rapid Diffusion Talented, Rising Sun Kick adds and removes several buff stacks in succession then consumed immediately and a Nature gets applied, consumed, and reapplied",
         tags: [TAGS.MOH],
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
+        notes: "https://www.warcraftlogs.com/reports/RrQHWx6VkNFJAT1a?fight=1&type=summary&source=11&start=21771&end=24771&view=events"
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM,
@@ -109,7 +106,8 @@ const BUGS: Bug[] = [
         description:
             "Hard Cast Enveloping Mist with Rapid diffusion procs 3 stacks of Nature. This is from Envelop apply and then the Rapid Diffusion Rem having travel time",
         tags: [TAGS.MOH],
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
+        notes: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=24&type=summary&source=6&view=events&start=3323214&end=3327078"
     },
     {
         spell: TALENTS.TEAR_OF_MORNING,
@@ -118,8 +116,9 @@ const BUGS: Bug[] = [
         title: "The cleave of Enveloping Mist doesn't scale with haste",
         description:
             "The '8% of Enveloping Mist' is calculated before haste is factored in and significatly reduces the cleaves value",
-        lastBuildTested: "65560",
+        lastBuildTested: "65769",
         tags: [TAGS.HASTE],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.JADE_INFUSION,
@@ -135,7 +134,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Doesn't interact with Peaceful Mending",
         description: "Tear of Morning does not interact with Peaceful Mending at all. The healing replicated to targets with Renewing Mist is not increased.",
-        lastBuildTested: "63534",
+        lastBuildTested: "65769",
     },
     {
         spell: TALENTS.TEAR_OF_MORNING,
@@ -211,7 +210,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Doesn't heal NPCs",
         description: "Does not heal NPCs",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
         notes: "Tested with Valeera (Delve Companion) and Follower Dungeons",
         tags: [TAGS.APEX],
     },
@@ -231,7 +230,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Increases SCK damage by 10%",
         description: "Temple Training increases the damage of spinning crane kick by 10%",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
         notes: "Likely a side effect of the windwalker version of the talent",
         tags: [TAGS.CONDUIT],
     },
@@ -241,7 +240,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Doesn't increase healing of TFT Enveloping Mist",
         description: "Temple Training does not increase the healing of TFT -> Enveloping Mist",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
         notes: "SG fixed, TFT EnvM is not.",
         tags: [TAGS.CONDUIT],
     },
@@ -270,8 +269,9 @@ const BUGS: Bug[] = [
         spell: SPELLS.SHEILUNS_GIFT,
         severity: SEVERITY.LOW,
         title: "Has no variance",
-        description: "Sheilun's Gift has no variance",
-        lastBuildTested: "65337",
+        description: "Sheilun's Gift has no variance of +-5%",
+        lastBuildTested: "65769",
+        notes: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=3&view=events&source=6&type=healing&pins=2%24Separate%24%23244F4B%24any%7Chealing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24399497%7C399510%7C399491",
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM,
@@ -285,11 +285,31 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.SOOTHING_BREATH,
+        affectedSpells: [TALENTS.JADE_BOND, TALENTS.GIFT_OF_THE_CELESTIALS],
+        severity: SEVERITY.MEDIUM,
+        title: "Tooltip does not match actual amount healed",
+        description: "Tooltip does not match the actual amount healed for either JB or Gift",
+        lastBuildTested: "65769",
+        notes: "Multiple issues: https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1",
+        tags: [TAGS.TOOLTIP],
+    },
+    {
+        spell: TALENTS.SOOTHING_BREATH,
         affectedSpells: [TALENTS.JADE_BOND],
         severity: SEVERITY.MEDIUM,
-        title: "Tooltip doesn't update when talented into Jade Bond",
-        description: "Soothing Breath tooltip does not update when talented into Jade Bond. Soothing breath lasts 9s (Tooltip says 8.5 before haste). Tooltip does not match the actual amount healed for either JB or Gift",
-        lastBuildTested: "65337",
+        title: "Soothing Breath tooltip is not 500% increased with Jade Bond",
+        description: "Soothing Breath tooltip does not update when talented into Jade Bond.",
+        lastBuildTested: "65769",
+        notes: "Multiple issues: https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1",
+        tags: [TAGS.TOOLTIP],
+    },
+    {
+        spell: TALENTS.SOOTHING_BREATH,
+        affectedSpells: [TALENTS.JADE_BOND],
+        severity: SEVERITY.MEDIUM,
+        title: "Soothing Breath lasts 9s (tooltip says 8.5s)",
+        description: "Soothing breath lasts 9s (Tooltip says 8.5 before haste).",
+        lastBuildTested: "65769",
         notes: "Multiple issues: https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1",
         tags: [TAGS.TOOLTIP],
     },
@@ -318,7 +338,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Doesn't increase Rapid Diffusion Renewing Mists by +2s",
         description: "Does not increase the duration of Rapid Diffusion Renewing Mists by +2s",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
     },
     {
         spell: SPELLS.CELESTIAL_CONDUIT,
@@ -328,6 +348,8 @@ const BUGS: Bug[] = [
         description: "Spellqueueing a casted spell (Vivify, Enveloping Mist, Sheilun's Gift, etc) directly into Celestial Conduit causes the channel to immediately cancel",
         lastBuildTested: "63534",
         tags: [TAGS.SPELL_QUEUE, TAGS.CONDUIT],
+        notes: "Have not seen this happen for quite some time, but still worth monitoring",
+        status: STATUS.FIXED,
     },
     {
         spell: SPELLS.SOOTHING_MIST,
@@ -343,7 +365,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Rank 2 doesn't increase the healing of TFT Enveloping Mist",
         description: "Spiritfont Rank 2 does not increase the healing of TFT Enveloping Mist (the instant heal)",
-        lastBuildTested: "64228",
+        lastBuildTested: "65769",
         tags: [TAGS.APEX],
     },
     {
@@ -410,7 +432,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Statue does not cast Soothing Mist on Spiritfont Soothing Mist targets",
         description: "Jade Serpent Statue and Jade Infusion do not cast soom on the targets who have spiritfont soom on them",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
     },
     {
         spell: TALENTS.RUSHING_WIND_KICK,
@@ -426,7 +448,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Bonus not reflected in Rising Sun Kick/Rushing Wind Kick tooltips",
         description: "Morning Breeze is not reflected in the RWK/RSK tooltips",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -435,7 +457,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Tooltip drastically lower than actual",
         description: "In game tooltip for Jadefire Stomp is drastically lower than the actual damage dealt",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -463,7 +485,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Healing not buffed to 50% of Soothing Mist when SooM was buffed",
         description: "Jade Serpent Statue's healing has historically been 50% of Soothing Mist, but it has not recieved the same buff that soothing mist did at the start of alpha (jss duration was increased but total spellpower remained the same, sooms duration and total sp were increased) so it is only 33% of soothing mist now",
-        lastBuildTested: "64529",
+        lastBuildTested: "65769",
         notes: "This combined with it not interacting with spiritfont leaves the talent doing barely 1% hps WITH unison talented and makes it effectively an elusive mist applier",
     },
     {
@@ -498,17 +520,18 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Still procs Gust of Mists on Soothing Mist",
         description: "Spiritfont soothing mists (Spell Id: 1260617) is proccing Gust of Mists",
-        lastBuildTested: "64529",
+        lastBuildTested: "65769",
         notes: "https://www.warcraftlogs.com/reports/9m2ntLC4wWyB6k83?fight=19&type=casts&source=22&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24191894|1260617&start=7033905&end=7103696",
         tags: [TAGS.APEX, TAGS.MASTERY],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.JADEFIRE_STOMP,
         affectedSpells: [TALENTS.ANCIENT_TEACHINGS],
         severity: SEVERITY.HIGH,
         title: "Damage is not transferring to healing through Ancient Teachings",
-        description: "Jadefire Stomp damage is not transferring to healing through ancient teachings",
-        lastBuildTested: "65617",
+        description: "Jadefire Stomp damage is not transferring to healing through ancient teachings. When it worked in 65448, transferred at a lower rate than advertised: 150% with Jadefire Teachings, 18% with Ancient Teachings, ~55% with AT + Meditative Focus, 186% with JFT + AT + Meditative Focus",
+        lastBuildTested: "65769",
         notes: "Fixed in 65448, reverted in 65617. https://www.warcraftlogs.com/reports/hL6Rw13bzBdxyXrH?fight=5&type=damage-done&source=3&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388024|388025",
     },
     {
@@ -536,7 +559,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Renewing Mist from 4pc not increased by Lotus Infusion",
         description: "The duration of the renewing mist applied by the 4pc is not increased by lotus infusion",
-        lastBuildTested: "65337s",
+        lastBuildTested: "65769",
         tags: [TAGS.TIER],
     },
     {
@@ -589,20 +612,12 @@ const BUGS: Bug[] = [
         notes: "Sorta fixed, tooltip no longer gets pushed onto the player. Adding new entry"
     },
     {
-        spell: TALENTS.DIFFUSE_MAGIC,
-        severity: SEVERITY.LOW,
-        title: "Debuffs reflect but damage not attributed in damage meters",
-        description: "Debuffs reflect and it can be seen on enemy debuffs but damage is not attributed in logs, details, damage meters",
-        lastBuildTested: "64774",
-        notes: "https://www.warcraftlogs.com/reports/XRfBYrQqFHjNyphA?fight=8&type=damage-taken&start=2678030&end=2681031&hostility=1&source=158.2",
-    },
-    {
         spell: CORE_PASSIVE.MISTWEAVER_MONK,
         affectedSpells: [TALENTS.ANCIENT_TEACHINGS, TALENTS.JADEFIRE_TEACHINGS],
         severity: SEVERITY.HIGH,
         title: "Never received 20% damage buff",
         description: "Mistweaver never received the 20% damage buff in accordance to the global 20% healer damage buff",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
         notes: "Ancient/Jadefire Teachings was nerfed by ~20% to account for the damage buff",
     },
     {
@@ -611,7 +626,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Can bypass movement speed decrease",
         description: "Can move freely without movement speed decrease by starting a new Soothing Mist channel while inside of one already (refreshing the buff)",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
     },
     {
         spell: TALENTS.WAY_OF_THE_SERPENT,
@@ -619,7 +634,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Personal tooltip shows 0% movement speed reduction",
         description: "Personal tooltip shows 0% movement speed reduction while inside of a Soothing Mist channel",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -628,7 +643,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Personal tooltip shows 0% damage reduction",
         description: "Personal tooltip shows 0% damage reduction when casting Soothing Mist on another target while having Elusive Mists talented",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -637,7 +652,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Buff and talent tooltip still reference Vivify if talented into Sheilun's Gift",
         description: "Harmonic Surge tooltip references Vivify, even if Sheilun's Gift is talented. Functionally works correctly",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
         tags: [TAGS.TOOLTIP, TAGS.MOH],
     },
     {
@@ -646,8 +661,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Unison is still healing, even though the talent doesn't exist",
         description: "Unison is still healing, even though the talent doesn't exist anymore. Think its related to Mistline being talented",
-        lastBuildTested: "65337",
-        notes: "https://www.warcraftlogs.com/reports/pmdtLjDafFnyHV7P?fight=last&type=healing&source=333&ability=388480"
+        lastBuildTested: "65769",
+        notes: "https://www.warcraftlogs.com/reports/pmdtLjDafFnyHV7P?fight=last&type=healing&source=333&ability=388480\n" +
+        "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=17&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24198533%7C115175%7C388479%7C388480\n",
     },
     {
         spell: TALENTS.ANCIENT_TEACHINGS,
@@ -655,8 +671,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.CRITICAL,
         title: "Ancient Teachings healing conversion reverted to post-armor values",
         description: "Hotfix to Ancient Teachings healing on pre-armor damage values (physical abilities reducing actual damage dealt by 30% account for armor) was reverted at some point from Undermine -> Live. The conversion now only happens on post-armor values.",
-        lastBuildTested: "65337",
-        notes: "https://www.warcraftlogs.com/reports/hpTmN6FgCtaY9bvc?fight=11&source=1&type=summary&start=14048042&end=14286694&view=events&pins=2%24Separate%24%23244F4B%24casts%7Cdamage%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388025%7C388024"
+        lastBuildTested: "65769",
+        notes: "https://www.warcraftlogs.com/reports/hpTmN6FgCtaY9bvc?fight=11&source=1&type=summary&start=14048042&end=14286694&view=events&pins=2%24Separate%24%23244F4B%24casts%7Cdamage%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388025%7C388024\n" +
+        "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=12&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24185099%7C388024",
     },
     {
         spell: TALENTS.SPIRITFONT,
@@ -669,20 +686,13 @@ const BUGS: Bug[] = [
         status: STATUS.FIXED,
     },
     {
-        spell: SPELLS.SHEILUNS_GIFT,
-        severity: SEVERITY.HIGH,
-        title: "Sheilun's Gift stack generation breaks after swapping targets inside of Soothing Mist",
-        description: "Sheiluns gift stack generation breaks after casting sheiluns gift inside of a soothing mist channel on different targets while inside the channel. Seems to break in a weird way, in that the next SG stack count generated 1st and 2nd stacks at 140ms of each other, broke at some point between the 3rd stack gain and consumption of the stacks of the cast.",
-        lastBuildTested: "65337",
-        notes: "https://www.warcraftlogs.com/reports/pwqJc6jCbZGPxTKF?fight=1&type=auras&source=7&position=912989&ability=399497"
-    },
-    {
         spell: TALENTS.FLIGHT_OF_THE_RED_CRANE,
         affectedSpells: [TALENTS.UNITY_WITHIN],
         severity: SEVERITY.LOW,
         title: "Despite its removal, still procs from Unity Within",
         description: "Despite being removed from the talent tree, the spell still activates when Unity Within occurs. Only heals, as it has done since its inception from Unity Within to not proc mana tea despite its original talent's wording.",
-        lastBuildTested: "65337",
+        lastBuildTested: "65769",
+        notes: "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=7&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443028%7C443591%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443614"
     },
     {
         spell: SPELLS.REVIVAL,
@@ -690,24 +700,18 @@ const BUGS: Bug[] = [
         title: "Revival healing splits into pets",
         description: "Revival does less healing when more targets are hit as expected however pets are being included in the split reduction",
         tags: [TAGS.PETS],
-        lastBuildTested: "65337",
-    },
-    {
-        spell: TALENTS.JADEFIRE_STOMP,
-        affectedSpells: [TALENTS.ANCIENT_TEACHINGS, TALENTS.JADEFIRE_TEACHINGS, TALENTS.MEDITATIVE_FOCUS],
-        severity: SEVERITY.HIGH,
-        title: "Transfer rate is inconsistent than actual transfer rate",
-        description: "Transfer is fixed however now transfers at a lower rate than advertised: 150% with Jadefire Teachings, 18% with Ancient Teachings, ~55% with AT + Meditative Focus, 186% with JFT + AT + Meditative Focus",
-        lastBuildTested: "65448",
+        lastBuildTested: "65769",
+        notes: "65769 log: https://www.warcraftlogs.com/reports/RZzarj1v67qgLhXJ?fight=last&type=healing&source=37&ability=115310&view=events"
     },
     {
         spell: TALENTS.SPIRITFONT,
         affectedSpells: [SPELLS.SHEILUNS_GIFT],
         severity: SEVERITY.MEDIUM,
         title: "Rank 1 Spiritfont cannot proc via Sheilun's Gift",
-        description: "The first point in Spiritfont does not proc via Sheilun's Gift, as it should swap from Vivify after talenting SG.",
-        lastBuildTested: "65448",
-        notes: "https://www.warcraftlogs.com/reports/HvrkyFPnC6TxbBN3?fight=1&type=auras&source=1&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%7C1260670%2463",
+        description: "The first point in Spiritfont does not proc via Sheilun's Gift, as it should swap from Vivify after talenting SG. Testing in 65769 seems like it can proc from it, but definitely not the 1ppm allotted.",
+        lastBuildTested: "65769",
+        notes: "29 minute log: https://www.warcraftlogs.com/reports/HvrkyFPnC6TxbBN3?fight=1&type=auras&source=1&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%7C1260670%2463 \n" + 
+        "Procs once at 2 minute mark after 75 casts of SG: https://www.warcraftlogs.com/reports/Qg31CFpr2vn6xLwd?fight=last&source=6&type=casts&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565",
         tags: [TAGS.APEX]
     },
     {
@@ -726,8 +730,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Does not increase shield strength of Strength of the Black Ox",
         description: "Unity Within procs Strength of the black Ox, but it does not increase the strength of any of the shields.",
-        lastBuildTested: "65560",
-        tags: [TAGS.CONDUIT]
+        lastBuildTested: "65769",
+        tags: [TAGS.CONDUIT],
+        notes: "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=7&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682%7C443028%7C443591%24or%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443113%7C443112"
     },
     {
         spell: CORE_PASSIVE.MISTWEAVER_MONK,
@@ -740,7 +745,8 @@ const BUGS: Bug[] = [
             SPELLS.THUNDER_FOCUS_TEA,
             TALENTS.JADEFIRE_STOMP,
             TALENTS.HARMONIC_SURGE,
-            TALENTS.ASPECT_OF_HARMONY
+            TALENTS.ASPECT_OF_HARMONY,
+            SPELLS.SHEILUNS_GIFT,
         ],
         severity: SEVERITY.CRITICAL,
         title: "Many talents stop working mid-dungeon",
@@ -752,13 +758,15 @@ const BUGS: Bug[] = [
             "- Harmonic Surge: Suddenly stopped being consumed by any sources inside of Skyreach\n" +
             "- Master of Harmony: The entire tree suddenly stopped working midway through Windrunner Spire +12\n" +
             "- Aspect of Harmony: All vitality gain abruptly stopped mid-dungeon, with 0 sources of AoH healing, Purified Spirit healing, no combat log events on either of the three threshold buffs continued\n" +
+            "- Sheilun's Gift: Suddenly stops gaining stacks, seen notably after target swapping inside of a Soothing Mist channel\n" +
             "- Several others reported anecodtally - Way of the Crane, Tranquil Tea.",
-        lastBuildTested: "65617",
+        lastBuildTested: "65769",
         notes: "Jadefire Teachings (1st): https://www.warcraftlogs.com/reports/4xvtJa6Q1mYZLHDA?fight=last&type=healing&source=1&ability=-388024\n" +
             "Jadefire Teachings (2nd): https://www.warcraftlogs.com/reports/RX8kjbfA2vMztHQc?fight=last&type=healing&source=5&ability=-388024\n" +
             "Rising Mist: https://www.warcraftlogs.com/reports/hgHWMKn981b4CvXa?fight=6&pull=7&type=auras&ability=124682&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428\n" +
             "Harmonic Surge: https://www.warcraftlogs.com/reports/x4PZFHJkmXw98cjb?boss=-3&difficulty=0&type=auras&source=6&ability=1270990&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24100780\n" +
-            "Aspect of Harmony (Vitality): https://www.warcraftlogs.com/reports/FMKmTZk9NhrwGqtp?fight=last&type=auras&source=255&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24450521%7C450526%7C450711%7C450769%7C450531",
+            "Aspect of Harmony (Vitality): https://www.warcraftlogs.com/reports/FMKmTZk9NhrwGqtp?fight=last&type=auras&source=255&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24450521%7C450526%7C450711%7C450769%7C450531\n" +
+            "Sheilun's Gift Stacks: https://www.warcraftlogs.com/reports/pwqJc6jCbZGPxTKF?fight=1&type=auras&source=7&position=912989&ability=399497",
         tags: [TAGS.MOH]
     },
     {
