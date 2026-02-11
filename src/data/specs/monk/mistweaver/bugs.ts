@@ -783,6 +783,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Still references Crane Stance, even though it's unattainable",
         description: "Crane Stance is unable to be procced since it came from Flight of the Red Crane, which is now only accessible via Unity Within but does not proc the Stance.",
+        tags: [TAGS.TOOLTIP],
         lastBuildTested: "65848",
     }
 ];
