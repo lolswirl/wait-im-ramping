@@ -21,7 +21,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "ToD usable during Celestial Conduit channel",
         description: "Touch of Death is usable during the Celestial Conduit channel, despite canceling on damage/healing abilities",
-        lastBuildTested: "65769",
+        lastBuildTested: "65848",
         notes: "https://www.warcraftlogs.com/reports/vkLZ3MzFDa7GRdY8?fight=26&type=summary&source=6&view=events&start=3553847&end=3557704",
     }
 ];
