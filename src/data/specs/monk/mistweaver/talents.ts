@@ -219,6 +219,18 @@ const talents = {
         name: "Rushing Wind Kick",
         id: 467307,
         icon: 'inv12_ability_monk_rushingwindkick',
+        castTime: 0,
+        cooldown: 12,
+        school: SCHOOLS.NATURE,
+        value: {
+            damage: 2388,
+            healing: 2945
+        },
+        custom: {
+            maxDamageTargets: 5,
+            maxHealingTargets: 5,
+            damageIncrease: 0.06
+        }
     },
     JADE_SERPENT_STATUE: {
         name: "Jade Serpent Statue",
@@ -290,6 +302,9 @@ const talents = {
         name: "Morning Breeze",
         id: 1277302,
         icon: 'expansionicon_mistsofpandaria',
+        custom: {
+            masteryMultiplier: 0.20,
+        }
     },
     EMPERORS_ELIXIR: {
         name: "Emperor's Elixir",
@@ -511,6 +526,9 @@ const talents = {
         name: "Yulon's Knowledge",
         id: 443625,
         icon: 'inv_jewelcrafting_jadeserpent',
+        custom: {
+            rskDamageIncrease: 0.15,
+        }
     },
 } satisfies Record<string, spell>;
 

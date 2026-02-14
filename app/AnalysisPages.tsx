@@ -8,6 +8,7 @@ const chijiPreview = "/previews/chi-ji.png";
 const hotjsPreview = "/previews/heart-of-the-jade-serpent.png";
 const conduitPreview = "/previews/celestial-conduit.png";
 const mistyCoalescencePreview = "/previews/misty-coalescence.png";
+const jftRwkPreview = "/previews/jft-rwk.png";
 
 export interface AnalysisPage {
   label: string;
@@ -101,5 +102,13 @@ export const analysisPages: AnalysisPage[] = [
     description: "Visually graph Renewing Mist's healing increase based on group size with Misty Coalescence",
     tags: ["Healing", "Monk"],
     createdDate: "2026-1-25"
+  },
+  {
+    label: 'Jadefire Teachings vs Rushing Wind Kick',
+    path: "/analysis/rushing-wind-kick",
+    preview: jftRwkPreview,
+    description: "Comparison of Rising Sun Kick (Jadefire Teachings) and Rushing Wind Kick damage and healing output",
+    tags: ["Healing", "Monk"],
+    createdDate: "2026-02-15"
   }
 ];
