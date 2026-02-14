@@ -9,6 +9,7 @@ import PageHeader from "@components/PageHeader/PageHeader";
 import { GCD } from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
+import SHARED from "@data/specs/monk/talents";
 import { CLASSES } from "@data/class";
 
 import { GetTitle } from "@util/stringManipulation";
@@ -54,6 +55,14 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
   const jadefireTeachingsTransfer = ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate;
   const wayOfTheCraneTransfer = wayOfTheCrane.custom.transferRate * wayOfTheCrane.custom.targetsPerSCK;
 
+  // Shared talent multipliers (assuming all enabled)
+  const fastFeetRSK = 1 + SHARED.FAST_FEET.custom.risingSunKickIncrease; // 1.7x
+  const fastFeetSCK = 1 + SHARED.FAST_FEET.custom.spinningCraneKickIncrease; // 1.1x
+  const ferocityOfXuenMulti = 1 + SHARED.FEROCITY_OF_XUEN.custom.damageIncrease; // 1.02x
+  const chiProficiencyDamage = 1 + SHARED.CHI_PROFICIENCY.custom.magicDamageIncrease; // 1.04x
+  const chiProficiencyHealing = 1 + SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease; // 1.04x
+  const martialInstinctsMulti = 1 + SHARED.MARTIAL_INSTINCTS.custom.damageIncrease; // 1.04x
+
   const simulateRotations = useCallback((totalTime: number, targets?: number, asHealing?: boolean) => {
     const useTargets = targets ?? targetCount;
     const useHealing = asHealing ?? showAsHealing;
@@ -65,13 +74,14 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
     let cumulativeDamage = 0;
     const rotationDamage: { time: number; damage: number; name: string }[] = [];
 
-    const risingSunKickDamage = SPELLS.RISING_SUN_KICK.value.damage;
-    const tigerPalmDamage = SPELLS.TIGER_PALM.value.damage;
-    const blackoutKickDamage = SPELLS.BLACKOUT_KICK.value.damage;
+
+    const risingSunKickDamage = SPELLS.RISING_SUN_KICK.value.damage * ferocityOfXuenMulti * martialInstinctsMulti * fastFeetRSK;
+    const tigerPalmDamage = SPELLS.TIGER_PALM.value.damage * ferocityOfXuenMulti * martialInstinctsMulti;
+    const blackoutKickDamage = SPELLS.BLACKOUT_KICK.value.damage * ferocityOfXuenMulti * martialInstinctsMulti;
 
     const cleaveMultiplier = Math.min(useTargets, 3);
 
-    const healingConversion = useHealing ? jadefireTeachingsTransfer * ancientTeachingsArmorModifier : 1;
+    const healingConversion = useHealing ? jadefireTeachingsTransfer * ancientTeachingsArmorModifier * chiProficiencyHealing : 1;
 
     // initial rotation
     let damage = risingSunKickDamage * healingConversion;
@@ -163,9 +173,9 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
     let cumulativeDamage = 0;
     const craneKickDamage: DamagePoint[] = [];
 
-    const craneKickDamageValue = SPELLS.SPINNING_CRANE_KICK.value.damage;
+    const craneKickDamageValue = SPELLS.SPINNING_CRANE_KICK.value.damage * ferocityOfXuenMulti * fastFeetSCK;
 
-    const healingConversion = useHealing ? wayOfTheCraneTransfer * wayOfTheCraneArmorModifier : 1;
+    const healingConversion = useHealing ? wayOfTheCraneTransfer * wayOfTheCraneArmorModifier * chiProficiencyHealing : 1;
 
     while (currentTime < totalTime) {
       const scaledDamage =
@@ -193,13 +203,13 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
     const ticksPerChannel = channelDuration / tickInterval;
 
     // ignoring armor modifier because its nature :3
-    const healingConversion = useHealing ? jadefireTeachingsTransfer : 1;
+    const healingConversion = useHealing ? jadefireTeachingsTransfer * chiProficiencyHealing : 1;
 
     while (currentTime < totalTime) {
       for (let tick = 0; tick < ticksPerChannel && currentTime < totalTime; tick++) {
         const effectiveTargets = Math.min(useTargets, 5);
         
-        const baseDamageWithIncrease = cracklingJadeLightningDamage * (1 + jadeEmpowermentIncrease / 100);
+        const baseDamageWithIncrease = cracklingJadeLightningDamage * (1 + jadeEmpowermentIncrease / 100) * ferocityOfXuenMulti * chiProficiencyDamage;
         
         let totalDamage = baseDamageWithIncrease;
         if (effectiveTargets > 1) {
