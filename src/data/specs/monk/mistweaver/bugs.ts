@@ -787,7 +787,7 @@ const BUGS: Bug[] = [
         lastBuildTested: "65848",
     },
     {
-        spell: TALENTS.ASPECT_OF_HARMONY,
+        spell: TALENTS.COALESCENCE,
         severity: SEVERITY.HIGH,
         title: "Coalescence overrides previous Aspect of Harmony HoT amount",
         description: "If an existing Aspect of Harmony HoT is on a player (whether it be from AoH Withdraw or from Coalescence), and Vivify/Sheilun's Gift is casted on them, the incoming HoT value from Coalescence overrides the previous HoT amount instead of refreshing and adding the new amount on top of it. This causes the HoT to be signficantly diminished when dumping a large amount of Vitality into the HoT, then still casting Vivify/SG on the target.",
