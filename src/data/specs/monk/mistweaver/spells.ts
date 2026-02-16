@@ -160,7 +160,7 @@ const spells = {
         id: 116849,
         icon: 'ability_monk_chicocoon',
         castTime: 0,
-        cooldown: 75,
+        cooldown: 120,
         gcd: false,
         custom: {
             absorbFormula: (sourceHp: number, versatility: number) => {
