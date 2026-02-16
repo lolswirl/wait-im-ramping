@@ -512,6 +512,14 @@ const talents = {
         id: 1262667,
         icon: 'inv_celestialserpentmount_jade',
     },
+    CHRYSALIS: {
+        name: "Chrysalis",
+        id: 202424,
+        icon: 'ability_monk_domeofmist',
+        custom: {
+            cooldown: 75,
+        }
+    },
     FLOWING_WISDOM: {
         name: "Flowing Wisdom",
         id: 1262672,

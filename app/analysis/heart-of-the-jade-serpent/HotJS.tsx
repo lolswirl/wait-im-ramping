@@ -19,11 +19,13 @@ import IconButtonBase from '@components/SpellButtons/IconButtonBase';
 import SpellButton from '@components/SpellButtons/SpellButton';
 import PageHeader from '@components/PageHeader/PageHeader';
 import WarningChip from '@components/WarningChip/WarningChip';
+import TalentsCard from '@components/TalentsCard/TalentsCard';
 import { useThemeContext } from '@context/ThemeContext';
 import SPELLS from "@data/spells";
 import spell, { GCD } from '@data/spells/spell';
 import { GetTitle, pluralize } from '@util/stringManipulation';
 import TALENTS from '@data/talents';
+import { CLASSES } from '@data/class';
 
 const MAX_WIDTH = 1100;
 const TIMELINE_HEIGHT = 500;
@@ -69,32 +71,39 @@ interface BaselineData {
     [key: string]: { availableTimes: number[] };
 }
 
-const createAffectedAbilities = (): AbilityCooldown[] => [
-    {
-        spell: SPELLS.RENEWING_MIST,
-        currentCooldown: 0,
-        availableAt: 0,
-        color: "#6ff5d6"
-    },
-    {
-        spell: SPELLS.RISING_SUN_KICK,
-        currentCooldown: 0,
-        availableAt: 0,
-        color: "#fd8500"
-    },
-    {
-        spell: SPELLS.THUNDER_FOCUS_TEA,
-        currentCooldown: 0,
-        availableAt: 0,
-        color: "#87a1e8"
-    },
-    {
-        spell: SPELLS.LIFE_COCOON,
-        currentCooldown: 0,
-        availableAt: 0,
-        color: "#fbff4e"
-    }
-];
+const createAffectedAbilities = (talents: Map<spell, boolean>): AbilityCooldown[] => {
+    const chrysalisEnabled = talents.get(TALENTS.CHRYSALIS);
+    const lifeCocoonCooldown = chrysalisEnabled && TALENTS.CHRYSALIS.custom?.cooldown
+        ? TALENTS.CHRYSALIS.custom.cooldown
+        : SPELLS.LIFE_COCOON.cooldown;
+    
+    return [
+        {
+            spell: SPELLS.RENEWING_MIST,
+            currentCooldown: 0,
+            availableAt: 0,
+            color: "#6ff5d6"
+        },
+        {
+            spell: SPELLS.RISING_SUN_KICK,
+            currentCooldown: 0,
+            availableAt: 0,
+            color: "#fd8500"
+        },
+        {
+            spell: SPELLS.THUNDER_FOCUS_TEA,
+            currentCooldown: 0,
+            availableAt: 0,
+            color: "#87a1e8"
+        },
+        {
+            spell: { ...SPELLS.LIFE_COCOON, cooldown: lifeCocoonCooldown },
+            currentCooldown: 0,
+            availableAt: 0,
+            color: "#fbff4e"
+        }
+    ];
+};
 
 const roundTime = (time: number): number => Math.round(time * 10) / 10;
 
@@ -359,9 +368,7 @@ const TimeSliderCard: React.FC<{
 const OptionsCard: React.FC<{
     cdrEnabled: boolean;
     onCdrEnabledChange: (value: boolean) => void;
-    yulonsAvatarEnabled: boolean;
-    onYulonsAvatarEnabledChange: (value: boolean) => void;
-}> = ({ cdrEnabled, onCdrEnabledChange, yulonsAvatarEnabled, onYulonsAvatarEnabledChange }) => (
+}> = ({ cdrEnabled, onCdrEnabledChange }) => (
     <Card variant="outlined" sx={{ 
         p: 2, 
         background: `linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05))`, 
@@ -373,12 +380,6 @@ const OptionsCard: React.FC<{
                 onChange={onCdrEnabledChange}
                 title={GetTitle("Enable Increased Cooldown Recovery Rate")}
                 description={GetTitle("Apply increased cooldown recovery rate effects from Heart of the Jade Serpent")}
-            />
-            <OptionCheckbox
-                checked={yulonsAvatarEnabled}
-                onChange={onYulonsAvatarEnabledChange}
-                title={GetTitle("Enable Yulon's Avatar Procs")}
-                description={GetTitle("Include Yulon's Avatar procs (~1.5 per minute) that trigger Heart of the Jade Serpent")}
             />
         </Box>
     </Card>
@@ -750,12 +751,23 @@ const TimelineView: React.FC<{
 
 const HotJS: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const { themeMode } = useThemeContext();
+    const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
     
     const [timeRange, setTimeRange] = useState<number>(300);
     const [cdrEnabled, setCdrEnabled] = useState<boolean>(true);
-    const [yulonsAvatarEnabled, setYulonsAvatarEnabled] = useState<boolean>(true);
+    
+    const allTalents = new Map<spell, boolean>([
+        [TALENTS.YULONS_AVATAR, true],
+        [TALENTS.CHRYSALIS, false],
+    ]);
+    
+    const [talents, setTalents] = useState(allTalents);
 
-    const affectedAbilities = useMemo(() => createAffectedAbilities(), []);
+    const handleTalentChange = (talent: spell, checked: boolean) => {
+        setTalents(new Map(talents).set(talent, checked));
+    };
+
+    const affectedAbilities = useMemo(() => createAffectedAbilities(talents), [talents]);
     const celestialConduitCastTime = SPELLS.CELESTIAL_CONDUIT.castTime;
 
     const simulation = useMemo(() => {
@@ -766,6 +778,7 @@ const HotJS: React.FC<{ title: string; description: string }> = ({ title, descri
             celestialConduitCastTime
         );
         
+        const yulonsAvatarEnabled = talents.get(TALENTS.YULONS_AVATAR);
         const yulonsAvatarProcEvents = yulonsAvatarEnabled 
             ? generateYulonsAvatarProc(timeRange, 1.5, conduitEvents)
             : [];
@@ -794,7 +807,7 @@ const HotJS: React.FC<{ title: string; description: string }> = ({ title, descri
         timeRange, 
         celestialConduitCastTime, 
         cdrEnabled,
-        yulonsAvatarEnabled,
+        talents,
         affectedAbilities
     ]);
 
@@ -809,8 +822,11 @@ const HotJS: React.FC<{ title: string; description: string }> = ({ title, descri
                         <OptionsCard
                             cdrEnabled={cdrEnabled}
                             onCdrEnabledChange={setCdrEnabled}
-                            yulonsAvatarEnabled={yulonsAvatarEnabled}
-                            onYulonsAvatarEnabledChange={setYulonsAvatarEnabled}
+                        />
+                        <TalentsCard
+                            options={talents}
+                            color={mistweaver.color}
+                            onChange={handleTalentChange}
                         />
                         <TimeSliderCard
                             timeRange={timeRange}
