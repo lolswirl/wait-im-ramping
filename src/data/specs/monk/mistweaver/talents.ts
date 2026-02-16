@@ -272,6 +272,10 @@ const talents = {
         name: "Spiritfont",
         id: 1260511,
         icon: 'inv12_apextalent_monk_spiritfont',
+        custom: {
+            rskIncrease: 0.2,
+            envmIncrease: 0.2,
+        }
     },
     ZEN_PULSE: {
         name: "Zen Pulse",

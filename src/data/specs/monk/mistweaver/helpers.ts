@@ -60,6 +60,13 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
             spell.id === SPELLS.RISING_SUN_KICK.id || 
             spell.id === TALENTS.RUSHING_WIND_KICK.id
     },
+    {
+        talent: TALENTS.SPIRITFONT,
+        getValue: () => 1 + TALENTS.SPIRITFONT.custom.rskIncrease,
+        appliesTo: (spell) => 
+            spell.id === SPELLS.RISING_SUN_KICK.id || 
+            spell.id === TALENTS.RUSHING_WIND_KICK.id
+    }
 ];
 
 const HEALING_MULTIPLIER_RULES: TalentRule[] = [

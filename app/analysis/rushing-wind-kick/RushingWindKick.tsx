@@ -41,6 +41,7 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
     [TALENTS.YULONS_KNOWLEDGE, true],
     [TALENTS.JADEFIRE_TEACHINGS, true],
     [TALENTS.MORNING_BREEZE, false],
+    [TALENTS.SPIRITFONT, true],
     [SHARED.FAST_FEET, true],
     [SHARED.FEROCITY_OF_XUEN, true],
     [SHARED.CHI_PROFICIENCY, true],
@@ -175,6 +176,7 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
     [TALENTS.YULONS_KNOWLEDGE, talents.get(TALENTS.YULONS_KNOWLEDGE) ?? false],
     [TALENTS.JADEFIRE_TEACHINGS, talents.get(TALENTS.JADEFIRE_TEACHINGS) ?? false],
     [TALENTS.MORNING_BREEZE, talents.get(TALENTS.MORNING_BREEZE) ?? false],
+    [TALENTS.SPIRITFONT, talents.get(TALENTS.SPIRITFONT) ?? false],
   ]);
 
   const classTalentSubset = new Map<spell, boolean>([
