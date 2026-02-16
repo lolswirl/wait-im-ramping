@@ -2,7 +2,7 @@ import HotJS from "./HotJS";
 import { PageMetadata } from "@components/PageMetadata/PageMetadata";
 
 const title = "Heart of the Jade Serpent";
-const description = "Analyze the effects of Heart of the Jade Serpent's increased cooldown recovery rate to find how many extra casts are received during a fight";
+const description = "Calculate extra ability casts from Heart of the Jade Serpent's cooldown reduction";
 export const metadata = PageMetadata(title, description);
 
 export default function Page() {
