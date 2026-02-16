@@ -1,16 +1,22 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Box, Container, TextField, useTheme, FormControlLabel, Checkbox, Card, Typography, Divider, Switch, Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Box, Container, TextField, useTheme, Card, Typography, Divider, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 
 import { GCD } from "@data/spells/spell";
+import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
 import { CLASSES } from "@data/class";
+import {
+  calculateAncientTeachingsHealing,
+  calculateWayOfTheCraneHealing,
+  calculateSpellDamage,
+} from "@data/specs/monk/mistweaver/helpers";
 
 import { GetTitle } from "@util/stringManipulation";
 import WarningChip from "@components/WarningChip/WarningChip";
@@ -36,32 +42,24 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
   });
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
-  const intellect = mistweaver.intellect;
 
   const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
-  const cracklingJadeLightningDamage = cjl.value.damage;
 
   const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
   const jadeEmpowermentIncrease = jadeEmpowerment.custom.spellpowerIncrease;
   const jadeEmpowermentChain = jadeEmpowerment.custom.chainVal;
 
-  const wayOfTheCrane = TALENTS.WAY_OF_THE_CRANE;
-  const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
-  const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
+  const talents = useMemo(() => new Map<spell, boolean>([
+    [TALENTS.JADEFIRE_TEACHINGS, true],
+    [TALENTS.YULONS_KNOWLEDGE, true],
+    [TALENTS.SPIRITFONT, true],
+    [SHARED.FAST_FEET, true],
+    [SHARED.FEROCITY_OF_XUEN, true],
+    [SHARED.CHI_PROFICIENCY, true],
+    [SHARED.MARTIAL_INSTINCTS, true],
+  ]), []);
 
-  const wayOfTheCraneArmorModifier = wayOfTheCrane.custom.armorModifier;
-  const ancientTeachingsArmorModifier = ancientTeachings.custom.armorModifier;
-
-  const jadefireTeachingsTransfer = ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate;
-  const wayOfTheCraneTransfer = wayOfTheCrane.custom.transferRate * wayOfTheCrane.custom.targetsPerSCK;
-
-  // Shared talent multipliers (assuming all enabled)
-  const fastFeetRSK = 1 + SHARED.FAST_FEET.custom.risingSunKickIncrease; // 1.7x
-  const fastFeetSCK = 1 + SHARED.FAST_FEET.custom.spinningCraneKickIncrease; // 1.1x
-  const ferocityOfXuenMulti = 1 + SHARED.FEROCITY_OF_XUEN.custom.damageIncrease; // 1.02x
-  const chiProficiencyDamage = 1 + SHARED.CHI_PROFICIENCY.custom.magicDamageIncrease; // 1.04x
-  const chiProficiencyHealing = 1 + SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease; // 1.04x
-  const martialInstinctsMulti = 1 + SHARED.MARTIAL_INSTINCTS.custom.damageIncrease; // 1.04x
+  const mastery = useMemo(() => mistweaver.mastery / 100, [mistweaver.mastery]);
 
   const simulateRotations = useCallback((totalTime: number, targets?: number, asHealing?: boolean) => {
     const useTargets = targets ?? targetCount;
@@ -74,25 +72,25 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
     let cumulativeDamage = 0;
     const rotationDamage: { time: number; damage: number; name: string }[] = [];
 
+    const risingSunKickDamage = calculateSpellDamage(SPELLS.RISING_SUN_KICK, talents, mastery);
+    const tigerPalmDamage = calculateSpellDamage(SPELLS.TIGER_PALM, talents, mastery);
+    const blackoutKickDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, mastery);
 
-    const risingSunKickDamage = SPELLS.RISING_SUN_KICK.value.damage * ferocityOfXuenMulti * martialInstinctsMulti * fastFeetRSK;
-    const tigerPalmDamage = SPELLS.TIGER_PALM.value.damage * ferocityOfXuenMulti * martialInstinctsMulti;
-    const blackoutKickDamage = SPELLS.BLACKOUT_KICK.value.damage * ferocityOfXuenMulti * martialInstinctsMulti;
+    // Convert to healing values once if needed
+    const risingSunKickValue = useHealing ? calculateAncientTeachingsHealing(risingSunKickDamage, talents, true, SPELLS.RISING_SUN_KICK) : risingSunKickDamage;
+    const tigerPalmValue = useHealing ? calculateAncientTeachingsHealing(tigerPalmDamage, talents, true, SPELLS.TIGER_PALM) : tigerPalmDamage;
+    const blackoutKickValue = useHealing ? calculateAncientTeachingsHealing(blackoutKickDamage, talents, true, SPELLS.BLACKOUT_KICK) : blackoutKickDamage;
 
     const cleaveMultiplier = Math.min(useTargets, 3);
 
-    const healingConversion = useHealing ? jadefireTeachingsTransfer * ancientTeachingsArmorModifier * chiProficiencyHealing : 1;
-
     // initial rotation
-    let damage = risingSunKickDamage * healingConversion;
-    cumulativeDamage += damage;
+    cumulativeDamage += risingSunKickValue;
     rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "rsk" });
 
     currentTime += GCD;
 
     for (let i = 1; i <= 2; i++) {
-      damage = tigerPalmDamage * healingConversion;
-      cumulativeDamage += damage;
+      cumulativeDamage += tigerPalmValue;
       totmStacks += 2;
       rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: `tp ${i}` });
       currentTime += GCD;
@@ -102,8 +100,7 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
       const bokHits = (1 + totmStacks) * cleaveMultiplier;
       totmStacks = 0;
       let bokResetRsk = false;
-      const totalBlackoutKickDamage = blackoutKickDamage * bokHits * healingConversion;
-      cumulativeDamage += totalBlackoutKickDamage;
+      cumulativeDamage += blackoutKickValue * bokHits;
 
       for (let i = 0; i < bokHits; i++) {
         if (Math.random() < 0.15) bokResetRsk = true;
@@ -122,8 +119,7 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
     // loop rotation
     while (currentTime < totalTime) {
       if (risingSunKickCooldown <= 0) {
-        damage = risingSunKickDamage * healingConversion;
-        cumulativeDamage += damage;
+        cumulativeDamage += risingSunKickValue;
         rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "rsk" });
         currentTime += 1.5;
         risingSunKickCooldown = 12;
@@ -131,8 +127,7 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
       if (currentTime >= totalTime) break;
 
       for (let i = 1; i <= 2; i++) {
-        damage = tigerPalmDamage * healingConversion;
-        cumulativeDamage += damage;
+        cumulativeDamage += tigerPalmValue;
         totmStacks += 2;
         rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: `tp${i}` });
         currentTime += GCD;
@@ -144,8 +139,7 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
         const bokHits = (1 + totmStacks) * cleaveMultiplier;
         totmStacks = 0;
         let bokResetRsk = false;
-        const totalBlackoutKickDamage = blackoutKickDamage * bokHits * healingConversion;
-        cumulativeDamage += totalBlackoutKickDamage;
+        cumulativeDamage += blackoutKickValue * bokHits;
 
         for (let i = 0; i < bokHits; i++) {
           if (Math.random() < 0.15) bokResetRsk = true;
@@ -163,7 +157,7 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
     }
 
     return rotationDamage;
-  }, [targetCount, showAsHealing, jadefireTeachingsTransfer, ancientTeachingsArmorModifier]);
+  }, [targetCount, showAsHealing, talents, mastery]);
 
   const simulateSpinningCraneKick = useCallback((totalTime: number, targets?: number, asHealing?: boolean) => {
     const useTargets = targets ?? targetCount;
@@ -173,22 +167,25 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
     let cumulativeDamage = 0;
     const craneKickDamage: DamagePoint[] = [];
 
-    const craneKickDamageValue = SPELLS.SPINNING_CRANE_KICK.value.damage * ferocityOfXuenMulti * fastFeetSCK;
-
-    const healingConversion = useHealing ? wayOfTheCraneTransfer * wayOfTheCraneArmorModifier * chiProficiencyHealing : 1;
+    const craneKickDamageValue = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, mastery);
 
     while (currentTime < totalTime) {
-      const scaledDamage =
+      let rawDamage =
         useTargets <= 5
-          ? craneKickDamageValue * useTargets * healingConversion
-          : craneKickDamageValue * useTargets * Math.sqrt(5 / useTargets) * healingConversion;
-      cumulativeDamage += scaledDamage;
+          ? craneKickDamageValue * useTargets
+          : craneKickDamageValue * useTargets * Math.sqrt(5 / useTargets);
+      
+      if (useHealing) {
+        rawDamage = calculateWayOfTheCraneHealing(rawDamage, talents);
+      }
+      
+      cumulativeDamage += rawDamage;
       craneKickDamage.push({ time: currentTime, damage: cumulativeDamage });
       currentTime += 1.5;
     }
 
     return craneKickDamage;
-  }, [targetCount, showAsHealing, wayOfTheCraneTransfer, wayOfTheCraneArmorModifier]);
+  }, [targetCount, showAsHealing, talents, mastery]);
 
   const simulateJadeEmpowerment = useCallback((totalTime: number, targets?: number, asHealing?: boolean) => {
     const useTargets = targets ?? targetCount;
@@ -202,21 +199,24 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
     const tickInterval = 1.5;
     const ticksPerChannel = channelDuration / tickInterval;
 
-    // ignoring armor modifier because its nature :3
-    const healingConversion = useHealing ? jadefireTeachingsTransfer * chiProficiencyHealing : 1;
+    const baseCJLDamage = calculateSpellDamage(cjl, talents, mastery);
 
     while (currentTime < totalTime) {
       for (let tick = 0; tick < ticksPerChannel && currentTime < totalTime; tick++) {
         const effectiveTargets = Math.min(useTargets, 5);
         
-        const baseDamageWithIncrease = cracklingJadeLightningDamage * (1 + jadeEmpowermentIncrease / 100) * ferocityOfXuenMulti * chiProficiencyDamage;
+        const baseDamageWithIncrease = baseCJLDamage * (1 + jadeEmpowermentIncrease / 100);
         
         let totalDamage = baseDamageWithIncrease;
         if (effectiveTargets > 1) {
-          totalDamage += baseDamageWithIncrease * jadeEmpowermentChain * (effectiveTargets - 1); // Additional targets at 25%
+          totalDamage += baseDamageWithIncrease * jadeEmpowermentChain * (effectiveTargets - 1);
         }
         
-        const damagePerTick = totalDamage / ticksPerChannel * healingConversion;
+        let damagePerTick = totalDamage / ticksPerChannel;
+        
+        if (useHealing) {
+          damagePerTick = calculateAncientTeachingsHealing(damagePerTick, talents, true, cjl);
+        }
         
         cumulativeDamage += damagePerTick;
         jadeEmpowermentData.push({ time: currentTime, damage: cumulativeDamage });
@@ -225,7 +225,7 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
     }
 
     return jadeEmpowermentData;
-  }, [targetCount, cracklingJadeLightningDamage, cjl.castTime, showAsHealing, jadefireTeachingsTransfer, ancientTeachingsArmorModifier]);
+  }, [targetCount, cjl.castTime, showAsHealing, talents, mastery, jadeEmpowermentIncrease, jadeEmpowermentChain]);
 
   useEffect(() => {
     const rotations = simulateRotations(timeSpent);
@@ -244,10 +244,6 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
 
   const handleTargetCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTargetCount(Number(e.target.value));
-  };
-
-  const handleShowAsHealingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setShowAsHealing(e.target.checked);
   };
 
   const chartOptions = {
