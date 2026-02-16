@@ -194,10 +194,11 @@ export const getWayOfTheCraneTransfer = (): number => {
 export const calculateAncientTeachingsHealing = (
     damage: number,
     talents?: TalentMap,
-    includeJadefire: boolean = true
+    includeJadefire: boolean = true,
+    sourceSpell?: spell
 ): number => {
     const transfer = getCombinedTeachingsTransfer(talents, includeJadefire);
-    const armorModifier = getAncientTeachingsArmorModifier();
+    const armorModifier = sourceSpell?.school === SCHOOLS.NATURE ? 1 : getAncientTeachingsArmorModifier();
     const healingMultiplier = getHealingMultiplier(talents);
     
     return damage * transfer * armorModifier * healingMultiplier;
