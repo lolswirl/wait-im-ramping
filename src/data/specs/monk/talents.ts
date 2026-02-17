@@ -3,7 +3,7 @@ import spell from '@data/spells/spell';
 const talents = {
     FAST_FEET: {
         name: "Fast Feet",
-        id: 107428,
+        id: 388809,
         icon: 'ability_monk_risingsunkick',
         custom: {
             risingSunKickIncrease: 0.7,

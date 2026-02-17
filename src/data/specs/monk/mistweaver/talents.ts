@@ -79,7 +79,7 @@ const talents = {
     },
     CRANE_STYLE: {
         name: "Crane Style",
-        id: 388024,
+        id: 446260,
         icon: 'ability_monk_mightyoxkick',
         custom: {
             risingSunKickGOM: 2,
@@ -121,7 +121,7 @@ const talents = {
     },
     JADE_BOND: {
         name: "Jade Bond",
-        id: 336773,
+        id: 388031,
         icon: 'inv_inscription_deck_jadeserpent',
         custom: {
             duration: 25,
