@@ -260,15 +260,6 @@ const BUGS: Bug[] = [
         status: STATUS.FIXED,
     },
     {
-        spell: SPELLS.BLESSING_OF_SEASONS,
-        affectedSpells: [],
-        severity: SEVERITY.MEDIUM,
-        title: "Blessing of Summer fails to hit large distant mobs",
-        description: "Blessing of Summer will fail to hit large mobs that are too far away, such as Dimensius in Phase 1. Seems like its range is calculated to the center of the mob?",
-        tags: [],
-        status: STATUS.FIXED,
-    },
-    {
         spell: ITEMS.NEXUS_KINGS_COMMAND,
         affectedSpells: [SPELLS.WORD_OF_GLORY, SPELLS.ETERNAL_FLAME],
         severity: SEVERITY.LOW,
