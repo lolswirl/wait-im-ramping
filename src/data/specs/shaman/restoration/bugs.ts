@@ -88,18 +88,8 @@ const BUGS: Bug[] = [
         lastBuildTested: "62493",
     },
     {
-        spell: TALENTS.TIDEWATERS,
-        affectedSpells: [SPELLS.CLOUDBURST_TOTEM],
-        severity: SEVERITY.MEDIUM,
-        title: "Does not feed Cloudburst Totem",
-        description:
-            "Tidewaters does not feed Cloudburst Totem",
-        tags: [],
-        lastBuildTested: "62493",
-    },
-    {
         spell: TALENTS.WHIRLING_ELEMENTS,
-        affectedSpells: [SPELLS.HEALING_WAVE, SPELLS.HEALING_SURGE],
+        affectedSpells: [SPELLS.HEALING_WAVE],
         severity: SEVERITY.MEDIUM,
         title: "Healing Wave/Surge modifiers don't apply to Water Mote target",
         description:
