@@ -19,12 +19,6 @@ const spells = {
         icon: "spell_holy_flashheal",
         castTime: 1.5,
     },
-    HOLY_PRISM: {
-        name: "Holy Prism",
-        id: 114165,
-        icon: "spell_paladin_holyprism",
-        castTime: 0,
-    },
     BEACON_OF_LIGHT: {
         name: "Beacon of Light",
         id: 88852,
@@ -52,7 +46,7 @@ const spells = {
     HAMMER_OF_WRATH: {
         name: "Hammer of Wrath",
         id: 24275,
-        icon: "spell_paladin_hammerofwrath",
+        icon: "inv12_ability_paladin_hammerofwrath",
         castTime: 0,
     },
     ETERNAL_FLAME: {
@@ -67,24 +61,11 @@ const spells = {
         icon: "inv_helmet_96",
         castTime: 0,
     },
-    CONSECRATION: {
-        name: "Consecration",
-        id: 26573,
-        icon: "spell_holy_innerfire",
-        castTime: 0,
-    },
     AURA_MASTERY: {
         name: "Aura Mastery",
         id: 31821,
         icon: "spell_holy_auramastery",
         castTime: 0,
-    },
-    BLESSING_OF_SEASONS: {
-        name: "Blessing of Seasons",
-        id: 395355,
-        icon: "ability_ardenweald_paladin_summer",
-        castTime: 0,
-        gcd: false,
     },
     BLESSING_OF_SACRIFICE: {
         name: "Blessing of Sacrifice",
@@ -106,6 +87,12 @@ const spells = {
         icon: "spell_holy_layonhands",
         castTime: 0,
         gcd: false,
+    },
+    HOLY_PRISM: {
+        name: "Holy Prism",
+        id: 114165,
+        icon: "spell_paladin_holyprism",
+        castTime: 0,
     },
     DIVINE_TOLL: {
         name: "Divine Toll",

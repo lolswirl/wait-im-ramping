@@ -117,7 +117,7 @@ const spells = {
     // cooldowns
     CHI_JI: {
         name: 'Chi-Ji',
-        id: 198664,
+        id: 325197,
         icon: 'inv_pet_cranegod',
         castTime: 0,
         custom: {
@@ -135,7 +135,7 @@ const spells = {
     },
     SHEILUNS_GIFT: {
         name: "Sheilun's Gift",
-        id: 205406,
+        id: 399491,
         icon: 'inv12_ability_monk_sheilunsgift',
         castTime: 2,
         school: SCHOOLS.NATURE,

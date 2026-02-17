@@ -13,6 +13,12 @@ const spells = {
         icon: "spell_nature_giftofthewaterspirit",
         castTime: 2,
     },
+    SURGING_TOTEM: {
+        name: "Surging Totem",
+        id: 444995,
+        icon: "inv_ability_totemicshaman_surgingtotem",
+        castTime: 0,
+    },
     DOWNPOUR: {
         name: "Downpour",
         id: 462486,
@@ -28,14 +34,8 @@ const spells = {
     CHAIN_HEAL: {
         name: "Chain Heal",
         id: 1064,
-        icon: "spell_nature_healingwavegreater",
+        icon: "inv_1115_shaman_chainheal",
         castTime: 2.5,
-    },
-    HEALING_SURGE: {
-        name: "Healing Surge",
-        id: 8004,
-        icon: "spell_nature_healingway",
-        castTime: 1.5,
     },
     HEALING_WAVE: {
         name: "Healing Wave",
@@ -56,22 +56,28 @@ const spells = {
         icon: "spell_shaman_unleashweapon_life",
         castTime: 0,
     },
-    WELLSPRING: {
-        name: "Wellspring",
-        id: 197995,
-        icon: "ability_shawaterelemental_split",
-        castTime: 1.5,
-    },
-    CLOUDBURST_TOTEM: {
-        name: "Cloudburst Totem",
-        id: 157153,
-        icon: "ability_shaman_condensationtotem",
+    HEALING_STREAM_TOTEM: {
+        name: "Healing Stream Totem",
+        id: 5394,
+        icon: "inv_spear_04",
         castTime: 0,
     },
     SPIRIT_LINK_TOTEM: {
         name: "Spirit Link Totem",
         id: 98008,
         icon: "spell_shaman_spiritlink",
+        castTime: 0,
+    },
+    ASCENDANCE: {
+        name: "Ascendance",
+        id: 114049,
+        icon: "spell_fire_elementaldevastation",
+        castTime: 0,
+    },
+    HEALING_TIDE_TOTEM: {
+        name: "Healing Tide Totem",
+        id: 108280,
+        icon: "ability_shaman_healingtide",
         castTime: 0,
     },
     FLAME_SHOCK: {

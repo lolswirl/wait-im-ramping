@@ -61,10 +61,10 @@ const spells = {
     icon: 'spell_holy_holysmite',
     castTime: 1.5,
   },
-  RENEW: {
-    name: 'Renew',
-    id: 139,
-    icon: 'spell_holy_renew',
+  PLEA: {
+    name: 'Plea',
+    id: 200829,
+    icon: 'spell_priest_plea_yellow',
     castTime: 0,
   },
   SHADOW_WORD_DEATH: {
@@ -78,13 +78,6 @@ const spells = {
     id: 2061,
     icon: 'spell_holy_flashheal',
     castTime: 0,
-  },
-  PREMONITION: {
-    name: 'Premonition',
-    id: 428933,
-    icon: 'inv_ability_oraclepriest_premonitioninsight',
-    castTime: 0,
-    gcd: false,
   },
   PAIN_SUPPRESSION: {
     name: 'Pain Suppression',

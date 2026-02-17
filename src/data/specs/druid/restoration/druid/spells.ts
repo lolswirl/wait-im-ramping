@@ -31,10 +31,10 @@ const spells = {
     icon: 'inv_misc_herb_felblossom',
     castTime: 0,
   },
-  CENARION_WARD: {
-    name: 'Cenarion Ward',
-    id: 102352,
-    icon: 'ability_druid_naturalperfection',
+  EFFLORESCENCE: {
+    name: 'Efflorescence',
+    id: 145205,
+    icon: 'inv_misc_herb_talandrasrose',
     castTime: 0,
   },
   NATURES_SWIFTNESS: {
@@ -44,29 +44,27 @@ const spells = {
     castTime: 0,
     gcd: false,
   },
-  FLOURISH: {
-    name: 'Flourish',
-    id: 197721,
-    icon: 'spell_druid_wildburst',
-    castTime: 0,
-  },
   TRANQUILITY: {
     name: 'Tranquility',
     id: 740,
     icon: 'spell_nature_tranquility',
     castTime: 5,
   },
+  CONVOKE_THE_SPIRITS: {
+    name: 'Convoke the Spirits',
+    id: 391528,
+    icon: 'inv_ability_druid_convokethespirits',
+    castTime: 4,
+  },
+  INCARNATION_TREE_OF_LIFE: {
+    name: 'Incarnation: Tree of Life',
+    id: 33891,
+    icon: 'ability_druid_improvedtreeform',
+  },
   IRON_BARK: {
     name: 'Iron Bark',
     id: 102342,
     icon: 'spell_druid_ironbark',
-    castTime: 0,
-    gcd: false,
-  },
-  GROVE_GUARDIAN: {
-    name: 'Grove Guardian',
-    id: 102693,
-    icon: 'ability_druid_forceofnature',
     castTime: 0,
     gcd: false,
   },
