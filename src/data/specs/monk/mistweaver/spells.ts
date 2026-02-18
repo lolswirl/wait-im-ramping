@@ -10,7 +10,7 @@ const spells = {
         castTime: 0,
         school: SCHOOLS.PHYSICAL,
         value: {
-            damage: 692
+            damage: 915
         }
     },
     BLACKOUT_KICK: {
@@ -20,7 +20,7 @@ const spells = {
         castTime: 0,
         school: SCHOOLS.PHYSICAL,
         value: {
-            damage: 1245
+            damage: 1619
         }
     },
     RISING_SUN_KICK: {
@@ -31,7 +31,7 @@ const spells = {
         cooldown: 12,
         school: SCHOOLS.PHYSICAL,
         value: {
-            damage: 1910
+            damage: 2484
         }
     },
     CRACKLING_JADE_LIGHTNING: {
@@ -41,7 +41,7 @@ const spells = {
         castTime: 3,
         school: SCHOOLS.NATURE,
         value: {
-            damage: 903
+            damage: 1173
         }
     },
     SPINNING_CRANE_KICK: {
@@ -51,7 +51,7 @@ const spells = {
         school: SCHOOLS.PHYSICAL,
         castTime: 1.5,
         value: {
-            damage: 1181
+            damage: 1687
         }
     },
 
@@ -177,7 +177,7 @@ const spells = {
         school: SCHOOLS.NATURE,
         value: {
             healing: 32394,
-            damage: 8539,
+            damage: 10110,
         },
         custom: {
             maxTargets: 5,

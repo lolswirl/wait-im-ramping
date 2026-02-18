@@ -60,7 +60,7 @@ const talents = {
         id: 467293,
         icon: 'inv_misc_book_07',
         custom: {
-            transferRate: 2.6,
+            transferRate: 2.0,
             armorModifier: 0.7, // sad
         }
     },
@@ -70,7 +70,7 @@ const talents = {
         icon: 'monk_stance_redcrane',
         custom: {
             targetsPerSCK: 3,
-            transferRate: 1.60,
+            transferRate: 1.25,
             armorModifier: 0.7,
             tigerPalmHits: 2,
             blackoutKickHits: 2,
@@ -223,7 +223,7 @@ const talents = {
         cooldown: 12,
         school: SCHOOLS.NATURE,
         value: {
-            damage: 2388,
+            damage: 3105,
             healing: 2945
         },
         custom: {
@@ -342,7 +342,7 @@ const talents = {
         school: SCHOOLS.NATURE,
         castTime: 0,
         value: {
-            damage: 5637,
+            damage: 9978,
         },
         custom: {
             enemyTargets: 5,
