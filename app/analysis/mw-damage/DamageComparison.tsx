@@ -1,53 +1,62 @@
 "use client";
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, TextField, useTheme, Card, Typography, Divider, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
+import SpellButton from "@components/SpellButtons/SpellButton";
 
-import { GCD } from "@data/spells/spell";
 import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
 import { CLASSES } from "@data/class";
-import {
-  calculateAncientTeachingsHealing,
-  calculateWayOfTheCraneHealing,
-  calculateSpellDamage,
-} from "@data/specs/monk/mistweaver/helpers";
 
 import { GetTitle } from "@util/stringManipulation";
 import WarningChip from "@components/WarningChip/WarningChip";
+import {
+  simulateMeleeRotation,
+  simulateSpinningCraneKick,
+  simulateJadeEmpowerment,
+  simulateRSKWithSCK,
+} from "./simulations";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 type DamagePoint = { time: number; damage: number };
 type DamageData = {
-  rotationDamage: DamagePoint[];
-  spinningCraneKick: DamagePoint[];
-  jadeEmpowerment: DamagePoint[];
+  melee: DamagePoint[];
+  sck: DamagePoint[];
+  rskSck: DamagePoint[];
+  je: DamagePoint[];
 };
 
-const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+type SimulationParams = {
+  talents: Map<spell, boolean>;
+  mastery: number;
+};
+
+type RotationConfig = {
+  dataKey: keyof DamageData;
+  spells: spell[];
+  color: string;
+  simulateFn: (time: number, targets: number, asHealing: boolean, params: SimulationParams) => DamagePoint[];
+};
+
+const DamageComparison: React.FC<{ title: string; description: string }> = ({ title, description }) => {
   const theme = useTheme();
   const [timeSpent, setTimeSpent] = useState(30);
   const [targetCount, setTargetCount] = useState(1);
   const [showAsHealing, setShowAsHealing] = useState(false);
   const [damageData, setDamageData] = useState<DamageData>({
-    rotationDamage: [],
-    spinningCraneKick: [],
-    jadeEmpowerment: []
+    melee: [],
+    sck: [],
+    rskSck: [],
+    je: [],
   });
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
-
-  const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
-
-  const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
-  const jadeEmpowermentIncrease = jadeEmpowerment.custom.spellpowerIncrease;
-  const jadeEmpowermentChain = jadeEmpowerment.custom.chainVal;
 
   const talents = useMemo(() => new Map<spell, boolean>([
     [TALENTS.JADEFIRE_TEACHINGS, true],
@@ -61,182 +70,20 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
 
   const mastery = useMemo(() => mistweaver.mastery / 100, [mistweaver.mastery]);
 
-  const simulateRotations = useCallback((totalTime: number, targets?: number, asHealing?: boolean) => {
-    const useTargets = targets ?? targetCount;
-    const useHealing = asHealing ?? showAsHealing;
-    
-    let currentTime = 0;
-    let risingSunKickCooldown = 0;
-    let blackoutKickCooldown = 0;
-    let totmStacks = 0;
-    let cumulativeDamage = 0;
-    const rotationDamage: { time: number; damage: number; name: string }[] = [];
-
-    const risingSunKickDamage = calculateSpellDamage(SPELLS.RISING_SUN_KICK, talents, mastery);
-    const tigerPalmDamage = calculateSpellDamage(SPELLS.TIGER_PALM, talents, mastery);
-    const blackoutKickDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, mastery);
-
-    // Convert to healing values once if needed
-    const risingSunKickValue = useHealing ? calculateAncientTeachingsHealing(risingSunKickDamage, talents, true, SPELLS.RISING_SUN_KICK) : risingSunKickDamage;
-    const tigerPalmValue = useHealing ? calculateAncientTeachingsHealing(tigerPalmDamage, talents, true, SPELLS.TIGER_PALM) : tigerPalmDamage;
-    const blackoutKickValue = useHealing ? calculateAncientTeachingsHealing(blackoutKickDamage, talents, true, SPELLS.BLACKOUT_KICK) : blackoutKickDamage;
-
-    const cleaveMultiplier = Math.min(useTargets, 3);
-
-    // initial rotation
-    cumulativeDamage += risingSunKickValue;
-    rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "rsk" });
-
-    currentTime += GCD;
-
-    for (let i = 1; i <= 2; i++) {
-      cumulativeDamage += tigerPalmValue;
-      totmStacks += 2;
-      rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: `tp ${i}` });
-      currentTime += GCD;
-    }
-
-    if (blackoutKickCooldown <= 0) {
-      const bokHits = (1 + totmStacks) * cleaveMultiplier;
-      totmStacks = 0;
-      let bokResetRsk = false;
-      cumulativeDamage += blackoutKickValue * bokHits;
-
-      for (let i = 0; i < bokHits; i++) {
-        if (Math.random() < 0.15) bokResetRsk = true;
-      }
-
-      rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "bok" });
-      currentTime += GCD;
-      blackoutKickCooldown = 1.5;
-
-      if (bokResetRsk) risingSunKickCooldown = 0;
-    }
-
-    if (risingSunKickCooldown > 0) risingSunKickCooldown -= 1.5;
-    blackoutKickCooldown -= 1.5;
-
-    // loop rotation
-    while (currentTime < totalTime) {
-      if (risingSunKickCooldown <= 0) {
-        cumulativeDamage += risingSunKickValue;
-        rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "rsk" });
-        currentTime += 1.5;
-        risingSunKickCooldown = 12;
-      }
-      if (currentTime >= totalTime) break;
-
-      for (let i = 1; i <= 2; i++) {
-        cumulativeDamage += tigerPalmValue;
-        totmStacks += 2;
-        rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: `tp${i}` });
-        currentTime += GCD;
-        if (currentTime >= totalTime) break;
-      }
-      if (currentTime >= totalTime) break;
-
-      if (blackoutKickCooldown <= 0) {
-        const bokHits = (1 + totmStacks) * cleaveMultiplier;
-        totmStacks = 0;
-        let bokResetRsk = false;
-        cumulativeDamage += blackoutKickValue * bokHits;
-
-        for (let i = 0; i < bokHits; i++) {
-          if (Math.random() < 0.15) bokResetRsk = true;
-        }
-
-        rotationDamage.push({ time: currentTime, damage: cumulativeDamage, name: "bok" });
-        currentTime += GCD;
-        blackoutKickCooldown = 1.5;
-
-        if (bokResetRsk) risingSunKickCooldown = 0;
-      }
-
-      if (risingSunKickCooldown > 0) risingSunKickCooldown -= 1.5;
-      blackoutKickCooldown -= 1.5;
-    }
-
-    return rotationDamage;
-  }, [targetCount, showAsHealing, talents, mastery]);
-
-  const simulateSpinningCraneKick = useCallback((totalTime: number, targets?: number, asHealing?: boolean) => {
-    const useTargets = targets ?? targetCount;
-    const useHealing = asHealing ?? showAsHealing;
-    
-    let currentTime = 0;
-    let cumulativeDamage = 0;
-    const craneKickDamage: DamagePoint[] = [];
-
-    const craneKickDamageValue = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, mastery);
-
-    while (currentTime < totalTime) {
-      let rawDamage =
-        useTargets <= 5
-          ? craneKickDamageValue * useTargets
-          : craneKickDamageValue * useTargets * Math.sqrt(5 / useTargets);
-      
-      if (useHealing) {
-        rawDamage = calculateWayOfTheCraneHealing(rawDamage, talents);
-      }
-      
-      cumulativeDamage += rawDamage;
-      craneKickDamage.push({ time: currentTime, damage: cumulativeDamage });
-      currentTime += 1.5;
-    }
-
-    return craneKickDamage;
-  }, [targetCount, showAsHealing, talents, mastery]);
-
-  const simulateJadeEmpowerment = useCallback((totalTime: number, targets?: number, asHealing?: boolean) => {
-    const useTargets = targets ?? targetCount;
-    const useHealing = asHealing ?? showAsHealing;
-    
-    let currentTime = 0;
-    let cumulativeDamage = 0;
-    const jadeEmpowermentData: DamagePoint[] = [];
-
-    const channelDuration = cjl.castTime;
-    const tickInterval = 1.5;
-    const ticksPerChannel = channelDuration / tickInterval;
-
-    const baseCJLDamage = calculateSpellDamage(cjl, talents, mastery);
-
-    while (currentTime < totalTime) {
-      for (let tick = 0; tick < ticksPerChannel && currentTime < totalTime; tick++) {
-        const effectiveTargets = Math.min(useTargets, 5);
-        
-        const baseDamageWithIncrease = baseCJLDamage * (1 + jadeEmpowermentIncrease / 100);
-        
-        let totalDamage = baseDamageWithIncrease;
-        if (effectiveTargets > 1) {
-          totalDamage += baseDamageWithIncrease * jadeEmpowermentChain * (effectiveTargets - 1);
-        }
-        
-        let damagePerTick = totalDamage / ticksPerChannel;
-        
-        if (useHealing) {
-          damagePerTick = calculateAncientTeachingsHealing(damagePerTick, talents, true, cjl);
-        }
-        
-        cumulativeDamage += damagePerTick;
-        jadeEmpowermentData.push({ time: currentTime, damage: cumulativeDamage });
-        currentTime += tickInterval;
-      }
-    }
-
-    return jadeEmpowermentData;
-  }, [targetCount, cjl.castTime, showAsHealing, talents, mastery, jadeEmpowermentIncrease, jadeEmpowermentChain]);
+  const simulationParams = useMemo(() => ({ talents, mastery }), [talents, mastery]);
 
   useEffect(() => {
-    const rotations = simulateRotations(timeSpent);
-    const spinningCraneKickData = simulateSpinningCraneKick(timeSpent);
-    const jadeEmpowermentData = simulateJadeEmpowerment(timeSpent);
+    const rotations = simulateMeleeRotation(timeSpent, targetCount, showAsHealing, simulationParams);
+    const spinningCraneKickData = simulateSpinningCraneKick(timeSpent, targetCount, showAsHealing, simulationParams);
+    const jadeEmpowermentData = simulateJadeEmpowerment(timeSpent, targetCount, showAsHealing, simulationParams);
+    const rskWithSckData = simulateRSKWithSCK(timeSpent, targetCount, showAsHealing, simulationParams);
     setDamageData({
-      rotationDamage: rotations,
-      spinningCraneKick: spinningCraneKickData,
-      jadeEmpowerment: jadeEmpowermentData,
+      melee: rotations,
+      sck: spinningCraneKickData,
+      rskSck: rskWithSckData,
+      je: jadeEmpowermentData,
     });
-  }, [timeSpent, targetCount, simulateRotations, simulateSpinningCraneKick, simulateJadeEmpowerment]);
+  }, [timeSpent, targetCount, showAsHealing, simulationParams]);
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTimeSpent(Number(e.target.value));
@@ -271,55 +118,226 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
 
   console.log(damageData);
 
-  const rotationAverage = damageData.rotationDamage.length > 0 
-    ? damageData.rotationDamage[damageData.rotationDamage.length - 1].damage / timeSpent 
+  const rotationAverage = damageData.melee.length > 0 
+    ? damageData.melee[damageData.melee.length - 1].damage / timeSpent 
     : 0;
-  const sckAverage = damageData.spinningCraneKick.length > 0 
-    ? damageData.spinningCraneKick[damageData.spinningCraneKick.length - 1].damage / timeSpent 
+  const sckAverage = damageData.sck.length > 0 
+    ? damageData.sck[damageData.sck.length - 1].damage / timeSpent 
     : 0;
-  const jeAverage = damageData.jadeEmpowerment.length > 0 
-    ? damageData.jadeEmpowerment[damageData.jadeEmpowerment.length - 1].damage / timeSpent 
+  const jeAverage = damageData.je.length > 0 
+    ? damageData.je[damageData.je.length - 1].damage / timeSpent 
     : 0;
+  const rskSckAverage = damageData.rskSck.length > 0 
+    ? damageData.rskSck[damageData.rskSck.length - 1].damage / timeSpent 
+    : 0;
+
+  const getLabel = (dataKey: keyof DamageData): string => {
+    const labelMap: Record<keyof DamageData, string> = {
+      melee: 'Melee',
+      sck: 'SCK',
+      rskSck: 'RSK+SCK',
+      je: 'JE',
+    };
+    return labelMap[dataKey];
+  };
+
+  const ROTATION_CONFIGS: RotationConfig[] = useMemo(() => [
+    {
+      dataKey: 'melee',
+      spells: [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, SPELLS.RISING_SUN_KICK],
+      color: 'rgba(255, 99, 132, 1)',
+      simulateFn: simulateMeleeRotation,
+    },
+    {
+      dataKey: 'sck',
+      spells: [SPELLS.SPINNING_CRANE_KICK],
+      color: 'rgba(42, 141, 31, 1)',
+      simulateFn: simulateSpinningCraneKick,
+    },
+    {
+      dataKey: 'rskSck',
+      spells: [SPELLS.RISING_SUN_KICK, SPELLS.SPINNING_CRANE_KICK],
+      color: 'rgba(153, 102, 255, 1)',
+      simulateFn: simulateRSKWithSCK,
+    },
+    {
+      dataKey: 'je',
+      spells: [TALENTS.JADE_EMPOWERMENT],
+      color: 'rgba(75, 192, 192, 1)',
+      simulateFn: simulateJadeEmpowerment,
+    },
+  ], []);
+
+  // convert color alpha to 0.2
+  const getBackgroundColor = (color: string) => color.replace(/, 1\)$/, ', 0.2)');
+
+  const renderComparisonCell = (value: string, key: string) => (
+    <TableCell key={key} align="center" sx={{ border: 0, py: 1, px: 1 }}>
+      <Typography 
+        variant="body2"
+        sx={{ 
+          color: parseFloat(value) > 0 ? '#4ade80' : '#ef4444',
+          fontWeight: 600
+        }}
+      >
+        {value}%
+      </Typography>
+    </TableCell>
+  );
+
+  const renderValuesTable = (type: 'DPS' | 'HPS', asHealing: boolean) => (
+    <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, boxShadow: 6, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
+      <Box sx={{ px: 2, pt: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' }}>
+        <Typography variant="body2" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
+          {GetTitle(`${type} Values (500 seconds)`)}
+        </Typography>
+      </Box>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1rem', border: 0, py: 1, px: 1 }}>{GetTitle("Targets")}</TableCell>
+            {ROTATION_CONFIGS.map(config => (
+              <TableCell key={config.dataKey} align="center" sx={{ border: 0, py: 1, px: 1 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    {config.spells.map((spell, idx) => (
+                      <SpellButton key={`${config.dataKey}-spell-${idx}`} selectedSpell={spell} size={28} />
+                    ))}
+                  </Box>
+                  <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: '0.7rem' }}>
+                    {GetTitle(getLabel(config.dataKey))}
+                  </Typography>
+                </Box>
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((targets) => {
+            const time = 500;
+            const rotationValues = ROTATION_CONFIGS.map(config => {
+              const data = config.simulateFn(time, targets, asHealing, simulationParams);
+              return data.length > 0 ? data[data.length - 1].damage / time : 0;
+            });
+            
+            return (
+              <TableRow key={targets} hover sx={{ 
+                cursor: 'pointer',
+                transition: 'box-shadow 0.2s',
+                '&:hover': {
+                  boxShadow: 4,
+                  backgroundColor: 'action.hover',
+                },
+              }}>
+                <TableCell align="center" sx={{ border: 0, py: 1, px: 1 }}>
+                  <Typography variant="body2">{targets}</Typography>
+                </TableCell>
+                {rotationValues.map((value, idx) => (
+                  <TableCell key={ROTATION_CONFIGS[idx].dataKey} align="center" sx={{ border: 0, py: 1, px: 1 }}>
+                    <Typography variant="body2" sx={{ color: ROTATION_CONFIGS[idx].color }}>{value.toFixed(2)}</Typography>
+                  </TableCell>
+                ))}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+
+  const renderComparisonTable = (type: 'DPS' | 'HPS', asHealing: boolean) => (
+    <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, boxShadow: 6, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
+      <Box sx={{ px: 2, pt: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' }}>
+        <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
+          {GetTitle(`${type} Comparisons (% Difference)`)}
+        </Typography>
+      </Box>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1rem', border: 0, py: 1, px: 1 }}>{GetTitle("Targets")}</TableCell>
+            {ROTATION_CONFIGS.map((config1, i) => 
+              ROTATION_CONFIGS.slice(i + 1).map(config2 => (
+                <TableCell key={`${config1.dataKey}-vs-${config2.dataKey}`} align="center" sx={{ border: 0, py: 1, px: 1 }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      {config1.spells.map((spell, idx) => (
+                        <SpellButton key={`${config1.dataKey}-spell1-${idx}`} selectedSpell={spell} size={20} />
+                      ))}
+                      <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>vs</Typography>
+                      {config2.spells.map((spell, idx) => (
+                        <SpellButton key={`${config2.dataKey}-spell2-${idx}`} selectedSpell={spell} size={20} />
+                      ))}
+                    </Box>
+                    <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>
+                      {GetTitle(`${getLabel(config1.dataKey)} vs ${getLabel(config2.dataKey)}`)}
+                    </Typography>
+                  </Box>
+                </TableCell>
+              ))
+            )}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((targets) => {
+            const time = 500;
+            const rotationValues = ROTATION_CONFIGS.map(config => {
+              const data = config.simulateFn(time, targets, asHealing, simulationParams);
+              return data.length > 0 ? data[data.length - 1].damage / time : 0;
+            });
+            
+            return (
+              <TableRow key={targets} hover sx={{ 
+                cursor: 'pointer',
+                transition: 'box-shadow 0.2s',
+                '&:hover': {
+                  boxShadow: 4,
+                  backgroundColor: 'action.hover',
+                },
+              }}>
+                <TableCell align="center" sx={{ border: 0, py: 1, px: 1 }}>
+                  <Typography variant="body2">{targets}</Typography>
+                </TableCell>
+                {ROTATION_CONFIGS.map((config1, i) => 
+                  ROTATION_CONFIGS.slice(i + 1).map((config2, j) => {
+                    const value1 = rotationValues[i];
+                    const value2 = rotationValues[i + j + 1];
+                    const comparison = ((value1 - value2) / value2 * 100).toFixed(2);
+                    return renderComparisonCell(comparison, `${type.toLowerCase()}-${targets}-${config1.dataKey}-vs-${config2.dataKey}`);
+                  })
+                )}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 
   const chartData = {
     labels: [
       ...new Set([
-        ...damageData.rotationDamage.map(item => item.time),
-        ...damageData.spinningCraneKick.map(item => item.time),
-        ...damageData.jadeEmpowerment.map(item => item.time),
+        ...damageData.melee.map(item => item.time),
+        ...damageData.sck.map(item => item.time),
+        ...damageData.rskSck.map(item => item.time),
+        ...damageData.je.map(item => item.time),
       ])
     ],
-    datasets: [
-      {
-        label: GetTitle("Tiger Palm, Blackout Kick, Rising Sun Kick"),
-        data: damageData.rotationDamage.map(item => item.damage),
-        borderColor: "rgba(255, 99, 132, 1)",
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        fill: false,
-      },
-      {
-        label: GetTitle("Spinning Crane Kick"),
-        data: damageData.spinningCraneKick.map(item => item.damage),
-        borderColor: "rgba(42, 141, 31, 1)",
-        backgroundColor: "rgba(42, 141, 31, 0.2)",
-        fill: false,
-      },
-      {
-        label: GetTitle("Jade Empowerment (Crackling Jade Lightning)"),
-        data: damageData.jadeEmpowerment.map(item => item.damage),
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        fill: false,
-      }
-    ]
+    datasets: ROTATION_CONFIGS.map(config => ({
+      label: GetTitle(config.spells.map(s => s.name).join(', ')),
+      data: damageData[config.dataKey].map(item => item.damage),
+      borderColor: config.color,
+      backgroundColor: getBackgroundColor(config.color),
+      fill: false,
+    }))
   };
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
       <PageHeader
-          title={title}
-          subtitle={description}
-        />
+        title={title}
+        subtitle={description}
+      />
       
       <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
@@ -402,7 +420,7 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
               borderColor: 'rgba(255, 99, 132, 0.3)'
             }}>
               <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-                {GetTitle("Tiger Palm, Blackout Kick, Rising Sun Kick")}
+                {GetTitle(`${SPELLS.TIGER_PALM.name}, ${SPELLS.BLACKOUT_KICK.name}, ${SPELLS.RISING_SUN_KICK.name}`) }
               </Typography>
               <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'rgba(255, 99, 132, 1)' }}>
                 {rotationAverage.toFixed(2)} {GetTitle(showAsHealing ? "HPS" : "DPS")}
@@ -415,7 +433,7 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
               borderColor: 'rgba(42, 141, 31, 0.3)'
             }}>
               <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-                {GetTitle("Spinning Crane Kick")}
+                {GetTitle(SPELLS.SPINNING_CRANE_KICK.name)}
               </Typography>
               <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'rgba(42, 141, 31, 1)' }}>
                 {sckAverage.toFixed(2)} {GetTitle(showAsHealing ? "HPS" : "DPS")}
@@ -428,12 +446,25 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
               borderColor: 'rgba(75, 192, 192, 0.3)'
             }}>
               <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-                {GetTitle("Jade Empowerment")}
+                {GetTitle(TALENTS.JADE_EMPOWERMENT.name)}
               </Typography>
               <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'rgba(75, 192, 192, 1)' }}>
                 {jeAverage.toFixed(2)} {GetTitle(showAsHealing ? "HPS" : "DPS")}
               </Typography>
             </Card>
+            
+            <Card variant="outlined" sx={{ 
+              p: 1.5, 
+              background: `linear-gradient(135deg, rgba(153, 102, 255, 0.1), rgba(153, 102, 255, 0.05))`, 
+              borderColor: 'rgba(153, 102, 255, 0.3)'
+            }}>
+              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
+                {GetTitle(`${SPELLS.RISING_SUN_KICK.name} + ${SPELLS.SPINNING_CRANE_KICK.name}`)}
+              </Typography>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'rgba(153, 102, 255, 1)' }}>
+                {rskSckAverage.toFixed(2)} {GetTitle(showAsHealing ? "HPS" : "DPS")}
+              </Typography>
+            </Card> 
           </Box>
         </Box>
       </Card>
@@ -443,154 +474,13 @@ const STVsSpinning: React.FC<{ title: string; description: string }> = ({ title,
       </Box>
 
       <Box sx={{ width: "100%", maxWidth: 1000, mt: 2, display: 'flex', flexDirection: 'column', gap: 3 }}>
-          {/* dps */}
-          <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, boxShadow: 6, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
-            <Box sx={{ px: 2, pt: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' }}>
-              <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
-                {GetTitle("DPS (500 seconds)")}
-              </Typography>
-            </Box>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', border: 0, py: 1, px: 1 }}>{GetTitle("Targets")}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', color: 'rgba(255, 99, 132, 1)', border: 0, py: 1, px: 1 }}>{GetTitle("Melee")}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', color: 'rgba(42, 141, 31, 1)', border: 0, py: 1, px: 1 }}>{GetTitle("SCK")}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', color: 'rgba(75, 192, 192, 1)', border: 0, py: 1, px: 1 }}>{GetTitle("JE")}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', border: 0, py: 1, px: 1 }}>{GetTitle("Melee vs SCK")}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', border: 0, py: 1, px: 1 }}>{GetTitle("Melee vs JE")}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', border: 0, py: 1, px: 1 }}>{GetTitle("SCK vs JE")}</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((targets, index) => {
-                  const time = 500;
-                  
-                  const meleeRotations = simulateRotations(time, targets, false);
-                  const meleeDPS = meleeRotations.length > 0 ? meleeRotations[meleeRotations.length - 1].damage / time : 0;
-                  
-                  const sckData = simulateSpinningCraneKick(time, targets, false);
-                  const sckDPS = sckData.length > 0 ? sckData[sckData.length - 1].damage / time : 0;
-                  
-                  const jeData = simulateJadeEmpowerment(time, targets, false);
-                  const jeDPS = jeData.length > 0 ? jeData[jeData.length - 1].damage / time : 0;
-                  
-                  const meleeVsSck = ((meleeDPS - sckDPS) / sckDPS * 100).toFixed(2);
-                  const meleeVsJe = ((meleeDPS - jeDPS) / jeDPS * 100).toFixed(2);
-                  const sckVsJe = ((sckDPS - jeDPS) / jeDPS * 100).toFixed(2);
-                  
-                  return (
-                    <TableRow key={targets} hover sx={{ 
-                      cursor: 'pointer',
-                      transition: 'box-shadow 0.2s',
-                      '&:hover': {
-                        boxShadow: 4,
-                        backgroundColor: 'action.hover',
-                      },
-                    }}>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2">{targets}</Typography>
-                      </TableCell>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(255, 99, 132, 1)' }}>{meleeDPS.toFixed(2)}</Typography>
-                      </TableCell>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(42, 141, 31, 1)' }}>{sckDPS.toFixed(2)}</Typography>
-                      </TableCell>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(75, 192, 192, 1)' }}>{jeDPS.toFixed(2)}</Typography>
-                      </TableCell>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2" sx={{ color: parseFloat(meleeVsSck) > 0 ? '#4ade80' : '#ef4444', fontWeight: 600 }}>{meleeVsSck}%</Typography>
-                      </TableCell>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2" sx={{ color: parseFloat(meleeVsJe) > 0 ? '#4ade80' : '#ef4444', fontWeight: 600 }}>{meleeVsJe}%</Typography>
-                      </TableCell>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2" sx={{ color: parseFloat(sckVsJe) > 0 ? '#4ade80' : '#ef4444', fontWeight: 600 }}>{sckVsJe}%</Typography>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          {/* hps */}
-          <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, boxShadow: 6, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
-            <Box sx={{ px: 2, pt: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' }}>
-              <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
-                {GetTitle("HPS (500 seconds)")}
-              </Typography>
-            </Box>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', border: 0, py: 1., px: 1 }}>{GetTitle("Targets")}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', color: 'rgba(255, 99, 132, 1)', border: 0, py: 1, px: 1 }}>{GetTitle("Melee")}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', color: 'rgba(42, 141, 31, 1)', border: 0, py: 1, px: 1 }}>{GetTitle("SCK")}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', color: 'rgba(75, 192, 192, 1)', border: 0, py: 1, px: 1 }}>{GetTitle("JE")}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', border: 0, py: 1, px: 1 }}>{GetTitle("Melee vs SCK")}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', border: 0, py: 1, px: 1 }}>{GetTitle("Melee vs JE")}</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem', border: 0, py: 1, px: 1 }}>{GetTitle("SCK vs JE")}</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((targets, index) => {
-                  const time = 500;
-                  
-                  const meleeRotations = simulateRotations(time, targets, true);
-                  const meleeHPS = meleeRotations.length > 0 ? meleeRotations[meleeRotations.length - 1].damage / time : 0;
-                  
-                  const sckData = simulateSpinningCraneKick(time, targets, true);
-                  const sckHPS = sckData.length > 0 ? sckData[sckData.length - 1].damage / time : 0;
-                  
-                  const jeData = simulateJadeEmpowerment(time, targets, true);
-                  const jeHPS = jeData.length > 0 ? jeData[jeData.length - 1].damage / time : 0;
-                  
-                  const meleeVsSck = ((meleeHPS - sckHPS) / sckHPS * 100).toFixed(2);
-                  const meleeVsJe = ((meleeHPS - jeHPS) / jeHPS * 100).toFixed(2);
-                  const sckVsJe = ((sckHPS - jeHPS) / jeHPS * 100).toFixed(2);
-                  
-                  return (
-                    <TableRow key={targets} hover sx={{ 
-                      cursor: 'pointer',
-                      transition: 'box-shadow 0.2s',
-                      '&:hover': {
-                        boxShadow: 4,
-                        backgroundColor: 'action.hover',
-                      },
-                    }}>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2">{targets}</Typography>
-                      </TableCell>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(255, 99, 132, 1)' }}>{meleeHPS.toFixed(2)}</Typography>
-                      </TableCell>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(42, 141, 31, 1)' }}>{sckHPS.toFixed(2)}</Typography>
-                      </TableCell>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(75, 192, 192, 1)' }}>{jeHPS.toFixed(2)}</Typography>
-                      </TableCell>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2" sx={{ color: parseFloat(meleeVsSck) > 0 ? '#4ade80' : '#ef4444', fontWeight: 600 }}>{meleeVsSck}%</Typography>
-                      </TableCell>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2" sx={{ color: parseFloat(meleeVsJe) > 0 ? '#4ade80' : '#ef4444', fontWeight: 600 }}>{meleeVsJe}%</Typography>
-                      </TableCell>
-                      <TableCell align="right" sx={{ border: 0, py: 1, px: 1 }}>
-                        <Typography variant="body2" sx={{ color: parseFloat(sckVsJe) > 0 ? '#4ade80' : '#ef4444', fontWeight: 600 }}>{sckVsJe}%</Typography>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          {renderValuesTable('DPS', false)}
+          {renderComparisonTable('DPS', false)}
+          {renderValuesTable('HPS', true)}
+          {renderComparisonTable('HPS', true)}
       </Box>
     </Container>
   );
 };
 
-export default STVsSpinning;
+export default DamageComparison;
