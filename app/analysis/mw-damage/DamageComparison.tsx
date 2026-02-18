@@ -57,18 +57,20 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   });
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
+  const mwMastery = mistweaver.mastery;
 
   const talents = useMemo(() => new Map<spell, boolean>([
     [TALENTS.JADEFIRE_TEACHINGS, true],
-    [TALENTS.YULONS_KNOWLEDGE, true],
-    [TALENTS.SPIRITFONT, true],
+    [TALENTS.YULONS_KNOWLEDGE, true], // just gonna assume this one since its in keys
+    [TALENTS.SPIRITFONT, true], // also assuming this one since apex is "practically required"
+    [TALENTS.MORNING_BREEZE, false], // including this for testing later
     [SHARED.FAST_FEET, true],
     [SHARED.FEROCITY_OF_XUEN, true],
     [SHARED.CHI_PROFICIENCY, true],
     [SHARED.MARTIAL_INSTINCTS, true],
   ]), []);
 
-  const mastery = useMemo(() => mistweaver.mastery / 100, [mistweaver.mastery]);
+  const mastery = useMemo(() => mwMastery / 100, [mwMastery]);
 
   const simulationParams = useMemo(() => ({ talents, mastery }), [talents, mastery]);
 
