@@ -620,6 +620,7 @@ const BUGS: Bug[] = [
         lastBuildTested: "65899",
         notes: "Ancient/Jadefire Teachings was nerfed by ~20% to account for the damage buff.\n" +
         "2/17/2026 note: hotfixed in 65899 with the 1%-per-level scaling aura and all healers got their dmg auras set to 0, so I'm assuming this is now fixed in general.",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.WAY_OF_THE_SERPENT,
