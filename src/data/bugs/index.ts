@@ -6,6 +6,7 @@ export enum SEVERITY {
     HIGH = "High",
     MEDIUM = "Medium",
     LOW = "Low",
+    TRIVIAL = "Trivial",
 }
 
 export const SEVERITY_ORDER = [SEVERITY.CRITICAL, SEVERITY.HIGH, SEVERITY.MEDIUM, SEVERITY.LOW] as const;
@@ -15,6 +16,7 @@ export const SEVERITY_COLORS: Record<SEVERITY, string> = {
     [SEVERITY.HIGH]: "#f57c00",
     [SEVERITY.MEDIUM]: "#fbc02d",
     [SEVERITY.LOW]: "#388e3c",
+    [SEVERITY.TRIVIAL]: "#808080",
 };
 
 export enum STATUS {
