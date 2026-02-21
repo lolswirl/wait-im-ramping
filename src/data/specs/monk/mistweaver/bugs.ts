@@ -803,7 +803,15 @@ const BUGS: Bug[] = [
         title: "Does not function at all",
         description: "Vivify and Sheilun's Gift do not increase their healing by 60% on the player, unlike the passive ability states",
         notes: "Worked in previous builds, but is not working as of at least 66044.",
+    },
+    {
+        spell: TALENTS.COURAGE_OF_THE_WHITE_TIGER,
+        severity: SEVERITY.MEDIUM,
+        lastBuildTested: "66044",
+        title: "Invoke buff does not work with Sheilun's Gift",
+        description: "Invoking Chi-Ji/Yu'lon hands a Courage of the White Tiger buff that only works for Vivify and Tiger Palm, unlike the talent description that states it should work for Sheilun's Gift as well. It does work for Vivify and Tiger Palm, just not Sheilun's Gift.",
     }
+
 ];
 
 export default BUGS;
