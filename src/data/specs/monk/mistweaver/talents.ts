@@ -372,6 +372,11 @@ const talents = {
             maxIncrease: 300,
         }
     },
+    SERENE_VITALITY: {
+        name: "Serene Vitality",
+        id: 1242468,
+        icon: 'ability_monk_expelharm',
+    },
 
     // hero talents
     // master of harmony
