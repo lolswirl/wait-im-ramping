@@ -806,7 +806,7 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.COURAGE_OF_THE_WHITE_TIGER,
-        severity: SEVERITY.MEDIUM,
+        severity: SEVERITY.LOW,
         lastBuildTested: "66044",
         title: "Invoke buff does not work with Sheilun's Gift",
         description: "Invoking Chi-Ji/Yu'lon hands a Courage of the White Tiger buff that only works for Vivify and Tiger Palm, unlike the talent description that states it should work for Sheilun's Gift as well. It does work for Vivify and Tiger Palm, just not Sheilun's Gift.",
