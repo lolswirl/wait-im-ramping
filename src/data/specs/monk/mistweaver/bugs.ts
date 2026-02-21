@@ -445,7 +445,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.MORNING_BREEZE,
         affectedSpells: [TALENTS.RUSHING_WIND_KICK, SPELLS.RISING_SUN_KICK],
-        severity: SEVERITY.LOW,
+        severity: SEVERITY.TRIVIAL,
         title: "Bonus not reflected in Rising Sun Kick/Rushing Wind Kick tooltips",
         description: "Morning Breeze is not reflected in the RWK/RSK tooltips",
         lastBuildTested: "65848",
@@ -634,7 +634,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.WAY_OF_THE_SERPENT,
         affectedSpells: [SPELLS.SOOTHING_MIST],
-        severity: SEVERITY.LOW,
+        severity: SEVERITY.TRIVIAL,
         title: "Personal tooltip shows 0% movement speed reduction",
         description: "Personal tooltip shows 0% movement speed reduction while inside of a Soothing Mist channel",
         lastBuildTested: "65848",
@@ -652,7 +652,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.HARMONIC_SURGE,
         affectedSpells: [SPELLS.SHEILUNS_GIFT],
-        severity: SEVERITY.LOW,
+        severity: SEVERITY.TRIVIAL,
         title: "Buff and talent tooltip still reference Vivify if talented into Sheilun's Gift",
         description: "Harmonic Surge tooltip references Vivify, even if Sheilun's Gift is talented. Functionally works correctly",
         lastBuildTested: "65848",
@@ -810,6 +810,14 @@ const BUGS: Bug[] = [
         lastBuildTested: "66044",
         title: "Invoke buff does not work with Sheilun's Gift",
         description: "Invoking Chi-Ji/Yu'lon hands a Courage of the White Tiger buff that only works for Vivify and Tiger Palm, unlike the talent description that states it should work for Sheilun's Gift as well. It does work for Vivify and Tiger Palm, just not Sheilun's Gift.",
+    },
+    {
+        spell: TALENTS.STRENGTH_OF_THE_BLACK_OX,
+        severity: SEVERITY.TRIVIAL,
+        lastBuildTested: "66044",
+        title: "Tooltip says 0% of max hp when it was changed to sp% based",
+        description: "Tooltip on the buff of Strength of the Black Ox still says it absorbs for 0% of max hp, but it was changed to be based on spell power instead. Functionally works as intended, just tooltip is wrong.",
+        tags: [TAGS.TOOLTIP],
     }
 
 ];
