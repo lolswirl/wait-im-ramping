@@ -13,7 +13,7 @@ const BUGS: Bug[] = [
         title: "Versatility double dips with Ancient Teachings",
         description: "Versatility gains from several sources (Secret Infusion, Inner Compass, Mark of the Wild, etc) double dips on Ancient Teachings - it increases the damage you deal which converts into Ancient Teachings healing, then that is increased by the extra Versatility % increase",
         tags: [TAGS.VERS],
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         notes: "https://www.warcraftlogs.com/reports/tvxZXBYQfmKpVdRF?fight=3&type=summary&source=11&start=511586&end=527359&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%7C388500%7C388024"
     },
     {
@@ -65,7 +65,7 @@ const BUGS: Bug[] = [
         title: "Jade Serpent Statue healing doesn't apply Aspect of Harmony",
         description:
             "Jade Serpent Statue Soothing Mist healing does not apply aspect of harmony",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
     },
     {
         spell: TALENTS.ASPECT_OF_HARMONY,
@@ -74,7 +74,7 @@ const BUGS: Bug[] = [
         title: "Jade Serpent Statue Soothing Mist doesn't contribute vitality",
         description:
             "Jade Serpent Statue's Soothing mist does not contribute vitality",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM,
@@ -84,7 +84,7 @@ const BUGS: Bug[] = [
         description:
             "With Rapid Diffusion Talented, Rising Sun Kick adds and removes several buff stacks in succession then consumed immediately and a Nature gets applied, consumed, and reapplied",
         tags: [TAGS.MOH],
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         notes: "https://www.warcraftlogs.com/reports/RrQHWx6VkNFJAT1a?fight=1&type=summary&source=11&start=21771&end=24771&view=events"
     },
     {
@@ -95,8 +95,8 @@ const BUGS: Bug[] = [
         description:
             "Misty Peaks Procs consume Physical and add a stack of Nature",
         tags: [TAGS.MOH],
-        lastBuildTested: "65701",
-        status: STATUS.FIXED,
+        lastBuildTested: "66066",
+        notes: "Tested in 65701, fixed. Broken in 66066.",
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM,
@@ -106,7 +106,7 @@ const BUGS: Bug[] = [
         description:
             "Hard Cast Enveloping Mist with Rapid diffusion procs 3 stacks of Nature. This is from Envelop apply and then the Rapid Diffusion Rem having travel time",
         tags: [TAGS.MOH],
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         notes: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=24&type=summary&source=6&view=events&start=3323214&end=3327078"
     },
     {
@@ -230,7 +230,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Increases SCK damage by 10%",
         description: "Temple Training increases the damage of spinning crane kick by 10%",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         notes: "Likely a side effect of the windwalker version of the talent",
         tags: [TAGS.CONDUIT],
     },
@@ -270,7 +270,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Has no variance",
         description: "Sheilun's Gift has no variance of +-5%",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         notes: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=3&view=events&source=6&type=healing&pins=2%24Separate%24%23244F4B%24any%7Chealing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24399497%7C399510%7C399491",
     },
     {
@@ -338,7 +338,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Doesn't increase Rapid Diffusion Renewing Mists by +2s",
         description: "Does not increase the duration of Rapid Diffusion Renewing Mists by +2s",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
     },
     {
         spell: SPELLS.CELESTIAL_CONDUIT,
@@ -448,7 +448,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.TRIVIAL,
         title: "Bonus not reflected in Rising Sun Kick/Rushing Wind Kick tooltips",
         description: "Morning Breeze is not reflected in the RWK/RSK tooltips",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -457,7 +457,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Tooltip drastically lower than actual",
         description: "In game tooltip for Jadefire Stomp is drastically lower than the actual damage dealt",
-        lastBuildTested: "65848",
+        lastBuildTested: "",
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -485,7 +485,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Healing not buffed to 50% of Soothing Mist when SooM was buffed",
         description: "Jade Serpent Statue's healing has historically been 50% of Soothing Mist, but it has not recieved the same buff that soothing mist did at the start of alpha (jss duration was increased but total spellpower remained the same, sooms duration and total sp were increased) so it is only 33% of soothing mist now",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         notes: "This combined with it not interacting with spiritfont leaves the talent doing barely 1% hps WITH unison talented and makes it effectively an elusive mist applier",
     },
     {
@@ -531,7 +531,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Damage is not transferring to healing through Ancient Teachings",
         description: "Jadefire Stomp damage is not transferring to healing through ancient teachings. When it worked in 65448, transferred at a lower rate than advertised: 150% with Jadefire Teachings, 18% with Ancient Teachings, ~55% with AT + Meditative Focus, 186% with JFT + AT + Meditative Focus",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         notes: "Fixed in 65448, reverted in 65617. https://www.warcraftlogs.com/reports/hL6Rw13bzBdxyXrH?fight=5&type=damage-done&source=3&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388024|388025",
     },
     {
@@ -637,7 +637,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.TRIVIAL,
         title: "Personal tooltip shows 0% movement speed reduction",
         description: "Personal tooltip shows 0% movement speed reduction while inside of a Soothing Mist channel",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -646,7 +646,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Personal tooltip shows 0% damage reduction",
         description: "Personal tooltip shows 0% damage reduction when casting Soothing Mist on another target while having Elusive Mists talented",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -655,7 +655,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.TRIVIAL,
         title: "Buff and talent tooltip still reference Vivify if talented into Sheilun's Gift",
         description: "Harmonic Surge tooltip references Vivify, even if Sheilun's Gift is talented. Functionally works correctly",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         tags: [TAGS.TOOLTIP, TAGS.MOH],
     },
     {
@@ -664,7 +664,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Unison is still healing, even though the talent doesn't exist",
         description: "Unison is still healing, even though the talent doesn't exist anymore. Think its related to Mistline being talented",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         notes: "https://www.warcraftlogs.com/reports/pmdtLjDafFnyHV7P?fight=last&type=healing&source=333&ability=388480\n" +
         "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=17&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24198533%7C115175%7C388479%7C388480\n",
     },
@@ -674,7 +674,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.CRITICAL,
         title: "Ancient Teachings healing conversion reverted to post-armor values",
         description: "Hotfix to Ancient Teachings healing on pre-armor damage values (physical abilities reducing actual damage dealt by 30% account for armor) was reverted at some point from Undermine -> Live. The conversion now only happens on post-armor values.",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         notes: "https://www.warcraftlogs.com/reports/hpTmN6FgCtaY9bvc?fight=11&source=1&type=summary&start=14048042&end=14286694&view=events&pins=2%24Separate%24%23244F4B%24casts%7Cdamage%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388025%7C388024\n" +
         "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=12&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24185099%7C388024",
     },
@@ -694,7 +694,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: "Despite its removal, still procs from Unity Within",
         description: "Despite being removed from the talent tree, the spell still activates when Unity Within occurs. Only heals, as it has done since its inception from Unity Within to not proc mana tea despite its original talent's wording.",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         notes: "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=7&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443028%7C443591%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443614"
     },
     {
@@ -733,9 +733,10 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Does not increase shield strength of Strength of the Black Ox",
         description: "Unity Within procs Strength of the black Ox, but it does not increase the strength of any of the shields.",
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
         tags: [TAGS.CONDUIT],
-        notes: "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=7&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682%7C443028%7C443591%24or%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443113%7C443112"
+        notes: "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=7&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682%7C443028%7C443591%24or%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443113%7C443112",
+        status: STATUS.FIXED,
     },
     {
         spell: CORE_PASSIVE.MISTWEAVER_MONK,
@@ -786,7 +787,7 @@ const BUGS: Bug[] = [
         title: "Still references Crane Stance, even though it's unattainable",
         description: "Crane Stance is unable to be procced since it came from Flight of the Red Crane, which is now only accessible via Unity Within but does not proc the Stance.",
         tags: [TAGS.TOOLTIP],
-        lastBuildTested: "65848",
+        lastBuildTested: "66066",
     },
     {
         spell: TALENTS.COALESCENCE,
@@ -794,12 +795,13 @@ const BUGS: Bug[] = [
         title: "Coalescence overrides previous Aspect of Harmony HoT amount",
         description: "If an existing Aspect of Harmony HoT is on a player (whether it be from AoH Withdraw or from Coalescence), and Vivify/Sheilun's Gift is casted on them, likely you going into the negatives of vitality stored, the incoming HoT value from Coalescence overrides the previous HoT amount instead of refreshing and adding the new amount on top of it. This causes the HoT to be signficantly diminished when dumping a large amount of Vitality into the HoT, then still casting Vivify/SG on the target.",
         tags: [TAGS.MOH],
-        lastBuildTested: "65893",
+        lastBuildTested: "66066",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.SERENE_VITALITY,
         severity: SEVERITY.HIGH,
-        lastBuildTested: "66044",
+        lastBuildTested: "66066",
         title: "Does not function at all",
         description: "Vivify and Sheilun's Gift do not increase their healing by 60% on the player, unlike the passive ability states",
         notes: "Worked in previous builds, but is not working as of at least 66044.",
@@ -807,14 +809,14 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.COURAGE_OF_THE_WHITE_TIGER,
         severity: SEVERITY.LOW,
-        lastBuildTested: "66044",
+        lastBuildTested: "66066",
         title: "Invoke buff does not work with Sheilun's Gift",
         description: "Invoking Chi-Ji/Yu'lon hands a Courage of the White Tiger buff that only works for Vivify and Tiger Palm, unlike the talent description that states it should work for Sheilun's Gift as well. It does work for Vivify and Tiger Palm, just not Sheilun's Gift.",
     },
     {
         spell: TALENTS.STRENGTH_OF_THE_BLACK_OX,
         severity: SEVERITY.TRIVIAL,
-        lastBuildTested: "66044",
+        lastBuildTested: "66066",
         title: "Tooltip says 0% of max hp when it was changed to sp% based",
         description: "Tooltip on the buff of Strength of the Black Ox still says it absorbs for 0% of max hp, but it was changed to be based on spell power instead. Functionally works as intended, just tooltip is wrong.",
         tags: [TAGS.TOOLTIP],
