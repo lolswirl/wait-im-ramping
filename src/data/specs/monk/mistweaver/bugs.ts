@@ -210,7 +210,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: "Doesn't heal NPCs",
         description: "Does not heal NPCs",
-        lastBuildTested: "65769",
+        lastBuildTested: "66017",
         notes: "Tested with Valeera (Delve Companion) and Follower Dungeons",
         tags: [TAGS.APEX],
     },
@@ -559,7 +559,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: "Renewing Mist from 4pc not increased by Lotus Infusion",
         description: "The duration of the renewing mist applied by the 4pc is not increased by lotus infusion",
-        lastBuildTested: "65769",
+        lastBuildTested: "66017",
         tags: [TAGS.TIER],
     },
     {
