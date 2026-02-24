@@ -667,6 +667,7 @@ const BUGS: Bug[] = [
         lastBuildTested: "66066",
         notes: "https://www.warcraftlogs.com/reports/pmdtLjDafFnyHV7P?fight=last&type=healing&source=333&ability=388480\n" +
         "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=17&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24198533%7C115175%7C388479%7C388480\n",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.ANCIENT_TEACHINGS,
