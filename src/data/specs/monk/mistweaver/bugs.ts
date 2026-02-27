@@ -486,7 +486,7 @@ const BUGS: Bug[] = [
         title: "Healing not buffed to 50% of Soothing Mist when SooM was buffed",
         description: "Jade Serpent Statue's healing has historically been 50% of Soothing Mist, but it has not recieved the same buff that soothing mist did at the start of alpha (jss duration was increased but total spellpower remained the same, sooms duration and total sp were increased) so it is only 33% of soothing mist now",
         lastBuildTested: "66066",
-        notes: "This combined with it not interacting with spiritfont leaves the talent doing barely 1% hps WITH unison talented and makes it effectively an elusive mist applier",
+        notes: "This combined with it not interacting with SF leaves the talent doing barely 1% hps WITH unison talented and makes it effectively an elusive mist applier",
     },
     {
         spell: TALENTS.CHI_WARDING,
@@ -779,7 +779,7 @@ const BUGS: Bug[] = [
         affectedSpells: [TALENTS.JADE_SERPENT_STATUE],
         severity: SEVERITY.LOW,
         title: "JSS Soothing Mist does not provide damage reduction",
-        description: "Elusive Mists does not provide damage reduction when Soothing Mist is cast by Jade Serpent Statue - only works with personal SooM and Spiritfont SooM",
+        description: "Elusive Mists does not provide damage reduction when Soothing Mist is cast by Jade Serpent Statue",
         lastBuildTested: "65617",
     },
     {
