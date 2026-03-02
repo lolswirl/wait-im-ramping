@@ -821,6 +821,13 @@ const BUGS: Bug[] = [
         title: "Tooltip says 0% of max hp when it was changed to sp% based",
         description: "Tooltip on the buff of Strength of the Black Ox still says it absorbs for 0% of max hp, but it was changed to be based on spell power instead. Functionally works as intended, just tooltip is wrong.",
         tags: [TAGS.TOOLTIP],
+    },
+    {
+        spell: TALENTS.RUSHING_WIND_KICK,
+        severity: SEVERITY.LOW,
+        lastBuildTested: "66192",
+        title: "Mobs with paralysis on them cannot be hit by Rushing Wind Kick",
+        description: "",
     }
 
 ];
