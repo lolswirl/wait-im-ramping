@@ -179,7 +179,7 @@ export const calculateRotationHPS = async (
     
     const wayOfTheCrane = TALENTS.WAY_OF_THE_CRANE;
     const wayOfTheCraneOpt = isTalentEnabled(options, TALENTS.WAY_OF_THE_CRANE);
-    const wayOfTheCraneTransfer = wayOfTheCrane.custom.transferRate;
+    const wayOfTheCraneTransfer = wayOfTheCraneOpt ? wayOfTheCrane.custom.transferRate : 0;
     const wayOfTheCraneTargetsPerSCK = wayOfTheCrane.custom.targetsPerSCK;
     const wayOfTheCraneArmorModifier = wayOfTheCrane.custom.armorModifier;
     const wayOfTheCraneTigerPalmHits = wayOfTheCraneOpt ? wayOfTheCrane.custom.tigerPalmHits : 1;
