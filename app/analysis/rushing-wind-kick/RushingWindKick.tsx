@@ -57,11 +57,11 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
   const targetValues = Array.from({ length: 5 }, (_, i) => i + 1);
 
   const rskBaseDamage = calculateSpellDamage(rsk, talents, mastery);
-  const rskBaseHealing = calculateAncientTeachingsHealing(rskBaseDamage, talents);
+  const rskBaseHealing = calculateAncientTeachingsHealing(rskBaseDamage, talents, true, rsk);
 
   const rwkBaseDamage = calculateSpellDamage(rwk, talents, mastery);
   const rwkDirectHealing = calculateSpellHealing(rwk, talents, mastery);
-  const rwkDamageHealing = calculateAncientTeachingsHealing(rwkBaseDamage, talents, false);
+  const rwkDamageHealing = calculateAncientTeachingsHealing(rwkBaseDamage, talents, false, rwk);
 
   const rwkMaxDamageTargets = rwk.custom.maxDamageTargets;
   const rwkMaxHealingTargets = rwk.custom.maxHealingTargets;
