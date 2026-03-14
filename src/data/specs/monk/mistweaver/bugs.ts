@@ -828,6 +828,13 @@ const BUGS: Bug[] = [
         lastBuildTested: "66192",
         title: "Mobs with paralysis on them cannot be hit by Rushing Wind Kick",
         description: "",
+    },
+    {
+        spell: TALENTS.SPIRITFONT,
+        severity: SEVERITY.TRIVIAL,
+        lastBuildTested: "66384",
+        title: "Spiritfont's buff tooltip says 30% effectiveness when it should be 20%",
+        description: "",
     }
 
 ];
