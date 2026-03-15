@@ -3,8 +3,8 @@
     {
       "spell": "Ancient teachings",
       "affectedSpells": [
-        "SECRET_INFUSION",
-        "INNER_COMPASS"
+        "Secret Infusion",
+        "Inner Compass"
       ],
       "severity": "Medium",
       "title": "Versatility double dips with Ancient Teachings",
