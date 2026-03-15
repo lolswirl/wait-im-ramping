@@ -1,0 +1,19 @@
+{
+  "bugs": [
+    {
+      "spell": "SPELLS.YULON",
+      "affectedSpells": [
+        "TALENTS.CELESTIAL_HARMONY"
+      ],
+      "severity": "CRITICAL",
+      "title": "Testing if this bug actually works",
+      "description": "This is a test to see whether creating or generating a bug will work properly",
+      "tags": [
+        "TAGS.TOOLTIP"
+      ],
+      "lastBuildTested": "123456",
+      "notes": "Note 1, 2, 3",
+      "status": "OPEN"
+    }
+  ]
+}
