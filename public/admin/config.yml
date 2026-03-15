@@ -1,0 +1,93 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+
+backend:
+  name: github
+  repo: lolswirl/wait-im-ramping
+  branch: test-sveltia
+  commit_messages:
+    create: 'create {{collection}} "{{slug}}"'
+    update: 'update {{collection}} "{{slug}}"'
+    delete: 'delete {{collection}} "{{slug}}"'
+
+site_url: https://waitimramping.com
+
+logo:
+  src: /app/apple-icon.png
+  show_in_header: true
+
+app_title: admin | wait, i'm ramping!
+
+media_folder: /public/media
+public_folder: /media
+
+# Reusable bug fields template
+bug_fields: &bug_fields
+  - label: bugs
+    name: bugs
+    widget: list
+    summary: "{{fields.spell}} - {{fields.title}}"
+    fields:
+      - label: Spell
+        name: spell
+        widget: string
+        hint: "Name of the spell (i.e. Ancient Teachings, Enveloping Mist, etc.)"
+      - label: Affected Spells
+        name: affectedSpells
+        widget: list
+        required: false
+        hint: "List of other spells affected by this bug"
+        field: { label: Spell, name: spell, widget: string }
+      - label: Severity
+        name: severity
+        widget: select
+        options: [Critical, High, Medium, Low, Trivial]
+        hint: "How severe is this bug?"
+      - label: Title
+        name: title
+        widget: string
+        hint: "Brief description of the bug"
+      - label: Description
+        name: description
+        widget: text
+        required: false
+        hint: "Detailed explanation of what the bug does"
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+        hint: "Categorization tags (e.g., MOH, CONDUIT, TOOLTIP)"
+        field: { label: Tag, name: tag, widget: string }
+      - label: Last Build Tested
+        name: lastBuildTested
+        widget: string
+        hint: "Game build number where this was last verified"
+      - label: Notes
+        name: notes
+        widget: text
+        required: false
+        hint: "Additional notes, workarounds, or log links"
+      - label: Status
+        name: status
+        widget: select
+        required: false
+        options: [Open, Fixed, Removed]
+        hint: "Current status of the bug"
+
+collections:
+  - name: bugs
+    label: bugs
+    files:
+      - name: mistweaver-bugs
+        label: mistweaver monk
+        file: /src/data/specs/monk/mistweaver/bugs.json
+        fields: *bug_fields
+      
+      - name: druid-bugs
+        label: restoration druid
+        file: /src/data/specs/druid/bugs.json
+        fields: *bug_fields
+      
+      - name: shaman-bugs
+        label: restoration shaman
+        file: /src/data/specs/shaman/bugs.json
+        fields: *bug_fields
