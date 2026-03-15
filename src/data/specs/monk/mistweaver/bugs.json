@@ -3,13 +3,13 @@
     {
       "spell": "Yulon",
       "affectedSpells": [
-        "TALENTS.CELESTIAL_HARMONY"
+        "celestial harmony"
       ],
       "severity": "Critical",
       "title": "Testing if this bug actually works",
       "description": "This is a test to see whether creating or generating a bug will work properly",
       "tags": [
-        "TAGS.TOOLTIP"
+        "Tooltip"
       ],
       "lastBuildTested": "123456",
       "notes": "Note 1, 2, 3",
