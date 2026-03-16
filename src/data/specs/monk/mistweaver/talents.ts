@@ -60,7 +60,7 @@ const talents = {
         id: 467293,
         icon: 'inv_misc_book_07',
         custom: {
-            transferRate: 2.6,
+            transferRate: 2.7,
             armorModifier: 0.7, // sad
         }
     },
