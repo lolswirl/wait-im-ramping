@@ -342,7 +342,7 @@ const talents = {
         school: SCHOOLS.NATURE,
         castTime: 0,
         value: {
-            damage: 9978,
+            damage: 10233,
         },
         custom: {
             enemyTargets: 5,

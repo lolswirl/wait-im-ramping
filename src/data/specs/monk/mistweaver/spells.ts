@@ -140,10 +140,10 @@ const spells = {
         castTime: 2,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 2335
+            healing: 2455
         }, 
         custom: {
-            healingPerStack: 771,
+            healingPerStack: 246,
             targetsHit: 3,
             maxStacks: 10,
         }
