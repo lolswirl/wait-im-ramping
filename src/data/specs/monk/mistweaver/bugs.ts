@@ -203,6 +203,7 @@ const BUGS: Bug[] = [
         description: "Spiritfont will cancel the channel if the target is full HP with no injured player to jump to, even if the original target loses HP during the active Spiritfont buff",
         lastBuildTested: "66220",
         tags: [TAGS.APEX],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.SPIRITFONT,
@@ -835,6 +836,40 @@ const BUGS: Bug[] = [
         lastBuildTested: "66384",
         title: "Spiritfont's buff tooltip says 30% effectiveness when it should be 20%",
         description: "",
+    },
+    {
+        spell: TALENTS.SPIRITFONT,
+        severity: SEVERITY.HIGH,
+        lastBuildTested: "66431",
+        title: "Soothing Mists from multiple stacks used back to back get removed simultaneously",
+        description: "Soothing Mists from multiple stacks of Spiritfont used back to back get removed simultaneously and reapplied elsewhere, but don't double in value.",
+        notes: "Particularly bad during Yu'lon, when casting many Enveloping Mists in a row and having multiple Spiritfont charges to use. https://www.warcraftlogs.com/reports/zk8wqLPg9MFjyKvx?fight=92&type=summary&source=681&start=16521817&end=16530508&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260681%7C1260617%24or%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260670%7C1260565%7C1260681%7C1260617",
+        tags: [TAGS.APEX],
+    },
+    {
+        spell: TALENTS.SPIRITFONT,
+        severity: SEVERITY.HIGH,
+        lastBuildTested: "66431",
+        title: "Chi Cocoons from multiple stacks get refreshed if they land on the same target",
+        description: "Chi Cocoons from multiple stacks of Spiritfont used back to back get refreshed if they land on the same target, but don't double in value.",
+        notes: "Particularly bad in Mythic+, when there are only 5 targets maximum. https://www.warcraftlogs.com/reports/zk8wqLPg9MFjyKvx?fight=92&type=summary&source=681&start=16521817&end=16530508&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260681%7C1260617%24or%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260670%7C1260565%7C1260681%7C1260618",
+        tags: [TAGS.APEX],
+    },
+    {
+        spell: TALENTS.SPIRITFONT,
+        severity: SEVERITY.HIGH,
+        lastBuildTested: "66431",
+        title: "Spiritfont sometimes doesn't refresh the active duration buff",
+        description: "Sometimes, when using 2 Spiritfont stacks back to back, the active duration buff (the 8s buff) doesn't get refreshed, and stays at its current duration. For example, if one stack is used, then 4 seconds later another stack is used, the buff will only have 4 seconds remaining instead of refreshing back to 8 seconds.",
+        tags: [TAGS.APEX],
+    },
+    {
+        spell: TALENTS.SPIRITFONT,
+        severity: SEVERITY.MEDIUM,
+        lastBuildTested: "66431",
+        title: "Spiritfont does not re-expand after collapsing to heal more targets",
+        description: "Following a hotfix that caused Spiritfont to continue finding targets after all have reached 100% hp, the collapsed Soothing Mists do not re-expand to try healing up to 5 players and only one will be active.",
+        tags: [TAGS.APEX],
     }
 
 ];
