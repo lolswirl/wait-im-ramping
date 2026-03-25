@@ -743,6 +743,7 @@ const BUGS: Bug[] = [
     {
         spell: CORE_PASSIVE.MISTWEAVER_MONK,
         affectedSpells: [
+            TALENTS.WAY_OF_THE_CRANE,
             TALENTS.JADEFIRE_TEACHINGS,
             TALENTS.RISING_MIST,
             TALENTS.MORNING_BREEZE,
@@ -756,7 +757,9 @@ const BUGS: Bug[] = [
         ],
         severity: SEVERITY.CRITICAL,
         title: "Many talents stop working mid-dungeon",
-        description: "Multiple talents have been observed to suddenly stop functioning in the middle of dungeon runs in alpha/beta:\n\n" +
+        description: 
+            "(Live): Way of the Crane has now been observed to stop working on LIVE as of 66562 as Mythic+ has opened. Certainly many more to come.\n\n" +
+            "(Beta): Multiple talents have been observed to suddenly stop functioning in the middle of dungeon runs in alpha/beta:\n\n" +
             "- Jadefire Teachings: Healing becoming greatly reduced after death and/or mid dungeon via some other cause, reverting back to Ancient Teachings ~25% effectiveness\n" +
             "- Rising Mist: Suddenly stopped extending HoTs in Algeth'ar Academy, specifically on bosses\n" +
             "- Morning Breeze: Suddenly stopped resetting cooldown of Rushing Wind Kick in the middle of Pit of Saron (Replicated 4x)\n" +
@@ -766,8 +769,11 @@ const BUGS: Bug[] = [
             "- Aspect of Harmony: All vitality gain abruptly stopped mid-dungeon, with 0 sources of AoH healing, Purified Spirit healing, no combat log events on either of the three threshold buffs continued\n" +
             "- Sheilun's Gift: Suddenly stops gaining stacks, seen notably after target swapping inside of a Soothing Mist channel\n" +
             "- Several others reported anecodtally - Way of the Crane, Tranquil Tea.",
-        lastBuildTested: "65769",
-        notes: "Jadefire Teachings (1st): https://www.warcraftlogs.com/reports/4xvtJa6Q1mYZLHDA?fight=last&type=healing&source=1&ability=-388024\n" +
+        lastBuildTested: "66562",
+        notes:
+            "Way of the Crane (Live): https://www.warcraftlogs.com/reports/3CQ4XDdT9q87mhYP?fight=last&type=healing&source=1&ability=-388779&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24101546\n\n\n" +
+            "Beta:\n" +
+            "Jadefire Teachings (1st): https://www.warcraftlogs.com/reports/4xvtJa6Q1mYZLHDA?fight=last&type=healing&source=1&ability=-388024\n" +
             "Jadefire Teachings (2nd): https://www.warcraftlogs.com/reports/RX8kjbfA2vMztHQc?fight=last&type=healing&source=5&ability=-388024\n" +
             "Rising Mist: https://www.warcraftlogs.com/reports/hgHWMKn981b4CvXa?fight=6&pull=7&type=auras&ability=124682&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428\n" +
             "Harmonic Surge: https://www.warcraftlogs.com/reports/x4PZFHJkmXw98cjb?boss=-3&difficulty=0&type=auras&source=6&ability=1270990&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24100780\n" +
