@@ -774,7 +774,7 @@ const BUGS: Bug[] = [
         lastBuildTested: "66562",
         notes:
             "Way of the Crane (Live): https://www.warcraftlogs.com/reports/3CQ4XDdT9q87mhYP?fight=last&type=healing&source=1&ability=-388779&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24101546\n" +
-            "Heart of the Jade Serpent from TFT (Live): https://www.warcraftlogs.com/reports/3CQ4XDdT9q87mhYP?fight=last&type=healing&source=1&ability=-388480&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24101546\n" +
+            "Heart of the Jade Serpent from TFT (Live): https://www.warcraftlogs.com/reports/bknjNYvQ4fwLGK2J?fight=last&type=summary&view=events&source=7&pins=2%24Separate%24%23244F4B%24any%7Cauras%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443421%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116680\n" +
             "\n\n\nBeta:\n" +
             "Jadefire Teachings (1st): https://www.warcraftlogs.com/reports/4xvtJa6Q1mYZLHDA?fight=last&type=healing&source=1&ability=-388024\n" +
             "Jadefire Teachings (2nd): https://www.warcraftlogs.com/reports/RX8kjbfA2vMztHQc?fight=last&type=healing&source=5&ability=-388024\n" +
