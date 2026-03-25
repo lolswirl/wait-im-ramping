@@ -758,8 +758,10 @@ const BUGS: Bug[] = [
         severity: SEVERITY.CRITICAL,
         title: "Many talents stop working mid-dungeon",
         description: 
-            "(Live): Way of the Crane has now been observed to stop working on LIVE as of 66562 as Mythic+ has opened. Certainly many more to come.\n\n" +
-            "(Beta): Multiple talents have been observed to suddenly stop functioning in the middle of dungeon runs in alpha/beta:\n\n" +
+            "(Live): \n" +
+            "- Way of the Crane has now been observed to stop working on LIVE as of 66562 as Mythic+ has opened. Certainly many more to come.\n" +
+            "- Heart of the Jade Serpent from TFT failed to activate\n" +
+            "\n\n(Beta): Multiple talents have been observed to suddenly stop functioning in the middle of dungeon runs in alpha/beta:\n\n" +
             "- Jadefire Teachings: Healing becoming greatly reduced after death and/or mid dungeon via some other cause, reverting back to Ancient Teachings ~25% effectiveness\n" +
             "- Rising Mist: Suddenly stopped extending HoTs in Algeth'ar Academy, specifically on bosses\n" +
             "- Morning Breeze: Suddenly stopped resetting cooldown of Rushing Wind Kick in the middle of Pit of Saron (Replicated 4x)\n" +
@@ -771,8 +773,9 @@ const BUGS: Bug[] = [
             "- Several others reported anecodtally - Way of the Crane, Tranquil Tea.",
         lastBuildTested: "66562",
         notes:
-            "Way of the Crane (Live): https://www.warcraftlogs.com/reports/3CQ4XDdT9q87mhYP?fight=last&type=healing&source=1&ability=-388779&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24101546\n\n\n" +
-            "Beta:\n" +
+            "Way of the Crane (Live): https://www.warcraftlogs.com/reports/3CQ4XDdT9q87mhYP?fight=last&type=healing&source=1&ability=-388779&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24101546\n" +
+            "Heart of the Jade Serpent from TFT (Live): https://www.warcraftlogs.com/reports/3CQ4XDdT9q87mhYP?fight=last&type=healing&source=1&ability=-388480&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24101546\n" +
+            "\n\n\nBeta:\n" +
             "Jadefire Teachings (1st): https://www.warcraftlogs.com/reports/4xvtJa6Q1mYZLHDA?fight=last&type=healing&source=1&ability=-388024\n" +
             "Jadefire Teachings (2nd): https://www.warcraftlogs.com/reports/RX8kjbfA2vMztHQc?fight=last&type=healing&source=5&ability=-388024\n" +
             "Rising Mist: https://www.warcraftlogs.com/reports/hgHWMKn981b4CvXa?fight=6&pull=7&type=auras&ability=124682&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428\n" +
