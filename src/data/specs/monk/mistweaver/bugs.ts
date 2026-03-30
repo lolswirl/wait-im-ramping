@@ -712,7 +712,7 @@ const BUGS: Bug[] = [
         spell: TALENTS.SPIRITFONT,
         affectedSpells: [SPELLS.SHEILUNS_GIFT],
         severity: SEVERITY.MEDIUM,
-        title: "Rank 1 Spiritfont doesn't proc via Sheilun's Gift consistently",
+        title: "Rank 1 Spiritfont doesn't proc via Sheilun's Gift or Vivify at all",
         description: "The first point in Spiritfont does not proc via Sheilun's Gift consistently, as it should swap from Vivify after talenting SG. Testing in 65769 seems like it can proc from it, but definitely not the 1ppm allotted.",
         lastBuildTested: "65769",
         notes: "29 minute log: https://www.warcraftlogs.com/reports/HvrkyFPnC6TxbBN3?fight=1&type=auras&source=1&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%7C1260670%2463 \n" + 
@@ -879,7 +879,22 @@ const BUGS: Bug[] = [
         title: "Spiritfont does not re-expand after collapsing to heal more targets",
         description: "Following a hotfix that caused Spiritfont to continue finding targets after all have reached 100% hp, the collapsed Soothing Mists do not re-expand to try healing up to 5 players and only one will be active.",
         tags: [TAGS.APEX],
-    }
+    },
+    {
+        spell: SPELLS.YULON,
+        affectedSpells: [TALENTS.SOOTHING_BREATH],
+        severity: SEVERITY.HIGH,
+        lastBuildTested: "66709",
+        title: "Yu'lon's Soothing Breath only ticks 6 times, instead of 7 + partial",
+        description: "",
+    },
+    {
+        spell: SPELLS.YULON,
+        severity: SEVERITY.HIGH,
+        lastBuildTested: "66709",
+        title: "Yu'lon randomly AFKs for 4.5 seconds during her invocation",
+        description: "",
+    },
 
 ];
 
