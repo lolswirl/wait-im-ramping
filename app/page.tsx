@@ -13,13 +13,14 @@ import {
     Chip,
     ChipProps
 } from "@mui/material";
-import { Timeline, Analytics, TrendingUp, Person, TimerTwoTone } from "@mui/icons-material";
+import { Timeline, Analytics, TrendingUp, Person, TimerTwoTone, BugReport } from "@mui/icons-material";
 
 import { GetTitle } from "@util/stringManipulation";
 
 const wdirPreview = "/previews/when-do-i-ramp.png";
 const spellTimelinePreview = "/previews/timeline.png";
 const analysisPreview = "/previews/harmonic-surge.png";
+const bugsPreview = "/previews/bugs.png";
 
 const infoChips: { label: string; color: ChipProps["color"] }[] = [
     {
@@ -57,6 +58,13 @@ const quickAccessPages = [
         icon: <Analytics sx={{ fontSize: 30 }} />,
         path: "/analysis",
         preview: analysisPreview
+    },
+    {
+        title: "Bugs & Issues",
+        description: "Track known issues and bugs in the application",
+        icon: <BugReport sx={{ fontSize: 30 }} />,
+        path: "/bugs",
+        preview: bugsPreview
     }
 ];
 
@@ -117,13 +125,13 @@ const Home = () => {
             <Box sx={{ mb: 6, display: 'flex', justifyContent: 'center' }}>
                 <Box sx={{ 
                     display: 'grid', 
-                    gridTemplateColumns: 'repeat(3, 1fr)', 
+                    gridTemplateColumns: 'repeat(4, 1fr)', 
                     gap: 3,
                     width: '100%',
                     maxWidth: 1200,
-                    '@media (max-width: 900px)': {
-                        gridTemplateColumns: '1fr',
-                        maxWidth: 400
+                    '@media (max-width: 1200px)': {
+                        gridTemplateColumns: 'repeat(2, 1fr)',
+                        maxWidth: 800
                     },
                     '@media (max-width: 600px)': {
                         gridTemplateColumns: '1fr',
