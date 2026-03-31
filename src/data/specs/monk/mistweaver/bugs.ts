@@ -916,7 +916,7 @@ const BUGS: Bug[] = [
     },
     {
         spell: TIER.T35_MISTWEAVER_4SET,
-        severity: SEVERITY.MEDIUM,
+        severity: SEVERITY.CRITICAL,
         lastBuildTested: "66709",
         title: "Sets random buffs durations to 20-32 seconds",
         description: "Buffs like Enveloping Mist, Life Cocoon, Flasks, Vantus Runes, etc. become set to 20-32 seconds when it should be a Renewing Mist",
