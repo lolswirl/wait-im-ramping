@@ -822,10 +822,11 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.SERENE_VITALITY,
         severity: SEVERITY.HIGH,
-        lastBuildTested: "66220",
+        lastBuildTested: "66709",
         title: "Does not function at all",
         description: "Vivify and Sheilun's Gift do not increase their healing by 60% on the player, unlike the passive ability states",
         notes: "Worked in previous builds, but is not working as of at least 66044.",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.COURAGE_OF_THE_WHITE_TIGER,
