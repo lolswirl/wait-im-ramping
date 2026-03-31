@@ -85,3 +85,13 @@ export const formatLogUrl = (url: string): string => {
         return url.length > 50 ? url.substring(0, 47) + '...' : url;
     }
 };
+
+export const formatDate = (dateString: string) => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
+    return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+    });
+};

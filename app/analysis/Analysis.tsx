@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
-import { getCapsMode, GetTitle } from "@util/stringManipulation";
+import { formatDate, getCapsMode, GetTitle } from "@util/stringManipulation";
 
 import { analysisPages, AnalysisPage } from "../AnalysisPages";
 
@@ -80,16 +80,6 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
 
     const clearAllFilters = () => {
         setSelectedTags([]);
-    };
-
-    const formatDate = (dateString: string) => {
-        const [year, month, day] = dateString.split('-').map(Number);
-        const date = new Date(year, month - 1, day);
-        return date.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric' 
-        });
     };
 
     const isOutdated = (tool: AnalysisPage) => {
