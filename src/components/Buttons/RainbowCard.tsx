@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardProps } from "@mui/material";
 
-const RAINBOW_GRADIENT = "linear-gradient(90deg, #7ee5ff 0%, #89ff7f 33%, #ffd700 66%, #ff69b4 100%)";
+export const RAINBOW_GRADIENT = "linear-gradient(90deg, #7ee5ff 0%, #89ff7f 33%, #ffd700 66%, #ff69b4 100%)";
 
 interface RainbowCardProps extends Omit<CardProps, "ref"> {
     href?: string;

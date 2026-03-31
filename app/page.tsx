@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { 
     Typography, 
-    Card, 
+    Card,
     CardContent, 
     CardActionArea,
     Container, 
@@ -11,11 +11,12 @@ import {
     Chip,
     Avatar
 } from "@mui/material";
+import RainbowCard from "@components/Buttons/RainbowCard";
 import { Timeline, Analytics, TimerTwoTone, BugReport, ArrowForward } from "@mui/icons-material";
 
 import { GetTitle } from "@util/stringManipulation";
 import Changelog from "@components/Changelog/Changelog";
-import RainbowCard from "@components/Buttons/RainbowCard";
+
 
 const wdirPreview = "/previews/when-do-i-ramp.png";
 const spellTimelinePreview = "/previews/timeline.png";
@@ -96,18 +97,15 @@ const Home = () => {
                     }
                 }}>
                     {quickAccessPages.map((tool, index) => (
-                        <Card 
+                        <RainbowCard 
                             key={index}
-                            variant="outlined"
                             sx={{ 
                                 height: '100%',
                                 display: 'flex',
                                 flexDirection: 'column',
-                                transition: 'all 0.3s ease',
                                 '&:hover': {
                                     transform: 'translateY(-4px)',
                                     boxShadow: 6,
-                                    borderColor: 'primary.main'
                                 }
                             }}
                         >
@@ -187,7 +185,7 @@ const Home = () => {
                                     </CardContent>
                                 </CardActionArea>
                             </Link>
-                        </Card>
+                        </RainbowCard>
                     ))}
                 </Box>
             </Box>

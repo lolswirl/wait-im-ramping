@@ -22,6 +22,7 @@ import { GetTitle } from "@util/stringManipulation";
 import { useSpec } from "@context/SpecContext";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 import SwirlButton from "@components/Buttons/SwirlButton";
+import { RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
 
 const MoonIcon = () => (
     <SvgIcon viewBox="0 0 16 16" sx={{ fontSize: 15 }}>
@@ -56,11 +57,13 @@ const pages = [
 function ResponsiveAppBar() {
     const pathname = usePathname();
     const [drawerOpen, setDrawerOpen] = React.useState(false);
+    const [titleHovered, setTitleHovered] = React.useState(false);
     const { toggleTheme, themeMode } = useThemeContext();
     const { spec, setSpec } = useSpec();
     const isNonProd = useIsNonProd();
     const branchName = useBranchName();
     const displayBranch = isNonProd && branchName ? ` [${branchName}]` : "";
+    const isHomePage = pathname === "/";
     
     const hoverColor = 
         themeMode === "dark"
@@ -262,17 +265,26 @@ function ResponsiveAppBar() {
                             variant="h5"
                             component="a"
                             href="/"
+                            onMouseEnter={() => setTitleHovered(true)}
+                            onMouseLeave={() => setTitleHovered(false)}
                             sx={{
                                 mr: 2,
                                 display: "inline-flex",
                                 alignItems: "baseline",
                                 gap: 0.5,
                                 fontWeight: 700,
-                                color: pathname === "/" ? hoverColor : "inherit",
                                 textDecoration: "none",
                                 whiteSpace: "nowrap",
                                 fontSize: { xs: "1.1rem", md: "1.5rem" },
-                                "&:hover": { color: hoverColor },
+                                transition: "all 0.3s ease",
+                                ...(isHomePage || titleHovered ? {
+                                    background: RAINBOW_GRADIENT,
+                                    WebkitBackgroundClip: "text",
+                                    WebkitTextFillColor: "transparent",
+                                    backgroundClip: "text",
+                                } : {
+                                    color: "primary.main",
+                                }),
                             }}
                         >
                             <span>𖦹 {GetTitle("Wait, I'm Ramping!")}</span>
@@ -304,6 +316,7 @@ function ResponsiveAppBar() {
                                         key={GetTitle(label)}
                                         href={path}
                                         selected={isActive}
+                                        rainbow={true}
                                     >
                                         {GetTitle(label)}
                                     </SwirlButton>

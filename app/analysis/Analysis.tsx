@@ -2,7 +2,6 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { 
-    Card, 
     CardActionArea, 
     CardContent, 
     Container, 
@@ -15,6 +14,7 @@ import {
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import { formatDate, getCapsMode, GetTitle } from "@util/stringManipulation";
+import RainbowCard from "@components/Buttons/RainbowCard";
 
 import { analysisPages, AnalysisPage } from "../AnalysisPages";
 
@@ -149,18 +149,16 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                                 height: "100%",
                             }}
                         >
-                            <Card
+                        <RainbowCard
                                 variant="outlined"
                                 sx={{
                                     height: "100%",
                                     display: "flex",
                                     flexDirection: "column",
-                                    transition: "all 0.3s ease-in-out",
                                     opacity: isOutdated(tool) ? 0.4 : 1,
                                     "&:hover": {
                                         boxShadow: 6,
                                         transform: "translateY(-4px)",
-                                        borderColor: "primary.main",
                                         opacity: isOutdated(tool) ? 0.6 : 1,
                                     },
                                     cursor: "pointer",
@@ -294,7 +292,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                                         </Box>
                                     </CardContent>
                                 </CardActionArea>
-                            </Card>
+                            </RainbowCard>
                         </Link>
                     </Grid>
                 ))}

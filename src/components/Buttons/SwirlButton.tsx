@@ -2,6 +2,7 @@ import React from "react";
 import { Button, useTheme } from "@mui/material";
 import { GetTitle } from "../../util/stringManipulation";
 import { useIsNonProd } from "@lib/betaModeClient";
+import { RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
 
 interface SwirlButtonProps {
     children: React.ReactNode;
@@ -14,6 +15,7 @@ interface SwirlButtonProps {
     type?: "button" | "submit" | "reset";
     disabled?: boolean;
     startIcon?: React.ReactNode;
+    rainbow?: boolean;
 }
 
 const resolveColor = (color: string, theme: any) => {
@@ -45,6 +47,7 @@ const SwirlButton: React.FC<SwirlButtonProps> = ({
     type = "button",
     disabled = false,
     startIcon = null,
+    rainbow = false,
 }) => {
     const theme = useTheme();
 
@@ -67,7 +70,9 @@ const SwirlButton: React.FC<SwirlButtonProps> = ({
                     left: 0,
                     right: 0,
                     height: 2,
-                    bgcolor: resolveColor(color, theme),
+                    ...(rainbow
+                        ? { background: RAINBOW_GRADIENT }
+                        : { bgcolor: resolveColor(color, theme) }),
                     borderRadius: 1,
                     transform: selected ? "scaleX(1)" : "scaleX(0)",
                     transition: "transform 0.3s ease",
@@ -75,7 +80,9 @@ const SwirlButton: React.FC<SwirlButtonProps> = ({
                 },
                 "&:hover::before": {
                     transform: "scaleX(1)",
-                    bgcolor: resolveColor(color, theme),
+                    ...(rainbow
+                        ? { background: RAINBOW_GRADIENT }
+                        : { bgcolor: resolveColor(color, theme) }),
                 },
                 ...sx,
             }}
