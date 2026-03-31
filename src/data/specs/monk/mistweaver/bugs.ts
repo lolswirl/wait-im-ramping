@@ -908,9 +908,10 @@ const BUGS: Bug[] = [
     },
     {
         spell: TALENTS.MISTS_OF_LIFE,
+        affectedSpells: [SPELLS.THUNDER_FOCUS_TEA],
         severity: SEVERITY.MEDIUM,
         lastBuildTested: "66709",
-        title: "Mists of Life consumes TF despite not receiving buffs from TFT",
+        title: "Mists of Life consumes TFT despite not receiving buffs from TFT",
         description: "",
     },
     {
@@ -922,6 +923,7 @@ const BUGS: Bug[] = [
     },
     {
         spell: TIER.T35_MISTWEAVER_4SET,
+        affectedSpells: [SPELLS.RENEWING_MIST],
         severity: SEVERITY.MEDIUM,
         lastBuildTested: "66709",
         title: "Renewing Mist from 4pc doesn't follow traditional rules",
