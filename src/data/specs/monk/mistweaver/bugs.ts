@@ -4,6 +4,7 @@ import ITEMS from '@data/items';
 import CORE_PASSIVE from '@data/core-passives';
 import { Bug, SEVERITY, STATUS } from "@data/bugs";
 import { TAGS } from "@data/shared/tags";
+import { TIER } from '@data/items/tier';
 
 const BUGS: Bug[] = [
     {
@@ -71,7 +72,7 @@ const BUGS: Bug[] = [
         spell: TALENTS.ASPECT_OF_HARMONY,
         affectedSpells: [TALENTS.JADE_SERPENT_STATUE],
         severity: SEVERITY.LOW,
-        title: "Jade Serpent Statue Soothing Mist doesn't contribute vitality",
+        title: "Several sources cannot contribute to vitality",
         description:
             "Jade Serpent Statue's Soothing mist does not contribute vitality",
         lastBuildTested: "66220",
@@ -713,9 +714,11 @@ const BUGS: Bug[] = [
         affectedSpells: [SPELLS.SHEILUNS_GIFT],
         severity: SEVERITY.MEDIUM,
         title: "Rank 1 Spiritfont doesn't proc via Sheilun's Gift or Vivify at all",
-        description: "The first point in Spiritfont does not proc via Sheilun's Gift consistently, as it should swap from Vivify after talenting SG. Testing in 65769 seems like it can proc from it, but definitely not the 1ppm allotted.",
-        lastBuildTested: "65769",
-        notes: "29 minute log: https://www.warcraftlogs.com/reports/HvrkyFPnC6TxbBN3?fight=1&type=auras&source=1&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%7C1260670%2463 \n" + 
+        description: "The first point in Spiritfont does not proc via Sheilun's Gift consistently, as it should swap from Vivify after talenting SG. Testing in 65769 seems like it can proc from it, but definitely not the 1ppm allotted.\n\n" +
+        "As of 66709, Vivify has begun not proccing it at all.",
+        lastBuildTested: "66709",
+        notes: "66709: https://www.warcraftlogs.com/reports/fY2nqtQ3Z4N1hJ6V?fight=38&type=summary&source=161&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116670%7C467307%7C116680&view=events \n" +
+        "29 minute log: https://www.warcraftlogs.com/reports/HvrkyFPnC6TxbBN3?fight=1&type=auras&source=1&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%7C1260670%2463 \n" + 
         "Procs once at 2 minute mark after 75 casts of SG: https://www.warcraftlogs.com/reports/Qg31CFpr2vn6xLwd?fight=last&source=6&type=casts&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565",
         tags: [TAGS.APEX]
     },
@@ -882,7 +885,7 @@ const BUGS: Bug[] = [
     },
     {
         spell: SPELLS.YULON,
-        affectedSpells: [TALENTS.SOOTHING_BREATH],
+        affectedSpells: [TALENTS.GIFT_OF_THE_CELESTIALS, TALENTS.SOOTHING_BREATH],
         severity: SEVERITY.HIGH,
         lastBuildTested: "66709",
         title: "Yu'lon's Soothing Breath only ticks 6 times, instead of 7 + partial",
@@ -890,10 +893,39 @@ const BUGS: Bug[] = [
     },
     {
         spell: SPELLS.YULON,
+        affectedSpells: [TALENTS.GIFT_OF_THE_CELESTIALS, TALENTS.SOOTHING_BREATH],
         severity: SEVERITY.HIGH,
         lastBuildTested: "66709",
-        title: "Yu'lon randomly AFKs for 4.5 seconds during her invocation",
+        title: "Will not channel Soothing Breath a second time occasionally",
         description: "",
+    },
+    {
+        spell: TALENTS.MANA_TEA,
+        severity: SEVERITY.MEDIUM,
+        lastBuildTested: "66709",
+        title: "Rarely does not restore the correct amount of mana",
+        description: "Will consume a stack but not actually grant mana",
+    },
+    {
+        spell: TALENTS.MISTS_OF_LIFE,
+        severity: SEVERITY.MEDIUM,
+        lastBuildTested: "66709",
+        title: "Mists of Life consumes TF despite not receiving buffs from TFT",
+        description: "",
+    },
+    {
+        spell: TIER.T35_MISTWEAVER_4SET,
+        severity: SEVERITY.MEDIUM,
+        lastBuildTested: "66709",
+        title: "Sets random buffs durations to 20-32 seconds",
+        description: "Buffs like Enveloping Mist, Life Cocoon, Flasks, Vantus Runes, etc. become set to 20-32 seconds when it should be a Renewing Mist",
+    },
+    {
+        spell: TIER.T35_MISTWEAVER_4SET,
+        severity: SEVERITY.MEDIUM,
+        lastBuildTested: "66709",
+        title: "Renewing Mist from 4pc doesn't follow traditional rules",
+        description: "The Renewing Mist created is completely independent from a normal Renewing Mist meaning that it is significantly stronger because it has no interaction with pandemic durations of normal Renewing Mists and thus can do significantly more HPS with talents such as Misty Peaks",
     },
 
 ];
