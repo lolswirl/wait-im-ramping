@@ -92,7 +92,27 @@ const FooterBar = () => {
             <Toolbar sx={{ justifyContent: "center", minHeight: 48, height: 48, padding: 0 }}>
                 <Box sx={{ display: "flex", gap: 0 }}>
                     {socialLinks.map(({ label, href, icon, img }) => (
-                        <Tooltip key={label} title={GetTitle(label)} arrow disableInteractive>
+                        <Tooltip 
+                            key={label} 
+                            title={GetTitle(label)} 
+                            arrow 
+                            disableInteractive
+                            slotProps={{
+                                tooltip: {
+                                    sx: {
+                                        backgroundColor: "rgba(0, 0, 0, 0.3)",
+                                        backdropFilter: "blur(8px)",
+                                        border: "1px solid rgba(255,255,255,0.1)",
+                                        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                                    }
+                                },
+                                arrow: {
+                                    sx: {
+                                        color: "rgba(0, 0, 0, 0.3)",
+                                    }
+                                }
+                            }}
+                        >
                             <IconButton
                                 color="inherit"
                                 href={href}
