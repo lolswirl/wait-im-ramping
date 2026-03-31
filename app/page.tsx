@@ -8,8 +8,8 @@ import {
     CardActionArea,
     Container, 
     Box, 
-
-    Chip
+    Chip,
+    Avatar
 } from "@mui/material";
 import { Timeline, Analytics, TimerTwoTone, BugReport, ArrowForward } from "@mui/icons-material";
 
@@ -20,7 +20,7 @@ const wdirPreview = "/previews/when-do-i-ramp.png";
 const spellTimelinePreview = "/previews/timeline.png";
 const analysisPreview = "/previews/harmonic-surge.png";
 const bugsPreview = "/previews/bugs.png";
-const swirlImg = "/swirl.png";
+const swirlAvatar = "/swirl_panda.jpg";
 
 const siteInfo = [
     { label: "Data-Driven Optimization",   color: "#7ee5ff" },
@@ -191,19 +191,19 @@ const Home = () => {
                 </Box>
             </Box>
 
-            <Box sx={{ mb: 6, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 4 }}>
-                <Box>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 4 }}>
+                <Card variant="outlined" sx={{ p: 3 }}>
                     <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
                         {GetTitle("What's New")}
                     </Typography>
                     <Changelog />
-                </Box>
+                </Card>
 
-                <Box>
+                <Card variant="outlined" sx={{ p: 3 }}>
                     <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
-                        {GetTitle("About This Site")}
+                        {GetTitle("About The Site")}
                     </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
                         {siteInfo.map((info, i) => (
                             <Chip
                                 key={i}
@@ -214,39 +214,55 @@ const Home = () => {
                             />
                         ))}
                     </Box>
-                </Box>
-            </Box>
-
-            <Box sx={{ pt: 4, borderTop: '1px solid', borderColor: 'divider', display: 'flex', justifyContent: 'center' }}>
-                <Link href="/about" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <Box sx={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 2,
-                        px: 3,
-                        py: 1.5,
-                        borderRadius: 2,
-                        cursor: 'pointer',
-                        transition: 'background-color 0.2s',
-                        '&:hover': { backgroundColor: 'action.hover' }
-                    }}>
-                        <Box
-                            component="img"
-                            src={swirlImg}
+                    
+                    <Card
+                        component="a"
+                        href="/about"
+                        variant="outlined"
+                        sx={{
+                            p: 2,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 2,
+                            cursor: 'pointer',
+                            textDecoration: 'none',
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                                transform: 'translateY(-2px)',
+                                boxShadow: 3,
+                                borderColor: 'primary.main',
+                                '& .avatar-icon': {
+                                    transform: 'scale(1.1)',
+                                }
+                            },
+                        }}
+                    >
+                        <Avatar
+                            src={swirlAvatar}
                             alt="swirl"
-                            sx={{ width: 40, height: 40, borderRadius: 1.5, objectFit: 'cover', border: '1px solid', borderColor: 'divider' }}
+                            className="avatar-icon"
+                            sx={{
+                                width: 62,
+                                height: 62,
+                                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                backdropFilter: 'blur(8px)',
+                                borderRadius: 3,
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                transition: 'transform 0.3s ease',
+                            }}
                         />
-                        <Box sx={{ textAlign: 'left' }}>
-                            <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
-                                {GetTitle("made by swirl")}
+                        <Box sx={{ flex: 1 }}>
+                            <Typography variant="body1" fontWeight={500}>
+                                made by swirl
                             </Typography>
-                            <Typography variant="caption" color="text.secondary">
-                                {GetTitle("mistweaver guide writer for wowhead · veteran & mod at peak of serenity")}
+                            <Typography variant="body2" color="text.secondary">
+                                healer theorycrafter · mistweaver guide writer at wowhead · engineer
                             </Typography>
                         </Box>
-                        <ArrowForward sx={{ color: 'text.secondary', fontSize: 16 }} />
-                    </Box>
-                </Link>
+                        <ArrowForward />
+                    </Card>
+                </Card>
             </Box>
         </Container>
     );

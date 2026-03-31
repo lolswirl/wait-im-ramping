@@ -3,7 +3,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { CHANGELOG } from "@data/changelog";
 import { formatDate, GetTitle } from "@util/stringManipulation";
 
-const MAX_ENTRIES = 3;
+const MAX_ENTRIES = 5;
 
 const Changelog: React.FC = () => {
     return (
