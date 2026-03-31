@@ -47,4 +47,5 @@ export interface Bug {
     status?: STATUS;
     lastBuildTested?: string;
     notes?: string;
+    logs?: { label: string; url: string }[];
 }

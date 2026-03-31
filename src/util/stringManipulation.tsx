@@ -76,3 +76,12 @@ export const rgbToHex = (r: number, g: number, b: number) => {
     };
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 };
+
+export const formatLogUrl = (url: string): string => {
+    try {
+        const urlObj = new URL(url);
+        return urlObj.hostname + (urlObj.pathname !== '/' ? '/...' : '');
+    } catch (e) {
+        return url.length > 50 ? url.substring(0, 47) + '...' : url;
+    }
+};

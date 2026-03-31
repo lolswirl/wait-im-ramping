@@ -14,7 +14,7 @@ import {
     Link,
 } from "@mui/material";
 import SpellButton from "@components/SpellButtons/SpellButton";
-import { GetTitle } from "@util/stringManipulation";
+import { GetTitle, formatLogUrl } from "@util/stringManipulation";
 import { Bug, STATUS, SEVERITY_COLORS, STATUS_COLORS, STATUS_BADGES } from "@data/bugs";
 import { specialization } from "@data/class";
 import SwirlButton from "@components/Buttons/SwirlButton";
@@ -300,17 +300,17 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                     backgroundColor: "rgba(45, 45, 45, 0.7)",
                                     border: "1px solid rgba(255,255,255,0.1)",
                                     borderRadius: 1,
-                                    mb: bug.notes ? 2 : 0,
+                                    mb: (bug.notes || bug.logs) ? 2 : 0,
                                     backdropFilter: "blur(4px)",
                                     transition: "all 0.2s ease",
-                                    flex: bug.notes ? "none" : 1,
+                                    flex: (bug.notes || bug.logs) ? "none" : 1,
                                     "&:hover": {
                                         backgroundColor: "rgba(50, 50, 50, 0.8)",
                                         border: "1px solid rgba(255,255,255,0.15)",
                                     }
                                 }}
                             >
-                                <CardContent sx={{ p: 2, "&:last-child": { pb: 2, pt: 2 }, height: bug.notes ? "auto" : "100%", display: "flex", flexDirection: "column" }}>
+                                <CardContent sx={{ p: 2, "&:last-child": { pb: 2, pt: 2 }, height: (bug.notes || bug.logs) ? "auto" : "100%", display: "flex", flexDirection: "column" }}>
                                     <Typography
                                         variant="overline"
                                         sx={{
@@ -327,7 +327,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                     >
                                         {GetTitle("Affected Spells")}
                                     </Typography>
-                                    <Stack direction="row" sx={{ gap: 0.75, flexWrap: "wrap", flex: bug.notes ? "none" : 1, alignItems: bug.notes ? "flex-start" : "center" }}>
+                                    <Stack direction="row" sx={{ gap: 0.75, flexWrap: "wrap", flex: (bug.notes || bug.logs) ? "none" : 1, alignItems: (bug.notes || bug.logs) ? "flex-start" : "center" }}>
                                         <SpellButton
                                             selectedSpell={bug.spell}
                                             size={38}
@@ -342,6 +342,94 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                     </Stack>
                                 </CardContent>
                             </Card>
+
+                            {bug.logs && bug.logs.length > 0 && (
+                                <Card
+                                    sx={{
+                                        backgroundColor: "rgba(45, 45, 45, 0.7)",
+                                        border: "1px solid rgba(255,255,255,0.1)",
+                                        borderRadius: 1,
+                                        mb: bug.notes ? 2 : 0,
+                                        backdropFilter: "blur(4px)",
+                                        transition: "all 0.2s ease",
+                                        "&:hover": {
+                                            backgroundColor: "rgba(50, 50, 50, 0.8)",
+                                            border: "1px solid rgba(255,255,255,0.15)",
+                                        }
+                                    }}
+                                >
+                                    <CardContent sx={{ p: 2, "&:last-child": { pb: 2, pt: 2 } }}>
+                                        <Typography
+                                            variant="overline"
+                                            sx={{
+                                                color: "#ffcc80",
+                                                fontWeight: 800,
+                                                fontSize: '0.75rem',
+                                                letterSpacing: 1.2,
+                                                mb: 1.5,
+                                                mt: 0,
+                                                lineHeight: 1,
+                                                display: "block",
+                                                textTransform: "none",
+                                            }}
+                                        >
+                                            {GetTitle("Logs")}
+                                        </Typography>
+                                        <Stack spacing={1}>
+                                            {bug.logs.map((log, index) => (
+                                                <Box 
+                                                    key={index}
+                                                    sx={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        gap: 0.5,
+                                                        p: 1.5,
+                                                        backgroundColor: "rgba(255, 255, 255, 0.03)",
+                                                        borderRadius: 1,
+                                                        border: "1px solid rgba(255,255,255,0.08)",
+                                                        transition: "all 0.2s ease",
+                                                        "&:hover": {
+                                                            backgroundColor: "rgba(255, 255, 255, 0.06)",
+                                                            border: "1px solid rgba(255,255,255,0.15)",
+                                                        }
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            color: "rgba(255,255,255,0.7)",
+                                                            fontWeight: 600,
+                                                            fontSize: "0.7rem",
+                                                            textTransform: "uppercase",
+                                                            letterSpacing: 0.5,
+                                                        }}
+                                                    >
+                                                        {GetTitle(log.label)}
+                                                    </Typography>
+                                                    <Link
+                                                        href={log.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        sx={{
+                                                            color: "primary.main",
+                                                            textDecoration: "none",
+                                                            fontWeight: 500,
+                                                            fontSize: "0.85rem",
+                                                            wordBreak: "break-all",
+                                                            "&:hover": {
+                                                                textDecoration: "underline",
+                                                                color: "primary.light",
+                                                            }
+                                                        }}
+                                                    >
+                                                        {formatLogUrl(log.url)}
+                                                    </Link>
+                                                </Box>
+                                            ))}
+                                        </Stack>
+                                    </CardContent>
+                                </Card>
+                            )}
 
                             {bug.notes && (
                                 <Card

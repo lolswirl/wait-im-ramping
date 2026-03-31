@@ -12,6 +12,7 @@ import {
     Chip,
     Tooltip,
 } from "@mui/material";
+import LinkIcon from "@mui/icons-material/Link";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { GetTitle } from "@util/stringManipulation";
 import { Bug, SEVERITY, SEVERITY_COLORS, SEVERITY_ORDER, STATUS, STATUS_COLORS } from "@data/bugs";
@@ -31,6 +32,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
     const titleWidth = 450;
     const tagsWidth = 200;
     const buildWidth = 55;
+    const logsWidth = 45;
 
     const hideOverflowSx = {
         overflow: "hidden",
@@ -176,6 +178,19 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                             {GetTitle("Build")}
                             {getSortArrow("lastBuildTested")}
                         </TableCell>
+                        <Tooltip title={GetTitle("Logs available")} arrow>
+                            <TableCell
+                                sx={{
+                                    ...headerSx,
+                                    minWidth: logsWidth,
+                                    width: logsWidth,
+                                    maxWidth: logsWidth,
+                                    textAlign: "center",
+                                }}
+                            >
+                                {GetTitle("Logs")}
+                            </TableCell>
+                        </Tooltip>
                         <TableCell
                             sx={{
                                 ...headerSx,
@@ -288,6 +303,26 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                 >
                                     {bug.lastBuildTested || "—"}
                                 </Typography>
+                            </TableCell>
+                            <TableCell
+                                sx={{
+                                    border: 0,
+                                    minWidth: logsWidth,
+                                    maxWidth: logsWidth,
+                                    textAlign: "center",
+                                    px: 0,
+                                    py: 1,
+                                }}
+                            >
+                                {bug.logs && bug.logs.length > 0 && (
+                                    <LinkIcon
+                                        sx={{
+                                            fontSize: "1.1rem",
+                                            color: "primary.main",
+                                            opacity: 0.8,
+                                        }}
+                                    />
+                                )}
                             </TableCell>
                             <TableCell
                                 sx={{

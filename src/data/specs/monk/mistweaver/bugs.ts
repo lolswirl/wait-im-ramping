@@ -15,7 +15,7 @@ const BUGS: Bug[] = [
         description: "Versatility gains from several sources (Secret Infusion, Inner Compass, Mark of the Wild, etc) double dips on Ancient Teachings - it increases the damage you deal which converts into Ancient Teachings healing, then that is increased by the extra Versatility % increase",
         tags: [TAGS.VERS],
         lastBuildTested: "66066",
-        notes: "https://www.warcraftlogs.com/reports/tvxZXBYQfmKpVdRF?fight=3&type=summary&source=11&start=511586&end=527359&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%7C388500%7C388024"
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/tvxZXBYQfmKpVdRF?fight=3&type=summary&source=11&start=511586&end=527359&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%7C388500%7C388024" }],
     },
     {
         spell: TALENTS.ASPECT_OF_HARMONY_T1,
@@ -34,7 +34,7 @@ const BUGS: Bug[] = [
         description: "Overwhelming Force does not hit targets with absorbs or shields on them",
         tags: [TAGS.MOH],
         lastBuildTested: "65769",
-        notes: "https://www.warcraftlogs.com/reports/BjAwXaHfYR4KGnd7?fight=18&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116849%7C100780%7C100784%7C228649%7C1269159%7C468179%7C467307%7C452333"
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/BjAwXaHfYR4KGnd7?fight=18&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116849%7C100780%7C100784%7C228649%7C1269159%7C468179%7C467307%7C452333" }],
     },
     {
         spell: TALENTS.ANCIENT_TEACHINGS,
@@ -86,7 +86,7 @@ const BUGS: Bug[] = [
             "With Rapid Diffusion Talented, Rising Sun Kick adds and removes several buff stacks in succession then consumed immediately and a Nature gets applied, consumed, and reapplied",
         tags: [TAGS.MOH],
         lastBuildTested: "66220",
-        notes: "https://www.warcraftlogs.com/reports/RrQHWx6VkNFJAT1a?fight=1&type=summary&source=11&start=21771&end=24771&view=events"
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/RrQHWx6VkNFJAT1a?fight=1&type=summary&source=11&start=21771&end=24771&view=events" }],
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM,
@@ -108,7 +108,7 @@ const BUGS: Bug[] = [
             "Hard Cast Enveloping Mist with Rapid diffusion procs 3 stacks of Nature. This is from Envelop apply and then the Rapid Diffusion Rem having travel time",
         tags: [TAGS.MOH],
         lastBuildTested: "66220",
-        notes: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=24&type=summary&source=6&view=events&start=3323214&end=3327078"
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=24&type=summary&source=6&view=events&start=3323214&end=3327078" }],
     },
     {
         spell: TALENTS.TEAR_OF_MORNING,
@@ -272,7 +272,7 @@ const BUGS: Bug[] = [
         title: "Has no variance",
         description: "Sheilun's Gift has no variance of +-5%",
         lastBuildTested: "66220",
-        notes: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=3&view=events&source=6&type=healing&pins=2%24Separate%24%23244F4B%24any%7Chealing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24399497%7C399510%7C399491",
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=3&view=events&source=6&type=healing&pins=2%24Separate%24%23244F4B%24any%7Chealing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24399497%7C399510%7C399491" }],
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM,
@@ -291,7 +291,7 @@ const BUGS: Bug[] = [
         title: "Tooltip does not match actual amount healed",
         description: "Tooltip does not match the actual amount healed for either JB or Gift",
         lastBuildTested: "65848",
-        notes: "Multiple issues: https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1",
+        logs: [{ label: "Multiple issues", url: "https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1" }],
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -301,7 +301,7 @@ const BUGS: Bug[] = [
         title: "Soothing Breath tooltip is not 500% increased with Jade Bond",
         description: "Soothing Breath tooltip does not update when talented into Jade Bond.",
         lastBuildTested: "65848",
-        notes: "Multiple issues: https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1",
+        logs: [{ label: "Multiple issues", url: "https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1" }],
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -311,7 +311,7 @@ const BUGS: Bug[] = [
         title: "Soothing Breath lasts 9s (tooltip says 8.5s)",
         description: "Soothing breath lasts 9s (Tooltip says 8.5 before haste).",
         lastBuildTested: "65848",
-        notes: "Multiple issues: https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1",
+        logs: [{ label: "Multiple issues", url: "https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1" }],
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -474,9 +474,9 @@ const BUGS: Bug[] = [
         affectedSpells: [SPELLS.SOOTHING_MIST],
         severity: SEVERITY.LOW,
         title: "Sometimes does 32bit int max value amounts of overheal",
-        description: "Spiritfont soothing mist sometimes does 32bit int max value amounts of positive/negative overheal - See log",
+        description: "Spiritfont soothing mist sometimes does 32bit int max value amounts of positive/negative overheal",
         lastBuildTested: "64529",
-        notes: "https://www.warcraftlogs.com/reports/6xj1gnNLa34vzcr8?boss=-3&difficulty=0&type=healing&source=5&start=712274&end=725940&options=8&ability=1260617&target=9&view=events",
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/6xj1gnNLa34vzcr8?boss=-3&difficulty=0&type=healing&source=5&start=712274&end=725940&options=8&ability=1260617&target=9&view=events" }],
         tags: [TAGS.APEX],
         status: STATUS.FIXED,
     },
@@ -522,7 +522,7 @@ const BUGS: Bug[] = [
         title: "Still procs Gust of Mists on Soothing Mist",
         description: "Spiritfont soothing mists (Spell Id: 1260617) is proccing Gust of Mists",
         lastBuildTested: "65769",
-        notes: "https://www.warcraftlogs.com/reports/9m2ntLC4wWyB6k83?fight=19&type=casts&source=22&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24191894|1260617&start=7033905&end=7103696",
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/9m2ntLC4wWyB6k83?fight=19&type=casts&source=22&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24191894|1260617&start=7033905&end=7103696" }],
         tags: [TAGS.APEX, TAGS.MASTERY],
         status: STATUS.FIXED,
     },
@@ -533,7 +533,8 @@ const BUGS: Bug[] = [
         title: "Damage is not transferring to healing through Ancient Teachings",
         description: "Jadefire Stomp damage is not transferring to healing through ancient teachings. When it worked in 65448, transferred at a lower rate than advertised: 150% with Jadefire Teachings, 18% with Ancient Teachings, ~55% with AT + Meditative Focus, 186% with JFT + AT + Meditative Focus",
         lastBuildTested: "66220",
-        notes: "Fixed in 65448, reverted in 65617. https://www.warcraftlogs.com/reports/hL6Rw13bzBdxyXrH?fight=5&type=damage-done&source=3&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388024|388025",
+        notes: "Fixed in 65448, reverted in 65617.",
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/hL6Rw13bzBdxyXrH?fight=5&type=damage-done&source=3&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388024|388025" }],
     },
     {
         spell: TALENTS.RUSHING_WIND_KICK,
@@ -541,7 +542,7 @@ const BUGS: Bug[] = [
         title: "Doesn't consistently hit 5 targets despite having more than 5 hots out",
         description: "Rushing Wind Kick does not consistently hit up to 5 targets despite having far more than 5 hots out",
         lastBuildTested: "65337",
-        notes: "https://www.warcraftlogs.com/reports/9m2ntLC4wWyB6k83?fight=19&type=healing&source=22&view=events&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24467307^0%24Off%24%23909049%24auras-gained%24-1%240.0.0.Any%2413389582.0.0.Monk%24true%240.0.0.Any%24true%24119611&ability=1269159",
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/9m2ntLC4wWyB6k83?fight=19&type=healing&source=22&view=events&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24467307^0%24Off%24%23909049%24auras-gained%24-1%240.0.0.Any%2413389582.0.0.Monk%24true%240.0.0.Any%24true%24119611&ability=1269159" }],
         status: STATUS.FIXED,
     },
     {
@@ -667,8 +668,10 @@ const BUGS: Bug[] = [
         title: "Unison is still healing, even though the talent doesn't exist",
         description: "Unison is still healing, even though the talent doesn't exist anymore. Think its related to Mistline being talented",
         lastBuildTested: "66066",
-        notes: "https://www.warcraftlogs.com/reports/pmdtLjDafFnyHV7P?fight=last&type=healing&source=333&ability=388480\n" +
-        "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=17&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24198533%7C115175%7C388479%7C388480\n",
+        logs: [
+            { label: "Build 66066", url: "https://www.warcraftlogs.com/reports/pmdtLjDafFnyHV7P?fight=last&type=healing&source=333&ability=388480" },
+            { label: "Build 65769", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=17&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24198533%7C115175%7C388479%7C388480" },
+        ],
         status: STATUS.FIXED,
     },
     {
@@ -678,8 +681,10 @@ const BUGS: Bug[] = [
         title: "Ancient Teachings healing conversion reverted to post-armor values",
         description: "Hotfix to Ancient Teachings healing on pre-armor damage values (physical abilities reducing actual damage dealt by 30% account for armor) was reverted at some point from Undermine -> Live. The conversion now only happens on post-armor values.",
         lastBuildTested: "66220",
-        notes: "https://www.warcraftlogs.com/reports/hpTmN6FgCtaY9bvc?fight=11&source=1&type=summary&start=14048042&end=14286694&view=events&pins=2%24Separate%24%23244F4B%24casts%7Cdamage%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388025%7C388024\n" +
-        "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=12&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24185099%7C388024",
+        logs: [
+            { label: "Post-armor conversion (66220)", url: "https://www.warcraftlogs.com/reports/hpTmN6FgCtaY9bvc?fight=11&source=1&type=summary&start=14048042&end=14286694&view=events&pins=2%24Separate%24%23244F4B%24casts%7Cdamage%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388025%7C388024" },
+            { label: "Build 65769", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=12&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24185099%7C388024" },
+        ],
     },
     {
         spell: TALENTS.SPIRITFONT,
@@ -698,7 +703,7 @@ const BUGS: Bug[] = [
         title: "Despite its removal, still procs from Unity Within",
         description: "Despite being removed from the talent tree, the spell still activates when Unity Within occurs. Only heals, as it has done since its inception from Unity Within to not proc mana tea despite its original talent's wording.",
         lastBuildTested: "66220",
-        notes: "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=7&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443028%7C443591%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443614"
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=7&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443028%7C443591%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443614" }],
     },
     {
         spell: SPELLS.REVIVAL,
@@ -707,7 +712,7 @@ const BUGS: Bug[] = [
         description: "Revival does less healing when more targets are hit as expected however pets are being included in the split reduction",
         tags: [TAGS.PETS],
         lastBuildTested: "65769",
-        notes: "65769 log: https://www.warcraftlogs.com/reports/RZzarj1v67qgLhXJ?fight=last&type=healing&source=37&ability=115310&view=events"
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/RZzarj1v67qgLhXJ?fight=last&type=healing&source=37&ability=115310&view=events" }],
     },
     {
         spell: TALENTS.SPIRITFONT,
@@ -717,9 +722,11 @@ const BUGS: Bug[] = [
         description: "The first point in Spiritfont does not proc via Sheilun's Gift consistently, as it should swap from Vivify after talenting SG. Testing in 65769 seems like it can proc from it, but definitely not the 1ppm allotted.\n\n" +
         "As of 66709, Vivify has begun not proccing it at all.",
         lastBuildTested: "66709",
-        notes: "66709: https://www.warcraftlogs.com/reports/fY2nqtQ3Z4N1hJ6V?fight=38&type=summary&source=161&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116670%7C467307%7C116680&view=events \n" +
-        "29 minute log: https://www.warcraftlogs.com/reports/HvrkyFPnC6TxbBN3?fight=1&type=auras&source=1&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%7C1260670%2463 \n" + 
-        "Procs once at 2 minute mark after 75 casts of SG: https://www.warcraftlogs.com/reports/Qg31CFpr2vn6xLwd?fight=last&source=6&type=casts&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565",
+        logs: [
+            { label: "66709", url: "https://www.warcraftlogs.com/reports/fY2nqtQ3Z4N1hJ6V?fight=38&type=summary&source=161&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116670%7C467307%7C116680&view=events" },
+            { label: "29 minute log", url: "https://www.warcraftlogs.com/reports/HvrkyFPnC6TxbBN3?fight=1&type=auras&source=1&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%7C1260670%2463" },
+            { label: "Procs once after 75 casts of SG", url: "https://www.warcraftlogs.com/reports/Qg31CFpr2vn6xLwd?fight=last&source=6&type=casts&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565" },
+        ],
         tags: [TAGS.APEX]
     },
     {
@@ -729,7 +736,7 @@ const BUGS: Bug[] = [
         title: "Primary target of Enveloping Mist doesn't always receive shield",
         description: "When casting Enveloping Mist, the primary target doesn't always receive one of the 5 shields from Strength of the Black Ox. This causes Stampede of the Ancients to appear broken, as it only strengthens the primary target's shield when that target actually receives one. Functionally works when the primary target does receive a shield.",
         lastBuildTested: "65560",
-        notes: "https://www.warcraftlogs.com/reports/6Wfpry3mtxz84PHd?fight=8&type=auras&view=events&ability=443113",
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/6Wfpry3mtxz84PHd?fight=8&type=auras&view=events&ability=443113" }],
         tags: [TAGS.CONDUIT]
     },
     {
@@ -740,7 +747,7 @@ const BUGS: Bug[] = [
         description: "Unity Within procs Strength of the black Ox, but it does not increase the strength of any of the shields.",
         lastBuildTested: "66066",
         tags: [TAGS.CONDUIT],
-        notes: "65769: https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=7&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682%7C443028%7C443591%24or%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443113%7C443112",
+        logs: [{ label: "65769", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=7&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682%7C443028%7C443591%24or%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443113%7C443112" }],
         status: STATUS.FIXED,
     },
     {
@@ -775,16 +782,16 @@ const BUGS: Bug[] = [
             "- Sheilun's Gift: Suddenly stops gaining stacks, seen notably after target swapping inside of a Soothing Mist channel\n" +
             "- Several others reported anecodtally - Way of the Crane, Tranquil Tea.",
         lastBuildTested: "66562",
-        notes:
-            "Way of the Crane (Live): https://www.warcraftlogs.com/reports/3CQ4XDdT9q87mhYP?fight=last&type=healing&source=1&ability=-388779&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24101546\n" +
-            "Heart of the Jade Serpent from TFT (Live): https://www.warcraftlogs.com/reports/bknjNYvQ4fwLGK2J?fight=last&type=summary&view=events&source=7&pins=2%24Separate%24%23244F4B%24any%7Cauras%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443421%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116680\n" +
-            "\n\n\nBeta:\n" +
-            "Jadefire Teachings (1st): https://www.warcraftlogs.com/reports/4xvtJa6Q1mYZLHDA?fight=last&type=healing&source=1&ability=-388024\n" +
-            "Jadefire Teachings (2nd): https://www.warcraftlogs.com/reports/RX8kjbfA2vMztHQc?fight=last&type=healing&source=5&ability=-388024\n" +
-            "Rising Mist: https://www.warcraftlogs.com/reports/hgHWMKn981b4CvXa?fight=6&pull=7&type=auras&ability=124682&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428\n" +
-            "Harmonic Surge: https://www.warcraftlogs.com/reports/x4PZFHJkmXw98cjb?boss=-3&difficulty=0&type=auras&source=6&ability=1270990&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24100780\n" +
-            "Aspect of Harmony (Vitality): https://www.warcraftlogs.com/reports/FMKmTZk9NhrwGqtp?fight=last&type=auras&source=255&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24450521%7C450526%7C450711%7C450769%7C450531\n" +
-            "Sheilun's Gift Stacks: https://www.warcraftlogs.com/reports/pwqJc6jCbZGPxTKF?fight=1&type=auras&source=7&position=912989&ability=399497",
+        logs: [
+            { label: "Way of the Crane (Live)", url: "https://www.warcraftlogs.com/reports/3CQ4XDdT9q87mhYP?fight=last&type=healing&source=1&ability=-388779&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24101546" },
+            { label: "Heart of the Jade Serpent from TFT (Live)", url: "https://www.warcraftlogs.com/reports/bknjNYvQ4fwLGK2J?fight=last&type=summary&view=events&source=7&pins=2%24Separate%24%23244F4B%24any%7Cauras%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443421%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116680" },
+            { label: "Jadefire Teachings (1st)", url: "https://www.warcraftlogs.com/reports/4xvtJa6Q1mYZLHDA?fight=last&type=healing&source=1&ability=-388024" },
+            { label: "Jadefire Teachings (2nd)", url: "https://www.warcraftlogs.com/reports/RX8kjbfA2vMztHQc?fight=last&type=healing&source=5&ability=-388024" },
+            { label: "Rising Mist", url: "https://www.warcraftlogs.com/reports/hgHWMKn981b4CvXa?fight=6&pull=7&type=auras&ability=124682&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428" },
+            { label: "Harmonic Surge", url: "https://www.warcraftlogs.com/reports/x4PZFHJkmXw98cjb?boss=-3&difficulty=0&type=auras&source=6&ability=1270990&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24100780" },
+            { label: "Aspect of Harmony (Vitality)", url: "https://www.warcraftlogs.com/reports/FMKmTZk9NhrwGqtp?fight=last&type=auras&source=255&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24450521%7C450526%7C450711%7C450769%7C450531" },
+            { label: "Sheilun's Gift Stacks", url: "https://www.warcraftlogs.com/reports/pwqJc6jCbZGPxTKF?fight=1&type=auras&source=7&position=912989&ability=399497" },
+        ],
         tags: [TAGS.MOH]
     },
     {
@@ -855,7 +862,8 @@ const BUGS: Bug[] = [
         lastBuildTested: "66431",
         title: "Soothing Mists from multiple stacks used back to back get removed simultaneously",
         description: "Soothing Mists from multiple stacks of Spiritfont used back to back get removed simultaneously and reapplied elsewhere, but don't double in value.",
-        notes: "Particularly bad during Yu'lon, when casting many Enveloping Mists in a row and having multiple Spiritfont charges to use. https://www.warcraftlogs.com/reports/zk8wqLPg9MFjyKvx?fight=92&type=summary&source=681&start=16521817&end=16530508&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260681%7C1260617%24or%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260670%7C1260565%7C1260681%7C1260617",
+        notes: "Particularly bad during Yu'lon, when casting many Enveloping Mists in a row and having multiple Spiritfont charges to use.",
+        logs: [{ label: "Multiple stacks getting removed simultaneously", url: "https://www.warcraftlogs.com/reports/zk8wqLPg9MFjyKvx?fight=92&type=summary&source=681&start=16521817&end=16530508&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260681%7C1260617%24or%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260670%7C1260565%7C1260681%7C1260617" }],
         tags: [TAGS.APEX],
     },
     {
@@ -864,7 +872,8 @@ const BUGS: Bug[] = [
         lastBuildTested: "66431",
         title: "Chi Cocoons from multiple stacks get refreshed if they land on the same target",
         description: "Chi Cocoons from multiple stacks of Spiritfont used back to back get refreshed if they land on the same target, but don't double in value.",
-        notes: "Particularly bad in Mythic+, when there are only 5 targets maximum. https://www.warcraftlogs.com/reports/zk8wqLPg9MFjyKvx?fight=92&type=summary&source=681&start=16521817&end=16530508&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260681%7C1260617%24or%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260670%7C1260565%7C1260681%7C1260618",
+        notes: "Particularly bad in Mythic+, when there are only 5 targets maximum.",
+        logs: [{ label: "Chi Cocoons getting refreshed instead of stacking", url: "https://www.warcraftlogs.com/reports/zk8wqLPg9MFjyKvx?fight=92&type=summary&source=681&start=16521817&end=16530508&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260681%7C1260617%24or%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260670%7C1260565%7C1260681%7C1260618" }],
         tags: [TAGS.APEX],
     },
     {
