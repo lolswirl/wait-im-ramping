@@ -146,7 +146,7 @@ const About = () => {
               honestly, i started this website as a way to learn react which turned into much more: a method to share useful info for planning and optimizing healing - whether you're trying to clean up your sequencing, or satiate the desire to understand your spells a bit better.
             </Typography>
             <Typography variant="body2" paragraph align="left">
-              this site is <Box component="span" sx={{ fontWeight: "bold" }}>free and open source</Box>. 
+              this site is <Box component="span" sx={{ fontWeight: "bold" }}>free and open source</Box>.{" "} 
               if you're interested in contributing or just want to chat about theorycrafting, feel free to reach out through any of the social links in the footer below!
             </Typography>
           </Stack>
