@@ -511,9 +511,9 @@ const BUGS: Bug[] = [
         affectedSpells: [TALENTS.FOCUSED_THUNDER, SPELLS.SOOTHING_MIST],
         severity: SEVERITY.MEDIUM,
         title: "Soothing Mist channel interrupted by Focused Thunder's last charge",
-        description: "The free-move Soothing Mist channel from Emperor's Elixir seems to be interrupted by Focused Thunder being fully consumed",
-        lastBuildTested: "65448",
-        status: STATUS.FIXED,
+        description: "The free-move Soothing Mist channel from Emperor's Elixir seems to be interrupted by Focused Thunder being fully consumed. Does not happen with Way of the Serpent, but does with Way of the Crane.",
+        lastBuildTested: "66709",
+        notes: "Fixed in 65448, broken again in 66709."
     },
     {
         spell: TALENTS.SPIRITFONT,
