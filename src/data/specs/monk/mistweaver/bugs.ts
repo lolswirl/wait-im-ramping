@@ -920,6 +920,7 @@ const BUGS: Bug[] = [
         lastBuildTested: "66709",
         title: "Sets random buffs durations to 20-32 seconds",
         description: "Buffs like Enveloping Mist, Life Cocoon, Flasks, Vantus Runes, etc. become set to 20-32 seconds when it should be a Renewing Mist",
+        tags: [TAGS.TIER],
     },
     {
         spell: TIER.T35_MISTWEAVER_4SET,
@@ -928,6 +929,7 @@ const BUGS: Bug[] = [
         lastBuildTested: "66709",
         title: "Renewing Mist from 4pc doesn't follow traditional rules",
         description: "The Renewing Mist created is completely independent from a normal Renewing Mist meaning that it is significantly stronger because it has no interaction with pandemic durations of normal Renewing Mists and thus can do significantly more HPS with talents such as Misty Peaks",
+        tags: [TAGS.TIER],
     },
 
 ];
