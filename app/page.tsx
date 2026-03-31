@@ -8,33 +8,25 @@ import {
     CardActionArea,
     Container, 
     Box, 
-    Button,
-    Stack,
-    Chip,
-    ChipProps
+
+    Chip
 } from "@mui/material";
-import { Timeline, Analytics, TrendingUp, Person, TimerTwoTone, BugReport } from "@mui/icons-material";
+import { Timeline, Analytics, TimerTwoTone, BugReport, ArrowForward } from "@mui/icons-material";
 
 import { GetTitle } from "@util/stringManipulation";
+import Changelog from "@components/Changelog/Changelog";
 
 const wdirPreview = "/previews/when-do-i-ramp.png";
 const spellTimelinePreview = "/previews/timeline.png";
 const analysisPreview = "/previews/harmonic-surge.png";
 const bugsPreview = "/previews/bugs.png";
+const swirlImg = "/swirl.png";
 
-const infoChips: { label: string; color: ChipProps["color"] }[] = [
-    {
-        label: GetTitle("Comprehensive Healing Analysis"),
-        color: "primary"
-    },
-    {
-        label: GetTitle("Growing Spec Support"),
-        color: "secondary"
-    },
-    {
-        label: GetTitle("Data-Driven Optimization"),
-        color: "success"
-    }
+const siteInfo = [
+    { label: "Data-Driven Optimization",   color: "#7ee5ff" },
+    { label: "Growing Spec Support",   color: "#89ff7f" },
+    { label: "Free & Open Source (Please contribute!)",     color: "#ffd700" },
+    { label: "Comprehensive Healing Analysis",        color: "#ff69b4" },
 ];
 
 const quickAccessPages = [
@@ -68,31 +60,6 @@ const quickAccessPages = [
     }
 ];
 
-const customButtonStyles = {
-    borderRadius: 3,
-    px: 4,
-    py: 1.5,
-    fontWeight: 600,
-    textTransform: 'none',
-    fontSize: '1rem',
-    boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)',
-    transition: "transform 0.3s ease",
-    '&:hover': {
-        transform: 'scale(1.1)',
-        boxShadow: '0 6px 20px 0 rgba(0,0,0,0.15)',
-        backgroundColor: 'primary.main',
-    }
-};
-
-const outlineButtonStyles = {
-    ...customButtonStyles,
-    borderWidth: 2,
-    '&:hover': {
-        ...customButtonStyles['&:hover'],
-        backgroundColor: 'transparent',
-        borderWidth: 2,
-    }
-};
 
 const Home = () => {
     return (
@@ -106,20 +73,9 @@ const Home = () => {
                 >
                   {GetTitle("Wait, I'm Ramping!")}
                 </Typography>
-                <Typography variant="h5" color="text.secondary" sx={{ mb: 4, maxWidth: 800, mx: 'auto' }}>
-                    {GetTitle(`Healing theorycrafting and optimization tools for World of Warcraft`)}
+                <Typography variant="h5" color="text.secondary" sx={{ mb: 2, maxWidth: 800, mx: 'auto' }}>
+                    {GetTitle("Healer theorycrafting and optimization tools for World of Warcraft")}
                 </Typography>
-                <Stack direction="row" spacing={2} justifyContent="center" sx={{ flexWrap: 'wrap', gap: 2 }}>
-                    {infoChips.map((chip, index) => (
-                        <Chip 
-                            key={index}
-                            label={chip.label} 
-                            color={chip.color} 
-                            size="medium"
-                            sx={{ fontSize: '1rem', px: 2, py: 1 }}
-                        />
-                    ))}
-                </Stack>
             </Box>
             
             <Box sx={{ mb: 6, display: 'flex', justifyContent: 'center' }}>
@@ -235,39 +191,62 @@ const Home = () => {
                 </Box>
             </Box>
 
-            <Box sx={{ textAlign: 'center', mt: 6, mb: 6 }}>
-                <Typography
-                  variant="h4"
-                  gutterBottom
-                  sx={{ fontWeight: 'bold', color: 'primary.main' }}
-                >
-                  {GetTitle("Ready to improve your healing?")}
-                </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-                    {GetTitle("Start optimizing your gameplay with personalized analysis tools")}
-                </Typography>
-                <Stack direction="row" spacing={2} justifyContent="center" sx={{ flexWrap: 'wrap', gap: 2 }}>
-                    <Link href="/analysis">
-                        <Button 
-                            variant="contained" 
-                            size="large"
-                            startIcon={<TrendingUp />}
-                            sx={customButtonStyles}
-                        >
-                            {GetTitle("Start Optimizing")}
-                        </Button>
-                    </Link>
-                    <Link href="/about">
-                        <Button 
-                            variant="outlined" 
-                            size="large"
-                            startIcon={<Person />}
-                            sx={outlineButtonStyles}
-                        >
-                            {GetTitle("About Me")}
-                        </Button>
-                    </Link>
-                </Stack>
+            <Box sx={{ mb: 6, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 4 }}>
+                <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+                        {GetTitle("What's New")}
+                    </Typography>
+                    <Changelog />
+                </Box>
+
+                <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+                        {GetTitle("About This Site")}
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {siteInfo.map((info, i) => (
+                            <Chip
+                                key={i}
+                                label={GetTitle(info.label)}
+                                size="small"
+                                variant="outlined"
+                                sx={{ borderColor: info.color, color: info.color }}
+                            />
+                        ))}
+                    </Box>
+                </Box>
+            </Box>
+
+            <Box sx={{ pt: 4, borderTop: '1px solid', borderColor: 'divider', display: 'flex', justifyContent: 'center' }}>
+                <Link href="/about" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Box sx={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 2,
+                        px: 3,
+                        py: 1.5,
+                        borderRadius: 2,
+                        cursor: 'pointer',
+                        transition: 'background-color 0.2s',
+                        '&:hover': { backgroundColor: 'action.hover' }
+                    }}>
+                        <Box
+                            component="img"
+                            src={swirlImg}
+                            alt="swirl"
+                            sx={{ width: 40, height: 40, borderRadius: 1.5, objectFit: 'cover', border: '1px solid', borderColor: 'divider' }}
+                        />
+                        <Box sx={{ textAlign: 'left' }}>
+                            <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                                {GetTitle("made by swirl")}
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary">
+                                {GetTitle("mistweaver guide writer for wowhead · veteran & mod at peak of serenity")}
+                            </Typography>
+                        </Box>
+                        <ArrowForward sx={{ color: 'text.secondary', fontSize: 16 }} />
+                    </Box>
+                </Link>
             </Box>
         </Container>
     );
