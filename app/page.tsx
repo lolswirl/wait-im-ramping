@@ -15,6 +15,7 @@ import { Timeline, Analytics, TimerTwoTone, BugReport, ArrowForward } from "@mui
 
 import { GetTitle } from "@util/stringManipulation";
 import Changelog from "@components/Changelog/Changelog";
+import RainbowCard from "@components/Buttons/RainbowCard";
 
 const wdirPreview = "/previews/when-do-i-ramp.png";
 const spellTimelinePreview = "/previews/timeline.png";
@@ -215,22 +216,14 @@ const Home = () => {
                         ))}
                     </Box>
                     
-                    <Card
-                        component="a"
+                    <RainbowCard
                         href="/about"
-                        variant="outlined"
                         sx={{
                             p: 2,
                             display: 'flex',
                             alignItems: 'center',
                             gap: 2,
-                            cursor: 'pointer',
-                            textDecoration: 'none',
-                            transition: 'all 0.3s ease',
                             '&:hover': {
-                                transform: 'translateY(-2px)',
-                                boxShadow: 3,
-                                borderColor: 'primary.main',
                                 '& .avatar-icon': {
                                     transform: 'scale(1.1)',
                                 }
@@ -261,7 +254,7 @@ const Home = () => {
                             </Typography>
                         </Box>
                         <ArrowForward />
-                    </Card>
+                    </RainbowCard>
                 </Card>
             </Box>
         </Container>
