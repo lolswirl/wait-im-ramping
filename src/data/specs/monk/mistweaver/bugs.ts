@@ -898,7 +898,7 @@ const BUGS: Bug[] = [
         affectedSpells: [TALENTS.GIFT_OF_THE_CELESTIALS, TALENTS.SOOTHING_BREATH],
         severity: SEVERITY.HIGH,
         lastBuildTested: "66709",
-        title: "Yu'lon's Soothing Breath only ticks 6 times, instead of 7 + partial",
+        title: "Yu'lon's Soothing Breath sometimes only ticks 6 times, instead of 7 + partial",
         description: "",
     },
     {
