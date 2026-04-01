@@ -283,7 +283,7 @@ function ResponsiveAppBar() {
                                     WebkitTextFillColor: "transparent",
                                     backgroundClip: "text",
                                 } : {
-                                    color: "primary.main",
+                                    color: "white",
                                 }),
                             }}
                         >
