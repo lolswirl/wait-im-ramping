@@ -649,7 +649,12 @@ const TimelineView: React.FC<{
                                         zIndex: 0,
                                     }} />
 
-                                    <GlassTooltip title={`${GetTitle(event.source.name)} cast starts at ${event.castStartTime.toFixed(1)}s, ${GetTitle("Heart of the Jade Serpent")} activates at ${event.startTime.toFixed(1)}s`}>
+                                    <GlassTooltip title={
+                                        <div style={{ textAlign: 'center' }}>
+                                            {GetTitle(event.source.name)} cast starts at {event.castStartTime.toFixed(1)}s<br />
+                                            {GetTitle("Heart of the Jade Serpent")} activates at {event.startTime.toFixed(1)}s
+                                        </div>
+                                    }>
                                         <Box sx={{
                                             position: 'absolute',
                                             left: castStartCalc,
@@ -666,7 +671,12 @@ const TimelineView: React.FC<{
                                         </Box>
                                     </GlassTooltip>
                                     
-                                    <GlassTooltip title={`${GetTitle("Heart of the Jade Serpent active")}: ${event.startTime.toFixed(1)}s - ${(event.startTime + event.duration).toFixed(1)}s (${event.multiplier === 2.5 ? '150%' : '75%'} ${GetTitle("Cooldown Reduction")})`}>
+                                    <GlassTooltip title={
+                                        <div style={{ textAlign: 'center' }}>
+                                            {GetTitle("Heart of the Jade Serpent active")}: {event.startTime.toFixed(1)}s - {(event.startTime + event.duration).toFixed(1)}s<br />
+                                            ({event.multiplier === 2.5 ? '150%' : '75%'} {GetTitle("Cooldown Reduction")})
+                                        </div>
+                                    }>
                                         <Box sx={{
                                             position: 'absolute',
                                             left: hotjsStartCalc,
