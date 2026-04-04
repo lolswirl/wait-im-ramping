@@ -10,8 +10,8 @@ import {
     Box,
     Typography,
     Chip,
-    Tooltip,
 } from "@mui/material";
+import { GlassTooltip } from "@components/GlassTooltip/GlassTooltip";
 import LinkIcon from "@mui/icons-material/Link";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { GetTitle } from "@util/stringManipulation";
@@ -127,7 +127,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
             <Table sx={{ minWidth: 600 }}>
                 <TableHead>
                     <TableRow>
-                        <Tooltip title={GetTitle(`Sort by Severity${getSortArrow("severity")}`)} arrow>
+                        <GlassTooltip title={GetTitle(`Sort by Severity${getSortArrow("severity")}`)}>
                             <TableCell
                                 sx={{ 
                                     width: severityWidth, 
@@ -141,7 +141,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                 }}
                                 onClick={() => handleSort("severity")}
                             />
-                        </Tooltip>
+                        </GlassTooltip>
                         <TableCell
                             sx={{
                                 ...headerSx,
@@ -178,7 +178,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                             {GetTitle("Build")}
                             {getSortArrow("lastBuildTested")}
                         </TableCell>
-                        <Tooltip title={GetTitle("Logs available")} arrow>
+                        <GlassTooltip title={GetTitle("Logs available")}>
                             <TableCell
                                 sx={{
                                     ...headerSx,
@@ -190,7 +190,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                             >
                                 {GetTitle("Logs")}
                             </TableCell>
-                        </Tooltip>
+                        </GlassTooltip>
                         <TableCell
                             sx={{
                                 ...headerSx,

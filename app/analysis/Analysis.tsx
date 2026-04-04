@@ -9,12 +9,12 @@ import {
     Box, 
     Chip,
     Grid,
-    Tooltip,
 } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import { formatDate, getCapsMode, GetTitle } from "@util/stringManipulation";
 import RainbowCard from "@components/Buttons/RainbowCard";
+import { GlassTooltip } from "@components/GlassTooltip/GlassTooltip";
 
 import { analysisPages, AnalysisPage } from "../AnalysisPages";
 
@@ -190,9 +190,8 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                                         }} />
 
                                         {isOutdated(tool) && (
-                                            <Tooltip 
+                                            <GlassTooltip 
                                                 title={GetTitle(tool.extra || "This tool is no longer maintained or supported")}
-                                                arrow
                                                 placement="top"
                                             >
                                                 <Box sx={{ 
@@ -217,7 +216,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                                                 }}>
                                                     {GetTitle("Outdated")}
                                                 </Box>
-                                            </Tooltip>
+                                            </GlassTooltip>
                                         )}
 
                                         <Box sx={{ 

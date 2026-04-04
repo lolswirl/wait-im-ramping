@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
-import { Card, Grid, TextField, Tooltip } from '@mui/material';
+import { Card, Grid, TextField } from '@mui/material';
+import { GlassTooltip } from '@components/GlassTooltip/GlassTooltip';
 import { GetTitle } from '@util/stringManipulation';
 
 interface StatsCardProps {
@@ -69,7 +70,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
                 {statFields.map((field) => (
                     <Grid size={{ xs: 6 }} key={field.key}>
                         {field.tooltip ? (
-                            <Tooltip title={GetTitle(field.tooltip)} arrow>
+                            <GlassTooltip title={GetTitle(field.tooltip)}>
                                 <TextField
                                     label={GetTitle(field.label)}
                                     type="text"
@@ -104,7 +105,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
                                     }}
                                     sx={fieldStyles}
                                 />
-                            </Tooltip>
+                            </GlassTooltip>
                         ) : (
                             <TextField
                                 label={GetTitle(field.label)}

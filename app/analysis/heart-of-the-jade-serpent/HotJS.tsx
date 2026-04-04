@@ -9,11 +9,11 @@ import {
     Slider,
     Chip,
     Stack,
-    Tooltip,
     Divider,
     useTheme,
     Checkbox,
 } from '@mui/material';
+import { GlassTooltip } from '@components/GlassTooltip/GlassTooltip';
 
 import IconButtonBase from '@components/SpellButtons/IconButtonBase';
 import SpellButton from '@components/SpellButtons/SpellButton';
@@ -649,7 +649,7 @@ const TimelineView: React.FC<{
                                         zIndex: 0,
                                     }} />
 
-                                    <Tooltip title={`${GetTitle(event.source.name)} cast starts at ${event.castStartTime.toFixed(1)}s, ${GetTitle("Heart of the Jade Serpent")} activates at ${event.startTime.toFixed(1)}s`}>
+                                    <GlassTooltip title={`${GetTitle(event.source.name)} cast starts at ${event.castStartTime.toFixed(1)}s, ${GetTitle("Heart of the Jade Serpent")} activates at ${event.startTime.toFixed(1)}s`}>
                                         <Box sx={{
                                             position: 'absolute',
                                             left: castStartCalc,
@@ -664,9 +664,9 @@ const TimelineView: React.FC<{
                                                 size={32}
                                             />
                                         </Box>
-                                    </Tooltip>
+                                    </GlassTooltip>
                                     
-                                    <Tooltip title={`${GetTitle("Heart of the Jade Serpent active")}: ${event.startTime.toFixed(1)}s - ${(event.startTime + event.duration).toFixed(1)}s (${event.multiplier === 2.5 ? '150%' : '75%'} ${GetTitle("Cooldown Reduction")})`}>
+                                    <GlassTooltip title={`${GetTitle("Heart of the Jade Serpent active")}: ${event.startTime.toFixed(1)}s - ${(event.startTime + event.duration).toFixed(1)}s (${event.multiplier === 2.5 ? '150%' : '75%'} ${GetTitle("Cooldown Reduction")})`}>
                                         <Box sx={{
                                             position: 'absolute',
                                             left: hotjsStartCalc,
@@ -678,7 +678,7 @@ const TimelineView: React.FC<{
                                             opacity: 0.8,
                                             zIndex: 2,
                                         }} />
-                                    </Tooltip>
+                                    </GlassTooltip>
 
                                     <Box sx={{
                                         position: 'absolute',
@@ -705,7 +705,7 @@ const TimelineView: React.FC<{
                                         
                                         return (
                                             <Box key={`${ability.spell.name}-${castIndex}`}>
-                                                <Tooltip title={`${GetTitle(ability.spell.name)} cast at ${castTime.toFixed(1)}s`}>
+                                                <GlassTooltip title={`${GetTitle(ability.spell.name)} cast at ${castTime.toFixed(1)}s`}>
                                                     <Box sx={{
                                                         position: 'absolute',
                                                         left: leftPosCalc,
@@ -724,7 +724,7 @@ const TimelineView: React.FC<{
                                                             size={24}
                                                         />
                                                     </Box>
-                                                </Tooltip>
+                                                </GlassTooltip>
 
                                                 <Box sx={{
                                                     position: 'absolute',
