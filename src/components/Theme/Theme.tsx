@@ -3,6 +3,24 @@ import { createTheme, ThemeProvider as MuiThemeProvider, PaletteMode } from '@mu
 import CssBaseline from '@mui/material/CssBaseline';
 import { useIsNonProd } from "@lib/betaModeClient";
 import { useThemeContext } from '../../context/ThemeContext';
+import { RAINBOW_COLORS } from '@components/Buttons/RainbowCard';
+
+const THEME_COLORS = {
+    nonProd: "#ff7700ff",
+    lightPrimary: "#1976d2",
+    chart: {
+        dark: "#494949",
+        light: "#c4c4c4",
+    },
+    tableHead: {
+        dark: "#1e1e1e",
+        light: "#f5f5f5",
+    },
+    tableBody: {
+        dark: "#121212",
+        light: "#e0e0e0",
+    },
+};
 
 declare module '@mui/material/styles' {
     interface Theme {
@@ -31,29 +49,29 @@ const Theme = ({ children }: { children: React.ReactNode }) => {
             mode: themeMode as PaletteMode,
             primary: {
                 main: isNonProd 
-                    ? "#ff7700ff" 
+                    ? THEME_COLORS.nonProd 
                     : themeMode === 'dark' 
-                        ? "#90caf9" 
-                        : "#1976d2",
+                        ? RAINBOW_COLORS[0] 
+                        : THEME_COLORS.lightPrimary,
             }
         },
         custom: {
             chart: {
-                gridColor: themeMode === 'dark' ? '#494949' : '#c4c4c4',
+                gridColor: themeMode === 'dark' ? THEME_COLORS.chart.dark : THEME_COLORS.chart.light,
             },
         },
         components: {
             MuiTableHead: {
                 styleOverrides: {
                     root: {
-                        backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#f5f5f5',
+                        backgroundColor: themeMode === 'dark' ? THEME_COLORS.tableHead.dark : THEME_COLORS.tableHead.light,
                     },
                 },
             },
             MuiTableBody: {
                 styleOverrides: {
                     root: {
-                        backgroundColor: themeMode === 'dark' ? '#121212' : '#e0e0e0',
+                        backgroundColor: themeMode === 'dark' ? THEME_COLORS.tableBody.dark : THEME_COLORS.tableBody.light,
                     },
                 },
             },
