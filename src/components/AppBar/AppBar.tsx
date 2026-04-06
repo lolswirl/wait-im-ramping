@@ -22,7 +22,7 @@ import { GetTitle } from "@util/stringManipulation";
 import { useSpec } from "@context/SpecContext";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 import SwirlButton from "@components/Buttons/SwirlButton";
-import { RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
+import { RAINBOW_GRADIENT, RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
 
 const MoonIcon = () => (
     <SvgIcon viewBox="0 0 16 16" sx={{ fontSize: 15 }}>
@@ -49,8 +49,8 @@ const SunIcon = () => (
 const pages = [
     { label: "Home", path: "/" },
     { label: "When do I ramp?", path: "/when-do-i-ramp" },
-    { label: "Spell Timeline", path: "/timeline" },
-    { label: "Analysis Tools", path: "/analysis" },
+    { label: "Timeline", path: "/timeline" },
+    { label: "Analysis", path: "/analysis" },
     { label: "Bugs", path: "/bugs" },
 ];
 
@@ -64,13 +64,6 @@ function ResponsiveAppBar() {
     const branchName = useBranchName();
     const displayBranch = isNonProd && branchName ? ` [${branchName}]` : "";
     const isHomePage = pathname === "/";
-    
-    const hoverColor = 
-        themeMode === "dark"
-            ? isNonProd 
-                ? "#ff7700ff" 
-                : "#90caf9"
-            : "#212121";
 
     const handleDrawerToggle = () => setDrawerOpen((prev) => !prev);
 
@@ -127,10 +120,11 @@ function ResponsiveAppBar() {
 
             {/* mobile nav */}
             <List sx={{ px: 1, py: 2 }}>
-                {pages.map(({ label, path }) => {
+                {pages.map(({ label, path }, index) => {
                     const isActive = path === "/analysis" 
                         ? pathname?.startsWith("/analysis") 
                         : pathname === path;
+                    const buttonColor = RAINBOW_COLORS[index % RAINBOW_COLORS.length];
                     
                     return (
                         <ListItem key={label} disablePadding sx={{ mb: 0.5 }}>
@@ -164,7 +158,7 @@ function ResponsiveAppBar() {
                                         left: 8,
                                         right: 8,
                                         height: 2,
-                                        bgcolor: hoverColor,
+                                        bgcolor: buttonColor,
                                         borderColor: "transparent",
                                         transform: isActive ? "scaleX(1)" : "scaleX(0)",
                                         transition: "transform 0.3s ease",
@@ -275,8 +269,7 @@ function ResponsiveAppBar() {
                                 fontWeight: 700,
                                 textDecoration: "none",
                                 whiteSpace: "nowrap",
-                                fontSize: { xs: "1.1rem", md: "1.5rem" },
-                                transition: "all 0.3s ease",
+                                fontSize: { xs: "1.05rem", md: "1.3rem" },
                                 ...(isHomePage || titleHovered ? {
                                     background: RAINBOW_GRADIENT,
                                     WebkitBackgroundClip: "text",
@@ -285,6 +278,9 @@ function ResponsiveAppBar() {
                                 } : {
                                     color: "white",
                                 }),
+                                "&:hover": {
+                                    opacity: 0.7,
+                                },
                             }}
                         >
                             <span>𖦹 {GetTitle("Wait, I'm Ramping!")}</span>
@@ -306,17 +302,18 @@ function ResponsiveAppBar() {
 
                         {/* desktop navigation */}
                         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1 }}>
-                            {pages.map(({ label, path }) => {
+                            {pages.map(({ label, path }, index) => {
                                 const isActive = path === "/analysis" 
                                     ? pathname?.startsWith("/analysis") 
                                     : pathname === path;
+                                const buttonColor = RAINBOW_COLORS[index % RAINBOW_COLORS.length];
                                 
                                 return (
                                     <SwirlButton
                                         key={GetTitle(label)}
                                         href={path}
                                         selected={isActive}
-                                        rainbow={true}
+                                        color={buttonColor}
                                     >
                                         {GetTitle(label)}
                                     </SwirlButton>
