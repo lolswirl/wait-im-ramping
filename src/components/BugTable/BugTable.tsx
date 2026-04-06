@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import { GlassTooltip } from "@components/GlassTooltip/GlassTooltip";
 import LinkIcon from "@mui/icons-material/Link";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { GetTitle } from "@util/stringManipulation";
 import { Bug, SEVERITY, SEVERITY_COLORS, SEVERITY_ORDER, STATUS, STATUS_COLORS } from "@data/bugs";
@@ -104,8 +106,12 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
     };
 
     const getSortArrow = (column: string) => {
-        if (sortBy !== column) return "";
-        return sortDir === "asc" ? " ▲" : " ▼";
+        if (sortBy !== column) return null;
+        return sortDir === "asc" ? (
+            <KeyboardArrowUpIcon sx={{ fontSize: "1.25rem", verticalAlign: "middle", ml: 0.5 }} />
+        ) : (
+            <KeyboardArrowDownIcon sx={{ fontSize: "1.25rem", verticalAlign: "middle", ml: 0.5 }} />
+        );
     };
 
     return (
@@ -127,7 +133,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
             <Table sx={{ minWidth: 600 }}>
                 <TableHead>
                     <TableRow>
-                        <GlassTooltip title={GetTitle(`Sort by Severity${getSortArrow("severity")}`)}>
+                        <GlassTooltip title={GetTitle("Sort by Severity")}>
                             <TableCell
                                 sx={{ 
                                     width: severityWidth, 
