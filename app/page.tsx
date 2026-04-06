@@ -12,7 +12,7 @@ import {
     Avatar
 } from "@mui/material";
 import RainbowCard from "@components/Buttons/RainbowCard";
-import { Timeline, Analytics, TimerTwoTone, BugReport, ArrowForward } from "@mui/icons-material";
+import { Timeline, Analytics, TimerTwoTone, BugReport, ChevronRight } from "@mui/icons-material";
 
 import { GetTitle } from "@util/stringManipulation";
 import Changelog from "@components/Changelog/Changelog";
@@ -31,32 +31,33 @@ const siteInfo = [
     { label: "Comprehensive Healing Analysis",        color: "#ff69b4" },
 ];
 
+const quickAccessIconSize = 25;
 const quickAccessPages = [
     {
         title: "When Do I Ramp?",
         description: "Calculate ramp timings for spell cast efficiency and planning",
-        icon: <TimerTwoTone sx={{ fontSize: 30 }} />,
+        icon: <TimerTwoTone sx={{ fontSize: quickAccessIconSize }} />,
         path: "/when-do-i-ramp",
         preview: wdirPreview
     },
     {
         title: "Spell Timeline", 
         description: "Create customized timelines for spell casts and cooldowns",
-        icon: <Timeline sx={{ fontSize: 30 }} />,
+        icon: <Timeline sx={{ fontSize: quickAccessIconSize }} />,
         path: "/timeline",
         preview: spellTimelinePreview
     },
     {
         title: "Graph & Analysis Tools",
         description: "Compare healing mechanics with data-driven insights",
-        icon: <Analytics sx={{ fontSize: 30 }} />,
+        icon: <Analytics sx={{ fontSize: quickAccessIconSize }} />,
         path: "/analysis",
         preview: analysisPreview
     },
     {
         title: "Bugs & Issues",
         description: "Track known issues and bugs affecting specializations",
-        icon: <BugReport sx={{ fontSize: 30 }} />,
+        icon: <BugReport sx={{ fontSize: quickAccessIconSize }} />,
         path: "/bugs",
         preview: bugsPreview
     }
@@ -250,7 +251,7 @@ const Home = () => {
                                 healer theorycrafter · mistweaver guide writer at wowhead · engineer
                             </Typography>
                         </Box>
-                        <ArrowForward />
+                        <ChevronRight />
                     </RainbowCard>
                 </Card>
             </Box>
