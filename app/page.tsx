@@ -55,7 +55,7 @@ const quickAccessPages = [
     },
     {
         title: "Bugs & Issues",
-        description: "Track known issues and bugs affectng specializations",
+        description: "Track known issues and bugs affecting specializations",
         icon: <BugReport sx={{ fontSize: 30 }} />,
         path: "/bugs",
         preview: bugsPreview
