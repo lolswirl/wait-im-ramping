@@ -6,19 +6,36 @@ import "./SpecializationSelect.css";
 
 const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec, short }) => (
   <div className="spec">
-    <img
-      src={FormatIconImg(spec.icon)}
-      alt={GetTitle(`${spec.name}`)}
-      className="spec_icon"
+    <div
       style={{
+        width: "24px",
+        height: "24px",
+        overflow: "hidden",
         borderRadius: "5px",
-        objectFit: "cover",
         border: "1px solid #575757",
+        position: "relative",
+        marginRight: "5px",
+        flexShrink: 0,
       }}
-      onError={(e) => {
-        (e.currentTarget as HTMLImageElement).src = FormatIconLink(spec.icon);
-      }}
-    />
+    >
+      <img
+        src={FormatIconImg(spec.icon)}
+        alt={GetTitle(`${spec.name}`)}
+        className="spec_icon"
+        style={{
+          width: "calc(100% + 4px)",
+          height: "calc(100% + 4px)",
+          objectFit: "cover",
+          display: "block",
+          position: "absolute",
+          top: "-2px",
+          left: "-2px",
+        }}
+        onError={(e) => {
+          (e.currentTarget as HTMLImageElement).src = FormatIconLink(spec.icon);
+        }}
+      />
+    </div>
     {!short && (
       <>
         {GetTitle(spec.name)}
