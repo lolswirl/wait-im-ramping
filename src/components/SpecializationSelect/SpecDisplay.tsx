@@ -2,6 +2,7 @@ import React from "react";
 import { GetTitle } from "@util/stringManipulation";
 import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
 import { specialization } from "@data/class";
+import "./SpecializationSelect.css";
 
 const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec, short }) => (
   <div className="spec">
