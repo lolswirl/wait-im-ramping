@@ -85,6 +85,10 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                     aValue = (a.tags || []).join(",");
                     bValue = (b.tags || []).join(",");
                     break;
+                case "logs":
+                    aValue = (a.logs || []).length;
+                    bValue = (b.logs || []).length;
+                    break;
                 default:
                     aValue = "";
                     bValue = "";
@@ -193,8 +197,10 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                     maxWidth: logsWidth,
                                     textAlign: "center",
                                 }}
+                                onClick={() => handleSort("logs")}
                             >
                                 {GetTitle("Logs")}
+                                {getSortArrow("logs")}
                             </TableCell>
                         </GlassTooltip>
                         <TableCell
