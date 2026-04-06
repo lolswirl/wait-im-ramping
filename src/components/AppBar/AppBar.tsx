@@ -92,10 +92,14 @@ function ResponsiveAppBar() {
                         variant="h6"
                         sx={{
                             fontWeight: 700,
-                            color: "white"
+                            color: "white",
+                            display: "inline-flex",
+                            alignItems: "baseline",
+                            gap: 0.5,
                         }}
                     >
-                        𖦹 {GetTitle("Wait, I'm Ramping!")}
+                        <span style={{ transform: "translateY(2px)", display: "inline-block" }}>𖦹</span>
+                        <span>{GetTitle("Wait, I'm Ramping!")}</span>
                     </Typography>
                     {displayBranch && (
                         <Typography
@@ -270,20 +274,21 @@ function ResponsiveAppBar() {
                                 textDecoration: "none",
                                 whiteSpace: "nowrap",
                                 fontSize: { xs: "1.05rem", md: "1.3rem" },
-                                ...(isHomePage || titleHovered ? {
-                                    background: RAINBOW_GRADIENT,
-                                    WebkitBackgroundClip: "text",
-                                    WebkitTextFillColor: "transparent",
-                                    backgroundClip: "text",
-                                } : {
-                                    color: "white",
-                                }),
+                                color: "white",
                                 "&:hover": {
                                     opacity: 0.7,
                                 },
                             }}
                         >
-                            <span>𖦹 {GetTitle("Wait, I'm Ramping!")}</span>
+                            <span style={{ color: "white", transform: "translateY(2px)", display: "inline-block" }}>𖦹</span>
+                            <span style={isHomePage || titleHovered ? {
+                                background: RAINBOW_GRADIENT,
+                                WebkitBackgroundClip: "text",
+                                WebkitTextFillColor: "transparent",
+                                backgroundClip: "text",
+                            } : { color: "white" }}>
+                                {GetTitle("Wait, I'm Ramping!")}
+                            </span>
                             {displayBranch && (
                                 <Typography
                                     component="span"
