@@ -6,7 +6,8 @@ import { useThemeContext } from '../../context/ThemeContext';
 import { RAINBOW_COLORS } from '@components/Buttons/RainbowCard';
 
 const THEME_COLORS = {
-    nonProd: "#ff7700ff",
+    nonProd: RAINBOW_COLORS[3],
+    darkPrimary: RAINBOW_COLORS[0],
     lightPrimary: "#1976d2",
     chart: {
         dark: "#494949",
@@ -51,7 +52,7 @@ const Theme = ({ children }: { children: React.ReactNode }) => {
                 main: isNonProd 
                     ? THEME_COLORS.nonProd 
                     : themeMode === 'dark' 
-                        ? RAINBOW_COLORS[0] 
+                        ? THEME_COLORS.darkPrimary 
                         : THEME_COLORS.lightPrimary,
             }
         },
