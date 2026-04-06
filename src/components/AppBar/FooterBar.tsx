@@ -1,9 +1,7 @@
 "use client"
-import Image from "next/image";
-import { AppBar, Toolbar, IconButton, Box } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Box, Typography } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import TwitterIcon from "@mui/icons-material/Twitter";
 import { useThemeContext } from "@context/ThemeContext";
 import { GetTitle } from "@util/stringManipulation";
 import { GlassTooltip } from "@components/GlassTooltip/GlassTooltip";
@@ -35,67 +33,83 @@ export const TwitchSVG = (props: React.SVGProps<SVGSVGElement>) => (
         <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/>
     </svg>
 );
-
+export const WarcraftSVG = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg 
+        width={24}
+        height={24}
+        viewBox="-4 -5 56 56"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        {...props}
+    >
+        <title>World of Warcraft</title>
+        <path d="M11.006 14.4441L16.2435 36.9715C16.3769 37.9556 15.6204 38.8913 14.8732 39.7328H23.256C22.941 38.9212 22.6628 38.1855 22.6651 37.2497L24.4723 29.0255C24.9988 31.4857 25.4954 33.9159 26.0288 36.3783C26.3392 37.4957 26.1438 38.7419 25.6771 39.7305H34.0162C33.5793 38.9557 32.9126 37.8406 33.0712 36.6565L36.3407 16.7755C36.904 14.9706 37.8673 13.3175 38.9594 11.761C36.2786 11.7955 33.4736 11.6966 30.8893 11.8254C31.917 12.7887 31.202 14.3453 31.1077 15.4995L28.643 30.4533C28.6108 30.4234 28.5533 30.3913 28.5832 30.297L24.3113 13.4693C22.787 19.0241 21.6949 24.7192 20.0441 30.2372L19.982 30.1406L16.8367 15.0603L16.9907 11.7633H9.04248C10.0748 12.2921 10.6312 13.4486 11.006 14.4395V14.4441Z" fill="currentColor"/>
+        <path d="M8.4058 42.2383C12.5995 45.8296 18.0486 47.9954 23.9988 48C29.956 48 35.4028 45.8273 39.5942 42.2383H44.8018V35.9753C46.8297 32.4506 48 28.3604 48 23.9989C48 19.6396 46.832 15.5494 44.8018 12.0201V5.75945H39.5942C35.4005 2.17273 29.9537 0 24.0012 0C18.0486 0 12.5949 2.17273 8.40351 5.75945H3.20046V12.0201C1.16339 15.5448 0 19.635 0 23.9989C0 28.3627 1.16339 32.4506 3.20046 35.9776V42.2383H8.4058ZM23.9988 3.60052C35.2648 3.60052 44.3972 12.7352 44.3972 23.9989C44.3972 35.2648 35.2648 44.3995 24.0012 44.3995C12.7375 44.3995 3.60282 35.2648 3.59822 23.9989C3.60282 12.7352 12.7375 3.60052 23.9988 3.60052Z" fill="currentColor"/>
+    </svg>
+);
 const socialLinks = [
     {
         label: "GitHub",
         href: "https://github.com/lolswirl/wait-im-ramping",
         icon: <GitHubIcon />,
+        color: "#ffffff",
     },
     {
         label: "Discord",
         href: "https://discord.gg/ZU5rhXtbNd",
         icon: <DiscordSVG />,
+        color: "#5865F2",
     },
     {
         label: "Twitch",
         href: "https://www.twitch.tv/lolswirl",
         icon: <TwitchSVG />,
+        color: "#9146FF",
     },
     {
         label: "YouTube",
         href: "https://www.youtube.com/@swirlstreams",
         icon: <YouTubeIcon />,
+        color: "#d02424",
     },
     {
-        label: "Raider.IO",
-        href: "https://raider.io/characters/us/area-52/Swirl",
-        icon: (
-            <Image
-                src="https://cdn.raiderio.net/images/brand/Mark_White.svg"
-                alt="Raider.IO"
-                width={24}
-                height={24}
-                style={{ display: "block", color: "#e5a024" }}
-                draggable={false}
-            />
-        ),
-        img: true,
+        label: "World of Warcraft",
+        href: "https://raider.io/characters/us/zuljin/Sworl",
+        icon: <WarcraftSVG />,
+        color: "#715beb",
     },
 ];
 
 const FooterBar = () => {
     const { themeMode } = useThemeContext();
+    const currentYear = new Date().getFullYear();
 
     return (
         <AppBar
             color="primary"
             position="static"
+            component="footer"
             sx={{
-                minHeight: 48,
-                height: 48,
                 mt: 3.5,
                 backgroundImage: 'none',
                 bgcolor: themeMode === "light" ? "primary.main" : "#171717",
-                '& .MuiToolbar-root': { minHeight: 48, height: 48, padding: 0 }
             }}
         >
-            <Toolbar sx={{ justifyContent: "center", minHeight: 48, height: 48, padding: 0 }}>
-                <Box sx={{ display: "flex", gap: 0 }}>
-                    {socialLinks.map(({ label, href, icon, img }) => (
+            <Toolbar 
+                sx={{ 
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    minHeight: 64,
+                    py: 1,
+                    gap: 0.5,
+                }}
+            >
+                <Box sx={{ display: "flex", gap: 0.5 }}>
+                    {socialLinks.map(({ label, href, icon, color }) => (
                         <GlassTooltip 
                             key={label} 
                             title={GetTitle(label)}
+                            placement="top"
                         >
                             <IconButton
                                 color="inherit"
@@ -103,16 +117,12 @@ const FooterBar = () => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 sx={{
-                                    p: img ? 0 : undefined,
-                                    width: img ? 40 : undefined,
-                                    height: img ? 40 : undefined,
-                                    display: img ? "flex" : undefined,
-                                    alignItems: img ? "center" : undefined,
-                                    justifyContent: img ? "center" : undefined,
-                                    transition: "transform 0.4s ease",
+                                    color: "rgba(255, 255, 255, 0.5)",
+                                    transition: "all 0.3s ease",
                                     backgroundColor: "transparent",
                                     "&:hover": {
-                                        transform: "scale(1.15)",
+                                        color: color,
+                                        transform: "translateY(-2px)",
                                         backgroundColor: "transparent",
                                     },
                                 }}
@@ -121,6 +131,36 @@ const FooterBar = () => {
                             </IconButton>
                         </GlassTooltip>
                     ))}
+                </Box>
+                
+                <Box 
+                    sx={{ 
+                        display: "flex", 
+                        flexDirection: "column", 
+                        alignItems: "center",
+                        gap: 0.5,
+                    }}
+                >
+                    <Typography 
+                        variant="caption" 
+                        sx={{ 
+                            color: "rgba(255, 255, 255, 0.7)",
+                            fontSize: "0.7rem",
+                        }}
+                    >
+                        {GetTitle(`© ${currentYear} Wait, I'm Ramping! All rights reserved.`)}
+                    </Typography>
+                    <Typography 
+                        variant="caption" 
+                        sx={{ 
+                            color: "rgba(255, 255, 255, 0.5)",
+                            fontSize: "0.65rem",
+                            textAlign: "center",
+                            maxWidth: 600,
+                        }}
+                    >
+                        {GetTitle("World of Warcraft and related assets are trademarks and/or registered trademarks of Blizzard Entertainment, Inc.")}
+                    </Typography>
                 </Box>
             </Toolbar>
         </AppBar>
