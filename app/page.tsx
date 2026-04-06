@@ -65,8 +65,8 @@ const quickAccessPages = [
 
 const Home = () => {
     return (
-        <Container maxWidth="lg" sx={{ mt: 1, mb: 6 }}>
-            <Box sx={{ textAlign: 'center', mb: 6 }}>
+        <Container maxWidth="lg" sx={{ mt: 1, mb: 0 }}>
+            <Box sx={{ textAlign: 'center', mb: 5 }}>
                 <Typography
                   variant="h2"
                   component="h1"
@@ -79,8 +79,7 @@ const Home = () => {
                     {GetTitle("Healer theorycrafting and optimization tools for World of Warcraft")}
                 </Typography>
             </Box>
-            
-            <Box sx={{ mb: 6, display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ mb: 3, display: 'flex', justifyContent: 'center' }}>
                 <Box sx={{ 
                     display: 'grid', 
                     gridTemplateColumns: 'repeat(4, 1fr)', 
@@ -190,7 +189,7 @@ const Home = () => {
                 </Box>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 4 }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
                 <Card variant="outlined" sx={{ p: 3 }}>
                     <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
                         {GetTitle("What's New")}
