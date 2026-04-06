@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from 'react';
-import { FormControl, InputLabel, MenuItem, Popover, Box, MenuList } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Box, MenuList } from '@mui/material';
 import Select from '@mui/material/Select';
+import { GlassMenu } from '@components/GlassMenu/GlassMenu';
 
-import '@components/SpecializationSelect/SpecializationSelect.css';
 import SpecDisplay from "@components/SpecializationSelect/SpecDisplay";
 
 import { specialization, getSpecs, getSpecializationByKey } from '@data/class';
@@ -59,7 +59,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
           <SpecDisplay spec={selectedSpec} short={true} />
         </Box>
         
-        <Popover
+        <GlassMenu
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
@@ -71,15 +71,6 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
             vertical: 'top',
             horizontal: 'left',
           }}
-          PaperProps={{
-            sx: {
-              maxHeight: 400,
-              width: 'fit-content',
-              overflow: 'visible',
-              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-              borderRadius: 2,
-            },
-          }}
         >
           <MenuList dense>
             {getSpecs().map((spec, index) => (
@@ -88,13 +79,14 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
                 onClick={() => handleSpecChange(spec)}
                 selected={selectedSpec.class === spec.class && selectedSpec.name === spec.name}
                 sx={{
+                  color: 'white',
                   '&:hover': {
-                    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
                   },
                   '&.Mui-selected': {
-                    backgroundColor: 'rgba(25, 118, 210, 0.12)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.15)',
                     '&:hover': {
-                      backgroundColor: 'rgba(25, 118, 210, 0.2)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.2)',
                     },
                   },
                 }}
@@ -103,7 +95,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
               </MenuItem>
             ))}
           </MenuList>
-        </Popover>
+        </GlassMenu>
       </>
     );
   }
@@ -122,9 +114,37 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
         autoWidth
         label={GetTitle("Specialization")}
         sx={{ height: height }}
+        MenuProps={{
+          slotProps: {
+            paper: {
+              sx: {
+                backgroundColor: "rgba(0, 0, 0, 0.3) !important",
+                backdropFilter: "blur(8px)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                backgroundImage: 'none',
+              }
+            }
+          }
+        }}
       >
         {getSpecs().map((spec, index) => (
-          <MenuItem key={index} value={`${spec.class.toLowerCase()}_${spec.name.toLowerCase()}`}>
+          <MenuItem 
+            key={index} 
+            value={`${spec.class.toLowerCase()}_${spec.name.toLowerCase()}`}
+            sx={{
+              color: 'white',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              },
+              '&.Mui-selected': {
+                backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                '&:hover': {
+                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                },
+              },
+            }}
+          >
             <SpecDisplay spec={spec} />
           </MenuItem>
         ))}
