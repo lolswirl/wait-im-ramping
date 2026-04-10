@@ -544,8 +544,8 @@ const BUGS: Bug[] = [
         lastBuildTested: "66838",
         notes: "Supposedly fixed in 65337, but found once again in 66838.",
         logs: [
-            { label: "64774", url: "https://www.warcraftlogs.com/reports/9m2ntLC4wWyB6k83?fight=19&type=healing&source=22&view=events&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24467307^0%24Off%24%23909049%24auras-gained%24-1%240.0.0.Any%2413389582.0.0.Monk%24true%240.0.0.Any%24true%24119611&ability=1269159" }
-            { label: "66838", url: "https://www.warcraftlogs.com/reports/xGhMan3mKv8Xyrpw?fight=52&type=summary&source=114&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24467307%7C468179%7C1269159%7C1250554",
+            { label: "64774", url: "https://www.warcraftlogs.com/reports/9m2ntLC4wWyB6k83?fight=19&type=healing&source=22&view=events&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24467307^0%24Off%24%23909049%24auras-gained%24-1%240.0.0.Any%2413389582.0.0.Monk%24true%240.0.0.Any%24true%24119611&ability=1269159" },
+            { label: "66838", url: "https://www.warcraftlogs.com/reports/xGhMan3mKv8Xyrpw?fight=52&type=summary&source=114&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24467307%7C468179%7C1269159%7C1250554", }
         ],
     },
     {
