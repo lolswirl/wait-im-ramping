@@ -784,7 +784,8 @@ const BUGS: Bug[] = [
             "- Aspect of Harmony: All vitality gain abruptly stopped mid-dungeon, with 0 sources of AoH healing, Purified Spirit healing, no combat log events on either of the three threshold buffs continued\n" +
             "- Sheilun's Gift: Suddenly stops gaining stacks, seen notably after target swapping inside of a Soothing Mist channel\n" +
             "- Several others reported anecodtally - Way of the Crane, Tranquil Tea.",
-        lastBuildTested: "66562",
+        lastBuildTested: "66838",
+        status: STATUS.FIXED,
         logs: [
             { label: "Way of the Crane (Live)", url: "https://www.warcraftlogs.com/reports/3CQ4XDdT9q87mhYP?fight=last&type=healing&source=1&ability=-388779&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24101546" },
             { label: "Heart of the Jade Serpent from TFT (Live)", url: "https://www.warcraftlogs.com/reports/bknjNYvQ4fwLGK2J?fight=last&type=summary&view=events&source=7&pins=2%24Separate%24%23244F4B%24any%7Cauras%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443421%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116680" },
