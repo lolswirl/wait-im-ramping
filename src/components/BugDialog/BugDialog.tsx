@@ -18,6 +18,7 @@ import { GetTitle, formatLogUrl } from "@util/stringManipulation";
 import { Bug, STATUS, SEVERITY_COLORS, STATUS_COLORS, STATUS_BADGES } from "@data/bugs";
 import { specialization } from "@data/class";
 import SwirlButton from "@components/Buttons/SwirlButton";
+import { applyGetTitle } from "@util/applyGetTitle";
 
 interface BugDialogProps {
     open: boolean;
@@ -123,6 +124,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                     )}
                     <Box flex={1}>
                         <Typography
+                            component="div"
                             variant="h5"
                             sx={{ 
                                 fontWeight: 700, 
@@ -132,7 +134,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                 letterSpacing: "-0.01em"
                             }}
                         >
-                            {GetTitle(bug.title)}
+                            {applyGetTitle(bug.title)}
                         </Typography>
                         <Stack direction="row" spacing={1} alignItems="center">
                             {bug.status !== STATUS.OPEN && (
@@ -278,6 +280,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                         {GetTitle("Description")}
                                     </Typography>
                                     <Typography
+                                        component="div"
                                         variant="body2"
                                         sx={{
                                             whiteSpace: "pre-line",
@@ -288,7 +291,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                             flex: 1
                                         }}
                                     >
-                                        {GetTitle(bug.description || bug.title)}
+                                        {applyGetTitle(bug.description || bug.title)}
                                     </Typography>
                                 </CardContent>
                             </Card>

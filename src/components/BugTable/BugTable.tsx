@@ -18,6 +18,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { GetTitle } from "@util/stringManipulation";
 import { Bug, SEVERITY, SEVERITY_COLORS, SEVERITY_ORDER, STATUS, STATUS_COLORS } from "@data/bugs";
+import { applyGetTitle } from "@util/applyGetTitle";
 
 interface BugTableProps {
     bugs: Bug[];
@@ -35,6 +36,17 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
     const tagsWidth = 200;
     const buildWidth = 55;
     const logsWidth = 45;
+
+    const extractTextFromReactNode = (node: React.ReactNode): string => {
+        if (typeof node === "string") return node;
+        if (typeof node === "number") return String(node);
+        if (Array.isArray(node)) return node.map(extractTextFromReactNode).join("");
+        if (React.isValidElement(node)) {
+            const props = node.props as Record<string, any>;
+            return extractTextFromReactNode(props.children);
+        }
+        return "";
+    };
 
     const hideOverflowSx = {
         overflow: "hidden",
@@ -74,8 +86,8 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                     bValue = b.spell?.name || "";
                     break;
                 case "title":
-                    aValue = a.title || "";
-                    bValue = b.title || "";
+                    aValue = extractTextFromReactNode(a.title).toLowerCase();
+                    bValue = extractTextFromReactNode(b.title).toLowerCase();
                     break;
                 case "lastBuildTested":
                     aValue = parseInt(a.lastBuildTested || "0");
@@ -290,12 +302,17 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                             >
                                 <Typography
                                     variant="body2"
+                                    component="div"
                                     sx={{
                                         transition: "color 0.2s ease",
                                         color: STATUS_COLORS[bug.status ?? STATUS.OPEN],
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 0.5,
+                                        flexWrap: "nowrap",
                                     }}
                                 >
-                                    {GetTitle(bug.title)}
+                                    {applyGetTitle(bug.title)}
                                 </Typography>
                             </TableCell>
                             <TableCell
