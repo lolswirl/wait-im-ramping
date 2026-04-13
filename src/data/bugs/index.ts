@@ -28,7 +28,7 @@ export enum STATUS {
 
 export const STATUS_COLORS: Record<STATUS, string> = {
     [STATUS.OPEN]: "",
-    [STATUS.FIXED]: "#43a047",
+    [STATUS.FIXED]: "#89ff7f",
     [STATUS.REMOVED]: "#ff5555ff",
 };
 
