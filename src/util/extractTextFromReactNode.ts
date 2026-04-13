@@ -6,6 +6,9 @@ export const extractTextFromReactNode = (node: React.ReactNode): string => {
     if (Array.isArray(node)) return node.map(extractTextFromReactNode).join("");
     if (React.isValidElement(node)) {
         const props = node.props as Record<string, any>;
+        if (props.spell?.name) {
+            return props.spell.name;
+        }
         return extractTextFromReactNode(props.children);
     }
     return "";
