@@ -23,8 +23,8 @@ export const TAGS: Record<string, Tags> = {
     CRIT: { name: STATS.CRIT, color: STAT_COLORS.CRIT },
 
     // hero tree
-    CONDUIT: { name: "Conduit of the Celestials", color: "#7ee5ff" },
-    MOH: { name: "Master of Harmony", color: "#89ff7f" },
+    CONDUIT: { name: "Conduit of the Celestials", color: "#5decaf" },
+    MOH: { name: "Master of Harmony", color: "#63d4cd" },
     HERALD_OF_THE_SUN: { name: "Herald of the Sun", color: "#ffd700" },
     LIGHTSMITH: { name: "Lightsmith", color: "#c0c0c0" },
     TOTEMIC: { name: "Totemic", color: "#ff8876" },
