@@ -294,12 +294,8 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                     variant="body2"
                                     component="div"
                                     sx={{
-                                        transition: "color 0.2s ease",
+                                        whiteSpace: "nowrap",
                                         color: STATUS_COLORS[bug.status ?? STATUS.OPEN],
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 0.5,
-                                        flexWrap: "nowrap",
                                     }}
                                 >
                                     {applyGetTitle(bug.title)}

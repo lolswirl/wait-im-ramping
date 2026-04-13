@@ -47,6 +47,7 @@ const SpellLink: React.FC<SpellLinkProps> = ({
                 cursor: "pointer",
                 transition: "opacity 0.2s ease",
                 verticalAlign: "middle",
+                marginTop: -0.3,
                 ...sx,
             }}
         >
