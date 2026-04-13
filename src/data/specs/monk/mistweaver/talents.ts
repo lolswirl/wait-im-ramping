@@ -237,6 +237,11 @@ const talents = {
         id: 115313,
         icon: 'ability_monk_summonserpentstatue',
     },
+    JADE_SERPENT_STATUE_SOOTHING_MIST: {
+        name: "Soothing Mist",
+        id: 198533,
+        icon: 'ability_monk_soothingmists',
+    },
     MANA_TEA: {
         name: "Mana Tea",
         id: 115869,
@@ -276,6 +281,16 @@ const talents = {
             rskIncrease: 0.2,
             envmIncrease: 0.2,
         }
+    },
+    SPIRITFONT_SOOTHING_MIST: {
+        name: "Soothing Mist",
+        id: 1260617,
+        icon: 'ability_monk_soothingmists',
+    },
+    SPIRITFONT_CHI_COCOON: {
+        name: "Chi Cocoon",
+        id: 1260681,
+        icon: 'ability_monk_chiexplosion',
     },
     ZEN_PULSE: {
         name: "Zen Pulse",
@@ -377,6 +392,21 @@ const talents = {
         id: 1242468,
         icon: 'ability_monk_expelharm',
     },
+    MISTLINE: {
+        name: "Mistline",
+        id: 1280297,
+        icon: 'ability_monk_surgingmist',
+    },
+    REFRESHING_JADE_WIND: {
+        name: "Refreshing Jade Wind",
+        id: 162530,
+        icon: 'ability_monk_rushingjadewind',
+    },
+    CHI_BURST: {
+        name: "Chi Burst",
+        id: 123986,
+        icon: 'spell_arcane_arcanetorrent',
+    },
 
     // hero talents
     // master of harmony
@@ -416,6 +446,11 @@ const talents = {
         name: "Aspect of Harmony",
         id: 450711,
         icon: 'ability_evoker_essenceburst3',
+    },
+    ASPECT_OF_HARMONY_HOT: {
+        name: "Aspect of Harmony",
+        id: 450769,
+        icon: 'inv_enchanting_wod_essence2',
     },
     CLARITY_OF_PURPOSE: {
         name: "Clarity of Purpose",
@@ -510,6 +545,26 @@ const talents = {
         name: "Inner Compass",
         id: 443571,
         icon: 'inv_10_dungeonjewelry_explorer_trinket_1compass_color2',
+    },
+    CRANE_STANCE: {
+        name: "Crane Stance",
+        id: 443572,
+        icon: 'monk_stance_redcrane',
+    },
+    OX_STANCE: {
+        name: "Ox Stance",
+        id: 443574,
+        icon: 'monk_stance_drunkenox',
+    },
+    SERPENT_STANCE: {
+        name: "Serpent Stance",
+        id: 443576,
+        icon: 'monk_stance_wiseserpent',
+    },
+    TIGER_STANCE: {
+        name: "Tiger Stance",
+        id: 443575,
+        icon: 'monk_stance_whitetiger',
     },
     UNITY_WITHIN: {
         name: "Unity Within",
