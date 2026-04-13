@@ -42,7 +42,7 @@ const SpellLink: React.FC<SpellLinkProps> = ({
             sx={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: 0.3,
+                gap: 0.5,
                 textDecoration: "none",
                 cursor: "pointer",
                 transition: "opacity 0.2s ease",
