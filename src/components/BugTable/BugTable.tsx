@@ -20,6 +20,7 @@ import { GetTitle } from "@util/stringManipulation";
 import { Bug, SEVERITY, SEVERITY_COLORS, SEVERITY_ORDER, STATUS, STATUS_COLORS } from "@data/bugs";
 import { applyGetTitle } from "@util/applyGetTitle";
 import { extractTextFromReactNode } from "@util/extractTextFromReactNode";
+import WarningChip from "@components/WarningChip/WarningChip";
 
 interface BugTableProps {
     bugs: Bug[];
@@ -350,16 +351,25 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                 <Box sx={{ gap: 0.5, display: "flex", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>
                                     {bug.tags?.map((tag) => {
                                         return (
-                                            <Chip
+                                            <WarningChip
                                                 key={tag.name}
-                                                label={GetTitle(tag.name)}
+                                                message={GetTitle(tag.name)}
                                                 size="small"
-                                                variant="outlined"
-                                                sx={{
-                                                    backgroundColor: tag.color ? `${tag.color}20` : "rgba(255,255,255,0.08)",
-                                                    ...(tag.color ? { borderColor: tag.color, color: tag.color } : undefined)
-                                                }}
+                                                showIcon={false}
+                                                borderColor={tag.color}
+                                                fontSize="0.8rem"
                                             />
+                                            // <Chip
+                                            //     key={tag.name}
+                                            //     label={GetTitle(tag.name)}
+                                            //     size="small"
+                                            //     variant="outlined"
+                                            //     sx={{
+                                            //         borderRadius: "4px",
+                                            //         backgroundColor: tag.color ? `${tag.color}20` : "rgba(255,255,255,0.08)",
+                                            //         ...(tag.color ? { borderColor: tag.color, color: tag.color } : undefined)
+                                            //     }}
+                                            // />
                                         );
                                     })}
                                 </Box>

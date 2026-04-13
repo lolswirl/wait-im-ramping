@@ -6,28 +6,39 @@ interface WarningChipProps {
     message: string;
     size?: 'small' | 'medium';
     showIcon?: boolean;
+    borderColor?: string;
+    backgroundColor?: string;
+    hoverBackgroundColor?: string;
+    fontSize?: string;
 }
 
-const WarningChip: React.FC<WarningChipProps> = ({ message, size = 'small', showIcon = false }) => {
+const WarningChip: React.FC<WarningChipProps> = ({ 
+    message, 
+    size = 'small', 
+    showIcon = false,
+    borderColor = '#ffa726',
+    backgroundColor = `${borderColor}20`,
+    hoverBackgroundColor = `${borderColor}35`,
+    fontSize = '0.875rem'
+}) => {
     const displayMessage = showIcon ? `⚠︎ ${message}` : message;
     
     return (
         <Chip 
             label={GetTitle(displayMessage)} 
-            color="warning" 
             size={size}
             variant="outlined"
             sx={{ 
-                fontSize: '0.875rem',
-                fontWeight: 500,
+                fontSize: fontSize,
                 '& .MuiChip-label': {
                     px: 1
                 },
-                borderColor: 'warning.main',
-                borderRadius: 1,
-                backgroundColor: 'rgba(255, 152, 0, 0.08)',
+                color: borderColor,
+                borderColor: borderColor,
+                borderRadius: "4px",
+                backgroundColor: backgroundColor,
                 '&:hover': {
-                    backgroundColor: 'rgba(255, 152, 0, 0.12)',
+                    backgroundColor: hoverBackgroundColor,
                 }
             }}
         />

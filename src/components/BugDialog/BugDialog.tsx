@@ -19,6 +19,7 @@ import { Bug, STATUS, SEVERITY_COLORS, STATUS_COLORS, STATUS_BADGES } from "@dat
 import { specialization } from "@data/class";
 import SwirlButton from "@components/Buttons/SwirlButton";
 import { applyGetTitle } from "@util/applyGetTitle";
+import WarningChip from "@components/WarningChip/WarningChip";
 
 interface BugDialogProps {
     open: boolean;
@@ -539,22 +540,13 @@ const BugDialog: React.FC<BugDialogProps> = ({
                             </Typography>
                             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
                                 {bug.tags.map((tag) => (
-                                    <Chip
+                                    <WarningChip
                                         key={tag.name}
-                                        label={GetTitle(tag.name)}
+                                        message={GetTitle(tag.name)}
                                         size="small"
-                                        sx={{
-                                            backgroundColor: tag.color ? `${tag.color}20` : "rgba(255,255,255,0.08)",
-                                            color: tag.color || "rgba(255,255,255,0.9)",
-                                            border: `1px solid ${tag.color || "rgba(255,255,255,0.2)"}`,
-                                            fontWeight: 600,
-                                            fontSize: "0.75rem",
-                                            "&:hover": {
-                                                backgroundColor: tag.color ? `${tag.color}35` : "rgba(255,255,255,0.15)",
-                                                transform: "translateY(-1px)",
-                                            },
-                                            transition: "all 0.2s ease"
-                                        }}
+                                        showIcon={false}
+                                        borderColor={tag.color}
+                                        fontSize="0.8rem"
                                     />
                                 ))}
                             </Box>
