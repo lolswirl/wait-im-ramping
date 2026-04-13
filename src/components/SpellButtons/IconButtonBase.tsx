@@ -46,7 +46,7 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
         width: size + 2,
         height: size + 2,
         padding: 0,
-        borderRadius: "8px",
+        borderRadius: "4px",
         overflow: "hidden",
         boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
         transition: "transform 0.3s ease",
@@ -69,7 +69,7 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
             width={size}
             height={size}
             style={{
-                borderRadius: "8px",
+                borderRadius: "4px",
                 objectFit: "cover",
                 transform: "scale(1.1)",
                 transformOrigin: "center",

@@ -11,7 +11,7 @@ const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec
         width: "24px",
         height: "24px",
         overflow: "hidden",
-        borderRadius: "5px",
+        borderRadius: "4px",
         border: "1px solid #575757",
         position: "relative",
         marginRight: "5px",
