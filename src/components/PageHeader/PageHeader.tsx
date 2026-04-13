@@ -39,7 +39,14 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                     color="text.secondary"
                     sx={{
                         maxWidth: maxWidth,
-                        mx: align === 'center' ? 'auto' : 0
+                        mx: align === 'center' ? 'auto' : 0,
+                        '& a': {
+                            color: 'primary.light',
+                            textDecoration: 'none',
+                            '&:hover': {
+                                textDecoration: 'underline wavy'
+                            }
+                        }
                     }}
                     {...((typeof subtitle === "string" || Array.isArray(subtitle))
                         ? { dangerouslySetInnerHTML: { __html: GetTitle(Array.isArray(subtitle) ? subtitle.join("<br>") : subtitle) } }
