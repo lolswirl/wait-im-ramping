@@ -15,7 +15,7 @@ interface SpellLinkProps {
 
 const SpellLink: React.FC<SpellLinkProps> = ({ 
     spell, 
-    size = 24,
+    size = 18,
     sx,
     textSx
 }) => {
@@ -42,11 +42,10 @@ const SpellLink: React.FC<SpellLinkProps> = ({
             sx={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: 0.75,
+                gap: 0.3,
                 textDecoration: "none",
                 cursor: "pointer",
                 transition: "opacity 0.2s ease",
-                opacity: isHovered ? 0.8 : 1,
                 verticalAlign: "middle",
                 ...sx,
             }}
@@ -63,7 +62,6 @@ const SpellLink: React.FC<SpellLinkProps> = ({
                     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
                     transition: "transform 0.3s ease",
                     border: "1px solid #575757",
-                    transform: isHovered ? "scale(1.1)" : "scale(1)",
                     backgroundColor: "transparent",
                     display: "flex",
                     alignItems: "center",
