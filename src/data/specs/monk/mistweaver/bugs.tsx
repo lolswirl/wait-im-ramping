@@ -720,8 +720,11 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <>Primary target of <SpellLink spell={SPELLS.ENVELOPING_MIST} /> doesn't always receive shield</>,
         description: <>When casting <SpellLink spell={SPELLS.ENVELOPING_MIST} />, the primary target doesn't always receive one of the 5 shields from <SpellLink spell={TALENTS.STRENGTH_OF_THE_BLACK_OX} />. This causes <SpellLink spell={TALENTS.STAMPEDE_OF_THE_ANCIENTS} /> to appear broken, as it only strengthens the primary target's shield when that target actually receives one. Functionally works when the primary target does receive a shield.</>,
-        lastBuildTested: "65560",
-        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/6Wfpry3mtxz84PHd?fight=8&type=auras&view=events&ability=443113" }],
+        lastBuildTested: "66838",
+        logs: [
+            { label: "65560", url: "https://www.warcraftlogs.com/reports/6Wfpry3mtxz84PHd?fight=8&type=auras&view=events&ability=443113" },
+            { label: "66838", url: "https://www.warcraftlogs.com/reports/1Kqnh36Rvb9TJMNx?fight=41&type=summary&view=events&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443113%2459%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682" }
+        ],
         tags: [TAGS.CONDUIT]
     },
     {
