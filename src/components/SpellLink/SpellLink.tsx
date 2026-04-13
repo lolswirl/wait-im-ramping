@@ -9,6 +9,7 @@ import { GetTitle } from "@util/stringManipulation";
 interface SpellLinkProps {
     spell: spell;
     size?: number;
+    gap?: number;
     sx?: any;
     textSx?: any;
 }
@@ -16,6 +17,7 @@ interface SpellLinkProps {
 const SpellLink: React.FC<SpellLinkProps> = ({ 
     spell, 
     size = 18,
+    gap = 0.5,
     sx,
     textSx
 }) => {
@@ -42,7 +44,7 @@ const SpellLink: React.FC<SpellLinkProps> = ({
             sx={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: 0.5,
+                gap: gap,
                 textDecoration: "none",
                 cursor: "pointer",
                 transition: "opacity 0.2s ease",
