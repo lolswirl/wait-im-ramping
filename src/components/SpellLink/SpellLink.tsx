@@ -57,7 +57,7 @@ const SpellLink: React.FC<SpellLinkProps> = ({
                     width: size + 2,
                     height: size + 2,
                     padding: 0,
-                    borderRadius: "4px",
+                    borderRadius: "3px",
                     overflow: "hidden",
                     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
                     transition: "transform 0.3s ease",
@@ -76,7 +76,7 @@ const SpellLink: React.FC<SpellLinkProps> = ({
                         width={size}
                         height={size}
                         style={{
-                            borderRadius: "4px",
+                            borderRadius: "3px",
                             objectFit: "cover",
                             transform: "scale(1.1)",
                             transformOrigin: "center",
