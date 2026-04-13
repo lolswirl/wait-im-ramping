@@ -100,7 +100,6 @@ const BugsPage: React.FC<{ title: string; description: string }> = ({ title, des
                         <BugDialog
                             open={dialogOpen}
                             bug={selectedBug}
-                            selectedSpec={selectedSpec}
                             onClose={handleDialogClose}
                         />
                         <div>

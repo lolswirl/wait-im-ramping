@@ -359,17 +359,6 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                                 borderColor={tag.color}
                                                 fontSize="0.8rem"
                                             />
-                                            // <Chip
-                                            //     key={tag.name}
-                                            //     label={GetTitle(tag.name)}
-                                            //     size="small"
-                                            //     variant="outlined"
-                                            //     sx={{
-                                            //         borderRadius: "4px",
-                                            //         backgroundColor: tag.color ? `${tag.color}20` : "rgba(255,255,255,0.08)",
-                                            //         ...(tag.color ? { borderColor: tag.color, color: tag.color } : undefined)
-                                            //     }}
-                                            // />
                                         );
                                     })}
                                 </Box>
