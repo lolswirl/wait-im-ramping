@@ -1,5 +1,6 @@
 import spell from "@data/spells/spell";
 import { Tags } from "@data/shared/tags";
+import { ReactNode } from "react";
 
 export enum SEVERITY {
     CRITICAL = "Critical",
@@ -41,8 +42,8 @@ export interface Bug {
     spell: spell;
     affectedSpells?: spell[];
     severity: SEVERITY;
-    title: string;
-    description: string;
+    title: ReactNode;
+    description?: ReactNode;
     tags?: Tags[];
     status?: STATUS;
     lastBuildTested?: string;

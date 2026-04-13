@@ -2,6 +2,7 @@ import SPELLS from '@data/spells';
 import TALENTS from '@data/specs/shaman/restoration/talents';
 import { Bug, SEVERITY, STATUS } from "@data/bugs";
 import { TAGS } from "@data/shared/tags";
+import React from 'react';
 
 const BUGS: Bug[] = [
 ];
