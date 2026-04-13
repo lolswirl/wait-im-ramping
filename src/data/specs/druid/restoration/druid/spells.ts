@@ -68,6 +68,11 @@ const spells = {
     castTime: 0,
     gcd: false,
   },
+  MARK_OF_THE_WILD: {
+    name: 'Mark of the Wild',
+    id: 1126,
+    icon: 'spell_nature_regeneration',
+  },
 } satisfies Record<string, spell>;
 
 export default spells;
