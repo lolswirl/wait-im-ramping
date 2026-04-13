@@ -3,6 +3,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Bug, STATUS, SEVERITY } from "@data/bugs";
 import { Tags } from "@data/shared/tags";
 import { specialization } from "@data/class";
+import { extractTextFromReactNode } from "@util/extractTextFromReactNode";
 
 export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
     const searchParams = useSearchParams();
@@ -121,10 +122,11 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
                 ]
                     .filter(Boolean)
                     .map((n) => n.toLowerCase());
+                
                 return (
                     spellNames.some((name) => name.includes(search)) ||
-                    bug.title.toLowerCase().includes(search) ||
-                    bug.description.toLowerCase().includes(search) ||
+                    extractTextFromReactNode(bug.title).toLowerCase().includes(search) ||
+                    (bug.description && extractTextFromReactNode(bug.description).toLowerCase().includes(search)) ||
                     (selectedSpec?.name?.toLowerCase?.() || "").includes(
                         search
                     ) ||

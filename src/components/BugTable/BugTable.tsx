@@ -19,6 +19,7 @@ import SpellButton from "@components/SpellButtons/SpellButton";
 import { GetTitle } from "@util/stringManipulation";
 import { Bug, SEVERITY, SEVERITY_COLORS, SEVERITY_ORDER, STATUS, STATUS_COLORS } from "@data/bugs";
 import { applyGetTitle } from "@util/applyGetTitle";
+import { extractTextFromReactNode } from "@util/extractTextFromReactNode";
 
 interface BugTableProps {
     bugs: Bug[];
@@ -36,17 +37,6 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
     const tagsWidth = 200;
     const buildWidth = 55;
     const logsWidth = 45;
-
-    const extractTextFromReactNode = (node: React.ReactNode): string => {
-        if (typeof node === "string") return node;
-        if (typeof node === "number") return String(node);
-        if (Array.isArray(node)) return node.map(extractTextFromReactNode).join("");
-        if (React.isValidElement(node)) {
-            const props = node.props as Record<string, any>;
-            return extractTextFromReactNode(props.children);
-        }
-        return "";
-    };
 
     const hideOverflowSx = {
         overflow: "hidden",
