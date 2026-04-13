@@ -796,8 +796,10 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: <>Still references <SpellLink spell={TALENTS.CRANE_STANCE} />, even though it's unattainable</>,
         description: <><SpellLink spell={TALENTS.CRANE_STANCE} /> is unable to be procced since it came from <SpellLink spell={TALENTS.FLIGHT_OF_THE_RED_CRANE} />, which is now only accessible via <SpellLink spell={TALENTS.UNITY_WITHIN} /> but does not proc the Stance.</>,
+        notes: "Changes in 12.0.5 to rotate each buff every 8 seconds",
         tags: [TAGS.TOOLTIP],
-        lastBuildTested: "66220",
+        lastBuildTested: "66838",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.COALESCENCE,
