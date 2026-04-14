@@ -13,6 +13,7 @@ import { Bug } from "@data/bugs";
 
 import { useBugFilters } from "@hooks/useBugFilters";
 import { GetTitle, pluralize } from "@util/stringManipulation";
+import { exportBugsToExcel } from "@util/exportBugsToExcel";
 
 const BugsPage: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const searchParams = useSearchParams();
@@ -65,6 +66,11 @@ const BugsPage: React.FC<{ title: string; description: string }> = ({ title, des
         setSelectedBug(null);
     };
 
+    const handleExportToExcel = () => {
+        const fileName = `${selectedSpec.name.toLowerCase().replace(/\s+/g, '-')}-bugs.xlsx`;
+        exportBugsToExcel(filtered, fileName);
+    };
+
     return (
         <Container sx={{ mb: 3 }}>
             <PageHeader 
@@ -89,6 +95,7 @@ const BugsPage: React.FC<{ title: string; description: string }> = ({ title, des
                     onSeverityChange={setSelectedSeverity}
                     statuses={statuses}
                     severities={severities}
+                    onExportToExcel={handleExportToExcel}
                 />
                 {filtered.length > 0 ? (
                     <>
