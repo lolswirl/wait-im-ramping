@@ -936,7 +936,7 @@ const BUGS: Bug[] = [
         spell: TALENTS.GIFT_OF_THE_CELESTIALS,
         severity: SEVERITY.HIGH,
         lastBuildTested: "66838",
-        title: <>Sometimes in Raid, Celestial gets set to 2 min CD</>,
+        title: <>Sometimes in Raid, Celestial reverts to baseline without modifying talent</>,
         description: <>Sometimes in Raid, the Celestial (Usually <SpellLink spell={SPELLS.YULON} />), gets set to 2 min CD, active for 25 seconds, <SpellLink spell={TALENTS.CHI_COCOON} /> activate at higher strength, but the <SpellLink spell={TALENTS.SOOTHING_BREATH} /> healing is not increased.</>,
         logs: [
             { label: "", url: "https://www.warcraftlogs.com/reports/QWMGbN49qhLFpzn7?fight=28" },
