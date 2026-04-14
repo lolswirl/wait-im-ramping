@@ -932,6 +932,17 @@ const BUGS: Bug[] = [
         description: <>The <SpellLink spell={SPELLS.RENEWING_MIST} /> created is completely independent from a normal <SpellLink spell={SPELLS.RENEWING_MIST} /> meaning that it is significantly stronger because it has no interaction with pandemic durations of normal <SpellLink spell={SPELLS.RENEWING_MIST} />s and thus can do significantly more HPS with talents such as <SpellLink spell={TALENTS.MISTY_PEAKS} /></>,
         tags: [TAGS.TIER],
     },
+    {
+        spell: TALENTS.GIFT_OF_THE_CELESTIALS,
+        severity: SEVERITY.HIGH,
+        lastBuildTested: "66838",
+        title: <>Sometimes in Raid, Celestial gets set to 2 min CD</>,
+        description: <>Sometimes in Raid, the Celestial (Usually <SpellLink spell={SPELLS.YULON} />), gets set to 2 min CD, active for 25 seconds, <SpellLink spell={TALENTS.CHI_COCOON} /> activate at higher strength, but the <SpellLink spell={TALENTS.SOOTHING_BREATH} /> healing is not increased.</>,
+        logs: [
+            { label: "", url: "https://www.warcraftlogs.com/reports/QWMGbN49qhLFpzn7?fight=28" },
+            { label: "WowAnalyzer CD Tab", url: "https://wowanalyzer.com/report/QWMGbN49qhLFpzn7/28-Mythic+Vorasius+-+Wipe+8+(4:22)/5-Casualtyh/standard/cooldowns" },
+        ],
+    }
 
 ];
 
