@@ -916,6 +916,11 @@ const BUGS: Bug[] = [
         lastBuildTested: "66709",
         title: <>Sets random buffs durations to 20-32 seconds</>,
         description: <>Buffs like <SpellLink spell={SPELLS.ENVELOPING_MIST} />, <SpellLink spell={SPELLS.LIFE_COCOON} />, flasks, vantus runes, etc. become set to 20-32 seconds when it should be a <SpellLink spell={SPELLS.RENEWING_MIST} /></>,
+        logs: [
+            { label: "Log", url: "https://www.warcraftlogs.com/reports/gJdQDb6F8aVcXTR3" },
+            { label: "Video", url: "https://www.youtube.com/watch?v=c4YciBeeEXc" },
+            { label: "Video 2", url: "https://www.youtube.com/watch?v=BQoZXADMOuY" },
+        ],
         tags: [TAGS.TIER],
     },
     {
