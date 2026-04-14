@@ -149,7 +149,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                         flexDirection: "column",
                                         "&:hover": {
                                             backgroundColor: "rgba(55, 55, 55, 0.9)",
-                                            border: "1px solid rgba(255,255,255,0.15)",
+                                            border: "1px solid " + SEVERITY_COLORS[bug.severity],
                                         }
                                     }}
                                 >
@@ -198,7 +198,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                         transition: "all 0.2s ease",
                                         "&:hover": {
                                             backgroundColor: "rgba(55, 55, 55, 0.9)",
-                                            border: "1px solid rgba(255,255,255,0.15)",
+                                            border: "1px solid " + SEVERITY_COLORS[bug.severity],
                                         }
                                     }}
                                 >
@@ -249,7 +249,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                         transition: "all 0.2s ease",
                                         "&:hover": {
                                             backgroundColor: "rgba(55, 55, 55, 0.9)",
-                                            border: "1px solid rgba(255,255,255,0.15)",
+                                            border: "1px solid " + SEVERITY_COLORS[bug.severity],
                                         }
                                     }}
                                 >
@@ -285,7 +285,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                         transition: "all 0.2s ease",
                                                         "&:hover": {
                                                             backgroundColor: "rgba(255, 255, 255, 0.06)",
-                                                            border: "1px solid rgba(255,255,255,0.15)",
+                                                            border: "1px solid " + SEVERITY_COLORS[bug.severity],
                                                         }
                                                     }}
                                                 >
