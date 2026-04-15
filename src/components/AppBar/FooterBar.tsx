@@ -1,10 +1,11 @@
 "use client"
-import { AppBar, Toolbar, IconButton, Box, Typography } from "@mui/material";
+import { AppBar, Toolbar, Box, Typography } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { useThemeContext } from "@context/ThemeContext";
 import { GetTitle } from "@util/stringManipulation";
-import { GlassTooltip } from "@components/GlassTooltip/GlassTooltip";
+import { GlassTooltip } from "@components/Glass";
+import { ColoredIconButton } from "@components/Buttons/ColoredIconButton";
 
 export const DiscordSVG = (props: React.SVGProps<SVGSVGElement>) => (
     <svg  
@@ -108,24 +109,17 @@ const FooterBar = () => {
                             title={GetTitle(label)}
                             placement="top"
                         >
-                            <IconButton
+                            <ColoredIconButton
                                 color="inherit"
                                 href={href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                sx={{
-                                    color: "rgba(255, 255, 255, 0.5)",
-                                    transition: "all 0.3s ease",
-                                    backgroundColor: "transparent",
-                                    "&:hover": {
-                                        color: color,
-                                        transform: "translateY(-2px)",
-                                        backgroundColor: "transparent",
-                                    },
-                                }}
+                                hoverColor={color}
+                                enableLift={true}
+                                initialColor="rgba(255, 255, 255, 0.5)"
                             >
                                 {icon}
-                            </IconButton>
+                            </ColoredIconButton>
                         </GlassTooltip>
                     ))}
                 </Box>
