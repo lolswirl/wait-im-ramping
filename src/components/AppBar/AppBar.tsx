@@ -104,13 +104,13 @@ function ResponsiveAppBar() {
                         <span>{GetTitle("Wait, I'm Ramping!")}</span>
                     </Typography>
                 </Box>
-                <IconButton 
+                <ColoredIconButton 
                     onClick={handleDrawerToggle}
                     size="small"
-                    sx={{ color: "white" }}
+                    hoverColor="#ef4444"
                 >
                     ✕
-                </IconButton>
+                </ColoredIconButton>
             </Box>
 
             {/* mobile nav */}
