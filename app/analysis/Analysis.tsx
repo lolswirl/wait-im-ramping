@@ -14,7 +14,7 @@ import {
 import PageHeader from "@components/PageHeader/PageHeader";
 import { formatDate, getCapsMode, GetTitle } from "@util/stringManipulation";
 import RainbowCard from "@components/Buttons/RainbowCard";
-import { GlassTooltip } from "@components/GlassTooltip/GlassTooltip";
+import { GlassTooltip } from "@components/Glass";
 
 import { analysisPages, AnalysisPage } from "../AnalysisPages";
 

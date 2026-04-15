@@ -13,7 +13,7 @@ import {
     useTheme,
     Checkbox,
 } from '@mui/material';
-import { GlassTooltip } from '@components/GlassTooltip/GlassTooltip';
+import { GlassTooltip } from '@components/Glass';
 
 import IconButtonBase from '@components/SpellButtons/IconButtonBase';
 import SpellButton from '@components/SpellButtons/SpellButton';

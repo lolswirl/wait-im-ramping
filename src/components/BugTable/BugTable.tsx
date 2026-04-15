@@ -11,7 +11,7 @@ import {
     Typography,
     Chip,
 } from "@mui/material";
-import { GlassTooltip } from "@components/GlassTooltip/GlassTooltip";
+import { GlassTooltip } from "@components/Glass";
 import LinkIcon from "@mui/icons-material/Link";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";

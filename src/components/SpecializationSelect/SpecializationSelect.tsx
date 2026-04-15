@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { FormControl, InputLabel, MenuItem, Box, MenuList } from '@mui/material';
 import Select from '@mui/material/Select';
-import { GlassMenu } from '@components/GlassMenu/GlassMenu';
+import { GlassMenu } from '@components/Glass';
 
 import SpecDisplay from "@components/SpecializationSelect/SpecDisplay";
 

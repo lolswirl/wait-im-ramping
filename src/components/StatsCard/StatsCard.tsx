@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { Card, Grid, TextField } from '@mui/material';
-import { GlassTooltip } from '@components/GlassTooltip/GlassTooltip';
+import { GlassTooltip } from '@components/Glass';
 import { GetTitle } from '@util/stringManipulation';
 
 interface StatsCardProps {

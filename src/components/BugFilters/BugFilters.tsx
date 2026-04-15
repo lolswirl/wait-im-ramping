@@ -6,7 +6,7 @@ import { GetTitle } from "@util/stringManipulation";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 import { specialization } from "@data/class";
 import { SEVERITY_COLORS } from "@data/bugs";
-import { GlassTooltip } from "@components/GlassTooltip/GlassTooltip";
+import { GlassTooltip } from "@components/Glass";
 
 interface BugFiltersProps {
     selectedSpec: specialization;
