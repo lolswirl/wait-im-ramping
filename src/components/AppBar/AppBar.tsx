@@ -87,18 +87,18 @@ function ResponsiveAppBar() {
                 borderBottom: "1px solid",
                 borderColor: "rgba(255,255,255,0.1)"
             }}>
-                <Box sx={{ display: "flex", alignItems: "baseline", gap: 0.5, flexGrow: 1 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, flexGrow: 1 }}>
                     <Typography
                         variant="h6"
                         sx={{
                             fontWeight: 700,
                             color: "white",
                             display: "inline-flex",
-                            alignItems: "baseline",
+                            alignItems: "center",
                             gap: 0.5,
                         }}
                     >
-                        <span style={{ transform: "translateY(2px)", display: "inline-block" }}>𖦹</span>
+                        <img src="/apple-icon.png" alt="Logo" style={{ width: 16, height: 16, transform: 'translateY(2px)' }} />
                         <span>{GetTitle("Wait, I'm Ramping!")}</span>
                     </Typography>
                     {displayBranch && (
@@ -268,7 +268,7 @@ function ResponsiveAppBar() {
                             sx={{
                                 mr: 2,
                                 display: "inline-flex",
-                                alignItems: "baseline",
+                                alignItems: "center",
                                 gap: 0.5,
                                 fontWeight: 700,
                                 textDecoration: "none",
@@ -280,7 +280,7 @@ function ResponsiveAppBar() {
                                 },
                             }}
                         >
-                            <span style={{ color: "white", transform: "translateY(2px)", display: "inline-block" }}>𖦹</span>
+                            <img src="/apple-icon.png" alt="Logo" style={{ width: 20, height: 20, transform: 'translateY(1px)' }} />
                             <span style={isHomePage || titleHovered ? {
                                 background: RAINBOW_GRADIENT,
                                 WebkitBackgroundClip: "text",
