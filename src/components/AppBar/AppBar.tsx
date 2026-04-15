@@ -77,7 +77,10 @@ function ResponsiveAppBar() {
                 display: "flex", 
                 flexDirection: "column", 
                 height: "100%",
-                bgcolor: themeMode === "light" ? "primary.main" : "#171717"
+                bgcolor: themeMode === "light" ? "primary.main" : "#171717",
+                borderLeft: "1px solid",
+                borderColor: "rgba(255, 255, 255, 0.1)",
+                boxShadow: "-4px 0 16px rgba(0, 0, 0, 0.3)",
             }}
             role="presentation"
         >
