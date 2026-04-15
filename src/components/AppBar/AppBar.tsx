@@ -101,17 +101,6 @@ function ResponsiveAppBar() {
                         <img src="/apple-icon.png" alt="Logo" style={{ width: 16, height: 16, transform: 'translateY(2px)' }} />
                         <span>{GetTitle("Wait, I'm Ramping!")}</span>
                     </Typography>
-                    {displayBranch && (
-                        <Typography
-                            sx={{
-                                fontSize: "0.7rem",
-                                fontWeight: 500,
-                                color: "rgba(255,255,255,0.7)",
-                            }}
-                        >
-                            {displayBranch}
-                        </Typography>
-                    )}
                 </Box>
                 <IconButton 
                     onClick={handleDrawerToggle}
