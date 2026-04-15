@@ -22,6 +22,8 @@ import { GetTitle } from "@util/stringManipulation";
 import { useSpec } from "@context/SpecContext";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 import SwirlButton from "@components/Buttons/SwirlButton";
+import { ColoredIconButton } from "@components/Buttons/ColoredIconButton";
+import { GlassBox } from "@components/Glass";
 import { RAINBOW_GRADIENT, RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
 
 const MoonIcon = () => (
@@ -315,71 +317,29 @@ function ResponsiveAppBar() {
                             })}
                         </Box>
 
-                        <Box 
-                            sx={{ 
-                                position: 'relative', 
-                                zIndex: 1, 
-                                color: 'white',
-                                backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                                backdropFilter: 'blur(8px)',
-                                ml: 1,
-                                px: 1,
-                                py: 0.5,
-                                borderRadius: 1,
-                                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                display: { xs: "none", md: "flex" },
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                height: 'fit-content',
-                            }}
-                        >
+                        <GlassBox showOnMobile={false}>
                             {spec && <SpecializationSelect selectedSpec={spec} onSpecChange={setSpec} short={true} />}
-                            <IconButton 
+                            <ColoredIconButton
                                 onClick={toggleTheme}
-                                sx={{ 
-                                    color: "white",
-                                    transition: "transform 0.3s ease",
-                                    "&:hover": {
-                                        transform: "scale(1.1)",
-                                        backgroundColor: "transparent",
-                                    }, 
-                                }}
+                                hoverColor={themeMode === "dark" ? "#fbbf24" : "#60a5fa"}
                             >
                                 {themeMode === "dark" ? <MoonIcon /> : <SunIcon />}
-                            </IconButton>
-                        </Box>
+                            </ColoredIconButton>
+                        </GlassBox>
+
+                        {/* mobile menu button */}
+                        <GlassBox showOnDesktop={false}>
+                            <ColoredIconButton
+                                onClick={handleDrawerToggle}
+                                size="small"
+                                hoverColor="#60a5fa"
+                            >
+                                <MenuIcon sx={{ fontSize: 20 }} />
+                            </ColoredIconButton>
+                        </GlassBox>
                     </Toolbar>
                 </Container>
             </AppBar>
-            
-            {/* mobile stuff */}
-            <Box
-                onClick={handleDrawerToggle}
-                sx={{
-                    position: 'fixed',
-                    bottom: 16,
-                    right: 16,
-                    display: { xs: "flex", md: "none" },
-                    zIndex: 1000,
-                    color: 'white',
-                    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                    backdropFilter: 'blur(8px)',
-                    px: 1.5,
-                    py: 1.5,
-                    borderRadius: 2,
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    '&:hover': {
-                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                    }
-                }}
-            >
-                <MenuIcon />
-            </Box>
             <Drawer
                 anchor="right"
                 open={drawerOpen}
