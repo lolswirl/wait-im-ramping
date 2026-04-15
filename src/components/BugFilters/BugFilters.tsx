@@ -47,7 +47,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
     };
 
     return (
-        <Box sx={{ mb: 1.5, display: "flex", alignItems: "center", gap: 1.5, flexWrap: "wrap", width: "100%" }}>
+        <Box sx={{ mb: 1.5, display: "flex", alignItems: "center", gap: 1.5, flexWrap: "wrap", width: "80%", mx: "auto" }}>
             <SpecializationSelect
                 selectedSpec={selectedSpec}
                 onSpecChange={handleSpecChange}

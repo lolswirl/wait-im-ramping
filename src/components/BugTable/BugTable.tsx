@@ -9,7 +9,6 @@ import {
     TableRow,
     Box,
     Typography,
-    Chip,
 } from "@mui/material";
 import { GlassTooltip } from "@components/Glass";
 import LinkIcon from "@mui/icons-material/Link";
@@ -17,10 +16,9 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { GetTitle } from "@util/stringManipulation";
-import { Bug, SEVERITY, SEVERITY_COLORS, SEVERITY_ORDER, STATUS, STATUS_COLORS } from "@data/bugs";
+import { Bug, SEVERITY_COLORS, SEVERITY_ORDER, STATUS, STATUS_COLORS } from "@data/bugs";
 import { applyGetTitle } from "@util/applyGetTitle";
 import { extractTextFromReactNode } from "@util/extractTextFromReactNode";
-import WarningChip from "@components/WarningChip/WarningChip";
 
 interface BugTableProps {
     bugs: Bug[];
@@ -35,9 +33,8 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
     const severityWidth = 6;
     const spellWidth = 213;
     const titleWidth = 450;
-    const tagsWidth = 200;
-    const buildWidth = 55;
-    const logsWidth = 45;
+    const buildWidth = 70;
+    const logsWidth = 70;
 
     const hideOverflowSx = {
         overflow: "hidden",
@@ -131,7 +128,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                 mb: 0,
                 border: "1px solid",
                 borderColor: "divider",
-                width: "100%",
+                width: "80%",
                 mx: "auto",
                 overflowX: "auto",
                 minWidth: 600,
@@ -185,6 +182,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                 minWidth: buildWidth,
                                 width: buildWidth,
                                 maxWidth: buildWidth,
+                                textAlign: "center",
                             }}
                             onClick={() => handleSort("lastBuildTested")}
                         >
@@ -206,18 +204,6 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                 {getSortArrow("logs")}
                             </TableCell>
                         </GlassTooltip>
-                        <TableCell
-                            sx={{
-                                ...headerSx,
-                                minWidth: tagsWidth,
-                                width: tagsWidth,
-                                maxWidth: tagsWidth,
-                            }}
-                            onClick={() => handleSort("tags")}
-                        >
-                            {GetTitle("Tags")}
-                            {getSortArrow("tags")}
-                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -315,6 +301,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                     sx={{
                                         transition: "color 0.2s ease",
                                         color: STATUS_COLORS[bug.status ?? STATUS.OPEN],
+                                        textAlign: "center",
                                     }}
                                 >
                                     {bug.lastBuildTested || "—"}
@@ -339,29 +326,6 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                         }}
                                     />
                                 )}
-                            </TableCell>
-                            <TableCell
-                                sx={{
-                                    border: 0,
-                                    minWidth: tagsWidth,
-                                    maxWidth: tagsWidth,
-                                    ...hideOverflowSx,
-                                }}
-                            >
-                                <Box sx={{ gap: 0.5, display: "flex", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>
-                                    {bug.tags?.map((tag) => {
-                                        return (
-                                            <WarningChip
-                                                key={tag.name}
-                                                message={GetTitle(tag.name)}
-                                                size="small"
-                                                showIcon={false}
-                                                borderColor={tag.color}
-                                                fontSize="0.8rem"
-                                            />
-                                        );
-                                    })}
-                                </Box>
                             </TableCell>
                         </TableRow>
                     ))}
