@@ -189,6 +189,9 @@ const talents = {
         name: "Tear of Morning",
         id: 387991,
         icon: 'ability_monk_uplift',
+        custom: {
+            sheilunsGiftIncrease: 0.20,
+        }
     },
     TEA_OF_SERENITY: {
         name: "Tea of Serenity",
@@ -373,6 +376,10 @@ const talents = {
         name: "Way of the Serpent",
         id: 1243155,
         icon: 'monk_stance_wiseserpent',
+        custom: {
+            sheilunsGiftIncrease: 0.15,
+            renewingMistIncrease: 0.30
+        }
     },
     YULONS_WHISPER: {
         name: "Yulon's Whisper",

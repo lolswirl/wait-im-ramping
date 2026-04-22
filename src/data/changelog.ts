@@ -4,6 +4,7 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+    { date: "2026-04-22", text: "New Sheilun's Gift Analysis Pages - Breakdown and Single Target comparison with Dance of Chi-Ji" },
     { date: "2026-04-13", text: "Added Spell links to Wowhead and Export Bugs to Excel button" },
     { date: "2026-04-08", text: "Talents stop working in dungeons finally fixed for Mistweaver!" },
     { date: "2026-04-06", text: "Refreshed more elements across the site" },
