@@ -64,7 +64,7 @@ const spells = {
         cooldown: 9,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 1158
+            healing: 1134
         },
         custom: {
             duration: 20
@@ -88,7 +88,7 @@ const spells = {
         castTime: 2,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 5145
+            healing: 4320
         },
         custom: {
             duration: 6,
@@ -102,7 +102,7 @@ const spells = {
         castTime: 1.5,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 5689
+            healing: 5390
         }
     },
     THUNDER_FOCUS_TEA: {
@@ -140,10 +140,10 @@ const spells = {
         castTime: 2,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 2455
+            healing: 2326
         }, 
         custom: {
-            healingPerStack: 246,
+            healingPerStack: 116,
             targetsHit: 3,
             maxStacks: 10,
         }
@@ -176,8 +176,8 @@ const spells = {
         cooldown: 90,
         school: SCHOOLS.NATURE,
         value: {
-            healing: 32394,
-            damage: 10110,
+            healing: 31284,
+            damage: 8088,
         },
         custom: {
             maxTargets: 5,
