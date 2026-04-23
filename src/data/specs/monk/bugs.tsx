@@ -3,14 +3,14 @@ import TALENTS from '@data/talents';
 import { Bug, SEVERITY, STATUS } from "@data/bugs";
 import { TAGS } from "@data/shared/tags";
 import React from 'react';
+import SpellLink from '@components/SpellLink';
 
 const BUGS: Bug[] = [
     {
         spell: TALENTS.STILLSTEP_COIL,
-        affectedSpells: [SPELLS.LEG_SWEEP, SPELLS.DISABLE],
         severity: SEVERITY.LOW,
         title: <>Stillstep Coil requires melee range</>,
-        description: <>Player must be in melee range when Leg Sweep expires otherwise Disable is not applied</>,
+        description: <>Player must be in melee range when <SpellLink spell={SPELLS.LEG_SWEEP}/> expires otherwise <SpellLink spell={SPELLS.DISABLE}/> is not applied</>,
         lastBuildTested: "65337",
         notes: "I assume bug because it says 'Leg Sweep applies' rather than 'When Leg Sweep ends, player applies'",
         tags: [],
@@ -18,13 +18,19 @@ const BUGS: Bug[] = [
     },
     {
         spell: SPELLS.TOUCH_OF_DEATH,
-        affectedSpells: [SPELLS.CELESTIAL_CONDUIT],
         severity: SEVERITY.LOW,
-        title: <>ToD usable during Celestial Conduit channel</>,
-        description: <>Touch of Death is usable during the Celestial Conduit channel, despite canceling on damage/healing abilities</>,
+        title: <>Usable during <SpellLink spell={SPELLS.CELESTIAL_CONDUIT}/> channel</>,
+        description: <><SpellLink spell={SPELLS.TOUCH_OF_DEATH}/> is usable during the <SpellLink spell={SPELLS.CELESTIAL_CONDUIT}/> channel, despite canceling on damage/healing abilities</>,
         lastBuildTested: "65848",
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/vkLZ3MzFDa7GRdY8?fight=26&type=summary&source=6&view=events&start=3553847&end=3557704" }],
         tags: [TAGS.CONDUIT],
+    },
+    {
+        spell: SPELLS.TIGERS_LUST,
+        severity: SEVERITY.MEDIUM,
+        title: <>Global cooldown after casting is unhasted</>,
+        description: <>The global cooldown after casting <SpellLink spell={SPELLS.TIGERS_LUST}/> is unhasted, meaning it is a full 1.5s global and makes for awkward gameplay with higher haste levels.</>,
+        lastBuildTested: "67088",
     }
 ];
 

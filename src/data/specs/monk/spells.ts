@@ -26,6 +26,11 @@ const spells = {
             rskResetChance: 12, // percent
         }
     },
+    TIGERS_LUST: {
+        name: "Tiger's Lust",
+        id: 116841,
+        icon: 'ability_monk_tigerslust',
+    },
 } satisfies Record<string, spell>;
 
 export default spells;
