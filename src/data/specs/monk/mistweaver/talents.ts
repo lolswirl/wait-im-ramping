@@ -414,6 +414,16 @@ const talents = {
         id: 123986,
         icon: 'spell_arcane_arcanetorrent',
     },
+    REFRESHMENT: {
+        name: "Refreshment",
+        id: 467270,
+        icon: 'inv_misc_gem_pearl_06',
+    },
+    HEALING_ELIXIR: {
+        name: "Healing Elixir",
+        id: 122280,
+        icon: 'ability_monk_jasmineforcetea',
+    },
 
     // hero talents
     // master of harmony

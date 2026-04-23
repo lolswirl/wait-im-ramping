@@ -942,6 +942,47 @@ const BUGS: Bug[] = [
             { label: "", url: "https://www.warcraftlogs.com/reports/QWMGbN49qhLFpzn7?fight=28" },
             { label: "WowAnalyzer CD Tab", url: "https://wowanalyzer.com/report/QWMGbN49qhLFpzn7/28-Mythic+Vorasius+-+Wipe+8+(4:22)/5-Casualtyh/standard/cooldowns" },
         ],
+    },
+    {
+        spell: SPELLS.YULON,
+        severity: SEVERITY.HIGH,
+        lastBuildTested: "67088",
+        title: <>Randomly chooses the caster only <SpellLink spell={TALENTS.SOOTHING_BREATH} /> targeting</>,
+        description: <>Yulon will sometimes choose the caster as the target of <SpellLink spell={TALENTS.SOOTHING_BREATH} /> many times within the Celestial window, even though there are many actors in range of her.</>,
+        logs: [
+            { label: "First Yu'lon is fine, second is not", url: "https://www.warcraftlogs.com/reports/wfXRjWGt3aVJbAYQ?fight=66&type=healing&source=155&ability=-322118" },
+        ]
+    },
+    {
+        spell: TALENTS.UPLIFTED_SPIRITS,
+        severity: SEVERITY.HIGH,
+        lastBuildTested: "67088",
+        title: <>Randomly reverted back to 3 min <SpellLink spell={SPELLS.REVIVAL} /> in raid</>,
+        description: <><SpellLink spell={TALENTS.UPLIFTED_SPIRITS} /> randomly reverted back to 3 min <SpellLink spell={SPELLS.REVIVAL} /> in raid as of 12.0.5.</>,
+    },
+    {
+        spell: TALENTS.REFRESHMENT,
+        severity: SEVERITY.HIGH,
+        lastBuildTested: "67088",
+        title: <>Randomly stopped giving <SpellLink spell={TALENTS.MANA_TEA} /> and <SpellLink spell={TALENTS.HEALING_ELIXIR} /> in raid</>,
+        description: <><SpellLink spell={TALENTS.REFRESHMENT} /> randomly stopped giving <SpellLink spell={TALENTS.MANA_TEA} /> and <SpellLink spell={TALENTS.HEALING_ELIXIR} /> in raid as of 12.0.5</>,
+    },
+    {
+        spell: TALENTS.CHRYSALIS,
+        severity: SEVERITY.HIGH,
+        lastBuildTested: "67088",
+        title: <>Randomly reverted back to 2 min <SpellLink spell={SPELLS.LIFE_COCOON} /> in raid</>,
+        description: <><SpellLink spell={TALENTS.CHRYSALIS} /> randomly reverted back to 2 min <SpellLink spell={SPELLS.LIFE_COCOON} /> in raid as of 12.0.5.</>,
+    },
+    {
+        spell: TALENTS.UNITY_WITHIN,
+        severity: SEVERITY.HIGH,
+        lastBuildTested: "67088",
+        title: <>Randomly stopped giving all celestial assists in raid</>,
+        description: <><SpellLink spell={TALENTS.UNITY_WITHIN} /> randomly stopped giving all celestial assists in raid as of 12.0.5 - <SpellLink spell={TALENTS.HEART_OF_THE_JADE_SERPENT}/>, <SpellLink spell={TALENTS.COURAGE_OF_THE_WHITE_TIGER}/>, <SpellLink spell={TALENTS.STRENGTH_OF_THE_BLACK_OX}/>, <SpellLink spell={TALENTS.FLIGHT_OF_THE_RED_CRANE}/>. </>,
+        logs: [
+            { label: "", url: "https://www.warcraftlogs.com/reports/9crMhkxNPgHFmXA3?type=summary&fight=46&sourceclass=Any&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%240.0.0.Any%24true%24443028%24or%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%240.0.0.Any%24true%24443421%7C1238904&view=events" },
+        ]
     }
 
 ];
