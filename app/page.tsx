@@ -8,9 +8,9 @@ import {
     CardActionArea,
     Container, 
     Box, 
-    Chip,
     Avatar
 } from "@mui/material";
+import WarningChip from "@components/WarningChip/WarningChip";
 import RainbowCard from "@components/Buttons/RainbowCard";
 import { Timeline, Analytics, TimerTwoTone, BugReport, ChevronRight } from "@mui/icons-material";
 
@@ -204,12 +204,11 @@ const Home = () => {
                     </Typography>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
                         {siteInfo.map((info, i) => (
-                            <Chip
+                            <WarningChip
                                 key={i}
-                                label={GetTitle(info.label)}
-                                size="small"
-                                variant="outlined"
-                                sx={{ borderColor: info.color, color: info.color }}
+                                message={info.label}
+                                borderColor={info.color}
+                                sx={{ fontWeight: 0 }}
                             />
                         ))}
                     </Box>
