@@ -29,8 +29,9 @@ const BUGS: Bug[] = [
         spell: SPELLS.TIGERS_LUST,
         severity: SEVERITY.MEDIUM,
         title: <>Global cooldown after casting is unhasted</>,
-        description: <>The global cooldown after casting <SpellLink spell={SPELLS.TIGERS_LUST}/> is unhasted, meaning it is a full 1.5s global and makes for awkward gameplay with higher haste levels.</>,
+        description: <>The global cooldown after casting <SpellLink spell={SPELLS.TIGERS_LUST}/> is unhasted, meaning it is a full 1.5s global.</>,
         lastBuildTested: "67088",
+        notes: "This makes for awkward gameplay with higher haste levels.",
     }
 ];
 
