@@ -219,7 +219,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                                             color: 'white',
                                             px: 1.5,
                                             py: 0.75,
-                                            borderRadius: 2,
+                                            borderRadius: 1,
                                             fontSize: '0.7rem',
                                             fontWeight: 500,
                                             letterSpacing: '0.02em',
