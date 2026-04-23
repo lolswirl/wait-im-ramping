@@ -7,7 +7,6 @@ import {
     Container, 
     Typography, 
     Box, 
-    Chip,
     Grid,
 } from "@mui/material";
 
@@ -17,6 +16,7 @@ import RainbowCard from "@components/Buttons/RainbowCard";
 import { GlassTooltip } from "@components/Glass";
 
 import { analysisPages, AnalysisPage } from "../AnalysisPages";
+import WarningChip from "@components/WarningChip/WarningChip";
 
 const wdirPreview = "/previews/when-do-i-ramp.png";
 const spellTimelinePreview = "/previews/timeline.png";
@@ -101,21 +101,14 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                     </Typography>
                     <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', flexGrow: 1 }}>
                         {allTags.map((tag) => (
-                            <Chip 
+                            <WarningChip 
                                 key={tag}
-                                label={GetTitle(tag)}
+                                message={tag}
                                 variant={selectedTags.includes(tag) ? "filled" : "outlined"}
                                 color={selectedTags.includes(tag) ? "primary" : "default"}
                                 onClick={() => handleTagToggle(tag)}
                                 size="small"
-                                sx={{ 
-                                    cursor: 'pointer',
-                                    '&:hover': {
-                                        backgroundColor: selectedTags.includes(tag) 
-                                            ? 'primary.dark' 
-                                            : 'action.hover'
-                                    }
-                                }}
+                                fontSize="0.8rem"
                             />
                         ))}
                     </Box>
@@ -124,13 +117,11 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                             <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>
                                 {GetTitle(`${displayedPages.length} of ${filteredAnalysisPages.length} tools`)}
                             </Typography>
-                            <Chip 
-                                label={GetTitle(`Clear (${selectedTags.length})`)}
-                                variant="outlined"
+                            <WarningChip 
+                                message={`Clear (${selectedTags.length})`}
                                 color="error"
-                                size="small"
                                 onClick={clearAllFilters}
-                                sx={{ flexShrink: 0 }}
+                                fontSize="0.8rem"
                             />
                         </>
                     )}
@@ -276,16 +267,12 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                                         
                                         <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap', mt: 'auto' }}>
                                             {tool.tags.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())).map((tag) => (
-                                                <Chip 
+                                                <WarningChip 
                                                     key={tag}
-                                                    label={GetTitle(tag)} 
-                                                    size="small" 
+                                                    message={tag}
                                                     variant={selectedTags.includes(tag) ? "filled" : "outlined"}
                                                     color={selectedTags.includes(tag) ? "primary" : "default"}
-                                                    sx={{ 
-                                                        fontSize: '0.7rem',
-                                                        height: 20
-                                                    }}
+                                                    fontSize="0.7rem"
                                                 />
                                             ))}
                                         </Box>
