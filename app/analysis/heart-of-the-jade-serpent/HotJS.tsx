@@ -828,7 +828,7 @@ const HotJS: React.FC<{ title: string; description: string }> = ({ title, descri
             <Card variant="outlined" sx={{ maxWidth: MAX_WIDTH, width: "95%", mx: "auto", mb: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2, gap: 2 }}>
-                        <WarningChip message="We are assuming every spell is being used on cooldown as it becomes available" />
+                        <WarningChip message="We are assuming every spell is being used on cooldown as it becomes available" borderColor="#ffa726"/>
                         <OptionsCard
                             cdrEnabled={cdrEnabled}
                             onCdrEnabledChange={setCdrEnabled}

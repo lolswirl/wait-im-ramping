@@ -344,7 +344,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
       <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
           <Box sx={{ flex: 1, p: 2, gap: 2, display: 'flex', flexDirection: 'column' }}>
-            <WarningChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon/>
+            <WarningChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon borderColor="#ffa726"/>
             <Card variant="outlined" sx={{ 
               p: 2, 
               background: `linear-gradient(135deg, rgba(54, 162, 235, 0.1), rgba(54, 162, 235, 0.05))`, 
