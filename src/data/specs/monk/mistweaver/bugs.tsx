@@ -12,7 +12,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.ANCIENT_TEACHINGS,
         affectedSpells: [TALENTS.SECRET_INFUSION, TALENTS.INNER_COMPASS],
-        severity: SEVERITY.MEDIUM,
+        severity: SEVERITY.HIGH,
         title: <>Versatility double dips with <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /></>,
         description: <>Versatility gains from several sources (<SpellLink spell={TALENTS.SECRET_INFUSION} />, <SpellLink spell={TALENTS.INNER_COMPASS} />, <SpellLink spell={SPELLS.MARK_OF_THE_WILD} />, etc) double dips on <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /> - it increases the damage you deal which converts into <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /> healing, then that is increased by the extra Versatility % increase</>,
         tags: [TAGS.VERS],
