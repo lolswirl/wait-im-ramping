@@ -21,7 +21,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: <>Usable during <SpellLink spell={SPELLS.CELESTIAL_CONDUIT}/> channel</>,
         description: <><SpellLink spell={SPELLS.TOUCH_OF_DEATH}/> is usable during the <SpellLink spell={SPELLS.CELESTIAL_CONDUIT}/> channel, despite canceling on damage/healing abilities</>,
-        lastBuildTested: "65848",
+        lastBuildTested: "67186",
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/vkLZ3MzFDa7GRdY8?fight=26&type=summary&source=6&view=events&start=3553847&end=3557704" }],
         tags: [TAGS.CONDUIT],
     },
@@ -30,7 +30,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <>Global cooldown after casting is unhasted</>,
         description: <>The global cooldown after casting <SpellLink spell={SPELLS.TIGERS_LUST}/> is unhasted, meaning it is a full 1.5s global.</>,
-        lastBuildTested: "67088",
+        lastBuildTested: "67186",
         notes: "This makes for awkward gameplay with higher haste levels.",
     }
 ];

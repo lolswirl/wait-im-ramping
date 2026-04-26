@@ -16,7 +16,7 @@ const BUGS: Bug[] = [
         title: <>Versatility double dips with <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /></>,
         description: <>Versatility gains from several sources (<SpellLink spell={TALENTS.SECRET_INFUSION} />, <SpellLink spell={TALENTS.INNER_COMPASS} />, <SpellLink spell={SPELLS.MARK_OF_THE_WILD} />, etc) double dips on <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /> - it increases the damage you deal which converts into <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /> healing, then that is increased by the extra Versatility % increase</>,
         tags: [TAGS.VERS],
-        lastBuildTested: "66066",
+        lastBuildTested: "67186",
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/tvxZXBYQfmKpVdRF?fight=3&type=summary&source=11&start=511586&end=527359&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%7C388500%7C388024" }],
     },
     {
@@ -64,7 +64,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <><SpellLink spell={TALENTS.JADE_SERPENT_STATUE} />'s healing doesn't apply <SpellLink spell={TALENTS.ASPECT_OF_HARMONY_HOT} /></>,
         description: <><SpellLink spell={TALENTS.JADE_SERPENT_STATUE}/>'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> healing does not apply <SpellLink spell={TALENTS.ASPECT_OF_HARMONY_HOT} /></>,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
     },
     {
         spell: TALENTS.ASPECT_OF_HARMONY,
@@ -72,7 +72,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: <>Several sources cannot contribute to vitality</>,
         description: <><SpellLink spell={TALENTS.JADE_SERPENT_STATUE} />'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> does not contribute vitality</>,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM,
@@ -81,7 +81,7 @@ const BUGS: Bug[] = [
         title: <><SpellLink spell={SPELLS.RISING_SUN_KICK} /> w/ <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> adds/removes buffs</>,
         description: <>With <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> Talented, <SpellLink spell={SPELLS.RISING_SUN_KICK} /> adds and removes several buff stacks in succession then consumed immediately and a Nature gets applied, consumed, and reapplied</>,
         tags: [TAGS.MOH],
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/RrQHWx6VkNFJAT1a?fight=1&type=summary&source=11&start=21771&end=24771&view=events" }],
     },
     {
@@ -90,7 +90,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: <><SpellLink spell={TALENTS.MISTY_PEAKS} /> procs consume Physical, add Nature stack</>,
         tags: [TAGS.MOH],
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         notes: "Tested in 65701, fixed. Broken in 66066.",
     },
     {
@@ -100,7 +100,7 @@ const BUGS: Bug[] = [
         title: <><SpellLink spell={SPELLS.ENVELOPING_MIST} /> with <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> procs 3 Nature stacks</>,
         description: <>Hard Cast <SpellLink spell={SPELLS.ENVELOPING_MIST} /> with <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> procs 3 stacks of Nature. This is from <SpellLink spell={SPELLS.ENVELOPING_MIST} /> apply and then the <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> <SpellLink spell={SPELLS.RENEWING_MIST}/> having travel time</>,
         tags: [TAGS.MOH],
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=24&type=summary&source=6&view=events&start=3323214&end=3327078" }],
     },
     {
@@ -126,7 +126,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: <>Doesn't interact with <SpellLink spell={TALENTS.PEACEFUL_MENDING} /></>,
         description: <>Does not interact with <SpellLink spell={TALENTS.PEACEFUL_MENDING} /> at all. The healing replicated to targets with <SpellLink spell={SPELLS.RENEWING_MIST} /> is not increased.</>,
-        lastBuildTested: "65769",
+        lastBuildTested: "67186",
     },
     {
         spell: TALENTS.TEAR_OF_MORNING,
@@ -201,7 +201,7 @@ const BUGS: Bug[] = [
         spell: TALENTS.SPIRITFONT,
         severity: SEVERITY.MEDIUM,
         title: <>Doesn't heal NPCs</>,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         notes: "Tested with Valeera (Delve Companion) and Follower Dungeons",
         tags: [TAGS.APEX],
     },
@@ -220,7 +220,7 @@ const BUGS: Bug[] = [
         affectedSpells: [SPELLS.SPINNING_CRANE_KICK],
         severity: SEVERITY.LOW,
         title: <>Increases <SpellLink spell={SPELLS.SPINNING_CRANE_KICK} /> damage by 10%</>,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         notes: "Likely a side effect of the windwalker version of the talent",
         tags: [TAGS.CONDUIT],
     },
@@ -230,7 +230,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <>Doesn't increase healing of <SpellLink spell={SPELLS.THUNDER_FOCUS_TEA} /> <SpellLink spell={SPELLS.ENVELOPING_MIST} /></>,
         description: <>Temple Training does not increase the healing of <SpellLink spell={SPELLS.THUNDER_FOCUS_TEA} /> <SpellLink spell={SPELLS.ENVELOPING_MIST} /></>,
-        lastBuildTested: "65848",
+        lastBuildTested: "67186",
         notes: "SG fixed, TFT EnvM is not.",
         tags: [TAGS.CONDUIT],
     },
@@ -259,7 +259,7 @@ const BUGS: Bug[] = [
         spell: SPELLS.SHEILUNS_GIFT,
         severity: SEVERITY.LOW,
         title: <>Has no variance</>,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=3&view=events&source=6&type=healing&pins=2%24Separate%24%23244F4B%24any%7Chealing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24399497%7C399510%7C399491" }],
     },
     {
@@ -278,7 +278,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.TRIVIAL,
         title: <>Tooltip does not match actual amount healed</>,
         description: <>Tooltip does not match the actual amount healed for either <SpellLink spell={TALENTS.JADE_BOND} /> or <SpellLink spell={TALENTS.GIFT_OF_THE_CELESTIALS} /></>,
-        lastBuildTested: "65848",
+        lastBuildTested: "67186",
         logs: [{ label: "Multiple issues", url: "https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1" }],
         tags: [TAGS.TOOLTIP],
     },
@@ -288,7 +288,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.TRIVIAL,
         title: <>Tooltip is not 500% increased with <SpellLink spell={TALENTS.JADE_BOND} /></>,
         description: <>Tooltip does not update when talented into <SpellLink spell={TALENTS.JADE_BOND} />.</>,
-        lastBuildTested: "65848",
+        lastBuildTested: "67186",
         logs: [{ label: "Multiple issues", url: "https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1" }],
         tags: [TAGS.TOOLTIP],
     },
@@ -297,7 +297,7 @@ const BUGS: Bug[] = [
         affectedSpells: [TALENTS.JADE_BOND],
         severity: SEVERITY.MEDIUM,
         title: <>Lasts 9s (tooltip says 8.5s before haste)</>,
-        lastBuildTested: "65848",
+        lastBuildTested: "67186",
         logs: [{ label: "Multiple issues", url: "https://www.warcraftlogs.com/reports/YWFzwTk29XGgxVmZ?fight=1&type=healing&view=events&sourceclass=Any&pins=0%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24343737&ability=343737&target=1" }],
         tags: [TAGS.TOOLTIP],
     },
@@ -325,7 +325,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: <>Doesn't increase <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> <SpellLink spell={SPELLS.RENEWING_MIST} /> by +2s</>,
         description: <>Does not increase the duration of <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> <SpellLink spell={SPELLS.RENEWING_MIST} /> by +2s</>,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
     },
     {
         spell: SPELLS.CELESTIAL_CONDUIT,
@@ -352,7 +352,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <>Rank 2 doesn't increase the healing of <SpellLink spell={SPELLS.THUNDER_FOCUS_TEA} /> <SpellLink spell={SPELLS.ENVELOPING_MIST} /></>,
         description: <>Spiritfont Rank 2 does not increase the healing of <SpellLink spell={SPELLS.THUNDER_FOCUS_TEA} /> <SpellLink spell={SPELLS.ENVELOPING_MIST} /> (the instant heal)</>,
-        lastBuildTested: "65769",
+        lastBuildTested: "67186",
         tags: [TAGS.APEX],
     },
     {
@@ -415,7 +415,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <>Statue does not cast <SpellLink spell={SPELLS.SOOTHING_MIST} /> on <SpellLink spell={TALENTS.SPIRITFONT} /> <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST} /> targets</>,
         description: <><SpellLink spell={TALENTS.JADE_SERPENT_STATUE} /> and <SpellLink spell={TALENTS.JADE_INFUSION} /> do not cast <SpellLink spell={SPELLS.SOOTHING_MIST} /> on the targets who have <SpellLink spell={TALENTS.SPIRITFONT} /> <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST} /> on them</>,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
     },
     {
         spell: TALENTS.RUSHING_WIND_KICK,
@@ -430,7 +430,7 @@ const BUGS: Bug[] = [
         affectedSpells: [TALENTS.RUSHING_WIND_KICK, SPELLS.RISING_SUN_KICK],
         severity: SEVERITY.TRIVIAL,
         title: <>Bonus not reflected in <SpellLink spell={TALENTS.RUSHING_WIND_KICK} />/<SpellLink spell={SPELLS.RISING_SUN_KICK} /> tooltips</>,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -441,6 +441,7 @@ const BUGS: Bug[] = [
         description: <>In game tooltip for <SpellLink spell={TALENTS.JADEFIRE_STOMP} /> is drastically lower than the actual damage dealt</>,
         lastBuildTested: "66220",
         tags: [TAGS.TOOLTIP],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.SECRET_INFUSION,
@@ -467,7 +468,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <>Healing not buffed to 50% of <SpellLink spell={SPELLS.SOOTHING_MIST} /> when it was buffed</>,
         description: <><SpellLink spell={TALENTS.JADE_SERPENT_STATUE} />'s healing has historically been 50% of <SpellLink spell={SPELLS.SOOTHING_MIST} />, but it has not recieved the same buff that <SpellLink spell={SPELLS.SOOTHING_MIST} /> did at the start of alpha (jss duration was increased but total spellpower remained the same, sooms duration and total sp were increased) so it is only 33% of <SpellLink spell={SPELLS.SOOTHING_MIST} /> now</>,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         notes: "This combined with it not interacting with SF leaves the talent doing barely 1% hps WITH unison talented and makes it effectively an elusive mist applier",
     },
     {
@@ -493,7 +494,8 @@ const BUGS: Bug[] = [
         title: <><SpellLink spell={SPELLS.SOOTHING_MIST} /> channel interrupted by <SpellLink spell={TALENTS.FOCUSED_THUNDER} />'s last charge</>,
         description: <>The free-move <SpellLink spell={SPELLS.SOOTHING_MIST} /> channel from <SpellLink spell={TALENTS.EMPERORS_ELIXIR} /> seems to be interrupted by <SpellLink spell={TALENTS.FOCUSED_THUNDER} /> being fully consumed. Does not happen with <SpellLink spell={TALENTS.WAY_OF_THE_SERPENT} />, but does with <SpellLink spell={TALENTS.WAY_OF_THE_CRANE} />.</>,
         lastBuildTested: "66709",
-        notes: "Fixed in 65448, broken again in 66709."
+        notes: "Fixed in 65448, broken again in 66709. Fixed in 66709 (12.0.5) by making Soothing Mist movement baseline, so not 'really' fixed - just can no longer occur anymore.",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.SPIRITFONT,
@@ -545,7 +547,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: <><SpellLink spell={SPELLS.RENEWING_MIST} /> from 4pc not increased by <SpellLink spell={TALENTS.LOTUS_INFUSION} /></>,
         description: <>The duration of the <SpellLink spell={SPELLS.RENEWING_MIST} /> applied by the 4pc is not increased by <SpellLink spell={TALENTS.LOTUS_INFUSION} /></>,
-        lastBuildTested: "66017",
+        lastBuildTested: "67186",
         tags: [TAGS.TIER],
     },
     {
@@ -634,7 +636,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <>Personal tooltip shows 0% damage reduction</>,
         description: <>Personal tooltip shows 0% damage reduction when casting <SpellLink spell={SPELLS.SOOTHING_MIST} /> on another target while having <SpellLink spell={TALENTS.ELUSIVE_MISTS} /> talented</>,
+        notes: "Personal soothing mist buff was completely removed in 12.0.5, so this no longer can be shown.",
         lastBuildTested: "66220",
+        status: STATUS.REMOVED,
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -643,7 +647,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.TRIVIAL,
         title: <>Buff and talent tooltip still reference <SpellLink spell={SPELLS.VIVIFY} /> if talented into <SpellLink spell={SPELLS.SHEILUNS_GIFT} /></>,
         description: <><SpellLink spell={TALENTS.HARMONIC_SURGE} /> tooltip references <SpellLink spell={SPELLS.VIVIFY} />, even if <SpellLink spell={SPELLS.SHEILUNS_GIFT} /> is talented. Functionally works correctly</>,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         tags: [TAGS.TOOLTIP, TAGS.MOH],
     },
     {
@@ -665,7 +669,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <>Healing conversion reverted to post-armor values</>,
         description: <>Hotfix to <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /> healing (roughly March 2025) on pre-armor damage values (physical abilities reducing actual damage dealt by 30% account for armor) was reverted at some point from Undermine {'->'} Live. The conversion now only happens on post-armor values.</>,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         logs: [
             { label: "Post-armor conversion (66220)", url: "https://www.warcraftlogs.com/reports/hpTmN6FgCtaY9bvc?fight=11&source=1&type=summary&start=14048042&end=14286694&view=events&pins=2%24Separate%24%23244F4B%24casts%7Cdamage%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24388025%7C388024" },
             { label: "Build 65769", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=12&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24185099%7C388024" },
@@ -687,7 +691,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: <>Despite its removal, still procs from <SpellLink spell={TALENTS.UNITY_WITHIN} /></>,
         description: <>Despite being removed from the talent tree, the spell still activates when <SpellLink spell={TALENTS.UNITY_WITHIN} /> occurs. Only heals, as it has done since its inception from <SpellLink spell={TALENTS.UNITY_WITHIN} /> to not proc mana tea despite its original talent's wording.</>,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=7&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443028%7C443591%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443614" }],
     },
     {
@@ -721,7 +725,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <>Primary target of <SpellLink spell={SPELLS.ENVELOPING_MIST} /> doesn't always receive shield</>,
         description: <>When casting <SpellLink spell={SPELLS.ENVELOPING_MIST} />, the primary target doesn't always receive one of the 5 shields from <SpellLink spell={TALENTS.STRENGTH_OF_THE_BLACK_OX} />. This causes <SpellLink spell={TALENTS.STAMPEDE_OF_THE_ANCIENTS} /> to appear broken, as it only strengthens the primary target's shield when that target actually receives one. Functionally works when the primary target does receive a shield.</>,
-        lastBuildTested: "66838",
+        lastBuildTested: "67186",
         logs: [
             { label: "65560", url: "https://www.warcraftlogs.com/reports/6Wfpry3mtxz84PHd?fight=8&type=auras&view=events&ability=443113" },
             { label: "66838", url: "https://www.warcraftlogs.com/reports/1Kqnh36Rvb9TJMNx?fight=41&type=summary&view=events&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443113%2459%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24124682" }
@@ -823,14 +827,14 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.COURAGE_OF_THE_WHITE_TIGER,
         severity: SEVERITY.LOW,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         title: <>Invoke buff does not work with <SpellLink spell={SPELLS.SHEILUNS_GIFT} /></>,
         description: <>Invoking <SpellLink spell={SPELLS.CHI_JI} />/<SpellLink spell={SPELLS.YULON} /> hands a <SpellLink spell={TALENTS.COURAGE_OF_THE_WHITE_TIGER} /> buff that only works for <SpellLink spell={SPELLS.VIVIFY} /> and <SpellLink spell={SPELLS.TIGER_PALM} />, unlike the talent description that states it should work for <SpellLink spell={SPELLS.SHEILUNS_GIFT} /> as well.</>,
     },
     {
         spell: TALENTS.STRENGTH_OF_THE_BLACK_OX,
         severity: SEVERITY.TRIVIAL,
-        lastBuildTested: "66220",
+        lastBuildTested: "67186",
         title: <>Tooltip says 0% of max hp when it was changed to sp% based</>,
         description: <>Tooltip on the buff of <SpellLink spell={TALENTS.STRENGTH_OF_THE_BLACK_OX} /> still says it absorbs for 0% of max hp, but it was changed to be based on spell power instead. Functionally works as intended, just tooltip is wrong.</>,
         tags: [TAGS.TOOLTIP],
@@ -838,19 +842,19 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.RUSHING_WIND_KICK,
         severity: SEVERITY.LOW,
-        lastBuildTested: "66192",
+        lastBuildTested: "67186",
         title: <>Mobs with <SpellLink spell={TALENTS.PARALYSIS} /> on them cannot be hit by <SpellLink spell={TALENTS.RUSHING_WIND_KICK} /></>,
     },
     {
         spell: TALENTS.SPIRITFONT,
         severity: SEVERITY.TRIVIAL,
-        lastBuildTested: "66384",
+        lastBuildTested: "67186",
         title: <>Buff tooltip says 30% effectiveness when it should be 20%</>,
     },
     {
         spell: TALENTS.SPIRITFONT,
         severity: SEVERITY.HIGH,
-        lastBuildTested: "66431",
+        lastBuildTested: "67186",
         title: <><SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST} />s from multiple stacks used back to back get removed simultaneously</>,
         description: <><SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST} />s from multiple stacks of <SpellLink spell={TALENTS.SPIRITFONT} /> used back to back get removed simultaneously and reapplied elsewhere, but don't double in value.</>,
         notes: "Particularly bad during Yu'lon, when casting many Enveloping Mists in a row and having multiple Spiritfont charges to use.",
@@ -860,7 +864,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.SPIRITFONT,
         severity: SEVERITY.HIGH,
-        lastBuildTested: "66431",
+        lastBuildTested: "67186",
         title: <><SpellLink spell={TALENTS.SPIRITFONT_CHI_COCOON} /> from multiple stacks get refreshed if they land on the same target</>,
         description: <><SpellLink spell={TALENTS.SPIRITFONT_CHI_COCOON} /> from multiple stacks of <SpellLink spell={TALENTS.SPIRITFONT} /> used back to back get refreshed if they land on the same target, but don't double in value.</>,
         notes: "Particularly bad in Mythic+, when there are only 5 targets maximum.",
@@ -878,7 +882,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.SPIRITFONT,
         severity: SEVERITY.MEDIUM,
-        lastBuildTested: "66431",
+        lastBuildTested: "67186",
         title: <>Does not re-expand after collapsing to heal more targets</>,
         description: <>Following a hotfix that caused <SpellLink spell={TALENTS.SPIRITFONT} /> to continue finding targets after all have reached 100% hp, the collapsed <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST} />s do not re-expand to try healing up to 5 players and only one will be active.</>,
         tags: [TAGS.APEX],
@@ -887,7 +891,7 @@ const BUGS: Bug[] = [
         spell: TALENTS.GIFT_OF_THE_CELESTIALS,
         affectedSpells: [SPELLS.YULON, TALENTS.SOOTHING_BREATH],
         severity: SEVERITY.HIGH,
-        lastBuildTested: "66709",
+        lastBuildTested: "67186",
         title: <><SpellLink spell={SPELLS.YULON} />'s <SpellLink spell={TALENTS.SOOTHING_BREATH} /> sometimes only ticks 6 times, instead of 7 + partial</>,
     },
     {
@@ -910,6 +914,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         lastBuildTested: "66709",
         title: <>Consumes <SpellLink spell={SPELLS.THUNDER_FOCUS_TEA} /> despite not receiving buffs from it</>,
+        status: STATUS.FIXED,
     },
     {
         spell: TIER.T35_MISTWEAVER_4SET,
@@ -928,7 +933,7 @@ const BUGS: Bug[] = [
         spell: TIER.T35_MISTWEAVER_4SET,
         affectedSpells: [SPELLS.RENEWING_MIST],
         severity: SEVERITY.MEDIUM,
-        lastBuildTested: "66709",
+        lastBuildTested: "67186",
         title: <><SpellLink spell={SPELLS.RENEWING_MIST} /> from 4pc doesn't follow traditional rules</>,
         description: <>The <SpellLink spell={SPELLS.RENEWING_MIST} /> created is completely independent from a normal <SpellLink spell={SPELLS.RENEWING_MIST} /> meaning that it is significantly stronger because it has no interaction with pandemic durations of normal <SpellLink spell={SPELLS.RENEWING_MIST} />s and thus can do significantly more HPS with talents such as <SpellLink spell={TALENTS.MISTY_PEAKS} /></>,
         tags: [TAGS.TIER],
@@ -957,14 +962,14 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.UPLIFTED_SPIRITS,
         severity: SEVERITY.HIGH,
-        lastBuildTested: "67088",
+        lastBuildTested: "67186",
         title: <>Randomly reverted back to 3 min <SpellLink spell={SPELLS.REVIVAL} /> in raid</>,
         description: <><SpellLink spell={TALENTS.UPLIFTED_SPIRITS} /> randomly reverted back to 3 min <SpellLink spell={SPELLS.REVIVAL} /> in raid as of 12.0.5.</>,
     },
     {
         spell: TALENTS.REFRESHMENT,
         severity: SEVERITY.HIGH,
-        lastBuildTested: "67088",
+        lastBuildTested: "67186",
         title: <>Randomly stopped giving <SpellLink spell={TALENTS.MANA_TEA} /> and <SpellLink spell={TALENTS.HEALING_ELIXIR} /> in raid</>,
         description: <><SpellLink spell={TALENTS.REFRESHMENT} /> randomly stopped giving <SpellLink spell={TALENTS.MANA_TEA} /> and <SpellLink spell={TALENTS.HEALING_ELIXIR} /> in raid as of 12.0.5</>,
         logs: [
