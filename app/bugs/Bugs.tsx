@@ -7,9 +7,10 @@ import PageHeader from "@components/PageHeader/PageHeader";
 import BugTable from "@components/BugTable/BugTable";
 import BugDialog from "@components/BugDialog/BugDialog";
 import BugFilters from "@components/BugFilters/BugFilters";
+import BugUpdateWorkflow from "@components/BugUpdateWorkflow/BugUpdateWorkflow";
 
 import { CLASSES, specialization, getSpecializationByKey } from "@data/class";
-import { Bug } from "@data/bugs";
+import { Bug, STATUS } from "@data/bugs";
 
 import { useBugFilters } from "@hooks/useBugFilters";
 import { GetTitle, pluralize } from "@util/stringManipulation";
@@ -30,6 +31,7 @@ const BugsPage: React.FC<{ title: string; description: string }> = ({ title, des
     const [selectedSpec, setSelectedSpec] = useState<specialization>(getInitialSpec());
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedBug, setSelectedBug] = useState<Bug | null>(null);
+    const [bugUpdateOpen, setBugUpdateOpen] = useState(false);
 
     const bugs = selectedSpec.bugs || [];
     const iconSize = 32;
@@ -71,6 +73,19 @@ const BugsPage: React.FC<{ title: string; description: string }> = ({ title, des
         exportBugsToExcel(filtered, fileName);
     };
 
+    const handleOpenBugUpdate = () => {
+        setBugUpdateOpen(true);
+    };
+
+    const handleCloseBugUpdate = () => {
+        setBugUpdateOpen(false);
+    };
+
+    const openBugs = bugs.filter(bug => !bug.status || bug.status === STATUS.OPEN);
+    const openBugIndices = bugs
+        .map((bug, index) => (!bug.status || bug.status === STATUS.OPEN ? index : -1))
+        .filter(index => index !== -1);
+
     return (
         <Container sx={{ mb: 3 }}>
             <PageHeader 
@@ -96,6 +111,7 @@ const BugsPage: React.FC<{ title: string; description: string }> = ({ title, des
                     statuses={statuses}
                     severities={severities}
                     onExportToExcel={handleExportToExcel}
+                    onOpenBugUpdate={handleOpenBugUpdate}
                 />
                 {filtered.length > 0 ? (
                     <>
@@ -108,6 +124,13 @@ const BugsPage: React.FC<{ title: string; description: string }> = ({ title, des
                             open={dialogOpen}
                             bug={selectedBug}
                             onClose={handleDialogClose}
+                        />
+                        <BugUpdateWorkflow
+                            open={bugUpdateOpen}
+                            onClose={handleCloseBugUpdate}
+                            bugs={openBugs}
+                            originalIndices={openBugIndices}
+                            specKey={selectedSpec.name}
                         />
                         <div>
                             <Typography

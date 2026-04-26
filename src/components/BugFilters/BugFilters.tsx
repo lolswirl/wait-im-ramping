@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField, IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
+import BuildIcon from "@mui/icons-material/Build";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GetTitle } from "@util/stringManipulation";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
@@ -20,6 +21,7 @@ interface BugFiltersProps {
     statuses: string[];
     severities: string[];
     onExportToExcel?: () => void;
+    onOpenBugUpdate?: () => void;
 }
 
 const BugFilters: React.FC<BugFiltersProps> = ({
@@ -34,10 +36,14 @@ const BugFilters: React.FC<BugFiltersProps> = ({
     statuses,
     severities,
     onExportToExcel,
+    onOpenBugUpdate,
 }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const filtersHeight = 45;
+    
+    const isLocalhost = typeof window !== "undefined" && 
+        (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
 
     const handleSpecChange = (newSpec: specialization) => {
         setSelectedSpec(newSpec);
@@ -182,6 +188,29 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                             }}
                         >
                             <DownloadIcon />
+                        </IconButton>
+                    </GlassTooltip>
+                </Box>
+            )}
+            
+            {isLocalhost && onOpenBugUpdate && (
+                <Box>
+                    <GlassTooltip title={GetTitle("Update Bugs")}>
+                        <IconButton
+                            onClick={onOpenBugUpdate}
+                            sx={{
+                                height: filtersHeight,
+                                width: filtersHeight,
+                                border: "1px solid rgba(255, 165, 0, 0.23)",
+                                borderRadius: 1,
+                                color: "warning.light",
+                                "&:hover": {
+                                    backgroundColor: "rgba(255, 165, 0, 0.08)",
+                                    borderColor: "warning.light",
+                                }
+                            }}
+                        >
+                            <BuildIcon />
                         </IconButton>
                     </GlassTooltip>
                 </Box>
