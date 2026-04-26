@@ -967,7 +967,7 @@ const BUGS: Bug[] = [
         title: <>Randomly stopped giving <SpellLink spell={TALENTS.MANA_TEA} /> and <SpellLink spell={TALENTS.HEALING_ELIXIR} /> in raid</>,
         description: <><SpellLink spell={TALENTS.REFRESHMENT} /> randomly stopped giving <SpellLink spell={TALENTS.MANA_TEA} /> and <SpellLink spell={TALENTS.HEALING_ELIXIR} /> in raid as of 12.0.5</>,
         logs: [
-            { label: "", url: "https://www.warcraftlogs.com/reports/bkAJNnWaDGMdvX2g?fight=last&type=summary&source=2&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24115294%7C115867%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116849&view=events&start=34207299&end=34221636" },
+            { label: "", url: "https://www.warcraftlogs.com/reports/bkAJNnWaDGMdvX2g?fight=20&type=summary&source=2&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24115294%7C115867%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116849&view=events&start=34207271&end=34219232" },
         ]
     },
     {
