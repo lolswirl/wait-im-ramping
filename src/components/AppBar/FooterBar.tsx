@@ -72,7 +72,7 @@ const socialLinks = [
     },
     {
         label: "World of Warcraft",
-        href: "https://raider.io/characters/us/zuljin/Sworl",
+        href: "https://raider.io/characters/us/illidan/Swirl",
         icon: <WarcraftSVG />,
         color: "#715beb",
     },
