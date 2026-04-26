@@ -615,7 +615,7 @@ const BUGS: Bug[] = [
         title: <>Can bypass movement speed decrease</>,
         description: <>Can move freely without movement speed decrease by starting a new <SpellLink spell={SPELLS.SOOTHING_MIST} /> channel while inside of one already (refreshing the buff). Replicated in 66220 by starting a new channel on a different target than the original.</>,
         lastBuildTested: "66220",
-        status: STATUS.OPEN,
+        status: STATUS.REMOVED,
         notes: "Fixed in 65848, bugged again in 66220."
     },
     {
@@ -625,6 +625,7 @@ const BUGS: Bug[] = [
         title: <>Personal tooltip shows 0% movement speed reduction</>,
         description: <>Personal tooltip shows 0% movement speed reduction while inside of a <SpellLink spell={SPELLS.SOOTHING_MIST} /> channel</>,
         lastBuildTested: "66220",
+        status: STATUS.REMOVED,
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -986,6 +987,12 @@ const BUGS: Bug[] = [
         logs: [
             { label: "", url: "https://www.warcraftlogs.com/reports/9crMhkxNPgHFmXA3?type=summary&fight=46&sourceclass=Any&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%240.0.0.Any%24true%24443028%24or%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%240.0.0.Any%24true%24443421%7C1238904&view=events" },
         ]
+    },
+    {
+        spell: TALENTS.MANTRA_OF_PURITY,
+        severity: SEVERITY.LOW,
+        lastBuildTested: "67186",
+        title: <>Does not increase the healing of any <SpellLink spell={SPELLS.SOOTHING_MIST}/></>,
     }
 
 ];
