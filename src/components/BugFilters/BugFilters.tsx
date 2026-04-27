@@ -8,6 +8,7 @@ import SpecializationSelect from "@components/SpecializationSelect/Specializatio
 import { specialization } from "@data/class";
 import { SEVERITY_COLORS } from "@data/bugs";
 import { GlassTooltip } from "@components/Glass";
+import { useIsLocalhost } from "@hooks/useIsLocalhost";
 
 interface BugFiltersProps {
     selectedSpec: specialization;
@@ -41,9 +42,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
     const router = useRouter();
     const searchParams = useSearchParams();
     const filtersHeight = 45;
-    
-    const isLocalhost = typeof window !== "undefined" && 
-        (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+    const isLocalhost = useIsLocalhost();
 
     const handleSpecChange = (newSpec: specialization) => {
         setSelectedSpec(newSpec);
