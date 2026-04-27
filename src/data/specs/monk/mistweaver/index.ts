@@ -13,7 +13,7 @@ const MISTWEAVER_MONK = attachGetters({
   talents: MISTWEAVER_MONK_TALENTS,
   rotations: MISTWEAVER_MONK_ROTATIONS,
   buffs: MISTWEAVER_MONK_BUFFS,
-  bugs: MISTWEAVER_MONK_BUGS.concat(MONK_BUGS),
+  bugs: MONK_BUGS.concat(MISTWEAVER_MONK_BUGS),
   icon: 'spell_monk_mistweaver_spec',
   name: 'Mistweaver',
   class: 'Monk',
