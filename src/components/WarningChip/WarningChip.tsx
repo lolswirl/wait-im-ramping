@@ -34,7 +34,7 @@ const WarningChip: React.FC<WarningChipProps> = ({
     
     const hasCustomColor = borderColor !== undefined;
     
-    const customSx: SxProps<Theme> = hasCustomColor ? {
+    const customSx: SxProps<Theme> = {
         fontSize: fontSize,
         fontWeight: 500,
         '& .MuiChip-label': {
@@ -44,36 +44,7 @@ const WarningChip: React.FC<WarningChipProps> = ({
             fontSize: fontSize,
             marginLeft: '4px',
         },
-        '& .MuiChip-deleteIcon': {
-            fontSize: fontSize,
-            marginRight: '4px',
-            color: 'inherit',
-            opacity: 1,
-            pointerEvents: 'none',
-            '&:hover': {
-                color: 'inherit',
-                opacity: 1,
-            },
-        },
-        color: borderColor,
-        borderColor: borderColor,
-        borderRadius: "4px",
-        backgroundColor: `color-mix(in srgb, ${borderColor} 20%, transparent)`,
-        '&:hover': {
-            backgroundColor: `color-mix(in srgb, ${borderColor} 35%, transparent)`,
-        },
-        ...(onClick && { cursor: 'pointer' }),
-        ...sx
-    } : {
-        fontSize: fontSize,
-        fontWeight: 500,
-        '& .MuiChip-label': {
-            px: 1
-        },
-        '& .MuiChip-icon': {
-            fontSize: fontSize,
-            marginLeft: '4px',
-        },
+        // deleteIcon used to pseudo-position icons on the right side via MUI
         '& .MuiChip-deleteIcon': {
             fontSize: fontSize,
             marginRight: '4px',
@@ -86,6 +57,14 @@ const WarningChip: React.FC<WarningChipProps> = ({
             },
         },
         borderRadius: "4px",
+        ...(hasCustomColor && {
+            color: borderColor,
+            borderColor: borderColor,
+            backgroundColor: `color-mix(in srgb, ${borderColor} 20%, transparent)`,
+            '&:hover': {
+                backgroundColor: `color-mix(in srgb, ${borderColor} 35%, transparent)`,
+            },
+        }),
         ...(onClick && { cursor: 'pointer' }),
         ...sx
     };
