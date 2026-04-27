@@ -1022,6 +1022,16 @@ const BUGS: Bug[] = [
         title: <>Doesn't increase the damage or healing of <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/></>,
         description: <><SpellLink spell={TALENTS.BALANCED_STRATAGEM}/> does not increase the damage or healing of <SpellLink spell={TALENTS.RUSHING_WIND_KICK} />, but it does increase the healing of the <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> <SpellLink spell={SPELLS.RENEWING_MIST}/></>,
     },
+    {
+        spell: TALENTS.INNER_COMPASS,
+        severity: SEVERITY.MEDIUM,
+        buildsTested: ["67186"],
+        title: <>Acted as if the talent was untalented in a dungeon</>,
+        description: <>Player reported that <SpellLink spell={TALENTS.INNER_COMPASS} /> did not function at all in a dungeon - their talents panel shows multiple ranks on the talent node, and when swapping builds, shows the talent as if it was not talented (even though it is an unskippable node.)</>,
+        logs: [
+            { label: "", url: "https://www.warcraftlogs.com/reports/bVxzgP32GhCf46n1?fight=last&type=auras" },
+        ]
+    }
 
 
 ];
