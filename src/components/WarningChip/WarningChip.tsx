@@ -7,6 +7,7 @@ interface WarningChipProps {
     size?: 'small' | 'medium';
     showIcon?: boolean;
     icon?: React.ReactNode;
+    iconPosition?: 'left' | 'right';
     borderColor?: string;
     fontSize?: string;
     variant?: 'outlined' | 'filled';
@@ -20,6 +21,7 @@ const WarningChip: React.FC<WarningChipProps> = ({
     size = 'small',
     showIcon = false,
     icon = '⚠︎',
+    iconPosition = 'left',
     borderColor,
     fontSize = '0.875rem',
     variant = 'outlined',
@@ -42,6 +44,17 @@ const WarningChip: React.FC<WarningChipProps> = ({
             fontSize: fontSize,
             marginLeft: '4px',
         },
+        '& .MuiChip-deleteIcon': {
+            fontSize: fontSize,
+            marginRight: '4px',
+            color: 'inherit',
+            opacity: 1,
+            pointerEvents: 'none',
+            '&:hover': {
+                color: 'inherit',
+                opacity: 1,
+            },
+        },
         color: borderColor,
         borderColor: borderColor,
         borderRadius: "4px",
@@ -61,15 +74,30 @@ const WarningChip: React.FC<WarningChipProps> = ({
             fontSize: fontSize,
             marginLeft: '4px',
         },
+        '& .MuiChip-deleteIcon': {
+            fontSize: fontSize,
+            marginRight: '4px',
+            color: 'inherit',
+            opacity: 1,
+            pointerEvents: 'none',
+            '&:hover': {
+                color: 'inherit',
+                opacity: 1,
+            },
+        },
         borderRadius: "4px",
         ...(onClick && { cursor: 'pointer' }),
         ...sx
     };
     
+    const iconElement = (showIcon && !isStringIcon) ? icon as React.ReactElement : undefined;
+    
     return (
         <Chip 
             label={GetTitle(displayMessage)}
-            icon={(showIcon && !isStringIcon) ? icon as React.ReactElement : undefined}
+            icon={iconPosition === 'left' ? iconElement : undefined}
+            deleteIcon={iconPosition === 'right' ? iconElement : undefined}
+            onDelete={iconPosition === 'right' && iconElement ? () => {} : undefined}
             size={size}
             variant={variant}
             onClick={onClick}
