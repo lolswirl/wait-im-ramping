@@ -78,8 +78,8 @@ const BUGS: Bug[] = [
         spell: TALENTS.BALANCED_STRATAGEM,
         affectedSpells: [TALENTS.RAPID_DIFFUSION],
         severity: SEVERITY.LOW,
-        title: <><SpellLink spell={SPELLS.RISING_SUN_KICK} /> w/ <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> adds/removes buffs</>,
-        description: <>With <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> Talented, <SpellLink spell={SPELLS.RISING_SUN_KICK} /> adds and removes several buff stacks in succession then consumed immediately and a Nature gets applied, consumed, and reapplied</>,
+        title: <><SpellLink spell={SPELLS.RISING_SUN_KICK} /> with <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> adds/removes several buff stacks</>,
+        description: <>With <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> talented, <SpellLink spell={SPELLS.RISING_SUN_KICK} /> adds and removes several buff stacks in succession - Nature <SpellLink spell={TALENTS.BALANCED_STRATAGEM_NATURE} /> is added, consumed, Physical <SpellLink spell={TALENTS.BALANCED_STRATAGEM_PHYSICAL} /> is gained and (sometimes) immediately consumed.</>,
         tags: [TAGS.MOH],
         buildsTested: ["64914", "66220", "67186"],
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/RrQHWx6VkNFJAT1a?fight=1&type=summary&source=11&start=21771&end=24771&view=events" }],
@@ -88,20 +88,29 @@ const BUGS: Bug[] = [
         spell: TALENTS.BALANCED_STRATAGEM,
         affectedSpells: [TALENTS.MISTY_PEAKS, SPELLS.ENVELOPING_MIST],
         severity: SEVERITY.LOW,
-        title: <><SpellLink spell={TALENTS.MISTY_PEAKS} /> procs consume Physical, add Nature stack</>,
+        title: <><SpellLink spell={TALENTS.MISTY_PEAKS} /> procs consume Nature stacks, then adds a Physical stack</>,
+        description: <><SpellLink spell={TALENTS.MISTY_PEAKS} /> procs will consume any Nature <SpellLink spell={TALENTS.BALANCED_STRATAGEM_NATURE} /> stacks and adds a Physical <SpellLink spell={TALENTS.BALANCED_STRATAGEM_PHYSICAL} /> stack</>,
         tags: [TAGS.MOH],
         buildsTested: ["64914", "66220", "67186"],
         notes: "Tested in 65701, fixed. Broken in 66066.",
     },
     {
-        spell: TALENTS.BALANCED_STRATAGEM,
+        spell: TALENTS.BALANCED_STRATAGEM_PHYSICAL,
         affectedSpells: [TALENTS.RAPID_DIFFUSION, SPELLS.ENVELOPING_MIST],
         severity: SEVERITY.LOW,
-        title: <><SpellLink spell={SPELLS.ENVELOPING_MIST} /> with <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> procs 3 Nature stacks</>,
-        description: <>Hard Cast <SpellLink spell={SPELLS.ENVELOPING_MIST} /> with <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> procs 3 stacks of Nature. This is from <SpellLink spell={SPELLS.ENVELOPING_MIST} /> apply and then the <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> <SpellLink spell={SPELLS.RENEWING_MIST}/> having travel time</>,
+        title: <><SpellLink spell={TALENTS.RAPID_DIFFUSION} /> procs 3 Physical stacks from <SpellLink spell={SPELLS.ENVELOPING_MIST} /></>,
+        description: <><SpellLink spell={SPELLS.ENVELOPING_MIST} /> with <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> procs 3 stacks of Physical <SpellLink spell={TALENTS.BALANCED_STRATAGEM_PHYSICAL} />. <br/>This is seemingly from <SpellLink spell={SPELLS.ENVELOPING_MIST} /> apply, <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> <SpellLink spell={SPELLS.RENEWING_MIST} /> "creation", and then the <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> <SpellLink spell={SPELLS.RENEWING_MIST}/> having travel time for application.</>,
         tags: [TAGS.MOH],
         buildsTested: ["64914", "66220", "67186"],
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=24&type=summary&source=6&view=events&start=3323214&end=3327078" }],
+    },
+    {
+        spell: TALENTS.BALANCED_STRATAGEM_PHYSICAL,
+        severity: SEVERITY.LOW,
+        title: <><SpellLink spell={TALENTS.RAPID_DIFFUSION} /> procs 3 Physical stacks from <SpellLink spell={TALENTS.RUSHING_WIND_KICK} /></>,
+        description: <><SpellLink spell={TALENTS.RUSHING_WIND_KICK} /> with <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> procs 3 stacks of Physical <SpellLink spell={TALENTS.BALANCED_STRATAGEM_PHYSICAL} />. <br/>This is seemingly from <SpellLink spell={TALENTS.RUSHING_WIND_KICK} /> cast, <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> <SpellLink spell={SPELLS.RENEWING_MIST} /> "creation", and then the <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> <SpellLink spell={SPELLS.RENEWING_MIST}/> having travel time for application.</>,
+        tags: [TAGS.MOH],
+        buildsTested: ["67186"],
     },
     {
         spell: TALENTS.TEAR_OF_MORNING,
@@ -998,7 +1007,22 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         buildsTested: ["67186"],
         title: <>Does not increase the healing of any <SpellLink spell={SPELLS.SOOTHING_MIST}/></>,
-    }
+    },
+    {
+        spell: TALENTS.BALANCED_STRATAGEM_PHYSICAL,
+        severity: SEVERITY.MEDIUM,
+        buildsTested: ["67186"],
+        title: <>Doesn't increase the damage of additional <SpellLink spell={SPELLS.BLACKOUT_KICK}/>s</>,
+        description: <><SpellLink spell={TALENTS.BALANCED_STRATAGEM}/> does not increase the damage of <SpellLink spell={TALENTS.TEACHINGS_OF_THE_MONASTERY}/> or <SpellLink spell={TALENTS.WAY_OF_THE_CRANE}/> <SpellLink spell={SPELLS.BLACKOUT_KICK} />s and only increases the first one in the chain (the main one).</>,
+    },
+    {
+        spell: TALENTS.BALANCED_STRATAGEM_NATURE,
+        severity: SEVERITY.MEDIUM,
+        buildsTested: ["67186"],
+        title: <>Doesn't increase the damage or healing of <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/></>,
+        description: <><SpellLink spell={TALENTS.BALANCED_STRATAGEM}/> does not increase the damage or healing of <SpellLink spell={TALENTS.RUSHING_WIND_KICK} />, but it does increase the healing of the <SpellLink spell={TALENTS.RAPID_DIFFUSION} /> <SpellLink spell={SPELLS.RENEWING_MIST}/></>,
+    },
+
 
 ];
 

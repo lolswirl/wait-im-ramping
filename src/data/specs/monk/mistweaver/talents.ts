@@ -479,6 +479,16 @@ const talents = {
         id: 450889,
         icon: 'ability_monk_sphereharmonydiscord',
     },
+    BALANCED_STRATAGEM_NATURE: {
+        name: "Balanced Stratagem",
+        id: 451508,
+        icon: 'ability_monk_spherediscord',
+    },
+    BALANCED_STRATAGEM_PHYSICAL: {
+        name: "Balanced Stratagem",
+        id: 451514,
+        icon: 'ability_monk_sphereharmony',
+    },
     PATH_OF_RESURGENCE: {
         name: "Path of Resurgence",
         id: 451084,
