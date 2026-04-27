@@ -1,6 +1,7 @@
 import spell from "@data/spells/spell";
 import { Tags } from "@data/shared/tags";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
+import { Check, Close } from "@mui/icons-material";
 
 export enum SEVERITY {
     CRITICAL = "Critical",
@@ -32,10 +33,15 @@ export const STATUS_COLORS: Record<STATUS, string> = {
     [STATUS.REMOVED]: "#ff5555ff",
 };
 
-export const STATUS_BADGES: Record<STATUS, string> = {
-    [STATUS.OPEN]: "",
-    [STATUS.FIXED]: "✓",
-    [STATUS.REMOVED]: "⨉",
+export const getStatusBadge = (status: STATUS): ReactNode => {
+    switch (status) {
+        case STATUS.FIXED:
+            return <Check />;
+        case STATUS.REMOVED:
+            return <Close />;
+        default:
+            return null;
+    }
 };
 
 export interface Bug {

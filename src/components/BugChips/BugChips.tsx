@@ -4,7 +4,7 @@ import { ExpandMore } from "@mui/icons-material";
 import WarningChip from "@components/WarningChip/WarningChip";
 import { GlassTooltip } from "@components/Glass";
 import { GetTitle } from "@util/stringManipulation";
-import { Bug, STATUS, SEVERITY_COLORS, STATUS_COLORS, STATUS_BADGES } from "@data/bugs";
+import { Bug, STATUS, SEVERITY_COLORS, STATUS_COLORS, getStatusBadge } from "@data/bugs";
 
 interface BugChipsProps {
     bug: Bug;
@@ -18,7 +18,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
                 <WarningChip
                     message={GetTitle(bug.status)}
                     showIcon={true}
-                    icon={STATUS_BADGES[bug.status]}
+                    icon={getStatusBadge(bug.status)}
                     borderColor={STATUS_COLORS[bug.status]}
                     fontSize="0.75rem"
                 />
