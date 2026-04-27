@@ -6,7 +6,7 @@ interface WarningChipProps {
     message: string;
     size?: 'small' | 'medium';
     showIcon?: boolean;
-    icon?: string;
+    icon?: React.ReactNode;
     borderColor?: string;
     fontSize?: string;
     variant?: 'outlined' | 'filled';
@@ -27,7 +27,8 @@ const WarningChip: React.FC<WarningChipProps> = ({
     color,
     sx = {},
 }) => {
-    const displayMessage = showIcon ? `${icon} ${message}` : message;
+    const isStringIcon = typeof icon === 'string';
+    const displayMessage = (showIcon && isStringIcon) ? `${icon} ${message}` : message;
     
     const hasCustomColor = borderColor !== undefined;
     
@@ -36,6 +37,10 @@ const WarningChip: React.FC<WarningChipProps> = ({
         fontWeight: 500,
         '& .MuiChip-label': {
             px: 1
+        },
+        '& .MuiChip-icon': {
+            fontSize: fontSize,
+            marginLeft: '4px',
         },
         color: borderColor,
         borderColor: borderColor,
@@ -52,6 +57,10 @@ const WarningChip: React.FC<WarningChipProps> = ({
         '& .MuiChip-label': {
             px: 1
         },
+        '& .MuiChip-icon': {
+            fontSize: fontSize,
+            marginLeft: '4px',
+        },
         borderRadius: "4px",
         ...(onClick && { cursor: 'pointer' }),
         ...sx
@@ -59,7 +68,8 @@ const WarningChip: React.FC<WarningChipProps> = ({
     
     return (
         <Chip 
-            label={GetTitle(displayMessage)} 
+            label={GetTitle(displayMessage)}
+            icon={(showIcon && !isStringIcon) ? icon as React.ReactElement : undefined}
             size={size}
             variant={variant}
             onClick={onClick}
