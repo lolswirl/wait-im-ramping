@@ -16,7 +16,7 @@ export const exportBugsToExcel = (bugs: Bug[], fileName: string = "bugs.xlsx") =
         const spellName = bug.spell.name;
         const descriptionNode = bug.description || bug.title;
         const description = extractTextFromReactNode(descriptionNode);
-        const build = bug.lastBuildTested || "";
+        const build = bug.buildsTested[bug.buildsTested.length - 1];
         
         let notesAndLogs = bug.notes || "";
         if (bug.logs && bug.logs.length > 0) {
