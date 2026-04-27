@@ -18,7 +18,7 @@ import { Bug, SEVERITY_COLORS, STATUS } from "@data/bugs";
 import { GetTitle } from "@util/stringManipulation";
 import { applyGetTitle } from "@util/applyGetTitle";
 import SpellButton from "@components/SpellButtons/SpellButton";
-import WarningChip from "@components/WarningChip/WarningChip";
+import { BugChips } from "@components/BugChips/BugChips";
 import { GlassBox } from "@components/Glass/Box/GlassBox";
 
 interface BugUpdateWorkflowProps {
@@ -97,27 +97,30 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
         setStep(WorkflowStep.BUG_REVIEW);
     };
     const handleBugResponse = (action: 'fixed' | 'removed' | 'unknown' | 'broken') => {
+        const currentBug = bugs[currentBugIndex];
+        const oldBuild = currentBug.buildsTested?.[currentBug.buildsTested.length - 1];
+        
         if (action === 'broken') {
             const update: BugUpdate = {
                 index: originalIndices[currentBugIndex],
-                oldBuild: bugs[currentBugIndex].lastBuildTested,
+                oldBuild,
                 newBuild: buildNumber.trim(),
-                oldStatus: bugs[currentBugIndex].status,
+                oldStatus: currentBug.status,
             };
             setBugUpdates(prev => [...prev, update]);
         } else if (action === 'fixed') {
             const update: BugUpdate = {
                 index: originalIndices[currentBugIndex],
-                oldBuild: bugs[currentBugIndex].lastBuildTested,
+                oldBuild,
                 newBuild: buildNumber.trim(),
-                oldStatus: bugs[currentBugIndex].status,
+                oldStatus: currentBug.status,
                 newStatus: STATUS.FIXED,
             };
             setBugUpdates(prev => [...prev, update]);
         } else if (action === 'removed') {
             const update: BugUpdate = {
                 index: originalIndices[currentBugIndex],
-                oldBuild: bugs[currentBugIndex].lastBuildTested,
+                oldBuild,
                 newBuild: buildNumber.trim(),
                 oldStatus: bugs[currentBugIndex].status,
                 newStatus: STATUS.REMOVED,
@@ -229,15 +232,24 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
     };
 
     const updateBugBuildNumber = (bugText: string, newBuild: string): string => {
-        const buildRegex = /lastBuildTested:\s*"[^"]*"/;
+        const buildsTestedRegex = /buildsTested:\s*\[(.*?)\]/;
+        const buildsTestedMatch = bugText.match(buildsTestedRegex);
         
-        if (buildRegex.test(bugText)) {
-            return bugText.replace(buildRegex, `lastBuildTested: "${newBuild}"`);
+        if (buildsTestedMatch) {
+            const buildsStr = buildsTestedMatch[1];
+            const builds = buildsStr.split(',').map(b => b.trim().replace(/"/g, '')).filter(b => b);
+            
+            if (!builds.includes(newBuild)) {
+                builds.push(newBuild);
+            }
+            
+            const newBuildsStr = `buildsTested: [${builds.map(b => `"${b}"`).join(", ")}]`;
+            return bugText.replace(buildsTestedRegex, newBuildsStr);
         }
         
         const severityMatch = bugText.match(/(severity:\s*SEVERITY\.[A-Z]+,)/);
         if (severityMatch) {
-            return bugText.replace(severityMatch[0], `${severityMatch[0]}\n        lastBuildTested: "${newBuild}",`);
+            return bugText.replace(severityMatch[0], `${severityMatch[0]}\n        buildsTested: ["${newBuild}"],`);
         }
         
         return bugText;
@@ -403,7 +415,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             }}
                         />
                         <Typography variant="caption" sx={{ mt: 1, display: "block", color: "rgba(255,255,255,0.7)" }}>
-                            {GetTitle("This build number will be used to update lastBuildTested for broken bugs.")}
+                            {GetTitle("This build number will be added to buildsTested for bugs that are still broken.")}
                         </Typography>
                         <Typography variant="body2" sx={{ mt: 2, color: "info.main" }}>
                             {GetTitle(`You will review ${bugs.length} open ${bugs.length === 1 ? 'bug' : 'bugs'} for ${specKey}.`)}
@@ -444,29 +456,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                                 <Typography variant="h6" sx={{ mb: 0.5, color: "white" }}>
                                     {GetTitle(currentBug.spell.name)}
                                 </Typography>
-                                <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
-                                    <WarningChip
-                                        message={GetTitle(currentBug.severity + " Severity")}
-                                        borderColor={SEVERITY_COLORS[currentBug.severity]}
-                                        fontSize="0.75rem"
-                                    />
-                                    {currentBug.lastBuildTested && (
-                                        <WarningChip
-                                            message={GetTitle(`Build #${currentBug.lastBuildTested}`)}
-                                            borderColor="#eaeaea"
-                                            fontSize="0.75rem"
-                                        />
-                                    )}
-                                    {currentBug.tags?.map((tag) => (
-                                        <WarningChip
-                                            key={tag.name}
-                                            message={GetTitle(tag.name)}
-                                            size="small"
-                                            borderColor={tag.color}
-                                            fontSize="0.75rem"
-                                        />
-                                    ))}
-                                </Box>
+                                <BugChips bug={currentBug} />
                             </Box>
                         </Box>
 

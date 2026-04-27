@@ -14,10 +14,9 @@ import {
 import SpellLink from "@components/SpellLink/SpellLink";
 import { GetTitle, formatLogUrl } from "@util/stringManipulation";
 import { Bug, STATUS, SEVERITY_COLORS, STATUS_COLORS, STATUS_BADGES } from "@data/bugs";
-import { specialization } from "@data/class";
 import SwirlButton from "@components/Buttons/SwirlButton";
 import { applyGetTitle } from "@util/applyGetTitle";
-import WarningChip from "@components/WarningChip/WarningChip";
+import { BugChips } from "@components/BugChips/BugChips";
 
 interface BugDialogProps {
     open: boolean;
@@ -92,38 +91,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                     >
                         {applyGetTitle(bug.title)}
                     </Typography>
-                    <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
-                        {bug.status && bug.status !== STATUS.OPEN && (
-                            <WarningChip
-                                message={GetTitle(bug.status)}
-                                showIcon={true}
-                                icon={STATUS_BADGES[bug.status]}
-                                borderColor={STATUS_COLORS[bug.status]}
-                                fontSize="0.75rem"
-                            />
-                        )}
-                        <WarningChip
-                            message={GetTitle(bug.severity + " Severity")}
-                            borderColor={SEVERITY_COLORS[bug.severity]}
-                            fontSize="0.75rem"
-                        />
-                        {bug.lastBuildTested && (
-                            <WarningChip
-                                message={GetTitle(`Build #${bug.lastBuildTested}`)}
-                                borderColor="#eaeaea"
-                                fontSize="0.75rem"
-                            />
-                        )}
-                        {bug.tags?.map((tag) => (
-                            <WarningChip
-                                key={tag.name}
-                                message={GetTitle(tag.name)}
-                                size="small"
-                                borderColor={tag.color}
-                                fontSize="0.75rem"
-                            />
-                        ))}
-                    </Stack>
+                    <BugChips bug={bug} />
                 </Stack>
             </DialogTitle>
 

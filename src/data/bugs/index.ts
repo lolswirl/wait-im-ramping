@@ -46,7 +46,7 @@ export interface Bug {
     description?: ReactNode;
     tags?: Tags[];
     status?: STATUS;
-    lastBuildTested?: string;
+    buildsTested: string[];
     notes?: string;
     logs?: { label: string; url: string }[];
 }

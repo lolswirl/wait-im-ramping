@@ -36,6 +36,10 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
     const buildWidth = 70;
     const logsWidth = 70;
 
+    const getLatestBuild = (bug: Bug): number => {
+        return parseInt(bug.buildsTested[bug.buildsTested.length - 1]);
+    };
+
     const hideOverflowSx = {
         overflow: "hidden",
         textOverflow: "ellipsis",
@@ -78,8 +82,8 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                     bValue = extractTextFromReactNode(b.title).toLowerCase();
                     break;
                 case "lastBuildTested":
-                    aValue = parseInt(a.lastBuildTested || "0");
-                    bValue = parseInt(b.lastBuildTested || "0");
+                    aValue = getLatestBuild(a);
+                    bValue = getLatestBuild(b);
                     break;
                 case "tags":
                     aValue = (a.tags || []).join(",");
@@ -296,16 +300,21 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                     ...hideOverflowSx,
                                 }}
                             >
-                                <Typography
-                                    variant="body2"
-                                    sx={{
-                                        transition: "color 0.2s ease",
-                                        color: STATUS_COLORS[bug.status ?? STATUS.OPEN],
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    {bug.lastBuildTested || "—"}
-                                </Typography>
+                                {(() => {
+                                    return (
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                transition: "color 0.2s ease",
+                                                color: STATUS_COLORS[bug.status ?? STATUS.OPEN],
+                                                textAlign: "center",
+                                                fontFamily: "monospace",
+                                            }}
+                                        >
+                                            {getLatestBuild(bug) || "—"}
+                                        </Typography>
+                                    );
+                                })()}
                             </TableCell>
                             <TableCell
                                 sx={{

@@ -70,8 +70,8 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
 
     const sortedBugs = useMemo(() => {
         return [...bugs].sort((a, b) => {
-            const aBuild = a.lastBuildTested ? parseInt(a.lastBuildTested) : 0;
-            const bBuild = b.lastBuildTested ? parseInt(b.lastBuildTested) : 0;
+            const aBuild = a.buildsTested?.length ? parseInt(a.buildsTested[a.buildsTested.length - 1]) : 0;
+            const bBuild = b.buildsTested?.length ? parseInt(b.buildsTested[b.buildsTested.length - 1]) : 0;
             
             if (bBuild !== aBuild) return bBuild - aBuild;
             
