@@ -43,6 +43,7 @@ const WarningChip: React.FC<WarningChipProps> = ({
         '& .MuiChip-icon': {
             fontSize: fontSize,
             marginLeft: '4px',
+            color: 'inherit',
         },
         // deleteIcon used to pseudo-position icons on the right side via MUI
         '& .MuiChip-deleteIcon': {
