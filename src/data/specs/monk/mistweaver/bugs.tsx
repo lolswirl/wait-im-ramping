@@ -16,7 +16,7 @@ const BUGS: Bug[] = [
         title: <>Versatility double dips with <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /></>,
         description: <>Versatility gains from several sources (Gear, <SpellLink spell={TALENTS.SECRET_INFUSION} />, <SpellLink spell={TALENTS.INNER_COMPASS} />, <SpellLink spell={SPELLS.MARK_OF_THE_WILD} />, etc) double dips on <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /> - it increases the damage you deal which converts into <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /> healing, then that is increased by the extra Versatility % increase</>,
         tags: [TAGS.VERS],
-        buildsTested: ["65769", "66066", "66220", "67186"],
+        buildsTested: ["65337", "65769", "65848", "66066", "66220", "67186"],
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/tvxZXBYQfmKpVdRF?fight=3&type=summary&source=11&start=511586&end=527359&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%7C388500%7C388024" }],
     },
     {
@@ -193,7 +193,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: <>Cancels if target is full HP</>,
         description: <><SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST} /> will cancel the channel if the target is full HP with no injured player to jump to, even if the original target loses HP during the active <SpellLink spell={TALENTS.SPIRITFONT} /> buff</>,
-        buildsTested: ["64529", "65617", "65769", "66220", "66384", "66431", "66709", "67186"],
+        buildsTested: ["64339", "64529", "65617", "65769", "66220", "66384", "66431", "66709", "67186"],
         tags: [TAGS.APEX],
         status: STATUS.FIXED,
     },
@@ -430,7 +430,7 @@ const BUGS: Bug[] = [
         affectedSpells: [TALENTS.RUSHING_WIND_KICK, SPELLS.RISING_SUN_KICK],
         severity: SEVERITY.TRIVIAL,
         title: <>Bonus not reflected in <SpellLink spell={TALENTS.RUSHING_WIND_KICK} />/<SpellLink spell={SPELLS.RISING_SUN_KICK} /> tooltips</>,
-        buildsTested: ["66220", "67186"],
+        buildsTested: ["64529", "66220", "67186"],
         tags: [TAGS.TOOLTIP],
     },
     {
@@ -439,7 +439,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: <>Tooltip drastically lower than actual</>,
         description: <>In game tooltip for <SpellLink spell={TALENTS.JADEFIRE_STOMP} /> is drastically lower than the actual damage dealt</>,
-        buildsTested: ["66220", "66709", "67186"],
+        buildsTested: ["64339", "66220", "66709", "67186"],
         tags: [TAGS.TOOLTIP],
         status: STATUS.FIXED,
     },
@@ -457,7 +457,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: <>Sometimes does 32bit int max value amounts of overheal</>,
         description: <><SpellLink spell={TALENTS.SPIRITFONT} /> <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST} /> sometimes does 32bit int max value amounts of positive/negative overheal</>,
-        buildsTested: ["64529", "65617", "65769", "66220", "66384", "66431", "66709", "67186"],
+        buildsTested: ["64529", "65337"],
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/6xj1gnNLa34vzcr8?boss=-3&difficulty=0&type=healing&source=5&start=712274&end=725940&options=8&ability=1260617&target=9&view=events" }],
         tags: [TAGS.APEX],
         status: STATUS.FIXED,
@@ -475,7 +475,7 @@ const BUGS: Bug[] = [
         spell: TALENTS.CHI_WARDING,
         severity: SEVERITY.HIGH,
         title: <>Does nothing, no healing in logs</>,
-        buildsTested: ["65337"],
+        buildsTested: ["64529", "65337"],
         status: STATUS.FIXED,
     },
     {
@@ -483,7 +483,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.CRITICAL,
         title: <>Chained damage not reduced to 25% effectiveness</>,
         description: <><SpellLink spell={TALENTS.JADE_EMPOWERMENT} /> Chained Damage is not reduced to 25% effectiveness</>,
-        buildsTested: ["65337"],
+        buildsTested: ["64529", "65337"],
         status: STATUS.FIXED,
 
     },
@@ -493,8 +493,8 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <><SpellLink spell={SPELLS.SOOTHING_MIST} /> channel interrupted by <SpellLink spell={TALENTS.FOCUSED_THUNDER} />'s last charge</>,
         description: <>The free-move <SpellLink spell={SPELLS.SOOTHING_MIST} /> channel from <SpellLink spell={TALENTS.EMPERORS_ELIXIR} /> seems to be interrupted by <SpellLink spell={TALENTS.FOCUSED_THUNDER} /> being fully consumed. Does not happen with <SpellLink spell={TALENTS.WAY_OF_THE_SERPENT} />, but does with <SpellLink spell={TALENTS.WAY_OF_THE_CRANE} />.</>,
-        buildsTested: ["66220", "66709", "67186"],
-        notes: "Fixed in 65448, broken again in 66709. Fixed in 66709 (12.0.5) by making Soothing Mist movement baseline, so not 'really' fixed - just can no longer occur anymore.",
+        buildsTested: ["65337", "65448", "66709", "67186"],
+        notes: "Fixed in 65448 (possibly due to Way of the Crane talented?), broken again in 66709. Fixed in 67186 (12.0.5) by making Soothing Mist movement baseline, so not 'really' fixed - just can no longer occur anymore.",
         status: STATUS.FIXED,
     },
     {
@@ -503,7 +503,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <>Still procs <SpellLink spell={TALENTS.GUST_OF_MISTS} /> on <SpellLink spell={SPELLS.SOOTHING_MIST} /></>,
         description: <><SpellLink spell={TALENTS.SPIRITFONT} /> <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST} /> is proccing <SpellLink spell={TALENTS.GUST_OF_MISTS} /></>,
-        buildsTested: ["64529", "65617", "65769", "66220", "66384", "66431", "66709", "67186"],
+        buildsTested: ["64529", "65769"],
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/9m2ntLC4wWyB6k83?fight=19&type=casts&source=22&view=events&pins=0%24Separate%24%23244F4B%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24191894|1260617&start=7033905&end=7103696" }],
         tags: [TAGS.APEX, TAGS.MASTERY],
         status: STATUS.FIXED,
@@ -656,7 +656,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         title: <><SpellLink spell={TALENTS.UNISON} /> is still healing, even though the talent doesn't exist</>,
         description: <><SpellLink spell={TALENTS.UNISON} /> is still healing, even though the talent doesn't exist anymore. Think its related to <SpellLink spell={TALENTS.MISTLINE} /> being talented</>,
-        buildsTested: ["66066"],
+        buildsTested: ["65769", "66066"],
         logs: [
             { label: "Build 66066", url: "https://www.warcraftlogs.com/reports/pmdtLjDafFnyHV7P?fight=last&type=healing&source=333&ability=388480" },
             { label: "Build 65769", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=17&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24198533%7C115175%7C388479%7C388480" },
@@ -681,7 +681,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <>Casting <SpellLink spell={SPELLS.ENVELOPING_MIST} /> at 2 stacks consumes both, but doesn't increase healing</>,
         description: <>Casting <SpellLink spell={SPELLS.ENVELOPING_MIST} /> at 2 stacks of banked <SpellLink spell={TALENTS.SPIRITFONT} /> causes both stacks to be consumed, but the healing of the outgoing <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST} /> is not increased by double, if that is the design. Assuming that each stack should be separately consumed</>,
-        buildsTested: ["64529", "65617", "65769", "66220", "66384", "66431", "66709", "67186"],
+        buildsTested: ["64529", "65617"],
         tags: [TAGS.APEX],
         status: STATUS.FIXED,
     },
@@ -711,7 +711,7 @@ const BUGS: Bug[] = [
         title: <>Rank 1 doesn't proc via <SpellLink spell={SPELLS.SHEILUNS_GIFT} /> or <SpellLink spell={SPELLS.VIVIFY} /> consistently</>,
         description: <>The first point in <SpellLink spell={TALENTS.SPIRITFONT} /> does not proc via <SpellLink spell={SPELLS.SHEILUNS_GIFT} /> consistently, as it should swap from <SpellLink spell={SPELLS.VIVIFY} /> after talenting SG. Testing in 65769 seems like it can proc from it, but definitely not the 1ppm allotted. <br/><br/>
         As of 66709, <SpellLink spell={SPELLS.VIVIFY} /> has begun not proccing it at all.</>,
-        buildsTested: ["64529", "65617", "65769", "66220", "66384", "66431", "66709", "67186"],
+        buildsTested: ["66220", "66384", "66431", "66709", "67186"],
         logs: [
             { label: "66709", url: "https://www.warcraftlogs.com/reports/fY2nqtQ3Z4N1hJ6V?fight=38&type=summary&source=161&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116670%7C467307%7C116680&view=events" },
             { label: "29 minute log", url: "https://www.warcraftlogs.com/reports/HvrkyFPnC6TxbBN3?fight=1&type=auras&source=1&pins=2%24Separate%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241260565%7C1260670%2463" },
@@ -848,13 +848,13 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.SPIRITFONT,
         severity: SEVERITY.TRIVIAL,
-        buildsTested: ["64529", "65617", "65769", "66220", "66384", "66431", "66709", "67186"],
+        buildsTested: ["66384", "67186"],
         title: <>Buff tooltip says 30% effectiveness when it should be 20%</>,
     },
     {
         spell: TALENTS.SPIRITFONT,
         severity: SEVERITY.HIGH,
-        buildsTested: ["64529", "65617", "65769", "66220", "66384", "66431", "66709", "67186"],
+        buildsTested: ["66431", "66709", "67186"],
         title: <><SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST} />s from multiple stacks used back to back get removed simultaneously</>,
         description: <><SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST} />s from multiple stacks of <SpellLink spell={TALENTS.SPIRITFONT} /> used back to back get removed simultaneously and reapplied elsewhere, but don't double in value.</>,
         notes: "Particularly bad during Yu'lon, when casting many Enveloping Mists in a row and having multiple Spiritfont charges to use.",
@@ -864,7 +864,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.SPIRITFONT,
         severity: SEVERITY.HIGH,
-        buildsTested: ["64529", "65617", "65769", "66220", "66384", "66431", "66709", "67186"],
+        buildsTested: ["66431", "66709", "67186"],
         title: <><SpellLink spell={TALENTS.SPIRITFONT_CHI_COCOON} /> from multiple stacks get refreshed if they land on the same target</>,
         description: <><SpellLink spell={TALENTS.SPIRITFONT_CHI_COCOON} /> from multiple stacks of <SpellLink spell={TALENTS.SPIRITFONT} /> used back to back get refreshed if they land on the same target, but don't double in value.</>,
         notes: "Particularly bad in Mythic+, when there are only 5 targets maximum.",
@@ -874,7 +874,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.SPIRITFONT,
         severity: SEVERITY.HIGH,
-        buildsTested: ["64529", "65617", "65769", "66220", "66384", "66431", "66709", "67186"],
+        buildsTested: ["66431"],
         title: <>Sometimes doesn't refresh the active duration buff</>,
         description: <>Sometimes, when using 2 <SpellLink spell={TALENTS.SPIRITFONT} /> stacks back to back, the active duration buff (the 8s buff) doesn't get refreshed, and stays at its current duration. For example, if one stack is used, then 4 seconds later another stack is used, the buff will only have 4 seconds remaining instead of refreshing back to 8 seconds.</>,
         tags: [TAGS.APEX],
@@ -882,7 +882,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.SPIRITFONT,
         severity: SEVERITY.MEDIUM,
-        buildsTested: ["64529", "65617", "65769", "66220", "66384", "66431", "66709", "67186"],
+        buildsTested: ["66431", "67186"],
         title: <>Does not re-expand after collapsing to heal more targets</>,
         description: <>Following a hotfix that caused <SpellLink spell={TALENTS.SPIRITFONT} /> to continue finding targets after all have reached 100% hp, the collapsed <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST} />s do not re-expand to try healing up to 5 players and only one will be active.</>,
         tags: [TAGS.APEX],
@@ -891,14 +891,14 @@ const BUGS: Bug[] = [
         spell: TALENTS.GIFT_OF_THE_CELESTIALS,
         affectedSpells: [SPELLS.YULON, TALENTS.SOOTHING_BREATH],
         severity: SEVERITY.HIGH,
-        buildsTested: ["66709", "66838", "67186"],
+        buildsTested: ["66709", "67186"],
         title: <><SpellLink spell={SPELLS.YULON} />'s <SpellLink spell={TALENTS.SOOTHING_BREATH} /> sometimes only ticks 6 times, instead of 7 + partial</>,
     },
     {
         spell: TALENTS.GIFT_OF_THE_CELESTIALS,
         affectedSpells: [SPELLS.YULON, TALENTS.SOOTHING_BREATH],
         severity: SEVERITY.HIGH,
-        buildsTested: ["66709", "66838", "67186"],
+        buildsTested: ["66709", "66838"],
         title: <><SpellLink spell={SPELLS.YULON} /> will not channel <SpellLink spell={TALENTS.SOOTHING_BREATH} /> a second time occasionally</>,
     },
     {
@@ -912,14 +912,14 @@ const BUGS: Bug[] = [
         spell: TALENTS.MISTS_OF_LIFE,
         affectedSpells: [SPELLS.THUNDER_FOCUS_TEA],
         severity: SEVERITY.MEDIUM,
-        buildsTested: ["65617", "66709", "67186"],
+        buildsTested: ["65617", "67186"],
         title: <>Consumes <SpellLink spell={SPELLS.THUNDER_FOCUS_TEA} /> despite not receiving buffs from it</>,
         status: STATUS.FIXED,
     },
     {
         spell: TIER.T35_MISTWEAVER_4SET,
         severity: SEVERITY.CRITICAL,
-        buildsTested: ["66709", "67186"],
+        buildsTested: ["66709"],
         title: <>Sets random buffs durations to 20-32 seconds</>,
         description: <>Buffs like <SpellLink spell={SPELLS.ENVELOPING_MIST} />, <SpellLink spell={SPELLS.LIFE_COCOON} />, flasks, vantus runes, etc. become set to 20-32 seconds when it should be a <SpellLink spell={SPELLS.RENEWING_MIST} /></>,
         logs: [
@@ -933,7 +933,7 @@ const BUGS: Bug[] = [
         spell: TIER.T35_MISTWEAVER_4SET,
         affectedSpells: [SPELLS.RENEWING_MIST],
         severity: SEVERITY.MEDIUM,
-        buildsTested: ["66709", "67186"],
+        buildsTested: ["66709"],
         title: <><SpellLink spell={SPELLS.RENEWING_MIST} /> from 4pc doesn't follow traditional rules</>,
         description: <>The <SpellLink spell={SPELLS.RENEWING_MIST} /> created is completely independent from a normal <SpellLink spell={SPELLS.RENEWING_MIST} /> meaning that it is significantly stronger because it has no interaction with pandemic durations of normal <SpellLink spell={SPELLS.RENEWING_MIST} />s and thus can do significantly more HPS with talents such as <SpellLink spell={TALENTS.MISTY_PEAKS} /></>,
         tags: [TAGS.TIER],
@@ -941,7 +941,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.GIFT_OF_THE_CELESTIALS,
         severity: SEVERITY.HIGH,
-        buildsTested: ["66709", "66838", "67186"],
+        buildsTested: ["66709", "66838"],
         title: <>Sometimes in Raid, Celestial reverts to baseline without modifying talent</>,
         description: <>Sometimes in Raid, the Celestial (Usually <SpellLink spell={SPELLS.YULON} />), gets set to 2 min CD, active for 25 seconds, <SpellLink spell={TALENTS.CHI_COCOON} /> activate at higher strength, but the <SpellLink spell={TALENTS.SOOTHING_BREATH} /> healing is not increased.</>,
         logs: [
@@ -952,7 +952,7 @@ const BUGS: Bug[] = [
     {
         spell: SPELLS.YULON,
         severity: SEVERITY.HIGH,
-        buildsTested: ["66709", "67088"],
+        buildsTested: ["~55933", "66709", "67088"],
         title: <>Randomly chooses the caster only <SpellLink spell={TALENTS.SOOTHING_BREATH} /> targeting</>,
         description: <>Yulon will sometimes choose the caster as the target of <SpellLink spell={TALENTS.SOOTHING_BREATH} /> many times within the Celestial window, even though there are many actors in range of her.</>,
         logs: [
