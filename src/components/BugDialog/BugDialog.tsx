@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import SpellLink from "@components/SpellLink/SpellLink";
 import { GetTitle, formatLogUrl } from "@util/stringManipulation";
-import { Bug, STATUS, SEVERITY_COLORS, STATUS_COLORS, STATUS_BADGES } from "@data/bugs";
+import { Bug, SEVERITY_COLORS } from "@data/bugs";
 import SwirlButton from "@components/Buttons/SwirlButton";
 import { applyGetTitle } from "@util/applyGetTitle";
 import { BugChips } from "@components/BugChips/BugChips";
