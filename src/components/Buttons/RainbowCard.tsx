@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardProps } from "@mui/material";
 
-export const RAINBOW_COLORS = ["#7ee5ff", "#89ff7f", "#ffd700", "#ff69b4"];
+export const RAINBOW_COLORS = ["#7ee5ff", "#89ff7f", "#ffd700", "#ff69b4", "#d0a3ff"];
 export const RAINBOW_GRADIENT = `linear-gradient(90deg, ${RAINBOW_COLORS.map((color, index) => 
   `${color} ${Math.floor((index / (RAINBOW_COLORS.length - 1)) * 100)}%`
 ).join(', ')})`;
