@@ -1050,8 +1050,8 @@ const BUGS: Bug[] = [
         severity: SEVERITY.LOW,
         buildsTested: ["67186", "67314"],
         title: <>Personal <SpellLink spell={SPELLS.SOOTHING_MIST} /> no longer appears in buffs</>,
-        description: <>Not a major deal as the HoT still heals, however, tracking the buff on the player is impossible now when casting on ourselves.</>,
-        notes: "Started in 12.0.5, likely to remove several bugs with the personal buff (including it appearing on the player and the target when casting on someone else)."
+        description: <>The caster's personal <SpellLink spell={SPELLS.SOOTHING_MIST}/> buff no longer appears, regardless of the target of the channel.</>,
+        notes: "Started in 12.0.5, likely to remove several bugs with the personal buff (including it appearing on the player and the target when casting on someone else). Not a major deal as the HoT still heals, however, tracking the buff on the player is impossible now when casting on ourselves."
     }
 
 
