@@ -532,10 +532,13 @@ const BUGS: Bug[] = [
         spell: TALENTS.RUSHING_WIND_KICK,
         severity: SEVERITY.HIGH,
         title: <>Doesn't consistently hit 5 targets despite having more than 5 hots out</>,
-        description: <><SpellLink spell={TALENTS.RUSHING_WIND_KICK} /> does not consistently hit up to 5 targets despite having far more than 5 hots out</>,
-        buildsTested: ["65617", "66192", "66838", "67186"],
+        description: <><SpellLink spell={TALENTS.RUSHING_WIND_KICK} /> does not consistently hit up to 5 targets despite having far more than 5 hots out. The number of targets hit in raid seems to directly correlate to the number of available targets. The more targets availalbe, the lower the actual hits with a bit more inconsistency below ~10-15 targets.</>,
+        buildsTested: ["65617", "66192", "66838", "67186", "67314"],
         notes: "Supposedly fixed in 65337, but found once again in 66838.",
         logs: [
+            { label: "5 targets (25 hits 5 casts = 5 avg hits", url: "https://www.warcraftlogs.com/reports/ZMb4DKz2rgQ9Vkny?type=healing&fight=26&phase=1&source=1&start=10072187&end=10097163&ability=1269159" },
+            { label: "10 targets (91 hits 33 casts = 2.75 avg hits)", url: "https://www.warcraftlogs.com/reports/ZMb4DKz2rgQ9Vkny?type=healing&fight=26&phase=4&source=1&ability=1269159" },
+            { label: "20 targets (27 hits 18 casts = 1.5 avg hits)", url: "https://www.warcraftlogs.com/reports/ZMb4DKz2rgQ9Vkny?type=healing&fight=26&phase=3&source=1&ability=1269159" },
             { label: "64774", url: "https://www.warcraftlogs.com/reports/9m2ntLC4wWyB6k83?fight=19&type=healing&source=22&view=events&pins=0%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24467307^0%24Off%24%23909049%24auras-gained%24-1%240.0.0.Any%2413389582.0.0.Monk%24true%240.0.0.Any%24true%24119611&ability=1269159" },
             { label: "66838", url: "https://www.warcraftlogs.com/reports/xGhMan3mKv8Xyrpw?fight=52&type=summary&source=114&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24467307%7C468179%7C1269159%7C1250554", }
         ],
