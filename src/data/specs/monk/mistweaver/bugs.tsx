@@ -1031,6 +1031,16 @@ const BUGS: Bug[] = [
         logs: [
             { label: "", url: "https://www.warcraftlogs.com/reports/bVxzgP32GhCf46n1?fight=last&type=auras" },
         ]
+    },
+    {
+        spell: SPELLS.SPINNING_CRANE_KICK,
+        severity: SEVERITY.MEDIUM,
+        buildsTested: ["67186", "67314"],
+        title: <>Taking damage sometimes cancels <SpellLink spell={SPELLS.SPINNING_CRANE_KICK} /></>,
+        description: <>Inconsistently, sometimes while taking damage, <SpellLink spell={SPELLS.SPINNING_CRANE_KICK} /> gets cancelled and does not continue the rest of its allocated ticks of damage.</>,
+        logs: [
+            { label: "", url: "https://www.warcraftlogs.com/reports/T4DVfmbBrXxYgRPt?fight=1&type=summary&source=8&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24101546%7C107270%5E0%24Separate%24%23909049%24damage%241%24183748649.0.0.Monk%240.0.0.Any%24true%240.0.0.Any%24true%240&pull=5&view=events&start=932807&end=947787" },
+        ] 
     }
 
 
