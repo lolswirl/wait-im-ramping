@@ -1044,6 +1044,14 @@ const BUGS: Bug[] = [
         logs: [
             { label: "", url: "https://www.warcraftlogs.com/reports/T4DVfmbBrXxYgRPt?fight=1&type=summary&source=8&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24101546%7C107270%5E0%24Separate%24%23909049%24damage%241%24183748649.0.0.Monk%240.0.0.Any%24true%240.0.0.Any%24true%240&pull=5&view=events&start=932807&end=947787" },
         ] 
+    },
+    {
+        spell: SPELLS.SOOTHING_MIST,
+        severity: SEVERITY.LOW,
+        buildsTested: ["67186", "67314"],
+        title: <>Personal <SpellLink spell={SPELLS.SOOTHING_MIST} /> no longer appears in buffs</>,
+        description: <>Not a major deal as the HoT still heals, however, tracking the buff on the player is impossible now when casting on ourselves.</>,
+        notes: "Started in 12.0.5, likely to remove several bugs with the personal buff (including it appearing on the player and the target when casting on someone else)."
     }
 
 
