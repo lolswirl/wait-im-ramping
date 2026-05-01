@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, FormControl, InputLabel, MenuItem, Select, TextField, IconButton } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, TextField, IconButton, InputAdornment } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import BuildIcon from "@mui/icons-material/Build";
+import CloseIcon from "@mui/icons-material/Close";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GetTitle } from "@util/stringManipulation";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
@@ -71,6 +72,28 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                             style: {
                                 height: filtersHeight,
                             },
+                            endAdornment: search ? (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={() => onSearchChange('')}
+                                        edge="end"
+                                        size="small"
+                                        sx={{
+                                            height: 32,
+                                            width: 32,
+                                            border: "1px solid rgba(244, 67, 54, 0.23)",
+                                            borderRadius: 1,
+                                            color: "error.light",
+                                            "&:hover": {
+                                                backgroundColor: "rgba(244, 67, 54, 0.08)",
+                                                borderColor: "error.light",
+                                            }
+                                        }}
+                                    >
+                                        <CloseIcon fontSize="small" />
+                                    </IconButton>
+                                </InputAdornment>
+                            ) : null,
                         },
                     }}
                 />
