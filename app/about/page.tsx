@@ -1,6 +1,7 @@
 import React from "react";
 import { Typography, Card, CardContent, Divider, Link, Stack, Box } from "@mui/material";
 import { PageMetadata } from "@components/PageMetadata/PageMetadata";
+import { RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
 
 const title = "About";
 const description = "Learn more about the creator of Wait, I'm Ramping!";
@@ -41,7 +42,7 @@ const About = () => {
             left: 0,
             right: 0,
             height: "4px",
-            background: "linear-gradient(90deg, #7ee5ff 0%, #89ff7f 33%, #ffd700 66%, #ff69b4 100%)",
+            background: RAINBOW_GRADIENT,
           },
         }}
       >
