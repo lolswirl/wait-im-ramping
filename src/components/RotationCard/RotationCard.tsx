@@ -106,7 +106,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                         width: '100%', 
                         justifyContent: 'space-between',
                         bgcolor: 'rgba(255,255,255,0.05)',
-                        borderRadius: 2,
+                        borderRadius: 1,
                         '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                     }}
                 >
@@ -117,7 +117,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                 </IconButton>
                 
                 <Collapse in={expanded}>
-                    <Box sx={{ mt: 2, p: 2, bgcolor: 'rgba(255,255,255,0.03)', borderRadius: 2 }}>
+                    <Box sx={{ mt: 2, p: 2, bgcolor: 'rgba(255,255,255,0.03)', borderRadius: 1 }}>
                         {rotation.breakdown.map((item, breakdownIndex) => (
                             <Box key={breakdownIndex} sx={{ mb: 1 }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -147,7 +147,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                         value={item.percentage}
                                         sx={{
                                             height: 8,
-                                            borderRadius: 4,
+                                            borderRadius: 1,
                                             backgroundColor: 'rgba(255,255,255,0.1)',
                                         }}
                                     />

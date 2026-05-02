@@ -94,7 +94,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                                                                     fontSize: "0.75rem",
                                                                     fontWeight: "bold",
                                                                     padding: "2px 4px",
-                                                                    borderRadius: "4px",
+                                                                    borderRadius: 1,
                                                                 }}
                                                             >
                                                                 {toRomanNumeral(spell.empowerLevel)}

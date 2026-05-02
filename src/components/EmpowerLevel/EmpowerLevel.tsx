@@ -26,7 +26,7 @@ const EmpowerLevelButtons: React.FC<EmpowerLevelButtonsProps> = ({
                         minHeight: 36,
                         width: iconSize,
                         height: iconSize,
-                        borderRadius: 2,
+                        borderRadius: 1,
                         fontSize: "0.75rem",
                         fontWeight: 700,
                         p: 0,

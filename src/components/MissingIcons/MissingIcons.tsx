@@ -182,7 +182,7 @@ const MissingIcons: React.FC = () => {
                                             alt={iconData.iconName}
                                             width={40}
                                             height={40}
-                                            style={{ borderRadius: '4px' }}
+                                            style={{ borderRadius: 1 }}
                                         />
                                         
                                         <Box sx={{ flex: 1 }}>

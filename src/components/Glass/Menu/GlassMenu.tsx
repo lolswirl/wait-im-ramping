@@ -16,7 +16,7 @@ export const GlassMenu = (props: PopoverProps) => {
                         maxHeight: 400,
                         width: 'fit-content',
                         overflow: 'visible',
-                        borderRadius: 2,
+                        borderRadius: 1,
                         backgroundImage: 'none',
                         ...PaperProps?.sx,
                     }

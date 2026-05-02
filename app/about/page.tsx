@@ -12,7 +12,7 @@ const mistweaverLogo = "/mistweaver-bad.png";
 const imageStyle = {
   width: 128,
   height: 128,
-  borderRadius: "8px",
+  borderRadius: 1,
   objectFit: "cover",
   boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
   border: "1px solid #575757",
@@ -71,7 +71,7 @@ const About = () => {
               sx={{
                 backgroundColor: "rgba(126, 229, 255, 0.08)",
                 border: "1px solid rgba(126, 229, 255, 0.2)",
-                borderRadius: 2,
+                borderRadius: 1,
                 p: 2,
               }}
             >
