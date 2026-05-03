@@ -239,13 +239,11 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                             />
                             <TableCell
                                 sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: 1,
                                     border: 0,
                                     minWidth: spellWidth,
                                     maxWidth: spellWidth,
-                                    ...hideOverflowSx,
+                                    py: 1,
+                                    px: 1,
                                 }}
                             >
                                 {bug.spell && (
@@ -254,6 +252,8 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                             display: "flex",
                                             alignItems: "center",
                                             gap: 1,
+                                            width: "100%",
+                                            overflow: "hidden",
                                         }}
                                     >
                                         <SpellButton
@@ -266,6 +266,11 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                             sx={{
                                                 transition: "color 0.2s ease",
                                                 color: STATUS_COLORS[bug.status ?? STATUS.OPEN],
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                                whiteSpace: "nowrap",
+                                                flex: 1,
+                                                minWidth: 0,
                                             }}
                                         >
                                             {GetTitle(bug.spell.name)}
@@ -278,14 +283,15 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                     border: 0,
                                     minWidth: titleWidth,
                                     maxWidth: titleWidth,
-                                    ...hideOverflowSx,
+                                    width: titleWidth,
+                                    py: 1,
+                                    px: 1,
                                 }}
                             >
                                 <Typography
                                     variant="body2"
                                     component="div"
                                     sx={{
-                                        whiteSpace: "nowrap",
                                         color: STATUS_COLORS[bug.status ?? STATUS.OPEN],
                                     }}
                                 >
