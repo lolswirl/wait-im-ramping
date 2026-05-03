@@ -32,6 +32,13 @@ const BUGS: Bug[] = [
         description: <>The global cooldown after casting <SpellLink spell={SPELLS.TIGERS_LUST}/> is unhasted, meaning it is a full 1.5s global.</>,
         buildsTested: ["67088", "67186"],
         notes: "This makes for awkward gameplay with higher haste levels.",
+    },
+    {
+        spell: SPELLS.TRANSCENDENCE_LINKED_SPIRITS,
+        severity: SEVERITY.LOW,
+        title: <>Recasting <SpellLink spell={SPELLS.TRANSCENDENCE}/> removes the link, but doesn't reapply it</>,
+        description: <>If you currently have a <SpellLink spell={SPELLS.TRANSCENDENCE_LINKED_SPIRITS}/> link active, recasting <SpellLink spell={SPELLS.TRANSCENDENCE}/> will remove the buff from your previous link but not reapply it to your new target until your next <SpellLink spell={SPELLS.TRANSCENDENCE}/> cast (10s cooldown).</>,
+        buildsTested: ["67314"],
     }
 ];
 

@@ -31,6 +31,21 @@ const spells = {
         id: 116841,
         icon: 'ability_monk_tigerslust',
     },
+    TRANSCENDENCE: {
+        name: "Transcendence",
+        id: 434763,
+        icon: 'monk_ability_transcendence',
+    },
+    TRANSCENDENCE_TRANSFER: {
+        name: "Transcendence: Transfer",
+        id: 434766,
+        icon: 'spell_shaman_spectraltransformation',
+    },
+    TRANSCENDENCE_LINKED_SPIRITS: {
+        name: "Transcendence: Linked Spirits",
+        id: 434774,
+        icon: 'monk_ability_transcendence',
+    },
 } satisfies Record<string, spell>;
 
 export default spells;
