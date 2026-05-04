@@ -1052,9 +1052,28 @@ const BUGS: Bug[] = [
         title: <>Personal <SpellLink spell={SPELLS.SOOTHING_MIST} /> no longer appears in buffs</>,
         description: <>The caster's personal <SpellLink spell={SPELLS.SOOTHING_MIST}/> buff no longer appears, regardless of the target of the channel.</>,
         notes: "Started in 12.0.5, likely to remove several bugs with the personal buff (including it appearing on the player and the target when casting on someone else). Not a major deal as the HoT still heals, however, tracking the buff on the player is impossible now when casting on ourselves."
+    },
+    {
+        spell: TALENTS.TEAR_OF_MORNING,
+        severity: SEVERITY.MEDIUM,
+        title: <><SpellLink spell={TALENTS.JADE_BOND}/> <SpellLink spell={SPELLS.ENVELOPING_MIST}/>s are not increased by 4s during celestial</>,
+        description: <>The portion of <SpellLink spell={TALENTS.TEAR_OF_MORNING}/> that increases <SpellLink spell={SPELLS.ENVELOPING_MIST}/> duration by +4s while a celestial is summoned does not increase the duration of <SpellLink spell={TALENTS.JADE_BOND}/> <SpellLink spell={TALENTS.CHI_COCOON}/> <SpellLink spell={SPELLS.ENVELOPING_MIST}/>s.</>,
+        buildsTested: ["67314"]
+    },
+    {
+        spell: TALENTS.TEAR_OF_MORNING,
+        severity: SEVERITY.MEDIUM,
+        title: <><SpellLink spell={TALENTS.MISTY_PEAKS}/> <SpellLink spell={SPELLS.ENVELOPING_MIST}/>s are not increased by 4s during celestial</>,
+        description: <>The portion of <SpellLink spell={TALENTS.TEAR_OF_MORNING}/> that increases <SpellLink spell={SPELLS.ENVELOPING_MIST}/> duration by +4s while a celestial is summoned does not increase the duration of <SpellLink spell={TALENTS.MISTY_PEAKS}/> <SpellLink spell={SPELLS.ENVELOPING_MIST}/>s.</>,
+        buildsTested: ["67314"]
+    },
+    {
+        spell: TALENTS.TEAR_OF_MORNING,
+        severity: SEVERITY.MEDIUM,
+        title: <><SpellLink spell={SPELLS.ENVELOPING_MIST}/> cleave does not scale with 4s increase during celestial</>,
+        description: <>The portion of <SpellLink spell={TALENTS.TEAR_OF_MORNING}/> that cleaves 8% of <SpellLink spell={SPELLS.ENVELOPING_MIST}/> healing does not cleave the additional duration provided by the +4s while a celestial is summoned, and instead cleaves the base duration.</>,
+        buildsTested: ["67314"]
     }
-
-
 ];
 
 export default BUGS;
