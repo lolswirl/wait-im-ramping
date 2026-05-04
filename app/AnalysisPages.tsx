@@ -11,6 +11,8 @@ import JadeEmpowermentVsDocJ from "./analysis/jade-empowerment-docj/JadeEmpowerm
 import RushingWindKickComparison from "./analysis/rushing-wind-kick/RushingWindKick";
 import MistyCoalescence from "./analysis/misty-coalescence/MistyCoalescence";
 import AbsorbVsDRCompare from "./analysis/external-comparison/AbsorbVsDRCompare";
+import WhenDoIRamp from "./when-do-i-ramp/WhenDoIRamp";
+import Timeline from "./timeline/Timeline";
 
 export interface AnalysisPage {
   label: string;
@@ -155,6 +157,26 @@ export const sheilunsGiftBreakdown = {
   component: SheilunsGiftBreakdown
 };
 
+export const whenDoIRamp = {
+  label: "When Do I Ramp?",
+  path: "/when-do-i-ramp",
+  preview: "/previews/when-do-i-ramp.png",
+  description: "Calculate ramp timings for spell cast efficiency and planning",
+  tags: ["Healing", "Damage", "Rotation"],
+  createdDate: "2025-02-28",
+  component: WhenDoIRamp
+};
+
+export const spellTimeline = {
+  label: "Spell Timeline",
+  path: "/timeline",
+  preview: "/previews/timeline.png",
+  description: "Create customized timelines for spell casts and cooldowns",
+  tags: ["Healing", "Damage", "Rotation"],
+  createdDate: "2025-03-10",
+  component: Timeline
+};
+
 export const analysisPages: AnalysisPage[] = [
   externalComparison,
   sgJe,
@@ -169,4 +191,6 @@ export const analysisPages: AnalysisPage[] = [
   jadefireTeachingsRwk,
   sheilunVsDocj,
   sheilunsGiftBreakdown,
+  whenDoIRamp,
+  spellTimeline,
 ];

@@ -1,10 +1,9 @@
 import Timeline from "./Timeline";
 import { PageMetadata } from "@components/PageMetadata/PageMetadata";
+import { spellTimeline } from "../AnalysisPages";
 
-const title = "Spell Timeline";
-const description = "Create customized timelines for spell casts and cooldowns to analyze cast efficiencies and sunken time costs";
-export const metadata = PageMetadata(title, description);
+export const metadata = PageMetadata(spellTimeline.label, spellTimeline.description);
 
 export default function Page() {
-  return <Timeline title={title} description={description} />;
+  return <Timeline title={spellTimeline.label} description={spellTimeline.description} />;
 }

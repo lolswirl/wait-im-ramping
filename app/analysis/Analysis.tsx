@@ -18,33 +18,10 @@ import { GlassTooltip } from "@components/Glass";
 import { analysisPages, AnalysisPage } from "../AnalysisPages";
 import WarningChip from "@components/WarningChip/WarningChip";
 
-const wdirPreview = "/previews/when-do-i-ramp.png";
-const spellTimelinePreview = "/previews/timeline.png";
-
 const Analysis: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-    const pages: AnalysisPage[] = [
-        ...analysisPages,
-        { 
-            label: "When Do I Ramp?", 
-            path: "/when-do-i-ramp",
-            preview: wdirPreview,
-            description: "Calculate ramp timings for spell cast efficiency and planning",
-            tags: ["Healing", "Damage", "Rotation"],
-            createdDate: "2025-02-28"
-        },
-        { 
-            label: "Spell Timeline", 
-            path: "/timeline",
-            preview: spellTimelinePreview,
-            description: "Create customized timelines for spell casts and cooldowns",
-            tags: ["Healing", "Damage", "Rotation"],
-            createdDate: "2025-03-10"
-        },
-    ];
-
-    const filteredAnalysisPages = pages.filter(
+    const filteredAnalysisPages = analysisPages.filter(
         (tool) => tool.label.toLowerCase() !== "analysis"
     );
 

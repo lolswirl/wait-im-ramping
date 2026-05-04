@@ -1,10 +1,9 @@
 import WhenDoIRamp from "./WhenDoIRamp";
 import { PageMetadata } from "@components/PageMetadata/PageMetadata";
+import { whenDoIRamp } from "../AnalysisPages";
 
-const title = "When Do I Ramp?";
-const description = "Calculate ramp timings for spell cast efficiency and planning";
-export const metadata = PageMetadata(title, description);
+export const metadata = PageMetadata(whenDoIRamp.label, whenDoIRamp.description);
 
 export default function Page() {
-  return <WhenDoIRamp title={title} description={description} />;
+  return <WhenDoIRamp title={whenDoIRamp.label} description={whenDoIRamp.description} />;
 }
