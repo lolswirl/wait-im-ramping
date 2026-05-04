@@ -244,6 +244,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                     maxWidth: spellWidth,
                                     py: 1,
                                     px: 1,
+                                    overflow: "visible",
                                 }}
                             >
                                 {bug.spell && (
@@ -253,7 +254,6 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                             alignItems: "center",
                                             gap: 1,
                                             width: "100%",
-                                            overflow: "hidden",
                                         }}
                                     >
                                         <SpellButton
