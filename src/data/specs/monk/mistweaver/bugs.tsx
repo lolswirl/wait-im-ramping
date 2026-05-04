@@ -1065,6 +1065,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.MEDIUM,
         title: <><SpellLink spell={TALENTS.MISTY_PEAKS}/> <SpellLink spell={SPELLS.ENVELOPING_MIST}/>s are not increased by 4s during celestial</>,
         description: <>The portion of <SpellLink spell={TALENTS.TEAR_OF_MORNING}/> that increases <SpellLink spell={SPELLS.ENVELOPING_MIST}/> duration by +4s while a celestial is summoned does not increase the duration of <SpellLink spell={TALENTS.MISTY_PEAKS}/> <SpellLink spell={SPELLS.ENVELOPING_MIST}/>s.</>,
+        notes: "Likely not entirely a 'bug', per se, as Misty Peaks doesn't get increased by anything and has not, but this behavior is inconsistent for a talent that reads 'The duration of Enveloping Mist is increased by 4 sec while you have a celestial summoned' and Misty Peaks directly leading into Tear of Morning on the talent tree.",
         buildsTested: ["67314"]
     },
     {
