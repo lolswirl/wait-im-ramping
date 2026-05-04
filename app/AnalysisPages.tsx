@@ -1,17 +1,16 @@
-const risingSunKickPreview = "/previews/rising-sun-kick-resets.png";
-const externalComparisonPreview = "/previews/external-comparison.png";
-const jadeEmpowermentSheilunsPreview = "/previews/jade-empowerment-sheiluns.png";
-const jadeEmpowermentDocjPreview = "/previews/jade-empowerment-docj.png";
-const mwDamagePreview = "/previews/mw-damage.png";
-const harmonicSurgePreview = "/previews/harmonic-surge.png";
-const chijiPreview = "/previews/chi-ji.png";
-const hotjsPreview = "/previews/heart-of-the-jade-serpent.png";
-const conduitPreview = "/previews/celestial-conduit.png";
-const mistyCoalescencePreview = "/previews/misty-coalescence.png";
-const jftRwkPreview = "/previews/jft-rwk.png";
-const sgDocjPreview = "/previews/sg-docj.png";
-const sgBreakdownPreview = "/previews/sg-breakdown.png";
-
+import DamageComparison from "./analysis/mw-damage/DamageComparison";
+import ChiJiPage from "./analysis/chi-ji/ChiJiPage";
+import HotJS from "./analysis/heart-of-the-jade-serpent/HotJS";
+import SheilunVSJadeEmpowerment from "./analysis/jade-empowerment-sheiluns/SheilunVSJadeEmpowerment";
+import RisingSunKickResets from "./analysis/rising-sun-kick-resets/RisingSunKickResets";
+import Conduit from "./analysis/celestial-conduit/Conduit";
+import HarmonicSurge from "./analysis/harmonic-surge/HarmonicSurge";
+import SheilunVsDocJ from "./analysis/sheilun-vs-docj/SheilunVsDocJ";
+import SheilunsGiftBreakdown from "./analysis/sheiluns-gift-breakdown/SheilunsGiftBreakdown";
+import JadeEmpowermentVsDocJ from "./analysis/jade-empowerment-docj/JadeEmpowermentVsDocJ";
+import RushingWindKickComparison from "./analysis/rushing-wind-kick/RushingWindKick";
+import MistyCoalescence from "./analysis/misty-coalescence/MistyCoalescence";
+import AbsorbVsDRCompare from "./analysis/external-comparison/AbsorbVsDRCompare";
 
 export interface AnalysisPage {
   label: string;
@@ -21,125 +20,139 @@ export interface AnalysisPage {
   extra?: string;
   tags: string[];
   createdDate: string;
+  component: React.ComponentType<{ title: string; description: string }>;
 }
 
 export const externalComparison = { 
   label: "Absorb vs. Damage Reduction", 
   path: "/analysis/external-comparison", 
-  preview: externalComparisonPreview,
+  preview: "/previews/external-comparison.png",
   description: "Compare the effectiveness of Damage Reduction to find how damage can scale past Absorbs",
   tags: ["Damage Reduction"],
-  createdDate: "2025-03-10"
+  createdDate: "2025-03-10",
+  component: AbsorbVsDRCompare
 };
 
 export const sgJe = { 
   label: "Sheilun's Gift vs. Jade Empowerment", 
   path: "/analysis/jade-empowerment-sheiluns", 
-  preview: jadeEmpowermentSheilunsPreview,
+  preview: "/previews/jade-empowerment-sheiluns.png",
   description: "Analyze the spellpower differences between Sheilun's Gift's stacks and Jade Empowerment's chaining",
   extra: "Jade Empowerment was heavily nerfed in Midnight and thus no longer applicable to compare with a cooldown.",
   tags: ["Healing", "Monk", "Outdated"],
-  createdDate: "2025-03-10"
+  createdDate: "2025-03-10",
+  component: SheilunVSJadeEmpowerment
 };
 
 export const jeDocj = { 
   label: "Jade Empowerment vs. Dance of Chi-Ji", 
   path: "/analysis/jade-empowerment-docj", 
-  preview: jadeEmpowermentDocjPreview,
+  preview: "/previews/jade-empowerment-docj.png",
   description: "Compare the spellpower output of Jade Empowerment and Dance of Chi-Ji on different target counts",
   extra: "Jade Empowerment was heavily nerfed in Midnight and no longer on the same node as Dance of Chi-Ji.",
   tags: ["Healing", "Monk", "Outdated"],
-  createdDate: "2025-03-26"
+  createdDate: "2025-03-26",
+  component: JadeEmpowermentVsDocJ
 };
 
 export const mwDamage = { 
   label: "Mistweaver Damage Comparison", 
   path: "/analysis/mw-damage", 
-  preview: mwDamagePreview,
-  description: "Evaluate simulated single target rotation damage output compared to Spinning Crane Kick and Jade Empowerment",
+  preview: "/previews/mw-damage.png",
+  description: "Evaluate formulated single target rotation damage output compared to Spinning Crane Kick and Jade Empowerment",
   tags: ["Rotation", "Damage"],
-  createdDate: "2025-03-26"
+  createdDate: "2025-03-26",
+  component: DamageComparison
 };
 
 export const harmonicSurge = { 
   label: "Harmonic Surge", 
   path: "/analysis/harmonic-surge", 
-  preview: harmonicSurgePreview,
+  preview: "/previews/harmonic-surge.png",
   description: "Analyze Harmonic Surge's spellpower output compared to the other Ancient Teachings abilities",
   tags: ["Procs", "Monk"],
-  createdDate: "2025-06-28"
+  createdDate: "2025-06-28",
+  component: HarmonicSurge
 };
 
 export const risingSunKickResets = { 
   label: "Rising Sun Kick Resets", 
   path: "/analysis/rising-sun-kick-resets", 
-  preview: risingSunKickPreview,
+  preview: "/previews/rising-sun-kick-resets.png",
   description: "Find the probabilities of Rising Sun Kick resets based on various input rotations",
   tags: ["Probability", "Monk", "Rotation"],
-  createdDate: "2025-07-10"
+  createdDate: "2025-07-10",
+  component: RisingSunKickResets
 };
 
 export const chiJi = {
   label: 'Chi-Ji "Simulation"',
   path: "/analysis/chi-ji",
-  preview: chijiPreview,
+  preview: "/previews/chi-ji.png",
   description: "Simulate the theoretical HPS of various rotations done inside of Chi-Ji",
   tags: ["Healing", "Monk", "Rotation"],
-  createdDate: "2025-07-12"
+  createdDate: "2025-07-12",
+  component: ChiJiPage
 };
 
 export const heartOfTheJadeSerpent = {
   label: 'Heart of the Jade Serpent',
   path: "/analysis/heart-of-the-jade-serpent",
-  preview: hotjsPreview,
+  preview: "/previews/heart-of-the-jade-serpent.png",
   description: "Analyze the effects of Heart of the Jade Serpent's increased cooldown recovery rate to find how many extra casts are received during a fight",
   tags: ["Monk"],
-  createdDate: "2025-08-01"
+  createdDate: "2025-08-01",
+  component: HotJS
 };
 
 export const celestialConduit = {
   label: 'Celestial Conduit Comparison',
   path: "/analysis/celestial-conduit",
-  preview: conduitPreview,
+  preview: "/previews/celestial-conduit.png",
   description: "Analyze Celestial Conduit's output compared to other spells and abilities",
   tags: ["Monk"],
-  createdDate: "2025-09-16"
+  createdDate: "2025-09-16",
+  component: Conduit
 };
 
 export const mistyCoalescence = {
   label: 'Misty Coalescence',
   path: "/analysis/misty-coalescence",
-  preview: mistyCoalescencePreview,
+  preview: "/previews/misty-coalescence.png",
   description: "Visually graph Renewing Mist's healing increase based on group size with Misty Coalescence",
   tags: ["Healing", "Monk"],
-  createdDate: "2026-1-25"
+  createdDate: "2026-1-25",
+  component: MistyCoalescence
 };
 
 export const jadefireTeachingsRwk = {
   label: 'Jadefire Teachings vs Rushing Wind Kick',
   path: "/analysis/rushing-wind-kick",
-  preview: jftRwkPreview,
+  preview: "/previews/jft-rwk.png",
   description: "Comparison of Rising Sun Kick (Jadefire Teachings) and Rushing Wind Kick damage and healing output",
   tags: ["Healing", "Monk"],
-  createdDate: "2026-02-15"
+  createdDate: "2026-02-15",
+  component: RushingWindKickComparison
 };
 
 export const sheilunVsDocj = {
   label: "Sheilun's Gift vs Dance of Chi-Ji (1 Friendly Only)",
   path: "/analysis/sheilun-vs-docj",
-  preview: sgDocjPreview,
+  preview: "/previews/sg-docj.png",
   description: "Comparing the healing output of Sheilun's Gift main target to a Dance of Chi-Ji proc",
   tags: ["Healing", "Monk"],
-  createdDate: "2026-04-15"
+  createdDate: "2026-04-15",
+  component: SheilunVsDocJ
 };
 
 export const sheilunsGiftBreakdown = {
   label: "Sheilun's Gift Breakdown",
   path: "/analysis/sheiluns-gift-breakdown",
-  preview: sgBreakdownPreview,
+  preview: "/previews/sg-breakdown.png",
   description: "Detailed breakdown of Sheilun's Gift's healing distribution",
   tags: ["Healing", "Monk"],
-  createdDate: "2026-04-22"
+  createdDate: "2026-04-22",
+  component: SheilunsGiftBreakdown
 };
 
 export const analysisPages: AnalysisPage[] = [
