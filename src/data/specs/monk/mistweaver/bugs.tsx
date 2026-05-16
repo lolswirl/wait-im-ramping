@@ -1082,7 +1082,8 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: <>Costs double the mana when casting on someone other than the player</>,
         description: <><SpellLink spell={SPELLS.SOOTHING_MIST}/> costs double the mana when cast on someone other than the player - 2k mana/sec when casting on someone else or 1k mana per (what the toolip and `C_Spell.GetSpellPowerCost(115175)` returns).</>,
-        buildsTested: ["67602"]
+        buildsTested: ["67602"],
+        logs: [ { label: "First few casts are self, latter half are other target", url: "https://www.warcraftlogs.com/reports/tT3nhRfb1QZAzvKJ?fight=2&type=resources&source=1&view=timeline&spell=100" },]
     },
 ];
 
