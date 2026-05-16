@@ -1076,7 +1076,14 @@ const BUGS: Bug[] = [
         title: <><SpellLink spell={SPELLS.ENVELOPING_MIST}/> cleave does not scale with 4s increase during celestial</>,
         description: <>The portion of <SpellLink spell={TALENTS.TEAR_OF_MORNING}/> that cleaves 8% of <SpellLink spell={SPELLS.ENVELOPING_MIST}/> healing does not cleave the additional duration provided by the +4s while a celestial is summoned, and instead cleaves the base duration.</>,
         buildsTested: ["67314"]
-    }
+    },
+    {
+        spell: SPELLS.SOOTHING_MIST,
+        severity: SEVERITY.HIGH,
+        title: <>Costs double the mana when casting on someone other than the player</>,
+        description: <><SpellLink spell={SPELLS.SOOTHING_MIST}/> costs double the mana when cast on someone other than the player - 2k mana/sec when casting on someone else or 1k mana per (what the toolip and `C_Spell.GetSpellPowerCost(115175)` returns).</>,
+        buildsTested: ["67602"]
+    },
 ];
 
 export default BUGS;
