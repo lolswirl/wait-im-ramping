@@ -14,7 +14,7 @@ const BUGS: Bug[] = [
         affectedSpells: [TALENTS.SECRET_INFUSION, TALENTS.INNER_COMPASS],
         severity: SEVERITY.HIGH,
         title: <>Versatility double dips with <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /></>,
-        description: <>Versatility gains from all sources (Gear, <SpellLink spell={TALENTS.SECRET_INFUSION} />, <SpellLink spell={TALENTS.INNER_COMPASS} />, <SpellLink spell={SPELLS.MARK_OF_THE_WILD} />, etc) double dips on <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /> - it increases the damage you deal which converts into <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /> healing, then that is increased by the extra Versatility % increase</>,
+        description: <>Versatility gains from most sources (Gear (weirdly calculated, if at all), <SpellLink spell={TALENTS.SECRET_INFUSION} />, <SpellLink spell={TALENTS.INNER_COMPASS} />, <SpellLink spell={SPELLS.MARK_OF_THE_WILD} />, etc) double dips on <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /> - it increases the damage you deal which converts into <SpellLink spell={TALENTS.ANCIENT_TEACHINGS} /> healing, then that is increased by the extra Versatility % increase</>,
         tags: [TAGS.VERS],
         buildsTested: ["65337", "65769", "65848", "66066", "66220", "67186"],
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/tvxZXBYQfmKpVdRF?fight=3&type=summary&source=11&start=511586&end=527359&view=events&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24107428%7C185099%7C388500%7C388024" }],
