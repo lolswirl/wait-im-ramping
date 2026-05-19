@@ -1,5 +1,5 @@
 import React from "react";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
 import { specialization } from "@data/class";
 import "./SpecializationSelect.css";
@@ -20,7 +20,7 @@ const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec
     >
       <img
         src={FormatIconImg(spec.icon)}
-        alt={GetTitle(`${spec.name}`)}
+        alt={T(`${spec.name}`)}
         className="spec_icon"
         style={{
           width: "calc(100% + 4px)",
@@ -38,7 +38,7 @@ const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec
     </div>
     {!short && (
       <>
-        {GetTitle(spec.name)}
+        <T>{spec.name}</T>
       </>
     )}
   </div>

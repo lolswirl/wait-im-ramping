@@ -8,7 +8,7 @@ import { applyBuffEffects } from '@data/buffs';
 
 import { FormatIconImg, FormatIconLink } from '@util/FormatIconImg';
 import { toRomanNumeral } from "@util/toRomanNumeral";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 
 
 const RECT_HEIGHT = 100;
@@ -265,8 +265,8 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
         .attr("class", "legend");
 
       const legendItems = [
-        { label: GetTitle("GCD"), shape: "rect", color: condense ? GREY : ORANGE },
-        { label: GetTitle("Cast"), shape: "rect", color: condense ? ORANGE : WHITE }
+        { label: T("GCD"), shape: "rect", color: condense ? GREY : ORANGE },
+        { label: T("Cast"), shape: "rect", color: condense ? ORANGE : WHITE }
       ];
 
       const legendPadding = 10;

@@ -23,7 +23,7 @@ import {
 
 import PageHeader from '@components/PageHeader/PageHeader';
 import { useThemeContext } from '@context/ThemeContext';
-import { GetTitle } from '@util/stringManipulation';
+import { T } from '@util/T';
 import TALENTS from '@data/talents';
 
 const MAX_WIDTH = 1100;
@@ -69,7 +69,7 @@ const ChartTooltip: React.FC<any> = ({ active, payload, label }) => {
                 p: 1.5,
             }}>
                 <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 0.5 }}>
-                    {label} {GetTitle("Players")}
+                    {label} <T>Players</T>
                 </Typography>
                 {payload.map((entry: any, index: number) => (
                     <Typography key={index} variant="body2" sx={{ color: entry.color }}>
@@ -98,7 +98,7 @@ const MistyCoalescence: React.FC<{ title: string; description: string }> = ({ ti
                     
                     <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 3, justifyContent: 'center' }}>
                         <Chip 
-                            label={GetTitle(`${DUNGEON_MAX_PLAYERS}-player Content: ${DUNGEON_RATE}% per player`)}
+                            label={T(`${DUNGEON_MAX_PLAYERS}-player Content: ${DUNGEON_RATE}% per player`)}
                             sx={{ 
                                 backgroundColor: 'rgba(34, 197, 94, 0.2)',
                                 color: '#22c55e',
@@ -108,7 +108,7 @@ const MistyCoalescence: React.FC<{ title: string; description: string }> = ({ ti
                             variant="outlined"
                         />
                         <Chip 
-                            label={GetTitle(`${RAID_MAX_PLAYERS}-player Content: ${RAID_RATE}% per player`)}
+                            label={T(`${RAID_MAX_PLAYERS}-player Content: ${RAID_RATE}% per player`)}
                             sx={{ 
                                 backgroundColor: 'rgba(59, 130, 246, 0.2)',
                                 color: '#3b82f6',
@@ -118,7 +118,7 @@ const MistyCoalescence: React.FC<{ title: string; description: string }> = ({ ti
                             variant="outlined"
                         />
                         <Chip 
-                            label={GetTitle(`Maximum: ${MAX_INCREASE}%`)}
+                            label={T(`Maximum: ${MAX_INCREASE}%`)}
                             sx={{ 
                                 backgroundColor: 'rgba(168, 85, 247, 0.2)',
                                 color: '#a855f7',
@@ -141,7 +141,7 @@ const MistyCoalescence: React.FC<{ title: string; description: string }> = ({ ti
                             <XAxis 
                                 dataKey="players"
                                 label={{ 
-                                    value: GetTitle('Number of Players'), 
+                                    value: T('Number of Players'), 
                                     position: 'insideBottom', 
                                     offset: -10,
                                     fill: isDark ? '#fff' : '#000',
@@ -151,7 +151,7 @@ const MistyCoalescence: React.FC<{ title: string; description: string }> = ({ ti
                             />
                             <YAxis 
                                 label={{ 
-                                    value: GetTitle('Healing Increase (%)'), 
+                                    value: T('Healing Increase (%)'), 
                                     angle: -90, 
                                     position: 'insideLeft',
                                     style: { textAnchor: 'middle' },
@@ -174,7 +174,7 @@ const MistyCoalescence: React.FC<{ title: string; description: string }> = ({ ti
                                 stroke={isDark ? '#a855f7' : '#9333ea'} 
                                 strokeDasharray="5 5"
                                 label={{ 
-                                    value: GetTitle(`Max (${MAX_INCREASE}%)`), 
+                                    value: T(`Max (${MAX_INCREASE}%)`), 
                                     fill: isDark ? '#a855f7' : '#9333ea',
                                     fontSize: 12,
                                 }}
@@ -184,7 +184,7 @@ const MistyCoalescence: React.FC<{ title: string; description: string }> = ({ ti
                                 dataKey="dungeonIncrease" 
                                 stroke="#22c55e" 
                                 strokeWidth={3}
-                                name={GetTitle(`${DUNGEON_MAX_PLAYERS}-player (Dungeon)`)}
+                                name={T(`${DUNGEON_MAX_PLAYERS}-player (Dungeon)`)}
                                 dot={{ r: 4 }}
                                 activeDot={{ r: 6 }}
                             />
@@ -193,7 +193,7 @@ const MistyCoalescence: React.FC<{ title: string; description: string }> = ({ ti
                                 dataKey="raidIncrease" 
                                 stroke="#3b82f6" 
                                 strokeWidth={3}
-                                name={GetTitle(`${RAID_MAX_PLAYERS}-player (Raid)`)}
+                                name={T(`${RAID_MAX_PLAYERS}-player (Raid)`)}
                                 dot={{ r: 4 }}
                                 activeDot={{ r: 6 }}
                             />

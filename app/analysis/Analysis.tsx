@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
-import { formatDate, getCapsMode, GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
+import { formatDate, getCapsMode } from "@util/stringManipulation";
 import RainbowCard from "@components/Buttons/RainbowCard";
 import { GlassTooltip } from "@components/Glass";
 
@@ -74,7 +75,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
             <Box sx={{ mb: 3 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                     <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'medium' }}>
-                        {GetTitle("Filter:")}
+                        <T>Filter:</T>
                     </Typography>
                     <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', flexGrow: 1 }}>
                         {allTags.map((tag) => (
@@ -92,7 +93,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                     {selectedTags.length > 0 && (
                         <>
                             <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>
-                                {GetTitle(`${displayedPages.length} of ${filteredAnalysisPages.length} tools`)}
+                                <T>{`${displayedPages.length} of ${filteredAnalysisPages.length} tools`}</T>
                             </Typography>
                             <WarningChip 
                                 message={`Clear (${selectedTags.length})`}
@@ -159,7 +160,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
 
                                         {isOutdated(tool) && (
                                             <GlassTooltip 
-                                                title={GetTitle(tool.extra || "This tool is no longer maintained or supported")}
+                                                title={T(tool.extra || "This tool is no longer maintained or supported")}
                                                 placement="top"
                                             >
                                                 <Box sx={{ 
@@ -182,7 +183,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                                                     zIndex: 2,
                                                     cursor: 'help'
                                                 }}>
-                                                    {GetTitle("Outdated")}
+                                                    <T>Outdated</T>
                                                 </Box>
                                             </GlassTooltip>
                                         )}
@@ -223,7 +224,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                                                 lineHeight: 1.3
                                             }}
                                         >
-                                            {GetTitle(tool.label)}
+                                            <T>{tool.label}</T>
                                         </Typography>
                                         
                                         <Typography 
@@ -239,7 +240,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                                                 flexGrow: 1
                                             }}
                                         >
-                                            {GetTitle(tool.description)}
+                                            <T>{tool.description}</T>
                                         </Typography>
                                         
                                         <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap', mt: 'auto' }}>
@@ -264,10 +265,10 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
             {displayedPages.length === 0 && (
                 <Box sx={{ textAlign: 'center', py: 8 }}>
                     <Typography variant="h6" color="text.secondary">
-                        {GetTitle("No tools match the selected filters")}
+                        <T>No tools match the selected filters</T>
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                        {GetTitle("Try selecting different tags or clear all filters")}
+                        <T>Try selecting different tags or clear all filters</T>
                     </Typography>
                 </Box>
             )}

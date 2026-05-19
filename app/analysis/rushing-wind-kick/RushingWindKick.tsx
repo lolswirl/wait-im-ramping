@@ -19,7 +19,7 @@ import {
   calculateSpellHealing,
 } from "@data/specs/monk/mistweaver/helpers";
 
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -83,7 +83,7 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
       return directHealing + damageHealing;
     });
     
-    yAxisLabel = GetTitle("Total Healing");
+    yAxisLabel = T("Total Healing");
   } else if (calcMode === "healingPerTarget") {
     rskValues = targetValues.map(targets => {
       const effectiveTargets = Math.min(targets, 5);
@@ -100,7 +100,7 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
       return totalHealing / targets;
     });
     
-    yAxisLabel = GetTitle("Healing Per Target");
+    yAxisLabel = T("Healing Per Target");
   } else if (calcMode === "damage") {
     rskValues = targetValues.map(targets => rskBaseDamage);
     
@@ -110,21 +110,21 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
       return rwkBaseDamage * damageBonus;
     });
     
-    yAxisLabel = GetTitle("Raw Damage");
+    yAxisLabel = T("Raw Damage");
   }
 
   const chartData = {
     labels: targetValues.map(value => `${value}`),
     datasets: [
       {
-        label: GetTitle(rsk.name),
+        label: T(rsk.name),
         data: rskValues,
         borderColor: "rgb(249, 85, 3)",
         backgroundColor: "rgba(255, 159, 64, 0.2)",
         fill: false,
       },
       {
-        label: GetTitle(rwk.name),
+        label: T(rwk.name),
         data: rwkValues,
         borderColor: "rgb(185, 234, 246)",
         backgroundColor: "rgba(103, 178, 227, 0.2)",
@@ -145,7 +145,7 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
       x: {
         title: {
           display: true,
-          text: GetTitle("Target Count"),
+          text: T("Target Count"),
         },
         grid: {
           color: theme.custom.chart.gridColor,
@@ -202,7 +202,7 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
               borderColor: 'rgba(54, 162, 235, 0.3)' 
             }}>
               <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', color: 'rgb(54, 162, 235)', mb: 2 }}>
-                {GetTitle("Mode")}
+                <T>Mode</T>
               </Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 {modeOptions.map(opt => (
@@ -211,7 +211,7 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
                     value={opt.value}
                     currentValue={calcMode}
                     onChange={handleModeChange}
-                    title={GetTitle(opt.label)}
+                    title={T(opt.label)}
                   />
                 ))}
               </Box>

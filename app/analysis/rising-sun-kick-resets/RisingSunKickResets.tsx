@@ -29,7 +29,8 @@ import TALENTS from "@data/specs/monk/mistweaver/talents";
 import type spell from "@data/spells/spell";
 
 import { useRotationManager } from "@hooks/useRotationManager";
-import { GetTitle, pluralize, hexToRgb } from "@util/stringManipulation";
+import { T } from "@util/T";
+import { pluralize, hexToRgb } from "@util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -54,7 +55,7 @@ const ProgressBar: React.FC<{
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <Box sx={{ flex: 1 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                <Typography variant="caption">{GetTitle(label)}</Typography>
+                <Typography variant="caption"><T>{label}</T></Typography>
                 <Typography variant="caption" fontWeight="bold">{value}</Typography>
             </Box>
             <Box sx={{ 
@@ -93,22 +94,26 @@ const SpellInfoDisplay: React.FC<{
     }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 'medium', minWidth: 100 }}>
-                {GetTitle("Tiger Palm:")}
+                <T>Tiger Palm:</T>
             </Typography>
             <Typography variant="body2" color="primary.main" sx={{ fontWeight: 'bold' }}>
-                {wayOfTheCrane ? '2' : '1'} {GetTitle(pluralize(wayOfTheCrane, 'hit'))}
+                <T>
+                    {wayOfTheCrane ? '2' : '1'} {pluralize(wayOfTheCrane, 'hit')}
+                </T>
             </Typography>
         </Box>
         
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 'medium', minWidth: 100 }}>
-                {GetTitle("Blackout Kick:")}
+                <T>Blackout Kick:</T>
             </Typography>
             <Typography variant="body2" color="secondary.main" sx={{ fontWeight: 'bold' }}>
-                {wayOfTheCrane ? Math.min(3, targets) : 1} {GetTitle(pluralize(wayOfTheCrane ? Math.min(3, targets) : 1, 'hit'))}
+                <T>
+                    {wayOfTheCrane ? Math.min(3, targets) : 1} {pluralize(wayOfTheCrane ? Math.min(3, targets) : 1, 'hit')}
+                </T>
             </Typography>
             <Typography variant="caption" color="text.secondary">
-                ({targets} {GetTitle(pluralize(targets, "target"))})
+                (<T>{targets} {pluralize(targets, "target")}</T>)
             </Typography>
         </Box>
         
@@ -116,16 +121,18 @@ const SpellInfoDisplay: React.FC<{
         
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 'medium', minWidth: 100 }}>
-                {GetTitle("Reset Chance:")}
+                <T>Reset Chance:</T>
             </Typography>
             <Typography variant="body2" color="warning.main" sx={{ fontWeight: 'bold' }}>
-                {(totmResetChance * 100)}% {GetTitle("per blackout kick")}
+                <T>
+                    {(totmResetChance * 100)}% per Blackout Kick
+                </T>
             </Typography>
         </Box>
         
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 'medium', minWidth: 100 }}>
-                {GetTitle("Formula:")}
+                <T>Formula:</T>
             </Typography>
             <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: '0.9em' }}>
                 1 - (reset %)<sup>boks</sup>
@@ -154,7 +161,7 @@ const createChartData = (rotations: any[], calculateRotationStats: Function) => 
     labels: rotations.map(r => r.name),
     datasets: [
         {
-            label: GetTitle("Reset Chance (%)"),
+            label: T("Reset Chance (%)"),
             data: rotations.map(r => calculateRotationStats(r.steps).rotationResetChance),
             borderColor: "rgba(255, 99, 132, 0.6)",
             backgroundColor: "rgba(255, 99, 132, 0.2)",
@@ -162,7 +169,7 @@ const createChartData = (rotations: any[], calculateRotationStats: Function) => 
             yAxisID: 'y',
         },
         {
-            label: GetTitle("Resets per GCD"),
+            label: T("Resets per GCD"),
             data: rotations.map(r => calculateRotationStats(r.steps).resetsPerGCD),
             borderColor: "rgba(54, 162, 235, 0.6)",
             backgroundColor: "rgba(54, 162, 235, 0.2)",
@@ -200,7 +207,7 @@ const createChartOptions = (theme: any, rotations: any[], calculateRotationStats
         x: {
             title: {
                 display: true,
-                text: GetTitle("Rotations"),
+                text: T("Rotations"),
             },
             grid: {
                 color: theme.custom.chart.gridColor,
@@ -212,7 +219,7 @@ const createChartOptions = (theme: any, rotations: any[], calculateRotationStats
             position: 'left' as const,
             title: {
                 display: true,
-                text: GetTitle("Reset Chance (%)"),
+                text: T("Reset Chance (%)"),
             },
             beginAtZero: true,
             max: 100,
@@ -226,7 +233,7 @@ const createChartOptions = (theme: any, rotations: any[], calculateRotationStats
             position: 'right' as const,
             title: {
                 display: true,
-                text: GetTitle("Resets per GCD"),
+                text: T("Resets per GCD"),
             },
             beginAtZero: true,
             grid: {
@@ -251,14 +258,14 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
     const rgb = hexToRgb("4ea55c");
     
     const generateRotationName = (steps: spell[]) => {
-        if (steps.length === 0) return GetTitle("Empty Rotation");
+        if (steps.length === 0) return T("Empty Rotation");
         return steps.map(step => {
             if (step.id === MISTWEAVER_SPELLS.TIGER_PALM.id) {
-                return GetTitle('TP');
+                return T('TP');
             } else if (step.id === MISTWEAVER_SPELLS.BLACKOUT_KICK.id) {
-                return GetTitle('BOK');
+                return T('BOK');
             }
-            return GetTitle(step.name);
+            return T(step.name);
         }).join(' → ');
     };
 
@@ -360,7 +367,7 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
                         alignItems: 'stretch'
                     }}>
                         <TextField
-                            label={GetTitle("Reset Attempts")}
+                            label={T("Reset Attempts")}
                             type="number"
                             value={attempts}
                             onChange={(e) => setAttempts(Math.max(MIN_INPUT_VALUE, parseInt(e.target.value) || MIN_INPUT_VALUE))}
@@ -368,7 +375,7 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
                             fullWidth
                         />
                         <TextField
-                            label={GetTitle("# of Targets")}
+                            label={T("# of Targets")}
                             type="number"
                             value={targets}
                             onChange={(e) => setTargets(Math.max(MIN_INPUT_VALUE, parseInt(e.target.value) || MIN_INPUT_VALUE))}
@@ -454,7 +461,7 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
                                             color="primary.main"
                                             rightContent={
                                                 <Typography variant="body2" sx={{ minWidth: 80, textAlign: 'right' }}>
-                                                    {stats.totalHits} {GetTitle(pluralize(stats.totalHits, "BoK"))}
+                                                    <T>{stats.totalHits} {pluralize(stats.totalHits, "BoK")}</T>
                                                 </Typography>
                                             }
                                         />
@@ -466,7 +473,9 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
                                             color="secondary.main"
                                             rightContent={
                                                 <Typography variant="body2" sx={{ minWidth: 80, textAlign: 'right' }}>
-                                                    {stats.totalGCDs} {GetTitle(pluralize(stats.totalGCDs, "GCD"))}
+                                                    <T>
+                                                        {stats.totalGCDs} {pluralize(stats.totalGCDs, "GCD")}
+                                                    </T>
                                                 </Typography>
                                             }
                                         />

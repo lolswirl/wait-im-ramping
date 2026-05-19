@@ -13,7 +13,8 @@ import { CLASSES, specialization, getSpecializationByKey } from "@data/class";
 import { Bug, STATUS } from "@data/bugs";
 
 import { useBugFilters } from "@hooks/useBugFilters";
-import { GetTitle, pluralize } from "@util/stringManipulation";
+import T from "@util/T";
+import { pluralize } from "@util/stringManipulation";
 import { exportBugsToExcel } from "@util/exportBugsToExcel";
 
 const BugsPage: React.FC<{ title: string; description: string }> = ({ title, description }) => {
@@ -148,7 +149,7 @@ const BugsPage: React.FC<{ title: string; description: string }> = ({ title, des
                         color="text.secondary"
                         sx={{ textAlign: "center", mt: 2 }}
                     >
-                        {GetTitle("No bugs found for the selected filters.")}
+                        <T>No bugs found for the selected filters.</T>
                     </Typography>
                 )}
             </Box>

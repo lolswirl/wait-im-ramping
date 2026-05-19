@@ -6,7 +6,7 @@ import { TextField, Box, Container, Typography, useTheme } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -56,21 +56,21 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
     labels: damageValues.map((value) => formatNumber(value)),
     datasets: [
       {
-        label: GetTitle(`${formatNumber(absorbValue)} Absorb`),
+        label: T(`${formatNumber(absorbValue)} Absorb`),
         data: absorbDamageIntake,
         borderColor: "rgba(255, 99, 132, 0.6)",
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         fill: true,
       },
       {
-        label: GetTitle(`${damageReduction}% damage reduction`),
+        label: T(`${damageReduction}% damage reduction`),
         data: reductionDamageIntake,
         borderColor: "rgba(53, 162, 235, 0.6)",
         backgroundColor: "rgba(53, 162, 235, 0.2)",
         fill: true,
       },
       {
-        label: GetTitle("No mitigation"),
+        label: T("No mitigation"),
         data: damageValues,
         borderColor: "rgba(75, 192, 192, 0.6)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
@@ -94,13 +94,13 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
             responsive: true,
             scales: {
               x: {
-                title: { display: true, text: GetTitle("Incoming Damage") },
+                title: { display: true, text: T("Incoming Damage") },
                 grid: {
                   color: theme.custom.chart.gridColor,
                 },
               },
               y: {
-                title: { display: true, text: GetTitle("Damage Taken") },
+                title: { display: true, text: T("Damage Taken") },
                 max: maxXAxis,
                 grid: {
                   color: theme.custom.chart.gridColor,
@@ -113,7 +113,7 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
 
       <Box sx={{ display: "flex", gap: 2, width: "75%", justifyContent: "center" }}>
         <TextField
-          label={GetTitle("Absorb Value")}
+          label={T("Absorb Value")}
           variant="outlined"
           value={absorbValue}
           onChange={(e) => setAbsorbValue(parseFloat(e.target.value) || 0)}
@@ -121,7 +121,7 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
           fullWidth
         />
         <TextField
-          label={GetTitle("Damage Reduction (%)")}
+          label={T("Damage Reduction (%)")}
           variant="outlined"
           value={damageReduction}
           onChange={(e) => setDamageReduction(parseFloat(e.target.value) || 0)}
@@ -129,7 +129,7 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
           fullWidth
         />
         <TextField
-          label={GetTitle("Max Axis")}
+          label={T("Max Axis")}
           variant="outlined"
           value={maxXAxis}
           onChange={(e) => setMaxXAxis(parseFloat(e.target.value) || 10)}
@@ -140,9 +140,9 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
 
       {intersectionPoint.x !== null && intersectionPoint.y !== null && (
         <Typography variant="body1">
-          {GetTitle(
-            `Damage Reduction becomes better than Absorb at ${formatNumber(intersectionPoint.x)} damage (${formatNumber(intersectionPoint.y)} damage intake).`
-          )}
+          <T>
+            Damage Reduction becomes better than Absorb at ${formatNumber(intersectionPoint.x)} damage (${formatNumber(intersectionPoint.y)} damage intake).
+          </T>
         </Typography>
       )}
     </Container>

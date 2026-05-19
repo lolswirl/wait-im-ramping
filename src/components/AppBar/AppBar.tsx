@@ -18,7 +18,7 @@ import {
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { useBranchName, useIsNonProd } from "@lib/betaModeClient";
 import { useThemeContext } from "@context/ThemeContext";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 import { useSpec } from "@context/SpecContext";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 import SwirlButton from "@components/Buttons/SwirlButton";
@@ -104,7 +104,7 @@ function ResponsiveAppBar() {
                         }}
                     >
                         <img src="/apple-icon.png" alt="Logo" style={{ width: 16, height: 16, transform: 'translateY(2px)' }} />
-                        <span>{GetTitle("Wait, I'm Ramping!")}</span>
+                        <span><T>Wait, I'm Ramping!</T></span>
                     </Typography>
                 </Box>
                 <ColoredIconButton 
@@ -171,7 +171,7 @@ function ResponsiveAppBar() {
                                 }}
                             >
                                 <ListItemText 
-                                    primary={GetTitle(label)}
+                                    primary={T(label)}
                                     primaryTypographyProps={{
                                         fontWeight: isActive ? 600 : 400
                                     }}
@@ -199,7 +199,7 @@ function ResponsiveAppBar() {
                         letterSpacing: "0.5px"
                     }}
                 >
-                    {GetTitle("Settings")}
+                    <T>Settings</T>
                 </Typography>
                 <Box 
                     sx={{ 
@@ -281,7 +281,7 @@ function ResponsiveAppBar() {
                                 WebkitTextFillColor: "transparent",
                                 backgroundClip: "text",
                             } : { color: "white" }}>
-                                {GetTitle("Wait, I'm Ramping!")}
+                                <T>Wait, I'm Ramping!</T>
                             </span>
                             {displayBranch && (
                                 <Typography
@@ -309,12 +309,12 @@ function ResponsiveAppBar() {
                                 
                                 return (
                                     <SwirlButton
-                                        key={GetTitle(label)}
+                                        key={T(label)}
                                         href={path}
                                         selected={isActive}
                                         color={buttonColor}
                                     >
-                                        {GetTitle(label)}
+                                        <T>{label}</T>
                                     </SwirlButton>
                                 );
                             })}

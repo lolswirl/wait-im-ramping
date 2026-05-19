@@ -3,7 +3,7 @@ import { Card, Box, Typography, IconButton, Collapse, LinearProgress, Chip } fro
 import { ExpandMore, ExpandLess, DeleteTwoTone } from '@mui/icons-material';
 import { RotationResult } from '../../../app/analysis/chi-ji/types';
 import SpellButton from "@components/SpellButtons/SpellButton";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SPELLS from "@data/spells";
 
@@ -66,13 +66,13 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                   variant="h5"
                   sx={{ fontWeight: 'bold', color: theme.palette.primary.main, textAlign: 'center' }}
                 >
-                  {Math.round(rotation.hps).toLocaleString()} {GetTitle("HPS")}
+                  {Math.round(rotation.hps).toLocaleString()} <T>HPS</T>
                 </Typography>
                 
                 <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 1 }}>
                     <Box sx={{ textAlign: 'center', p: 1, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: 1 }}>
                         <Typography variant="caption" color="text.secondary">
-                            {GetTitle("Duration")}
+                            <T>Duration</T>
                         </Typography>
                         <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
                             {rotation.duration.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}s
@@ -81,7 +81,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                     
                     <Box sx={{ textAlign: 'center', p: 1, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: 1 }}>
                         <Typography variant="caption" color="text.secondary">
-                            {GetTitle("Total Healing")}
+                            <T>Total Healing</T>
                         </Typography>
                         <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
                             {Math.round(rotation.totalHealing).toLocaleString()}
@@ -90,7 +90,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                     
                     <Box sx={{ textAlign: 'center', p: 1, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: 1 }}>
                         <Typography variant="caption" color="text.secondary">
-                            {GetTitle("Spells Cast")}
+                            <T>Spells Cast</T>
                         </Typography>
                         <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
                             {rotation.spells.length.toLocaleString()}
@@ -111,7 +111,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                     }}
                 >
                     <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                        {GetTitle("Breakdown")}
+                        <T>Breakdown</T>
                     </Typography>
                     {expanded ? <ExpandLess /> : <ExpandMore />}
                 </IconButton>
@@ -130,7 +130,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                             }
                                         />
                                         <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                                            {GetTitle(item.spellName)}
+                                            <T>{item.spellName}</T>
                                         </Typography>
                                     </Box>
                                     <Chip 
@@ -187,7 +187,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                                             fontWeight: 'bold',
                                                         }}
                                                     >
-                                                        {GetTitle(source.title)}
+                                                        <T>{source.title}</T>
                                                     </Typography>
                                                     <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
                                                         {Math.round(source.value).toLocaleString()}

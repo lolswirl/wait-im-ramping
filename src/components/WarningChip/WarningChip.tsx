@@ -1,6 +1,6 @@
 import React from 'react';
 import { Chip, SxProps, Theme } from '@mui/material';
-import { GetTitle } from '@util/stringManipulation';
+import { T } from '@util/T';
 
 interface WarningChipProps {
     message: string;
@@ -74,7 +74,7 @@ const WarningChip: React.FC<WarningChipProps> = ({
     
     return (
         <Chip 
-            label={GetTitle(displayMessage)}
+            label={T(displayMessage)}
             icon={iconPosition === 'left' ? iconElement : undefined}
             deleteIcon={iconPosition === 'right' ? iconElement : undefined}
             onDelete={iconPosition === 'right' && iconElement ? () => {} : undefined}

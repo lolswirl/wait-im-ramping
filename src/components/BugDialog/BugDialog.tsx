@@ -12,10 +12,10 @@ import {
     Link,
 } from "@mui/material";
 import SpellLink from "@components/SpellLink/SpellLink";
-import { GetTitle, formatLogUrl } from "@util/stringManipulation";
+import { T } from "@util/T";
+import { formatLogUrl } from "@util/stringManipulation";
 import { Bug, SEVERITY_COLORS } from "@data/bugs";
 import SwirlButton from "@components/Buttons/SwirlButton";
-import { applyGetTitle } from "@util/applyGetTitle";
 import { BugChips } from "@components/BugChips/BugChips";
 
 interface BugDialogProps {
@@ -89,7 +89,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                             letterSpacing: "-0.01em"
                         }}
                     >
-                        {applyGetTitle(bug.title)}
+                        <T>{bug.title}</T>
                     </Typography>
                     <BugChips bug={bug} />
                 </Stack>
@@ -136,7 +136,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 textTransform: "none",
                                             }}
                                         >
-                                            {GetTitle("Description")}
+                                            <T>Description</T>
                                         </Typography>
                                         <Typography
                                             component="div"
@@ -150,7 +150,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 flex: 1
                                             }}
                                         >
-                                            {applyGetTitle(bug.description)}
+                                            <T>{bug.description}</T>
                                         </Typography>
                                     </CardContent>
                                 </Card>
@@ -186,7 +186,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 flexShrink: 0,
                                             }}
                                         >
-                                            {GetTitle("Notes")}
+                                            <T>Notes</T>
                                         </Typography>
                                         <Typography
                                             component="div"
@@ -201,7 +201,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 overflowWrap: "break-word"
                                             }}
                                         >
-                                            {GetTitle(bug.notes)}
+                                            <T>{bug.notes}</T>
                                         </Typography>
                                     </CardContent>
                                 </Card>
@@ -236,7 +236,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 textTransform: "none",
                                             }}
                                         >
-                                            {GetTitle("Logs")}
+                                            <T>Logs</T>
                                         </Typography>
                                         <Stack spacing={1}>
                                             {bug.logs.map((log, index) => (
@@ -267,7 +267,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                             letterSpacing: 0.5,
                                                         }}
                                                     >
-                                                        {GetTitle(log.label)}
+                                                        <T>{log.label}</T>
                                                     </Typography>
                                                     <Link
                                                         href={log.url}
@@ -307,7 +307,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                 }}
             >
                 <SwirlButton onClick={onClose}>
-                    {GetTitle("Close")}
+                    <T>Close</T>
                 </SwirlButton>
             </DialogActions>
         </Dialog>

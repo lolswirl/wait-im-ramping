@@ -16,7 +16,7 @@ import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
 import { CHIJI_ABILITIES } from "@data/specs/monk/mistweaver/spells";
 import { useRotationManager } from "@hooks/useRotationManager";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 import { calculateRotationHPS } from './simulation';
 import { RotationResult, SimulationOptions } from './types';
 
@@ -164,7 +164,7 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
                                     disabled={isSimulating || rotationHPS.length === 0}
                                     startIcon={<Refresh />}
                                 >
-                                    {GetTitle(isSimulating ? 'Simulating...' : 'Re-simulate')}
+                                    <T>{isSimulating ? 'Simulating...' : 'Re-simulate'}</T>
                                 </SwirlButton>
                             </CurrentRotationControl>
                         </Box>

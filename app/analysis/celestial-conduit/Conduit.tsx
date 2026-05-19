@@ -18,7 +18,8 @@ import spell, { calcSpellpower } from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
-import { GetTitle, pluralize } from "@util/stringManipulation";
+import { T } from "@util/T";
+import { pluralize } from "@util/stringManipulation";
 
 import calculateUnityWithin from "./UnityWithin";
 
@@ -155,7 +156,7 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
 
     const allAbilities = [
         ...conduitValues.map((value, index) => ({
-            label: GetTitle(`CC ${value} ` + pluralize(value, "Target")),
+            label: T(`CC ${value} ` + pluralize(value, "Target")),
             conduitValue: conduitSpellpowers[index],
             unityValue: unityWithinSpellpowers[index],
             totalValue:
@@ -164,14 +165,14 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
         })),
         ...(selectedTalents.get(SPELLS.SHEILUNS_GIFT)
             ? xValues.map((value, index) => ({
-                  label: GetTitle(`SG ${value} ` + pluralize(value, "Stack")),
+                  label: T(`SG ${value} ` + pluralize(value, "Stack")),
                   totalValue: sheilunSpellpowers[index],
                   type: "sheilun" as const,
               }))
             : []),
         ...(selectedTalents.get(TALENTS.JADE_EMPOWERMENT)
             ? jeValues.map((_, index) => ({
-                  label: GetTitle(
+                  label: T(
                       `JE ${index + 1} ` + pluralize(index + 1, "Target")
                   ),
                   totalValue: jeSpellpowers[index],
@@ -188,7 +189,7 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
         labels: sortedAbilities.map((ability) => ability.label),
         datasets: [
             {
-                label: GetTitle(" Spellpower"),
+                label: T(" Spellpower"),
                 data: sortedAbilities.map((ability) =>
                     ability.type === "conduit"
                         ? ability.conduitValue
@@ -209,7 +210,7 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
             ...(selectedTalents.get(TALENTS.UNITY_WITHIN)
                 ? [
                       {
-                          label: GetTitle(" Unity Within"),
+                          label: T(" Unity Within"),
                           data: sortedAbilities.map((ability) =>
                               ability.type === "conduit"
                                   ? ability.unityValue
@@ -240,7 +241,7 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
                             ability.type === "conduit" &&
                             ability.unityValue > 0
                         ) {
-                            return GetTitle(
+                            return T(
                                 `Total: ${ability.totalValue.toFixed(1)}%`
                             );
                         }
@@ -253,7 +254,7 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
 
                         if (
                             context.dataset.label.includes(
-                                GetTitle("Unity Within")
+                                T("Unity Within")
                             ) &&
                             ability.type !== "conduit"
                         ) {
@@ -275,7 +276,7 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
             x: {
                 title: {
                     display: true,
-                    text: GetTitle("Abilities"),
+                    text: T("Abilities"),
                 },
                 grid: {
                     color: theme.custom.chart.gridColor,
@@ -285,7 +286,7 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
             y: {
                 title: {
                     display: true,
-                    text: GetTitle("Spellpower"),
+                    text: T("Spellpower"),
                 },
                 beginAtZero: true,
                 grid: {

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 
 import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 
 interface IconButtonBaseProps {
     icon: string;
@@ -65,7 +65,7 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
     const imageContent = src && (
         <img
             src={src}
-            alt={GetTitle(name)}
+            alt={T(name)}
             width={size}
             height={size}
             style={{

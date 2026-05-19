@@ -17,7 +17,8 @@ import spell from '@data/spells/spell';
 import { CLASSES, specialization } from '@data/class';
 
 import { useRotationManager } from '@hooks/useRotationManager';
-import { GetTitle, hexToRgb } from '@util/stringManipulation';
+import { T } from '@util/T';
+import { hexToRgb } from '@util/stringManipulation';
 import WarningChip from '@components/WarningChip/WarningChip';
 
 const Timeline: React.FC<{ title: string; description: string }> = ({ title, description }) => {
@@ -102,7 +103,7 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
                     <Typography 
                         variant="body1"
                     >
-                        {GetTitle("Prebuilt Rotations")}
+                        <T>Prebuilt Rotations</T>
                     </Typography>
                     <ExpandMore
                         sx={{
@@ -194,9 +195,9 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
             {/* warn for horizontal mode on mobile */}
             <Box sx={{ display: { xs: "block", md: "none" }, mb: 2, px: 2, textAlign: "center" }}>
                 <Typography variant="body2" color="textSecondary">
-                    {GetTitle("For the best experience, rotate your device to")}{" "}
-                    <b>{GetTitle("horizontal (landscape)")}</b>{" "}
-                    {GetTitle("mode.")}
+                    <T>For the best experience, rotate your device to</T>{" "}
+                    <b><T>horizontal (landscape)</T></b>{" "}
+                    <T>mode.</T>
                 </Typography>
             </Box>
 
@@ -222,11 +223,11 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
                             }}
                         >
                             <InputLabel shrink htmlFor="options-outlined">
-                                {GetTitle("Options")}
+                                <T>Options</T>
                             </InputLabel>
                             <OutlinedInput
                                 id="options-outlined"
-                                label={GetTitle("Options")}
+                                label={T("Options")}
                                 notched
                                 readOnly
                                 inputComponent="span"
@@ -249,7 +250,7 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
                                                     size="small"
                                                 />
                                             }
-                                            label={GetTitle("Condensed")}
+                                            label={T("Condensed")}
                                             sx={{ ml: 1 }}
                                         />
                                     ),

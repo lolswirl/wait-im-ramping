@@ -9,7 +9,7 @@ import SpellTable from '@components/SpellTable/SpellTable';
 import { CLASSES, specialization } from '@data/class';
 import spell from '@data/spells/spell';
 
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 import { useSpec } from '@context/SpecContext';
 import WarningChip from '@components/WarningChip/WarningChip';
 
@@ -88,7 +88,7 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
                     <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
                         <TextField
-                            label={GetTitle("Haste")}
+                            label={T("Haste")}
                             type="number"
                             value={haste}
                             onChange={(e) => {

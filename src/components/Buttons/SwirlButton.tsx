@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, useTheme } from "@mui/material";
-import { GetTitle } from "../../util/stringManipulation";
+import { T } from "@util/T";
 import { useIsNonProd } from "@lib/betaModeClient";
 import { RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
 
@@ -88,7 +88,7 @@ const SwirlButton: React.FC<SwirlButtonProps> = ({
             }}
             type={type}
         >
-            {typeof children === "string" ? GetTitle(children) : children}
+            {typeof children === "string" ? T(children) : children}
         </Button>
     );
 };

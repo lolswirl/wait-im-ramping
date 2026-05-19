@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 
 import RampCalc from "@components/RampCalc/RampCalc";
 import PageHeader from '@components/PageHeader/PageHeader';
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 
 const WhenDoIRamp: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const [totalCastTime, setTotalCastTime] = useState(0);
@@ -31,7 +31,9 @@ const WhenDoIRamp: React.FC<{ title: string; description: string }> = ({ title, 
                         fontSize: '2em',
                     }}
                 >
-                    {GetTitle(`Start ramping ~${Math.ceil(totalCastTime)}s before a mechanic`)}
+                    <T>
+                        Start ramping ~{Math.ceil(totalCastTime)}s before a mechanic
+                    </T>
                 </Typography>
             )}
         </div>

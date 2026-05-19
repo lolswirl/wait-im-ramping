@@ -15,9 +15,8 @@ import LinkIcon from "@mui/icons-material/Link";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SpellButton from "@components/SpellButtons/SpellButton";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 import { Bug, SEVERITY_COLORS, SEVERITY_ORDER, STATUS, STATUS_COLORS } from "@data/bugs";
-import { applyGetTitle } from "@util/applyGetTitle";
 import { extractTextFromReactNode } from "@util/extractTextFromReactNode";
 
 interface BugTableProps {
@@ -141,7 +140,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
             <Table sx={{ minWidth: 600 }}>
                 <TableHead>
                     <TableRow>
-                        <GlassTooltip title={GetTitle("Sort by Severity")}>
+                        <GlassTooltip title={T("Sort by Severity")}>
                             <TableCell
                                 sx={{ 
                                     width: severityWidth, 
@@ -165,7 +164,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                             }}
                             onClick={() => handleSort("spell")}
                         >
-                            {GetTitle("Spell")}
+                            <T>Spell</T>
                             {getSortArrow("spell")}
                         </TableCell>
                         <TableCell
@@ -177,7 +176,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                             }}
                             onClick={() => handleSort("title")}
                         >
-                            {GetTitle("Title")}
+                            <T>Title</T>
                             {getSortArrow("title")}
                         </TableCell>
                         <TableCell
@@ -190,10 +189,10 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                             }}
                             onClick={() => handleSort("lastBuildTested")}
                         >
-                            {GetTitle("Build")}
+                            <T>Build</T>
                             {getSortArrow("lastBuildTested")}
                         </TableCell>
-                        <GlassTooltip title={GetTitle("Logs available")}>
+                        <GlassTooltip title={T("Logs available")}>
                             <TableCell
                                 sx={{
                                     ...headerSx,
@@ -204,7 +203,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                 }}
                                 onClick={() => handleSort("logs")}
                             >
-                                {GetTitle("Logs")}
+                                <T>Logs</T>
                                 {getSortArrow("logs")}
                             </TableCell>
                         </GlassTooltip>
@@ -273,7 +272,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                                 minWidth: 0,
                                             }}
                                         >
-                                            {GetTitle(bug.spell.name)}
+                                            <T>{bug.spell.name}</T>
                                         </Typography>
                                     </Box>
                                 )}
@@ -295,7 +294,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                         color: STATUS_COLORS[bug.status ?? STATUS.OPEN],
                                     }}
                                 >
-                                    {applyGetTitle(bug.title)}
+                                    <T>{bug.title}</T>
                                 </Typography>
                             </TableCell>
                             <TableCell

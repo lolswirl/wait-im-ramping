@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Box, Typography } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { useThemeContext } from "@context/ThemeContext";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 import { GlassTooltip } from "@components/Glass";
 import { ColoredIconButton } from "@components/Buttons/ColoredIconButton";
 
@@ -106,7 +106,7 @@ const FooterBar = () => {
                     {socialLinks.map(({ label, href, icon, color }) => (
                         <GlassTooltip 
                             key={label} 
-                            title={GetTitle(label)}
+                            title={T(label)}
                             placement="top"
                         >
                             <ColoredIconButton
@@ -139,7 +139,9 @@ const FooterBar = () => {
                             fontSize: "0.7rem",
                         }}
                     >
-                        {GetTitle(`© ${currentYear} Wait, I'm Ramping! All rights reserved.`)}
+                        <T>
+                            © {currentYear} Wait, I'm Ramping! All rights reserved.
+                        </T>
                     </Typography>
                     <Typography 
                         variant="caption" 
@@ -150,7 +152,7 @@ const FooterBar = () => {
                             maxWidth: 600,
                         }}
                     >
-                        {GetTitle("World of Warcraft and related assets are trademarks and/or registered trademarks of Blizzard Entertainment, Inc.")}
+                        <T>World of Warcraft and related assets are trademarks and/or registered trademarks of Blizzard Entertainment, Inc.</T>
                     </Typography>
                 </Box>
             </Toolbar>

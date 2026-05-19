@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import type spell from "@data/spells/spell";
 import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 
 interface SpellLinkProps {
     spell: spell;
@@ -75,7 +75,7 @@ const SpellLink: React.FC<SpellLinkProps> = ({
                 {src && (
                     <img
                         src={src}
-                        alt={GetTitle(spell.name)}
+                        alt={T(spell.name)}
                         width={size}
                         height={size}
                         style={{
@@ -97,7 +97,7 @@ const SpellLink: React.FC<SpellLinkProps> = ({
                     ...textSx,
                 }}
             >
-                {GetTitle(spell.name)}
+                <T>{spell.name}</T>
             </Box>
         </Box>
     );

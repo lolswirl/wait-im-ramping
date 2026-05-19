@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Card, Grid, TextField } from '@mui/material';
 import { GlassTooltip } from '@components/Glass';
-import { GetTitle } from '@util/stringManipulation';
+import { T } from '@util/T';
 
 interface StatsCardProps {
     options: {
@@ -70,9 +70,9 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
                 {statFields.map((field) => (
                     <Grid size={{ xs: 6 }} key={field.key}>
                         {field.tooltip ? (
-                            <GlassTooltip title={GetTitle(field.tooltip)}>
+                            <GlassTooltip title={T(field.tooltip)}>
                                 <TextField
-                                    label={GetTitle(field.label)}
+                                    label={T(field.label)}
                                     type="text"
                                     size="small"
                                     fullWidth
@@ -108,7 +108,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
                             </GlassTooltip>
                         ) : (
                             <TextField
-                                label={GetTitle(field.label)}
+                                label={T(field.label)}
                                 type="text"
                                 size="small"
                                 fullWidth

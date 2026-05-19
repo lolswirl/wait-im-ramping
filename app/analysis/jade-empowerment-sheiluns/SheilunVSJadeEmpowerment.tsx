@@ -10,7 +10,7 @@ import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
 
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -47,12 +47,12 @@ const SheilunVSJadeEmpowerment: React.FC<{ title: string; description: string }>
   // Create combined data with all abilities
   const allAbilities = [
     ...xValues.map((value, index) => ({
-      label: GetTitle(`SG ${value} Stack${value > 1 ? 's' : ''}`),
+      label: T(`SG ${value} Stack${value > 1 ? 's' : ''}`),
       value: sheilunSpellpowers[index],
       type: 'sheilun'
     })),
     ...jeValues.map((_, index) => ({
-      label: GetTitle(`JE ${index + 1} Target${index > 0 ? 's' : ''}`),
+      label: T(`JE ${index + 1} Target${index > 0 ? 's' : ''}`),
       value: jeSpellpowers[index],
       type: 'jade'
     }))
@@ -65,7 +65,7 @@ const SheilunVSJadeEmpowerment: React.FC<{ title: string; description: string }>
     labels: sortedAbilities.map(ability => ability.label),
     datasets: [
       {
-        label: GetTitle(" Spellpower"),
+        label: T(" Spellpower"),
         data: sortedAbilities.map(ability => ability.value),
         backgroundColor: sortedAbilities.map(ability => 
           ability.type === 'sheilun' 
@@ -98,7 +98,7 @@ const SheilunVSJadeEmpowerment: React.FC<{ title: string; description: string }>
       x: {
         title: {
           display: true,
-          text: GetTitle("Abilities"),
+          text: T("Abilities"),
         },
         grid: {
           color: theme.custom.chart.gridColor,
@@ -107,7 +107,7 @@ const SheilunVSJadeEmpowerment: React.FC<{ title: string; description: string }>
       y: {
         title: {
           display: true,
-          text: GetTitle("Spellpower"),
+          text: T("Spellpower"),
         },
         beginAtZero: true,
         grid: {

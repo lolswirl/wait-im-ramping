@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import EmpowerLevelButtons from "./EmpowerLevel";
 import SpellButton from "@components/SpellButtons/SpellButton";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 import type spell from "@data/spells/spell";
 
 interface EmpowerLevelDialogProps {
@@ -83,7 +83,7 @@ const EmpowerLevelDialog: React.FC<EmpowerLevelDialogProps> = ({
                                     color: "white",
                                 }}
                             >
-                                {GetTitle(spell.name)}
+                                <T>{spell.name}</T>
                             </Typography>
                             <Typography
                                 variant="body2"
@@ -91,9 +91,7 @@ const EmpowerLevelDialog: React.FC<EmpowerLevelDialogProps> = ({
                                     color: "rgba(255,255,255,0.7)",
                                 }}
                             >
-                                {GetTitle(
-                                    "Select an empower level to add to this spell"
-                                )}
+                                <T>Select an empower level to add to this spell</T>
                             </Typography>
                         </Box>
                     </Box>

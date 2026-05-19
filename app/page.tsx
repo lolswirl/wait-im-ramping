@@ -14,7 +14,7 @@ import WarningChip from "@components/WarningChip/WarningChip";
 import RainbowCard from "@components/Buttons/RainbowCard";
 import { Timeline, Analytics, TimerTwoTone, BugReport, ChevronRight } from "@mui/icons-material";
 
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 import Changelog from "@components/Changelog/Changelog";
 
 
@@ -74,10 +74,10 @@ const Home = () => {
                   gutterBottom
                   sx={{ fontWeight: 'bold', color: 'text.primary' }}
                 >
-                  {GetTitle("Wait, I'm Ramping!")}
+                  <T>Wait, I'm Ramping!</T>
                 </Typography>
                 <Typography variant="h5" color="text.secondary" sx={{ mb: 2, maxWidth: 800, mx: 'auto' }}>
-                    {GetTitle("Healer theorycrafting and optimization tools for World of Warcraft")}
+                    <T>Healer theorycrafting and optimization tools for World of Warcraft</T>
                 </Typography>
             </Box>
             <Box sx={{ mb: 3, display: 'flex', justifyContent: 'center' }}>
@@ -173,14 +173,14 @@ const Home = () => {
                                             gutterBottom
                                             sx={{ fontWeight: 'bold', textAlign: 'center' }}
                                         >
-                                            {GetTitle(tool.title)}
+                                            <T>{tool.title}</T>
                                         </Typography>
                                         <Typography
                                             variant="body2"
                                             color="text.secondary"
                                             sx={{ textAlign: 'center' }}
                                         >
-                                            {GetTitle(tool.description)}
+                                            <T>{tool.description}</T>
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>
@@ -193,14 +193,14 @@ const Home = () => {
             <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
                 <Card variant="outlined" sx={{ p: 3 }}>
                     <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
-                        {GetTitle("What's New")}
+                        <T>What's New</T>
                     </Typography>
                     <Changelog />
                 </Card>
 
                 <Card variant="outlined" sx={{ p: 3 }}>
                     <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
-                        {GetTitle("About The Site")}
+                        <T>About The Site</T>
                     </Typography>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
                         {siteInfo.map((info, i) => (

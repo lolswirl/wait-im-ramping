@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Grid, TextField } from '@mui/material';
-import { GetTitle } from '@util/stringManipulation';
+import { T } from '@util/T';
 
 interface TargetCountsCardProps {
     options: {
@@ -41,7 +41,7 @@ const TargetCountsCard: React.FC<TargetCountsCardProps> = ({ options, onOptionsC
                 {targets.map((target) => (
                     <Grid size={{ xs: 6 }} key={target.key}>
                         <TextField
-                            label={GetTitle(target.label)}
+                            label={T(target.label)}
                             type="number"
                             size="small"
                             fullWidth

@@ -11,7 +11,7 @@ import { CLASSES } from "@data/class";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -66,31 +66,31 @@ const JadeEmpowermentVsDocJ: React.FC<{ title: string; description: string }> = 
   );
 
   let hasted = false
-  let jeLabel = GetTitle(jadeEmpowerment.name);
-  let docjLabel = GetTitle(docj.name);
+  let jeLabel = T(jadeEmpowerment.name);
+  let docjLabel = T(docj.name);
   const docjPpm = hasted ? (3 + 1.3) : 3
 
   if (calcMode === "mode1") {
       jeSpellpowers = jeSpellpowers.map(sp => sp * 2);
       docjSpellpowers = docjSpellpowers.map(sp => sp * docjPpm);
-      jeLabel += GetTitle(" (2 casts)");
-      docjLabel += GetTitle(" (" + docjPpm + " procs)");
+      jeLabel += T(" (2 casts)");
+      docjLabel += T(" (" + docjPpm + " procs)");
   }
   if (calcMode === "mode2") {
       jeSpellpowers = jeSpellpowers.map(sp => sp);
       docjSpellpowers = docjSpellpowers.map(sp => sp * docjPpm);
-      jeLabel += GetTitle(" (1 cast)");
-      docjLabel += GetTitle(" (" + docjPpm + " procs)");
+      jeLabel += T(" (1 cast)");
+      docjLabel += T(" (" + docjPpm + " procs)");
   } else if (calcMode === "mode3") {
       jeSpellpowers = jeSpellpowers.map(sp => sp * 2);
       docjSpellpowers = docjSpellpowers.map(sp => sp);
-      jeLabel += GetTitle(" (2 casts)");
-      docjLabel += GetTitle(" (1 proc)");
+      jeLabel += T(" (2 casts)");
+      docjLabel += T(" (1 proc)");
   } else if (calcMode === "mode4") {
       jeSpellpowers = jeSpellpowers.map(sp => sp * 4);
       docjSpellpowers = docjSpellpowers.map(sp => sp);
-      jeLabel += GetTitle(" (4 casts)");
-      docjLabel += GetTitle(" (1 proc)");
+      jeLabel += T(" (4 casts)");
+      docjLabel += T(" (1 proc)");
   }
 
   const docjBetterThanJE = docjValues.find(value =>
@@ -129,7 +129,7 @@ const JadeEmpowermentVsDocJ: React.FC<{ title: string; description: string }> = 
       x: {
         title: {
           display: true,
-          text: GetTitle("Target Count"),
+          text: T("Target Count"),
         },
         grid: {
           color: theme.custom.chart.gridColor,
@@ -138,7 +138,7 @@ const JadeEmpowermentVsDocJ: React.FC<{ title: string; description: string }> = 
       y: {
         title: {
           display: true,
-          text: GetTitle("Spellpower"),
+          text: T("Spellpower"),
         },
         beginAtZero: true,
         grid: {
@@ -174,20 +174,22 @@ const JadeEmpowermentVsDocJ: React.FC<{ title: string; description: string }> = 
         }}
       >
         <FormControl>
-          <InputLabel id="calc-mode-label">{GetTitle("Mode")}</InputLabel>
+          <InputLabel id="calc-mode-label"><T>Mode</T></InputLabel>
           <Select
             labelId="calc-mode-label"
             value={calcMode}
-            label={GetTitle("Mode")}
+            label={T("Mode")}
             onChange={handleModeChange}
           >
             {modeOptions.map(opt => (
-              <MenuItem key={opt.value} value={opt.value}>{GetTitle(opt.label)}</MenuItem>
+              <MenuItem key={opt.value} value={opt.value}>
+                <T>{opt.label}</T>
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
         <TextField
-          label={GetTitle("Max Targets")}
+          label={T("Max Targets")}
           type="number"
           value={maxTargets}
           onChange={(e) => setMaxTargets(Math.max(5, parseInt(e.target.value) || 5))}
@@ -196,9 +198,9 @@ const JadeEmpowermentVsDocJ: React.FC<{ title: string; description: string }> = 
       </Box>
 
       <Typography variant="body1">
-        {GetTitle(
-          `Target Count where ${docj.name} is better than ${jadeEmpowerment.name}: ${docjBetterThanJE ?? "N/A"}`
-        )}
+        <T>
+          Target Count where {docj.name} is better than {jadeEmpowerment.name}: {docjBetterThanJE ?? "N/A"}
+        </T>
       </Typography>
     </Container>
   );

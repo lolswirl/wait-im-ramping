@@ -26,7 +26,7 @@ import { specialization } from "@data/class";
 
 import { toRomanNumeral } from "@util/toRomanNumeral";
 import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 
 interface SpellTableProps {
     spellList: spell[];
@@ -169,13 +169,13 @@ const SpellTable: React.FC<SpellTableProps> = ({
                 <TableHead>
                     <TableRow sx={{ color: "white" }}>
                         <TableCell>
-                            <b>{GetTitle("Selected Spells")}</b>
+                            <b><T>Selected Spells</T></b>
                         </TableCell>
                         <TableCell align="center">
-                            <b>{GetTitle("Cast Time (s)")}</b>
+                            <b><T>Cast Time (s)</T></b>
                         </TableCell>
                         <TableCell align="center">
-                            <b>{GetTitle("Actions")}</b>
+                            <b><T>Actions</T></b>
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -205,7 +205,7 @@ const SpellTable: React.FC<SpellTableProps> = ({
                                             gap={1}
                                         >
                                             <SpellIcon spell={spell} />
-                                            <span>{GetTitle(spell.name)}</span>
+                                            <span><T>{spell.name}</T></span>
                                         </Box>
                                     </TableCell>
 
@@ -213,7 +213,7 @@ const SpellTable: React.FC<SpellTableProps> = ({
                                         {isGCDConstrained ? (
                                             <>
                                                 {castTime.toFixed(2)} (
-                                                {GetTitle("GCD")}:{" "}
+                                                <T>GCD</T>:{" "}
                                                 {effectiveTime.toFixed(2)})
                                             </>
                                         ) : (
@@ -287,7 +287,7 @@ const SpellTable: React.FC<SpellTableProps> = ({
                         <TableCell
                             sx={{ fontWeight: "bold", fontSize: "1rem" }}
                         >
-                            <b>{GetTitle("Total Cast Time:")}</b>
+                            <b><T>Total Cast Time:</T></b>
                         </TableCell>
                         <TableCell
                             align="center"
@@ -315,7 +315,7 @@ const SpellTable: React.FC<SpellTableProps> = ({
                                     onClick={clearTable}
                                     startIcon={<DeleteForever />}
                                 >
-                                    {GetTitle("Clear All")}
+                                    <T>Clear All</T>
                                 </SwirlButton>
                             </Box>
                         </TableCell>

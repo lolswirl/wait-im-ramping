@@ -4,7 +4,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import BuildIcon from "@mui/icons-material/Build";
 import CloseIcon from "@mui/icons-material/Close";
 import { useRouter, useSearchParams } from "next/navigation";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 import { specialization } from "@data/class";
 import { SEVERITY_COLORS } from "@data/bugs";
@@ -65,7 +65,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                     size="small"
                     value={search}
                     onChange={(e) => onSearchChange(e.target.value)}
-                    placeholder={GetTitle("Search bugs...")}
+                    placeholder={T("Search bugs...")}
                     fullWidth
                     slotProps={{
                         input: {
@@ -100,12 +100,12 @@ const BugFilters: React.FC<BugFiltersProps> = ({
             </Box>
 
             <FormControl size="small">
-                <InputLabel id="status-select-label">{GetTitle("Status")}</InputLabel>
+                <InputLabel id="status-select-label"><T>Status</T></InputLabel>
                 <Select
                     labelId="status-select-label"
                     id="status-select"
                     value={status}
-                    label={GetTitle("Status")}
+                    label={T("Status")}
                     onChange={(e) => onStatusChange(e.target.value)}
                     sx={{ height: filtersHeight }}
                     MenuProps={{
@@ -139,19 +139,19 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                                 },
                             }}
                         >
-                            {GetTitle(status)}
+                            <T>{status}</T>
                         </MenuItem>
                     ))}
                 </Select>
             </FormControl>
 
             <FormControl size="small" sx={{ minWidth: 75 }}>
-                <InputLabel id="severity-select-label">{GetTitle("Severity")}</InputLabel>
+                <InputLabel id="severity-select-label"><T>Severity</T></InputLabel>
                 <Select
                     labelId="severity-select-label"
                     id="severity-select"
                     value={severity}
-                    label={GetTitle("Severity")}
+                    label={T("Severity")}
                     onChange={(e) => onSeverityChange(e.target.value)}
                     sx={{ height: filtersHeight }}
                     MenuProps={{
@@ -186,7 +186,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                                 },
                             }}
                         >
-                            {GetTitle(severity)}
+                            <T>{severity}</T>
                         </MenuItem>
                     ))}
                 </Select>
@@ -194,7 +194,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
 
             {onExportToExcel && (
                 <Box sx={{ marginLeft: "auto" }}>
-                    <GlassTooltip title={GetTitle("Export to Excel")}>
+                    <GlassTooltip title={T("Export to Excel")}>
                         <IconButton
                             onClick={onExportToExcel}
                             sx={{
@@ -217,7 +217,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
             
             {isLocalhost && onOpenBugUpdate && (
                 <Box>
-                    <GlassTooltip title={GetTitle("Update Bugs")}>
+                    <GlassTooltip title={T("Update Bugs")}>
                         <IconButton
                             onClick={onOpenBugUpdate}
                             sx={{

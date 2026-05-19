@@ -7,7 +7,7 @@ import { GlassMenu } from '@components/Glass';
 import SpecDisplay from "@components/SpecializationSelect/SpecDisplay";
 
 import { specialization, getSpecs, getSpecializationByKey } from '@data/class';
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 
 interface SpecializationSelectProps {
   selectedSpec: specialization;
@@ -102,7 +102,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
 
   return (
     <FormControl sx={{ minWidth: 150 }} size={size}>
-      <InputLabel id="spec-select-label">{GetTitle("Specialization")}</InputLabel>
+      <InputLabel id="spec-select-label"><T>Specialization</T></InputLabel>
       <Select
         labelId="spec-select-label"
         id="spec-select"
@@ -112,7 +112,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
           if (spec) onSpecChange(spec);
         }}
         autoWidth
-        label={GetTitle("Specialization")}
+        label={T("Specialization")}
         sx={{ height: height }}
         MenuProps={{
           slotProps: {

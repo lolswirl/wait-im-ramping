@@ -14,7 +14,8 @@ import SHARED from "@data/specs/monk/talents";
 import { CLASSES } from "@data/class";
 import { calculateSheilunsGiftBreakdown } from "@data/specs/monk/mistweaver/calcs/SheilunsGift";
 
-import { GetTitle, pluralize } from "@util/stringManipulation";
+import { T } from "@util/T";
+import { pluralize } from "@util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -63,18 +64,18 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
 
   const percentageChartData = useMemo(() => ({
     labels: healingData.map(data => 
-      GetTitle(data.cloudCount + " " + pluralize(data.cloudCount, "Cloud"))
+      T(data.cloudCount + " " + pluralize(data.cloudCount, "Cloud"))
     ),
     datasets: [
       {
-        label: GetTitle("Base Healing"),
+        label: T("Base Healing"),
         data: healingData.map(data => data.basePercent),
         backgroundColor: "rgba(255, 99, 132, 0.8)",
         borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 2,
       },
       {
-        label: GetTitle("Cloud Healing"),
+        label: T("Cloud Healing"),
         data: healingData.map(data => data.cloudsPercent),
         backgroundColor: "rgba(54, 162, 235, 0.8)",
         borderColor: "rgba(54, 162, 235, 1)",
@@ -89,7 +90,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
     plugins: {
       title: {
         display: true,
-        text: GetTitle("Healing Distribution Percentage"),
+        text: T("Healing Distribution Percentage"),
         font: {
           size: 20,
         },
@@ -99,7 +100,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
         intersect: false,
         callbacks: {
           label: function(context: any) {
-            return GetTitle(`${context.dataset.label}: ${context.parsed.y.toFixed(1)}%`);
+            return T(`${context.dataset.label}: ${context.parsed.y.toFixed(1)}%`);
           }
         }
       },
@@ -113,7 +114,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
         stacked: true,
         title: {
           display: true,
-          text: GetTitle("Cloud Count"),
+          text: T("Cloud Count"),
         },
         grid: {
           color: theme.custom.chart.gridColor,
@@ -123,7 +124,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
         stacked: true,
         title: {
           display: true,
-          text: GetTitle("% of Total Heal"),
+          text: T("% of Total Heal"),
         },
         beginAtZero: true,
         max: 100,
@@ -141,25 +142,25 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
 
   const absoluteChartData = useMemo(() => ({
     labels: healingData.map(data => 
-      GetTitle(data.cloudCount + " " + pluralize(data.cloudCount, "Cloud"))
+      T(data.cloudCount + " " + pluralize(data.cloudCount, "Cloud"))
     ),
     datasets: [
       {
-        label: GetTitle("Main Target"),
+        label: T("Main Target"),
         data: healingData.map(data => data.mainSpellpower),
         backgroundColor: "rgba(255, 99, 132, 0.8)",
         borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 2,
       },
       {
-        label: GetTitle("Other Targets"),
+        label: T("Other Targets"),
         data: healingData.map(data => data.cloudsSpellpower),
         backgroundColor: "rgba(54, 162, 235, 0.8)",
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 2,
       },
       {
-        label: GetTitle("Total Spellpower"),
+        label: T("Total Spellpower"),
         data: healingData.map(data => data.totalSpellpower),
         backgroundColor: "rgba(75, 192, 192, 0.8)",
         borderColor: "rgba(75, 192, 192, 1)",
@@ -174,7 +175,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
     plugins: {
       title: {
         display: true,
-        text: GetTitle("Total Spellpower"),
+        text: T("Total Spellpower"),
         font: {
           size: 20,
         },
@@ -184,7 +185,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
         intersect: false,
         callbacks: {
           label: function(context: any) {
-            return GetTitle(`${context.dataset.label}: ${context.parsed.y.toFixed(0)}% Spellpower`);
+            return T(`${context.dataset.label}: ${context.parsed.y.toFixed(0)}% Spellpower`);
           },
         }
       },
@@ -197,7 +198,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
       x: {
         title: {
           display: true,
-          text: GetTitle("Cloud Count"),
+          text: T("Cloud Count"),
         },
         grid: {
           color: theme.custom.chart.gridColor,
@@ -206,7 +207,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
       y: {
         title: {
           display: true,
-          text: GetTitle("Spellpower %"),
+          text: T("Spellpower %"),
         },
         beginAtZero: true,
         grid: {

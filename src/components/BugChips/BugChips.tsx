@@ -3,7 +3,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 import WarningChip from "@components/WarningChip/WarningChip";
 import { GlassTooltip } from "@components/Glass";
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 import { Bug, STATUS, SEVERITY_COLORS, STATUS_COLORS, getStatusBadge } from "@data/bugs";
 
 interface BugChipsProps {
@@ -16,7 +16,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
         <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
             {bug.status && bug.status !== STATUS.OPEN && (
                 <WarningChip
-                    message={GetTitle(bug.status)}
+                    message={T(bug.status)}
                     showIcon={true}
                     icon={getStatusBadge(bug.status)}
                     borderColor={STATUS_COLORS[bug.status]}
@@ -24,7 +24,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
                 />
             )}
             <WarningChip
-                message={GetTitle(bug.severity + " Severity")}
+                message={T(bug.severity + " Severity")}
                 borderColor={SEVERITY_COLORS[bug.severity]}
                 fontSize="0.75rem"
             />
@@ -37,7 +37,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
                 const tooltipContent = showTooltip && hasMultipleBuilds ? (
                     <Stack spacing={0.25} sx={{ py: 0.25 }}>
                         <Typography variant="caption" sx={{ fontSize: '0.7rem', opacity: 0.7, mb: 0.25 }}>
-                            {GetTitle("Build History:")}
+                            <T>Build History:</T>
                         </Typography>
                         <Stack spacing={0} sx={{ textAlign: "center" }}>
                             {[...builds].reverse().map((build, index) => (
@@ -71,7 +71,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
                 
                 const chip = (
                     <WarningChip
-                        message={GetTitle(chipMessage)}
+                        message={T(chipMessage)}
                         borderColor="#eaeaea"
                         fontSize="0.75rem"
                         showIcon={hasMultipleBuilds}
@@ -91,7 +91,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
             {bug.tags?.map((tag) => (
                 <WarningChip
                     key={tag.name}
-                    message={GetTitle(tag.name)}
+                    message={T(tag.name)}
                     size="small"
                     borderColor={tag.color}
                     fontSize="0.75rem"

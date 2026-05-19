@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
-import { GetTitle } from '../../util/stringManipulation';
+import { T } from '@util/T';
 
 interface PageHeaderProps {
     title: string;
@@ -29,7 +29,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                     fontSize: '2em',
                 }}
             >
-                {GetTitle(title)}
+                <T>{title}</T>
             </Typography>
             
             {subtitle && (
@@ -49,7 +49,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                         }
                     }}
                     {...((typeof subtitle === "string" || Array.isArray(subtitle))
-                        ? { dangerouslySetInnerHTML: { __html: GetTitle(Array.isArray(subtitle) ? subtitle.join("<br>") : subtitle) } }
+                        ? { dangerouslySetInnerHTML: { __html: T(Array.isArray(subtitle) ? subtitle.join("<br>") : subtitle) } }
                         : {})}
                 >
                     {typeof subtitle === "string" || Array.isArray(subtitle) ? null : subtitle}

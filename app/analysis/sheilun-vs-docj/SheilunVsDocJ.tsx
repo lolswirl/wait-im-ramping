@@ -11,7 +11,7 @@ import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
 import { calculateSheilunsGiftBreakdown } from "@data/specs/monk/mistweaver/calcs/SheilunsGift";
 
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -54,12 +54,12 @@ const SheilunVsDocJ: React.FC<{ title: string; description: string }> = ({ title
 
   const allAbilities = [
     ...sheilunData.map((data, index) => ({
-      label: GetTitle(data.cloudCount === 0 ? "SG Main Only" : `SG Main + ${data.cloudCount} Cloud${data.cloudCount > 1 ? 's' : ''}`),
+      label: T(data.cloudCount === 0 ? "SG Main Only" : `SG Main + ${data.cloudCount} Cloud${data.cloudCount > 1 ? 's' : ''}`),
       value: data.mainSpellpower,
       type: 'sheilun'
     })),
     ...docjValues.map((value, index) => ({
-      label: GetTitle(`DocJ (${value} Target${value > 1 ? 's' : ''})`),
+      label: T(`DocJ (${value} Target${value > 1 ? 's' : ''})`),
       value: docjSpellpowers[index],
       type: 'docj'
     }))
@@ -76,7 +76,7 @@ const SheilunVsDocJ: React.FC<{ title: string; description: string }> = ({ title
     labels: sortedAbilities.map(ability => ability.label),
     datasets: [
       {
-        label: GetTitle("Spellpower"),
+        label: T("Spellpower"),
         data: sortedAbilities.map(ability => ability.value),
         backgroundColor: sortedAbilities.map(ability => getColor(ability.type).bg),
         borderColor: sortedAbilities.map(ability => getColor(ability.type).border),
@@ -101,7 +101,7 @@ const SheilunVsDocJ: React.FC<{ title: string; description: string }> = ({ title
       x: {
         title: {
           display: true,
-          text: GetTitle("Abilities"),
+          text: T("Abilities"),
         },
         grid: {
           color: theme.custom.chart.gridColor,
@@ -110,7 +110,7 @@ const SheilunVsDocJ: React.FC<{ title: string; description: string }> = ({ title
       y: {
         title: {
           display: true,
-          text: GetTitle("Spellpower"),
+          text: T("Spellpower"),
         },
         beginAtZero: true,
         grid: {

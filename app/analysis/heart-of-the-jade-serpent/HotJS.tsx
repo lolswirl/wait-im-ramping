@@ -23,7 +23,8 @@ import TalentsCard from '@components/TalentsCard/TalentsCard';
 import { useThemeContext } from '@context/ThemeContext';
 import SPELLS from "@data/spells";
 import spell, { GCD } from '@data/spells/spell';
-import { GetTitle, pluralize } from '@util/stringManipulation';
+import { T } from '@util/T';
+import { pluralize } from '@util/stringManipulation';
 import TALENTS from '@data/talents';
 import { CLASSES } from '@data/class';
 
@@ -339,7 +340,7 @@ const TimeSliderCard: React.FC<{
         '& .MuiSlider-rail': { backgroundColor: 'rgba(54, 162, 235, 0.3)' },
     }}>
         <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', color: 'rgb(54, 162, 235)' }}>
-            {GetTitle("Time Range")}
+            <T>Time Range</T>
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
             {timeRange} seconds ({formatTime(timeRange)})
@@ -378,8 +379,8 @@ const OptionsCard: React.FC<{
             <OptionCheckbox
                 checked={cdrEnabled}
                 onChange={onCdrEnabledChange}
-                title={GetTitle("Enable Increased Cooldown Recovery Rate")}
-                description={GetTitle("Apply increased cooldown recovery rate effects from Heart of the Jade Serpent")}
+                title={T("Enable Increased Cooldown Recovery Rate")}
+                description={T("Apply increased cooldown recovery rate effects from Heart of the Jade Serpent")}
             />
         </Box>
     </Card>
@@ -449,10 +450,10 @@ const StatsCard: React.FC<{
                 borderColor: 'rgba(156, 39, 176, 0.3)'
             }}>
                 <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: 'rgb(156, 39, 176)' }}>
-                    {GetTitle("Heart of the Jade Serpent Events")}: {events.length}
+                    <T>Heart of the Jade Serpent Events</T>: {events.length}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    {GetTitle("Total Uptime")}: {events.reduce((sum, event) => sum + event.duration, 0).toFixed(1)}s 
+                    <T>Total Uptime</T>: {events.reduce((sum, event) => sum + event.duration, 0).toFixed(1)}s
                     ({((events.reduce((sum, event) => sum + event.duration, 0) / timeRange) * 100).toFixed(1)}%)
                 </Typography>
             </Card>
@@ -481,12 +482,12 @@ const StatsCard: React.FC<{
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                             <SpellButton selectedSpell={ability.spell} size={32} />
                             <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: ability.color }}>
-                                {GetTitle(ability.spell.name)}
+                                <T>{ability.spell.name}</T>
                             </Typography>
                         </Box>
                         <Stack direction="row" spacing={1} flexWrap="wrap">
                             <Chip 
-                                label={`${withHotJS} ${GetTitle(pluralize(withHotJS, "Cast"))}`}
+                                label={`${withHotJS} ${T(pluralize(withHotJS, "Cast"))}`}
                                 size="small" 
                                 variant='outlined'
                                 sx={{ 
@@ -500,7 +501,7 @@ const StatsCard: React.FC<{
                                 }}
                             />
                             <Chip 
-                                label={`+${extraCasts} ${GetTitle("Extra")}`} 
+                                label={`+${extraCasts} ${T("Extra")}`} 
                                 size="small" 
                                 variant='outlined'
                                 sx={{ 
@@ -514,7 +515,7 @@ const StatsCard: React.FC<{
                                 }}
                             />
                             <Chip 
-                                label={`${castsPerMinute.toFixed(1)} ${GetTitle("cpm")}`} 
+                                label={`${castsPerMinute.toFixed(1)} ${T("cpm")}`} 
                                 size="small"
                                 variant='outlined'
                                 sx={{
@@ -529,7 +530,7 @@ const StatsCard: React.FC<{
                             />
                             {avgCooldown > 0 && (
                                 <Chip 
-                                    label={`${avgCooldown.toFixed(1)}s ${GetTitle("avg cd")}`} 
+                                    label={`${avgCooldown.toFixed(1)}s ${T("avg cd")}`} 
                                     size="small"
                                     variant='outlined'
                                     sx={{
@@ -651,8 +652,8 @@ const TimelineView: React.FC<{
 
                                     <GlassTooltip title={
                                         <div style={{ textAlign: 'center' }}>
-                                            {GetTitle(event.source.name)} cast starts at {event.castStartTime.toFixed(1)}s<br />
-                                            {GetTitle("Heart of the Jade Serpent")} activates at {event.startTime.toFixed(1)}s
+                                            <T>{event.source.name}</T> cast starts at {event.castStartTime.toFixed(1)}s<br />
+                                            <T>Heart of the Jade Serpent</T> activates at {event.startTime.toFixed(1)}s
                                         </div>
                                     }>
                                         <Box sx={{
@@ -673,8 +674,8 @@ const TimelineView: React.FC<{
                                     
                                     <GlassTooltip title={
                                         <div style={{ textAlign: 'center' }}>
-                                            {GetTitle("Heart of the Jade Serpent active")}: {event.startTime.toFixed(1)}s - {(event.startTime + event.duration).toFixed(1)}s<br />
-                                            ({event.multiplier === 2.5 ? '150%' : '75%'} {GetTitle("Cooldown Reduction")})
+                                            <T>Heart of the Jade Serpent active</T>: {event.startTime.toFixed(1)}s - {(event.startTime + event.duration).toFixed(1)}s<br />
+                                            ({event.multiplier === 2.5 ? '150%' : '75%'} <T>Cooldown Reduction</T>)
                                         </div>
                                     }>
                                         <Box sx={{
@@ -715,7 +716,7 @@ const TimelineView: React.FC<{
                                         
                                         return (
                                             <Box key={`${ability.spell.name}-${castIndex}`}>
-                                                <GlassTooltip title={`${GetTitle(ability.spell.name)} cast at ${castTime.toFixed(1)}s`}>
+                                                <GlassTooltip title={`${T(ability.spell.name)} cast at ${castTime.toFixed(1)}s`}>
                                                     <Box sx={{
                                                         position: 'absolute',
                                                         left: leftPosCalc,

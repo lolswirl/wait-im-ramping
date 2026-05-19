@@ -1,12 +1,5 @@
 let CAPS = false;
 
-export const GetTitle = (str: string): string => {
-    if (str === undefined || str === null) {
-        return "";
-    }
-    return CAPS ? str : lower(str);
-}
-
 export const getCapsMode = (): boolean => {
     return CAPS;
 }
@@ -20,10 +13,6 @@ export function Capitalize(str: string) {
         .split(' ')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
-}
-
-export function lower(str: string) {
-    return str.toLowerCase();
 }
 
 export function pluralize(count: number | boolean, singular: string, plural?: string): string {

@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { Add, DeleteForever, DeleteTwoTone } from '@mui/icons-material';
 import SpellButton from '../SpellButtons/SpellButton';
-import { GetTitle } from '../../util/stringManipulation';
+import { T } from '@util/T';
 import { toRomanNumeral } from '../../util/toRomanNumeral';
 import type Spell from "../../data/spells/spell";
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
@@ -116,7 +116,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                                             }}
                                         >
                                             <Typography variant="body2" color="textSecondary">
-                                                {GetTitle("No spells added")}
+                                                <T>No spells added</T>
                                             </Typography>
                                         </Box>
                                     )}
@@ -135,7 +135,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                     disabled={currentRotation.length === 0}
                     startIcon={<Add />}
                 >
-                    {GetTitle("Add Rotation")}
+                    <T>Add Rotation</T>
                 </SwirlButton>
                 <SwirlButton
                     key={"clear-current"}
@@ -145,7 +145,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                     disabled={currentRotation.length === 0}
                     startIcon={<DeleteTwoTone />}
                 >
-                    {GetTitle("Clear Current")}
+                    <T>Clear Current</T>
                 </SwirlButton>
                 <SwirlButton
                     key={"clear-all"}
@@ -155,7 +155,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                     disabled={!hasRotations}
                     startIcon={<DeleteForever />}
                 >
-                    {GetTitle("Clear All")}
+                    <T>Clear All</T>
                 </SwirlButton>
                 {children}
             </Stack>

@@ -2,7 +2,8 @@ import React from 'react';
 import { Card, Grid, Box, Checkbox, Typography } from '@mui/material';
 import SpellButton from '@components/SpellButtons/SpellButton';
 import spell from '@data/spells/spell';
-import { GetTitle, hexToRgb } from '@util/stringManipulation';
+import { T } from '@util/T';
+import { hexToRgb } from '@util/stringManipulation';
 
 export interface TalentItem {
   key: string;
@@ -67,7 +68,7 @@ export const TalentOption: React.FC<TalentOptionProps> = ({
                         color: isChecked ? `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})` : 'text.primary',
                         transition: 'color 0.2s ease'
                     }}>
-                        {GetTitle(talent.name)}
+                        <T>{talent.name}</T>
                     </Typography>
                 </Box>
             </Box>

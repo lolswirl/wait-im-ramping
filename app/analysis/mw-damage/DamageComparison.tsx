@@ -16,7 +16,7 @@ import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
 import { CLASSES } from "@data/class";
 
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 import WarningChip from "@components/WarningChip/WarningChip";
 import { RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
 import {
@@ -113,14 +113,14 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
     },
     scales: {
       x: { 
-        title: { display: true, text: GetTitle("Time (Seconds)") }, 
+        title: { display: true, text: T("Time (Seconds)") }, 
         ticks: { autoSkip: true },
         grid: {
           color: theme.custom.chart.gridColor,
         },
       },
       y: { 
-        title: { display: true, text: GetTitle(showAsHealing ? "Cumulative Healing" : "Cumulative Damage") }, 
+        title: { display: true, text: T(showAsHealing ? "Cumulative Healing" : "Cumulative Damage") }, 
         beginAtZero: true,
         grid: {
           color: theme.custom.chart.gridColor,
@@ -189,13 +189,13 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
     <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
       <Box sx={{ px: 2, pt: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' }}>
         <Typography variant="body2" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
-          {GetTitle(`${type} Values (500 seconds)`)}
+          <T>{type} Values (500 seconds)</T>
         </Typography>
       </Box>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1 }}>{GetTitle("Targets")}</TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1 }}><T>Targets</T></TableCell>
             {ROTATION_CONFIGS.map(config => (
               <TableCell key={config.dataKey} align="center" sx={{ border: 0, py: 1, px: 1 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
@@ -205,7 +205,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
                     ))}
                   </Box>
                   <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: '0.7rem', color: config.color }}>
-                    {GetTitle(getLabel(config.dataKey))}
+                    <T>{getLabel(config.dataKey)}</T>
                   </Typography>
                 </Box>
               </TableCell>
@@ -240,13 +240,13 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
     <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
       <Box sx={{ px: 2, pt: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' }}>
         <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
-          {GetTitle(`${type} Comparisons (% Difference)`)}
+          <T>{type} Comparisons (% Difference)</T>
         </Typography>
       </Box>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1 }}>{GetTitle("Targets")}</TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1 }}><T>Targets</T></TableCell>
             {ROTATION_CONFIGS.map((config1, i) =>
               ROTATION_CONFIGS.slice(i + 1).map(config2 => (
                 <TableCell key={`${config1.dataKey}-vs-${config2.dataKey}`} align="center" sx={{ border: 0, py: 1, px: 1 }}>
@@ -255,13 +255,13 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
                       {config1.spells.map((spell, idx) => (
                         <SpellButton key={`${config1.dataKey}-s1-${idx}`} selectedSpell={spell} size={18} />
                       ))}
-                      <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>{GetTitle("vs")}</Typography>
+                      <Typography variant="caption" sx={{ fontSize: '0.65rem' }}><T>vs</T></Typography>
                       {config2.spells.map((spell, idx) => (
                         <SpellButton key={`${config2.dataKey}-s2-${idx}`} selectedSpell={spell} size={18} />
                       ))}
                     </Box>
                     <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>
-                      {GetTitle(`${getLabel(config1.dataKey)} vs ${getLabel(config2.dataKey)}`)}
+                      <T>{getLabel(config1.dataKey)} vs {getLabel(config2.dataKey)}</T>
                     </Typography>
                   </Box>
                 </TableCell>
@@ -319,7 +319,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
       <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
         <Box sx={{ px: 2, pt: 1.5, pb: 1.5, borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
           <Typography variant="body2" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
-            {GetTitle(`${type} by Target Count (500 seconds)`)}
+            <T>{type} by Target Count (500 seconds)</T>
           </Typography>
           <WarningChip message="% shown is relative to the best rotation in each row" borderColor="rgba(255,255,255,0.2)" />
         </Box>
@@ -327,7 +327,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
           <TableHead>
             <TableRow>
               <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1.5, width: 60 }}>
-                <Typography variant="caption" fontWeight="bold">{GetTitle("Targets")}</Typography>
+                <Typography variant="caption" fontWeight="bold"><T>Targets</T></Typography>
               </TableCell>
               {ROTATION_CONFIGS.map(config => (
                 <TableCell key={config.dataKey} align="center" sx={{ border: 0, py: 1, px: 1, width: 120, minWidth: 120 }}>
@@ -338,7 +338,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
                       ))}
                     </Box>
                     <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: '0.7rem', color: config.color }}>
-                      {GetTitle(getLabel(config.dataKey))}
+                      <T>{getLabel(config.dataKey)}</T>
                     </Typography>
                   </Box>
                 </TableCell>
@@ -397,7 +397,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
       ])
     ],
     datasets: ROTATION_CONFIGS.map(config => ({
-      label: GetTitle(getLabel(config.dataKey)),
+      label: T(getLabel(config.dataKey)),
       data: damageData[config.dataKey].map(item => item.damage),
       borderColor: config.color,
       backgroundColor: getBackgroundColor(config.color),
@@ -414,7 +414,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, alignItems: 'center' }}>
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
             <TextField
-              label={GetTitle("Time (Seconds)")}
+              label={T("Time (Seconds)")}
               type="number"
               value={timeSpent}
               onChange={handleTimeChange}
@@ -422,7 +422,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
               sx={{ maxWidth: 160 }}
             />
             <TextField
-              label={GetTitle("Targets")}
+              label={T("Targets")}
               type="number"
               value={targetCount}
               onChange={handleTargetCountChange}
@@ -435,7 +435,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
               onClick={() => setSimulationKey(k => k + 1)}
               startIcon={<Refresh />}
             >
-              {GetTitle('Re-formulate')}
+              <T>Re-formulate</T>
             </SwirlButton>
           </Box>
         </Box>
@@ -443,8 +443,8 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
 
       <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
         <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
-          <Tab label={GetTitle("DPS")} />
-          <Tab label={GetTitle("HPS")} />
+          <Tab label={T("DPS")} />
+          <Tab label={T("HPS")} />
         </Tabs>
         <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
@@ -478,14 +478,14 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
                       ))}
                     </Box>
                     <Typography variant="caption" color="text.secondary">
-                      {GetTitle(getLabel(config.dataKey))}
+                      <T>{getLabel(config.dataKey)}</T>
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
                       <Typography variant="h6" sx={{ fontWeight: 'bold', color: config.color, lineHeight: 1.2 }}>
                         {avg.toFixed(2)}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
-                        {GetTitle(showAsHealing ? 'HPS' : 'DPS')}
+                        <T>{showAsHealing ? 'HPS' : 'DPS'}</T>
                       </Typography>
                     </Box>
                   </Card>
@@ -501,8 +501,8 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
 
       <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
         <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
-          <Tab label={GetTitle("DPS")} />
-          <Tab label={GetTitle("HPS")} />
+          <Tab label={T("DPS")} />
+          <Tab label={T("HPS")} />
         </Tabs>
         <Box sx={{ p: 2 }}>
           {renderHeatmapTable(showAsHealing ? 'HPS' : 'DPS', showAsHealing)}
@@ -516,13 +516,13 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
       >
         <AccordionSummary expandIcon={<ExpandMore />}>
           <Typography variant="body2" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
-            {GetTitle("Raw Tables")}
+            <T>Raw Tables</T>
           </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0 }}>
           <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
-            <Tab label={GetTitle("DPS")} />
-            <Tab label={GetTitle("HPS")} />
+            <Tab label={T("DPS")} />
+            <Tab label={T("HPS")} />
           </Tabs>
           <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 3 }}>
             {renderValuesTable(showAsHealing ? 'HPS' : 'DPS', showAsHealing)}

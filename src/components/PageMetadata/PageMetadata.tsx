@@ -1,4 +1,4 @@
-import { GetTitle } from "@util/stringManipulation";
+import { T } from "@util/T";
 
 const getBranchName = () => {
     const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
@@ -30,13 +30,13 @@ export function PageMetadata(
 ) { 
     const branchName = getBranchName();
     const branchPrefix = branchName ? `[${branchName}] ` : "";
-    const formattedDescription = GetTitle(description);
+    const formattedDescription = T(description);
     
     const fullTitle = title !== SITE_NAME 
         ? `${branchPrefix}${title} | ${SITE_NAME}` 
         : `${branchPrefix}${title}`;
     
-    const formattedFullTitle = GetTitle(fullTitle);
+    const formattedFullTitle = T(fullTitle);
 
     return {
         title: {

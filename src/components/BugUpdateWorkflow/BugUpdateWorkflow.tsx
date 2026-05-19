@@ -15,8 +15,7 @@ import {
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Bug, SEVERITY_COLORS, STATUS } from "@data/bugs";
-import { GetTitle } from "@util/stringManipulation";
-import { applyGetTitle } from "@util/applyGetTitle";
+import { T } from "@util/T";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { BugChips } from "@components/BugChips/BugChips";
 import { GlassBox } from "@components/Glass/Box/GlassBox";
@@ -350,17 +349,17 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
             }}
         >
             <DialogTitle>
-                {step === WorkflowStep.SOURCE_INPUT && GetTitle("Paste Bugs Source Code")}
-                {step === WorkflowStep.BUILD_INPUT && GetTitle("Enter Build Number")}
-                {step === WorkflowStep.BUG_REVIEW && `${GetTitle("Bug Review")} (${currentBugIndex + 1} / ${bugs.length})`}
-                {step === WorkflowStep.COMPLETE && GetTitle("Update Complete")}
+                {step === WorkflowStep.SOURCE_INPUT && <T>Paste Bugs Source Code</T>}
+                {step === WorkflowStep.BUILD_INPUT && <T>Enter Build Number</T>}
+                {step === WorkflowStep.BUG_REVIEW && `${T("Bug Review")} (${currentBugIndex + 1} / ${bugs.length})`}
+                {step === WorkflowStep.COMPLETE && <T>Update Complete</T>}
             </DialogTitle>
 
             <DialogContent>
                 {step === WorkflowStep.SOURCE_INPUT && (
                     <Box sx={{ pt: 2 }}>
                         <Typography variant="body2" sx={{ mb: 2, color: "rgba(255,255,255,0.7)" }}>
-                            {GetTitle("Paste the entire content of your bugs.tsx file here. This will be used to generate the updated version with new build numbers.")}
+                            <T>Paste the entire content of your bugs.tsx file here. This will be used to generate the updated version with new build numbers.</T>
                         </Typography>
                         <TextField
                             fullWidth
@@ -368,7 +367,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             rows={15}
                             value={originalSource}
                             onChange={(e) => setOriginalSource(e.target.value)}
-                            placeholder={GetTitle("Paste your bugs.tsx file content here...")}
+                            placeholder={T("Paste your bugs.tsx file content here...")}
                             autoFocus
                             sx={{
                                 "& .MuiInputBase-root": {
@@ -384,7 +383,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             }}
                         />
                         <Typography variant="caption" sx={{ mt: 1, display: "block", color: "info.main" }}>
-                            {GetTitle(`You will review ${bugs.length} open ${bugs.length === 1 ? 'bug' : 'bugs'} for ${specKey}.`)}
+                            <T>You will review {bugs.length} open {bugs.length === 1 ? 'bug' : 'bugs'} for {specKey}.</T>
                         </Typography>
                     </Box>
                 )}
@@ -393,10 +392,10 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                     <Box sx={{ pt: 2 }}>
                         <TextField
                             fullWidth
-                            label={GetTitle("Build Number")}
+                            label={T("Build Number")}
                             value={buildNumber}
                             onChange={(e) => setBuildNumber(e.target.value)}
-                            placeholder={GetTitle("e.g., 66220")}
+                            placeholder={T("e.g., 66220")}
                             autoFocus
                             onKeyPress={(e) => {
                                 if (e.key === "Enter" && buildNumber.trim()) {
@@ -415,10 +414,10 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             }}
                         />
                         <Typography variant="caption" sx={{ mt: 1, display: "block", color: "rgba(255,255,255,0.7)" }}>
-                            {GetTitle("This build number will be added to buildsTested for bugs that are still broken.")}
+                            <T>This build number will be added to buildsTested for bugs that are still broken.</T>
                         </Typography>
                         <Typography variant="body2" sx={{ mt: 2, color: "info.main" }}>
-                            {GetTitle(`You will review ${bugs.length} open ${bugs.length === 1 ? 'bug' : 'bugs'} for ${specKey}.`)}
+                            <T>You will review {bugs.length} open {bugs.length === 1 ? 'bug' : 'bugs'} for {specKey}.</T>
                         </Typography>
                     </Box>
                 )}
@@ -427,7 +426,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                     <Box sx={{ pt: 2 }}>
                         <Box sx={{ mb: 2 }}>
                             <Typography variant="caption" color="rgba(255,255,255,0.7)">
-                                {GetTitle(`Progress: ${progress}% (${currentBugIndex + 1} of ${bugs.length})`)}
+                                <T>Progress: {progress}% ({currentBugIndex + 1} of {bugs.length})</T>
                             </Typography>
                             <Box
                                 sx={{
@@ -454,14 +453,14 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             <SpellButton selectedSpell={currentBug.spell} size={56} />
                             <Box sx={{ flex: 1 }}>
                                 <Typography variant="h6" sx={{ mb: 0.5, color: "white" }}>
-                                    {GetTitle(currentBug.spell.name)}
+                                    <T>{currentBug.spell.name}</T>
                                 </Typography>
                                 <BugChips bug={currentBug} />
                             </Box>
                         </Box>
 
                         <Typography variant="h6" sx={{ mb: 2, color: "white", lineHeight: 1.3 }}>
-                            {applyGetTitle(currentBug.title)}
+                            <T>{currentBug.title}</T>
                         </Typography>
 
                         {currentBug.description && (
@@ -494,7 +493,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                                             textTransform: "none",
                                         }}
                                     >
-                                        {GetTitle("Description")}
+                                        <T>Description</T>
                                     </Typography>
                                     <Typography
                                         component="div"
@@ -507,7 +506,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                                             fontSize: "0.9rem",
                                         }}
                                     >
-                                        {applyGetTitle(currentBug.description)}
+                                        <T>{currentBug.description}</T>
                                     </Typography>
                                 </CardContent>
                             </Card>
@@ -543,7 +542,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                                             textTransform: "none",
                                         }}
                                     >
-                                        {GetTitle("Notes")}
+                                        <T>Notes</T>
                                     </Typography>
                                     <Typography
                                         component="div"
@@ -556,14 +555,14 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                                             fontSize: "0.9rem",
                                         }}
                                     >
-                                        {applyGetTitle(currentBug.notes)}
+                                        <T>{currentBug.notes}</T>
                                     </Typography>
                                 </CardContent>
                             </Card>
                         )}
 
                         <Typography variant="h6" sx={{ mt: 3, mb: 1, textAlign: "center", color: "white" }}>
-                            {GetTitle(`Is this bug still broken in build ${buildNumber}?`)}
+                            <T>Is this bug still broken in build {buildNumber}?</T>
                         </Typography>
                     </Box>
                 )}
@@ -572,16 +571,16 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                     <Box sx={{ pt: 2 }}>
                         {isGenerating ? (
                             <Typography variant="body1" sx={{ mb: 2, color: "info.main" }}>
-                                {GetTitle("Generating updated code...")}
+                                <T>Generating updated code...</T>
                             </Typography>
                         ) : (
                             <>
                                 <Alert severity="success" sx={{ mb: 2, borderRadius: 1 }}>
-                                    {GetTitle(`Review complete! ${bugUpdates.length} bug(s) updated.`)}
+                                    <T>Review complete! {bugUpdates.length} bug(s) updated.</T>
                                 </Alert>
                                 
                                 <Typography variant="body2" sx={{ mb: 2, color: "rgba(255,255,255,0.7)" }}>
-                                    {GetTitle("Copy the updated code below and replace your entire bugs.tsx file content:")}
+                                    <T>Copy the updated code below and replace your entire bugs.tsx file content:</T>
                                 </Typography>
                                 
                                 <Box sx={{ position: "relative" }}>
@@ -643,7 +642,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
 
                                 {copySuccess && (
                                     <Typography variant="caption" sx={{ mt: 1, display: "block", color: "success.main" }}>
-                                        {GetTitle("Copied to clipboard!")}
+                                        <T>Copied to clipboard!</T>
                                     </Typography>
                                 )}
                             </>
@@ -655,28 +654,28 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
             <DialogActions>
                 {step === WorkflowStep.SOURCE_INPUT && (
                     <>
-                        <Button onClick={handleClose}>{GetTitle("Cancel")}</Button>
-                        <Button 
-                            onClick={proceedToBuildInput} 
-                            variant="contained" 
+                        <Button onClick={handleClose}><T>Cancel</T></Button>
+                        <Button
+                            onClick={proceedToBuildInput}
+                            variant="contained"
                             disabled={!originalSource.trim()}
                         >
-                            {GetTitle("Next")}
+                            <T>Next</T>
                         </Button>
                     </>
                 )}
 
                 {step === WorkflowStep.BUILD_INPUT && (
                     <>
-                        <Button onClick={() => setStep(WorkflowStep.SOURCE_INPUT)}>{GetTitle("Back")}</Button>
+                        <Button onClick={() => setStep(WorkflowStep.SOURCE_INPUT)}><T>Back</T></Button>
                         <Box sx={{ flex: 1 }} />
-                        <Button onClick={handleClose}>{GetTitle("Cancel")}</Button>
-                        <Button 
-                            onClick={startReview} 
-                            variant="contained" 
+                        <Button onClick={handleClose}><T>Cancel</T></Button>
+                        <Button
+                            onClick={startReview}
+                            variant="contained"
                             disabled={!buildNumber.trim()}
                         >
-                            {GetTitle("Start Review")}
+                            <T>Start Review</T>
                         </Button>
                     </>
                 )}
@@ -684,43 +683,43 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                 {step === WorkflowStep.BUG_REVIEW && (
                     <>
                         <Button onClick={handlePrevious} disabled={currentBugIndex === 0}>
-                            {GetTitle("Previous")}
+                            <T>Previous</T>
                         </Button>
                         <Button onClick={handleSkipRest}>
-                            {GetTitle("Skip Rest")}
+                            <T>Skip Rest</T>
                         </Button>
                         <Box sx={{ flex: 1 }} />
-                        <Button 
-                            onClick={() => handleBugResponse('fixed')} 
-                            variant="outlined" 
+                        <Button
+                            onClick={() => handleBugResponse('fixed')}
+                            variant="outlined"
                             color="success"
                             sx={{ minWidth: 120 }}
                         >
-                            {GetTitle("No (Fixed)")}
+                            <T>No (Fixed)</T>
                         </Button>
-                        <Button 
-                            onClick={() => handleBugResponse('removed')} 
-                            variant="outlined" 
+                        <Button
+                            onClick={() => handleBugResponse('removed')}
+                            variant="outlined"
                             color="info"
                             sx={{ minWidth: 120 }}
                         >
-                            {GetTitle("Removed")}
+                            <T>Removed</T>
                         </Button>
-                        <Button 
-                            onClick={() => handleBugResponse('unknown')} 
-                            variant="outlined" 
+                        <Button
+                            onClick={() => handleBugResponse('unknown')}
+                            variant="outlined"
                             color="warning"
                             sx={{ minWidth: 120 }}
                         >
-                            {GetTitle("I Don't Know")}
+                            <T>I Don't Know</T>
                         </Button>
-                        <Button 
-                            onClick={() => handleBugResponse('broken')} 
-                            variant="contained" 
+                        <Button
+                            onClick={() => handleBugResponse('broken')}
+                            variant="contained"
                             color="error"
                             sx={{ minWidth: 120 }}
                         >
-                            {GetTitle("Yes (Broken)")}
+                            <T>Yes (Broken)</T>
                         </Button>
                     </>
                 )}
@@ -728,7 +727,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                 {step === WorkflowStep.COMPLETE && (
                     <>
                         <Button onClick={handleClose} variant="contained">
-                            {GetTitle("Done")}
+                            <T>Done</T>
                         </Button>
                     </>
                 )}

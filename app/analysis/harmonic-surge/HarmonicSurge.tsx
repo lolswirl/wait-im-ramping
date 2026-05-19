@@ -12,7 +12,8 @@ import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
 
-import { GetTitle, pluralize } from "@util/stringManipulation";
+import { T } from "@util/T";
+import { pluralize } from "@util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -122,7 +123,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const abilityData: AbilityDatum[] = [];
     
     abilityData.push({
-        label: GetTitle(SPELLS.TIGER_PALM.name),
+        label: T(SPELLS.TIGER_PALM.name),
         ancientTeachings: tigerPalmHealing,
         harmonicSurge: 0,
         gom: 0,
@@ -134,7 +135,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
         const breakdown = calculateBlackoutKickBreakdown(stacks);
         const total = breakdown.ancientTeachingsHealing + breakdown.normalGOMHealing + breakdown.chiJiGustHealing;
         abilityData.push({
-            label: GetTitle(`BoK (${stacks} ToTM ${pluralize(stacks, "stack")})`),
+            label: T(`BoK (${stacks} ToTM ${pluralize(stacks, "stack")})`),
             ancientTeachings: breakdown.ancientTeachingsHealing,
             harmonicSurge: 0,
             gom: breakdown.normalGOMHealing,
@@ -145,7 +146,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
 
     const rskTotal = risingSunKickAncientTeachingsHealing + risingSunKickNormalGOMHealing + risingSunKickChiJiGustHealing;
     abilityData.push({
-        label: GetTitle(SPELLS.RISING_SUN_KICK.name),
+        label: T(SPELLS.RISING_SUN_KICK.name),
         ancientTeachings: risingSunKickAncientTeachingsHealing,
         harmonicSurge: 0,
         gom: risingSunKickNormalGOMHealing,
@@ -155,7 +156,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
 
     const totalHarmonicSurgeHealing = harmonicSurgePureHealing + tigerPalmHealing;
     abilityData.push({
-        label: GetTitle(TALENTS.HARMONIC_SURGE.name),
+        label: T(TALENTS.HARMONIC_SURGE.name),
         ancientTeachings: tigerPalmHealing,
         harmonicSurge: harmonicSurgePureHealing,
         gom: 0,
@@ -166,7 +167,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     if (selectedTalents.get(TALENTS.JADE_EMPOWERMENT)) {
         jeSpellpowers.forEach((spellpower, index) => {
             abilityData.push({
-                label: GetTitle(`JE (${index + 1} ${pluralize(index + 1, "Target")})`),
+                label: T(`JE (${index + 1} ${pluralize(index + 1, "Target")})`),
                 ancientTeachings: spellpower,
                 harmonicSurge: 0,
                 gom: 0,
@@ -185,21 +186,21 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
 
     const datasets = [
         {
-            label: GetTitle(TALENTS.ANCIENT_TEACHINGS.name),
+            label: T(TALENTS.ANCIENT_TEACHINGS.name),
             data: ancientTeachingsData,
             backgroundColor: "rgba(255, 169, 32, 0.8)",
             borderColor: "rgba(255, 177, 51, 1)",
             borderWidth: 1,
         },
         {
-            label: GetTitle(TALENTS.HARMONIC_SURGE.name),
+            label: T(TALENTS.HARMONIC_SURGE.name),
             data: harmonicSurgeData,
             backgroundColor: "rgba(153, 102, 255, 0.8)",
             borderColor: "rgba(153, 102, 255, 1)",
             borderWidth: 1,
         },
         {
-            label: GetTitle(TALENTS.GUST_OF_MISTS.name),
+            label: T(TALENTS.GUST_OF_MISTS.name),
             data: normalGOMData,
             backgroundColor: "rgba(118, 201, 167, 0.8)",
             borderColor: "rgba(118, 201, 167, 1)",
@@ -209,7 +210,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
 
     if (includeChiJiGusts) {
         datasets.push({
-            label: GetTitle(SPELLS.CHI_JI.name),
+            label: T(SPELLS.CHI_JI.name),
             data: chiJiGustData,
             backgroundColor: "rgba(216, 91, 38, 0.8)",
             borderColor: "rgba(216, 91, 38, 1)",
@@ -229,7 +230,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
                 stacked: true,
                 title: {
                     display: true,
-                    text: GetTitle("Abilities"),
+                    text: T("Abilities"),
                 },
                 grid: {
                     color: theme.custom.chart.gridColor,
@@ -239,7 +240,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
                 stacked: true,
                 title: {
                     display: true,
-                    text: GetTitle("Spellpower (%)"),
+                    text: T("Spellpower (%)"),
                 },
                 beginAtZero: true,
                 grid: {
@@ -262,7 +263,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
                         context.forEach((item: any) => {
                             total += item.parsed.y;
                         });
-                        return [`${GetTitle("Total")}: ${total.toFixed(2)}%`];
+                        return [`${T("Total")}: ${total.toFixed(2)}%`];
                     }
                 }
             },
