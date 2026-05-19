@@ -121,6 +121,107 @@ export const simulateMeleeRotation = (
   return rotationDamage;
 };
 
+export const simulateSingleTPRotation = (
+  totalTime: number,
+  targets: number,
+  asHealing: boolean,
+  params: SimulationParams
+): DamagePoint[] => {
+  const { talents, mastery } = params;
+
+  let currentTime = 0;
+  let risingSunKickCooldown = 0;
+  let blackoutKickCooldown = 0;
+  let totmStacks = 0;
+  let cumulativeDamage = 0;
+  const rotationDamage: DamagePoint[] = [];
+
+  const risingSunKickDamage = calculateSpellDamage(SPELLS.RISING_SUN_KICK, talents, mastery);
+  const tigerPalmDamage = calculateSpellDamage(SPELLS.TIGER_PALM, talents, mastery);
+  const blackoutKickDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, mastery);
+
+  const risingSunKickValue = asHealing
+    ? calculateAncientTeachingsHealing(risingSunKickDamage, talents, true, SPELLS.RISING_SUN_KICK)
+    : risingSunKickDamage;
+  const tigerPalmValue = asHealing
+    ? calculateAncientTeachingsHealing(tigerPalmDamage, talents, true, SPELLS.TIGER_PALM)
+    : tigerPalmDamage;
+  const blackoutKickValue = asHealing
+    ? calculateAncientTeachingsHealing(blackoutKickDamage, talents, true, SPELLS.BLACKOUT_KICK)
+    : blackoutKickDamage;
+
+  const cleaveMultiplier = Math.min(targets, 3);
+
+  // initial rotation
+  cumulativeDamage += risingSunKickValue;
+  rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
+  currentTime += GCD;
+
+  cumulativeDamage += tigerPalmValue;
+  totmStacks += 2;
+  rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
+  currentTime += GCD;
+
+  if (blackoutKickCooldown <= 0) {
+    const bokHits = (1 + totmStacks) * cleaveMultiplier;
+    totmStacks = 0;
+    let bokResetRsk = false;
+    cumulativeDamage += blackoutKickValue * bokHits;
+
+    for (let i = 0; i < bokHits; i++) {
+      if (Math.random() < 0.15) bokResetRsk = true;
+    }
+
+    rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
+    currentTime += GCD;
+    blackoutKickCooldown = 1.5;
+
+    if (bokResetRsk) risingSunKickCooldown = 0;
+  }
+
+  if (risingSunKickCooldown > 0) risingSunKickCooldown -= 1.5;
+  blackoutKickCooldown -= 1.5;
+
+  // loop rotation
+  while (currentTime < totalTime) {
+    if (risingSunKickCooldown <= 0) {
+      cumulativeDamage += risingSunKickValue;
+      rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
+      currentTime += 1.5;
+      risingSunKickCooldown = 12;
+    }
+    if (currentTime >= totalTime) break;
+
+    cumulativeDamage += tigerPalmValue;
+    totmStacks += 2;
+    rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
+    currentTime += GCD;
+    if (currentTime >= totalTime) break;
+
+    if (blackoutKickCooldown <= 0) {
+      const bokHits = (1 + totmStacks) * cleaveMultiplier;
+      totmStacks = 0;
+      let bokResetRsk = false;
+      cumulativeDamage += blackoutKickValue * bokHits;
+
+      for (let i = 0; i < bokHits; i++) {
+        if (Math.random() < 0.15) bokResetRsk = true;
+      }
+
+      rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
+      currentTime += GCD;
+      blackoutKickCooldown = 1.5;
+
+      if (bokResetRsk) risingSunKickCooldown = 0;
+    }
+
+    if (risingSunKickCooldown > 0) risingSunKickCooldown -= 1.5;
+    blackoutKickCooldown -= 1.5;
+  }
+
+  return rotationDamage;
+};
+
 export const simulateSpinningCraneKick = (
   totalTime: number,
   targets: number,

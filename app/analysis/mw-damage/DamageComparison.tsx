@@ -2,7 +2,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Box, Container, TextField, useTheme, Card, Typography, Divider, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, Container, TextField, useTheme, Card, Typography, Tab, Tabs, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
+import { Refresh, EmojiEvents } from "@mui/icons-material";
+import SwirlButton from "@components/Buttons/SwirlButton";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import SpellButton from "@components/SpellButtons/SpellButton";
@@ -15,8 +18,10 @@ import { CLASSES } from "@data/class";
 
 import { GetTitle } from "@util/stringManipulation";
 import WarningChip from "@components/WarningChip/WarningChip";
+import { RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
 import {
   simulateMeleeRotation,
+  simulateSingleTPRotation,
   simulateSpinningCraneKick,
   simulateJadeEmpowerment,
   simulateRSKWithSCK,
@@ -27,6 +32,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 type DamagePoint = { time: number; damage: number };
 type DamageData = {
   melee: DamagePoint[];
+  singleTP: DamagePoint[];
   sck: DamagePoint[];
   rskSck: DamagePoint[];
   je: DamagePoint[];
@@ -48,9 +54,12 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   const theme = useTheme();
   const [timeSpent, setTimeSpent] = useState(30);
   const [targetCount, setTargetCount] = useState(1);
-  const [showAsHealing, setShowAsHealing] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
+  const [simulationKey, setSimulationKey] = useState(0);
+  const showAsHealing = activeTab === 1;
   const [damageData, setDamageData] = useState<DamageData>({
     melee: [],
+    singleTP: [],
     sck: [],
     rskSck: [],
     je: [],
@@ -62,8 +71,8 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   const talents = useMemo(() => new Map<spell, boolean>([
     [TALENTS.JADEFIRE_TEACHINGS, true],
     [TALENTS.YULONS_KNOWLEDGE, true], // just gonna assume this one since its in keys
-    [TALENTS.SPIRITFONT, true], // also assuming this one since apex is "practically required"
-    [TALENTS.MORNING_BREEZE, false], // including this for testing later
+    [TALENTS.SPIRITFONT, false], // haha lol not used
+    [TALENTS.MORNING_BREEZE, true], // used in keys woo
     [SHARED.FAST_FEET, true],
     [SHARED.FEROCITY_OF_XUEN, true],
     [SHARED.CHI_PROFICIENCY, true],
@@ -76,16 +85,18 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
 
   useEffect(() => {
     const rotations = simulateMeleeRotation(timeSpent, targetCount, showAsHealing, simulationParams);
+    const singleTP = simulateSingleTPRotation(timeSpent, targetCount, showAsHealing, simulationParams);
     const spinningCraneKickData = simulateSpinningCraneKick(timeSpent, targetCount, showAsHealing, simulationParams);
     const jadeEmpowermentData = simulateJadeEmpowerment(timeSpent, targetCount, showAsHealing, simulationParams);
     const rskWithSckData = simulateRSKWithSCK(timeSpent, targetCount, showAsHealing, simulationParams);
     setDamageData({
       melee: rotations,
+      singleTP: singleTP,
       sck: spinningCraneKickData,
       rskSck: rskWithSckData,
       je: jadeEmpowermentData,
     });
-  }, [timeSpent, targetCount, showAsHealing, simulationParams]);
+  }, [timeSpent, targetCount, showAsHealing, simulationParams, simulationKey]);
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTimeSpent(Number(e.target.value));
@@ -120,22 +131,10 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
 
   console.log(damageData);
 
-  const rotationAverage = damageData.melee.length > 0 
-    ? damageData.melee[damageData.melee.length - 1].damage / timeSpent 
-    : 0;
-  const sckAverage = damageData.sck.length > 0 
-    ? damageData.sck[damageData.sck.length - 1].damage / timeSpent 
-    : 0;
-  const jeAverage = damageData.je.length > 0 
-    ? damageData.je[damageData.je.length - 1].damage / timeSpent 
-    : 0;
-  const rskSckAverage = damageData.rskSck.length > 0 
-    ? damageData.rskSck[damageData.rskSck.length - 1].damage / timeSpent 
-    : 0;
-
   const getLabel = (dataKey: keyof DamageData): string => {
     const labelMap: Record<keyof DamageData, string> = {
-      melee: 'Melee',
+      melee: 'TP BOK RSK',
+      singleTP: 'TP BOK',
       sck: 'SCK',
       rskSck: 'RSK+SCK',
       je: 'JE',
@@ -143,70 +142,69 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
     return labelMap[dataKey];
   };
 
-  const ROTATION_CONFIGS: RotationConfig[] = useMemo(() => [
-    {
-      dataKey: 'melee',
-      spells: [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, SPELLS.RISING_SUN_KICK],
-      color: 'rgba(255, 99, 132, 1)',
-      simulateFn: simulateMeleeRotation,
-    },
-    {
-      dataKey: 'sck',
-      spells: [SPELLS.SPINNING_CRANE_KICK],
-      color: 'rgba(42, 141, 31, 1)',
-      simulateFn: simulateSpinningCraneKick,
-    },
-    {
-      dataKey: 'rskSck',
-      spells: [SPELLS.RISING_SUN_KICK, SPELLS.SPINNING_CRANE_KICK],
-      color: 'rgba(153, 102, 255, 1)',
-      simulateFn: simulateRSKWithSCK,
-    },
-    {
-      dataKey: 'je',
-      spells: [TALENTS.JADE_EMPOWERMENT],
-      color: 'rgba(75, 192, 192, 1)',
-      simulateFn: simulateJadeEmpowerment,
-    },
-  ], []);
+  const ROTATION_CONFIGS: RotationConfig[] = useMemo(() => {
+    const entries = [
+      {
+        dataKey: 'melee' as const,
+        spells: [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, SPELLS.RISING_SUN_KICK],
+        simulateFn: simulateMeleeRotation,
+      },
+      // {
+      //   dataKey: 'meleeTwo' as const,
+      //   spells: [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, SPELLS.RISING_SUN_KICK],
+      //   simulateFn: simulateSingleTPRotation,
+      // },
+      {
+        dataKey: 'sck' as const,
+        spells: [SPELLS.SPINNING_CRANE_KICK],
+        simulateFn: simulateSpinningCraneKick,
+      },
+      {
+        dataKey: 'rskSck' as const,
+        spells: [SPELLS.RISING_SUN_KICK, SPELLS.SPINNING_CRANE_KICK],
+        simulateFn: simulateRSKWithSCK,
+      },
+      {
+        dataKey: 'je' as const,
+        spells: [TALENTS.JADE_EMPOWERMENT],
+        simulateFn: simulateJadeEmpowerment,
+      },
+    ];
+    return entries.map((e, i) => ({ ...e, color: RAINBOW_COLORS[i % RAINBOW_COLORS.length] }));
+  }, []);
 
-  // convert color alpha to 0.2
-  const getBackgroundColor = (color: string) => color.replace(/, 1\)$/, ', 0.2)');
+  const getBackgroundColor = (color: string) => `${color}33`;
+  const getBorderColor = (color: string) => `${color}66`;
+  const getCardBg = (color: string) => `${color}12`;
 
   const renderComparisonCell = (value: string, key: string) => (
     <TableCell key={key} align="center" sx={{ border: 0, py: 1, px: 1 }}>
-      <Typography 
-        variant="body2"
-        sx={{ 
-          color: parseFloat(value) > 0 ? '#4ade80' : '#ef4444',
-          fontWeight: 600
-        }}
-      >
+      <Typography variant="body2" sx={{ color: parseFloat(value) > 0 ? '#4ade80' : '#ef4444', fontWeight: 600 }}>
         {value}%
       </Typography>
     </TableCell>
   );
 
   const renderValuesTable = (type: 'DPS' | 'HPS', asHealing: boolean) => (
-    <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, boxShadow: 6, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
+    <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
       <Box sx={{ px: 2, pt: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' }}>
         <Typography variant="body2" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
           {GetTitle(`${type} Values (500 seconds)`)}
         </Typography>
       </Box>
-      <Table>
+      <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1rem', border: 0, py: 1, px: 1 }}>{GetTitle("Targets")}</TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1 }}>{GetTitle("Targets")}</TableCell>
             {ROTATION_CONFIGS.map(config => (
               <TableCell key={config.dataKey} align="center" sx={{ border: 0, py: 1, px: 1 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                     {config.spells.map((spell, idx) => (
-                      <SpellButton key={`${config.dataKey}-spell-${idx}`} selectedSpell={spell} size={28} />
+                      <SpellButton key={`${config.dataKey}-spell-${idx}`} selectedSpell={spell} size={24} />
                     ))}
                   </Box>
-                  <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: '0.7rem' }}>
+                  <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: '0.7rem', color: config.color }}>
                     {GetTitle(getLabel(config.dataKey))}
                   </Typography>
                 </Box>
@@ -215,28 +213,19 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
           </TableRow>
         </TableHead>
         <TableBody>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((targets) => {
-            const time = 500;
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(targets => {
             const rotationValues = ROTATION_CONFIGS.map(config => {
-              const data = config.simulateFn(time, targets, asHealing, simulationParams);
-              return data.length > 0 ? data[data.length - 1].damage / time : 0;
+              const data = config.simulateFn(500, targets, asHealing, simulationParams);
+              return data.length > 0 ? data[data.length - 1].damage / 500 : 0;
             });
-            
             return (
-              <TableRow key={targets} hover sx={{ 
-                cursor: 'pointer',
-                transition: 'box-shadow 0.2s',
-                '&:hover': {
-                  boxShadow: 4,
-                  backgroundColor: 'action.hover',
-                },
-              }}>
+              <TableRow key={targets} hover>
                 <TableCell align="center" sx={{ border: 0, py: 1, px: 1 }}>
-                  <Typography variant="body2">{targets}</Typography>
+                  <Typography variant="body2" fontWeight="bold">{targets}</Typography>
                 </TableCell>
                 {rotationValues.map((value, idx) => (
                   <TableCell key={ROTATION_CONFIGS[idx].dataKey} align="center" sx={{ border: 0, py: 1, px: 1 }}>
-                    <Typography variant="body2" sx={{ color: ROTATION_CONFIGS[idx].color }}>{value.toFixed(2)}</Typography>
+                    <Typography variant="body2" sx={{ color: ROTATION_CONFIGS[idx].color, fontWeight: 'bold' }}>{value.toFixed(2)}</Typography>
                   </TableCell>
                 ))}
               </TableRow>
@@ -248,27 +237,27 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   );
 
   const renderComparisonTable = (type: 'DPS' | 'HPS', asHealing: boolean) => (
-    <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, boxShadow: 6, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
+    <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
       <Box sx={{ px: 2, pt: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' }}>
         <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
           {GetTitle(`${type} Comparisons (% Difference)`)}
         </Typography>
       </Box>
-      <Table>
+      <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1rem', border: 0, py: 1, px: 1 }}>{GetTitle("Targets")}</TableCell>
-            {ROTATION_CONFIGS.map((config1, i) => 
+            <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1 }}>{GetTitle("Targets")}</TableCell>
+            {ROTATION_CONFIGS.map((config1, i) =>
               ROTATION_CONFIGS.slice(i + 1).map(config2 => (
                 <TableCell key={`${config1.dataKey}-vs-${config2.dataKey}`} align="center" sx={{ border: 0, py: 1, px: 1 }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                       {config1.spells.map((spell, idx) => (
-                        <SpellButton key={`${config1.dataKey}-spell1-${idx}`} selectedSpell={spell} size={20} />
+                        <SpellButton key={`${config1.dataKey}-s1-${idx}`} selectedSpell={spell} size={18} />
                       ))}
-                      <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>vs</Typography>
+                      <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>{GetTitle("vs")}</Typography>
                       {config2.spells.map((spell, idx) => (
-                        <SpellButton key={`${config2.dataKey}-spell2-${idx}`} selectedSpell={spell} size={20} />
+                        <SpellButton key={`${config2.dataKey}-s2-${idx}`} selectedSpell={spell} size={18} />
                       ))}
                     </Box>
                     <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>
@@ -281,26 +270,17 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
           </TableRow>
         </TableHead>
         <TableBody>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((targets) => {
-            const time = 500;
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(targets => {
             const rotationValues = ROTATION_CONFIGS.map(config => {
-              const data = config.simulateFn(time, targets, asHealing, simulationParams);
-              return data.length > 0 ? data[data.length - 1].damage / time : 0;
+              const data = config.simulateFn(500, targets, asHealing, simulationParams);
+              return data.length > 0 ? data[data.length - 1].damage / 500 : 0;
             });
-            
             return (
-              <TableRow key={targets} hover sx={{ 
-                cursor: 'pointer',
-                transition: 'box-shadow 0.2s',
-                '&:hover': {
-                  boxShadow: 4,
-                  backgroundColor: 'action.hover',
-                },
-              }}>
+              <TableRow key={targets} hover>
                 <TableCell align="center" sx={{ border: 0, py: 1, px: 1 }}>
                   <Typography variant="body2">{targets}</Typography>
                 </TableCell>
-                {ROTATION_CONFIGS.map((config1, i) => 
+                {ROTATION_CONFIGS.map((config1, i) =>
                   ROTATION_CONFIGS.slice(i + 1).map((config2, j) => {
                     const value1 = rotationValues[i];
                     const value2 = rotationValues[i + j + 1];
@@ -316,6 +296,97 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
     </TableContainer>
   );
 
+  const heatmapRows = useMemo(() => {
+    const time = 500;
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(targets => ({
+      targets,
+      dps: ROTATION_CONFIGS.map(config => {
+        const data = config.simulateFn(time, targets, false, simulationParams);
+        return data.length > 0 ? data[data.length - 1].damage / time : 0;
+      }),
+      hps: ROTATION_CONFIGS.map(config => {
+        const data = config.simulateFn(time, targets, true, simulationParams);
+        return data.length > 0 ? data[data.length - 1].damage / time : 0;
+      }),
+    }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [simulationKey, simulationParams, ROTATION_CONFIGS]);
+
+  const renderHeatmapTable = (type: 'DPS' | 'HPS', asHealing: boolean) => {
+    const rows = heatmapRows.map(row => ({ targets: row.targets, values: asHealing ? row.hps : row.dps }));
+
+    return (
+      <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
+        <Box sx={{ px: 2, pt: 1.5, pb: 1.5, borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
+          <Typography variant="body2" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
+            {GetTitle(`${type} by Target Count (500 seconds)`)}
+          </Typography>
+          <WarningChip message="% shown is relative to the best rotation in each row" borderColor="rgba(255,255,255,0.2)" />
+        </Box>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1.5, width: 60 }}>
+                <Typography variant="caption" fontWeight="bold">{GetTitle("Targets")}</Typography>
+              </TableCell>
+              {ROTATION_CONFIGS.map(config => (
+                <TableCell key={config.dataKey} align="center" sx={{ border: 0, py: 1, px: 1, width: 120, minWidth: 120 }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      {config.spells.map((spell, idx) => (
+                        <SpellButton key={`${config.dataKey}-spell-${idx}`} selectedSpell={spell} size={24} />
+                      ))}
+                    </Box>
+                    <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: '0.7rem', color: config.color }}>
+                      {GetTitle(getLabel(config.dataKey))}
+                    </Typography>
+                  </Box>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map(({ targets, values }) => {
+              const min = Math.min(...values);
+              const max = Math.max(...values);
+              const range = max - min || 1;
+              return (
+                <TableRow key={targets}>
+                  <TableCell align="center" sx={{ border: 0, py: 1.25, px: 1.5 }}>
+                    <Typography variant="body2" fontWeight="bold">{targets}</Typography>
+                  </TableCell>
+                  {values.map((value, idx) => {
+                    const t = (value - min) / range;
+                    const r = Math.round(239 - t * (239 - 74));
+                    const g = Math.round(68 + t * (222 - 68));
+                    const b = Math.round(68 + t * (128 - 68));
+                    return (
+                      <TableCell key={ROTATION_CONFIGS[idx].dataKey} align="center" sx={{
+                        border: 0,
+                        py: 1.25,
+                        px: 1,
+                        backgroundColor: `rgba(${r}, ${g}, ${b}, 0.18)`,
+                      }}>
+                        <Typography variant="body2" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
+                          {value.toFixed(0)}
+                        </Typography>
+                        {t < 1 && (
+                          <Typography variant="caption" sx={{ color: '#ef4444', lineHeight: 1, display: 'block', fontSize: '0.65rem', fontWeight: 700 }}>
+                            {((value - max) / max * 100).toFixed(1)}%
+                          </Typography>
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  };
+
   const chartData = {
     labels: [
       ...new Set([
@@ -326,7 +397,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
       ])
     ],
     datasets: ROTATION_CONFIGS.map(config => ({
-      label: GetTitle(config.spells.map(s => s.name).join(', ')),
+      label: GetTitle(getLabel(config.dataKey)),
       data: damageData[config.dataKey].map(item => item.damage),
       borderColor: config.color,
       backgroundColor: getBackgroundColor(config.color),
@@ -336,151 +407,129 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
-      <PageHeader
-        title={title}
-        subtitle={description}
-      />
-      
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
-          <Box sx={{ flex: 1, p: 2, gap: 2, display: 'flex', flexDirection: 'column' }}>
-            <WarningChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon borderColor="#ffa726"/>
-            <Card variant="outlined" sx={{ 
-              p: 2, 
-              background: `linear-gradient(135deg, rgba(54, 162, 235, 0.1), rgba(54, 162, 235, 0.05))`, 
-              borderColor: 'rgba(54, 162, 235, 0.3)'
-            }}>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                <TextField 
-                  label={GetTitle("Time Spent (Seconds)")} 
-                  type="number" 
-                  value={timeSpent} 
-                  onChange={handleTimeChange} 
-                  fullWidth
-                />
-                <TextField 
-                  label={GetTitle("Target Count")} 
-                  type="number" 
-                  value={targetCount} 
-                  onChange={handleTargetCountChange} 
-                  fullWidth
-                />
-                <Box 
-                  sx={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    p: 1.5, 
-                    borderRadius: 1,
-                    border: `1px solid rgba(54, 162, 235, 0.3)`,
-                    backgroundColor: showAsHealing ? `rgba(54, 162, 235, 0.15)` : 'transparent',
-                    transition: 'all 0.2s ease',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: `rgba(54, 162, 235, 0.1)`,
-                      borderColor: `rgba(54, 162, 235, 0.5)`,
-                    }
-                  }}
-                  onClick={() => setShowAsHealing(!showAsHealing)}
-                >
-                  <Box sx={{ flex: 1 }}>
-                    <Typography variant="body2" sx={{ 
-                      fontWeight: 'bold',
-                      color: showAsHealing ? `rgb(54, 162, 235)` : 'text.primary',
-                      transition: 'color 0.2s ease'
-                    }}>
-                      {GetTitle("Show as Healing")}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {GetTitle(showAsHealing ? "Displaying healing values with conversion factors" : "Displaying raw damage values")}
-                    </Typography>
-                  </Box>
-                  <Switch
-                    checked={showAsHealing}
-                    onChange={(e) => setShowAsHealing(e.target.checked)}
-                    onClick={(e) => e.stopPropagation()}
-                    sx={{
-                      '& .MuiSwitch-switchBase.Mui-checked': {
-                        color: `rgb(54, 162, 235)`,
-                      },
-                      '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                        backgroundColor: `rgb(54, 162, 235)`,
-                      },
-                    }}
-                  />
-                </Box>
-              </Box>
-            </Card>
-          </Box>
-          
-          <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', md: 'block' } }} />
-          <Divider sx={{ display: { md: 'none' } }} />
+      <PageHeader title={title} subtitle={description} marginBottom={0} />
+      <WarningChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon borderColor="#ffa726" />
 
-          <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Card variant="outlined" sx={{ 
-              p: 1.5, 
-              background: `linear-gradient(135deg, rgba(255, 99, 132, 0.1), rgba(255, 99, 132, 0.05))`, 
-              borderColor: 'rgba(255, 99, 132, 0.3)'
-            }}>
-              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-                {GetTitle(`${SPELLS.TIGER_PALM.name}, ${SPELLS.BLACKOUT_KICK.name}, ${SPELLS.RISING_SUN_KICK.name}`) }
-              </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'rgba(255, 99, 132, 1)' }}>
-                {rotationAverage.toFixed(2)} {GetTitle(showAsHealing ? "HPS" : "DPS")}
-              </Typography>
-            </Card>
-            
-            <Card variant="outlined" sx={{ 
-              p: 1.5, 
-              background: `linear-gradient(135deg, rgba(42, 141, 31, 0.1), rgba(42, 141, 31, 0.05))`, 
-              borderColor: 'rgba(42, 141, 31, 0.3)'
-            }}>
-              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-                {GetTitle(SPELLS.SPINNING_CRANE_KICK.name)}
-              </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'rgba(42, 141, 31, 1)' }}>
-                {sckAverage.toFixed(2)} {GetTitle(showAsHealing ? "HPS" : "DPS")}
-              </Typography>
-            </Card>
-            
-            <Card variant="outlined" sx={{ 
-              p: 1.5, 
-              background: `linear-gradient(135deg, rgba(75, 192, 192, 0.1), rgba(75, 192, 192, 0.05))`, 
-              borderColor: 'rgba(75, 192, 192, 0.3)'
-            }}>
-              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-                {GetTitle(TALENTS.JADE_EMPOWERMENT.name)}
-              </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'rgba(75, 192, 192, 1)' }}>
-                {jeAverage.toFixed(2)} {GetTitle(showAsHealing ? "HPS" : "DPS")}
-              </Typography>
-            </Card>
-            
-            <Card variant="outlined" sx={{ 
-              p: 1.5, 
-              background: `linear-gradient(135deg, rgba(153, 102, 255, 0.1), rgba(153, 102, 255, 0.05))`, 
-              borderColor: 'rgba(153, 102, 255, 0.3)'
-            }}>
-              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-                {GetTitle(`${SPELLS.RISING_SUN_KICK.name} + ${SPELLS.SPINNING_CRANE_KICK.name}`)}
-              </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'rgba(153, 102, 255, 1)' }}>
-                {rskSckAverage.toFixed(2)} {GetTitle(showAsHealing ? "HPS" : "DPS")}
-              </Typography>
-            </Card> 
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, p: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            <TextField
+              label={GetTitle("Time (Seconds)")}
+              type="number"
+              value={timeSpent}
+              onChange={handleTimeChange}
+              size="small"
+              sx={{ maxWidth: 160 }}
+            />
+            <TextField
+              label={GetTitle("Targets")}
+              type="number"
+              value={targetCount}
+              onChange={handleTargetCountChange}
+              size="small"
+              sx={{ maxWidth: 100 }}
+            />
+            <SwirlButton
+              color="success"
+              textColor="success"
+              onClick={() => setSimulationKey(k => k + 1)}
+              startIcon={<Refresh />}
+            >
+              {GetTitle('Re-formulate')}
+            </SwirlButton>
           </Box>
         </Box>
       </Card>
 
-      <Box sx={{ height: "500px", width: "100%", maxWidth: 1200, display: "flex", justifyContent: "center" }}>
-        <Line data={chartData} options={chartOptions} />
-      </Box>
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
+        <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
+          <Tab label={GetTitle("DPS")} />
+          <Tab label={GetTitle("HPS")} />
+        </Tabs>
+        <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+            {(() => {
+              const avgs = ROTATION_CONFIGS.map(config => {
+                const series = damageData[config.dataKey];
+                return series.length > 0 ? series[series.length - 1].damage / timeSpent : 0;
+              });
+              const bestAvg = Math.max(...avgs);
+              return ROTATION_CONFIGS.map((config, idx) => {
+                const avg = avgs[idx];
+                const isBest = avg === bestAvg && bestAvg > 0;
+                return (
+                  <Card key={config.dataKey} variant="outlined" sx={{
+                    flex: '1 1 140px',
+                    px: 1.5,
+                    py: 1.5,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 0.5,
+                    position: 'relative',
+                    borderColor: getBorderColor(config.color),
+                    background: getCardBg(config.color),
+                  }}>
+                    {isBest && (
+                      <EmojiEvents sx={{ position: 'absolute', top: 8, right: 8, fontSize: 16, color: '#facc15' }} />
+                    )}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      {config.spells.map((s, i) => (
+                        <SpellButton key={i} selectedSpell={s} size={22} />
+                      ))}
+                    </Box>
+                    <Typography variant="caption" color="text.secondary">
+                      {GetTitle(getLabel(config.dataKey))}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold', color: config.color, lineHeight: 1.2 }}>
+                        {avg.toFixed(2)}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {GetTitle(showAsHealing ? 'HPS' : 'DPS')}
+                      </Typography>
+                    </Box>
+                  </Card>
+                );
+              });
+            })()}
+          </Box>
+          <Box sx={{ height: "500px", width: "100%" }}>
+            <Line data={chartData} options={chartOptions} />
+          </Box>
+        </Box>
+      </Card>
 
-      <Box sx={{ width: "100%", maxWidth: 1000, mt: 2, display: 'flex', flexDirection: 'column', gap: 3 }}>
-          {renderValuesTable('DPS', false)}
-          {renderComparisonTable('DPS', false)}
-          {renderValuesTable('HPS', true)}
-          {renderComparisonTable('HPS', true)}
-      </Box>
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
+        <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
+          <Tab label={GetTitle("DPS")} />
+          <Tab label={GetTitle("HPS")} />
+        </Tabs>
+        <Box sx={{ p: 2 }}>
+          {renderHeatmapTable(showAsHealing ? 'HPS' : 'DPS', showAsHealing)}
+        </Box>
+      </Card>
+
+      <Accordion
+        variant="outlined"
+        disableGutters
+        sx={{ width: "100%", maxWidth: 1000, borderRadius: '4px', '&:before': { display: 'none' } }}
+      >
+        <AccordionSummary expandIcon={<ExpandMore />}>
+          <Typography variant="body2" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
+            {GetTitle("Raw Tables")}
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{ p: 0 }}>
+          <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
+            <Tab label={GetTitle("DPS")} />
+            <Tab label={GetTitle("HPS")} />
+          </Tabs>
+          <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {renderValuesTable(showAsHealing ? 'HPS' : 'DPS', showAsHealing)}
+            {renderComparisonTable(showAsHealing ? 'HPS' : 'DPS', showAsHealing)}
+          </Box>
+        </AccordionDetails>
+      </Accordion>
     </Container>
   );
 };

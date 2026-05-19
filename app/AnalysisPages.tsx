@@ -61,7 +61,7 @@ export const mwDamage = {
   label: "Mistweaver Damage Comparison", 
   path: "/analysis/mw-damage", 
   preview: "/previews/mw-damage.png",
-  description: "Evaluate formulated single target rotation damage output compared to Spinning Crane Kick and Jade Empowerment",
+  description: "Evaluate formulated damage output of various Mistweaver rotations",
   tags: ["Rotation", "Damage"],
   createdDate: "2025-03-26",
   component: DamageComparison
