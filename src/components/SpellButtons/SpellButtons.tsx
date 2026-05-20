@@ -8,12 +8,14 @@ interface SpellButtonsProps {
     selectedSpec?: specialization;
     spells?: SPELL[];
     addSpellToTable: (spell: SPELL, empowerLevel: number) => void;
+    appendSlot?: React.ReactNode;
 }
 
 const SpellButtons: React.FC<SpellButtonsProps> = ({
     selectedSpec,
     spells,
     addSpellToTable,
+    appendSlot,
 }) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedSpell, setSelectedSpell] = useState<SPELL | null>(null);
@@ -74,6 +76,7 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({
                         action={handleSpellClick}
                     />
                 ))}
+                {appendSlot}
             </div>
 
             <EmpowerLevelDialog
