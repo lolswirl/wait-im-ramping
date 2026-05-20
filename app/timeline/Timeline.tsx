@@ -1,15 +1,16 @@
 "use client";
 import React, { useState } from 'react';
-import {Typography, FormControl, InputLabel, OutlinedInput, Box, Card, Stack, Divider, FormControlLabel, Switch, Chip, IconButton, Collapse, CardHeader, CardContent } from '@mui/material';
-import { ExpandMore, ExpandLess } from '@mui/icons-material';
-import { v4 as uuidv4 } from 'uuid';
+import { Typography, Box, Card, Stack, Divider, FormControlLabel, Dialog, DialogContent, Fade, useMediaQuery, useTheme } from '@mui/material';
 
 import TimelineVisualizer from '@components/TimelineVisualizer/TimelineVisualizer';
 import SpecializationSelect from '@components/SpecializationSelect/SpecializationSelect';
 import SpellButtons from '@components/SpellButtons/SpellButtons';
-import SpellButton from '@components/SpellButtons/SpellButton';
 import CurrentRotationControl from '@components/CurrentRotationControl/CurrentRotationControl';
 import PageHeader from '@components/PageHeader/PageHeader';
+import PresetSpells from '@components/PresetSpells/PresetSpells';
+import WarningChip from '@components/WarningChip/WarningChip';
+import SwirlToggle from '@components/Buttons/SwirlToggle';
+import { RAINBOW_GRADIENT } from '@components/Buttons/RainbowCard';
 
 import { useSpec } from '@context/SpecContext';
 
@@ -18,14 +19,15 @@ import { CLASSES, specialization } from '@data/class';
 
 import { useRotationManager } from '@hooks/useRotationManager';
 import { T } from '@util/T';
-import { hexToRgb } from '@util/stringManipulation';
-import WarningChip from '@components/WarningChip/WarningChip';
 
 const Timeline: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const { spec, setSpec } = useSpec();
     const [spellList, setSpellList] = useState<spell[]>([]);
     const [condense, setCondense] = useState(true);
-    const [prebuiltExpanded, setPrebuiltExpanded] = useState(false);
+    const [presetOpen, setPresetOpen] = useState(false);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const {
         currentRotation,
@@ -40,267 +42,181 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
         onReorderRotation,
     } = useRotationManager();
 
-    const handleSetCondense = (value: boolean) => {
-        setCondense(value);
-    };
-
     const handleSpecChange = (newSpec: specialization) => {
-        if (spellList.length === 0) {
-          setSpec(newSpec);
-        } else {
-          clearTable();
-          setSpec(newSpec);
-          console.warn("You cannot change specialization while spells are in the table. Table cleared.");
+        if (spellList.length > 0) {
+            setSpellList([]);
+            console.warn("You cannot change specialization while spells are in the table. Table cleared.");
         }
+        setSpec(newSpec);
         clearCurrentRotation();
         clearAllRotations();
     };
 
-    const clearTable = () => {
-        setSpellList([]);
-    };
-
-    const PrebuiltRotations = () => {
-        if (!spec) return null;
-
-        const rotationEntries = Object.entries(spec.rotations || {}) as [string, spell[]][];
-
-        const addUUIDsToRotation = (spells: spell[]) => {
-            return spells.map(spell => ({
-                ...spell,
-                uuid: spell.uuid || uuidv4(),
-            }));
-        };
-
-        const baseColor = hexToRgb(spec.color);
-
-        return (
-            <Box sx={{ width: '100%' }}>
-                <Box 
-                    sx={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        width: '100%',
-                        cursor: 'pointer',
-                        userSelect: 'none',
-                        py: 1,
-                        px: 1.5,
-                        mb: prebuiltExpanded ? 1 : 0,
-                        borderRadius: 1,
-                        border: '1px solid',
-                        transition: 'all 0.2s ease',
-                        backgroundColor: 'primary',
-                        borderColor: 'divider',
-                        '&:hover': {
-                            backgroundColor: 'action.selected',
-                            borderColor: 'primary.main',
-                            boxShadow: 1,
-                        }
-                    }}
-                    onClick={() => setPrebuiltExpanded(!prebuiltExpanded)}
-                >
-                    <Typography 
-                        variant="body1"
-                    >
-                        <T>Prebuilt Rotations</T>
-                    </Typography>
-                    <ExpandMore
-                        sx={{
-                            transform: prebuiltExpanded ? 'rotate(0deg)' : 'rotate(-90deg)',
-                            transition: 'transform 0.2s ease',
-                            color: 'action.active'
-                        }}
-                    />
-                </Box>
-                
-                <Collapse in={prebuiltExpanded}>
-                    <Box sx={{ px: 0, pb: 0 }}>
-                        {rotationEntries.length === 0 ? (
-                            <Typography color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>
-                                No rotations available for {spec.name}
-                            </Typography>
-                        ) : (
-                            <Box
-                                sx={{
-                                    columnCount: { xs: 1, sm: 1, md: 1 },
-                                    columnGap: 1.5,
-                                    columnFill: 'balance',
-                            }}
-                            >
-                                {rotationEntries.map(([rotationName, spells], index) => {
-                                    const darknessFactor = 0.8 - (index * 0.1);
-                                    const adjustedColor = {
-                                        r: Math.max(0, Math.floor(baseColor.r * darknessFactor)),
-                                        g: Math.max(0, Math.floor(baseColor.g * darknessFactor)),
-                                        b: Math.max(0, Math.floor(baseColor.b * darknessFactor))
-                                    };
-
-                                    return (
-                                        <Card 
-                                            key={index}
-                                            variant="outlined" 
-                                            sx={{ 
-                                                p: 1,
-                                                px: 2,
-                                                cursor: 'pointer',
-                                                transition: 'all 0.2s ease',
-                                                background: `linear-gradient(135deg, rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.1), rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.05))`,
-                                                borderColor: `rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.3)`,
-                                                breakInside: 'avoid',
-                                                marginBottom: index !== rotationEntries.length - 1 ? 0.5 : 0,
-                                                display: 'inline-block',
-                                                width: '100%',
-                                                boxSizing: 'border-box',
-                                                '&:hover': {
-                                                    transform: 'translateY(-2px)',
-                                                    boxShadow: 4,
-                                                    borderColor: `rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.5)`,
-                                                    background: `linear-gradient(135deg, rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.15), rgba(${adjustedColor.r}, ${adjustedColor.g}, ${adjustedColor.b}, 0.08))`,
-                                                }
-                                            }}
-                                            onClick={() => setCurrentRotation(addUUIDsToRotation(spells))}
-                                        >
-                                            <Box sx={{ 
-                                                display: 'flex', 
-                                                gap: 0.5, 
-                                                flexWrap: 'wrap',
-                                                justifyContent: 'center'
-                                            }}>
-                                                {spells.map((spell, i) => (
-                                                    <SpellButton 
-                                                        key={spell.uuid || i} 
-                                                        selectedSpell={spell}
-                                                    />
-                                                ))}
-                                            </Box>
-                                        </Card>
-                                    );
-                                })}
-                            </Box>
-                        )}
-                    </Box>
-                </Collapse>
-            </Box>
-        );
+    const handleSelectPreset = (spells: spell[]) => {
+        setCurrentRotation(spells);
+        setPresetOpen(false);
     };
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-            <PageHeader 
-                title={title} 
-                subtitle={description} 
-            />
-            
-            {/* warn for horizontal mode on mobile */}
-            <Box sx={{ display: { xs: "block", md: "none" }, mb: 2, px: 2, textAlign: "center" }}>
-                <Typography variant="body2" color="textSecondary">
-                    <T>For the best experience, rotate your device to</T>{" "}
-                    <b><T>horizontal (landscape)</T></b>{" "}
-                    <T>mode.</T>
-                </Typography>
-            </Box>
+            <PageHeader title={title} subtitle={description} />
 
-            <Card variant="outlined"
+            {isMobile && (
+                <Box sx={{ mb: 2, px: 2, textAlign: 'center' }}>
+                    <Typography variant="body2" color="textSecondary">
+                        <T>
+                            For the best experience, rotate your device to <b>horizontal (landscape)</b> mode.
+                        </T>
+                    </Typography>
+                </Box>
+            )}
+
+            <Card
+                variant="outlined"
                 sx={{
                     overflowX: { xs: 'auto', md: 'visible' },
                     maxWidth: { xs: '90%', sm: '90%', md: 600 },
-                    width: { xs: "90%", sm: "90%", md: "100%" },
-                    mx: "auto",
+                    width: { xs: '90%', sm: '90%', md: '100%' },
+                    mx: 'auto',
                     mb: { xs: 2, sm: 3 },
-                    boxSizing: "border-box",
+                    boxSizing: 'border-box',
                 }}
             >
-                <Box sx={{ display: 'flex', flexDirection: 'column', p: 2, }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
                     <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
-                        <FormControl
-                            variant="outlined"
+
+                        <Box
                             sx={{
-                                minWidth: 120,
-                                maxWidth: 250,
                                 ml: 2,
+                                position: 'relative',
+                                border: '1px solid',
+                                borderColor: 'divider',
+                                borderRadius: 1,
+                                px: 1.5,
+                                height: 50,
+                                display: 'flex',
+                                alignItems: 'center',
                             }}
                         >
-                            <InputLabel shrink htmlFor="options-outlined">
-                                <T>Options</T>
-                            </InputLabel>
-                            <OutlinedInput
-                                id="options-outlined"
-                                label={T("Options")}
-                                notched
-                                readOnly
-                                inputComponent="span"
-                                inputProps={{
-                                    style: {
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 8,
-                                        width: "100%",
-                                        minHeight: 44,
-                                        padding: 0,
-                                    },
-                                    children: (
-                                        <FormControlLabel
-                                            control={
-                                                <Switch
-                                                    checked={condense}
-                                                    onChange={(e) => handleSetCondense(e.target.checked)}
-                                                    color="primary"
-                                                    size="small"
-                                                />
-                                            }
-                                            label={T("Condensed")}
-                                            sx={{ ml: 1 }}
-                                        />
-                                    ),
-                                }}
+                            <Typography
+                                variant="caption"
+                                color="text.secondary"
                                 sx={{
-                                    height: 45,
-                                    alignItems: "center",
-                                    py: 1,
-                                    width: "100%",
+                                    position: 'absolute',
+                                    top: -6,
+                                    left: 8,
+                                    px: 0.5,
+                                    bgcolor: 'background.paper',
+                                    lineHeight: 1,
+                                    zIndex: 1,
                                 }}
+                            >
+                                <T>Options</T>
+                            </Typography>
+                            <FormControlLabel
+                                control={<SwirlToggle checked={condense} onChange={setCondense} />}
+                                label={T('Condensed')}
+                                sx={{ ml: 0, mr: 0, gap: 1 }}
                             />
-                        </FormControl>
+                        </Box>
                     </Stack>
 
                     {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
                         <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'center' }}>
-                            <WarningChip message="This spec has limited support for cast time reductions and haste buff gains" showIcon borderColor="#ffa726"/>
+                            <WarningChip
+                                message="This spec has limited support for cast time reductions and haste buff gains"
+                                showIcon
+                                borderColor="#ffa726"
+                            />
                         </Box>
                     )}
 
-                    <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
+                    <Divider sx={{ mx: -2, my: 2, width: 'auto' }} />
 
-                    <SpellButtons selectedSpec={spec} addSpellToTable={addSpellToRotation} />
-                    
-                    <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
-
-                    <PrebuiltRotations />
-
-                    <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
-
-                    <Box sx={{ mt: 0 }}>
-                        {spec && (
-                            <CurrentRotationControl
-                                currentRotation={currentRotation}
-                                onRemoveSpell={removeSpellFromRotation}
-                                onFinalizeRotation={finalizeRotation}
-                                onClearCurrentRotation={clearCurrentRotation}
-                                onClearAllRotations={clearAllRotations}
-                                hasRotations={hasRotations}
-                                onReorderRotation={onReorderRotation}
-                            />
+                    <SpellButtons
+                        selectedSpec={spec}
+                        addSpellToTable={addSpellToRotation}
+                        appendSlot={spec && (
+                            <Box
+                                onClick={() => setPresetOpen(true)}
+                                sx={{
+                                    width: 89,
+                                    height: 42,
+                                    borderRadius: '4px',
+                                    border: '1px solid transparent',
+                                    background: (theme) => `linear-gradient(${theme.palette.background.paper}, ${theme.palette.background.paper}) padding-box, ${theme.palette.divider} border-box`,
+                                    boxShadow: '0px 2px 4px rgba(0,0,0,0.2)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    cursor: 'pointer',
+                                    transition: 'transform 0.3s ease',
+                                    '&:hover': {
+                                        transform: 'scale(1.05)',
+                                        background: (theme) => `linear-gradient(${theme.palette.background.paper}, ${theme.palette.background.paper}) padding-box, ${RAINBOW_GRADIENT} border-box`,
+                                    },
+                                }}
+                            >
+                                <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center', lineHeight: 1.2 }}>
+                                    <T>Preset Spells</T>
+                                </Typography>
+                            </Box>
                         )}
-                    </Box>
+                    />
+
+                    <Divider sx={{ mx: -2, my: 2, width: 'auto' }} />
+
+                    {spec && (
+                        <CurrentRotationControl
+                            currentRotation={currentRotation}
+                            onRemoveSpell={removeSpellFromRotation}
+                            onFinalizeRotation={finalizeRotation}
+                            onClearCurrentRotation={clearCurrentRotation}
+                            onClearAllRotations={clearAllRotations}
+                            hasRotations={hasRotations}
+                            onReorderRotation={onReorderRotation}
+                        />
+                    )}
                 </Box>
             </Card>
 
-            <TimelineVisualizer 
-                selectedSpec={spec} 
-                condense={condense} 
-                rotations={rotations.map(rotation => rotation.steps)} 
+            <Dialog
+                open={presetOpen}
+                onClose={() => setPresetOpen(false)}
+                maxWidth="sm"
+                fullWidth
+                slots={{ transition: Fade }}
+                slotProps={{
+                    transition: { timeout: 200 },
+                    paper: {
+                        elevation: 8,
+                        sx: {
+                            borderRadius: 1,
+                            width: 'auto',
+                            backgroundColor: 'rgba(26, 26, 26, 0.2)',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
+                            overflow: 'hidden',
+                        },
+                    },
+                    backdrop: {
+                        sx: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                            backdropFilter: 'blur(4px)',
+                        },
+                    },
+                }}
+            >
+                <DialogContent sx={{ p: 2, backgroundColor: 'rgba(18, 18, 18, 0.6)' }}>
+                    <PresetSpells spec={spec} onSelectRotation={handleSelectPreset} />
+                </DialogContent>
+            </Dialog>
+
+            <TimelineVisualizer
+                selectedSpec={spec}
+                condense={condense}
+                rotations={rotations.map(rotation => rotation.steps)}
             />
         </div>
     );
