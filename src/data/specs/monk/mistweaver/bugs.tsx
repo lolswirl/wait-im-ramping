@@ -933,10 +933,14 @@ const BUGS: Bug[] = [
     {
         spell: TIER.T35_MISTWEAVER_4SET,
         severity: SEVERITY.CRITICAL,
-        buildsTested: ["66709"],
-        title: <>Sets random buffs durations to 20-32 seconds</>,
-        description: <>Buffs like <SpellLink spell={SPELLS.ENVELOPING_MIST} />, <SpellLink spell={SPELLS.LIFE_COCOON} />, flasks, vantus runes, etc. become set to 20-32 seconds when it should be a <SpellLink spell={SPELLS.RENEWING_MIST} /></>,
+        buildsTested: ["66709", "67602"],
+        title: <>Completely removes or sets random buffs durations to 20-32 seconds</>,
+        description: <>Buffs like <SpellLink spell={SPELLS.ENVELOPING_MIST} />, <SpellLink spell={SPELLS.LIFE_COCOON} />, flasks, vantus runes, etc. become set to 20-32 seconds when it should be a <SpellLink spell={SPELLS.RENEWING_MIST} />.
+        
+        This has transpired further by outright removing Vantus Runes, not even directly tied to the Renewing Mist application. The Vantus removal doesn't send a combat log event, so finding the resulting buff gain/loss is incredibly difficult.</>,
         logs: [
+            { label: "Vantus Removal Video (no combat log event)", url: "https://youtu.be/HewXYiOCbZw?si=bJl33wRHIh0unlWM" },
+            { label: "Log from video (no combat log event)", url: "https://www.warcraftlogs.com/reports/Nt4djnwFv21MQhTC?source=32&type=auras&fight=7&start=3232640&end=3245311&view=events" },
             { label: "Log", url: "https://www.warcraftlogs.com/reports/gJdQDb6F8aVcXTR3" },
             { label: "Video", url: "https://www.youtube.com/watch?v=c4YciBeeEXc" },
             { label: "Video 2", url: "https://www.youtube.com/watch?v=BQoZXADMOuY" },
