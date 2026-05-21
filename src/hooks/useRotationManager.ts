@@ -69,6 +69,26 @@ export const useRotationManager = (options: UseRotationManagerOptions = {}) => {
         setRotations(prev => prev.filter(r => r.id !== rotationId));
     };
 
+    const moveRotationUp = (rotationId: string) => {
+        setRotations(prev => {
+            const index = prev.findIndex(r => r.id === rotationId);
+            if (index <= 0) return prev;
+            const next = [...prev];
+            [next[index - 1], next[index]] = [next[index], next[index - 1]];
+            return next;
+        });
+    };
+
+    const moveRotationDown = (rotationId: string) => {
+        setRotations(prev => {
+            const index = prev.findIndex(r => r.id === rotationId);
+            if (index < 0 || index >= prev.length - 1) return prev;
+            const next = [...prev];
+            [next[index], next[index + 1]] = [next[index + 1], next[index]];
+            return next;
+        });
+    };
+
     const setCurrentRotationDirect = (spells: Spell[]) => {
         setCurrentRotation(spells);
     };
@@ -86,6 +106,8 @@ export const useRotationManager = (options: UseRotationManagerOptions = {}) => {
         clearCurrentRotation,
         clearAllRotations,
         removeRotation,
+        moveRotationUp,
+        moveRotationDown,
         setCurrentRotation: setCurrentRotationDirect,
         onReorderRotation,
         hasRotations: rotations.length > 0

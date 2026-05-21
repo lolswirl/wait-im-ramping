@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { useTheme } from "@mui/material/styles";
+import { Box } from "@mui/material";
+import { ArrowUpward, ArrowDownward, Delete } from "@mui/icons-material";
+import { GlassIconButton } from "@components/Buttons/GlassIconButton";
 
 import spell, { calculateCastTime, GCD } from '@data/spells/spell';
 import { specialization } from "@data/class";
@@ -25,10 +28,18 @@ const ORANGE = "#f8b700";
 const LIGHT_ORANGE = "#ffde00";
 const WHITE = "#ffffff";
 
+interface RotationWithId {
+  id: string;
+  steps: spell[];
+}
+
 interface TimelineVisualizerProps {
   selectedSpec: specialization;
-  rotations: spell[][];
+  rotations: RotationWithId[];
   condense: boolean;
+  onRemoveRotation: (id: string) => void;
+  onMoveRotationUp: (id: string) => void;
+  onMoveRotationDown: (id: string) => void;
 }
 
 interface IconProps {
@@ -41,11 +52,12 @@ interface IconProps {
   imageIndex: number;
 }
 
-export default function TimelineVisualizer({ selectedSpec, rotations = [], condense }: TimelineVisualizerProps) {
+export default function TimelineVisualizer({ selectedSpec, rotations = [], condense, onRemoveRotation, onMoveRotationUp, onMoveRotationDown }: TimelineVisualizerProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const theme = useTheme();
 
   const [containerWidth, setContainerWidth] = useState<number>(0);
+  const [buttonLeft, setButtonLeft] = useState<number>(0);
 
   useEffect(() => {
     function handleResize() {
@@ -206,7 +218,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
       const ogcdImages: IconProps[] = [];
 
       const updatedRotations = await Promise.all(
-        rotations.map(rotation => applyBuffEffects(selectedSpec, rotation))
+        rotations.map(rotation => applyBuffEffects(selectedSpec, rotation.steps))
       );
 
       let totalTime = 0;
@@ -230,7 +242,8 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
       
       const roundedTime = Math.ceil(totalTime * 2) / 2;
 
-      const margin = { top: 50, right: 50, bottom: 75, left: 50 };
+      const buttonAreaWidth = (condense ? RECT_HEIGHT_CONDENSED : RECT_HEIGHT) * 3 + 16;
+      const margin = { top: 50, right: buttonAreaWidth + 8, bottom: 75, left: 50 };
       const availableWidth = containerWidth - margin.left - margin.right;
 
       // calculate scale to fit the timeline inside availableWidth
@@ -248,6 +261,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
       const width = roundedTime * scale;
       const svgWidth = Math.min(width + margin.left + margin.right, containerWidth);
       const height = (condense ? ROW_TOTAL_HEIGHT_CONDENSED : ROW_TOTAL_HEIGHT) * rotations.length + 130;
+      setButtonLeft(svgWidth - margin.right + 8);
 
       const svg = d3
         .select(svgRef.current)
@@ -382,13 +396,56 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
 
   }, [rotations, containerWidth, theme.palette.background, condense, selectedSpec]);
 
+  const barHeight = condense ? RECT_HEIGHT_CONDENSED : RECT_HEIGHT;
+
   return (
     <>
       {rotations.length > 0 && (
-        <svg
-          ref={svgRef}
-          style={{ maxWidth: "100%", display: "block" }}
-        />
+        <Box sx={{ position: 'relative', display: 'inline-block' }}>
+          <svg ref={svgRef} style={{ maxWidth: "100%", display: "block" }} />
+          <Box sx={{ position: 'absolute', top: 50, left: buttonLeft, display: 'flex', flexDirection: 'column', gap: `${ROW_PADDING}px` }}>
+            {rotations.map((rotation, index) => {
+              return (
+              <Box
+                key={rotation.id}
+                sx={{
+                  height: barHeight,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 0.5,
+                }}
+              >
+                <GlassIconButton
+                  onClick={() => onMoveRotationUp(rotation.id)}
+                  disabled={index === 0}
+                  width={barHeight}
+                  height={barHeight}
+                >
+                  <ArrowUpward sx={{ fontSize: 15 }} />
+                </GlassIconButton>
+                <GlassIconButton
+                  tint="danger"
+                  onClick={() => onRemoveRotation(rotation.id)}
+                  width={barHeight}
+                  height={barHeight}
+                >
+                  <Delete sx={{ fontSize: 15 }} />
+                </GlassIconButton>
+                <GlassIconButton
+                  onClick={() => onMoveRotationDown(rotation.id)}
+                  disabled={index === rotations.length - 1}
+                  width={barHeight}
+                  height={barHeight}
+                >
+                  <ArrowDownward sx={{ fontSize: 15 }} />
+                </GlassIconButton>
+              </Box>
+            );
+            })}
+          </Box>
+        </Box>
       )}
     </>
   );

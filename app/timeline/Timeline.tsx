@@ -37,6 +37,9 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
         finalizeRotation,
         clearCurrentRotation,
         clearAllRotations,
+        removeRotation,
+        moveRotationUp,
+        moveRotationDown,
         setCurrentRotation,
         hasRotations,
         onReorderRotation,
@@ -216,7 +219,10 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
             <TimelineVisualizer
                 selectedSpec={spec}
                 condense={condense}
-                rotations={rotations.map(rotation => rotation.steps)}
+                rotations={rotations}
+                onRemoveRotation={removeRotation}
+                onMoveRotationUp={moveRotationUp}
+                onMoveRotationDown={moveRotationDown}
             />
         </div>
     );
