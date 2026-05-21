@@ -9,7 +9,6 @@ import {
     TableRow,
     Paper,
     Box,
-    IconButton,
 } from "@mui/material";
 import {
     ArrowUpward,
@@ -19,6 +18,7 @@ import {
 } from "@mui/icons-material";
 
 import SwirlButton from "@components/Buttons/SwirlButton";
+import { GlassIconButton } from "@components/Buttons/GlassIconButton";
 
 import spell, { calculateEffectiveCastTime } from "@data/spells/spell";
 import { applyBuffEffects } from "@data/buffs";
@@ -228,47 +228,24 @@ const SpellTable: React.FC<SpellTableProps> = ({
                                             justifyContent="center"
                                             gap={1}
                                         >
-                                            <IconButton
-                                                onClick={() =>
-                                                    moveSpell(index, "up")
-                                                }
-                                                size="small"
+                                            <GlassIconButton
+                                                onClick={() => moveSpell(index, "up")}
                                                 disabled={index === 0}
                                             >
-                                                <ArrowUpward />
-                                            </IconButton>
-                                            <IconButton
-                                                onClick={() =>
-                                                    moveSpell(index, "down")
-                                                }
-                                                size="small"
-                                                disabled={
-                                                    index ===
-                                                    adjustedSpells.length - 1
-                                                }
+                                                <ArrowUpward sx={{ fontSize: 16 }} />
+                                            </GlassIconButton>
+                                            <GlassIconButton
+                                                onClick={() => moveSpell(index, "down")}
+                                                disabled={index === adjustedSpells.length - 1}
                                             >
-                                                <ArrowDownward
-                                                    color={
-                                                        index ===
-                                                        adjustedSpells.length -
-                                                            1
-                                                            ? "disabled"
-                                                            : "inherit"
-                                                    }
-                                                />
-                                            </IconButton>
-                                            <IconButton
-                                                onClick={() =>
-                                                    removeSpellFromTable(index)
-                                                }
-                                                sx={{ color: "inherit" }}
+                                                <ArrowDownward sx={{ fontSize: 16 }} />
+                                            </GlassIconButton>
+                                            <GlassIconButton
+                                                tint="danger"
+                                                onClick={() => removeSpellFromTable(index)}
                                             >
-                                                <DeleteTwoTone
-                                                    sx={{
-                                                        fill: "#d32f2f !important",
-                                                    }}
-                                                />
-                                            </IconButton>
+                                                <DeleteTwoTone sx={{ fontSize: 16 }} />
+                                            </GlassIconButton>
                                         </Box>
                                     </TableCell>
                                 </motion.tr>
