@@ -75,7 +75,6 @@ const spells = {
         id: 115175,
         icon: 'ability_monk_soothingmists',
         castTime: 1,
-        hasted: false,
         school: SCHOOLS.NATURE,
         custom: {
             replaceGCD: 1
