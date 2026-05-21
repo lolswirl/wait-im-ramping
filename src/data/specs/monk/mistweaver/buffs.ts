@@ -36,9 +36,6 @@ export const MISTWEAVER_MONK_BUFFS = (spellList: spell[]): spell[] => {
                     spell = { ...spell, custom: { duration: 30 } };
                     thunderFocusTeaUsed = false;
                     break;
-                case SPELLS.VIVIFY.id:
-                    thunderFocusTeaUsed = false;
-                    break;
                 default:
                     break;
             }
