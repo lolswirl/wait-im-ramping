@@ -14,19 +14,15 @@ import { toRomanNumeral } from "@util/toRomanNumeral";
 import { T } from "@util/T";
 
 
-const RECT_HEIGHT = 100;
-const RECT_HEIGHT_CONDENSED = 35;
+const RECT_HEIGHT = 35;
 const ROW_PADDING = 20;
 const ROW_TOTAL_HEIGHT = RECT_HEIGHT + ROW_PADDING;
-const ROW_TOTAL_HEIGHT_CONDENSED = RECT_HEIGHT_CONDENSED + ROW_PADDING;
 const TRANSITION_DURATION = 500;
-const IMAGE_OFFSET = 25;
 
 const GREY = "#575757";
 const LIGHT_GREY = "#a3a3a3";
 const ORANGE = "#f8b700";
 const LIGHT_ORANGE = "#ffde00";
-const WHITE = "#ffffff";
 
 interface RotationWithId {
   id: string;
@@ -36,7 +32,6 @@ interface RotationWithId {
 interface TimelineVisualizerProps {
   selectedSpec: specialization;
   rotations: RotationWithId[];
-  condense: boolean;
   onRemoveRotation: (id: string) => void;
   onMoveRotationUp: (id: string) => void;
   onMoveRotationDown: (id: string) => void;
@@ -52,7 +47,7 @@ interface IconProps {
   imageIndex: number;
 }
 
-export default function TimelineVisualizer({ selectedSpec, rotations = [], condense, onRemoveRotation, onMoveRotationUp, onMoveRotationDown }: TimelineVisualizerProps) {
+export default function TimelineVisualizer({ selectedSpec, rotations = [], onRemoveRotation, onMoveRotationUp, onMoveRotationDown }: TimelineVisualizerProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const theme = useTheme();
 
@@ -108,13 +103,13 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
         .attr("x", x)
         .attr("y", y)
         .attr("width", duration * scale)
-        .attr("height", condense ? RECT_HEIGHT_CONDENSED : RECT_HEIGHT)
-        .attr("fill", condense ? ORANGE : "none")
+        .attr("height", RECT_HEIGHT)
+        .attr("fill", ORANGE)
         .attr("opacity", 0)
-        .attr("rx", condense ? 9 : 0)
-        .attr("ry", condense ? 9 : 0)
-        .attr("stroke", condense ? LIGHT_ORANGE : WHITE)
-        .attr("filter", condense ? "url(#glow)" : "")
+        .attr("rx", 9)
+        .attr("ry", 9)
+        .attr("stroke", LIGHT_ORANGE)
+        .attr("filter", "url(#glow)")
         .transition()
         .duration(TRANSITION_DURATION)
         .attr("opacity", 1);
@@ -123,15 +118,15 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
     function drawGCD(graph, x, y, gcd, scale, GCDFirst: boolean) {
       graph.append("rect")
         .attr("x", x)
-        .attr("y", y + (condense ? -1 : RECT_HEIGHT / 2))
-        .attr("width", (condense ? gcd : gcd - 0.01) * scale)
-        .attr("height", (condense ? RECT_HEIGHT_CONDENSED + 2 : RECT_HEIGHT / 2))
-        .attr("fill", condense ? GREY : "none")
-        .attr("stroke", condense ? LIGHT_GREY : ORANGE)
-        .attr("stroke-dasharray", condense ? "" : "5,5")
+        .attr("y", y - 1)
+        .attr("width", gcd * scale)
+        .attr("height", RECT_HEIGHT + 2)
+        .attr("fill", GREY)
+        .attr("stroke", LIGHT_GREY)
+        .attr("stroke-dasharray", "")
         .attr("opacity", 0)
-        .attr("rx", condense ? 9 : 0)
-        .attr("ry", condense ? 9 : 0)
+        .attr("rx", 9)
+        .attr("ry", 9)
         .transition()
         .duration(TRANSITION_DURATION)
         .attr("opacity", 1);
@@ -139,8 +134,8 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
 
     function drawIcon(graph, x, y, ability, xOffset, rotationIndex, imageIndex) {
       const imageSize = 50;
-      const borderX = x - (condense ? 1 : IMAGE_OFFSET) + xOffset;
-      const borderY = y + ((condense ? RECT_HEIGHT_CONDENSED : RECT_HEIGHT) - imageSize) / 2;
+      const borderX = x - 1 + xOffset;
+      const borderY = y + (RECT_HEIGHT - imageSize) / 2;
       const clipId = `clip-${rotationIndex}-${imageIndex}`;
 
       graph.append("clipPath")
@@ -223,7 +218,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
 
       let totalTime = 0;
       let maxSpellCount = 0;
-      
+
       updatedRotations.forEach(rotation => {
         let time = 0;
         let spellCount = 0;
@@ -239,15 +234,13 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
         totalTime = Math.max(totalTime, time);
         maxSpellCount = Math.max(maxSpellCount, spellCount);
       });
-      
+
       const roundedTime = Math.ceil(totalTime * 2) / 2;
 
-      const buttonAreaWidth = (condense ? RECT_HEIGHT_CONDENSED : RECT_HEIGHT) * 3 + 16;
+      const buttonAreaWidth = RECT_HEIGHT * 3 + 16;
       const margin = { top: 50, right: buttonAreaWidth + 8, bottom: 75, left: 50 };
       const availableWidth = containerWidth - margin.left - margin.right;
 
-      // calculate scale to fit the timeline inside availableWidth
-      // set scale to modify based on number of abilities used for readability
       let scale;
       if (maxSpellCount < 5) {
         const MIN_SCALE_COMPACT = 90;
@@ -260,7 +253,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
 
       const width = roundedTime * scale;
       const svgWidth = Math.min(width + margin.left + margin.right, containerWidth);
-      const height = (condense ? ROW_TOTAL_HEIGHT_CONDENSED : ROW_TOTAL_HEIGHT) * rotations.length + 130;
+      const height = ROW_TOTAL_HEIGHT * rotations.length + 130;
       setButtonLeft(svgWidth - margin.right + 8);
 
       const svg = d3
@@ -279,8 +272,8 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
         .attr("class", "legend");
 
       const legendItems = [
-        { label: T("GCD"), shape: "rect", color: condense ? GREY : ORANGE },
-        { label: T("Cast"), shape: "rect", color: condense ? ORANGE : WHITE }
+        { label: T("GCD"), shape: "rect", color: GREY },
+        { label: T("Cast"), shape: "rect", color: ORANGE }
       ];
 
       const legendPadding = 10;
@@ -311,7 +304,6 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
           .style("fill", LIGHT_GREY);
       });
 
-      // Use the updated rotations for rendering
       updatedRotations.forEach((rotation, rotationIndex) => {
         let time = 0;
         let imageIndex = 0;
@@ -323,7 +315,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
           const isOffGCDInstant = (ability.castTime === 0 || ability.castTime === undefined) && ability.gcd === false;
           const x = time * scale;
 
-          const baseY = rotationIndex * (condense ? ROW_TOTAL_HEIGHT_CONDENSED : ROW_TOTAL_HEIGHT);
+          const baseY = rotationIndex * ROW_TOTAL_HEIGHT;
           let yOffset = 0;
 
           let iconXOffset = Object.keys(offGCDStackMap).length * 55;
@@ -391,12 +383,9 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
         .call(d3.axisBottom(xScale).ticks(roundedTime * 2).tickFormat(d3.format(".1f")));
     }
 
-    // Call the async function
     renderTimeline();
 
-  }, [rotations, containerWidth, theme.palette.background, condense, selectedSpec]);
-
-  const barHeight = condense ? RECT_HEIGHT_CONDENSED : RECT_HEIGHT;
+  }, [rotations, containerWidth, theme.palette.background, selectedSpec]);
 
   return (
     <>
@@ -404,12 +393,11 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
         <Box sx={{ position: 'relative', display: 'inline-block' }}>
           <svg ref={svgRef} style={{ maxWidth: "100%", display: "block" }} />
           <Box sx={{ position: 'absolute', top: 50, left: buttonLeft, display: 'flex', flexDirection: 'column', gap: `${ROW_PADDING}px` }}>
-            {rotations.map((rotation, index) => {
-              return (
+            {rotations.map((rotation, index) => (
               <Box
                 key={rotation.id}
                 sx={{
-                  height: barHeight,
+                  height: RECT_HEIGHT,
                   display: 'flex',
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -420,30 +408,29 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], conde
                 <GlassIconButton
                   onClick={() => onMoveRotationUp(rotation.id)}
                   disabled={index === 0}
-                  width={barHeight}
-                  height={barHeight}
+                  width={RECT_HEIGHT}
+                  height={RECT_HEIGHT}
                 >
                   <ArrowUpward sx={{ fontSize: 15 }} />
                 </GlassIconButton>
                 <GlassIconButton
                   tint="danger"
                   onClick={() => onRemoveRotation(rotation.id)}
-                  width={barHeight}
-                  height={barHeight}
+                  width={RECT_HEIGHT}
+                  height={RECT_HEIGHT}
                 >
                   <Delete sx={{ fontSize: 15 }} />
                 </GlassIconButton>
                 <GlassIconButton
                   onClick={() => onMoveRotationDown(rotation.id)}
                   disabled={index === rotations.length - 1}
-                  width={barHeight}
-                  height={barHeight}
+                  width={RECT_HEIGHT}
+                  height={RECT_HEIGHT}
                 >
                   <ArrowDownward sx={{ fontSize: 15 }} />
                 </GlassIconButton>
               </Box>
-            );
-            })}
+            ))}
           </Box>
         </Box>
       )}

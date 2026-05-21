@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { Typography, Box, Card, Stack, Divider, FormControlLabel, Dialog, DialogContent, Fade, useMediaQuery, useTheme } from '@mui/material';
+import { Typography, Box, Card, Stack, Divider, Dialog, DialogContent, Fade, useMediaQuery, useTheme } from '@mui/material';
 
 import TimelineVisualizer from '@components/TimelineVisualizer/TimelineVisualizer';
 import SpecializationSelect from '@components/SpecializationSelect/SpecializationSelect';
@@ -9,7 +9,6 @@ import CurrentRotationControl from '@components/CurrentRotationControl/CurrentRo
 import PageHeader from '@components/PageHeader/PageHeader';
 import PresetSpells from '@components/PresetSpells/PresetSpells';
 import WarningChip from '@components/WarningChip/WarningChip';
-import SwirlToggle from '@components/Buttons/SwirlToggle';
 import { RAINBOW_GRADIENT } from '@components/Buttons/RainbowCard';
 
 import { useSpec } from '@context/SpecContext';
@@ -23,7 +22,6 @@ import { T } from '@util/T';
 const Timeline: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const { spec, setSpec } = useSpec();
     const [spellList, setSpellList] = useState<spell[]>([]);
-    const [condense, setCondense] = useState(true);
     const [presetOpen, setPresetOpen] = useState(false);
 
     const theme = useTheme();
@@ -88,41 +86,6 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
                 <Box sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
                     <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
-
-                        <Box
-                            sx={{
-                                ml: 2,
-                                position: 'relative',
-                                border: '1px solid',
-                                borderColor: 'divider',
-                                borderRadius: 1,
-                                px: 1.5,
-                                height: 50,
-                                display: 'flex',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Typography
-                                variant="caption"
-                                color="text.secondary"
-                                sx={{
-                                    position: 'absolute',
-                                    top: -6,
-                                    left: 8,
-                                    px: 0.5,
-                                    bgcolor: 'background.paper',
-                                    lineHeight: 1,
-                                    zIndex: 1,
-                                }}
-                            >
-                                <T>Options</T>
-                            </Typography>
-                            <FormControlLabel
-                                control={<SwirlToggle checked={condense} onChange={setCondense} />}
-                                label={T('Condensed')}
-                                sx={{ ml: 0, mr: 0, gap: 1 }}
-                            />
-                        </Box>
                     </Stack>
 
                     {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
@@ -218,7 +181,6 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
 
             <TimelineVisualizer
                 selectedSpec={spec}
-                condense={condense}
                 rotations={rotations}
                 onRemoveRotation={removeRotation}
                 onMoveRotationUp={moveRotationUp}
