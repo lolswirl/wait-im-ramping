@@ -74,7 +74,7 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <>
             <Card
                 variant="outlined"
                 sx={{
@@ -134,6 +134,6 @@ export default function RampCalc({ onTotalCastTimeChange }: RampCalcProps) {
                 onTotalCastTimeChange={onTotalCastTimeChange}
                 clearTable={clearTable}
             />
-        </div>
+        </>
     );
 }

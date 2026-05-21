@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { useState } from "react";
-import { Typography } from "@mui/material";
+import { Typography, Card } from "@mui/material";
 
 import RampCalc from "@components/RampCalc/RampCalc";
 import PageHeader from '@components/PageHeader/PageHeader';
@@ -15,26 +15,25 @@ const WhenDoIRamp: React.FC<{ title: string; description: string }> = ({ title, 
     };
 
      return (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
             <PageHeader
                 title={title}
                 subtitle={description}
             />
             <RampCalc onTotalCastTimeChange={handleTotalCastTimeChange} />
             {totalCastTime > 0 && (
-                <Typography
-                    variant="h1"
-                    sx={{
-                        mb: 0,
-                        fontWeight: 'bold',
-                        color: 'text.primary',
-                        fontSize: '2em',
-                    }}
-                >
-                    <T>
-                        Start ramping ~{Math.ceil(totalCastTime)}s before a mechanic
-                    </T>
-                </Typography>
+                <Card variant="outlined" sx={{
+                    maxWidth: 600,
+                    width: { xs: '90%', sm: '90%', md: '100%' },
+                    mx: 'auto',
+                    boxSizing: 'border-box',
+                    px: 2,
+                    py: 1.5,
+                }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600, textAlign: 'center' }}>
+                        <T>Start ramping ~{Math.ceil(totalCastTime)}s before a mechanic</T>
+                    </Typography>
+                </Card>
             )}
         </div>
     );
