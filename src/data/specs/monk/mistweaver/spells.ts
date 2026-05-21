@@ -25,7 +25,7 @@ const spells = {
     },
     RISING_SUN_KICK: {
         name: 'Rising Sun Kick',
-        id: 107428,
+        id: 185099,
         icon: 'ability_monk_risingsunkick',
         castTime: 0,
         cooldown: 12,
@@ -46,7 +46,7 @@ const spells = {
     },
     SPINNING_CRANE_KICK: {
         name: 'Spinning Crane Kick',
-        id: 101546,
+        id: 107270,
         icon: 'ability_monk_cranekick_new',
         school: SCHOOLS.PHYSICAL,
         castTime: 1.5,
