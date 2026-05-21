@@ -1,26 +1,118 @@
 "use client";
-import * as React from "react";
 import { useState } from "react";
-import { Typography, Card } from "@mui/material";
+import { TextField, InputAdornment, Card, Box, Stack, Divider, Typography } from '@mui/material';
+import { v4 as uuidv4 } from 'uuid';
 
-import RampCalc from "@components/RampCalc/RampCalc";
 import PageHeader from '@components/PageHeader/PageHeader';
+import SpecializationSelect from '@components/SpecializationSelect/SpecializationSelect';
+import SpellButtons from '@components/SpellButtons/SpellButtons';
+import SpellTable from '@components/SpellTable/SpellTable';
+import WarningChip from '@components/WarningChip/WarningChip';
+
+import { CLASSES, specialization } from '@data/class';
+import spell from '@data/spells/spell';
+
 import { T } from "@util/T";
+import { useSpec } from '@context/SpecContext';
 
 const WhenDoIRamp: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+    const { spec, setSpec } = useSpec();
+    const [lockedSpecName, setLockedSpecName] = useState<string | null>(null);
+    const [spellList, setSpellList] = useState<spell[]>([]);
+    const [haste, setHaste] = useState<number | "">(30);
     const [totalCastTime, setTotalCastTime] = useState(0);
 
-    const handleTotalCastTimeChange = (newTotalTime: number) => {
-        setTotalCastTime(newTotalTime);
+    const handleSpecChange = (newSpec: specialization) => {
+        if (spellList.length === 0) {
+            setSpec(newSpec);
+            setLockedSpecName(null);
+        } else {
+            clearTable();
+            setSpec(newSpec);
+        }
     };
 
-     return (
+    const addSpellToTable = (spell: spell, empowerLevel: number) => {
+        if (!spec) return;
+        if (!lockedSpecName) setLockedSpecName(spec.name);
+        if (lockedSpecName && lockedSpecName !== spec.name) return;
+        setSpellList(prev => [
+            ...prev,
+            {
+                ...spell,
+                uuid: uuidv4(),
+                ...(spell.hasOwnProperty("empowerLevel") ? { empowerLevel } : {}),
+            },
+        ]);
+    };
+
+    const removeSpellFromTable = (index: number) => {
+        const updated = spellList.filter((_, i) => i !== index);
+        setSpellList(updated);
+        if (updated.length === 0) setLockedSpecName(null);
+    };
+
+    const clearTable = () => {
+        setSpellList([]);
+        setLockedSpecName(null);
+    };
+
+    return (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
-            <PageHeader
-                title={title}
-                subtitle={description}
+            <PageHeader title={title} subtitle={description} />
+
+            <Card
+                variant="outlined"
+                sx={{
+                    maxWidth: 600,
+                    width: { xs: "90%", sm: "90%", md: "100%" },
+                    mx: "auto",
+                    boxSizing: "border-box",
+                }}
+            >
+                <Box sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
+                    <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                        <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
+                        <TextField
+                            label={T("Haste")}
+                            type="number"
+                            value={haste}
+                            onChange={(e) => {
+                                const newValue = e.target.value;
+                                setHaste(newValue === "" ? "" : parseFloat(newValue));
+                            }}
+                            onBlur={() => setHaste(prev => prev === "" ? 0 : prev)}
+                            error={haste === ""}
+                            sx={{ m: 0, width: '12ch' }}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                sx: { height: 45 },
+                            }}
+                        />
+                    </Stack>
+
+                    {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
+                        <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'center' }}>
+                            <WarningChip message="This spec has limited support for cast time reductions and haste buff gains" showIcon borderColor='#ffa726' />
+                        </Box>
+                    )}
+
+                    <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
+
+                    <SpellButtons selectedSpec={spec} addSpellToTable={addSpellToTable} />
+                </Box>
+            </Card>
+
+            <SpellTable
+                spellList={spellList}
+                setSpellList={setSpellList}
+                removeSpellFromTable={removeSpellFromTable}
+                selectedSpec={spec!}
+                haste={haste === "" ? 0 : haste}
+                onTotalCastTimeChange={setTotalCastTime}
+                clearTable={clearTable}
             />
-            <RampCalc onTotalCastTimeChange={handleTotalCastTimeChange} />
+
             {totalCastTime > 0 && (
                 <Card variant="outlined" sx={{
                     maxWidth: 600,
