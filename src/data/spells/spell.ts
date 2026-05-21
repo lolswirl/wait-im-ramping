@@ -76,7 +76,10 @@ export const calculateEffectiveCastTime = (
         };
     }
 
-    const gcd = calculateGCD(haste);
+    const baseGCD = calculateGCD(haste);
+    const gcd = spell.custom?.replaceGCD !== undefined
+        ? Math.min(spell.custom.replaceGCD / (1 + haste / 100), baseGCD)
+        : baseGCD;
     const effectiveTime = Math.max(castTime, gcd);
     const isGCDConstrained = castTime < gcd;
 
