@@ -32,6 +32,9 @@ export const MISTWEAVER_MONK_BUFFS = (spellList: spell[]): spell[] => {
                     thunderFocusTeaUsed = false;
                     break;
                 case SPELLS.RISING_SUN_KICK.id:
+                    spell = { ...spell, cooldown: 3 };
+                    thunderFocusTeaUsed = false;
+                    break;
                 case SPELLS.RENEWING_MIST.id:
                     spell = { ...spell, custom: { duration: 30 } };
                     thunderFocusTeaUsed = false;
