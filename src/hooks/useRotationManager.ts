@@ -109,6 +109,7 @@ export const useRotationManager = (options: UseRotationManagerOptions = {}) => {
         moveRotationUp,
         moveRotationDown,
         setCurrentRotation: setCurrentRotationDirect,
+        setRotations,
         onReorderRotation,
         hasRotations: rotations.length > 0
     };

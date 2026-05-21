@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, Box, Stack, Divider, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -10,11 +10,13 @@ import SpellTable from '@components/SpellTable/SpellTable';
 import WarningChip from '@components/WarningChip/WarningChip';
 import SwirlField from '@components/SwirlField/SwirlField';
 
-import { CLASSES, specialization } from '@data/class';
+import { CLASSES, specialization, getSpecializationByKey } from '@data/class';
 import spell from '@data/spells/spell';
+import { getSpellById } from '@data/spells';
 
 import { T } from "@util/T";
 import { useSpec } from '@context/SpecContext';
+import { encodeShare, decodeShare } from '@util/rotationShare';
 
 const WhenDoIRamp: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const { spec, setSpec } = useSpec();
@@ -22,6 +24,41 @@ const WhenDoIRamp: React.FC<{ title: string; description: string }> = ({ title, 
     const [spellList, setSpellList] = useState<spell[]>([]);
     const [haste, setHaste] = useState<number | "">(30);
     const [totalCastTime, setTotalCastTime] = useState(0);
+    const skipUrlSync = useRef(false);
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const encoded = params.get('r');
+        if (!encoded) return;
+        const payload = decodeShare(encoded, true);
+        if (!payload) return;
+        const linkedSpec = getSpecializationByKey(payload.spec!);
+        if (!linkedSpec) return;
+        const hydratedSpells = (payload.rotations[0] ?? []).flatMap(id => {
+            const s = getSpellById(id);
+            return s ? [{ ...s, uuid: uuidv4() }] : [];
+        });
+        skipUrlSync.current = true;
+        localStorage.setItem('selectedSpec', linkedSpec.key);
+        setSpec(linkedSpec);
+        setLockedSpecName(linkedSpec.name);
+        setSpellList(hydratedSpells);
+    }, []);
+
+    useEffect(() => {
+        if (skipUrlSync.current) {
+            skipUrlSync.current = false;
+            return;
+        }
+        const params = new URLSearchParams(window.location.search);
+        if (spellList.length === 0) {
+            params.delete('r');
+        } else {
+            params.set('r', encodeShare([{ steps: spellList }], spec.key));
+        }
+        const next = params.toString() ? `?${params.toString()}` : window.location.pathname;
+        window.history.replaceState(null, '', next);
+    }, [spellList]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleSpecChange = (newSpec: specialization) => {
         if (spellList.length === 0) {

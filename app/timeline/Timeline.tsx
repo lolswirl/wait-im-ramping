@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Typography, Box, Card, Stack, Divider, Dialog, DialogContent, Fade, useMediaQuery, useTheme } from '@mui/material';
 
 import TimelineVisualizer from '@components/TimelineVisualizer/TimelineVisualizer';
@@ -15,16 +15,19 @@ import { RAINBOW_GRADIENT } from '@components/Buttons/RainbowCard';
 import { useSpec } from '@context/SpecContext';
 
 import spell from '@data/spells/spell';
-import { CLASSES, specialization } from '@data/class';
+import { CLASSES, specialization, getSpecializationByKey } from '@data/class';
+import { getSpellById } from '@data/spells';
 
 import { useRotationManager } from '@hooks/useRotationManager';
 import { T } from '@util/T';
+import { encodeShare, decodeShare } from '@util/rotationShare';
 
 const Timeline: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const { spec, setSpec } = useSpec();
     const [spellList, setSpellList] = useState<spell[]>([]);
     const [haste, setHaste] = useState<number | "">(0);
     const [presetOpen, setPresetOpen] = useState(false);
+    const skipUrlSync = useRef(false);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -41,9 +44,46 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
         moveRotationUp,
         moveRotationDown,
         setCurrentRotation,
+        setRotations,
         hasRotations,
         onReorderRotation,
     } = useRotationManager();
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const encoded = params.get('r');
+        if (!encoded) return;
+        const payload = decodeShare(encoded, true);
+        if (!payload) return;
+        const linkedSpec = getSpecializationByKey(payload.spec!);
+        if (!linkedSpec) return;
+        const hydratedRotations = payload.rotations.map((ids, i) => ({
+            id: crypto.randomUUID(),
+            name: `Rotation ${i + 1}`,
+            steps: ids.flatMap(id => {
+                const s = getSpellById(id);
+                return s ? [{ ...s, uuid: crypto.randomUUID() }] : [];
+            }),
+        }));
+        skipUrlSync.current = true;
+        setSpec(linkedSpec);
+        setRotations(hydratedRotations);
+    }, []);
+
+    useEffect(() => {
+        if (skipUrlSync.current) {
+            skipUrlSync.current = false;
+            return;
+        }
+        const params = new URLSearchParams(window.location.search);
+        if (rotations.length === 0) {
+            params.delete('r');
+        } else {
+            params.set('r', encodeShare(rotations, spec.key));
+        }
+        const next = params.toString() ? `?${params.toString()}` : window.location.pathname;
+        window.history.replaceState(null, '', next);
+    }, [rotations]);
 
     const handleSpecChange = (newSpec: specialization) => {
         if (spellList.length > 0) {

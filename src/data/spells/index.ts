@@ -18,4 +18,7 @@ const SPELLS = {
     ...RESTORATION_SHAMAN
 }
 
+export const getSpellById = (id: number) =>
+    Object.values(SPELLS).find(s => s.id === id);
+
 export default SPELLS;

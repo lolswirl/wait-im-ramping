@@ -40,11 +40,11 @@ const SpellTable: React.FC<SpellTableProps> = ({
     const [totalTime, setTotalTime] = useState(0);
 
     useEffect(() => {
-        const fetchBuffedSpells = async () => {
-            const updatedSpells = await applyBuffEffects(selectedSpec, spellList);
-            setAdjustedSpells(updatedSpells);
-        };
-        fetchBuffedSpells();
+        let cancelled = false;
+        applyBuffEffects(selectedSpec, spellList).then(result => {
+            if (!cancelled) setAdjustedSpells(result);
+        });
+        return () => { cancelled = true; };
     }, [selectedSpec, spellList]);
 
     useEffect(() => {
