@@ -61,7 +61,7 @@ const PresetSpells: React.FC<PresetSpellsProps> = ({ spec, onSelectRotation }) =
                             >
                                 <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap', justifyContent: 'center' }}>
                                     {spells.map((spell, i) => (
-                                        <SpellButton key={spell.uuid || i} selectedSpell={spell} />
+                                        <SpellButton key={spell.uuid || i} selectedSpell={spell} action={() => void 0}/>
                                     ))}
                                 </Box>
                             </Card>
