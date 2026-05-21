@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { TextField, InputAdornment, Card, Box, Stack, Divider, Typography } from '@mui/material';
+import { Card, Box, Stack, Divider, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
 import PageHeader from '@components/PageHeader/PageHeader';
@@ -8,6 +8,7 @@ import SpecializationSelect from '@components/SpecializationSelect/Specializatio
 import SpellButtons from '@components/SpellButtons/SpellButtons';
 import SpellTable from '@components/SpellTable/SpellTable';
 import WarningChip from '@components/WarningChip/WarningChip';
+import SwirlField from '@components/SwirlField/SwirlField';
 
 import { CLASSES, specialization } from '@data/class';
 import spell from '@data/spells/spell';
@@ -73,22 +74,7 @@ const WhenDoIRamp: React.FC<{ title: string; description: string }> = ({ title, 
                 <Box sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
                     <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
-                        <TextField
-                            label={T("Haste")}
-                            type="number"
-                            value={haste}
-                            onChange={(e) => {
-                                const newValue = e.target.value;
-                                setHaste(newValue === "" ? "" : parseFloat(newValue));
-                            }}
-                            onBlur={() => setHaste(prev => prev === "" ? 0 : prev)}
-                            error={haste === ""}
-                            sx={{ m: 0, width: '12ch' }}
-                            InputProps={{
-                                endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                                sx: { height: 45 },
-                            }}
-                        />
+                        <SwirlField label="Haste" value={haste} onChange={setHaste} suffix="%" />
                     </Stack>
 
                     {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
