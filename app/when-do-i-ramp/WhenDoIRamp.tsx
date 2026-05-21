@@ -59,7 +59,7 @@ const WhenDoIRamp: React.FC<{ title: string; description: string }> = ({ title, 
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
             <PageHeader title={title} subtitle={description} />
 
             <Card
