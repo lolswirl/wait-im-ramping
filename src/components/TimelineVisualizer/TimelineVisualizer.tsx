@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 import { ArrowUpward, ArrowDownward, Delete } from "@mui/icons-material";
 import { GlassIconButton } from "@components/Buttons/GlassIconButton";
 
-import spell, { calculateCastTime, GCD } from '@data/spells/spell';
+import spell, { calculateCastTime, calculateGCD } from '@data/spells/spell';
 import { specialization } from "@data/class";
 import { applyBuffEffects } from '@data/buffs';
 
@@ -31,6 +31,7 @@ interface RotationWithId {
 
 interface TimelineVisualizerProps {
   selectedSpec: specialization;
+  haste: number;
   rotations: RotationWithId[];
   onRemoveRotation: (id: string) => void;
   onMoveRotationUp: (id: string) => void;
@@ -47,7 +48,7 @@ interface IconProps {
   imageIndex: number;
 }
 
-export default function TimelineVisualizer({ selectedSpec, rotations = [], onRemoveRotation, onMoveRotationUp, onMoveRotationDown }: TimelineVisualizerProps) {
+export default function TimelineVisualizer({ selectedSpec, haste, rotations = [], onRemoveRotation, onMoveRotationUp, onMoveRotationDown }: TimelineVisualizerProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const theme = useTheme();
 
@@ -225,8 +226,11 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], onRem
         rotation.forEach(ability => {
           const isOffGCDInstant = (ability.castTime === 0 || ability.castTime === undefined) && ability.gcd === false;
           if (!isOffGCDInstant) {
-            let castTime = calculateCastTime(ability, undefined);
-            let gcd = ability.custom?.replaceGCD ?? GCD;
+            let castTime = calculateCastTime(ability, haste);
+            const baseGCD = calculateGCD(haste);
+            const gcd = ability.custom?.replaceGCD !== undefined
+              ? Math.min(ability.custom.replaceGCD / (1 + haste / 100), baseGCD)
+              : baseGCD;
             time += castTime > gcd ? castTime : gcd;
             spellCount++;
           }
@@ -311,7 +315,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], onRem
         let offGCDStackMap: { [time: number]: number } = {};
 
         rotation.forEach(ability => {
-          const duration = calculateCastTime(ability, undefined);
+          const duration = calculateCastTime(ability, haste);
           const isOffGCDInstant = (ability.castTime === 0 || ability.castTime === undefined) && ability.gcd === false;
           const x = time * scale;
 
@@ -331,7 +335,10 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], onRem
           const y = baseY + yOffset;
 
           if (!isOffGCDInstant) {
-            const gcd = ability.custom?.replaceGCD ?? GCD;
+            const baseGCD = calculateGCD(haste);
+            const gcd = ability.custom?.replaceGCD !== undefined
+              ? Math.min(ability.custom.replaceGCD / (1 + haste / 100), baseGCD)
+              : baseGCD;
             if (duration > gcd) {
               drawCast(g, x, y, duration, scale, true);
               drawGCD(g, x, y, gcd, scale, false);
@@ -385,7 +392,7 @@ export default function TimelineVisualizer({ selectedSpec, rotations = [], onRem
 
     renderTimeline();
 
-  }, [rotations, containerWidth, theme.palette.background, selectedSpec]);
+  }, [rotations, containerWidth, theme.palette.background, selectedSpec, haste]);
 
   return (
     <>

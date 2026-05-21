@@ -9,6 +9,7 @@ import CurrentRotationControl from '@components/CurrentRotationControl/CurrentRo
 import PageHeader from '@components/PageHeader/PageHeader';
 import PresetSpells from '@components/PresetSpells/PresetSpells';
 import WarningChip from '@components/WarningChip/WarningChip';
+import SwirlField from '@components/SwirlField/SwirlField';
 import { RAINBOW_GRADIENT } from '@components/Buttons/RainbowCard';
 
 import { useSpec } from '@context/SpecContext';
@@ -22,6 +23,7 @@ import { T } from '@util/T';
 const Timeline: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const { spec, setSpec } = useSpec();
     const [spellList, setSpellList] = useState<spell[]>([]);
+    const [haste, setHaste] = useState<number | "">(0);
     const [presetOpen, setPresetOpen] = useState(false);
 
     const theme = useTheme();
@@ -86,6 +88,7 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
                 <Box sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
                     <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
+                        <SwirlField label="Haste" value={haste} onChange={setHaste} suffix="%" />
                     </Stack>
 
                     {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
@@ -181,6 +184,7 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
 
             <TimelineVisualizer
                 selectedSpec={spec}
+                haste={haste === "" ? 0 : haste}
                 rotations={rotations}
                 onRemoveRotation={removeRotation}
                 onMoveRotationUp={moveRotationUp}
