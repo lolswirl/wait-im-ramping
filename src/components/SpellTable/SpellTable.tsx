@@ -1,32 +1,21 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    Box,
-} from "@mui/material";
-import {
-    ArrowUpward,
-    ArrowDownward,
-    DeleteTwoTone,
-    DeleteForever,
-} from "@mui/icons-material";
+import { Box, Stack, Typography, Divider, Card } from "@mui/material";
+import { ArrowUpward, ArrowDownward, DeleteTwoTone, DeleteForever } from "@mui/icons-material";
 
 import SwirlButton from "@components/Buttons/SwirlButton";
 import { GlassIconButton } from "@components/Buttons/GlassIconButton";
+import SpellButton from "@components/SpellButtons/SpellButton";
 
 import spell, { calculateEffectiveCastTime } from "@data/spells/spell";
 import { applyBuffEffects } from "@data/buffs";
 import { specialization } from "@data/class";
 
-import { toRomanNumeral } from "@util/toRomanNumeral";
-import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
 import { T } from "@util/T";
+import { toRomanNumeral } from "@util/toRomanNumeral";
+import WarningChip from "@components/WarningChip/WarningChip";
+
 
 interface SpellTableProps {
     spellList: spell[];
@@ -38,54 +27,6 @@ interface SpellTableProps {
     clearTable: () => void;
 }
 
-const SpellIcon: React.FC<{ spell: spell }> = ({ spell }) => (
-    <Box
-        sx={{
-            position: "relative",
-            display: "flex",
-            alignItems: "center",
-            height: 32,
-            width: 32,
-        }}
-    >
-        <img
-            src={FormatIconImg(spell.icon)}
-            alt={spell.name}
-            width={32}
-            height={32}
-            style={{
-                borderRadius: 4,
-                border: "1px solid #575757",
-                display: "block",
-            }}
-            onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = FormatIconLink(
-                    spell.icon
-                );
-            }}
-        />
-        {spell.empowerLevel && (
-            <Box
-                sx={{
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    backgroundColor: "rgba(0, 0, 0, 0.75)",
-                    color: "white",
-                    fontSize: "0.75rem",
-                    fontWeight: "bold",
-                    px: "4px",
-                    py: "1px",
-                    borderRadius: "4px",
-                    lineHeight: 1,
-                }}
-            >
-                {toRomanNumeral(spell.empowerLevel)}
-            </Box>
-        )}
-    </Box>
-);
-
 const SpellTable: React.FC<SpellTableProps> = ({
     spellList,
     setSpellList,
@@ -96,16 +37,11 @@ const SpellTable: React.FC<SpellTableProps> = ({
     clearTable,
 }) => {
     const [adjustedSpells, setAdjustedSpells] = useState<spell[]>([]);
-    const [timelineData, setTimelineData] = useState<
-        { name: string; start: number; end: number }[]
-    >([]);
+    const [totalTime, setTotalTime] = useState(0);
 
     useEffect(() => {
         const fetchBuffedSpells = async () => {
-            const updatedSpells = await applyBuffEffects(
-                selectedSpec,
-                spellList
-            );
+            const updatedSpells = await applyBuffEffects(selectedSpec, spellList);
             setAdjustedSpells(updatedSpells);
         };
         fetchBuffedSpells();
@@ -113,193 +49,117 @@ const SpellTable: React.FC<SpellTableProps> = ({
 
     useEffect(() => {
         let currentTime = 0;
-        const newTimeline = adjustedSpells.map((spell) => {
+        adjustedSpells.forEach((spell) => {
             const { effectiveTime } = calculateEffectiveCastTime(spell, haste);
-            const event = {
-                name: spell.name,
-                start: currentTime,
-                end: currentTime + effectiveTime,
-            };
             currentTime += effectiveTime;
-            return event;
         });
-
-        setTimelineData(newTimeline);
-        onTotalCastTimeChange(
-            newTimeline.length > 0 ? newTimeline[newTimeline.length - 1].end : 0
-        );
+        setTotalTime(currentTime);
+        onTotalCastTimeChange(currentTime);
     }, [adjustedSpells, haste, onTotalCastTimeChange]);
 
-    // Move spell up/down
     const moveSpell = (index: number, direction: "up" | "down") => {
-        setSpellList((prevList) => {
-            const newList = [...prevList];
+        setSpellList((prev) => {
+            const next = [...prev];
             if (direction === "up" && index > 0)
-                [newList[index - 1], newList[index]] = [
-                    newList[index],
-                    newList[index - 1],
-                ];
-            if (direction === "down" && index < newList.length - 1)
-                [newList[index], newList[index + 1]] = [
-                    newList[index + 1],
-                    newList[index],
-                ];
-            return newList;
+                [next[index - 1], next[index]] = [next[index], next[index - 1]];
+            if (direction === "down" && index < next.length - 1)
+                [next[index], next[index + 1]] = [next[index + 1], next[index]];
+            return next;
         });
     };
 
     if (spellList.length === 0) return null;
 
     return (
-        <TableContainer
-            component={Paper}
+        <Card
+            variant="outlined"
             sx={{
-                marginTop: 1,
-                marginBottom: 1,
-                boxShadow: 3,
-                borderRadius: 2,
-                overflow: "hidden",
                 maxWidth: 600,
                 width: { xs: "90%", sm: "90%", md: "100%" },
                 mx: "auto",
                 boxSizing: "border-box",
             }}
         >
-            <Table>
-                <TableHead>
-                    <TableRow sx={{ color: "white" }}>
-                        <TableCell>
-                            <b><T>Selected Spells</T></b>
-                        </TableCell>
-                        <TableCell align="center">
-                            <b><T>Cast Time (s)</T></b>
-                        </TableCell>
-                        <TableCell align="center">
-                            <b><T>Actions</T></b>
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
+            <Stack divider={<Divider />} sx={{ pt: 1, pb: 1 }}>
+                <AnimatePresence>
+                    {adjustedSpells.map((spell, index) => {
+                        const { effectiveTime, isGCDConstrained } = calculateEffectiveCastTime(spell, haste);
 
-                <TableBody>
-                    <AnimatePresence>
-                        {adjustedSpells.map((spell, index) => {
-                            const {
-                                castTime,
-                                effectiveTime,
-                                isGCDConstrained,
-                            } = calculateEffectiveCastTime(spell, haste);
-
-                            return (
-                                <motion.tr
-                                    key={spell.uuid}
-                                    layout
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -10 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <TableCell>
-                                        <Box
-                                            display="flex"
-                                            alignItems="center"
-                                            gap={1}
-                                        >
-                                            <SpellIcon spell={spell} />
-                                            <span><T>{spell.name}</T></span>
-                                        </Box>
-                                    </TableCell>
-
-                                    <TableCell align="center">
-                                        {isGCDConstrained ? (
-                                            <>
-                                                {castTime.toFixed(2)} (
-                                                <T>GCD</T>:{" "}
-                                                {effectiveTime.toFixed(2)})
-                                            </>
-                                        ) : (
-                                            effectiveTime.toFixed(2)
-                                        )}
-                                    </TableCell>
-
-                                    <TableCell align="center">
-                                        <Box
-                                            display="flex"
-                                            alignItems="center"
-                                            justifyContent="center"
-                                            gap={1}
-                                        >
-                                            <GlassIconButton
-                                                onClick={() => moveSpell(index, "up")}
-                                                disabled={index === 0}
-                                            >
-                                                <ArrowUpward sx={{ fontSize: 16 }} />
-                                            </GlassIconButton>
-                                            <GlassIconButton
-                                                onClick={() => moveSpell(index, "down")}
-                                                disabled={index === adjustedSpells.length - 1}
-                                            >
-                                                <ArrowDownward sx={{ fontSize: 16 }} />
-                                            </GlassIconButton>
-                                            <GlassIconButton
-                                                tint="danger"
-                                                onClick={() => removeSpellFromTable(index)}
-                                            >
-                                                <DeleteTwoTone sx={{ fontSize: 16 }} />
-                                            </GlassIconButton>
-                                        </Box>
-                                    </TableCell>
-                                </motion.tr>
-                            );
-                        })}
-                    </AnimatePresence>
-
-                    <TableRow
-                        sx={{
-                            backgroundColor: (theme) =>
-                                theme.palette.mode === "dark"
-                                    ? "#1e1e1e"
-                                    : "#f5f5f5",
-                        }}
-                    >
-                        <TableCell
-                            sx={{ fontWeight: "bold", fontSize: "1rem" }}
-                        >
-                            <b><T>Total Cast Time:</T></b>
-                        </TableCell>
-                        <TableCell
-                            align="center"
-                            sx={{ fontWeight: "bold", fontSize: "1rem" }}
-                        >
-                            <b>
-                                {timelineData.length > 0
-                                    ? timelineData[
-                                          timelineData.length - 1
-                                      ].end.toFixed(2)
-                                    : "0"}
-                                s
-                            </b>
-                        </TableCell>
-                        <TableCell>
-                            <Box
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="center"
-                                gap={1}
+                        return (
+                            <motion.div
+                                key={spell.uuid}
+                                layout
+                                initial={{ opacity: 0, y: 8 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -8 }}
+                                transition={{ duration: 0.2 }}
                             >
-                                <SwirlButton
-                                    color="error"
-                                    textColor="error"
-                                    onClick={clearTable}
-                                    startIcon={<DeleteForever />}
-                                >
-                                    <T>Clear All</T>
-                                </SwirlButton>
-                            </Box>
-                        </TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
-        </TableContainer>
+                                <Box sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    px: 2,
+                                    py: 0.75,
+                                    gap: 1.5,
+                                }}>
+                                    <Typography variant="caption" color="text.disabled" sx={{ flexShrink: 0, minWidth: 16, textAlign: 'right' }}>
+                                        {index + 1}
+                                    </Typography>
+                                    <SpellButton selectedSpell={spell} size={32} />
+                                    <Box sx={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'baseline', gap: 0.75 }}>
+                                        <Typography variant="body2" noWrap>
+                                            <T>{spell.name}</T> {spell.empowerLevel ? `(${toRomanNumeral(spell.empowerLevel)})` : ''}
+                                        </Typography>
+                                        <Typography variant="caption" color="text.disabled" sx={{ flexShrink: 0 }}>
+                                            <T>
+                                                {isGCDConstrained ? `GCD: ${effectiveTime.toFixed(2)}s` : `${effectiveTime.toFixed(2)}s`}
+                                            </T>
+                                        </Typography>
+                                        <Box sx={{ flex: 1, borderBottom: '1px solid rgba(255,255,255,0.08)', alignSelf: 'center' }} />
+                                    </Box>
+                                    <Box sx={{ display: "flex", gap: 0.5, flexShrink: 0 }}>
+                                        <GlassIconButton onClick={() => moveSpell(index, "up")} disabled={index === 0} sx={{ p: '4px' }}>
+                                            <ArrowUpward sx={{ fontSize: 14 }} />
+                                        </GlassIconButton>
+                                        <GlassIconButton onClick={() => moveSpell(index, "down")} disabled={index === adjustedSpells.length - 1} sx={{ p: '4px' }}>
+                                            <ArrowDownward sx={{ fontSize: 14 }} />
+                                        </GlassIconButton>
+                                        <GlassIconButton tint="danger" onClick={() => removeSpellFromTable(index)} sx={{ p: '4px' }}>
+                                            <DeleteTwoTone sx={{ fontSize: 14 }} />
+                                        </GlassIconButton>
+                                    </Box>
+                                </Box>
+                            </motion.div>
+                        );
+                    })}
+                </AnimatePresence>
+            </Stack>
+
+            <Divider sx={{ mx: 0 }} />
+
+            <Box sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                px: 2,
+                py: 1,
+                backgroundColor: (theme) => theme.palette.mode === "dark" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
+            }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Typography variant="body2" color="text.secondary">
+                        <T>Total</T>
+                    </Typography>
+                    <WarningChip message={`${totalTime.toFixed(2)}s`} />
+                </Box>
+                <SwirlButton
+                    color="error"
+                    textColor="error"
+                    onClick={clearTable}
+                    startIcon={<DeleteForever />}
+                >
+                    <T>Clear All</T>
+                </SwirlButton>
+            </Box>
+        </Card>
     );
 };
 
