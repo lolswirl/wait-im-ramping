@@ -1,17 +1,18 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { 
-    Typography, 
+import {
+    Typography,
     Card,
-    CardContent, 
+    CardContent,
     CardActionArea,
-    Container, 
-    Box, 
-    Avatar
+    Container,
+    Box,
+    Avatar,
+    Divider
 } from "@mui/material";
 import WarningChip from "@components/WarningChip/WarningChip";
-import RainbowCard from "@components/Buttons/RainbowCard";
+import RainbowCard, { RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
 import { Timeline, Analytics, TimerTwoTone, BugReport, ChevronRight } from "@mui/icons-material";
 
 import { T } from "@util/T";
@@ -67,14 +68,32 @@ const quickAccessPages = [
 const Home = () => {
     return (
         <Container maxWidth="lg" sx={{ mt: 1, mb: 0 }}>
-            <Box sx={{ textAlign: 'center', mb: 5 }}>
+            <Box sx={{
+                textAlign: 'center',
+                py: 1,
+                mb: 1.5,
+                borderRadius: 2,
+                '@keyframes gradientShift': {
+                    '0%': { backgroundPosition: '0% 50%' },
+                    '50%': { backgroundPosition: '100% 50%' },
+                    '100%': { backgroundPosition: '0% 50%' },
+                },
+            }}>
                 <Typography
-                  variant="h2"
-                  component="h1"
-                  gutterBottom
-                  sx={{ fontWeight: 'bold', color: 'text.primary' }}
+                    variant="h2"
+                    component="h1"
+                    gutterBottom
+                    sx={{
+                        fontWeight: 'bold',
+                        background: `linear-gradient(90deg, ${[...RAINBOW_COLORS, ...RAINBOW_COLORS].join(', ')})`,
+                        backgroundSize: '200% auto',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        animation: 'gradientShift 6s linear infinite',
+                    }}
                 >
-                  <T>Wait, I'm Ramping!</T>
+                    <T>Wait, I'm Ramping!</T>
                 </Typography>
                 <Typography variant="h5" color="text.secondary" sx={{ mb: 2, maxWidth: 800, mx: 'auto' }}>
                     <T>Healer theorycrafting and optimization tools for World of Warcraft</T>
@@ -162,11 +181,7 @@ const Home = () => {
                                             {tool.icon}
                                         </Box>
                                     </Box>
-                                    <Box sx={{ 
-                                        height: 0.001, 
-                                        backgroundColor: 'divider',
-                                        width: '100%'
-                                    }} />
+                                    <Divider />
                                     <CardContent sx={{ flexGrow: 1 }}>
                                         <Typography
                                             variant="h6"
