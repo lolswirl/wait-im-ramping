@@ -10,7 +10,7 @@ const HOLY_PALADIN = attachGetters({
   icon: 'spell_holy_holybolt',
   name: 'Holy',
   class: 'Paladin',
-  color: "ffe38e",
+  color: "#ffe38e",
   rotations: HOLY_PALADIN_ROTATIONS,
   bugs: HOLY_PALADIN_BUGS,
 } satisfies specialization);
