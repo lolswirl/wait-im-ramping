@@ -26,6 +26,12 @@ interface StatField {
 export const rowLabel: React.CSSProperties = { fontSize: "0.7rem", fontWeight: 600, opacity: 0.45, textAlign: "right", whiteSpace: "nowrap" };
 export const rowSep = <div style={{ width: 1, alignSelf: "stretch", background: "rgba(255,255,255,0.12)" }} />;
 
+export const StatsGroup: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <div style={{ display: "grid", gridTemplateColumns: "max-content 1px auto", gap: "8px 10px", alignItems: "start" }}>
+        {children}
+    </div>
+);
+
 const fieldStyles = {
     '& .MuiOutlinedInput-root': {
         '& fieldset': { borderColor: 'rgba(54, 162, 235, 0.3)' },

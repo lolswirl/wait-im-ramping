@@ -6,7 +6,7 @@ import PageHeader from "@components/PageHeader/PageHeader";
 import SpellButtons from "@components/SpellButtons/SpellButtons";
 import CurrentRotationControl from "@components/CurrentRotationControl/CurrentRotationControl";
 import { RotationCard } from '@components/RotationCard/RotationCard';
-import StatsCard from "@components/StatsCard/StatsCard";
+import StatsCard, { StatsGroup } from "@components/StatsCard/StatsCard";
 import TargetCountsCard from "@components/TargetCountCard/TargetCountsCard";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import SwirlButton from "@components/Buttons/SwirlButton";
@@ -140,10 +140,10 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
 
                         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '700', overflowY: 'auto' }}>
-                            <div style={{ display: "grid", gridTemplateColumns: "max-content 1px auto", gap: "8px 10px", alignItems: "start" }}>
+                            <StatsGroup>
                                 <StatsCard options={options} onOptionsChange={setOptions} />
                                 <TargetCountsCard options={options} onOptionsChange={setOptions} />
-                            </div>
+                            </StatsGroup>
                         </Box>  
                         <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
                         <SpellButtons spells={CHIJI_ABILITIES} addSpellToTable={addSpellToRotationCollapse} />
