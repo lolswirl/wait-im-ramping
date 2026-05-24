@@ -20,49 +20,49 @@ interface TalentRule {
 const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
     {
         talent: SHARED.FEROCITY_OF_XUEN,
-        getValue: () => 1 + SHARED.FEROCITY_OF_XUEN.custom.damageIncrease,
+        getValue: () => SHARED.FEROCITY_OF_XUEN.custom.damageIncrease,
         appliesTo: (spell) => spell.value?.damage !== undefined
     },
     {
         talent: SHARED.FAST_FEET,
-        getValue: () => 1 + SHARED.FAST_FEET.custom.risingSunKickIncrease,
+        getValue: () => SHARED.FAST_FEET.custom.risingSunKickIncrease,
         appliesTo: (spell) => 
             spell.id === SPELLS.RISING_SUN_KICK.id || 
             spell.id === TALENTS.RUSHING_WIND_KICK.id
     },
     {
         talent: SHARED.FAST_FEET,
-        getValue: () => 1 + SHARED.FAST_FEET.custom.spinningCraneKickIncrease,
+        getValue: () => SHARED.FAST_FEET.custom.spinningCraneKickIncrease,
         appliesTo: (spell) => spell.id === SPELLS.SPINNING_CRANE_KICK.id
     },
     {
         talent: SHARED.CHI_PROFICIENCY,
-        getValue: () => 1 + SHARED.CHI_PROFICIENCY.custom.magicDamageIncrease,
+        getValue: () => SHARED.CHI_PROFICIENCY.custom.magicDamageIncrease,
         appliesTo: (spell) => 
             spell.school === SCHOOLS.NATURE
     },
     {
         talent: SHARED.MARTIAL_INSTINCTS,
-        getValue: () => 1 + SHARED.MARTIAL_INSTINCTS.custom.damageIncrease,
+        getValue: () => SHARED.MARTIAL_INSTINCTS.custom.damageIncrease,
         appliesTo: (spell) => spell.school === SCHOOLS.PHYSICAL
     },
     {
         talent: TALENTS.YULONS_KNOWLEDGE,
-        getValue: () => 1 + TALENTS.YULONS_KNOWLEDGE.custom.rskDamageIncrease,
+        getValue: () => TALENTS.YULONS_KNOWLEDGE.custom.rskDamageIncrease,
         appliesTo: (spell) => 
             spell.id === SPELLS.RISING_SUN_KICK.id || 
             spell.id === TALENTS.RUSHING_WIND_KICK.id
     },
     {
         talent: TALENTS.MORNING_BREEZE,
-        getValue: (mastery = 1) => 1 + (mastery * TALENTS.MORNING_BREEZE.custom.masteryMultiplier),
+        getValue: (mastery = 1) => (mastery * TALENTS.MORNING_BREEZE.custom.masteryMultiplier),
         appliesTo: (spell) => 
             spell.id === SPELLS.RISING_SUN_KICK.id || 
             spell.id === TALENTS.RUSHING_WIND_KICK.id
     },
     {
         talent: TALENTS.SPIRITFONT,
-        getValue: () => 1 + TALENTS.SPIRITFONT.custom.rskIncrease,
+        getValue: () => TALENTS.SPIRITFONT.custom.rskIncrease,
         appliesTo: (spell) => 
             spell.id === SPELLS.RISING_SUN_KICK.id || 
             spell.id === TALENTS.RUSHING_WIND_KICK.id
@@ -72,7 +72,7 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
 const HEALING_MULTIPLIER_RULES: TalentRule[] = [
     {
         talent: SHARED.CHI_PROFICIENCY,
-        getValue: () => 1 + SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease,
+        getValue: () => SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease,
         appliesTo: (spell) => spell.value?.healing !== undefined
     },
 ];
@@ -88,7 +88,7 @@ export const calculateSpellDamageMultiplier = (
         if (!isTalentEnabled(talents, rule.talent)) continue;
         
         if (rule.appliesTo(spell)) {
-            multiplier *= rule.getValue(mastery);
+            multiplier *= (1 + rule.getValue(mastery));
         }
     }
     
@@ -106,7 +106,7 @@ export const calculateSpellHealingMultiplier = (
         if (!isTalentEnabled(talents, rule.talent)) continue;
         
         if (rule.appliesTo(spell)) {
-            multiplier *= rule.getValue(mastery);
+            multiplier *= (1 + rule.getValue(mastery));
         }
     }
     
