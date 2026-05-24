@@ -2,13 +2,15 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Box, Container, TextField, useTheme, Card, Typography, Tab, Tabs, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Box, Container, Divider, TextField, useTheme, Card, Typography, Tab, Tabs, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 import { Refresh, EmojiEvents } from "@mui/icons-material";
 import SwirlButton from "@components/Buttons/SwirlButton";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import SpellButton from "@components/SpellButtons/SpellButton";
+import TalentsCard from "@components/TalentsCard/TalentsCard";
+import { Group } from "@components/StatsCard/StatsCard";
 
 import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
@@ -68,16 +70,22 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
   const mwMastery = mistweaver.mastery;
 
-  const talents = useMemo(() => new Map<spell, boolean>([
+  const [specTalents, setSpecTalents] = useState<Map<spell, boolean>>(new Map<spell, boolean>([
     [TALENTS.JADEFIRE_TEACHINGS, true],
+    [TALENTS.RUSHING_WIND_KICK, false],
     [TALENTS.YULONS_KNOWLEDGE, true], // just gonna assume this one since its in keys
     [TALENTS.SPIRITFONT, false], // haha lol not used
     [TALENTS.MORNING_BREEZE, true], // used in keys woo
+  ]));
+
+  const [classTalents, setClassTalents] = useState<Map<spell, boolean>>(new Map<spell, boolean>([
     [SHARED.FAST_FEET, true],
     [SHARED.FEROCITY_OF_XUEN, true],
     [SHARED.CHI_PROFICIENCY, true],
     [SHARED.MARTIAL_INSTINCTS, true],
-  ]), []);
+  ]));
+
+  const talents = useMemo(() => new Map<spell, boolean>([...specTalents, ...classTalents]), [specTalents, classTalents]);
 
   const mastery = useMemo(() => mwMastery / 100, [mwMastery]);
 
@@ -132,28 +140,27 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   console.log(damageData);
 
   const getLabel = (dataKey: keyof DamageData): string => {
-    const labelMap: Record<keyof DamageData, string> = {
-      melee: 'TP BOK RSK',
+    if (dataKey === 'melee') return useRwk ? 'TP BOK RWK' : 'TP BOK RSK';
+    if (dataKey === 'rskSck') return useRwk ? 'RWK+SCK' : 'RSK+SCK';
+    const labelMap: Record<Exclude<keyof DamageData, 'melee' | 'rskSck'>, string> = {
       singleTP: 'TP BOK',
       sck: 'SCK',
-      rskSck: 'RSK+SCK',
       je: 'JE',
     };
     return labelMap[dataKey];
   };
 
+  const useRwk = talents.get(TALENTS.RUSHING_WIND_KICK) === true;
+
   const ROTATION_CONFIGS: RotationConfig[] = useMemo(() => {
     const entries = [
       {
         dataKey: 'melee' as const,
-        spells: [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, SPELLS.RISING_SUN_KICK],
+        spells: useRwk
+          ? [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, TALENTS.RUSHING_WIND_KICK]
+          : [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, SPELLS.RISING_SUN_KICK],
         simulateFn: simulateMeleeRotation,
       },
-      // {
-      //   dataKey: 'meleeTwo' as const,
-      //   spells: [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, SPELLS.RISING_SUN_KICK],
-      //   simulateFn: simulateSingleTPRotation,
-      // },
       {
         dataKey: 'sck' as const,
         spells: [SPELLS.SPINNING_CRANE_KICK],
@@ -161,7 +168,9 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
       },
       {
         dataKey: 'rskSck' as const,
-        spells: [SPELLS.RISING_SUN_KICK, SPELLS.SPINNING_CRANE_KICK],
+        spells: useRwk
+          ? [TALENTS.RUSHING_WIND_KICK, SPELLS.SPINNING_CRANE_KICK]
+          : [SPELLS.RISING_SUN_KICK, SPELLS.SPINNING_CRANE_KICK],
         simulateFn: simulateRSKWithSCK,
       },
       {
@@ -171,7 +180,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
       },
     ];
     return entries.map((e, i) => ({ ...e, color: RAINBOW_COLORS[i % RAINBOW_COLORS.length] }));
-  }, []);
+  }, [useRwk]);
 
   const getBackgroundColor = (color: string) => `${color}33`;
   const getBorderColor = (color: string) => `${color}66`;
@@ -410,9 +419,9 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
       <PageHeader title={title} subtitle={description} marginBottom={0} />
       <WarningChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon borderColor="#ffa726" />
 
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, p: 2 }}>
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'stretch' }}>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', p: 2, flexShrink: 0 }}>
             <TextField
               label={T("Time (Seconds)")}
               type="number"
@@ -437,6 +446,13 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
             >
               <T>Re-formulate</T>
             </SwirlButton>
+          </Box>
+          <Divider orientation="vertical" flexItem />
+          <Box sx={{ p: 2 }}>
+            <Group>
+              <TalentsCard label="spec" options={specTalents} color={mistweaver.color} onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))} />
+              <TalentsCard label="class" options={classTalents} color={CLASSES.MONK.color} onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))} />
+            </Group>
           </Box>
         </Box>
       </Card>
