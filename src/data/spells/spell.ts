@@ -1,6 +1,17 @@
 import { SCHOOLS } from "@data/shared/schools";
 
+export const CATEGORY = {
+    DAMAGE: "damage",
+    HEALING: "healing",
+    COOLDOWN: "cooldown",
+    OTHER: "other",
+    UTILITY: "utility",
+} as const;
+
+export type SpellCategory = typeof CATEGORY[keyof typeof CATEGORY];
+
 export default interface spell {
+    category?: SpellCategory;
     name: string;
     id: number;
     uuid?: string;

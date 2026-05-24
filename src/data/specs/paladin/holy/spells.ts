@@ -1,4 +1,4 @@
-import spell from "@data/spells/spell";
+import spell, { CATEGORY } from "@data/spells/spell";
 
 const spells = {
     HOLY_SHOCK: {
@@ -6,66 +6,77 @@ const spells = {
         id: 20473,
         icon: "spell_holy_searinglight",
         castTime: 0,
+        category: CATEGORY.HEALING,
     },
     HOLY_LIGHT: {
         name: "Holy Light",
         id: 82326,
         icon: "spell_holy_surgeoflight",
         castTime: 2,
+        category: CATEGORY.HEALING,
     },
     FLASH_OF_LIGHT: {
         name: "Flash of Light",
         id: 19750,
         icon: "spell_holy_flashheal",
         castTime: 1.5,
+        category: CATEGORY.HEALING,
     },
     BEACON_OF_LIGHT: {
         name: "Beacon of Light",
         id: 88852,
         icon: 'ability_paladin_beaconoflight',
         castTime: 0,
+        category: CATEGORY.OTHER,
     },
     BEACON_OF_VIRTUE: {
         name: "Beacon of Virtue",
         id: 200025,
         icon: "ability_paladin_beaconofinsight",
         castTime: 0,
+        category: CATEGORY.COOLDOWN,
     },
     CRUSADER_STRIKE: {
         name: "Crusader Strike",
         id: 35395,
         icon: "spell_holy_crusaderstrike",
         castTime: 0,
+        category: CATEGORY.DAMAGE,
     },
     JUDGMENT: {
         name: "Judgment",
         id: 275773,
         icon: "spell_holy_righteousfury",
         castTime: 2,
+        category: CATEGORY.DAMAGE,
     },
     HAMMER_OF_WRATH: {
         name: "Hammer of Wrath",
         id: 24275,
         icon: "inv12_ability_paladin_hammerofwrath",
         castTime: 0,
+        category: CATEGORY.DAMAGE,
     },
     ETERNAL_FLAME: {
         name: "Eternal Flame",
         id: 156322,
         icon: "inv_torch_thrown",
         castTime: 0,
+        category: CATEGORY.HEALING,
     },
     WORD_OF_GLORY: {
         name: "Word of Glory",
         id: 85673,
         icon: "inv_helmet_96",
         castTime: 0,
+        category: CATEGORY.HEALING,
     },
     AURA_MASTERY: {
         name: "Aura Mastery",
         id: 31821,
         icon: "spell_holy_auramastery",
         castTime: 0,
+        category: CATEGORY.COOLDOWN,
     },
     BLESSING_OF_SACRIFICE: {
         name: "Blessing of Sacrifice",
@@ -73,6 +84,7 @@ const spells = {
         icon: "spell_holy_sealofsacrifice",
         castTime: 0,
         gcd: false,
+        category: CATEGORY.COOLDOWN,
     },
     BLESSING_OF_PROTECTION: {
         name: "Blessing of Protection",
@@ -80,6 +92,7 @@ const spells = {
         icon: "spell_holy_sealofprotection",
         castTime: 0,
         gcd: false,
+        category: CATEGORY.COOLDOWN,
     },
     LAY_ON_HANDS: {
         name: "Lay on Hands",
@@ -87,18 +100,21 @@ const spells = {
         icon: "spell_holy_layonhands",
         castTime: 0,
         gcd: false,
+        category: CATEGORY.COOLDOWN,
     },
     HOLY_PRISM: {
         name: "Holy Prism",
         id: 114165,
         icon: "spell_paladin_holyprism",
         castTime: 0,
+        category: CATEGORY.COOLDOWN,
     },
     DIVINE_TOLL: {
         name: "Divine Toll",
         id: 375576,
         icon: "inv_ability_paladin_divinetoll",
         castTime: 0,
+        category: CATEGORY.COOLDOWN,
     },
     AVENGING_WRATH: {
         name: "Avenging Wrath",
@@ -108,28 +124,33 @@ const spells = {
         custom: {
             duration: 20,
         },
+        category: CATEGORY.COOLDOWN,
     },
     LIGHT_OF_DAWN: {
         name: "Light of Dawn",
         id: 85222,
         icon: "spell_paladin_lightofdawn",
         castTime: 0,
+        category: CATEGORY.HEALING,
     },
     DIVINE_SHIELD: {
         name: "Divine Shield",
         id: 642,
         icon: "spell_holy_divineshield",
         castTime: 0,
+        category: CATEGORY.COOLDOWN,
     },
     HOLY_BULWARK: {
         name: "Holy Bulwark",
-        id: 432459, 
-        icon: 'inv_ability_lightsmithpaladin_holybulwark', 
+        id: 432459,
+        icon: 'inv_ability_lightsmithpaladin_holybulwark',
+        category: CATEGORY.COOLDOWN,
     },
     SACRED_WEAPON: {
         name: "Sacred Weapon",
-        id: 432472, 
-        icon: 'inv_ability_lightsmithpaladin_sacredweapon', 
+        id: 432472,
+        icon: 'inv_ability_lightsmithpaladin_sacredweapon',
+        category: CATEGORY.COOLDOWN,
     },
 } satisfies Record<string, spell>;
 

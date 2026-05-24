@@ -1,4 +1,4 @@
-import spell from '@data/spells/spell';
+import spell, { CATEGORY } from '@data/spells/spell';
 import { SCHOOLS } from '@data/shared/schools';
 
 const spells = {
@@ -11,7 +11,8 @@ const spells = {
         school: SCHOOLS.PHYSICAL,
         value: {
             damage: 915
-        }
+        },
+        category: CATEGORY.DAMAGE,
     },
     BLACKOUT_KICK: {
         name: 'Blackout Kick',
@@ -21,7 +22,8 @@ const spells = {
         school: SCHOOLS.PHYSICAL,
         value: {
             damage: 1619
-        }
+        },
+        category: CATEGORY.DAMAGE,
     },
     RISING_SUN_KICK: {
         name: 'Rising Sun Kick',
@@ -32,7 +34,8 @@ const spells = {
         school: SCHOOLS.PHYSICAL,
         value: {
             damage: 2484
-        }
+        },
+        category: CATEGORY.DAMAGE,
     },
     CRACKLING_JADE_LIGHTNING: {
         name: 'Crackling Jade Lightning',
@@ -42,7 +45,8 @@ const spells = {
         school: SCHOOLS.NATURE,
         value: {
             damage: 1173
-        }
+        },
+        category: CATEGORY.DAMAGE,
     },
     SPINNING_CRANE_KICK: {
         name: 'Spinning Crane Kick',
@@ -52,7 +56,8 @@ const spells = {
         castTime: 1.5,
         value: {
             damage: 1687
-        }
+        },
+        category: CATEGORY.DAMAGE,
     },
 
     // healing abilities
@@ -68,7 +73,8 @@ const spells = {
         },
         custom: {
             duration: 20
-        }
+        },
+        category: CATEGORY.HEALING,
     },
     SOOTHING_MIST: {
         name: 'Soothing Mist',
@@ -78,7 +84,8 @@ const spells = {
         school: SCHOOLS.NATURE,
         custom: {
             replaceGCD: 1
-        }
+        },
+        category: CATEGORY.HEALING,
     },
     ENVELOPING_MIST: {
         name: 'Enveloping Mist',
@@ -92,7 +99,8 @@ const spells = {
         custom: {
             duration: 6,
             amp: 1.1,
-        }
+        },
+        category: CATEGORY.HEALING,
     },
     VIVIFY: {
         name: 'Vivify',
@@ -102,35 +110,8 @@ const spells = {
         school: SCHOOLS.NATURE,
         value: {
             healing: 5390
-        }
-    },
-    THUNDER_FOCUS_TEA: {
-        name: 'Thunder Focus Tea',
-        id: 116680,
-        icon: 'ability_monk_thunderfocustea',
-        castTime: 0,
-        cooldown: 30,
-        gcd: false
-    },
-
-    // cooldowns
-    CHI_JI: {
-        name: 'Chi-Ji',
-        id: 325197,
-        icon: 'inv_pet_cranegod',
-        castTime: 0,
-        custom: {
-            duration: 12,
-        }
-    },
-    YULON: {
-        name: "Yu'lon",
-        id: 322118,
-        icon: 'ability_monk_dragonkick',
-        castTime: 0,
-        custom: {
-            duration: 12,
-        }
+        },
+        category: CATEGORY.HEALING,
     },
     SHEILUNS_GIFT: {
         name: "Sheilun's Gift",
@@ -145,7 +126,39 @@ const spells = {
             healingPerStack: 116,
             targetsHit: 3,
             maxStacks: 10,
-        }
+        },
+        category: CATEGORY.HEALING,
+    },
+
+    // cooldowns
+    THUNDER_FOCUS_TEA: {
+        name: 'Thunder Focus Tea',
+        id: 116680,
+        icon: 'ability_monk_thunderfocustea',
+        castTime: 0,
+        cooldown: 30,
+        gcd: false,
+        category: CATEGORY.COOLDOWN,
+    },
+    CHI_JI: {
+        name: 'Chi-Ji',
+        id: 325197,
+        icon: 'inv_pet_cranegod',
+        castTime: 0,
+        custom: {
+            duration: 12,
+        },
+        category: CATEGORY.COOLDOWN,
+    },
+    YULON: {
+        name: "Yu'lon",
+        id: 322118,
+        icon: 'ability_monk_dragonkick',
+        castTime: 0,
+        custom: {
+            duration: 12,
+        },
+        category: CATEGORY.COOLDOWN,
     },
     REVIVAL: {
         name: 'Revival',
@@ -153,6 +166,7 @@ const spells = {
         icon: 'spell_monk_revival',
         castTime: 0,
         school: SCHOOLS.NATURE,
+        category: CATEGORY.COOLDOWN,
     },
     LIFE_COCOON: {
         name: 'Life Cocoon',
@@ -165,7 +179,8 @@ const spells = {
             absorbFormula: (sourceHp: number, versatility: number) => {
                 return sourceHp * 48 / 100 * (1 + versatility);
             },
-        }
+        },
+        category: CATEGORY.COOLDOWN,
     },
     CELESTIAL_CONDUIT: {
         name: 'Celestial Conduit',
@@ -180,7 +195,8 @@ const spells = {
         },
         custom: {
             maxTargets: 5,
-        }
+        },
+        category: CATEGORY.COOLDOWN,
     },
 
 } satisfies Record<string, spell>;
