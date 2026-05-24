@@ -533,6 +533,11 @@ const talents = {
         name: "Temple Training",
         id: 442743,
         icon: 'ability_monk_provoke',
+        custom: {
+            vivifyIncrease: 0.06,
+            envIncrease: 0.06,
+            sckIncrease: 0.10 // lmao
+        }
     },
     COURAGE_OF_THE_WHITE_TIGER: {
         name: "Courage of the White Tiger",

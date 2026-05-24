@@ -66,6 +66,11 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
         appliesTo: (spell) => 
             spell.id === SPELLS.RISING_SUN_KICK.id || 
             spell.id === TALENTS.RUSHING_WIND_KICK.id
+    },
+    {
+        talent: TALENTS.TEMPLE_TRAINING,
+        getValue: () => TALENTS.TEMPLE_TRAINING.custom.sckIncrease,
+        appliesTo: (spell) => spell.id === SPELLS.SPINNING_CRANE_KICK.id
     }
 ];
 

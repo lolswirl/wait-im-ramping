@@ -60,9 +60,13 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   const [specTalents, setSpecTalents] = useState<Map<spell, boolean>>(new Map<spell, boolean>([
     [TALENTS.JADEFIRE_TEACHINGS, true],
     [TALENTS.RUSHING_WIND_KICK, false],
-    [TALENTS.YULONS_KNOWLEDGE, true], // just gonna assume this one since its in keys
     [TALENTS.SPIRITFONT, false], // haha lol not used
     [TALENTS.MORNING_BREEZE, true], // used in keys woo
+  ]));
+
+  const [heroTalents, setHeroTalents] = useState<Map<spell, boolean>>(new Map<spell, boolean>([
+    [TALENTS.TEMPLE_TRAINING, true], // bugged sck increase
+    [TALENTS.YULONS_KNOWLEDGE, true], // just gonna assume this one since its in keys
   ]));
 
   const [classTalents, setClassTalents] = useState<Map<spell, boolean>>(new Map<spell, boolean>([
@@ -72,7 +76,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
     [SHARED.MARTIAL_INSTINCTS, true],
   ]));
 
-  const talents = useMemo(() => new Map<spell, boolean>([...specTalents, ...classTalents]), [specTalents, classTalents]);
+  const talents = useMemo(() => new Map<spell, boolean>([...specTalents, ...classTalents, ...heroTalents]), [specTalents, classTalents, heroTalents]);
 
   const mastery = useMemo(() => mwMastery / 100, [mwMastery]);
 
@@ -414,8 +418,9 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
           <Divider orientation="vertical" flexItem />
           <Box sx={{ p: 2 }}>
             <Group>
-              <TalentsCard label="spec" options={specTalents} color={mistweaver.color} onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))} />
-              <TalentsCard label="class" options={classTalents} color={CLASSES.MONK.color} onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))} />
+              <TalentsCard label="Spec" options={specTalents} color={mistweaver.color} onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))} />
+              <TalentsCard label="Hero" options={heroTalents} color={"#0fdece"} onChange={(t, c) => setHeroTalents(prev => new Map(prev).set(t, c))} />
+              <TalentsCard label="Class" options={classTalents} color={CLASSES.MONK.color} onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))} />
             </Group>
           </Box>
         </Box>
