@@ -149,6 +149,7 @@ const spells = {
             duration: 12,
         },
         category: CATEGORY.COOLDOWN,
+        exclusive: [322118],
     },
     YULON: {
         name: "Yu'lon",
@@ -159,6 +160,7 @@ const spells = {
             duration: 12,
         },
         category: CATEGORY.COOLDOWN,
+        exclusive: [325197],
     },
     REVIVAL: {
         name: 'Revival',

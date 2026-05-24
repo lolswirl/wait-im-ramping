@@ -12,6 +12,7 @@ export type SpellCategory = typeof CATEGORY[keyof typeof CATEGORY];
 
 export default interface spell {
     category?: SpellCategory;
+    exclusive?: number[];
     name: string;
     id: number;
     uuid?: string;

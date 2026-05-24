@@ -62,7 +62,8 @@ const talents = {
         custom: {
             transferRate: 2.7,
             armorModifier: 0.7, // sad
-        }
+        },
+        exclusive: [467307],
     },
     WAY_OF_THE_CRANE: {
         name: "Way of the Crane",
@@ -233,7 +234,8 @@ const talents = {
             maxDamageTargets: 5,
             maxHealingTargets: 5,
             damageIncrease: 0.06
-        }
+        },
+        exclusive: [467293], 
     },
     JADE_SERPENT_STATUE: {
         name: "Jade Serpent Statue",
