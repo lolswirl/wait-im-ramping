@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from '@mui/material';
 import SpellButton from '@components/SpellButtons/SpellButton';
 import spell from '@data/spells/spell';
+import { Group } from '@components/StatsCard/StatsCard';
 import { T } from '@util/T';
 
 export interface TalentItem {
@@ -63,32 +64,48 @@ const rowLabel: React.CSSProperties = {
 
 const rowSep = <div style={{ width: 1, alignSelf: "stretch", background: "rgba(255,255,255,0.12)" }} />;
 
+
 const TalentsCard: React.FC<TalentsCardProps> = ({ options, color, label, card, onChange }) => {
     const entries = Array.from(options.entries());
 
-    const content = label ? (
-        <div style={{ display: "grid", gridTemplateColumns: "max-content 1px auto", gap: "6px 10px", alignItems: "center" }}>
-            <span style={rowLabel}><T>{label}</T></span>
-            {rowSep}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
-                {entries.map(([talent, isChecked]) => (
-                    <TalentOption key={talent.name} talent={talent} isChecked={isChecked} onChange={onChange} color={color} />
-                ))}
-            </div>
-        </div>
-    ) : (
+    const handleChange = (talent: spell, checked: boolean) => {
+        if (checked && talent.exclusive) {
+            for (const [other, isChecked] of options.entries()) {
+                if (isChecked && talent.exclusive.includes(other.id)) {
+                    onChange(other, false);
+                }
+            }
+        }
+        onChange(talent, checked);
+    };
+
+    const chips = (
         <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
             {entries.map(([talent, isChecked]) => (
-                <TalentOption key={talent.name} talent={talent} isChecked={isChecked} onChange={onChange} color={color} />
+                <TalentOption key={talent.name} talent={talent} isChecked={isChecked} onChange={handleChange} color={color} />
             ))}
         </div>
     );
 
     if (card) {
-        return <Card variant="outlined" sx={{ p: 2 }}>{content}</Card>;
+        return (
+            <Card variant="outlined" sx={{ p: 2 }}>
+                <Group>
+                    <span style={rowLabel}><T>{label ?? ''}</T></span>
+                    {rowSep}
+                    {chips}
+                </Group>
+            </Card>
+        );
     }
 
-    return content;
+    return (
+        <React.Fragment>
+            <span style={rowLabel}><T>{label ?? ''}</T></span>
+            {rowSep}
+            {chips}
+        </React.Fragment>
+    );
 };
 
 export default TalentsCard;

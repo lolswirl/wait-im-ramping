@@ -6,7 +6,7 @@ import { Box, Card, Container, Divider, useTheme } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
-import StatsCard, { StatsGroup } from "@components/StatsCard/StatsCard";
+import StatsCard, { Group } from "@components/StatsCard/StatsCard";
 
 import spell from "@data/spells/spell";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
@@ -228,9 +228,9 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, overflowY: 'auto' }}>
-              <StatsGroup>
+              <Group>
                 <StatsCard options={options} onOptionsChange={setOptions} />
-              </StatsGroup>
+              </Group>
             </Box>
           </Box>
           
@@ -238,12 +238,14 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
           <Divider sx={{ display: { md: 'none' } }} />
 
           <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2, overflowY: 'auto' }}>
-            <TalentsCard
-              label="Talents"
-              options={selectedTalents}
-              color={mistweaver.color}
-              onChange={handleTalentChange}
-            />
+            <Group>
+              <TalentsCard
+                label="Talents"
+                options={selectedTalents}
+                color={mistweaver.color}
+                onChange={handleTalentChange}
+              />
+            </Group>
           </Box>
         </Box>
       </Card>

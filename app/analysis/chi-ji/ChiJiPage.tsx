@@ -6,7 +6,7 @@ import PageHeader from "@components/PageHeader/PageHeader";
 import SpellButtons from "@components/SpellButtons/SpellButtons";
 import CurrentRotationControl from "@components/CurrentRotationControl/CurrentRotationControl";
 import { RotationCard } from '@components/RotationCard/RotationCard';
-import StatsCard, { StatsGroup } from "@components/StatsCard/StatsCard";
+import StatsCard, { Group } from "@components/StatsCard/StatsCard";
 import TargetCountsCard from "@components/TargetCountCard/TargetCountsCard";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import SwirlButton from "@components/Buttons/SwirlButton";
@@ -140,10 +140,10 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
 
                         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '700', overflowY: 'auto' }}>
-                            <StatsGroup>
+                            <Group>
                                 <StatsCard options={options} onOptionsChange={setOptions} />
                                 <TargetCountsCard options={options} onOptionsChange={setOptions} />
-                            </StatsGroup>
+                            </Group>
                         </Box>  
                         <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
                         <SpellButtons spells={CHIJI_ABILITIES} addSpellToTable={addSpellToRotationCollapse} />
@@ -176,28 +176,30 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
                     <Divider sx={{ display: { md: 'none' } }} />
 
                     <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '700', overflowY: 'auto' }}>
-                        <TalentsCard
-                            label="Spec Talents"
-                            options={options.specTalents}
-                            color={mistweaver.color}
-                            onChange={(talent, checked) => {
-                                setOptions(prev => ({
-                                    ...prev,
-                                    specTalents: new Map(prev.specTalents).set(talent, checked)
-                                }));
-                            }}
-                        />
-                        <TalentsCard
-                            label="Class Talents"
-                            options={options.classTalents}
-                            color={CLASSES.MONK.color}
-                            onChange={(talent, checked) => {
-                                setOptions(prev => ({
-                                    ...prev,
-                                    classTalents: new Map(prev.classTalents).set(talent, checked)
-                                }));
-                            }}
-                        />
+                        <Group>
+                            <TalentsCard
+                                label="Spec Talents"
+                                options={options.specTalents}
+                                color={mistweaver.color}
+                                onChange={(talent, checked) => {
+                                    setOptions(prev => ({
+                                        ...prev,
+                                        specTalents: new Map(prev.specTalents).set(talent, checked)
+                                    }));
+                                }}
+                            />
+                            <TalentsCard
+                                label="Class Talents"
+                                options={options.classTalents}
+                                color={CLASSES.MONK.color}
+                                onChange={(talent, checked) => {
+                                    setOptions(prev => ({
+                                        ...prev,
+                                        classTalents: new Map(prev.classTalents).set(talent, checked)
+                                    }));
+                                }}
+                            />
+                        </Group>
                     </Box>
                 </Box>
             </Card>

@@ -20,6 +20,7 @@ import {
 } from "@data/specs/monk/mistweaver/helpers";
 
 import { T } from "@util/T";
+import { Group } from "@components/StatsCard/StatsCard";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -222,18 +223,20 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
           <Divider sx={{ display: { md: 'none' } }} />
 
           <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <TalentsCard
-              label="Spec Talents"
-              options={specTalentSubset}
-              color={mistweaver.color}
-              onChange={handleTalentChange}
-            />
-            <TalentsCard
-              label="Class Talents"
-              options={classTalentSubset} 
-              color={CLASSES.MONK.color}
-              onChange={handleTalentChange}
-            />
+            <Group>
+              <TalentsCard
+                label="Spec Talents"
+                options={specTalentSubset}
+                color={mistweaver.color}
+                onChange={handleTalentChange}
+              />
+              <TalentsCard
+                label="Class Talents"
+                options={classTalentSubset} 
+                color={CLASSES.MONK.color}
+                onChange={handleTalentChange}
+              />
+            </Group>
           </Box>
         </Box>
       </Card>
