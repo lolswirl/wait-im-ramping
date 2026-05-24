@@ -138,7 +138,7 @@ export const getHealingMultiplier = (talents?: TalentMap): number => {
     
     for (const rule of HEALING_MULTIPLIER_RULES) {
         if (isTalentEnabled(talents, rule.talent)) {
-            multiplier *= rule.getValue();
+            multiplier *= (1 + rule.getValue());
         }
     }
     
