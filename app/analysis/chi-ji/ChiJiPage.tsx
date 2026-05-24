@@ -140,8 +140,10 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
 
                         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '700', overflowY: 'auto' }}>
-                            <StatsCard options={options} onOptionsChange={setOptions} />
-                            <TargetCountsCard options={options} onOptionsChange={setOptions} />
+                            <div style={{ display: "grid", gridTemplateColumns: "max-content 1px auto", gap: "8px 10px", alignItems: "start" }}>
+                                <StatsCard options={options} onOptionsChange={setOptions} />
+                                <TargetCountsCard options={options} onOptionsChange={setOptions} />
+                            </div>
                         </Box>  
                         <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
                         <SpellButtons spells={CHIJI_ABILITIES} addSpellToTable={addSpellToRotationCollapse} />
