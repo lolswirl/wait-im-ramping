@@ -386,8 +386,7 @@ const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({
                             talent={TALENTS.WAY_OF_THE_CRANE}
                             isChecked={wayOfTheCrane}
                             onChange={handleTalentChange}
-                            rgb={rgb}
-                            xs={12}
+                            color={"#4ea55c"}
                         />
                     </Box>
                 </Stack>
