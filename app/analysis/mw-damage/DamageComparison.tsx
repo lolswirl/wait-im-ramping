@@ -47,7 +47,7 @@ type RotationConfig = {
 
 const DamageComparison: React.FC<{ title: string; description: string }> = ({ title, description }) => {
   const theme = useTheme();
-  const [timeSpent, setTimeSpent] = useState(30);
+  const [timeSpent, setTimeSpent] = useState(60);
   const [targetCount, setTargetCount] = useState(1);
   const [activeTab, setActiveTab] = useState(0);
   const [simulationKey, setSimulationKey] = useState(0);
