@@ -388,8 +388,8 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
       <WarningChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon borderColor="#ffa726" />
 
       <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'stretch' }}>
-          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', p: 2, flexShrink: 0 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ p: 2, display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
             <TextField
               label={T("Time (Seconds)")}
               type="number"
@@ -415,7 +415,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
               <T>Re-formulate</T>
             </SwirlButton>
           </Box>
-          <Divider orientation="vertical" flexItem />
+          <Divider />
           <Box sx={{ p: 2 }}>
             <Group>
               <TalentsCard label="Spec" options={specTalents} color={mistweaver.color} onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))} />
