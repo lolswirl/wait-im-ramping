@@ -20,7 +20,7 @@ interface TalentRule {
 const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
     {
         talent: SHARED.FEROCITY_OF_XUEN,
-        getValue: () => SHARED.FEROCITY_OF_XUEN.custom.damageIncrease,
+        getValue: () => 2 * SHARED.FEROCITY_OF_XUEN.custom.damageIncrease, // 2 pts
         appliesTo: (spell) => spell.value?.damage !== undefined
     },
     {
