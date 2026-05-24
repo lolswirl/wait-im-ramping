@@ -19,6 +19,7 @@ const spells = {
         id: 100784,
         icon: 'ability_monk_roundhousekick',
         castTime: 0,
+        cooldown: 3,
         school: SCHOOLS.PHYSICAL,
         value: {
             damage: 1619
