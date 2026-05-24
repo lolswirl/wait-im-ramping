@@ -10,13 +10,57 @@ import {
 } from "@data/specs/monk/mistweaver/helpers";
 
 type DamagePoint = { time: number; damage: number };
+type SimState = Record<string, number>;
+
+interface RotationAction {
+  priority: number;
+  cooldown: number;
+  castTime?: number;
+  getValue: (state: SimState) => number;
+  canCast?: (state: SimState) => boolean;
+  onCast?: (state: SimState, cooldowns: number[]) => void;
+}
 
 interface SimulationParams {
   talents: Map<spell, boolean>;
   mastery: number;
 }
 
-const resolveKickValue = (
+const runRotation = (
+  actions: RotationAction[],
+  totalTime: number,
+  initialState: SimState = {}
+): DamagePoint[] => {
+  const cooldowns = actions.map(() => 0);
+  const state = { ...initialState };
+  const sorted = [...actions.keys()].sort((a, b) => actions[a].priority - actions[b].priority);
+  let currentTime = 0;
+  let cumulativeDamage = 0;
+  const result: DamagePoint[] = [];
+
+  while (currentTime < totalTime) {
+    for (const i of sorted) {
+      if (cooldowns[i] > 0) continue;
+      if (actions[i].canCast && !actions[i].canCast!(state)) continue;
+
+      cumulativeDamage += actions[i].getValue(state);
+      result.push({ time: currentTime, damage: cumulativeDamage });
+      actions[i].onCast?.(state, cooldowns);
+
+      const castTime = actions[i].castTime ?? GCD;
+      cooldowns[i] = actions[i].cooldown;
+      currentTime += castTime;
+      for (let j = 0; j < cooldowns.length; j++) {
+        cooldowns[j] = Math.max(0, cooldowns[j] - castTime);
+      }
+      break;
+    }
+  }
+
+  return result;
+};
+
+const resolveRskValue = (
   targets: number,
   asHealing: boolean,
   talents: Map<spell, boolean>,
@@ -28,6 +72,7 @@ const resolveKickValue = (
     const rwkDamage = rwkBaseDamage * (1 + rwk.custom.damageIncrease * Math.min(targets, rwk.custom.maxDamageTargets));
     if (asHealing) {
       const atHealing = calculateAncientTeachingsHealing(rwkDamage, talents, false, rwk);
+      // assuming 4.5 rems on avg for efficiency
       const directHealing = calculateSpellHealing(rwk, talents, mastery) * rwk.custom.maxHealingTargets * 0.9;
       return atHealing + directHealing;
     }
@@ -39,6 +84,26 @@ const resolveKickValue = (
     : rskDamage;
 };
 
+const bokProcsReset = (hits: number): boolean => {
+  const totmResetChance = TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.resetChance;
+  for (let i = 0; i < hits; i++) if (Math.random() < totmResetChance) return true;
+  return false;
+};
+
+const chosenRsk = (talents: Map<spell, boolean>): spell & { cooldown: number } => {
+  return (
+    talents.get(TALENTS.RUSHING_WIND_KICK) === true 
+      ? TALENTS.RUSHING_WIND_KICK
+      : SPELLS.RISING_SUN_KICK
+    // typescript for whatever reason doesn't want to see .cooldown -is- available
+  ) as spell & { cooldown: number };
+}
+
+const sckDamagePerCast = (baseValue: number, targets: number): number =>
+  targets <= 5
+    ? baseValue * targets
+    : baseValue * targets * Math.sqrt(5 / targets);
+
 export const simulateMeleeRotation = (
   totalTime: number,
   targets: number,
@@ -46,188 +111,51 @@ export const simulateMeleeRotation = (
   params: SimulationParams
 ): DamagePoint[] => {
   const { talents, mastery } = params;
-  const kickValue = resolveKickValue(targets, asHealing, talents, mastery);
-
-  const tigerPalmDamage = calculateSpellDamage(SPELLS.TIGER_PALM, talents, mastery);
-  const blackoutKickDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, mastery);
-  const tigerPalmValue = asHealing ? calculateAncientTeachingsHealing(tigerPalmDamage, talents, true, SPELLS.TIGER_PALM) : tigerPalmDamage;
-  const blackoutKickValue = asHealing ? calculateAncientTeachingsHealing(blackoutKickDamage, talents, true, SPELLS.BLACKOUT_KICK) : blackoutKickDamage;
+  const rskValue = resolveRskValue(targets, asHealing, talents, mastery);
+  const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, talents, mastery);
+  const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, mastery);
+  const tpValue = (
+    asHealing 
+      ? calculateAncientTeachingsHealing(tpDamage, talents, true, SPELLS.TIGER_PALM) 
+      : tpDamage
+  );
+  const bokValue = (
+    asHealing 
+      ? calculateAncientTeachingsHealing(bokDamage, talents, true, SPELLS.BLACKOUT_KICK) 
+      : bokDamage
+  );
   const cleaveMultiplier = Math.min(targets, 3);
+  const totmMaxStacks = TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks;
 
-  let currentTime = 0;
-  let kickCooldown = 0;
-  let blackoutKickCooldown = 0;
-  let totmStacks = 0;
-  let cumulativeDamage = 0;
-  const rotationDamage: DamagePoint[] = [];
+  const actions: RotationAction[] = [
+    {
+      // rsk/rwk
+      priority: 0,
+      cooldown: chosenRsk(talents).cooldown,
+      getValue: () => rskValue,
+    },
+    {
+      // bok
+      priority: 1,
+      cooldown: SPELLS.BLACKOUT_KICK.cooldown,
+      canCast: (state) => state.totmStacks >= totmMaxStacks,
+      getValue: (state) => bokValue * (1 + state.totmStacks) * cleaveMultiplier,
+      onCast: (state, cooldowns) => {
+        const hits = (1 + state.totmStacks) * cleaveMultiplier;
+        state.totmStacks = 0;
+        if (bokProcsReset(hits)) cooldowns[0] = 0;
+      },
+    },
+    {
+      // tp
+      priority: 2,
+      cooldown: 0, // SPELLS.TIGER_PALM.cooldown
+      getValue: () => tpValue,
+      onCast: (state) => { state.totmStacks += 2; },
+    },
+  ];
 
-  // initial rotation
-  cumulativeDamage += kickValue;
-  rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
-  currentTime += GCD;
-  kickCooldown = 12;
-
-  for (let i = 1; i <= 2; i++) {
-    cumulativeDamage += tigerPalmValue;
-    totmStacks += 2;
-    rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
-    currentTime += GCD;
-  }
-
-  if (blackoutKickCooldown <= 0) {
-    const bokHits = (1 + totmStacks) * cleaveMultiplier;
-    totmStacks = 0;
-    let bokResetKick = false;
-    cumulativeDamage += blackoutKickValue * bokHits;
-    for (let i = 0; i < bokHits; i++) {
-      if (Math.random() < 0.15) bokResetKick = true;
-    }
-    rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
-    currentTime += GCD;
-    blackoutKickCooldown = 1.5;
-    if (bokResetKick) kickCooldown = 0;
-  }
-  if (kickCooldown > 0) kickCooldown -= 1.5;
-  blackoutKickCooldown -= 1.5;
-
-  // loop rotation
-  while (currentTime < totalTime) {
-    if (kickCooldown <= 0) {
-      cumulativeDamage += kickValue;
-      rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
-      currentTime += 1.5;
-      kickCooldown = 12;
-    }
-    if (currentTime >= totalTime) break;
-
-    for (let i = 1; i <= 2; i++) {
-      cumulativeDamage += tigerPalmValue;
-      totmStacks += 2;
-      rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
-      currentTime += GCD;
-      if (currentTime >= totalTime) break;
-    }
-    if (currentTime >= totalTime) break;
-
-    if (blackoutKickCooldown <= 0) {
-      const bokHits = (1 + totmStacks) * cleaveMultiplier;
-      totmStacks = 0;
-      let bokResetKick = false;
-      cumulativeDamage += blackoutKickValue * bokHits;
-      for (let i = 0; i < bokHits; i++) {
-        if (Math.random() < 0.15) bokResetKick = true;
-      }
-      rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
-      currentTime += GCD;
-      blackoutKickCooldown = 1.5;
-      if (bokResetKick) kickCooldown = 0;
-    }
-    if (kickCooldown > 0) kickCooldown -= 1.5;
-    blackoutKickCooldown -= 1.5;
-  }
-
-  return rotationDamage;
-};
-
-export const simulateSingleTPRotation = (
-  totalTime: number,
-  targets: number,
-  asHealing: boolean,
-  params: SimulationParams
-): DamagePoint[] => {
-  const { talents, mastery } = params;
-
-  let currentTime = 0;
-  let risingSunKickCooldown = 0;
-  let blackoutKickCooldown = 0;
-  let totmStacks = 0;
-  let cumulativeDamage = 0;
-  const rotationDamage: DamagePoint[] = [];
-
-  const risingSunKickDamage = calculateSpellDamage(SPELLS.RISING_SUN_KICK, talents, mastery);
-  const tigerPalmDamage = calculateSpellDamage(SPELLS.TIGER_PALM, talents, mastery);
-  const blackoutKickDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, mastery);
-
-  const risingSunKickValue = asHealing
-    ? calculateAncientTeachingsHealing(risingSunKickDamage, talents, true, SPELLS.RISING_SUN_KICK)
-    : risingSunKickDamage;
-  const tigerPalmValue = asHealing
-    ? calculateAncientTeachingsHealing(tigerPalmDamage, talents, true, SPELLS.TIGER_PALM)
-    : tigerPalmDamage;
-  const blackoutKickValue = asHealing
-    ? calculateAncientTeachingsHealing(blackoutKickDamage, talents, true, SPELLS.BLACKOUT_KICK)
-    : blackoutKickDamage;
-
-  const cleaveMultiplier = Math.min(targets, 3);
-
-  // initial rotation
-  cumulativeDamage += risingSunKickValue;
-  rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
-  currentTime += GCD;
-
-  cumulativeDamage += tigerPalmValue;
-  totmStacks += 2;
-  rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
-  currentTime += GCD;
-
-  if (blackoutKickCooldown <= 0) {
-    const bokHits = (1 + totmStacks) * cleaveMultiplier;
-    totmStacks = 0;
-    let bokResetRsk = false;
-    cumulativeDamage += blackoutKickValue * bokHits;
-
-    for (let i = 0; i < bokHits; i++) {
-      if (Math.random() < 0.15) bokResetRsk = true;
-    }
-
-    rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
-    currentTime += GCD;
-    blackoutKickCooldown = 1.5;
-
-    if (bokResetRsk) risingSunKickCooldown = 0;
-  }
-
-  if (risingSunKickCooldown > 0) risingSunKickCooldown -= 1.5;
-  blackoutKickCooldown -= 1.5;
-
-  // loop rotation
-  while (currentTime < totalTime) {
-    if (risingSunKickCooldown <= 0) {
-      cumulativeDamage += risingSunKickValue;
-      rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
-      currentTime += 1.5;
-      risingSunKickCooldown = 12;
-    }
-    if (currentTime >= totalTime) break;
-
-    cumulativeDamage += tigerPalmValue;
-    totmStacks += 2;
-    rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
-    currentTime += GCD;
-    if (currentTime >= totalTime) break;
-
-    if (blackoutKickCooldown <= 0) {
-      const bokHits = (1 + totmStacks) * cleaveMultiplier;
-      totmStacks = 0;
-      let bokResetRsk = false;
-      cumulativeDamage += blackoutKickValue * bokHits;
-
-      for (let i = 0; i < bokHits; i++) {
-        if (Math.random() < 0.15) bokResetRsk = true;
-      }
-
-      rotationDamage.push({ time: currentTime, damage: cumulativeDamage });
-      currentTime += GCD;
-      blackoutKickCooldown = 1.5;
-
-      if (bokResetRsk) risingSunKickCooldown = 0;
-    }
-
-    if (risingSunKickCooldown > 0) risingSunKickCooldown -= 1.5;
-    blackoutKickCooldown -= 1.5;
-  }
-
-  return rotationDamage;
+  return runRotation(actions, totalTime, { totmStacks: 0 });
 };
 
 export const simulateSpinningCraneKick = (
@@ -237,29 +165,21 @@ export const simulateSpinningCraneKick = (
   params: SimulationParams
 ): DamagePoint[] => {
   const { talents, mastery } = params;
-  
-  let currentTime = 0;
-  let cumulativeDamage = 0;
-  const sckDamage: DamagePoint[] = [];
+  const baseValue = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, mastery);
 
-  const sckDamageValue = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, mastery);
+  const actions: RotationAction[] = [
+    {
+      // sck
+      priority: 0,
+      cooldown: 0,
+      getValue: () => {
+        const raw = sckDamagePerCast(baseValue, targets);
+        return asHealing ? calculateWayOfTheCraneHealing(raw, talents) : raw;
+      },
+    },
+  ];
 
-  while (currentTime < totalTime) {
-    let rawDamage =
-      targets <= 5
-        ? sckDamageValue * targets
-        : sckDamageValue * targets * Math.sqrt(5 / targets);
-    
-    if (asHealing) {
-      rawDamage = calculateWayOfTheCraneHealing(rawDamage, talents);
-    }
-    
-    cumulativeDamage += rawDamage;
-    sckDamage.push({ time: currentTime, damage: cumulativeDamage });
-    currentTime += 1.5;
-  }
-
-  return sckDamage;
+  return runRotation(actions, totalTime);
 };
 
 export const simulateJadeEmpowerment = (
@@ -269,46 +189,33 @@ export const simulateJadeEmpowerment = (
   params: SimulationParams
 ): DamagePoint[] => {
   const { talents, mastery } = params;
-  
   const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
-  const jadeEmpowermentIncrease = jadeEmpowerment.custom.spellpowerIncrease;
-  const jadeEmpowermentChain = jadeEmpowerment.custom.chainVal;
   const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
-  
-  let currentTime = 0;
-  let cumulativeDamage = 0;
-  const jadeEmpowermentData: DamagePoint[] = [];
-
-  const channelDuration = cjl.castTime;
   const tickInterval = 1.5;
-  const ticksPerChannel = channelDuration / tickInterval;
+  const ticksPerChannel = cjl.castTime / tickInterval;
 
   const baseCJLDamage = calculateSpellDamage(cjl, talents, mastery);
+  const effectiveTargets = Math.min(targets, 5);
+  const baseDamageWithIncrease = baseCJLDamage * (1 + jadeEmpowerment.custom.spellpowerIncrease / 100);
+  const totalDamagePerChannel = baseDamageWithIncrease * (1 + jadeEmpowerment.custom.chainVal * (effectiveTargets - 1));
+  const baseDamagePerTick = totalDamagePerChannel / ticksPerChannel;
+  const tickValue = (
+    asHealing 
+      ? calculateAncientTeachingsHealing(baseDamagePerTick, talents, true, cjl) 
+      : baseDamagePerTick
+  );
 
-  while (currentTime < totalTime) {
-    for (let tick = 0; tick < ticksPerChannel && currentTime < totalTime; tick++) {
-      const effectiveTargets = Math.min(targets, 5);
-      
-      const baseDamageWithIncrease = baseCJLDamage * (1 + jadeEmpowermentIncrease / 100);
-      
-      let totalDamage = baseDamageWithIncrease;
-      if (effectiveTargets > 1) {
-        totalDamage += baseDamageWithIncrease * jadeEmpowermentChain * (effectiveTargets - 1);
-      }
-      
-      let damagePerTick = totalDamage / ticksPerChannel;
-      
-      if (asHealing) {
-        damagePerTick = calculateAncientTeachingsHealing(damagePerTick, talents, true, cjl);
-      }
-      
-      cumulativeDamage += damagePerTick;
-      jadeEmpowermentData.push({ time: currentTime, damage: cumulativeDamage });
-      currentTime += tickInterval;
-    }
-  }
+  const actions: RotationAction[] = [
+    {
+      // cjl
+      priority: 0,
+      cooldown: 0,
+      castTime: tickInterval,
+      getValue: () => tickValue,
+    },
+  ];
 
-  return jadeEmpowermentData;
+  return runRotation(actions, totalTime);
 };
 
 export const simulateRSKWithSCK = (
@@ -318,38 +225,26 @@ export const simulateRSKWithSCK = (
   params: SimulationParams
 ): DamagePoint[] => {
   const { talents, mastery } = params;
-  const kickValue = resolveKickValue(targets, asHealing, talents, mastery);
+  const rskValue = resolveRskValue(targets, asHealing, talents, mastery);
+  const sckBase = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, mastery);
 
-  let currentTime = 0;
-  let risingSunKickCooldown = 0;
-  let cumulativeDamage = 0;
-  const rskSckData: DamagePoint[] = [];
+  const actions: RotationAction[] = [
+    {
+      // rsk/rwk
+      priority: 0,
+      cooldown: chosenRsk(talents).cooldown,
+      getValue: () => rskValue,
+    },
+    {
+      // sck
+      priority: 1,
+      cooldown: 0,
+      getValue: () => {
+        const raw = sckDamagePerCast(sckBase, targets);
+        return asHealing ? calculateWayOfTheCraneHealing(raw, talents) : raw;
+      },
+    },
+  ];
 
-  const sckDamageValue = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, mastery);
-
-  while (currentTime < totalTime) {
-    if (risingSunKickCooldown <= 0) {
-      cumulativeDamage += kickValue;
-      rskSckData.push({ time: currentTime, damage: cumulativeDamage });
-      currentTime += 1.5;
-      risingSunKickCooldown = 12;
-    } else {
-      let rawDamage =
-        targets <= 5
-          ? sckDamageValue * targets
-          : sckDamageValue * targets * Math.sqrt(5 / targets);
-      
-      if (asHealing) {
-        rawDamage = calculateWayOfTheCraneHealing(rawDamage, talents);
-      }
-      
-      cumulativeDamage += rawDamage;
-      rskSckData.push({ time: currentTime, damage: cumulativeDamage });
-      currentTime += 1.5;
-      risingSunKickCooldown -= 1.5;
-    }
-  }
-
-  return rskSckData;
+  return runRotation(actions, totalTime);
 };
-
