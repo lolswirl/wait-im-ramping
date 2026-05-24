@@ -1,16 +1,14 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-import { Typography, Box, Card, Stack, Divider, Dialog, DialogContent, Fade, useMediaQuery, useTheme } from '@mui/material';
+import { Typography, Box, Card, Stack, Divider, useMediaQuery, useTheme } from '@mui/material';
 
 import TimelineVisualizer from '@components/TimelineVisualizer/TimelineVisualizer';
 import SpecializationSelect from '@components/SpecializationSelect/SpecializationSelect';
 import SpellButtons from '@components/SpellButtons/SpellButtons';
 import CurrentRotationControl from '@components/CurrentRotationControl/CurrentRotationControl';
 import PageHeader from '@components/PageHeader/PageHeader';
-import PresetSpells from '@components/PresetSpells/PresetSpells';
 import WarningChip from '@components/WarningChip/WarningChip';
 import SwirlField from '@components/SwirlField/SwirlField';
-import { RAINBOW_GRADIENT } from '@components/Buttons/RainbowCard';
 
 import { useSpec } from '@context/SpecContext';
 
@@ -26,7 +24,6 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
     const { spec, setSpec } = useSpec();
     const [spellList, setSpellList] = useState<spell[]>([]);
     const [haste, setHaste] = useState<number | "">(0);
-    const [presetOpen, setPresetOpen] = useState(false);
     const skipUrlSync = useRef(false);
 
     const theme = useTheme();
@@ -97,7 +94,6 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
 
     const handleSelectPreset = (spells: spell[]) => {
         setCurrentRotation(spells);
-        setPresetOpen(false);
     };
 
     return (
@@ -146,32 +142,7 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
                     <SpellButtons
                         selectedSpec={spec}
                         addSpellToTable={addSpellToRotation}
-                        appendSlot={spec && (
-                            <Box
-                                onClick={() => setPresetOpen(true)}
-                                sx={{
-                                    width: 89,
-                                    height: 42,
-                                    borderRadius: '4px',
-                                    border: '1px solid transparent',
-                                    background: (theme) => `linear-gradient(${theme.palette.background.paper}, ${theme.palette.background.paper}) padding-box, ${theme.palette.divider} border-box`,
-                                    boxShadow: '0px 2px 4px rgba(0,0,0,0.2)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    transition: 'transform 0.3s ease',
-                                    '&:hover': {
-                                        transform: 'scale(1.05)',
-                                        background: (theme) => `linear-gradient(${theme.palette.background.paper}, ${theme.palette.background.paper}) padding-box, ${RAINBOW_GRADIENT} border-box`,
-                                    },
-                                }}
-                            >
-                                <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center', lineHeight: 1.2 }}>
-                                    <T>Preset Spells</T>
-                                </Typography>
-                            </Box>
-                        )}
+                        onSelectPreset={handleSelectPreset}
                     />
 
                     <Divider sx={{ mx: -2, my: 2, width: 'auto' }} />
@@ -189,38 +160,6 @@ const Timeline: React.FC<{ title: string; description: string }> = ({ title, des
                     )}
                 </Box>
             </Card>
-
-            <Dialog
-                open={presetOpen}
-                onClose={() => setPresetOpen(false)}
-                maxWidth="sm"
-                fullWidth
-                slots={{ transition: Fade }}
-                slotProps={{
-                    transition: { timeout: 200 },
-                    paper: {
-                        elevation: 8,
-                        sx: {
-                            borderRadius: 1,
-                            width: 'auto',
-                            backgroundColor: 'rgba(26, 26, 26, 0.2)',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
-                            overflow: 'hidden',
-                        },
-                    },
-                    backdrop: {
-                        sx: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                            backdropFilter: 'blur(4px)',
-                        },
-                    },
-                }}
-            >
-                <DialogContent sx={{ p: 2, backgroundColor: 'rgba(18, 18, 18, 0.6)' }}>
-                    <PresetSpells spec={spec} onSelectRotation={handleSelectPreset} />
-                </DialogContent>
-            </Dialog>
 
             <TimelineVisualizer
                 selectedSpec={spec}
