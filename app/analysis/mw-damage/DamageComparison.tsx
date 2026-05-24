@@ -23,7 +23,6 @@ import WarningChip from "@components/WarningChip/WarningChip";
 import { RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
 import {
   simulateMeleeRotation,
-  simulateSingleTPRotation,
   simulateSpinningCraneKick,
   simulateJadeEmpowerment,
   simulateRSKWithSCK,
@@ -32,13 +31,6 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 type DamagePoint = { time: number; damage: number };
-type DamageData = {
-  melee: DamagePoint[];
-  singleTP: DamagePoint[];
-  sck: DamagePoint[];
-  rskSck: DamagePoint[];
-  je: DamagePoint[];
-};
 
 type SimulationParams = {
   talents: Map<spell, boolean>;
@@ -46,7 +38,8 @@ type SimulationParams = {
 };
 
 type RotationConfig = {
-  dataKey: keyof DamageData;
+  dataKey: string;
+  label: string;
   spells: spell[];
   color: string;
   simulateFn: (time: number, targets: number, asHealing: boolean, params: SimulationParams) => DamagePoint[];
@@ -59,13 +52,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   const [activeTab, setActiveTab] = useState(0);
   const [simulationKey, setSimulationKey] = useState(0);
   const showAsHealing = activeTab === 1;
-  const [damageData, setDamageData] = useState<DamageData>({
-    melee: [],
-    singleTP: [],
-    sck: [],
-    rskSck: [],
-    je: [],
-  });
+  const [damageData, setDamageData] = useState<Record<string, DamagePoint[]>>({});
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
   const mwMastery = mistweaver.mastery;
@@ -91,20 +78,49 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
 
   const simulationParams = useMemo(() => ({ talents, mastery }), [talents, mastery]);
 
+  const useRwk = talents.get(TALENTS.RUSHING_WIND_KICK) === true;
+
+  const ROTATION_CONFIGS: RotationConfig[] = useMemo(() => [
+    {
+      dataKey: 'melee',
+      label: 'TP BOK ' + (useRwk ? 'RWK' : 'RSK'),
+      spells: [
+        SPELLS.TIGER_PALM,
+        SPELLS.BLACKOUT_KICK,
+        useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK
+      ],
+      simulateFn: simulateMeleeRotation,
+    },
+    {
+      dataKey: 'sck',
+      label: 'SCK',
+      spells: [SPELLS.SPINNING_CRANE_KICK],
+      simulateFn: simulateSpinningCraneKick,
+    },
+    {
+      dataKey: 'rskSck',
+      label: (useRwk ? 'RWK' : 'RSK') + ' + SCK',
+      spells: [
+        useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK,
+        SPELLS.SPINNING_CRANE_KICK
+      ],
+      simulateFn: simulateRSKWithSCK,
+    },
+    {
+      dataKey: 'je',
+      label: 'JE',
+      spells: [TALENTS.JADE_EMPOWERMENT],
+      simulateFn: simulateJadeEmpowerment,
+    },
+  ].map((e, i) => ({ ...e, color: RAINBOW_COLORS[i % RAINBOW_COLORS.length] })), [useRwk]);
+
   useEffect(() => {
-    const rotations = simulateMeleeRotation(timeSpent, targetCount, showAsHealing, simulationParams);
-    const singleTP = simulateSingleTPRotation(timeSpent, targetCount, showAsHealing, simulationParams);
-    const spinningCraneKickData = simulateSpinningCraneKick(timeSpent, targetCount, showAsHealing, simulationParams);
-    const jadeEmpowermentData = simulateJadeEmpowerment(timeSpent, targetCount, showAsHealing, simulationParams);
-    const rskWithSckData = simulateRSKWithSCK(timeSpent, targetCount, showAsHealing, simulationParams);
-    setDamageData({
-      melee: rotations,
-      singleTP: singleTP,
-      sck: spinningCraneKickData,
-      rskSck: rskWithSckData,
-      je: jadeEmpowermentData,
-    });
-  }, [timeSpent, targetCount, showAsHealing, simulationParams, simulationKey]);
+    setDamageData(
+      Object.fromEntries(
+        ROTATION_CONFIGS.map(c => [c.dataKey, c.simulateFn(timeSpent, targetCount, showAsHealing, simulationParams)])
+      )
+    );
+  }, [timeSpent, targetCount, showAsHealing, simulationParams, simulationKey, ROTATION_CONFIGS]);
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTimeSpent(Number(e.target.value));
@@ -136,51 +152,6 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
       },
     },
   };
-
-  console.log(damageData);
-
-  const getLabel = (dataKey: keyof DamageData): string => {
-    if (dataKey === 'melee') return useRwk ? 'TP BOK RWK' : 'TP BOK RSK';
-    if (dataKey === 'rskSck') return useRwk ? 'RWK+SCK' : 'RSK+SCK';
-    const labelMap: Record<Exclude<keyof DamageData, 'melee' | 'rskSck'>, string> = {
-      singleTP: 'TP BOK',
-      sck: 'SCK',
-      je: 'JE',
-    };
-    return labelMap[dataKey];
-  };
-
-  const useRwk = talents.get(TALENTS.RUSHING_WIND_KICK) === true;
-
-  const ROTATION_CONFIGS: RotationConfig[] = useMemo(() => {
-    const entries = [
-      {
-        dataKey: 'melee' as const,
-        spells: useRwk
-          ? [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, TALENTS.RUSHING_WIND_KICK]
-          : [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, SPELLS.RISING_SUN_KICK],
-        simulateFn: simulateMeleeRotation,
-      },
-      {
-        dataKey: 'sck' as const,
-        spells: [SPELLS.SPINNING_CRANE_KICK],
-        simulateFn: simulateSpinningCraneKick,
-      },
-      {
-        dataKey: 'rskSck' as const,
-        spells: useRwk
-          ? [TALENTS.RUSHING_WIND_KICK, SPELLS.SPINNING_CRANE_KICK]
-          : [SPELLS.RISING_SUN_KICK, SPELLS.SPINNING_CRANE_KICK],
-        simulateFn: simulateRSKWithSCK,
-      },
-      {
-        dataKey: 'je' as const,
-        spells: [TALENTS.JADE_EMPOWERMENT],
-        simulateFn: simulateJadeEmpowerment,
-      },
-    ];
-    return entries.map((e, i) => ({ ...e, color: RAINBOW_COLORS[i % RAINBOW_COLORS.length] }));
-  }, [useRwk]);
 
   const getBackgroundColor = (color: string) => `${color}33`;
   const getBorderColor = (color: string) => `${color}66`;
@@ -214,7 +185,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
                     ))}
                   </Box>
                   <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: '0.7rem', color: config.color }}>
-                    <T>{getLabel(config.dataKey)}</T>
+                    <T>{config.label}</T>
                   </Typography>
                 </Box>
               </TableCell>
@@ -270,7 +241,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
                       ))}
                     </Box>
                     <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>
-                      <T>{getLabel(config1.dataKey)} vs {getLabel(config2.dataKey)}</T>
+                      <T>{config1.label} vs {config2.label}</T>
                     </Typography>
                   </Box>
                 </TableCell>
@@ -347,7 +318,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
                       ))}
                     </Box>
                     <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: '0.7rem', color: config.color }}>
-                      <T>{getLabel(config.dataKey)}</T>
+                      <T>{config.label}</T>
                     </Typography>
                   </Box>
                 </TableCell>
@@ -397,17 +368,10 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   };
 
   const chartData = {
-    labels: [
-      ...new Set([
-        ...damageData.melee.map(item => item.time),
-        ...damageData.sck.map(item => item.time),
-        ...damageData.rskSck.map(item => item.time),
-        ...damageData.je.map(item => item.time),
-      ])
-    ],
+    labels: [...new Set(ROTATION_CONFIGS.flatMap(c => (damageData[c.dataKey] ?? []).map(p => p.time)))],
     datasets: ROTATION_CONFIGS.map(config => ({
-      label: T(getLabel(config.dataKey)),
-      data: damageData[config.dataKey].map(item => item.damage),
+      label: T(config.label),
+      data: (damageData[config.dataKey] ?? []).map(item => item.damage),
       borderColor: config.color,
       backgroundColor: getBackgroundColor(config.color),
       fill: false,
@@ -466,7 +430,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             {(() => {
               const avgs = ROTATION_CONFIGS.map(config => {
-                const series = damageData[config.dataKey];
+                const series = damageData[config.dataKey] ?? [];
                 return series.length > 0 ? series[series.length - 1].damage / timeSpent : 0;
               });
               const bestAvg = Math.max(...avgs);
@@ -494,7 +458,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
                       ))}
                     </Box>
                     <Typography variant="caption" color="text.secondary">
-                      <T>{getLabel(config.dataKey)}</T>
+                      <T>{config.label}</T>
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
                       <Typography variant="h6" sx={{ fontWeight: 'bold', color: config.color, lineHeight: 1.2 }}>
