@@ -838,6 +838,8 @@ const HotJS: React.FC<{ title: string; description: string }> = ({ title, descri
                             options={talents}
                             color={mistweaver.color}
                             onChange={handleTalentChange}
+                            card
+                            label={"Talents"}
                         />
                         <TimeSliderCard
                             timeRange={timeRange}

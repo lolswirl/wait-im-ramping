@@ -316,6 +316,13 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
             }}
         >
             <PageHeader title={title} subtitle={description} />
+            <TalentsCard
+                label="Talents"
+                options={selectedTalents}
+                color={"4bc0c0"}
+                onChange={handleTalentChange}
+                card
+            />
             <Box
                 sx={{
                     height: 600,
@@ -326,12 +333,6 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
             >
                 <Bar data={chartData} options={chartOptions} />
             </Box>
-            <TalentsCard
-                options={selectedTalents}
-                color={"4bc0c0"}
-                onChange={handleTalentChange}
-                xs={4}
-            />
         </Container>
     );
 };

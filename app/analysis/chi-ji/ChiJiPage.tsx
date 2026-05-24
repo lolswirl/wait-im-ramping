@@ -132,10 +132,10 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             <PageHeader
                 title={title} 
-                subtitle={description} 
+                subtitle={description}
             />
 
-            <Card variant="outlined" sx={{ maxWidth: maxWidth, width: "95%", mx: "auto", mb: rotationHPS.length > 0 ? 0 : 3 }}>
+            <Card variant="outlined" sx={{ maxWidth: maxWidth, width: "75%", mx: "auto", mb: rotationHPS.length > 0 ? 0 : 3 }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: '400px' }}>
                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
 
@@ -175,6 +175,7 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
 
                     <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '700', overflowY: 'auto' }}>
                         <TalentsCard
+                            label="Spec Talents"
                             options={options.specTalents}
                             color={mistweaver.color}
                             onChange={(talent, checked) => {
@@ -185,7 +186,8 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
                             }}
                         />
                         <TalentsCard
-                            options={options.classTalents} 
+                            label="Class Talents"
+                            options={options.classTalents}
                             color={CLASSES.MONK.color}
                             onChange={(talent, checked) => {
                                 setOptions(prev => ({

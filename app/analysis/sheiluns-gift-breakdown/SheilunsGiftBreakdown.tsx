@@ -237,6 +237,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
 
           <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2, overflowY: 'auto' }}>
             <TalentsCard
+              label="Talents"
               options={selectedTalents}
               color={mistweaver.color}
               onChange={handleTalentChange}

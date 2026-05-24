@@ -288,17 +288,18 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
                 title={title}
                 subtitle={description}
             />
-            
-            <Box sx={{ height: 600, width: "100%", display: "flex", justifyContent: "center" }}>
-                <Bar data={chartData} options={chartOptions} />
-            </Box>
-            
+
             <TalentsCard
                 options={selectedTalents}
                 color={"9966ff"}
                 onChange={handleTalentChange}
-                xs={4}
+                card
+                label={"Talents"}
             />
+            
+            <Box sx={{ height: 600, width: "100%", display: "flex", justifyContent: "center" }}>
+                <Bar data={chartData} options={chartOptions} />
+            </Box>
         </Container>
     );
 };
