@@ -486,11 +486,12 @@ const StatsCard: React.FC<{
                             </Typography>
                         </Box>
                         <Stack direction="row" spacing={1} flexWrap="wrap">
-                            <Chip 
-                                label={`${withHotJS} ${T(pluralize(withHotJS, "Cast"))}`}
+                            <WarningChip
+                                message={`${withHotJS} ${T(pluralize(withHotJS, "Cast"))}`}
                                 size="small" 
                                 variant='outlined'
-                                sx={{ 
+                                sx={{
+                                    fontWeight: null,
                                     backgroundColor: ability.color + '20', 
                                     color: ability.color, 
                                     borderColor: ability.color + '50',
@@ -500,11 +501,12 @@ const StatsCard: React.FC<{
                                     }
                                 }}
                             />
-                            <Chip 
-                                label={`+${extraCasts} ${T("Extra")}`} 
+                            <WarningChip 
+                                message={`+${extraCasts} ${T("Extra")}`} 
                                 size="small" 
                                 variant='outlined'
                                 sx={{ 
+                                    fontWeight: null,
                                     backgroundColor: extraCasts > 0 ? '#4ade8020' : 'transparent',
                                     color: extraCasts > 0 ? '#4ade80' : (themeMode === 'dark' ? 'rgba(255,255,255,0.5)' : '#999'),
                                     borderColor: extraCasts > 0 ? '#4ade8050' : (themeMode === 'dark' ? 'rgba(255,255,255,0.2)' : '#ddd'),
@@ -514,11 +516,12 @@ const StatsCard: React.FC<{
                                     }
                                 }}
                             />
-                            <Chip 
-                                label={`${castsPerMinute.toFixed(1)} ${T("cpm")}`} 
-                                size="small"
+                            <WarningChip 
+                                message={`${castsPerMinute.toFixed(1)} ${T("cpm")}`} 
+                                size="small" 
                                 variant='outlined'
                                 sx={{
+                                    fontWeight: null,
                                     backgroundColor: themeMode === 'dark' ? 'rgba(255,255,255,0.1)' : '#f5f5f5',
                                     color: themeMode === 'dark' ? 'white' : 'inherit',
                                     borderColor: themeMode === 'dark' ? 'rgba(255,255,255,0.2)' : '#ddd',
@@ -529,11 +532,12 @@ const StatsCard: React.FC<{
                                 }}
                             />
                             {avgCooldown > 0 && (
-                                <Chip 
-                                    label={`${avgCooldown.toFixed(1)}s ${T("avg cd")}`} 
-                                    size="small"
+                                <WarningChip 
+                                    message={`${avgCooldown.toFixed(1)}s ${T("avg cd")}`}
+                                    size="small" 
                                     variant='outlined'
                                     sx={{
+                                        fontWeight: null,
                                         backgroundColor: themeMode === 'dark' ? 'rgba(255,255,255,0.1)' : '#f5f5f5',
                                         color: themeMode === 'dark' ? 'white' : 'inherit',
                                         borderColor: themeMode === 'dark' ? 'rgba(255,255,255,0.2)' : '#ddd',
