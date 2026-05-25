@@ -37,8 +37,13 @@ const WarningChip: React.FC<WarningChipProps> = ({
     const customSx: SxProps<Theme> = {
         fontSize: fontSize,
         fontWeight: 500,
+        maxWidth: 'none',
+        height: 'auto',
         '& .MuiChip-label': {
-            px: 1
+            px: 1,
+            overflow: 'visible',
+            whiteSpace: 'normal',
+            textAlign: 'center',
         },
         '& .MuiChip-icon': {
             fontSize: fontSize,
