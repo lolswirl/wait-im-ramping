@@ -12,6 +12,7 @@ import TalentsCard from "@components/TalentsCard/TalentsCard";
 import SwirlButton from "@components/Buttons/SwirlButton";
 import { CLASSES } from "@data/class";
 import spell from "@data/spells/spell";
+import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
 import { CHIJI_ABILITIES } from "@data/specs/monk/mistweaver/spells";
@@ -39,6 +40,7 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
         [TALENTS.CRANE_STYLE, true],
         [TALENTS.RAPID_DIFFUSION, true],
         [TALENTS.JADEFIRE_TEACHINGS, true],
+        [TALENTS.RUSHING_WIND_KICK, false],
         [TALENTS.WAY_OF_THE_CRANE, true],
         [TALENTS.FOCUSED_THUNDER, true],
         [TALENTS.EMPERORS_ELIXIR, true],
@@ -147,7 +149,14 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
                                 <TargetCountsCard options={options} onOptionsChange={setOptions} />
                             </Group>
                             <Divider sx={{ mx: -2 }} />
-                            <SpellButtons spells={CHIJI_ABILITIES} addSpellToTable={addSpellToRotationCollapse} />
+                            <SpellButtons
+                                spells={
+                                    options.specTalents.get(TALENTS.RUSHING_WIND_KICK)
+                                        ? CHIJI_ABILITIES.map(s => s.id === SPELLS.RISING_SUN_KICK.id ? TALENTS.RUSHING_WIND_KICK : s)
+                                        : CHIJI_ABILITIES
+                                }
+                                addSpellToTable={addSpellToRotationCollapse}
+                            />
                         </Box>
 
                         <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', md: 'block' } }} />
