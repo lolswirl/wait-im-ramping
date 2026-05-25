@@ -51,7 +51,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   const [targetCount, setTargetCount] = useState(1);
   const [activeTab, setActiveTab] = useState(0);
   const [simulationKey, setSimulationKey] = useState(0);
-  const showAsHealing = activeTab === 1;
+  const showAsHealing = activeTab === 0;
   const [damageData, setDamageData] = useState<Record<string, DamagePoint[]>>({});
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
@@ -428,8 +428,8 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
 
       <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
         <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
-          <Tab label={T("DPS")} />
           <Tab label={T("HPS")} />
+          <Tab label={T("DPS")} />
         </Tabs>
         <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
@@ -486,8 +486,8 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
 
       <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
         <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
-          <Tab label={T("DPS")} />
           <Tab label={T("HPS")} />
+          <Tab label={T("DPS")} />
         </Tabs>
         <Box sx={{ p: 2 }}>
           {renderHeatmapTable(showAsHealing ? 'HPS' : 'DPS', showAsHealing)}
