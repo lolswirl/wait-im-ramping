@@ -335,7 +335,7 @@ const talents = {
         id: 1268807,
         icon: 'inv_drink_25_honeytea',
         custom: {
-            jadefireStompMaxTargets: 5,
+            ancientTeachingsEffectiveness: 0.2,
         }
     },
     CHI_WARDING: {
