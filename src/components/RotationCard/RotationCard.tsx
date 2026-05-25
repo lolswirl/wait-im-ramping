@@ -71,53 +71,32 @@ export const RotationCard: React.FC<RotationCardProps> = ({
             <Box sx={{ height: 3, background: accent, opacity: 0.85 }} />
 
             <Box sx={{ p: 2 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1, mb: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1, mb: 1.5 }}>
                     <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
                         {rotation.spells.map((spell, i) => (
                             <SpellButton key={`${spell.id}-${i}`} selectedSpell={spell} />
                         ))}
                     </Box>
-                    <IconButton size="small" onClick={onDelete} color="error" sx={{ flexShrink: 0 }}>
-                        <DeleteTwoTone fontSize="small" />
-                    </IconButton>
-                </Box>
-
-                <Typography
-                    variant="h4"
-                    sx={{ fontWeight: 800, color: accent, textAlign: 'center', letterSpacing: '-0.5px', mb: 2 }}
-                >
-                    {Math.round(rotation.hps).toLocaleString()}
-                    <Typography component="span" variant="h6" sx={{ fontWeight: 400, color: 'text.secondary', ml: 1 }}>
-                        <T>HPS</T>
-                    </Typography>
-                </Typography>
-
-                <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', mb: 2 }}>
-                    {[
-                        { label: 'Duration', value: `${rotation.duration.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}s` },
-                        { label: 'Total Healing', value: Math.round(rotation.totalHealing).toLocaleString() },
-                        { label: 'Casts', value: rotation.spells.length },
-                    ].map(stat => (
-                        <Box
-                            key={stat.label}
-                            sx={{
-                                flex: 1,
-                                textAlign: 'center',
-                                py: 0.75,
-                                px: 1,
-                                borderRadius: 1,
-                                bgcolor: `${accent}12`,
-                                border: `1px solid ${accent}30`,
-                            }}
-                        >
-                            <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', lineHeight: 1.2 }}>
-                                <T>{stat.label}</T>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 0.5, flexShrink: 0 }}>
+                        <Typography variant="h5" sx={{ fontWeight: 800, color: accent, letterSpacing: '-0.5px', lineHeight: 1 }}>
+                            {Math.round(rotation.hps).toLocaleString()}
+                            <Typography component="span" variant="body2" sx={{ fontWeight: 400, color: 'text.secondary', ml: 0.5 }}>
+                                <T>hps</T>
                             </Typography>
-                            <Typography variant="body2" sx={{ fontWeight: 700 }}>
-                                {stat.value}
+                        </Typography>
+                        <Box sx={{ display: 'flex', gap: 1 }}>
+                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                                {rotation.duration.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}s
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>·</Typography>
+                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                                {Math.round(rotation.totalHealing).toLocaleString()} total
                             </Typography>
                         </Box>
-                    ))}
+                        <IconButton size="small" onClick={onDelete} color="error" sx={{ p: 0 }}>
+                            <DeleteTwoTone fontSize="small" />
+                        </IconButton>
+                    </Box>
                 </Box>
 
                 {aggregateSources.length > 0 && (
