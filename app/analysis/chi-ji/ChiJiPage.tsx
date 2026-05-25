@@ -138,70 +138,73 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
             />
 
             <Card variant="outlined" sx={{ maxWidth: maxWidth, width: "75%", mx: "auto", mb: rotationHPS.length > 0 ? 0 : 3 }}>
-                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: '400px' }}>
-                    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
-
-                        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '700', overflowY: 'auto' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
+                        {/* Top-left: stats + spells */}
+                        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
                             <Group>
                                 <StatsCard options={options} onOptionsChange={setOptions} />
                                 <TargetCountsCard options={options} onOptionsChange={setOptions} />
                             </Group>
-                        </Box>  
-                        <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
-                        <SpellButtons spells={CHIJI_ABILITIES} addSpellToTable={addSpellToRotationCollapse} />
-                        <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
-                        <Box sx={{ mt: 0 }}>
-                            <CurrentRotationControl
-                                currentRotation={currentRotation}
-                                onRemoveSpell={removeSpellFromRotation}
-                                onFinalizeRotation={finalizeRotation}
-                                onClearCurrentRotation={clearCurrentRotation}
-                                onClearAllRotations={clearAllRotations}
-                                hasRotations={hasRotations}
-                                onReorderRotation={onReorderRotation}
-                            >
-                                <SwirlButton
-                                    key={"refresh-rotation"}
-                                    color="success"
-                                    textColor="success"
-                                    onClick={handleRefresh}
-                                    disabled={isSimulating || rotationHPS.length === 0}
-                                    startIcon={<Refresh />}
-                                >
-                                    <T>{isSimulating ? 'Simulating...' : 'Re-simulate'}</T>
-                                </SwirlButton>
-                            </CurrentRotationControl>
+                            <Divider sx={{ mx: -2 }} />
+                            <SpellButtons spells={CHIJI_ABILITIES} addSpellToTable={addSpellToRotationCollapse} />
+                        </Box>
+
+                        <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', md: 'block' } }} />
+
+                        {/* Top-right: talents */}
+                        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
+                            <Group>
+                                <TalentsCard
+                                    label="Spec"
+                                    options={options.specTalents}
+                                    color={mistweaver.color}
+                                    onChange={(talent, checked) => {
+                                        setOptions(prev => ({
+                                            ...prev,
+                                            specTalents: new Map(prev.specTalents).set(talent, checked)
+                                        }));
+                                    }}
+                                />
+                                <TalentsCard
+                                    label="Class"
+                                    options={options.classTalents}
+                                    color={CLASSES.MONK.color}
+                                    onChange={(talent, checked) => {
+                                        setOptions(prev => ({
+                                            ...prev,
+                                            classTalents: new Map(prev.classTalents).set(talent, checked)
+                                        }));
+                                    }}
+                                />
+                            </Group>
                         </Box>
                     </Box>
-                    
-                    <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', md: 'block' } }} />
-                    <Divider sx={{ display: { md: 'none' } }} />
 
-                    <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '700', overflowY: 'auto' }}>
-                        <Group>
-                            <TalentsCard
-                                label="Spec"
-                                options={options.specTalents}
-                                color={mistweaver.color}
-                                onChange={(talent, checked) => {
-                                    setOptions(prev => ({
-                                        ...prev,
-                                        specTalents: new Map(prev.specTalents).set(talent, checked)
-                                    }));
-                                }}
-                            />
-                            <TalentsCard
-                                label="Class"
-                                options={options.classTalents}
-                                color={CLASSES.MONK.color}
-                                onChange={(talent, checked) => {
-                                    setOptions(prev => ({
-                                        ...prev,
-                                        classTalents: new Map(prev.classTalents).set(talent, checked)
-                                    }));
-                                }}
-                            />
-                        </Group>
+                    <Divider />
+
+                    {/* Bottom: rotation builder full width */}
+                    <Box sx={{ p: 2 }}>
+                        <CurrentRotationControl
+                            currentRotation={currentRotation}
+                            onRemoveSpell={removeSpellFromRotation}
+                            onFinalizeRotation={finalizeRotation}
+                            onClearCurrentRotation={clearCurrentRotation}
+                            onClearAllRotations={clearAllRotations}
+                            hasRotations={hasRotations}
+                            onReorderRotation={onReorderRotation}
+                        >
+                            <SwirlButton
+                                key={"refresh-rotation"}
+                                color="success"
+                                textColor="success"
+                                onClick={handleRefresh}
+                                disabled={isSimulating || rotationHPS.length === 0}
+                                startIcon={<Refresh />}
+                            >
+                                <T>{isSimulating ? 'Simulating...' : 'Re-simulate'}</T>
+                            </SwirlButton>
+                        </CurrentRotationControl>
                     </Box>
                 </Box>
             </Card>
