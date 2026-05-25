@@ -172,6 +172,15 @@ export const calculateRotationHPS = async (
     let chiJiActive = false;
     let chiJiTimeRemaining = 0;
 
+    const focusedThunderOpt = isTalentEnabled(options, TALENTS.FOCUSED_THUNDER);
+    const tftChargesTotal = focusedThunderOpt ? TALENTS.FOCUSED_THUNDER.custom.tftCharges : 1;
+    let tftChargesRemaining = 0;
+
+    const emperorsElixirOpt = isTalentEnabled(options, TALENTS.EMPERORS_ELIXIR);
+    const jfs = TALENTS.JADEFIRE_STOMP;
+    const jfsMaxTargets = jfs.custom.enemyTargets;
+    const eeATEffectiveness = TALENTS.EMPERORS_ELIXIR.custom.ancientTeachingsEffectiveness;
+
     const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
     const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
     const ancientTeachingsTransfer = isTalentEnabled(options, TALENTS.JADEFIRE_TEACHINGS) ? ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate : ancientTeachings.custom.transferRate;
@@ -465,6 +474,27 @@ export const calculateRotationHPS = async (
                     totmStacks = Math.min(totmStacks + stacksGained, totmMaxStacks);
                 } else if (spell.id === SPELLS.BLACKOUT_KICK.id) {
                     totmStacks = 0;
+                } else if (spell.id === SPELLS.RISING_SUN_KICK.id && tftChargesRemaining > 0) {
+                    tftChargesRemaining--;
+
+                    if (emperorsElixirOpt) {
+                        const stompTargets = Math.min(jfsMaxTargets, options.enemyCount);
+                        const stompDamage = calculateDamage(jfs) * stompTargets;
+                        const stompATHealing = stompDamage * ancientTeachingsTransfer * eeATEffectiveness;
+                        const stompHealing = distributeAncientTeachings(allies, stompATHealing);
+
+                        totalHealing += stompHealing;
+                        const stompKey = jfs.name;
+                        if (!healingBySpell[stompKey]) {
+                            healingBySpell[stompKey] = { healing: 0, sources: {}, count: 0 };
+                        }
+                        healingBySpell[stompKey].healing += stompHealing;
+                        healingBySpell[stompKey].count += 1;
+                        if (!healingBySpell[stompKey].sources.ancientTeachings) {
+                            healingBySpell[stompKey].sources.ancientTeachings = 0;
+                        }
+                        healingBySpell[stompKey].sources.ancientTeachings += stompHealing;
+                    }
                 }
 
                 const spellKey = spell.name;
@@ -485,13 +515,17 @@ export const calculateRotationHPS = async (
             }
         } else {
             // Off-GCD spells always execute
+            if (spell.id === SPELLS.THUNDER_FOCUS_TEA.id) {
+                tftChargesRemaining = tftChargesTotal;
+            }
+
             const { breakdown, totalHealing: spellHealing } = calculateSpellHealingBreakdown(
-                spell, 
-                totmStacks, 
+                spell,
+                totmStacks,
                 allies,
                 chiJiActive && chiJiTimeRemaining > 0
             );
-            
+
             totalHealing += spellHealing;
             spellsCastInChiJi.push(spell);
 
