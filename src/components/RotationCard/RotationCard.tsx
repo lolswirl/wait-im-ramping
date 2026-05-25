@@ -120,14 +120,6 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                     ))}
                 </Box>
 
-                {rotation.warnings.length > 0 && (
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, mb: 1.5 }}>
-                        {rotation.warnings.map((w, i) => (
-                            <WarningChip key={i} message={w} showIcon icon="⚠︎" fontSize="0.7rem" />
-                        ))}
-                    </Box>
-                )}
-
                 {aggregateSources.length > 0 && (
                     <Box sx={{ mb: 1 }}>
                         <Box sx={{
