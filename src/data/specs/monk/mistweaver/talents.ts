@@ -1,5 +1,5 @@
 import { SCHOOLS } from '@data/shared/schools';
-import spell from '@data/spells/spell';
+import spell, { CATEGORY } from '@data/spells/spell';
 
 const talents = {
     INVIGORATING_MISTS: {
@@ -235,7 +235,8 @@ const talents = {
             maxHealingTargets: 5,
             damageIncrease: 0.06
         },
-        exclusive: [467293], 
+        exclusive: [467293],
+        category: CATEGORY.DAMAGE,
     },
     JADE_SERPENT_STATUE: {
         name: "Jade Serpent Statue",
