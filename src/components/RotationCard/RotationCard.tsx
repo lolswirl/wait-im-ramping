@@ -1,11 +1,13 @@
 import React from 'react';
-import { Card, Box, Typography, IconButton, Collapse, LinearProgress, Chip } from '@mui/material';
+import { Card, Box, Typography, IconButton, Collapse, Divider } from '@mui/material';
 import { ExpandMore, ExpandLess, DeleteTwoTone } from '@mui/icons-material';
 import { RotationResult } from '../../../app/analysis/chi-ji/types';
 import SpellButton from "@components/SpellButtons/SpellButton";
+import WarningChip from "@components/WarningChip/WarningChip";
 import { T } from "@util/T";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SPELLS from "@data/spells";
+import { RAINBOW_COLORS } from '@components/Buttons/RainbowCard';
 
 interface RotationCardProps {
     rotation: RotationResult;
@@ -16,188 +18,261 @@ interface RotationCardProps {
     theme: any;
 }
 
-export const RotationCard: React.FC<RotationCardProps> = ({ 
-    rotation, 
-    index, 
-    expanded, 
-    onToggleExpansion, 
+const HEALING_SOURCES = [
+    { key: 'baseHealing', title: 'Base', color: '#4caf50' },
+    { key: 'chiCocoons', title: 'Chi Cocoon', color: '#0a995d' },
+    { key: 'chiJiGusts', title: 'Chi-Ji Gusts', color: '#fb3100' },
+    { key: 'ancientTeachings', title: 'Ancient Teachings', color: '#f1a828' },
+    { key: 'wayOfTheCrane', title: 'Way of the Crane', color: '#ff3600' },
+    { key: 'rapidDiffusion', title: 'Rapid Diffusion', color: '#257343' },
+    { key: 'gustOfMists', title: 'Gust of Mists', color: '#79ceab' },
+];
+
+export const RotationCard: React.FC<RotationCardProps> = ({
+    rotation,
+    index,
+    expanded,
+    onToggleExpansion,
     onDelete,
-    theme 
+    theme,
 }) => {
+    const accent = RAINBOW_COLORS[index % RAINBOW_COLORS.length];
+
+    const aggregateSources = HEALING_SOURCES.map(s => ({
+        ...s,
+        value: rotation.breakdown.reduce((sum, item) => sum + (Number((item.sources as any)[s.key]) || 0), 0),
+    })).filter(s => s.value > 0).sort((a, b) => b.value - a.value);
+
+    const aggregateTotal = aggregateSources.reduce((sum, s) => sum + s.value, 0);
+
+    const aggregateStops = (() => {
+        let pct = 0;
+        return aggregateSources.flatMap(s => {
+            const start = pct;
+            pct += (s.value / aggregateTotal) * 100;
+            return [`${s.color} ${start}%`, `${s.color} ${pct}%`];
+        });
+    })();
+
     return (
-        <Card 
+        <Card
             variant="outlined"
-            sx={{ 
-                p: 2,
+            sx={{
+                p: 0,
                 width: '100%',
                 maxWidth: 650,
                 mx: 'auto',
-                background: `linear-gradient(135deg, rgba(${54 + index * 40}, 162, 235, 0.1), rgba(${54 + index * 40}, 162, 235, 0.05))`,
-                borderColor: `rgba(${54 + index * 40}, 162, 235, 0.3)`,
-                transition: 'all 0.3s ease',
-                position: 'relative',
-                '&:hover': {
-                    transform: 'translateY(-2px)',
-                    boxShadow: 4,
-                    borderColor: `rgba(${54 + index * 40}, 162, 235, 0.5)`,
-                }
+                overflow: 'hidden',
+                border: '1px solid',
+                borderColor: `${accent}44`,
+                background: theme.palette.background.paper,
             }}
         >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1, mb: 2 }}>
-                <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
-                    {rotation.spells.map((spell, spellIndex) => (
-                        <SpellButton
-                            key={`${spell.id}-${spellIndex}`}
-                            selectedSpell={spell}
-                        />
+            <Box sx={{ height: 3, background: accent, opacity: 0.85 }} />
+
+            <Box sx={{ p: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1, mb: 2 }}>
+                    <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+                        {rotation.spells.map((spell, i) => (
+                            <SpellButton key={`${spell.id}-${i}`} selectedSpell={spell} />
+                        ))}
+                    </Box>
+                    <IconButton size="small" onClick={onDelete} color="error" sx={{ flexShrink: 0 }}>
+                        <DeleteTwoTone fontSize="small" />
+                    </IconButton>
+                </Box>
+
+                <Typography
+                    variant="h4"
+                    sx={{ fontWeight: 800, color: accent, textAlign: 'center', letterSpacing: '-0.5px', mb: 2 }}
+                >
+                    {Math.round(rotation.hps).toLocaleString()}
+                    <Typography component="span" variant="h6" sx={{ fontWeight: 400, color: 'text.secondary', ml: 1 }}>
+                        <T>HPS</T>
+                    </Typography>
+                </Typography>
+
+                <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', mb: 2 }}>
+                    {[
+                        { label: 'Duration', value: `${rotation.duration.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}s` },
+                        { label: 'Total Healing', value: Math.round(rotation.totalHealing).toLocaleString() },
+                        { label: 'Casts', value: rotation.spells.length },
+                    ].map(stat => (
+                        <Box
+                            key={stat.label}
+                            sx={{
+                                flex: 1,
+                                textAlign: 'center',
+                                py: 0.75,
+                                px: 1,
+                                borderRadius: 1,
+                                bgcolor: `${accent}12`,
+                                border: `1px solid ${accent}30`,
+                            }}
+                        >
+                            <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', lineHeight: 1.2 }}>
+                                <T>{stat.label}</T>
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 700 }}>
+                                {stat.value}
+                            </Typography>
+                        </Box>
                     ))}
                 </Box>
-                <IconButton
-                    size="small"
-                    onClick={onDelete}
-                    color="error"
-                >
-                    <DeleteTwoTone fontSize="small" />
-                </IconButton>
-            </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                <Typography
-                  variant="h5"
-                  sx={{ fontWeight: 'bold', color: theme.palette.primary.main, textAlign: 'center' }}
-                >
-                  {Math.round(rotation.hps).toLocaleString()} <T>HPS</T>
-                </Typography>
-                
-                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 1 }}>
-                    <Box sx={{ textAlign: 'center', p: 1, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: 1 }}>
-                        <Typography variant="caption" color="text.secondary">
-                            <T>Duration</T>
-                        </Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                            {rotation.duration.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}s
-                        </Typography>
+                {rotation.warnings.length > 0 && (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, mb: 1.5 }}>
+                        {rotation.warnings.map((w, i) => (
+                            <WarningChip key={i} message={w} showIcon icon="⚠︎" fontSize="0.7rem" />
+                        ))}
                     </Box>
-                    
-                    <Box sx={{ textAlign: 'center', p: 1, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: 1 }}>
-                        <Typography variant="caption" color="text.secondary">
-                            <T>Total Healing</T>
-                        </Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                            {Math.round(rotation.totalHealing).toLocaleString()}
-                        </Typography>
-                    </Box>
-                    
-                    <Box sx={{ textAlign: 'center', p: 1, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: 1 }}>
-                        <Typography variant="caption" color="text.secondary">
-                            <T>Spells Cast</T>
-                        </Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                            {rotation.spells.length.toLocaleString()}
-                        </Typography>
-                    </Box>
-                </Box>
-            </Box>
+                )}
 
-            <Box sx={{ mt: 2 }}>
-                <IconButton
+                {aggregateSources.length > 0 && (
+                    <Box sx={{ mb: 1 }}>
+                        <Box sx={{
+                            height: 8,
+                            mb: 0.75,
+                            borderRadius: 0.5,
+                            background: `linear-gradient(to right, ${aggregateStops.join(', ')})`,
+                            opacity: 0.85,
+                        }} />
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                            {aggregateSources.map(s => (
+                                <Box
+                                    key={s.key}
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 0.4,
+                                        px: 0.75,
+                                        py: 0.25,
+                                        borderRadius: 1,
+                                        bgcolor: `${s.color}15`,
+                                        border: `1px solid ${s.color}40`,
+                                    }}
+                                >
+                                    <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: s.color, flexShrink: 0 }} />
+                                    <Typography variant="caption" sx={{ color: s.color, fontWeight: 600, lineHeight: 1 }}>
+                                        <T>{s.title}</T>
+                                    </Typography>
+                                    <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1 }}>
+                                        {((s.value / aggregateTotal) * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%
+                                    </Typography>
+                                </Box>
+                            ))}
+                        </Box>
+                    </Box>
+                )}
+
+                <Divider sx={{ my: 1.5, borderColor: `${accent}22` }} />
+
+                <Box
                     onClick={onToggleExpansion}
-                    sx={{ 
-                        width: '100%', 
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
                         justifyContent: 'space-between',
-                        bgcolor: 'rgba(255,255,255,0.05)',
+                        cursor: 'pointer',
+                        py: 0.5,
+                        px: 1,
                         borderRadius: 1,
-                        '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
+                        '&:hover': { bgcolor: `${accent}10` },
                     }}
                 >
-                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                    <Typography variant="body2" sx={{ fontWeight: 600, color: accent }}>
                         <T>Breakdown</T>
                     </Typography>
-                    {expanded ? <ExpandLess /> : <ExpandMore />}
-                </IconButton>
-                
-                <Collapse in={expanded}>
-                    <Box sx={{ mt: 2, p: 2, bgcolor: 'rgba(255,255,255,0.03)', borderRadius: 1 }}>
-                        {rotation.breakdown.map((item, breakdownIndex) => (
-                            <Box key={breakdownIndex} sx={{ mb: 1 }}>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                        <SpellButton
-                                            selectedSpell={
-                                                rotation.spells.find(spell => spell.name === item.spellName) || 
-                                                SPELLS.RENEWING_MIST || 
-                                                rotation.spells[0]
-                                            }
-                                        />
-                                        <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                                            <T>{item.spellName}</T>
-                                        </Typography>
-                                    </Box>
-                                    <Chip 
-                                        label={`${item.percentage.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`} 
-                                        size="small" 
-                                        color="primary" 
-                                        variant="outlined"
-                                    />
-                                </Box>
-                                
-                                <Box sx={{ mb: 1.5 }}>
-                                    <LinearProgress
-                                        variant="determinate"
-                                        value={item.percentage}
-                                        sx={{
-                                            height: 8,
-                                            borderRadius: 1,
-                                            backgroundColor: 'rgba(255,255,255,0.1)',
-                                        }}
-                                    />
-                                </Box>
-                                
-                                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 1 }}>
-                                    {(() => {
-                                        const healingSources = [
-                                            { key: 'chiCocoons', title: 'Chi Cocoon', color: 'rgb(76, 175, 76)', value: Number(item.sources.chiCocoons) || 0 },
-                                            { key: 'baseHealing', title: 'Base', color: 'rgb(76, 175, 76)', value: Number(item.sources.baseHealing) || 0 },
-                                            { key: 'chiJiGusts', title: 'Chi-Ji Gusts', color: 'rgb(255, 152, 0)', value: Number(item.sources.chiJiGusts) || 0 },
-                                            { key: 'ancientTeachings', title: TALENTS.ANCIENT_TEACHINGS.name, color: 'rgb(156, 39, 176)', value: Number(item.sources.ancientTeachings) || 0 },
-                                            { key: 'wayOfTheCrane', title: TALENTS.WAY_OF_THE_CRANE.name, color: 'rgb(156, 39, 176)', value: Number(item.sources.wayOfTheCrane) || 0 },
-                                            { key: 'rapidDiffusion', title: "Rapid Diffusion", color: 'rgb(255, 87, 34)', value: Number(item.sources.rapidDiffusion) || 0 },
-                                            { key: 'gustOfMists', title: TALENTS.GUST_OF_MISTS.name, color: 'rgb(33, 150, 243)', value: Number(item.sources.gustOfMists) || 0 },
-                                        ];
+                    {expanded ? <ExpandLess sx={{ color: accent }} /> : <ExpandMore sx={{ color: accent }} />}
+                </Box>
 
-                                        return healingSources
-                                            .filter(source => source.value > 0)
-                                            .map(source => (
-                                                <Box 
-                                                    key={source.key}
-                                                    sx={{ 
-                                                        p: 1, 
-                                                        bgcolor: `${source.color.replace('rgb', 'rgba').replace(')', ', 0.1)')}`, 
-                                                        borderRadius: 1,
-                                                        border: `1px solid ${source.color.replace('rgb', 'rgba').replace(')', ', 0.3)')}`,
+                <Collapse in={expanded}>
+                    <Box sx={{ mt: 1.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                        {rotation.breakdown.map((item, i) => {
+                            const spellObj =
+                                rotation.spells.find(s => s.name === item.spellName) ||
+                                Object.values(TALENTS).find(t => t.name === item.spellName) ||
+                                SPELLS.RENEWING_MIST ||
+                                rotation.spells[0];
+
+                            const sources = HEALING_SOURCES.map(s => ({
+                                ...s,
+                                value: Number((item.sources as any)[s.key]) || 0,
+                            })).filter(s => s.value > 0);
+
+                            return (
+                                <Box key={i}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75 }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                            <SpellButton selectedSpell={spellObj} size={32}/>
+                                            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                                <T>{item.spellName}</T>
+                                            </Typography>
+                                        </Box>
+                                        <WarningChip
+                                            message={`${item.percentage.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
+                                            borderColor={accent}
+                                            fontSize="0.7rem"
+                                        />
+                                    </Box>
+
+                                    {sources.length > 0 && (() => {
+                                        const total = sources.reduce((sum, s) => sum + s.value, 0);
+                                        const sorted = [...sources].sort((a, b) => b.value - a.value);
+                                        let pct = 0;
+                                        const stops = sorted.flatMap(s => {
+                                            const start = pct;
+                                            pct += (s.value / total) * 100;
+                                            return [`${s.color} ${start}%`, `${s.color} ${pct}%`];
+                                        });
+                                        return (
+                                            <Box sx={{ position: 'relative', height: 6, mb: 0.75, borderRadius: 0.5, bgcolor: 'rgba(255,255,255,0.08)' }}>
+                                                <Box sx={{
+                                                    position: 'absolute',
+                                                    left: 0, top: 0, bottom: 0,
+                                                    width: `${item.percentage}%`,
+                                                    borderRadius: 0.5,
+                                                    background: `linear-gradient(to right, ${stops.join(', ')})`,
+                                                    opacity: 0.85,
+                                                }} />
+                                            </Box>
+                                        );
+                                    })()}
+
+                                    {sources.length > 0 && (
+                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                            {sources.map(s => (
+                                                <Box
+                                                    key={s.key}
+                                                    sx={{
                                                         display: 'flex',
-                                                        flexDirection: 'column',
                                                         alignItems: 'center',
+                                                        gap: 0.4,
+                                                        px: 0.75,
+                                                        py: 0.25,
+                                                        borderRadius: 1,
+                                                        bgcolor: `${s.color}15`,
+                                                        border: `1px solid ${s.color}40`,
                                                     }}
                                                 >
-                                                    <Typography
-                                                        variant="caption"
-                                                        sx={{ 
-                                                            color: source.color,
-                                                            fontWeight: 'bold',
-                                                        }}
-                                                    >
-                                                        <T>{source.title}</T>
+                                                    <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: s.color, flexShrink: 0 }} />
+                                                    <Typography variant="caption" sx={{ color: s.color, fontWeight: 600, lineHeight: 1 }}>
+                                                        <T>{s.title}</T>
                                                     </Typography>
-                                                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                                                        {Math.round(source.value).toLocaleString()}
+                                                    <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1 }}>
+                                                        {Math.round(s.value).toLocaleString()}
                                                     </Typography>
                                                 </Box>
-                                            ));
-                                    })()}
+                                            ))}
+                                        </Box>
+                                    )}
+
+                                    {i < rotation.breakdown.length - 1 && (
+                                        <Divider sx={{ mt: 1.5, borderColor: 'rgba(255,255,255,0.06)' }} />
+                                    )}
                                 </Box>
-                            </Box>
-                        ))}
+                            );
+                        })}
                     </Box>
                 </Collapse>
             </Box>
