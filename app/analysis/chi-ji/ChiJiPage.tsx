@@ -208,7 +208,7 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
 
             {rotationHPS.length > 0 && (
                 <>
-                    <Box sx={{ width: "95%", maxWidth: maxWidth, px: 0, mb: 2 }}>
+                    <Box sx={{ width: "75%", maxWidth: maxWidth, px: 0, mb: 2 }}>
                         <Grid container spacing={2}>
                             {rotationHPS.map((rotation, index) => (
                                 <Grid 
