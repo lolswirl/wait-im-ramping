@@ -225,13 +225,13 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
           <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Group>
               <TalentsCard
-                label="Spec Talents"
+                label="Spec"
                 options={specTalentSubset}
                 color={mistweaver.color}
                 onChange={handleTalentChange}
               />
               <TalentsCard
-                label="Class Talents"
+                label="Class"
                 options={classTalentSubset} 
                 color={CLASSES.MONK.color}
                 onChange={handleTalentChange}

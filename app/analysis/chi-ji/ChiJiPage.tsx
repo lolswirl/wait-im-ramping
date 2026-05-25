@@ -180,7 +180,7 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
                     <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2, maxHeight: '700', overflowY: 'auto' }}>
                         <Group>
                             <TalentsCard
-                                label="Spec Talents"
+                                label="Spec"
                                 options={options.specTalents}
                                 color={mistweaver.color}
                                 onChange={(talent, checked) => {
@@ -191,7 +191,7 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
                                 }}
                             />
                             <TalentsCard
-                                label="Class Talents"
+                                label="Class"
                                 options={options.classTalents}
                                 color={CLASSES.MONK.color}
                                 onChange={(talent, checked) => {
