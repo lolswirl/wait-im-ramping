@@ -71,29 +71,31 @@ export const RotationCard: React.FC<RotationCardProps> = ({
             <Box sx={{ height: 3, background: accent, opacity: 0.85 }} />
 
             <Box sx={{ p: 2 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1, mb: 1.5 }}>
-                    <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1, mb: 1.5 }}>
+                    <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap', flex: 1 }}>
                         {rotation.spells.map((spell, i) => (
                             <SpellButton key={`${spell.id}-${i}`} selectedSpell={spell} />
                         ))}
                     </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 0.5, flexShrink: 0 }}>
-                        <Typography variant="h5" sx={{ fontWeight: 800, color: accent, letterSpacing: '-0.5px', lineHeight: 1 }}>
-                            {Math.round(rotation.hps).toLocaleString()}
-                            <Typography component="span" variant="body2" sx={{ fontWeight: 400, color: 'text.secondary', ml: 0.5 }}>
-                                <T>hps</T>
+                    <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, flexShrink: 0 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 0.25 }}>
+                            <Typography variant="h5" sx={{ fontWeight: 800, color: accent, letterSpacing: '-0.5px', lineHeight: 1 }}>
+                                {Math.round(rotation.hps).toLocaleString()}
+                                <Typography component="span" variant="body2" sx={{ fontWeight: 400, color: 'text.secondary', ml: 0.5 }}>
+                                    <T>hps</T>
+                                </Typography>
                             </Typography>
-                        </Typography>
-                        <Box sx={{ display: 'flex', gap: 1 }}>
-                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                                {rotation.duration.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}s
-                            </Typography>
-                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>·</Typography>
-                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                                {Math.round(rotation.totalHealing).toLocaleString()} total
-                            </Typography>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                                    {rotation.duration.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}s
+                                </Typography>
+                                <Typography variant="caption" sx={{ color: 'text.secondary' }}>·</Typography>
+                                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                                    {Math.round(rotation.totalHealing).toLocaleString()} total
+                                </Typography>
+                            </Box>
                         </Box>
-                        <IconButton size="small" onClick={onDelete} color="error" sx={{ p: 0 }}>
+                        <IconButton size="small" onClick={onDelete} color="error" sx={{ p: 0, mt: 0.25 }}>
                             <DeleteTwoTone fontSize="small" />
                         </IconButton>
                     </Box>
