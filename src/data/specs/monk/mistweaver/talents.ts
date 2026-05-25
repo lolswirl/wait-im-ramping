@@ -168,7 +168,7 @@ const talents = {
         icon: 'inv_misc_herb_chamlotus',
         custom: {
             additionalDuration: 2,
-            amp: 1.1,
+            amp: 1.06,
         }
     },
     MISTY_PEAKS: {
@@ -334,6 +334,9 @@ const talents = {
         name: "Emperor's Elixir",
         id: 1268807,
         icon: 'inv_drink_25_honeytea',
+        custom: {
+            jadefireStompMaxTargets: 5,
+        }
     },
     CHI_WARDING: {
         name: "Chi Warding",
@@ -344,6 +347,9 @@ const talents = {
         name: "Focused Thunder",
         id: 197895,
         icon: 'spell_monk_nimblebrew',
+        custom: {
+            tftCharges: 2,
+        }
     },
     RISING_MIST: {
         name: "Rising Mist",
