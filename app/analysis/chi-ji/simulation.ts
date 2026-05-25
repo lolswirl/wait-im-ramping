@@ -133,12 +133,18 @@ export const distributeGusts = (allies: AllyState[], gustCount: number, chiJiGus
 };
 
 export const calculateRotationHPS = async (
-    rotation: spell[], 
-    rotationIndex: number, 
+    rotation: spell[],
+    rotationIndex: number,
     options: SimulationOptions,
     mistweaver: any
 ): Promise<RotationResult> => {
-    const buffedSpells = await applyBuffEffects(mistweaver, rotation);
+    const rwkEnabled = isTalentEnabled(options, TALENTS.RUSHING_WIND_KICK);
+    const normalizedRotation = rotation.map(s => {
+        if (rwkEnabled && s.id === SPELLS.RISING_SUN_KICK.id) return TALENTS.RUSHING_WIND_KICK;
+        if (!rwkEnabled && s.id === TALENTS.RUSHING_WIND_KICK.id) return SPELLS.RISING_SUN_KICK;
+        return s;
+    });
+    const buffedSpells = await applyBuffEffects(mistweaver, normalizedRotation);
     let totalTime = 0;
     let totalHealing = 0;
     let spellsCastInChiJi: spell[] = [];
@@ -233,6 +239,16 @@ export const calculateRotationHPS = async (
             case SPELLS.RISING_SUN_KICK.id:
                 damage *= fastFeetRSK;
                 break;
+            case TALENTS.RUSHING_WIND_KICK.id: {
+                if (isTalentEnabled(options, TALENTS.RUSHING_WIND_KICK)) {
+                    const rwk = TALENTS.RUSHING_WIND_KICK;
+                    const rwkTargets = Math.min(options.enemyCount, rwk.custom.maxDamageTargets);
+                    damage *= fastFeetRSK * (1 + rwk.custom.damageIncrease * rwkTargets);
+                } else {
+                    damage *= fastFeetRSK;
+                }
+                break;
+            }
             case SPELLS.SPINNING_CRANE_KICK.id:
                 damage *= fastFeetSCK;
                 break;
@@ -290,7 +306,7 @@ export const calculateRotationHPS = async (
                 const rskDamage = calculateDamage(spellObj);
                 const rskATHealing = rskDamage * ancientTeachingsTransfer * ancientTeachingsArmorModifier;
                 breakdown.ancientTeachings = distributeAncientTeachings(allies, rskATHealing);
-                
+
                 if (chiJiActive) {
                     breakdown.chiJiGusts = distributeGusts(allies, 6, chijiGustHealing);
                 }
@@ -306,8 +322,40 @@ export const calculateRotationHPS = async (
                     const rdRemHealing = applyRapidDiffusionRenewingMist(allies, options, renewingMistHealing);
                     renewingMistHealing = rdRemHealing.healing;
                 }
-                
+
                 break;
+
+            case TALENTS.RUSHING_WIND_KICK.id: {
+                const rwkDamage = calculateDamage(spellObj);
+                const rwkATHealing = rwkDamage * ancientTeachingsTransfer * ancientTeachingsArmorModifier;
+                breakdown.ancientTeachings = distributeAncientTeachings(allies, rwkATHealing);
+
+                if (isTalentEnabled(options, TALENTS.RUSHING_WIND_KICK)) {
+                    const rwk = TALENTS.RUSHING_WIND_KICK;
+                    const rwkHealTargets = Math.min(rwk.custom.maxHealingTargets, allies.length);
+                    const rwkDirectHeal = calculateHealing(spellObj);
+                    const rwkHealTargetAllies = getRandomAllies(allies, rwkHealTargets);
+                    breakdown.baseHealing = rwkHealTargetAllies.reduce((sum, a) => sum + calculateHealingWithAmp(rwkDirectHeal, a), 0);
+                }
+
+                if (chiJiActive) {
+                    breakdown.chiJiGusts = distributeGusts(allies, 6, chijiGustHealing);
+                }
+
+                if (craneStyleOpt) {
+                    const rwkGOMTarget = getRandomAlly(allies);
+                    const rwkGOMHealing = gustOfMistHealing * craneStyleRisingSunKickGOM;
+                    breakdown.gustOfMists = calculateHealingWithAmp(rwkGOMHealing, rwkGOMTarget);
+                }
+
+                if (rapidDiffusionOpt) {
+                    renewingMistHealing = calculateRenewingMistHealing(SPELLS.RENEWING_MIST);
+                    const rdRemHealing = applyRapidDiffusionRenewingMist(allies, options, renewingMistHealing);
+                    renewingMistHealing = rdRemHealing.healing;
+                }
+
+                break;
+            }
             
             case SPELLS.BLACKOUT_KICK.id:
                 const bokDamage = calculateDamage(spellObj);
@@ -474,7 +522,7 @@ export const calculateRotationHPS = async (
                     totmStacks = Math.min(totmStacks + stacksGained, totmMaxStacks);
                 } else if (spell.id === SPELLS.BLACKOUT_KICK.id) {
                     totmStacks = 0;
-                } else if (spell.id === SPELLS.RISING_SUN_KICK.id && tftChargesRemaining > 0) {
+                } else if ((spell.id === SPELLS.RISING_SUN_KICK.id || spell.id === TALENTS.RUSHING_WIND_KICK.id) && tftChargesRemaining > 0) {
                     tftChargesRemaining--;
 
                     if (emperorsElixirOpt) {
