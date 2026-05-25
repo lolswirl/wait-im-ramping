@@ -40,6 +40,8 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
         [TALENTS.RAPID_DIFFUSION, true],
         [TALENTS.JADEFIRE_TEACHINGS, true],
         [TALENTS.WAY_OF_THE_CRANE, true],
+        [TALENTS.FOCUSED_THUNDER, true],
+        [TALENTS.EMPERORS_ELIXIR, true],
     ])
 
     const sharedTalents = new Map<spell, boolean>([
