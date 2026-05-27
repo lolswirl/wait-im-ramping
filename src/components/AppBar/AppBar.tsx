@@ -325,10 +325,11 @@ function ResponsiveAppBar() {
                             })}
                         </Box>
 
-                        <GlassBox showOnMobile={false}>
+                        <GlassBox showOnMobile={false} sx={{ px: 0.5, py: 0.25 }}>
                             {spec && <SpecializationSelect selectedSpec={spec} onSpecChange={setSpec} short={true} />}
                             <ColoredIconButton
                                 onClick={toggleTheme}
+                                size="small"
                                 hoverColor={themeMode === "dark" ? "#fbbf24" : "#60a5fa"}
                             >
                                 {themeMode === "dark" ? <MoonIcon /> : <SunIcon />}

@@ -1,16 +1,17 @@
 import { Box, BoxProps } from "@mui/material";
 
-interface GlassBoxProps extends Omit<BoxProps, 'sx'> {
+interface GlassBoxProps extends BoxProps {
     children: React.ReactNode;
     showOnMobile?: boolean;
     showOnDesktop?: boolean;
 }
 
-export const GlassBox = ({ 
-    children, 
+export const GlassBox = ({
+    children,
     showOnMobile = true,
     showOnDesktop = true,
-    ...props 
+    sx,
+    ...props
 }: GlassBoxProps) => {
     const getDisplay = () => {
         if (showOnMobile && showOnDesktop) return "flex";
@@ -38,6 +39,7 @@ export const GlassBox = ({
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: 'fit-content',
+                ...sx,
             }}
         >
             {children}
