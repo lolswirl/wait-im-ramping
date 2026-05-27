@@ -125,7 +125,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
         <TableContainer
             component={Card}
             sx={{
-                boxShadow: 6,
+                boxShadow: "none",
                 borderRadius: 1,
                 p: 0,
                 mb: 0,
