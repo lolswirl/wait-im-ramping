@@ -305,7 +305,7 @@ function ResponsiveAppBar() {
                         <Box sx={{ flexGrow: 1 }} />
 
                         {/* desktop navigation */}
-                        <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1 }}>
+                        <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1, mb: "-2px" }}>
                             {pages.map(({ label, path }, index) => {
                                 const isActive = path === "/analysis" 
                                     ? pathname?.startsWith("/analysis") 
