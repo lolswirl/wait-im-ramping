@@ -242,7 +242,11 @@ function ResponsiveAppBar() {
                     mb: 3.5,
                     justifyContent: "center",
                     backgroundImage: "none",
-                    bgcolor: themeMode === "light" ? "primary.main" : "#171717"
+                    bgcolor: themeMode === "light" ? "primary.main" : "#171717d9",
+                    backdropFilter: "blur(12px)",
+                    borderBottom: "1px solid",
+                    borderColor: themeMode === "light" ? "rgba(255,255,255,0.15)" : "divider",
+                    boxShadow: "none",
                 }}
             >
                 <Container maxWidth="xl">
@@ -275,12 +279,13 @@ function ResponsiveAppBar() {
                             }}
                         >
                             <img src="/apple-icon.png" alt="Logo" style={{ width: 20, height: 20, transform: 'translateY(1px)' }} />
-                            <span style={isHomePage || titleHovered ? {
-                                background: RAINBOW_GRADIENT,
-                                WebkitBackgroundClip: "text",
-                                WebkitTextFillColor: "transparent",
-                                backgroundClip: "text",
-                            } : { color: "white" }}>
+                            <span style={{
+                                background: isHomePage || titleHovered ? RAINBOW_GRADIENT : "none",
+                                WebkitBackgroundClip: isHomePage || titleHovered ? "text" : "unset",
+                                WebkitTextFillColor: isHomePage || titleHovered ? "transparent" : "white",
+                                backgroundClip: isHomePage || titleHovered ? "text" : "unset",
+                                transition: "all 0.3s ease",
+                            }}>
                                 <T>Wait, I'm Ramping!</T>
                             </span>
                             {displayBranch && (

@@ -90,7 +90,11 @@ const FooterBar = () => {
             sx={{
                 mt: 3.5,
                 backgroundImage: 'none',
-                bgcolor: themeMode === "light" ? "primary.main" : "#171717",
+                bgcolor: themeMode === "light" ? "primary.main" : "rgba(23, 23, 23, 0.85)",
+                backdropFilter: "blur(12px)",
+                borderTop: "1px solid",
+                borderColor: themeMode === "light" ? "rgba(255,255,255,0.15)" : "divider",
+                boxShadow: "none",
             }}
         >
             <Toolbar 
