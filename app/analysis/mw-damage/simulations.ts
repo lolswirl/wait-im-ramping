@@ -104,6 +104,61 @@ const sckDamagePerCast = (baseValue: number, targets: number): number =>
     ? baseValue * targets
     : baseValue * targets * Math.sqrt(5 / targets);
 
+export const simulateMeleeRotationAt2Stacks = (
+  totalTime: number,
+  targets: number,
+  asHealing: boolean,
+  params: SimulationParams
+): DamagePoint[] => {
+  const { talents, mastery } = params;
+  const rskValue = resolveRskValue(targets, asHealing, talents, mastery);
+  const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, talents, mastery);
+  const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, mastery);
+  const tpValue = asHealing
+    ? calculateAncientTeachingsHealing(tpDamage, talents, true, SPELLS.TIGER_PALM)
+    : tpDamage;
+  const bokValue = asHealing
+    ? calculateAncientTeachingsHealing(bokDamage, talents, true, SPELLS.BLACKOUT_KICK)
+    : bokDamage;
+  const bokCleaveTargets = Math.min(targets - 1, 2);
+  const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.custom.blackoutKickEffectiveness;
+
+  const actions: RotationAction[] = [
+    {
+      // rsk/rwk
+      priority: 0,
+      cooldown: chosenRsk(talents).cooldown,
+      getValue: () => rskValue,
+    },
+    {
+      // bok at 2 stacks
+      priority: 1,
+      cooldown: SPELLS.BLACKOUT_KICK.cooldown,
+      canCast: (state) => state.totmStacks >= 2,
+      getValue: (state) => {
+        const waves = 1 + state.totmStacks;
+        const mainTargetVal = bokValue * waves;
+        const cleaveVal = mainTargetVal * bokCleaveEffectiveness * bokCleaveTargets;
+        return mainTargetVal + cleaveVal;
+      },
+      onCast: (state, cooldowns) => {
+        const hits = (1 + state.totmStacks) * (1 + bokCleaveTargets);
+        state.totmStacks = 0;
+        if (bokProcsReset(hits)) cooldowns[0] = 0;
+      },
+    },
+    {
+      // tp
+      priority: 2,
+      cooldown: 0,
+      getValue: () => tpValue,
+      onCast: (state) => { state.totmStacks += 2; },
+    },
+  ];
+
+  return runRotation(actions, totalTime, { totmStacks: 0 });
+};
+
 export const simulateMeleeRotation = (
   totalTime: number,
   targets: number,
@@ -124,7 +179,8 @@ export const simulateMeleeRotation = (
       ? calculateAncientTeachingsHealing(bokDamage, talents, true, SPELLS.BLACKOUT_KICK) 
       : bokDamage
   );
-  const cleaveMultiplier = Math.min(targets, 3);
+  const bokCleaveTargets = Math.min(targets - 1, 2);
+  const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.custom.blackoutKickEffectiveness;
   const totmMaxStacks = TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks;
 
   const actions: RotationAction[] = [
@@ -139,9 +195,14 @@ export const simulateMeleeRotation = (
       priority: 1,
       cooldown: SPELLS.BLACKOUT_KICK.cooldown,
       canCast: (state) => state.totmStacks >= totmMaxStacks,
-      getValue: (state) => bokValue * (1 + state.totmStacks) * cleaveMultiplier,
+      getValue: (state) => {
+        const waves = 1 + state.totmStacks;
+        const mainTargetVal = bokValue * waves;
+        const cleaveVal = mainTargetVal * bokCleaveEffectiveness * bokCleaveTargets;
+        return mainTargetVal + cleaveVal;
+      },
       onCast: (state, cooldowns) => {
-        const hits = (1 + state.totmStacks) * cleaveMultiplier;
+        const hits = (1 + state.totmStacks) * (1 + bokCleaveTargets);
         state.totmStacks = 0;
         if (bokProcsReset(hits)) cooldowns[0] = 0;
       },
@@ -212,6 +273,49 @@ export const simulateJadeEmpowerment = (
       cooldown: 0,
       castTime: tickInterval,
       getValue: () => tickValue,
+    },
+  ];
+
+  return runRotation(actions, totalTime);
+};
+
+export const simulateRSKWithSCKAndBok = (
+  totalTime: number,
+  targets: number,
+  asHealing: boolean,
+  params: SimulationParams
+): DamagePoint[] => {
+  const { talents, mastery } = params;
+  const rskValue = resolveRskValue(targets, asHealing, talents, mastery);
+  const sckBase = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, mastery);
+  const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, mastery);
+  const bokCleaveTargets = Math.min(targets - 1, 2);
+  const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.custom.blackoutKickEffectiveness;
+  const bokValue = asHealing
+    ? calculateAncientTeachingsHealing(bokDamage, talents, true, SPELLS.BLACKOUT_KICK)
+    : bokDamage;
+
+  const actions: RotationAction[] = [
+    {
+      // rsk/rwk
+      priority: 0,
+      cooldown: chosenRsk(talents).cooldown,
+      getValue: () => rskValue,
+    },
+    {
+      // bok on cooldown, no totm stacks
+      priority: 1,
+      cooldown: SPELLS.BLACKOUT_KICK.cooldown,
+      getValue: () => bokValue + bokValue * bokCleaveEffectiveness * bokCleaveTargets,
+    },
+    {
+      // sck
+      priority: 2,
+      cooldown: 0,
+      getValue: () => {
+        const raw = sckDamagePerCast(sckBase, targets);
+        return asHealing ? calculateWayOfTheCraneHealing(raw, talents) : raw;
+      },
     },
   ];
 

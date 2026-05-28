@@ -23,9 +23,11 @@ import WarningChip from "@components/WarningChip/WarningChip";
 import { RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
 import {
   simulateMeleeRotation,
+  simulateMeleeRotationAt2Stacks,
   simulateSpinningCraneKick,
   simulateJadeEmpowerment,
   simulateRSKWithSCK,
+  simulateRSKWithSCKAndBok,
 } from "./simulations";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -87,13 +89,24 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   const ROTATION_CONFIGS: RotationConfig[] = useMemo(() => [
     {
       dataKey: 'melee',
-      label: 'TP BOK ' + (useRwk ? 'RWK' : 'RSK'),
+      label: 'TP TP BOK ' + (useRwk ? 'RWK' : 'RSK'),
       spells: [
+        SPELLS.TIGER_PALM,
         SPELLS.TIGER_PALM,
         SPELLS.BLACKOUT_KICK,
         useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK
       ],
       simulateFn: simulateMeleeRotation,
+    },
+    {
+      dataKey: 'melee2',
+      label: 'TP BoK ' + (useRwk ? 'RWK' : 'RSK'),
+      spells: [
+        SPELLS.TIGER_PALM,
+        SPELLS.BLACKOUT_KICK,
+        useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK
+      ],
+      simulateFn: simulateMeleeRotationAt2Stacks,
     },
     {
       dataKey: 'sck',
@@ -110,6 +123,17 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
       ],
       simulateFn: simulateRSKWithSCK,
     },
+    // lower than everything, but keeping here for later
+    // {
+    //   dataKey: 'rskSckBok',
+    //   label: (useRwk ? 'RWK' : 'RSK') + ' + SCK + BoK',
+    //   spells: [
+    //     useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK,
+    //     SPELLS.SPINNING_CRANE_KICK,
+    //     SPELLS.BLACKOUT_KICK,
+    //   ],
+    //   simulateFn: simulateRSKWithSCKAndBok,
+    // },
     {
       dataKey: 'je',
       label: 'JE',
