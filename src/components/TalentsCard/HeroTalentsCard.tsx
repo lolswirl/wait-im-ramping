@@ -11,11 +11,35 @@ interface HeroTalentsCardProps {
     onChange: (key: spell, checked: boolean) => void;
 }
 
-const HeroTalentsCard: React.FC<HeroTalentsCardProps> = ({ options, label, onChange }) => {
-    const entries = Array.from(options.entries());
+interface HeroTreeRowProps {
+    info: HeroTree;
+    spells: [spell, boolean][];
+    onChange: (talent: spell, checked: boolean) => void;
+}
 
+const HeroTreeRow: React.FC<HeroTreeRowProps> = ({ info, spells, onChange }) => (
+    <>
+        <span style={{ ...rowLabel, paddingTop: 6, color: info.color }}>
+            <T>{info.shortName}</T>
+        </span>
+        {rowSep}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+            {spells.map(([spell, isChecked]) => (
+                <TalentOption
+                    key={spell.id}
+                    talent={spell}
+                    isChecked={isChecked}
+                    onChange={onChange}
+                    color={info.color}
+                />
+            ))}
+        </div>
+    </>
+);
+
+const HeroTalentsCard: React.FC<HeroTalentsCardProps> = ({ options, label, onChange }) => {
     const trees = new Map<HeroTree, [spell, boolean][]>();
-    for (const [spell, checked] of entries) {
+    for (const [spell, checked] of options.entries()) {
         if (!spell.heroTalent) continue;
         if (!trees.has(spell.heroTalent)) trees.set(spell.heroTalent, []);
         trees.get(spell.heroTalent)!.push([spell, checked]);
@@ -32,28 +56,21 @@ const HeroTalentsCard: React.FC<HeroTalentsCardProps> = ({ options, label, onCha
         onChange(talent, checked);
     };
 
-    const treeRows = Array.from(trees.entries()).flatMap(([info, spells]) => [
-        <span key={`${info.name}-label`} style={{ ...rowLabel, paddingTop: 6 }}><T>{info.shortName}</T></span>,
-        <React.Fragment key={`${info.name}-sep`}>{rowSep}</React.Fragment>,
-        <div key={`${info.name}-spells`} style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
-            {spells.map(([spell, isChecked]) => (
-                <TalentOption
-                    key={spell.id}
-                    talent={spell}
-                    isChecked={isChecked}
-                    onChange={handleChange}
-                    color={info.color}
-                />
-            ))}
-        </div>,
-    ]);
-
     return (
         <React.Fragment>
-            <span style={{ ...rowLabel, paddingTop: 6 }}><T>{label ?? 'Hero'}</T></span>
+            <span style={{ ...rowLabel, paddingTop: 6 }}>
+                <T>{label ?? 'Hero'}</T>
+            </span>
             {rowSep}
             <Group>
-                {treeRows}
+                {Array.from(trees.entries()).map(([info, spells]) => (
+                    <HeroTreeRow
+                        key={info.name}
+                        info={info}
+                        spells={spells}
+                        onChange={handleChange}
+                    />
+                ))}
             </Group>
         </React.Fragment>
     );
