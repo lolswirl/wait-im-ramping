@@ -138,10 +138,10 @@ export const jadefireTeachingsRwk = {
 };
 
 export const sheilunVsDocj = {
-  label: "Sheilun's Gift vs Dance of Chi-Ji (1 Friendly Only)",
+  label: "Sheilun's Gift vs Dance of Chi-Ji",
   path: "/analysis/sheilun-vs-docj",
   preview: "/previews/sg-docj.png",
-  description: "Comparing the healing output of Sheilun's Gift main target to a Dance of Chi-Ji proc",
+  description: "Comparing the healing output of Sheilun's Gift main target to a Dance of Chi-Ji proc (1 Friendly Only)",
   tags: ["Healing", "Monk"],
   createdDate: "2026-04-15",
   component: SheilunVsDocJ
