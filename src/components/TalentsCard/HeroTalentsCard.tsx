@@ -19,7 +19,7 @@ interface HeroTreeRowProps {
 
 const HeroTreeRow: React.FC<HeroTreeRowProps> = ({ info, spells, onChange }) => (
     <>
-        <span style={{ ...rowLabel, paddingTop: 6, color: info.color }}>
+        <span style={{ ...rowLabel, paddingTop: 6 }}>
             <T>{info.shortName}</T>
         </span>
         {rowSep}
