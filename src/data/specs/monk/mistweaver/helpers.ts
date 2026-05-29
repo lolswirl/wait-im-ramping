@@ -58,7 +58,7 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
     },
     {
         talent: TALENTS.MORNING_BREEZE,
-        getValue: (stats) => ((stats?.mastery ?? 0) * TALENTS.MORNING_BREEZE.custom.masteryMultiplier),
+        getValue: (stats) => ((stats?.mastery ?? 0) / 100 * TALENTS.MORNING_BREEZE.custom.masteryMultiplier),
         appliesTo: (spell) => 
             spell.id === SPELLS.RISING_SUN_KICK.id || 
             spell.id === TALENTS.RUSHING_WIND_KICK.id
