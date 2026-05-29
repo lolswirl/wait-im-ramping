@@ -26,6 +26,8 @@ export default interface spell {
     empowerLevel?: number;
     school?: (typeof SCHOOLS)[keyof typeof SCHOOLS];
 
+    coeff?: number | { damage?: number; healing?: number };
+
     value?: {
         healing?: number;
         damage?: number;

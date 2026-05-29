@@ -3,6 +3,8 @@ import TALENTS from "./talents";
 import SHARED from "@data/specs/monk/talents";
 import SPELLS from "@data/spells";
 import { SCHOOLS } from "@data/shared/schools";
+import { getSpellAura } from "@data/core-passives/core-passive";
+import corePassive from "@data/specs/monk/mistweaver/core-passive/core-passive";
 
 export type TalentMap = Map<spell, boolean>;
 
@@ -118,24 +120,42 @@ export const calculateSpellHealingMultiplier = (
     return multiplier;
 };
 
+const resolveCoeff = (coeff: spell['coeff'], type: 'damage' | 'healing'): number | undefined => {
+    if (coeff === undefined) return undefined;
+    if (typeof coeff === 'number') return coeff;
+    return coeff[type];
+};
+
+export const calcSpellValue = (spell: spell, spellpower: number, type: 'damage' | 'healing' = 'healing'): number => {
+    const coeff = resolveCoeff(spell.coeff, type);
+    if (coeff === undefined) return 0;
+    return spellpower * coeff * getSpellAura(spell.id, corePassive.MISTWEAVER_MONK);
+};
+
 export const calculateSpellDamage = (
     spell: spell,
     talents?: TalentMap,
-    mastery?: number
+    mastery?: number,
+    spellpower?: number
 ): number => {
-    const baseDamage = spell.value?.damage ?? 0;
-    const multiplier = calculateSpellDamageMultiplier(spell, talents, mastery);
-    return baseDamage * multiplier;
+    const coeff = resolveCoeff(spell.coeff, 'damage');
+    const base = spellpower !== undefined && coeff !== undefined
+        ? calcSpellValue(spell, spellpower, 'damage')
+        : (spell.value?.damage ?? 0);
+    return base * calculateSpellDamageMultiplier(spell, talents, mastery);
 };
 
 export const calculateSpellHealing = (
     spell: spell,
     talents?: TalentMap,
-    mastery?: number
+    mastery?: number,
+    spellpower?: number
 ): number => {
-    const baseHealing = spell.value?.healing ?? 0;
-    const multiplier = calculateSpellHealingMultiplier(spell, talents, mastery);
-    return baseHealing * multiplier;
+    const coeff = resolveCoeff(spell.coeff, 'healing');
+    const base = spellpower !== undefined && coeff !== undefined
+        ? calcSpellValue(spell, spellpower, 'healing')
+        : (spell.value?.healing ?? 0);
+    return base * calculateSpellHealingMultiplier(spell, talents, mastery);
 };
 
 export const getHealingMultiplier = (talents?: TalentMap): number => {

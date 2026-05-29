@@ -9,9 +9,7 @@ const spells = {
         icon: 'ability_monk_tigerpalm',
         castTime: 0,
         school: SCHOOLS.PHYSICAL,
-        value: {
-            damage: 915
-        },
+        coeff: 0.936,
         category: CATEGORY.DAMAGE,
     },
     BLACKOUT_KICK: {
@@ -21,9 +19,7 @@ const spells = {
         castTime: 0,
         cooldown: 3,
         school: SCHOOLS.PHYSICAL,
-        value: {
-            damage: 1619
-        },
+        coeff: 0.8809,
         category: CATEGORY.DAMAGE,
     },
     RISING_SUN_KICK: {
@@ -33,9 +29,7 @@ const spells = {
         castTime: 0,
         cooldown: 12,
         school: SCHOOLS.PHYSICAL,
-        value: {
-            damage: 2484
-        },
+        coeff: 1.4955,
         category: CATEGORY.DAMAGE,
     },
     CRACKLING_JADE_LIGHTNING: {
@@ -55,9 +49,7 @@ const spells = {
         icon: 'ability_monk_cranekick_new',
         school: SCHOOLS.PHYSICAL,
         castTime: 1.5,
-        value: {
-            damage: 1687
-        },
+        coeff: 0.104 * 4,
         category: CATEGORY.DAMAGE,
     },
 
@@ -94,10 +86,9 @@ const spells = {
         icon: 'spell_monk_envelopingmist',
         castTime: 2,
         school: SCHOOLS.NATURE,
-        value: {
-            healing: 4320
-        },
+        coeff: 1.248,
         custom: {
+            directCoeff: 7.488,
             duration: 6,
             amp: 1.1,
         },
@@ -109,9 +100,7 @@ const spells = {
         icon: 'ability_monk_vivify',
         castTime: 1.5,
         school: SCHOOLS.NATURE,
-        value: {
-            healing: 5390
-        },
+        coeff: 2.58,
         category: CATEGORY.HEALING,
     },
     SHEILUNS_GIFT: {
@@ -120,11 +109,9 @@ const spells = {
         icon: 'inv12_ability_monk_sheilunsgift',
         castTime: 2,
         school: SCHOOLS.NATURE,
-        value: {
-            healing: 2326
-        }, 
+        coeff: 4.1696,
         custom: {
-            healingPerStack: 116,
+            coeffPerStack: 0.05,
             targetsHit: 3,
             maxStacks: 10,
         },
@@ -178,6 +165,7 @@ const spells = {
         castTime: 0,
         cooldown: 120,
         gcd: false,
+        coeff: 0,
         custom: {
             absorbFormula: (sourceHp: number, versatility: number) => {
                 return sourceHp * 48 / 100 * (1 + versatility);

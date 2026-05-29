@@ -229,10 +229,7 @@ const talents = {
         castTime: 0,
         cooldown: 12,
         school: SCHOOLS.NATURE,
-        value: {
-            damage: 3105,
-            healing: 2945
-        },
+        coeff: { damage: 1.8694, healing: 1.7731 }, // healing might be wrong, ph for now
         custom: {
             maxDamageTargets: 5,
             maxHealingTargets: 5,
