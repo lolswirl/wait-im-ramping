@@ -22,8 +22,13 @@ export interface specialization {
   name: string;
   class: string;
   color: string;
-  intellect?: number;
-  mastery?: number;
+  stats?: {
+    intellect?: number;
+    haste?: number;
+    crit?: number;
+    versatility?: number;
+    mastery?: number;
+  };
   buffs?: (spellList: spell[]) => spell[];
 
   getSpell?: (spellName: string) => spell | undefined;
