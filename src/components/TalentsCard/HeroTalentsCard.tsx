@@ -33,7 +33,7 @@ const HeroTalentsCard: React.FC<HeroTalentsCardProps> = ({ options, label, onCha
     };
 
     const treeRows = Array.from(trees.entries()).flatMap(([info, spells]) => [
-        <span key={`${info.name}-label`} style={{ ...rowLabel, paddingTop: 6, color: info.color }}><T>{info.shortName}</T></span>,
+        <span key={`${info.name}-label`} style={{ ...rowLabel, paddingTop: 6 }}><T>{info.shortName}</T></span>,
         <React.Fragment key={`${info.name}-sep`}>{rowSep}</React.Fragment>,
         <div key={`${info.name}-spells`} style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
             {spells.map(([spell, isChecked]) => (
