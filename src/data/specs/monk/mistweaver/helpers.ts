@@ -1,10 +1,11 @@
-import spell from "@data/spells/spell";
+import spell, { CATEGORY } from "@data/spells/spell";
 import TALENTS from "./talents";
 import SHARED from "@data/specs/monk/talents";
 import SPELLS from "@data/spells";
 import { SCHOOLS } from "@data/shared/schools";
 import { getSpellAura } from "@data/core-passives/core-passive";
 import corePassive from "@data/specs/monk/mistweaver/core-passive/core-passive";
+import type { Stats } from '@data/shared/stats';
 
 export type TalentMap = Map<spell, boolean>;
 
@@ -15,7 +16,7 @@ export const isTalentEnabled = (talents: TalentMap | undefined, talent: spell): 
 
 interface TalentRule {
     talent: spell;
-    getValue: (mastery?: number) => number;
+    getValue: (stats?: Stats) => number;
     appliesTo: (spell: spell) => boolean;
 }
 
@@ -23,7 +24,7 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
     {
         talent: SHARED.FEROCITY_OF_XUEN,
         getValue: () => 2 * SHARED.FEROCITY_OF_XUEN.custom.damageIncrease, // 2 pts
-        appliesTo: (spell) => spell.value?.damage !== undefined
+        appliesTo: (spell) => spell.category === CATEGORY.DAMAGE
     },
     {
         talent: SHARED.FAST_FEET,
@@ -57,7 +58,7 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
     },
     {
         talent: TALENTS.MORNING_BREEZE,
-        getValue: (mastery = 1) => (mastery * TALENTS.MORNING_BREEZE.custom.masteryMultiplier),
+        getValue: (stats) => ((stats?.mastery ?? 0) * TALENTS.MORNING_BREEZE.custom.masteryMultiplier),
         appliesTo: (spell) => 
             spell.id === SPELLS.RISING_SUN_KICK.id || 
             spell.id === TALENTS.RUSHING_WIND_KICK.id
@@ -80,14 +81,29 @@ const HEALING_MULTIPLIER_RULES: TalentRule[] = [
     {
         talent: SHARED.CHI_PROFICIENCY,
         getValue: () => SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease,
-        appliesTo: (spell) => spell.value?.healing !== undefined
+        appliesTo: (spell) => spell.category === CATEGORY.HEALING
+    },
+    {
+        talent: TALENTS.TEAR_OF_MORNING,
+        getValue: () => TALENTS.TEAR_OF_MORNING.custom.sheilunsGiftIncrease,
+        appliesTo: (spell) => spell.id === SPELLS.SHEILUNS_GIFT.id
+    },
+    {
+        talent: TALENTS.WAY_OF_THE_SERPENT,
+        getValue: () => TALENTS.WAY_OF_THE_SERPENT.custom.sheilunsGiftIncrease,
+        appliesTo: (spell) => spell.id === SPELLS.SHEILUNS_GIFT.id
+    },
+    {
+        talent: TALENTS.WAY_OF_THE_SERPENT,
+        getValue: () => TALENTS.WAY_OF_THE_SERPENT.custom.renewingMistIncrease,
+        appliesTo: (spell) => spell.id === SPELLS.RENEWING_MIST.id
     },
 ];
 
 export const calculateSpellDamageMultiplier = (
     spell: spell,
     talents?: TalentMap,
-    mastery?: number
+    stats?: Stats
 ): number => {
     let multiplier = 1;
     
@@ -95,7 +111,7 @@ export const calculateSpellDamageMultiplier = (
         if (!isTalentEnabled(talents, rule.talent)) continue;
         
         if (rule.appliesTo(spell)) {
-            multiplier *= (1 + rule.getValue(mastery));
+            multiplier *= (1 + rule.getValue(stats));
         }
     }
     
@@ -105,18 +121,18 @@ export const calculateSpellDamageMultiplier = (
 export const calculateSpellHealingMultiplier = (
     spell: spell,
     talents?: TalentMap,
-    mastery?: number
+    stats?: Stats
 ): number => {
     let multiplier = 1;
-    
+
     for (const rule of HEALING_MULTIPLIER_RULES) {
         if (!isTalentEnabled(talents, rule.talent)) continue;
-        
+
         if (rule.appliesTo(spell)) {
-            multiplier *= (1 + rule.getValue(mastery));
+            multiplier *= (1 + rule.getValue(stats));
         }
     }
-    
+
     return multiplier;
 };
 
@@ -135,27 +151,25 @@ export const calcSpellValue = (spell: spell, spellpower: number, type: 'damage' 
 export const calculateSpellDamage = (
     spell: spell,
     talents?: TalentMap,
-    mastery?: number,
-    spellpower?: number
+    stats?: Stats
 ): number => {
     const coeff = resolveCoeff(spell.coeff, 'damage');
-    const base = spellpower !== undefined && coeff !== undefined
-        ? calcSpellValue(spell, spellpower, 'damage')
+    const base = stats?.intellect !== undefined && coeff !== undefined
+        ? calcSpellValue(spell, stats.intellect, 'damage')
         : (spell.value?.damage ?? 0);
-    return base * calculateSpellDamageMultiplier(spell, talents, mastery);
+    return base * calculateSpellDamageMultiplier(spell, talents, stats);
 };
 
 export const calculateSpellHealing = (
     spell: spell,
     talents?: TalentMap,
-    mastery?: number,
-    spellpower?: number
+    stats?: Stats
 ): number => {
     const coeff = resolveCoeff(spell.coeff, 'healing');
-    const base = spellpower !== undefined && coeff !== undefined
-        ? calcSpellValue(spell, spellpower, 'healing')
+    const base = stats?.intellect !== undefined && coeff !== undefined
+        ? calcSpellValue(spell, stats.intellect, 'healing')
         : (spell.value?.healing ?? 0);
-    return base * calculateSpellHealingMultiplier(spell, talents, mastery);
+    return base * calculateSpellHealingMultiplier(spell, talents, stats);
 };
 
 export const getHealingMultiplier = (talents?: TalentMap): number => {
