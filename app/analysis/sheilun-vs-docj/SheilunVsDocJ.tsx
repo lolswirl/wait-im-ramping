@@ -8,6 +8,7 @@ import PageHeader from "@components/PageHeader/PageHeader";
 
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
+import { calculateSpellDamage, calculateWayOfTheCraneHealing } from "@data/specs/monk/mistweaver/helpers";
 import { CLASSES } from "@data/class";
 import { calculateSheilunsGiftBreakdown } from "@data/specs/monk/mistweaver/calcs/SheilunsGift";
 
@@ -19,7 +20,7 @@ const SheilunVsDocJ: React.FC<{ title: string; description: string }> = ({ title
   const theme = useTheme();
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
-  const intellect = mistweaver.intellect;
+  const stats = mistweaver.stats;
 
   const sheilunData = useMemo(() => {
     const selectedTalents = new Map();
@@ -27,24 +28,20 @@ const SheilunVsDocJ: React.FC<{ title: string; description: string }> = ({ title
     selectedTalents.set(TALENTS.INVIGORATING_MISTS, true);
     
     return calculateSheilunsGiftBreakdown({
-      intellect,
+      stats,
       talents: selectedTalents,
     });
-  }, [intellect]);
+  }, [stats]);
 
   // docj calcs
-  const spinningCraneKickDamage = SPELLS.SPINNING_CRANE_KICK.value.damage;
-  const wayOfTheCrane = TALENTS.WAY_OF_THE_CRANE;
-  const wayOfTheCraneArmorModifier = wayOfTheCrane.custom.armorModifier;
-  const wayOfTheCraneTransfer = wayOfTheCrane.custom.transferRate;
-  const targetsPerSCK = wayOfTheCrane.custom.targetsPerSCK;
+  const sck = SPELLS.SPINNING_CRANE_KICK;
+  const danceofChijiIncrease = TALENTS.DANCE_OF_CHI_JI.custom.spellpowerIncrease;
 
-  const docj = TALENTS.DANCE_OF_CHI_JI;
-  const danceofChijiIncrease = docj.custom.spellpowerIncrease;
-
-  const docjSpellpowerCalc = () => 
-    (spinningCraneKickDamage / intellect) * danceofChijiIncrease * wayOfTheCraneTransfer * targetsPerSCK * wayOfTheCraneArmorModifier;
-
+  const docjSpellpowerCalc = () => {
+    const sckDamage = calculateSpellDamage(sck, undefined, stats) * (danceofChijiIncrease / 100);
+    const healing = calculateWayOfTheCraneHealing(sckDamage, undefined);
+    return (healing / stats.intellect) * 100;
+  };
   const docjValues = Array.from({ length: 10 }, (_, i) => i + 1);
   const docjSpellpowers = docjValues.map(targets =>
     targets <= 5

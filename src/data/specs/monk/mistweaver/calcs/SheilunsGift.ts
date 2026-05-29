@@ -2,6 +2,8 @@ import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
 import spell from "@data/spells/spell";
+import { calculateSpellHealing } from "../helpers";
+import { type Stats } from "@data/shared/stats";
 
 export interface SheilunsGiftBreakdownData {
   cloudCount: number;
@@ -17,7 +19,7 @@ export interface SheilunsGiftBreakdownData {
 }
 
 export interface SheilunsGiftCalcParams {
-  intellect: number;
+  stats: Stats;
   talents: Map<spell, boolean>;
 }
 
@@ -25,26 +27,14 @@ export interface SheilunsGiftCalcParams {
 export function calculateSheilunsGiftBreakdown(
   params: SheilunsGiftCalcParams
 ): SheilunsGiftBreakdownData[] {
-  const { intellect, talents } = params;
-  
-  let sheilunBaseHealing = SPELLS.SHEILUNS_GIFT.value.healing;
-  let sheilunCloudHealing = SPELLS.SHEILUNS_GIFT.custom.healingPerStack;
+  const { stats, talents } = params;
+
+  let sheilunBaseHealing = calculateSpellHealing(SPELLS.SHEILUNS_GIFT, talents, stats);
+  let sheilunCloudHealing = sheilunBaseHealing * SPELLS.SHEILUNS_GIFT.custom.coeffPerStack;
+
   const sheilunTargetsHit = talents.get(TALENTS.LEGACY_OF_WISDOM) 
     ? TALENTS.LEGACY_OF_WISDOM.custom.targetsHit 
     : SPELLS.SHEILUNS_GIFT.custom.targetsHit;
-  
-  // multipliers!!!
-  for (let talent of [TALENTS.TEAR_OF_MORNING, TALENTS.WAY_OF_THE_SERPENT]) {
-    if (talents.get(talent)) {
-      sheilunBaseHealing *= 1 + talent.custom.sheilunsGiftIncrease;
-      sheilunCloudHealing *= 1 + talent.custom.sheilunsGiftIncrease;
-    }
-  }
-
-  if (talents.get(SHARED.CHI_PROFICIENCY)) {
-    sheilunBaseHealing *= 1 + SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease;
-    sheilunCloudHealing *= 1 + SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease;
-  }
 
   const sheilunMainMultiplier = 1 + (talents.get(TALENTS.INVIGORATING_MISTS) 
   ? TALENTS.INVIGORATING_MISTS.custom.sheilunsMainTargetIncrease
@@ -71,11 +61,10 @@ export function calculateSheilunsGiftBreakdown(
     const cloudsPercent = (totalCloudHealing / totalHealing) * 100;
     
     const mainPercent = (mainHealing / totalHealing) * 100;
-    const othersPercent = (cloudHealing / totalHealing) * 100;
-    
-    const mainSpellpower = (mainHealing / intellect) * 100;
-    const cloudsSpellpower = (cloudHealing / intellect) * 100;
-    const totalSpellpower = (totalHealing / intellect) * 100;
+
+    const mainSpellpower = (mainHealing / stats.intellect) * 100;
+    const cloudsSpellpower = (cloudHealing / stats.intellect) * 100;
+    const totalSpellpower = (totalHealing / stats.intellect) * 100;
     
     return {
       cloudCount,

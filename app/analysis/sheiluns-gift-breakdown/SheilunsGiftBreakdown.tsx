@@ -6,7 +6,7 @@ import { Box, Card, Container, Divider, useTheme } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
-import StatsCard, { Group } from "@components/StatsCard/StatsCard";
+import StatsCard, { Group, type StatsCardOptions } from "@components/StatsCard/StatsCard";
 
 import spell from "@data/spells/spell";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
@@ -42,21 +42,17 @@ const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = 
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
 
-  const [options, setOptions] = useState({
-    intellect: mistweaver.intellect,
+  const [options, setOptions] = useState<StatsCardOptions>({
+    ...mistweaver.stats,
     totalHp: 99690,
-    crit: 0,
-    versatility: 0,
-    mastery: mistweaver.mastery,
-    haste: 20,
   });
 
   const healingData = useMemo(() => {
     return calculateSheilunsGiftBreakdown({
-      intellect: options.intellect,
+      stats: options,
       talents: selectedTalents,
     });
-  }, [options.intellect, selectedTalents]);
+  }, [options, selectedTalents]);
 
   const talentKey = Array.from(selectedTalents.entries())
     .map(([talent, enabled]) => `${talent.id}-${enabled}`)
