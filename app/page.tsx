@@ -21,7 +21,7 @@ import Changelog from "@components/Changelog/Changelog";
 
 const wdirPreview = "/previews/when-do-i-ramp.png";
 const spellTimelinePreview = "/previews/timeline.png";
-const analysisPreview = "/previews/harmonic-surge.png";
+const analysisPreview = "/previews/heart-of-the-jade-serpent.png";
 const bugsPreview = "/previews/bugs.png";
 const swirlAvatar = "/swirl_panda.jpg";
 
