@@ -11,6 +11,7 @@ import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
+import { calcSpellValue, calculateAncientTeachingsData } from "@data/specs/monk/mistweaver/helpers";
 
 import { T } from "@util/T";
 import { pluralize } from "@util/stringManipulation";
@@ -29,8 +30,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     );
 
     const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
-    const intellect = mistweaver.intellect;
-    const mastery = mistweaver.mastery;
+    const intellect = mistweaver.stats.intellect;
 
     const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
     const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
@@ -52,7 +52,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const gustOfMistsMasteryCoeff = gustOfMists.custom.multiplier;
 
     const baseMastery = gustOfMistsMasteryCoeff / 100 * 8;
-    const masteryFromRating = mastery / 180 * gustOfMistsMasteryCoeff / 100;
+    const masteryFromRating = mistweaver.stats.mastery / 180 * gustOfMistsMasteryCoeff / 100;
     const totalMasteryMultiplier = 1 + (baseMastery + masteryFromRating);
     const gustOfMistHealingAbsolute = (0.1 + totalMasteryMultiplier) * intellect;
     const gustOfMistSpellpower = (gustOfMistHealingAbsolute / intellect) * 100;
@@ -63,28 +63,25 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const chijiGustSpellpower = (chijiGustHealing / intellect) * 100;
 
     const tigerPalm = SPELLS.TIGER_PALM;
-    const tigerPalmDamage = tigerPalm.value.damage;
-    const tigerPalmHealing = (
-        (tigerPalmDamage / intellect) * 100 * ancientTeachingsTransfer * ancientTeachingsArmorModifier *
-        wayOfTheCraneTigerPalmHits
-    );
+    const tigerPalmData = calculateAncientTeachingsData(tigerPalm, selectedTalents, mistweaver.stats, true);
+    const tigerPalmHealing = tigerPalmData.healing * wayOfTheCraneTigerPalmHits;
 
     const blackoutKick = SPELLS.BLACKOUT_KICK;
-    const blackoutKickDamage = blackoutKick.value.damage;
-    
+    const blackoutKickData = calculateAncientTeachingsData(blackoutKick, selectedTalents, mistweaver.stats, true);
+
     // calc bok healing breakdown for stacked bars
     const calculateBlackoutKickBreakdown = (totmStacks: number) => {
         const bokHits = 1 + totmStacks;
-        const ancientTeachingsHealing = (blackoutKickDamage / intellect) * 100 * ancientTeachingsTransfer * ancientTeachingsArmorModifier * bokHits;
+        const ancientTeachingsHealing = blackoutKickData.healing * bokHits;
         const expectedGOMProcs = bokHits * craneStyleBlackoutKickGOMChance;
         const normalGOMHealing = gustOfMistSpellpower * craneStyleBlackoutKickGOM * expectedGOMProcs;
-        
+
         let chiJiGustHealing = 0;
         if (includeChiJiGusts) {
             const totalGusts = 6 * bokHits;
             chiJiGustHealing = chijiGustSpellpower * totalGusts;
         }
-        
+
         return {
             ancientTeachingsHealing,
             normalGOMHealing,
@@ -93,15 +90,15 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     };
 
     const risingSunKick = SPELLS.RISING_SUN_KICK;
-    const risingSunKickDamage = risingSunKick.value.damage;
-    const risingSunKickAncientTeachingsHealing = (risingSunKickDamage / intellect) * 100 * ancientTeachingsTransfer * ancientTeachingsArmorModifier;
+    const risingSunKickData = calculateAncientTeachingsData(risingSunKick, selectedTalents, mistweaver.stats, true);
+    const risingSunKickAncientTeachingsHealing = risingSunKickData.healing;
     const risingSunKickNormalGOMHealing = gustOfMistSpellpower * craneStyleRisingSunKickGOM;
     const risingSunKickChiJiGustHealing = includeChiJiGusts ? chijiGustSpellpower * 6 : 0;
 
     const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
-    const cracklingJadeLightningDamage = cjl.value.damage;
+    const cracklingJadeLightningDamage = cjl.value!.damage!;
     const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
-    const jadeEmpowermentIncrease = jadeEmpowerment.custom.spellpowerIncrease;
+    const jadeEmpowermentIncrease = jadeEmpowerment.custom.spellpowerIncrease / 100;
     const jadeEmpowermentChain = jadeEmpowermentIncrease * jadeEmpowerment.custom.chainVal;
     const jeSpellpowerCalc = (value: number) => (cracklingJadeLightningDamage / intellect) * value * ancientTeachingsTransfer * ancientTeachingsArmorModifier;
     const jeValues = Array.from({ length: 5 }, (_, i) => i + 1);
