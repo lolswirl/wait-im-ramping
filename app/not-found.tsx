@@ -7,7 +7,7 @@ import SpellLink from "@components/SpellLink/SpellLink";
 import { T } from "@util/T";
 import SPELLS from "@data/spells";
 
-const S = (spell: (typeof SPELLS)[keyof typeof SPELLS]) => <SpellLink spell={spell} />;
+const S = (spell: (typeof SPELLS)[keyof typeof SPELLS]) => <SpellLink spell={spell} sx={{ marginTop: -0.5 }} />;
 
 const MESSAGES: React.ReactNode[] = [
     // disc
