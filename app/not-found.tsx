@@ -22,9 +22,10 @@ const MESSAGES: React.ReactNode[] = [
     // mw
     <>accidentally {S(SPELLS.TRANSCENDENCE_TRANSFER)}ed into a swirly</>,
     <>{S(SPELLS.VIVIFY)} cleaved onto exactly 0 players</>,
-    <>{S(SPELLS.REVIVAL)} dispelled this page</>,
+    <>{S(SPELLS.REVIVAL)} dispelled this entire page</>,
     <>no {S(SPELLS.REVIVAL)} for 404s</>,
     <>{S(SPELLS.LIFE_COCOON)} absorbed one melee hit on the tank</>,
+    <>this page is {S(SPELLS.DISABLE)}d</>,
     // rdruid
     <>spammed {S(SPELLS.REJUVENATION)} to oom</>,
     <>{S(SPELLS.TRANQUILITY)} cancelled by a loading bar</>,
