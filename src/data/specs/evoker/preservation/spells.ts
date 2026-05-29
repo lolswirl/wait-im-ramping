@@ -51,6 +51,13 @@ const spells = {
     castTime: 0,
     category: CATEGORY.COOLDOWN,
   },
+  HOVER: {
+    name: 'Hover',
+    id: 358267,
+    icon: 'ability_evoker_hover',
+    castTime: 0,
+    category: CATEGORY.UTILITY,
+  },
 } satisfies Record<string, spell>;
 
 export default spells;
