@@ -8,6 +8,7 @@ import {
   calculateSpellDamage,
   calculateSpellHealing,
 } from "@data/specs/monk/mistweaver/helpers";
+import { type Stats } from "@data/shared/stats";
 
 type DamagePoint = { time: number; damage: number };
 type SimState = Record<string, number>;
@@ -23,7 +24,7 @@ interface RotationAction {
 
 interface SimulationParams {
   talents: Map<spell, boolean>;
-  mastery: number;
+  stats: Stats;
 }
 
 const runRotation = (
@@ -64,21 +65,21 @@ const resolveRskValue = (
   targets: number,
   asHealing: boolean,
   talents: Map<spell, boolean>,
-  mastery: number
+  stats: Stats
 ): number => {
   if (talents.get(TALENTS.RUSHING_WIND_KICK) === true) {
     const rwk = TALENTS.RUSHING_WIND_KICK;
-    const rwkBaseDamage = calculateSpellDamage(rwk, talents, mastery);
+    const rwkBaseDamage = calculateSpellDamage(rwk, talents, stats);
     const rwkDamage = rwkBaseDamage * (1 + rwk.custom.damageIncrease * Math.min(targets, rwk.custom.maxDamageTargets));
     if (asHealing) {
       const atHealing = calculateAncientTeachingsHealing(rwkDamage, talents, false, rwk);
       // assuming 4.5 rems on avg for efficiency
-      const directHealing = calculateSpellHealing(rwk, talents, mastery) * rwk.custom.maxHealingTargets * 0.9;
+      const directHealing = calculateSpellHealing(rwk, talents, stats) * rwk.custom.maxHealingTargets * 0.9;
       return atHealing + directHealing;
     }
     return rwkDamage;
   }
-  const rskDamage = calculateSpellDamage(SPELLS.RISING_SUN_KICK, talents, mastery);
+  const rskDamage = calculateSpellDamage(SPELLS.RISING_SUN_KICK, talents, stats);
   return asHealing
     ? calculateAncientTeachingsHealing(rskDamage, talents, true, SPELLS.RISING_SUN_KICK)
     : rskDamage;
@@ -110,10 +111,10 @@ export const simulateMeleeRotationAt2Stacks = (
   asHealing: boolean,
   params: SimulationParams
 ): DamagePoint[] => {
-  const { talents, mastery } = params;
-  const rskValue = resolveRskValue(targets, asHealing, talents, mastery);
-  const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, talents, mastery);
-  const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, mastery);
+  const { talents, stats } = params;
+  const rskValue = resolveRskValue(targets, asHealing, talents, stats);
+  const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, talents, stats);
+  const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, stats);
   const tpValue = asHealing
     ? calculateAncientTeachingsHealing(tpDamage, talents, true, SPELLS.TIGER_PALM)
     : tpDamage;
@@ -165,10 +166,10 @@ export const simulateMeleeRotation = (
   asHealing: boolean,
   params: SimulationParams
 ): DamagePoint[] => {
-  const { talents, mastery } = params;
-  const rskValue = resolveRskValue(targets, asHealing, talents, mastery);
-  const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, talents, mastery);
-  const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, mastery);
+  const { talents, stats } = params;
+  const rskValue = resolveRskValue(targets, asHealing, talents, stats);
+  const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, talents, stats);
+  const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, stats);
   const tpValue = (
     asHealing 
       ? calculateAncientTeachingsHealing(tpDamage, talents, true, SPELLS.TIGER_PALM) 
@@ -225,8 +226,8 @@ export const simulateSpinningCraneKick = (
   asHealing: boolean,
   params: SimulationParams
 ): DamagePoint[] => {
-  const { talents, mastery } = params;
-  const baseValue = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, mastery);
+  const { talents, stats } = params;
+  const baseValue = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, stats);
 
   const actions: RotationAction[] = [
     {
@@ -249,13 +250,13 @@ export const simulateJadeEmpowerment = (
   asHealing: boolean,
   params: SimulationParams
 ): DamagePoint[] => {
-  const { talents, mastery } = params;
+  const { talents, stats } = params;
   const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
   const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
   const tickInterval = 1.5;
   const ticksPerChannel = cjl.castTime / tickInterval;
 
-  const baseCJLDamage = calculateSpellDamage(cjl, talents, mastery);
+  const baseCJLDamage = calculateSpellDamage(cjl, talents, stats);
   const effectiveTargets = Math.min(targets, 5);
   const baseDamageWithIncrease = baseCJLDamage * (1 + jadeEmpowerment.custom.spellpowerIncrease / 100);
   const totalDamagePerChannel = baseDamageWithIncrease * (1 + jadeEmpowerment.custom.chainVal * (effectiveTargets - 1));
@@ -285,10 +286,10 @@ export const simulateRSKWithSCKAndBok = (
   asHealing: boolean,
   params: SimulationParams
 ): DamagePoint[] => {
-  const { talents, mastery } = params;
-  const rskValue = resolveRskValue(targets, asHealing, talents, mastery);
-  const sckBase = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, mastery);
-  const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, mastery);
+  const { talents, stats } = params;
+  const rskValue = resolveRskValue(targets, asHealing, talents, stats);
+  const sckBase = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, stats);
+  const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, talents, stats);
   const bokCleaveTargets = Math.min(targets - 1, 2);
   const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.custom.blackoutKickEffectiveness;
   const bokValue = asHealing
@@ -328,9 +329,9 @@ export const simulateRSKWithSCK = (
   asHealing: boolean,
   params: SimulationParams
 ): DamagePoint[] => {
-  const { talents, mastery } = params;
-  const rskValue = resolveRskValue(targets, asHealing, talents, mastery);
-  const sckBase = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, mastery);
+  const { talents, stats } = params;
+  const rskValue = resolveRskValue(targets, asHealing, talents, stats);
+  const sckBase = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, talents, stats);
 
   const actions: RotationAction[] = [
     {

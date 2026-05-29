@@ -157,7 +157,7 @@ export const calculateRotationHPS = async (
         return spellpower * options.intellect * critMultiplier * versMultiplier;
     };
 
-    const baseIntellect = CLASSES.MONK.SPECS.MISTWEAVER.intellect;
+    const baseIntellect = CLASSES.MONK.SPECS.MISTWEAVER.stats.intellect;
 
     const fastFeet = isTalentEnabled(options, SHARED.FAST_FEET);
     const fastFeetRSK = 1 + (fastFeet ? SHARED.FAST_FEET.custom.risingSunKickIncrease : 0);
