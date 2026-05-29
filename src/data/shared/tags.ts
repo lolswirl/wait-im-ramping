@@ -1,4 +1,5 @@
 import { STATS, STAT_COLORS } from '@data/shared/stats';
+import { HERO_TREES } from '@data/heroTalents';
 
 export interface Tags {
     name: string;
@@ -22,11 +23,8 @@ export const TAGS: Record<string, Tags> = {
     VERS: { name: STATS.VERS, color: STAT_COLORS.VERS },
     CRIT: { name: STATS.CRIT, color: STAT_COLORS.CRIT },
 
-    // hero tree
-    CONDUIT: { name: "Conduit of the Celestials", color: "#5decaf" },
-    MOH: { name: "Master of Harmony", color: "#63d4cd" },
-    HERALD_OF_THE_SUN: { name: "Herald of the Sun", color: "#ffd700" },
-    LIGHTSMITH: { name: "Lightsmith", color: "#c0c0c0" },
-    TOTEMIC: { name: "Totemic", color: "#ff8876" },
-    FARSEER: { name: "Farseer", color: "#2546d4" },
+    // hero tree tags created from heroTalents datapoints
+    ...Object.fromEntries(
+        Object.values(HERO_TREES).map(t => [t.shortName.toUpperCase(), { name: t.name, color: t.color }])
+    ),
 };

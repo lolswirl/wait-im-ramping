@@ -1,4 +1,5 @@
 import { SCHOOLS } from "@data/shared/schools";
+import type { HeroTree } from "@data/heroTalents";
 
 export const CATEGORY = {
     DAMAGE: "damage",
@@ -13,6 +14,7 @@ export type SpellCategory = typeof CATEGORY[keyof typeof CATEGORY];
 export default interface spell {
     category?: SpellCategory;
     exclusive?: number[];
+    heroTalent?: HeroTree;
     name: string;
     id: number;
     uuid?: string;

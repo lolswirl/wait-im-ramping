@@ -1,5 +1,8 @@
 import { SCHOOLS } from '@data/shared/schools';
 import spell, { CATEGORY } from '@data/spells/spell';
+import { HERO_TREES } from '@data/heroTalents';
+const MOH = HERO_TREES.MASTER_OF_HARMONY;
+const COTC = HERO_TREES.CONDUIT_OF_THE_CELESTIALS;
 
 const talents = {
     INVIGORATING_MISTS: {
@@ -440,6 +443,7 @@ const talents = {
         name: "Harmonic Surge",
         id: 1239442,
         icon: 'ability_socererking_forcenova',
+        heroTalent: MOH,
         value: {
             healing: 1177,
             damage: 471,
@@ -452,61 +456,73 @@ const talents = {
         name: "Aspect of Harmony",
         id: 450508,
         icon: 'inv_ability_masterofharmonymonk_aspectofharmony',
+        heroTalent: MOH,
     },
     ASPECT_OF_HARMONY_T1: {
         name: "Aspect of Harmony",
         id: 450521,
         icon: 'inv_10_gathering_bioluminescentspores_small',
+        heroTalent: MOH,
     },
     ASPECT_OF_HARMONY_T2: {
         name: "Aspect of Harmony",
         id: 450526,
         icon: 'inv_10_gathering_bioluminescentspores_medium',
+        heroTalent: MOH,
     },
     ASPECT_OF_HARMONY_T3: {
         name: "Aspect of Harmony",
         id: 450531,
         icon: 'inv_10_gathering_bioluminescentspores_large',
+        heroTalent: MOH,
     },
     ASPECT_OF_HARMONY_WITHDRAW: {
         name: "Aspect of Harmony",
         id: 450711,
         icon: 'ability_evoker_essenceburst3',
+        heroTalent: MOH,
     },
     ASPECT_OF_HARMONY_HOT: {
         name: "Aspect of Harmony",
         id: 450769,
         icon: 'inv_enchanting_wod_essence2',
+        heroTalent: MOH,
     },
     CLARITY_OF_PURPOSE: {
         name: "Clarity of Purpose",
         id: 450509,
         icon: 'ability_titankeeper_cleanse',
+        heroTalent: MOH,
     },
     BALANCED_STRATAGEM: {
         name: "Balanced Stratagem",
         id: 450889,
         icon: 'ability_monk_sphereharmonydiscord',
+        heroTalent: MOH,
     },
     BALANCED_STRATAGEM_NATURE: {
         name: "Balanced Stratagem",
         id: 451508,
         icon: 'ability_monk_spherediscord',
+        heroTalent: MOH,
     },
     BALANCED_STRATAGEM_PHYSICAL: {
         name: "Balanced Stratagem",
         id: 451514,
         icon: 'ability_monk_sphereharmony',
+        heroTalent: MOH,
     },
     PATH_OF_RESURGENCE: {
         name: "Path of Resurgence",
         id: 451084,
         icon: 'ability_monk_pathofmists',
+        heroTalent: MOH,
     },
     OVERWHELMING_FORCE: {
         name: "Overwhelming Force",
         id: 451024,
         icon: 'ability_titankeeper_piercingcorruption',
+        heroTalent: MOH,
         custom: {
             percentOfDamage: 15,
         }
@@ -515,21 +531,25 @@ const talents = {
         name: "Mantra of Purity",
         id: 451036,
         icon: 'ability_monk_domeofmist',
+        heroTalent: MOH,
     },
     COALESCENCE: {
         name: "Coalescence",
         id: 450529,
         icon: 'ability_monk_effuse',
+        heroTalent: MOH,
     },
     MANIFESTATION: {
         name: "Manifestation",
         id: 450875,
         icon: 'inv_shoulder_inv_leather_raidmonk_s_01',
+        heroTalent: MOH,
     },
     MEDITATIVE_FOCUS: {
         name: "Meditative Focus",
         id: 1271105,
         icon: 'inv_misc_herb_mountainsilversage',
+        heroTalent: MOH,
         custom: {
             transferRate: 0.50
         }
@@ -540,6 +560,7 @@ const talents = {
         name: "Temple Training",
         id: 442743,
         icon: 'ability_monk_provoke',
+        heroTalent: COTC,
         custom: {
             vivifyIncrease: 0.06,
             envIncrease: 0.06,
@@ -550,6 +571,7 @@ const talents = {
         name: "Courage of the White Tiger",
         id: 443087,
         icon: 'ability_monk_summontigerstatue',
+        heroTalent: COTC,
         value: {
             healing: 6399,
             damage: 2133,
@@ -559,11 +581,13 @@ const talents = {
         name: "Heart of the Jade Serpent",
         id: 443294,
         icon: 'ability_monk_dragonkick',
+        heroTalent: COTC,
     },
     STRENGTH_OF_THE_BLACK_OX: {
         name: "Strength of the Black Ox",
         id: 443110,
         icon: 'ability_monk_chargingoxwave',
+        heroTalent: COTC,
         custom: {
             targets: 5,
             absorbAmount: 930,
@@ -573,11 +597,13 @@ const talents = {
         name: "Flight of the Red Crane",
         id: 443255,
         icon: 'inv_pet_cranegod',
+        heroTalent: COTC,
     },
     STAMPEDE_OF_THE_ANCIENTS: {
         name: "Stampede of the Ancients",
         id: 1262756,
         icon: 'monk_ability_summonoxstatue',
+        heroTalent: COTC,
         custom: {
             mainTargetIncrease: 4.0,
         }
@@ -586,41 +612,49 @@ const talents = {
         name: "Inner Compass",
         id: 443571,
         icon: 'inv_10_dungeonjewelry_explorer_trinket_1compass_color2',
+        heroTalent: COTC,
     },
     CRANE_STANCE: {
         name: "Crane Stance",
         id: 443572,
         icon: 'monk_stance_redcrane',
+        heroTalent: COTC,
     },
     OX_STANCE: {
         name: "Ox Stance",
         id: 443574,
         icon: 'monk_stance_drunkenox',
+        heroTalent: COTC,
     },
     SERPENT_STANCE: {
         name: "Serpent Stance",
         id: 443576,
         icon: 'monk_stance_wiseserpent',
+        heroTalent: COTC,
     },
     TIGER_STANCE: {
         name: "Tiger Stance",
         id: 443575,
         icon: 'monk_stance_whitetiger',
+        heroTalent: COTC,
     },
     UNITY_WITHIN: {
         name: "Unity Within",
         id: 443589,
         icon: 'ability_monk_prideofthetiger',
+        heroTalent: COTC,
     },
     YULONS_AVATAR: {
         name: "Yulon's Avatar",
         id: 1262667,
         icon: 'inv_celestialserpentmount_jade',
+        heroTalent: COTC,
     },
     CHRYSALIS: {
         name: "Chrysalis",
         id: 202424,
         icon: 'ability_monk_domeofmist',
+        heroTalent: COTC,
         custom: {
             cooldown: 75,
         }
@@ -629,16 +663,19 @@ const talents = {
         name: "Flowing Wisdom",
         id: 1262672,
         icon: 'ability_monk_flyingdragonkick',
+        heroTalent: COTC,
     },
     CHI_JIS_SWIFTNESS: {
         name: "Chi-Ji's Swiftness",
         id: 443566,
         icon: 'inv_shoulder_leather_raidmonkemerald_d_01',
+        heroTalent: COTC,
     },
     YULONS_KNOWLEDGE: {
         name: "Yulon's Knowledge",
         id: 443625,
         icon: 'inv_jewelcrafting_jadeserpent',
+        heroTalent: COTC,
         custom: {
             rskDamageIncrease: 0.15,
         }
