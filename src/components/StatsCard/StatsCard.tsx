@@ -3,21 +3,19 @@ import React, { useState } from 'react';
 import { TextField } from '@mui/material';
 import { GlassTooltip } from '@components/Glass';
 import { T } from '@util/T';
+import { type Stats } from '@data/shared/stats';
+
+export interface StatsCardOptions extends Stats {
+    totalHp?: number;
+}
 
 interface StatsCardProps {
-    options: {
-        intellect: number;
-        totalHp: number;
-        crit: number;
-        versatility: number;
-        mastery: number;
-        haste: number;
-    };
+    options: StatsCardOptions;
     onOptionsChange: (newOptions: any) => void;
 }
 
 interface StatField {
-    key: keyof StatsCardProps['options'];
+    key: keyof StatsCardOptions;
     label: string;
     min?: number;
     tooltip?: string;
@@ -71,14 +69,14 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
                             label={T(field.label)}
                             type="text"
                             size="small"
-                            value={localValues[field.key] !== undefined ? localValues[field.key] : formatNumber(options[field.key])}
+                            value={localValues[field.key] !== undefined ? localValues[field.key] : formatNumber(options[field.key] ?? 0)}
                             onChange={(e) => {
                                 setLocalValues(prev => ({ ...prev, [field.key]: e.target.value }));
                                 const raw = parseNumber(e.target.value);
                                 if (!isNaN(raw)) handleChange(field.key, raw);
                             }}
                             onBlur={() => {
-                                const cur = options[field.key];
+                                const cur = options[field.key] ?? 0;
                                 const min = field.min ?? 0;
                                 if (cur < min) handleChange(field.key, min);
                                 setLocalValues(prev => { const s = { ...prev }; delete s[field.key]; return s; });

@@ -1,3 +1,11 @@
+export interface Stats {
+    intellect: number;
+    mastery: number;
+    crit: number;
+    versatility: number;
+    haste: number;
+}
+
 export const STATS = {
     INTELLECT: "Intellect",
     STRENGTH: "Strength",
