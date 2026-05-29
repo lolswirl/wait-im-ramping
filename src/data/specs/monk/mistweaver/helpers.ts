@@ -230,6 +230,17 @@ export const getWayOfTheCraneTransfer = (): number => {
     return getWayOfTheCraneTransferPerTarget() * getWayOfTheCraneTargets();
 };
 
+export const calculateAncientTeachingsData = (
+    spell: spell,
+    talents?: TalentMap,
+    stats?: Stats,
+    includeJadefire: boolean = true,
+): { damage: number; healing: number } => {
+    const damage = calculateSpellDamage(spell, talents, stats);
+    const healing = calculateAncientTeachingsHealing(damage, talents, includeJadefire, spell);
+    return { damage, healing };
+};
+
 export const calculateAncientTeachingsHealing = (
     damage: number,
     talents?: TalentMap,
