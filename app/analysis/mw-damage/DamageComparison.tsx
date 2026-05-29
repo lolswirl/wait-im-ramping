@@ -10,6 +10,7 @@ import SwirlButton from "@components/Buttons/SwirlButton";
 import PageHeader from "@components/PageHeader/PageHeader";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
+import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
 import { Group } from "@components/StatsCard/StatsCard";
 
 import spell from "@data/spells/spell";
@@ -69,6 +70,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   const [heroTalents, setHeroTalents] = useState<Map<spell, boolean>>(new Map<spell, boolean>([
     [TALENTS.TEMPLE_TRAINING, true], // bugged sck increase
     [TALENTS.YULONS_KNOWLEDGE, true], // just gonna assume this one since its in keys
+    [TALENTS.MEDITATIVE_FOCUS, false],
   ]));
 
   const [classTalents, setClassTalents] = useState<Map<spell, boolean>>(new Map<spell, boolean>([
@@ -443,7 +445,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
           <Box sx={{ p: 2 }}>
             <Group>
               <TalentsCard label="Spec" options={specTalents} color={mistweaver.color} onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))} />
-              <TalentsCard label="Hero" options={heroTalents} color={"#0fdece"} onChange={(t, c) => setHeroTalents(prev => new Map(prev).set(t, c))} />
+              <HeroTalentsCard label="Hero" options={heroTalents} onChange={(t, c) => setHeroTalents(prev => new Map(prev).set(t, c))} />
               <TalentsCard label="Class" options={classTalents} color={CLASSES.MONK.color} onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))} />
             </Group>
           </Box>
