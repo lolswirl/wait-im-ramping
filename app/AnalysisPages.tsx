@@ -1,13 +1,11 @@
 import DamageComparison from "./analysis/mw-damage/DamageComparison";
 import ChiJiPage from "./analysis/chi-ji/ChiJiPage";
 import HotJS from "./analysis/heart-of-the-jade-serpent/HotJS";
-import SheilunVSJadeEmpowerment from "./analysis/jade-empowerment-sheiluns/SheilunVSJadeEmpowerment";
 import RisingSunKickResets from "./analysis/rising-sun-kick-resets/RisingSunKickResets";
 import Conduit from "./analysis/celestial-conduit/Conduit";
 import HarmonicSurge from "./analysis/harmonic-surge/HarmonicSurge";
 import SheilunVsDocJ from "./analysis/sheilun-vs-docj/SheilunVsDocJ";
 import SheilunsGiftBreakdown from "./analysis/sheiluns-gift-breakdown/SheilunsGiftBreakdown";
-import JadeEmpowermentVsDocJ from "./analysis/jade-empowerment-docj/JadeEmpowermentVsDocJ";
 import RushingWindKickComparison from "./analysis/rushing-wind-kick/RushingWindKick";
 import MistyCoalescence from "./analysis/misty-coalescence/MistyCoalescence";
 import AbsorbVsDRCompare from "./analysis/external-comparison/AbsorbVsDRCompare";
@@ -35,27 +33,6 @@ export const externalComparison = {
   component: AbsorbVsDRCompare
 };
 
-export const sgJe = { 
-  label: "Sheilun's Gift vs. Jade Empowerment", 
-  path: "/analysis/jade-empowerment-sheiluns", 
-  preview: "/previews/jade-empowerment-sheiluns.png",
-  description: "Analyze the spellpower differences between Sheilun's Gift's stacks and Jade Empowerment's chaining",
-  extra: "Jade Empowerment was heavily nerfed in Midnight and thus no longer applicable to compare with a cooldown.",
-  tags: ["Healing", "Monk", "Outdated"],
-  createdDate: "2025-03-10",
-  component: SheilunVSJadeEmpowerment
-};
-
-export const jeDocj = { 
-  label: "Jade Empowerment vs. Dance of Chi-Ji", 
-  path: "/analysis/jade-empowerment-docj", 
-  preview: "/previews/jade-empowerment-docj.png",
-  description: "Compare the spellpower output of Jade Empowerment and Dance of Chi-Ji on different target counts",
-  extra: "Jade Empowerment was heavily nerfed in Midnight and no longer on the same node as Dance of Chi-Ji.",
-  tags: ["Healing", "Monk", "Outdated"],
-  createdDate: "2025-03-26",
-  component: JadeEmpowermentVsDocJ
-};
 
 export const mwDamage = { 
   label: "Mistweaver Damage Comparison", 
@@ -179,8 +156,6 @@ export const spellTimeline = {
 
 export const analysisPages: AnalysisPage[] = [
   externalComparison,
-  sgJe,
-  jeDocj,
   mwDamage,
   harmonicSurge,
   risingSunKickResets,
