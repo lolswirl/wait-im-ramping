@@ -18,6 +18,7 @@ import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
 import { CLASSES } from "@data/class";
+import { type Stats } from '@data/shared/stats';
 
 import { T } from "@util/T";
 import WarningChip from "@components/WarningChip/WarningChip";
@@ -37,7 +38,7 @@ type DamagePoint = { time: number; damage: number };
 
 type SimulationParams = {
   talents: Map<spell, boolean>;
-  mastery: number;
+  stats: Stats;
 };
 
 type RotationConfig = {
@@ -58,7 +59,6 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
   const [damageData, setDamageData] = useState<Record<string, DamagePoint[]>>({});
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
-  const mwMastery = mistweaver.mastery;
 
   const [specTalents, setSpecTalents] = useState<Map<spell, boolean>>(new Map<spell, boolean>([
     [TALENTS.JADEFIRE_TEACHINGS, true],
@@ -82,9 +82,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
 
   const talents = useMemo(() => new Map<spell, boolean>([...specTalents, ...classTalents, ...heroTalents]), [specTalents, classTalents, heroTalents]);
 
-  const mastery = useMemo(() => mwMastery / 100, [mwMastery]);
-
-  const simulationParams = useMemo(() => ({ talents, mastery }), [talents, mastery]);
+  const simulationParams = useMemo(() => ({ talents, stats: mistweaver.stats }), [talents, mistweaver.stats]);
 
   const useRwk = talents.get(TALENTS.RUSHING_WIND_KICK) === true;
 
