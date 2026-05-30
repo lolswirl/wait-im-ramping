@@ -18,6 +18,7 @@ import spell, { calcSpellpower } from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
+import { calculateSpellHealing } from "@data/specs/monk/mistweaver/helpers";
 import { T } from "@util/T";
 import { pluralize } from "@util/stringManipulation";
 
@@ -68,7 +69,7 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
     };
 
     const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
-    const intellect = mistweaver.intellect;
+    const intellect = mistweaver.stats.intellect;
 
     const celestialConduit = SPELLS.CELESTIAL_CONDUIT;
     const conduitValues = Array.from(
@@ -92,8 +93,8 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
 
     // Sheilun's Gift calculations
     const sheilunsGift = SPELLS.SHEILUNS_GIFT;
-    const sheilunBaseHealing = sheilunsGift.value.healing;
-    const sheilunHealingPerStack = sheilunsGift.custom?.healingPerStack;
+    const sheilunBaseHealing = calculateSpellHealing(sheilunsGift, selectedTalents, mistweaver.stats);
+    const sheilunHealingPerStack = sheilunBaseHealing * sheilunsGift.custom.coeffPerStack;
     const sheilunMaxStacks = sheilunsGift.custom?.maxStacks;
     const sheilunMainTargetIncrease = TALENTS.INVIGORATING_MISTS.custom?.sheilunsMainTargetIncrease;
 
@@ -134,7 +135,7 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
         ancientTeachings.custom?.armorModifier;
 
     const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
-    const jadeEmpowermentIncrease = jadeEmpowerment.custom?.spellpowerIncrease;
+    const jadeEmpowermentIncrease = jadeEmpowerment.custom?.spellpowerIncrease / 100;
     const jadeEmpowermentChain =
         jadeEmpowermentIncrease * jadeEmpowerment.custom?.chainVal;
 

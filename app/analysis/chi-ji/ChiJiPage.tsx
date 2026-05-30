@@ -29,8 +29,8 @@ const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, de
     const maxWidth = 1200;
 
     const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
-    const intellect = mistweaver.intellect;
-    const mastery = mistweaver.mastery;
+    const intellect = mistweaver.stats.intellect;
+    const mastery = mistweaver.stats.mastery;
 
     const mistweaverTalents = new Map<spell, boolean>([
         [TALENTS.CELESTIAL_HARMONY, true],
