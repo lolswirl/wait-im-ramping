@@ -20,7 +20,8 @@ const talents = {
         custom: {
             targetsHit: 5,
             castTime: -0.5,
-        }
+        },
+        exclusive: [471761],
     },
     EMPERORS_FAVOR: {
         name: "Emperor's Favor",
@@ -30,7 +31,8 @@ const talents = {
             increase: 1.2,
             castTime: 0,
             targetsHit: 1,
-        }
+        },
+        exclusive: [404408],
     },
     JADE_EMPOWERMENT: {
         name: "Jade Empowerment",
