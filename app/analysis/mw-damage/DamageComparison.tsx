@@ -233,7 +233,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
                 </TableCell>
                 {rotationValues.map((value, idx) => (
                   <TableCell key={ROTATION_CONFIGS[idx].dataKey} align="center" sx={{ border: 0, py: 1, px: 1 }}>
-                    <Typography variant="body2" sx={{ color: ROTATION_CONFIGS[idx].color, fontWeight: 'bold' }}>{value.toFixed(2)}</Typography>
+                    <Typography variant="body2" sx={{ color: ROTATION_CONFIGS[idx].color, fontWeight: 'bold' }}>{value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Typography>
                   </TableCell>
                 ))}
               </TableRow>
@@ -376,7 +376,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
                         backgroundColor: `rgba(${r}, ${g}, ${b}, 0.18)`,
                       }}>
                         <Typography variant="body2" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
-                          {value.toFixed(0)}
+                          {value.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                         </Typography>
                         {t < 1 && (
                           <Typography variant="caption" sx={{ color: '#ef4444', lineHeight: 1, display: 'block', fontSize: '0.65rem', fontWeight: 700 }}>
@@ -491,7 +491,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
                       <Typography variant="h6" sx={{ fontWeight: 'bold', color: config.color, lineHeight: 1.2 }}>
-                        {avg.toFixed(2)}
+                        {avg.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
                         <T>{showAsHealing ? 'HPS' : 'DPS'}</T>
