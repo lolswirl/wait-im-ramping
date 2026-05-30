@@ -779,7 +779,7 @@ const HotJS: React.FC<{ title: string; description: string }> = ({ title, descri
     const [talents, setTalents] = useState(allTalents);
 
     const handleTalentChange = (talent: spell, checked: boolean) => {
-        setTalents(new Map(talents).set(talent, checked));
+        setTalents(prev => new Map(prev).set(talent, checked));
     };
 
     const affectedAbilities = useMemo(() => createAffectedAbilities(talents), [talents]);
