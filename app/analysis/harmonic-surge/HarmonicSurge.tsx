@@ -11,7 +11,7 @@ import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
-import { calcSpellValue, calculateAncientTeachingsData } from "@data/specs/monk/mistweaver/helpers";
+import { calculateAncientTeachingsData } from "@data/specs/monk/mistweaver/helpers";
 
 import { T } from "@util/T";
 import { pluralize } from "@util/stringManipulation";
