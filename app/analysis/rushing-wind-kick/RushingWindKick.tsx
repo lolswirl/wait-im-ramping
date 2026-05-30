@@ -6,6 +6,7 @@ import { Box, Container, useTheme, Card, Divider, Typography } from "@mui/materi
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
+import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
 import RadioOption from "@components/RadioOption/RadioOption";
 
 import spell from "@data/spells/spell";
@@ -39,29 +40,30 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
 
   const allTalents = new Map<spell, boolean>([
-    [TALENTS.YULONS_KNOWLEDGE, true],
     [TALENTS.JADEFIRE_TEACHINGS, true],
-    [TALENTS.MORNING_BREEZE, false],
-    [TALENTS.SPIRITFONT, true],
+    [TALENTS.MORNING_BREEZE, true],
+    [TALENTS.SPIRITFONT, false],
     [SHARED.FAST_FEET, true],
     [SHARED.FEROCITY_OF_XUEN, true],
     [SHARED.CHI_PROFICIENCY, true],
     [SHARED.MARTIAL_INSTINCTS, true],
+    [TALENTS.YULONS_KNOWLEDGE, true],
+    [TALENTS.MEDITATIVE_FOCUS, false],
   ]);
 
   const [talents, setTalents] = useState(allTalents);
-  const [mastery, setMastery] = useState<number>(mistweaver.mastery / 100);
+  const stats = mistweaver.stats;
 
   const rsk = SPELLS.RISING_SUN_KICK;
   const rwk = TALENTS.RUSHING_WIND_KICK;
 
   const targetValues = Array.from({ length: 5 }, (_, i) => i + 1);
 
-  const rskBaseDamage = calculateSpellDamage(rsk, talents, mastery);
+  const rskBaseDamage = calculateSpellDamage(rsk, talents, stats);
   const rskBaseHealing = calculateAncientTeachingsHealing(rskBaseDamage, talents, true, rsk);
 
-  const rwkBaseDamage = calculateSpellDamage(rwk, talents, mastery);
-  const rwkDirectHealing = calculateSpellHealing(rwk, talents, mastery);
+  const rwkBaseDamage = calculateSpellDamage(rwk, talents, stats);
+  const rwkDirectHealing = calculateSpellHealing(rwk, talents, stats);
   const rwkDamageHealing = calculateAncientTeachingsHealing(rwkBaseDamage, talents, false, rwk);
 
   const rwkMaxDamageTargets = rwk.custom.maxDamageTargets;
@@ -170,14 +172,18 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
   };
 
   const handleTalentChange = (talent: spell, checked: boolean) => {
-    setTalents(new Map(talents).set(talent, checked));
+    setTalents(prev => new Map(prev).set(talent, checked));
   };
 
   const specTalentSubset = new Map<spell, boolean>([
-    [TALENTS.YULONS_KNOWLEDGE, talents.get(TALENTS.YULONS_KNOWLEDGE) ?? false],
     [TALENTS.JADEFIRE_TEACHINGS, talents.get(TALENTS.JADEFIRE_TEACHINGS) ?? false],
     [TALENTS.MORNING_BREEZE, talents.get(TALENTS.MORNING_BREEZE) ?? false],
     [TALENTS.SPIRITFONT, talents.get(TALENTS.SPIRITFONT) ?? false],
+  ]);
+
+  const heroTalentSubset = new Map<spell, boolean>([
+    [TALENTS.YULONS_KNOWLEDGE, talents.get(TALENTS.YULONS_KNOWLEDGE) ?? false],
+    [TALENTS.MEDITATIVE_FOCUS, talents.get(TALENTS.MEDITATIVE_FOCUS) ?? false],
   ]);
 
   const classTalentSubset = new Map<spell, boolean>([
@@ -230,9 +236,13 @@ const RushingWindKickComparison: React.FC<{ title: string; description: string }
                 color={mistweaver.color}
                 onChange={handleTalentChange}
               />
+              <HeroTalentsCard
+                options={heroTalentSubset}
+                onChange={handleTalentChange}
+              />
               <TalentsCard
                 label="Class"
-                options={classTalentSubset} 
+                options={classTalentSubset}
                 color={CLASSES.MONK.color}
                 onChange={handleTalentChange}
               />
