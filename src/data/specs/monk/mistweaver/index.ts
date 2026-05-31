@@ -6,6 +6,7 @@ import MISTWEAVER_MONK_ROTATIONS from '@data/specs/monk/mistweaver/rotations';
 import { MISTWEAVER_MONK_BUFFS } from '@data/specs/monk/mistweaver/buffs';
 import MISTWEAVER_MONK_BUGS from '@data/specs/monk/mistweaver/bugs';
 import MONK_BUGS from '@data/specs/monk/bugs';
+import MISTWEAVER_DEFAULT_TALENTS from '@data/specs/monk/mistweaver/defaultTalents';
 
 const MISTWEAVER_MONK = attachGetters({
   key: "monk_mistweaver",
@@ -19,6 +20,7 @@ const MISTWEAVER_MONK = attachGetters({
   class: 'Monk',
   color: '#4ea55c',
   masteryCoefficient: 13.86,
+  defaultTalents: MISTWEAVER_DEFAULT_TALENTS,
   stats: {
     intellect: 620,
     mastery: 13.86 * 8, // 110.88%

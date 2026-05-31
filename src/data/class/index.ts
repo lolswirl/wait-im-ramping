@@ -1,5 +1,6 @@
 import spell from '@data/spells/spell';
 import type { Stats } from '@data/shared/stats';
+import type { SpecTalentConfig } from '@data/specs/monk/mistweaver/defaultTalents';
 import MISTWEAVER from '@data/specs/monk/mistweaver';
 import DISCIPLINE from '@data/specs/priest/discipline';
 import HOLY_PRIEST from '@data/specs/priest/holy';
@@ -25,6 +26,7 @@ export interface specialization {
   color: string;
   stats: Stats;
   masteryCoefficient: number;
+  defaultTalents?: SpecTalentConfig;
   buffs?: (spellList: spell[]) => spell[];
 
   getSpell?: (spellName: string) => spell | undefined;
