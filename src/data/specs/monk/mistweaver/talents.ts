@@ -82,7 +82,8 @@ const talents = {
             tigerPalmHits: 2,
             blackoutKickHits: 2,
             blackoutKickEffectiveness: 0.2,
-        }
+        },
+        exclusive: [1243155],
     },
     CRANE_STYLE: {
         name: "Crane Style",
@@ -198,7 +199,8 @@ const talents = {
         icon: 'ability_monk_uplift',
         custom: {
             sheilunsGiftIncrease: 0.20,
-        }
+        },
+        exclusive: [274909],
     },
     TEA_OF_SERENITY: {
         name: "Tea of Serenity",
@@ -360,6 +362,7 @@ const talents = {
         name: "Rising Mist",
         id: 274909,
         icon: 'ability_monk_effuse',
+        exclusive: [387991],
     },
     MISTS_OF_LIFE: {
         name: "Mists of Life",
@@ -392,7 +395,8 @@ const talents = {
         custom: {
             sheilunsGiftIncrease: 0.15,
             renewingMistIncrease: 0.30
-        }
+        },
+        exclusive: [388779]
     },
     YULONS_WHISPER: {
         name: "Yulon's Whisper",
