@@ -41,7 +41,8 @@ const talents = {
         custom: {
             spellpowerIncrease: 300,
             chainVal: 0.25,
-        }
+        },
+        exclusive: [1277302]
     },
     DANCE_OF_CHI_JI: {
         name: "Dance of Chi-Ji",
@@ -331,7 +332,8 @@ const talents = {
         icon: 'expansionicon_mistsofpandaria',
         custom: {
             masteryMultiplier: 0.20,
-        }
+        },
+        exclusive: [467317],
     },
     EMPERORS_ELIXIR: {
         name: "Emperor's Elixir",
