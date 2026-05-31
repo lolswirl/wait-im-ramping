@@ -9,6 +9,7 @@ const talents = {
         name: "Invigorating Mists",
         id: 274586,
         icon: 'ability_monk_vivify',
+        coeff: 3.2318,
         custom: {
             sheilunsMainTargetIncrease: 5.0,
         }
