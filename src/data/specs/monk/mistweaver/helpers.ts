@@ -145,7 +145,7 @@ const resolveCoeff = (coeff: spell['coeff'], type: 'damage' | 'healing'): number
 export const calcSpellValue = (spell: spell, spellpower: number, type: 'damage' | 'healing' = 'healing'): number => {
     const coeff = resolveCoeff(spell.coeff, type);
     if (coeff === undefined) return 0;
-    return spellpower * coeff * getSpellAura(spell.id, corePassive.MISTWEAVER_MONK);
+    return spellpower * coeff * getSpellAura(spell, corePassive.MISTWEAVER_MONK);
 };
 
 export const calculateSpellDamage = (

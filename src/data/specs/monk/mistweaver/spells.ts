@@ -40,6 +40,7 @@ const spells = {
         school: SCHOOLS.NATURE,
         coeff: 0.23296 * 0.65779532967033, // base x multi to get to matched ingame value, not sure where its scaled
         category: CATEGORY.DAMAGE,
+        periodic: true,
     },
     SPINNING_CRANE_KICK: {
         name: 'Spinning Crane Kick',
@@ -64,6 +65,7 @@ const spells = {
             duration: 20
         },
         category: CATEGORY.HEALING,
+        periodic: true,
     },
     SOOTHING_MIST: {
         name: 'Soothing Mist',
@@ -76,6 +78,7 @@ const spells = {
             replaceGCD: 1
         },
         category: CATEGORY.HEALING,
+        periodic: true,
     },
     ENVELOPING_MIST: {
         name: 'Enveloping Mist',
@@ -89,6 +92,7 @@ const spells = {
             amp: 1.1,
         },
         category: CATEGORY.HEALING,
+        periodic: true,
     },
     VIVIFY: {
         name: 'Vivify',

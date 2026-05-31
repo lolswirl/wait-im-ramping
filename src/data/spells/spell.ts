@@ -27,6 +27,7 @@ export default interface spell {
     school?: (typeof SCHOOLS)[keyof typeof SCHOOLS];
 
     coeff?: number | { damage?: number; healing?: number };
+    periodic?: boolean;
 
     value?: {
         healing?: number;
