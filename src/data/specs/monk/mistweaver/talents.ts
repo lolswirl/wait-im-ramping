@@ -446,12 +446,12 @@ const talents = {
     // master of harmony
     HARMONIC_SURGE: {
         name: "Harmonic Surge",
-        id: 1239442,
+        id: 1270958,
         icon: 'ability_socererking_forcenova',
         heroTalent: MOH,
-        value: {
-            healing: 1177,
-            damage: 471,
+        coeff: {
+            damage: 0.4,
+            healing: 2,
         },
         custom: {
             targetsHit: 5
@@ -577,10 +577,11 @@ const talents = {
         id: 443087,
         icon: 'ability_monk_summontigerstatue',
         heroTalent: COTC,
-        value: {
-            healing: 6399,
-            damage: 2133,
-        }
+        coeff: {
+            damage: 3.51,
+            healing: 3.51 * 2
+        },
+        school: SCHOOLS.PHYSICAL,
     },
     HEART_OF_THE_JADE_SERPENT: {
         name: "Heart of the Jade Serpent",
@@ -593,9 +594,9 @@ const talents = {
         id: 443110,
         icon: 'ability_monk_chargingoxwave',
         heroTalent: COTC,
+        coeff: 1.5, // interpolated via 930 amount ingame
         custom: {
             targets: 5,
-            absorbAmount: 930,
         }
     },
     FLIGHT_OF_THE_RED_CRANE: {
