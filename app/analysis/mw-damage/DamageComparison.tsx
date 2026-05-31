@@ -27,7 +27,7 @@ import {
   simulateMeleeRotation,
   simulateMeleeRotationAt2Stacks,
   simulateSpinningCraneKick,
-  simulateJadeEmpowerment,
+  simulateCracklingJadeLightning,
   simulateRSKWithSCK,
   simulateRSKWithSCKAndBok,
 } from "./simulations";
@@ -67,6 +67,7 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
     [TALENTS.RUSHING_WIND_KICK, false],
     [TALENTS.SPIRITFONT, false], // haha lol not used
     [TALENTS.MORNING_BREEZE, true], // used in keys woo
+    [TALENTS.JADE_EMPOWERMENT, false],
   ]));
 
   const [heroTalents, setHeroTalents] = useState<Map<spell, boolean>>(new Map<spell, boolean>([
@@ -138,11 +139,13 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
     // },
     {
       dataKey: 'je',
-      label: 'JE',
-      spells: [TALENTS.JADE_EMPOWERMENT],
-      simulateFn: simulateJadeEmpowerment,
+      label: talents.get(TALENTS.JADE_EMPOWERMENT) ? 'CJL + JE' : 'CJL',
+      spells: talents.get(TALENTS.JADE_EMPOWERMENT)
+        ? [SPELLS.CRACKLING_JADE_LIGHTNING, TALENTS.JADE_EMPOWERMENT]
+        : [SPELLS.CRACKLING_JADE_LIGHTNING],
+      simulateFn: simulateCracklingJadeLightning,
     },
-  ].map((e, i) => ({ ...e, color: RAINBOW_COLORS[i % RAINBOW_COLORS.length] })), [useRwk]);
+  ].map((e, i) => ({ ...e, color: RAINBOW_COLORS[i % RAINBOW_COLORS.length] })), [useRwk, talents]);
 
   useEffect(() => {
     setDamageData(

@@ -262,17 +262,20 @@ export const calculateJadeEmpowermentData = (
   };
 };
 
-export const simulateJadeEmpowerment = (
+export const simulateCracklingJadeLightning = (
   totalTime: number,
   targets: number,
   asHealing: boolean,
   params: SimulationParams
 ): DamagePoint[] => {
   const { talents, stats } = params;
+  const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
   const tickInterval = 1.5; // not really 1.5s, actual is every 0.75 but graphing it is weird here
-  const ticksPerChannel = SPELLS.CRACKLING_JADE_LIGHTNING.castTime / tickInterval;
-  const jeData = calculateJadeEmpowermentData(targets, talents, stats);
-  const tickValue = (asHealing ? jeData.healing : jeData.damage) / ticksPerChannel;
+  const ticksPerChannel = cjl.castTime / tickInterval;
+  const channelData = talents.get(TALENTS.JADE_EMPOWERMENT)
+    ? calculateJadeEmpowermentData(targets, talents, stats)
+    : calculateAncientTeachingsData(cjl, talents, stats);
+  const tickValue = (asHealing ? channelData.healing : channelData.damage) / ticksPerChannel;
 
   const actions: RotationAction[] = [
     {
