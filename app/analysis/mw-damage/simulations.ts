@@ -253,7 +253,7 @@ export const simulateJadeEmpowerment = (
   const { talents, stats } = params;
   const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
   const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
-  const tickInterval = 1.5;
+  const tickInterval = 1.5; // not really 1.5s, actual is every 0.75 but graphing it is weird here
   const ticksPerChannel = cjl.castTime / tickInterval;
 
   const baseCJLDamage = calculateSpellDamage(cjl, talents, stats);
