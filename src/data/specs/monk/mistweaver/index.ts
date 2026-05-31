@@ -7,6 +7,8 @@ import { MISTWEAVER_MONK_BUFFS } from '@data/specs/monk/mistweaver/buffs';
 import MISTWEAVER_MONK_BUGS from '@data/specs/monk/mistweaver/bugs';
 import MONK_BUGS from '@data/specs/monk/bugs';
 import MISTWEAVER_DEFAULT_TALENTS from '@data/specs/monk/mistweaver/defaultTalents';
+import corePassive from '@data/specs/monk/mistweaver/core-passive/core-passive';
+import corePassive2 from '@data/specs/monk/mistweaver/core-passive/core-passive-2';
 
 const MISTWEAVER_MONK = attachGetters({
   key: "monk_mistweaver",
@@ -20,6 +22,7 @@ const MISTWEAVER_MONK = attachGetters({
   class: 'Monk',
   color: '#4ea55c',
   masteryCoefficient: 13.86,
+  corePassives: [corePassive.MISTWEAVER_MONK, corePassive2.MISTWEAVER_MONK_2],
   defaultTalents: MISTWEAVER_DEFAULT_TALENTS,
   stats: {
     intellect: 620,

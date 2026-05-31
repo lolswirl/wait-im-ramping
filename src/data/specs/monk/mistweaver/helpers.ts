@@ -4,7 +4,7 @@ import SHARED from "@data/specs/monk/talents";
 import SPELLS from "@data/spells";
 import { SCHOOLS } from "@data/shared/schools";
 import { getSpellAura } from "@data/core-passives/core-passive";
-import corePassive from "@data/specs/monk/mistweaver/core-passive/core-passive";
+import type CorePassive from "@data/core-passives/core-passive";
 import type { Stats } from '@data/shared/stats';
 
 export type TalentMap = Map<spell, boolean>;
@@ -142,20 +142,21 @@ const resolveCoeff = (coeff: spell['coeff'], type: 'damage' | 'healing'): number
     return coeff[type];
 };
 
-export const calcSpellValue = (spell: spell, spellpower: number, type: 'damage' | 'healing' = 'healing'): number => {
+export const calcSpellValue = (spell: spell, spellpower: number, type: 'damage' | 'healing' = 'healing', corePassives: CorePassive[] = []): number => {
     const coeff = resolveCoeff(spell.coeff, type);
     if (coeff === undefined) return 0;
-    return spellpower * coeff * getSpellAura(spell, corePassive.MISTWEAVER_MONK);
+    return spellpower * coeff * getSpellAura(spell, corePassives);
 };
 
 export const calculateSpellDamage = (
     spell: spell,
     talents?: TalentMap,
-    stats?: Stats
+    stats?: Stats,
+    corePassives: CorePassive[] = []
 ): number => {
     const coeff = resolveCoeff(spell.coeff, 'damage');
     const base = stats?.intellect !== undefined && coeff !== undefined
-        ? calcSpellValue(spell, stats.intellect, 'damage')
+        ? calcSpellValue(spell, stats.intellect, 'damage', corePassives)
         : (spell.value?.damage ?? 0);
     return base * calculateSpellDamageMultiplier(spell, talents, stats);
 };
@@ -163,11 +164,12 @@ export const calculateSpellDamage = (
 export const calculateSpellHealing = (
     spell: spell,
     talents?: TalentMap,
-    stats?: Stats
+    stats?: Stats,
+    corePassives: CorePassive[] = []
 ): number => {
     const coeff = resolveCoeff(spell.coeff, 'healing');
     const base = stats?.intellect !== undefined && coeff !== undefined
-        ? calcSpellValue(spell, stats.intellect, 'healing')
+        ? calcSpellValue(spell, stats.intellect, 'healing', corePassives)
         : (spell.value?.healing ?? 0);
     return base * calculateSpellHealingMultiplier(spell, talents, stats);
 };

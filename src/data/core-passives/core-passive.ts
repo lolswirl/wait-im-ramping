@@ -14,9 +14,9 @@ export interface CorePassiveEffect {
     affectedSpells?: number[];
 }
 
-export const getSpellAura = (spell: Spell, corePassive: CorePassive): number => {
-    if (!corePassive.effects) return 1;
-    return corePassive.effects
+export const getSpellAura = (spell: Spell, corePassives: CorePassive | CorePassive[]): number => {
+    const passives = Array.isArray(corePassives) ? corePassives : [corePassives];
+    return passives.flatMap(p => p.effects ?? [])
         .filter(e => {
             if (typeof e.value !== 'number') return false;
             if (!e.affectedSpells?.includes(spell.id)) return false;
