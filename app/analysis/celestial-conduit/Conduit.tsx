@@ -18,7 +18,7 @@ import spell, { calcSpellpower } from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
-import { calculateSpellHealing } from "@data/specs/monk/mistweaver/helpers";
+import { calculateSpellHealing, calculateAncientTeachingsData } from "@data/specs/monk/mistweaver/helpers";
 import { T } from "@util/T";
 import { pluralize } from "@util/stringManipulation";
 
@@ -77,7 +77,7 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
         (_, i) => i + 1
     );
 
-    const conduitSpellpower = calcSpellpower(celestialConduit.value.healing, intellect);
+    const conduitSpellpower = celestialConduit.coeff.healing;
     const conduitSpellpowerCalc = (targets: number) => conduitSpellpower;
     const conduitSpellpowers = conduitValues.map(conduitSpellpowerCalc);
 
@@ -123,27 +123,15 @@ const Conduit: React.FC<{ title: string; description: string }> = ({
         return calcSpellpower(totalHealing, intellect);
     };
 
-    const cracklingJadeLightningDamage =
-        SPELLS.CRACKLING_JADE_LIGHTNING.value.damage;
-
-    const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
-    const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
-    const ancientTeachingsTransfer =
-        ancientTeachings.custom?.transferRate +
-        jadefireTeachings.custom?.transferRate;
-    const ancientTeachingsArmorModifier =
-        ancientTeachings.custom?.armorModifier;
+    const cjlHealing = calculateAncientTeachingsData(SPELLS.CRACKLING_JADE_LIGHTNING, selectedTalents, mistweaver.stats).healing;
+    const cjlSpCoeff = (cjlHealing / intellect) * 100;
 
     const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
     const jadeEmpowermentIncrease = jadeEmpowerment.custom?.spellpowerIncrease / 100;
     const jadeEmpowermentChain =
         jadeEmpowermentIncrease * jadeEmpowerment.custom?.chainVal;
 
-    const jeSpellpowerCalc = (value: number) =>
-        (cracklingJadeLightningDamage / intellect) *
-        value *
-        ancientTeachingsTransfer *
-        ancientTeachingsArmorModifier;
+    const jeSpellpowerCalc = (value: number) => cjlSpCoeff * value;
     const jeValues = Array.from(
         { length: 5 },
         (_, i) => jadeEmpowermentIncrease + i * jadeEmpowermentChain

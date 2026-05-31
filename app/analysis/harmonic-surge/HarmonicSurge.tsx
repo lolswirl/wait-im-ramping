@@ -32,11 +32,6 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
     const intellect = mistweaver.stats.intellect;
 
-    const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
-    const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
-    const ancientTeachingsTransfer = ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate;
-    const ancientTeachingsArmorModifier = ancientTeachings.custom.armorModifier;
-
     const wayOfTheCrane = TALENTS.WAY_OF_THE_CRANE;
     const wayOfTheCraneTigerPalmHits = wayOfTheCrane.custom.tigerPalmHits;
 
@@ -96,11 +91,12 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const risingSunKickChiJiGustHealing = includeChiJiGusts ? chijiGustSpellpower * 6 : 0;
 
     const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
-    const cracklingJadeLightningDamage = cjl.value!.damage!;
+    const cjlData = calculateAncientTeachingsData(cjl, selectedTalents, mistweaver.stats);
+    const cjlSpCoeff = (cjlData.healing / intellect) * 100;
     const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
     const jadeEmpowermentIncrease = jadeEmpowerment.custom.spellpowerIncrease / 100;
     const jadeEmpowermentChain = jadeEmpowermentIncrease * jadeEmpowerment.custom.chainVal;
-    const jeSpellpowerCalc = (value: number) => (cracklingJadeLightningDamage / intellect) * value * ancientTeachingsTransfer * ancientTeachingsArmorModifier;
+    const jeSpellpowerCalc = (value: number) => cjlSpCoeff * value;
     const jeValues = Array.from({ length: 5 }, (_, i) => i + 1);
     let jeSpellpowers = jeValues.map(value => jeSpellpowerCalc(jadeEmpowermentIncrease + (value - 1) * jadeEmpowermentChain));
 
