@@ -13,6 +13,14 @@ const HOLY_PALADIN = attachGetters({
   color: "#ffe38e",
   rotations: HOLY_PALADIN_ROTATIONS,
   bugs: HOLY_PALADIN_BUGS,
+  masteryCoefficient: 1.5,
+  stats: {
+    intellect: 0,
+    mastery: 1.5 * 8, // 12%
+    crit: 0,
+    versatility: 0,
+    haste: 0,
+  },
 } satisfies specialization);
 
 export default HOLY_PALADIN;

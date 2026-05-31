@@ -11,6 +11,14 @@ const HOLY_PRIEST = attachGetters({
   name: 'Holy',
   class: 'Priest',
   color: '#668ea7',
+  masteryCoefficient: 0.908437,
+  stats: {
+    intellect: 0,
+    mastery: 0.908437 * 8, // 7.267496%
+    crit: 0,
+    versatility: 0,
+    haste: 0,
+  },
 } satisfies specialization);
 
 export default HOLY_PRIEST;

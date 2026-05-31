@@ -1,4 +1,5 @@
 import spell from '@data/spells/spell';
+import type { Stats } from '@data/shared/stats';
 import MISTWEAVER from '@data/specs/monk/mistweaver';
 import DISCIPLINE from '@data/specs/priest/discipline';
 import HOLY_PRIEST from '@data/specs/priest/holy';
@@ -22,13 +23,8 @@ export interface specialization {
   name: string;
   class: string;
   color: string;
-  stats?: {
-    intellect?: number;
-    haste?: number;
-    crit?: number;
-    versatility?: number;
-    mastery?: number;
-  };
+  stats: Stats;
+  masteryCoefficient: number;
   buffs?: (spellList: spell[]) => spell[];
 
   getSpell?: (spellName: string) => spell | undefined;

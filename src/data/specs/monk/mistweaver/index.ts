@@ -18,9 +18,10 @@ const MISTWEAVER_MONK = attachGetters({
   name: 'Mistweaver',
   class: 'Monk',
   color: '#4ea55c',
+  masteryCoefficient: 13.86,
   stats: {
     intellect: 620,
-    mastery: 110.879,
+    mastery: 13.86 * 8, // 110.88%
     crit: 0,
     versatility: 0,
     haste: 0,

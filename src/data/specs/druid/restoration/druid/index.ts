@@ -11,6 +11,14 @@ const RESTORATION_DRUID = attachGetters({
   name: 'Restoration',
   class: 'Druid',
   color: '#29ab30',
+  masteryCoefficient: 1.14,
+  stats: {
+    intellect: 0,
+    mastery: 1.14 * 8, // 9.12%
+    crit: 0,
+    versatility: 0,
+    haste: 0,
+  },
 } satisfies specialization);
 
 export default RESTORATION_DRUID;
