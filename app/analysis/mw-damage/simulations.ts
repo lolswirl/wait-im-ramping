@@ -4,6 +4,7 @@ import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import {
   calculateAncientTeachingsHealing,
+  calculateAncientTeachingsData,
   calculateWayOfTheCraneHealing,
   calculateSpellDamage,
   calculateSpellHealing,
@@ -244,6 +245,23 @@ export const simulateSpinningCraneKick = (
   return runRotation(actions, totalTime);
 };
 
+export const calculateJadeEmpowermentData = (
+  targets: number,
+  talents: Map<spell, boolean>,
+  stats: Stats
+): { damage: number; healing: number } => {
+  const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
+  const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
+  const effectiveTargets = Math.min(targets, 5);
+  const jeMultiplier = (1 + jadeEmpowerment.custom.spellpowerIncrease / 100)
+    * (1 + jadeEmpowerment.custom.chainVal * (effectiveTargets - 1));
+  const channelData = calculateAncientTeachingsData(cjl, talents, stats);
+  return {
+    damage: channelData.damage * jeMultiplier,
+    healing: channelData.healing * jeMultiplier,
+  };
+};
+
 export const simulateJadeEmpowerment = (
   totalTime: number,
   targets: number,
@@ -251,21 +269,10 @@ export const simulateJadeEmpowerment = (
   params: SimulationParams
 ): DamagePoint[] => {
   const { talents, stats } = params;
-  const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
-  const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
   const tickInterval = 1.5; // not really 1.5s, actual is every 0.75 but graphing it is weird here
-  const ticksPerChannel = cjl.castTime / tickInterval;
-
-  const baseCJLDamage = calculateSpellDamage(cjl, talents, stats);
-  const effectiveTargets = Math.min(targets, 5);
-  const baseDamageWithIncrease = baseCJLDamage * (1 + jadeEmpowerment.custom.spellpowerIncrease / 100);
-  const totalDamagePerChannel = baseDamageWithIncrease * (1 + jadeEmpowerment.custom.chainVal * (effectiveTargets - 1));
-  const baseDamagePerTick = totalDamagePerChannel / ticksPerChannel;
-  const tickValue = (
-    asHealing 
-      ? calculateAncientTeachingsHealing(baseDamagePerTick, talents, true, cjl) 
-      : baseDamagePerTick
-  );
+  const ticksPerChannel = SPELLS.CRACKLING_JADE_LIGHTNING.castTime / tickInterval;
+  const jeData = calculateJadeEmpowermentData(targets, talents, stats);
+  const tickValue = (asHealing ? jeData.healing : jeData.damage) / ticksPerChannel;
 
   const actions: RotationAction[] = [
     {
