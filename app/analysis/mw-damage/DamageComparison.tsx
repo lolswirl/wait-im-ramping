@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Box, Container, Divider, TextField, useTheme, Card, Typography, Tab, Tabs, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Box, Container, Divider, TextField, useTheme, Card, Typography, Tab, Tabs, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Accordion, AccordionSummary, AccordionDetails, Skeleton } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 import { Refresh, EmojiEvents } from "@mui/icons-material";
 import SwirlButton from "@components/Buttons/SwirlButton";
@@ -51,6 +51,8 @@ type RotationConfig = {
 
 const DamageComparison: React.FC<{ title: string; description: string }> = ({ title, description }) => {
   const theme = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
   const [timeSpent, setTimeSpent] = useState(60);
   const [targetCount, setTargetCount] = useState(1);
   const [activeTab, setActiveTab] = useState(0);
@@ -405,6 +407,37 @@ const DamageComparison: React.FC<{ title: string; description: string }> = ({ ti
       fill: false,
     }))
   };
+
+  if (!mounted) return (
+    <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
+      <PageHeader title={title} subtitle={description} marginBottom={0} />
+      {/* controls card */}
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, p: 2 }}>
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap', mb: 2 }}>
+          <Skeleton variant="rounded" width={160} height={40} />
+          <Skeleton variant="rounded" width={100} height={40} />
+          <Skeleton variant="rounded" width={140} height={40} />
+        </Box>
+        <Divider />
+        <Box sx={{ pt: 2, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+          <Skeleton variant="rounded" width={180} height={80} />
+          <Skeleton variant="rounded" width={180} height={80} />
+          <Skeleton variant="rounded" width={180} height={80} />
+        </Box>
+      </Card>
+      {/* stat cards + chart */}
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, p: 2 }}>
+        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 2 }}>
+          {[...Array(5)].map((_, i) => <Skeleton key={i} variant="rounded" sx={{ flex: '1 1 140px' }} height={80} />)}
+        </Box>
+        <Skeleton variant="rounded" width="100%" height={500} />
+      </Card>
+      {/* heatmap */}
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, p: 2 }}>
+        <Skeleton variant="rounded" width="100%" height={320} />
+      </Card>
+    </Container>
+  );
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
