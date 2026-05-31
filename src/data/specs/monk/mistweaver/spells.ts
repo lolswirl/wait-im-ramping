@@ -38,9 +38,7 @@ const spells = {
         icon: 'ability_monk_cracklingjadelightning',
         castTime: 3,
         school: SCHOOLS.NATURE,
-        value: {
-            damage: 1173
-        },
+        coeff: 0.23296 * 0.65779532967033, // base x multi to get to matched ingame value, not sure where its scaled
         category: CATEGORY.DAMAGE,
     },
     SPINNING_CRANE_KICK: {
@@ -61,9 +59,7 @@ const spells = {
         castTime: 0,
         cooldown: 9,
         school: SCHOOLS.NATURE,
-        value: {
-            healing: 1134
-        },
+        coeff: 1.9665,
         custom: {
             duration: 20
         },
@@ -75,6 +71,7 @@ const spells = {
         icon: 'ability_monk_soothingmists',
         castTime: 1,
         school: SCHOOLS.NATURE,
+        coeff: 16.8,
         custom: {
             replaceGCD: 1
         },
@@ -86,9 +83,8 @@ const spells = {
         icon: 'spell_monk_envelopingmist',
         castTime: 2,
         school: SCHOOLS.NATURE,
-        coeff: 1.248,
+        coeff: 7.488, // total
         custom: {
-            directCoeff: 7.488,
             duration: 6,
             amp: 1.1,
         },
@@ -155,6 +151,7 @@ const spells = {
         id: 115310,
         icon: 'spell_monk_revival',
         castTime: 0,
+        coeff: 59.8828,
         school: SCHOOLS.NATURE,
         category: CATEGORY.COOLDOWN,
     },
@@ -180,9 +177,9 @@ const spells = {
         castTime: 4,
         cooldown: 90,
         school: SCHOOLS.NATURE,
-        value: {
-            healing: 31284,
-            damage: 8088,
+        coeff: {
+            damage: 2.288 * 5,
+            healing: 11 * 5,
         },
         custom: {
             maxTargets: 5,
