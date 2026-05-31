@@ -41,10 +41,11 @@ const fieldStyles = {
 const statFields: StatField[] = [
     { key: 'intellect', label: 'Intellect', min: 1 },
     { key: 'totalHp', label: 'Total HP', min: 1 },
+    { key: 'haste', label: 'Haste %', min: 0 },
     { key: 'crit', label: 'Crit %', min: 0, tooltip: "We're using the law of large numbers to assume that, out of a large number of casts, you will critically strike as often as your crit percentage." },
     { key: 'versatility', label: 'Vers %', min: 0 },
     { key: 'mastery', label: 'Mastery %', min: 55.4 },
-    { key: 'haste', label: 'Haste %', min: 0 },
+    
 ];
 
 const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
