@@ -375,9 +375,7 @@ const talents = {
         icon: 'inv_ability_monk_jadefirestomp',
         school: SCHOOLS.NATURE,
         castTime: 0,
-        value: {
-            damage: 10233,
-        },
+        coeff: 1.04,
         custom: {
             enemyTargets: 5,
             friendlyTargets: 5,
