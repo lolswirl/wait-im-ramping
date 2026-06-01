@@ -11,7 +11,6 @@ const talents = {
         icon: 'ability_monk_vivify',
         coeff: 3.2318,
         custom: {
-            targetsHit: 20, // sorta max hits, just for display purposes on spell ref
             sheilunsMainTargetIncrease: 5.0,
         }
     },
@@ -316,9 +315,6 @@ const talents = {
         id: 124081,
         icon: 'ability_monk_forcesphere',
         coeff: 1.6,
-        custom: {
-            targetsHit: 20,
-        }
     },
     UPLIFTED_SPIRITS: {
         name: "Uplifted Spirits",
