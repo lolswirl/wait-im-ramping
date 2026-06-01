@@ -86,7 +86,7 @@ const HEALING_MULTIPLIER_RULES: TalentRule[] = [
     {
         talent: SHARED.CHI_PROFICIENCY,
         getValue: () => SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease,
-        appliesTo: (spell) => spell.category === CATEGORY.HEALING
+        appliesTo: (spell) => spell.category === CATEGORY.HEALING || spell.category === CATEGORY.COOLDOWN
     },
     {
         talent: TALENTS.TEAR_OF_MORNING,
@@ -149,7 +149,7 @@ export const calcSpellValue = (spell: spell, player: Player, type: 'damage' | 'h
     if (coeff === undefined) return 0;
     const critMultiplier = 1 + (player.stats.crit / 100);
     const versMultiplier = 1 + (player.stats.versatility / 100);
-    return player.stats.intellect * coeff * getSpellAura(spell, player.corePassives) * critMultiplier * versMultiplier;
+    return player.stats.intellect * coeff * getSpellAura(spell, player.corePassives, type) * critMultiplier * versMultiplier;
 };
 
 export const calculateSpellDamage = (spell: spell, player: Player): number => {
