@@ -158,7 +158,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
             );
         }
         return filtered.sort((a, b) =>
-            new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
+            b.createdDate.getTime() - a.createdDate.getTime()
         );
     }, [filteredAnalysisPages, selectedTags]);
 

@@ -15,6 +15,7 @@ import Timeline from "./timeline/Timeline";
 import SPELLS from "@data/spells";
 import SpellLink from "@components/SpellLink";
 import TALENTS from "@data/talents";
+import { date } from "@util/stringManipulation";
 
 export interface AnalysisPage {
   label: React.ReactNode;
@@ -23,7 +24,7 @@ export interface AnalysisPage {
   description: React.ReactNode;
   extra?: string;
   tags: string[];
-  createdDate: string;
+  createdDate: Date;
   component: React.ComponentType<{ title: React.ReactNode; description: React.ReactNode }>;
 }
 
@@ -33,7 +34,7 @@ export const externalComparison = {
   preview: "/previews/external-comparison.png",
   description: "Compare the effectiveness of Damage Reduction to find how damage can scale past Absorbs",
   tags: ["Damage Reduction"],
-  createdDate: "2025-03-10",
+  createdDate: date(2025, 3, 10),
   component: AbsorbVsDRCompare
 };
 
@@ -44,7 +45,7 @@ export const mwDamage = {
   preview: "/previews/mw-damage.png",
   description: "Evaluate formulated damage output of various Mistweaver rotations",
   tags: ["Rotation", "Damage"],
-  createdDate: "2025-03-26",
+  createdDate: date(2025, 3, 26),
   component: DamageComparison
 };
 
@@ -56,7 +57,7 @@ export const harmonicSurge = {
     Analyze <SpellLink spell={TALENTS.HARMONIC_SURGE}/>'s spellpower output compared to the other <SpellLink spell={TALENTS.ANCIENT_TEACHINGS}/> abilities
   </>,
   tags: ["Procs", "Monk"],
-  createdDate: "2025-06-28",
+  createdDate: date(2025, 6, 28),
   component: HarmonicSurge
 };
 
@@ -70,7 +71,7 @@ export const risingSunKickResets = {
     Find the probabilities of <SpellLink spell={SPELLS.RISING_SUN_KICK}/> resets based on various input rotations
   </>,
   tags: ["Probability", "Monk", "Rotation"],
-  createdDate: "2025-07-10",
+  createdDate: date(2025, 7, 10),
   component: RisingSunKickResets
 };
 
@@ -84,7 +85,7 @@ export const chiJi = {
     Simulate the theoretical HPS of various rotations done inside of <SpellLink spell={SPELLS.CHI_JI}/>
   </>,
   tags: ["Healing", "Monk", "Rotation"],
-  createdDate: "2025-07-12",
+  createdDate: date(2025, 7, 12),
   component: ChiJiPage
 };
 
@@ -96,7 +97,7 @@ export const heartOfTheJadeSerpent = {
     Analyze the effects of <SpellLink spell={TALENTS.HEART_OF_THE_JADE_SERPENT}/>'s increased cooldown recovery rate to find how many extra casts are received during a fight
   </>,
   tags: ["Monk"],
-  createdDate: "2025-08-01",
+  createdDate: date(2025, 8, 1),
   component: HotJS
 };
 
@@ -110,7 +111,7 @@ export const celestialConduit = {
     Analyze <SpellLink spell={SPELLS.CELESTIAL_CONDUIT}/>'s output compared to other spells and abilities
   </>,
   tags: ["Monk"],
-  createdDate: "2025-09-16",
+  createdDate: date(2025, 9, 16),
   component: Conduit
 };
 
@@ -122,7 +123,7 @@ export const mistyCoalescence = {
     Visually graph <SpellLink spell={SPELLS.RENEWING_MIST}/>'s healing increase based on group size with <SpellLink spell={TALENTS.MISTY_COALESCENCE}/>
   </>,
   tags: ["Healing", "Monk"],
-  createdDate: "2026-1-25",
+  createdDate: date(2026, 1, 25),
   component: MistyCoalescence
 };
 
@@ -136,7 +137,7 @@ export const jadefireTeachingsRwk = {
     Comparison of <SpellLink spell={SPELLS.RISING_SUN_KICK}/> (<SpellLink spell={TALENTS.JADEFIRE_TEACHINGS}/>) and <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> damage and healing output
   </>,
   tags: ["Healing", "Monk"],
-  createdDate: "2026-02-15",
+  createdDate: date(2026, 2, 15),
   component: RushingWindKickComparison
 };
 
@@ -150,7 +151,7 @@ export const sheilunVsDocj = {
     Comparing the healing output of <SpellLink spell={SPELLS.SHEILUNS_GIFT}/> main target to a <SpellLink spell={TALENTS.DANCE_OF_CHI_JI}/> proc (1 Friendly Only)
   </>,
   tags: ["Healing", "Monk"],
-  createdDate: "2026-04-15",
+  createdDate: date(2026, 4, 15),
   component: SheilunVsDocJ
 };
 
@@ -164,7 +165,7 @@ export const sheilunsGiftBreakdown = {
     Detailed breakdown of <SpellLink spell={SPELLS.SHEILUNS_GIFT}/>'s healing distribution
   </>,
   tags: ["Healing", "Monk"],
-  createdDate: "2026-04-22",
+  createdDate: date(2026, 4, 22),
   component: SheilunsGiftBreakdown
 };
 
@@ -174,7 +175,7 @@ export const whenDoIRamp = {
   preview: "/previews/when-do-i-ramp.png",
   description: "Calculate ramp timings for spell cast efficiency and planning",
   tags: ["Healing", "Damage", "Rotation"],
-  createdDate: "2025-02-28",
+  createdDate: date(2025, 2, 28),
   component: WhenDoIRamp
 };
 
@@ -184,7 +185,7 @@ export const spellTimeline = {
   preview: "/previews/timeline.png",
   description: "Create customized timelines for spell casts and cooldowns",
   tags: ["Healing", "Damage", "Rotation"],
-  createdDate: "2025-03-10",
+  createdDate: date(2025, 3, 10),
   component: Timeline
 };
 
@@ -194,7 +195,7 @@ export const spellReference = {
   preview: "/previews/spell-reference.png",
   description: "Spellpower coefficients and absolute values for spells",
   tags: [],
-  createdDate: "2026-05-31",
+  createdDate: date(2026, 5, 31),
   component: SpellReference,
 };
 
