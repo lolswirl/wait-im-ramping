@@ -41,10 +41,10 @@ const Conduit: React.FC<{ title: React.ReactNode; description: React.ReactNode }
 
     const [selectedTalents, setSelectedTalents] = useState(
         new Map<spell, boolean>([
+            [TALENTS.UNITY_WITHIN, true],
             [SPELLS.SHEILUNS_GIFT, false],
             [TALENTS.LEGACY_OF_WISDOM, false],
             [TALENTS.EMPERORS_FAVOR, false],
-            [TALENTS.UNITY_WITHIN, true],
             [TALENTS.JADE_EMPOWERMENT, false],
         ])
     );
@@ -85,9 +85,8 @@ const Conduit: React.FC<{ title: React.ReactNode; description: React.ReactNode }
     const unityWithinSpellpowerCalc = (targets: number) =>
         selectedTalents.get(TALENTS.UNITY_WITHIN)
             ? calculateUnityWithin(
-                  intellect,
                   targets,
-                  selectedTalents.get(TALENTS.UNITY_WITHIN)!
+                  selectedTalents.get(TALENTS.UNITY_WITHIN)!,
               ).spellpower * 100
             : 0;
     const unityWithinSpellpowers = conduitValues.map(unityWithinSpellpowerCalc);
@@ -146,7 +145,7 @@ const Conduit: React.FC<{ title: React.ReactNode; description: React.ReactNode }
 
     const allAbilities = [
         ...conduitValues.map((value, index) => ({
-            label: `CC ${value} ` + pluralize(value, "Target"),
+            label: T(`CC ${value} ` + pluralize(value, "Target")),
             conduitValue: conduitSpellpowers[index],
             unityValue: unityWithinSpellpowers[index],
             totalValue:
