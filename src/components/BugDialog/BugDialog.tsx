@@ -1,18 +1,15 @@
 import React from "react";
 import {
     Dialog,
-    DialogTitle,
     DialogContent,
     DialogActions,
     Typography,
     Box,
     Stack,
-    Card,
-    CardContent,
-    Link,
+    Divider,
 } from "@mui/material";
 import SpellLink from "@components/SpellLink/SpellLink";
-import { T } from "@util/T";
+import SwirlLink from "@components/SwirlLink/SwirlLink";
 import { formatLogUrl } from "@util/stringManipulation";
 import { Bug, SEVERITY_COLORS } from "@data/bugs";
 import SwirlButton from "@components/Buttons/SwirlButton";
@@ -24,12 +21,25 @@ interface BugDialogProps {
     onClose: () => void;
 }
 
-const BugDialog: React.FC<BugDialogProps> = ({
-    open,
-    bug,
-    onClose,
-}) => {
+const Section: React.FC<{ label: string; children: React.ReactNode; severityColor: string }> = ({ label, children, severityColor }) => (
+    <Box sx={{
+        pl: 2,
+        borderLeft: "2px solid",
+        borderColor: severityColor,
+        pr: 1.5,
+        py: 0.5,
+    }}>
+        <Typography variant="body1" color="text.primary" fontWeight={600} sx={{ display: "block", mb: 0.5 }}>
+            {label}
+        </Typography>
+        {children}
+    </Box>
+);
+
+const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose }) => {
     if (!bug) return null;
+
+    const severityColor = SEVERITY_COLORS[bug.severity];
 
     return (
         <Dialog
@@ -39,276 +49,71 @@ const BugDialog: React.FC<BugDialogProps> = ({
             fullWidth
             PaperProps={{
                 sx: {
-                    backgroundColor: "rgba(26, 26, 26, 0.75)",
-                    backdropFilter: "blur(8px)",
-                    borderRadius: 1,
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                    backgroundColor: "background.paper",
+                    backgroundImage: "none",
+                    borderRadius: 2,
+                    border: "1px solid",
+                    borderColor: "divider",
                     overflow: "hidden",
                     minWidth: 400,
                     maxWidth: 680,
-                    backgroundImage: 'none',
                 },
             }}
         >
-            <DialogTitle
-                sx={{
-                    background: `linear-gradient(135deg, rgba(40,40,40,0.6) 0%, rgba(30,30,30,0.7) 0%)`,
-                    color: "white",
-                    px: 3,
-                    py: 2.5,
-                    borderBottom: "1px solid rgba(255,255,255,0.12)",
-                    position: "relative",
-                    overflow: "hidden",
-                    "&::after": {
-                        content: '""',
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        height: "3px",
-                        background: `linear-gradient(90deg, ${SEVERITY_COLORS[bug.severity]}, ${SEVERITY_COLORS[bug.severity]}80)`,
-                    }
-                }}
-            >
-                <Stack spacing={1.2}>
-                    <Typography component="div" variant="h5">
-                        <SpellLink 
-                            spell={bug.spell}
-                            size={32}
-                            gap={1.5}
-                            textSx={{ fontWeight: 700 }}
-                        />
-                    </Typography>
-                    <Typography
-                        component="div"
-                        variant="h6"
-                        sx={{
-                            color: "white", 
-                            lineHeight: 1.3,
-                            letterSpacing: "-0.01em"
-                        }}
-                    >
+            <Box sx={{ height: 3, background: severityColor }} />
+
+            <Box sx={{ px: 3, pt: 2.5, pb: 2, backgroundColor: `${severityColor}0d` }}>
+                <Stack spacing={0.75}>
+                    <SpellLink spell={bug.spell} size={18} textSx={{ fontSize: "0.78rem", color: "text.secondary" }} noLink />
+                    <Typography variant="h6" fontWeight={600} lineHeight={1.3}>
                         {bug.title}
                     </Typography>
                     <BugChips bug={bug} />
                 </Stack>
-            </DialogTitle>
+            </Box>
 
-            <DialogContent
-                sx={{
-                    p: 0,
-                    backgroundColor: "transparent",
-                    color: "white",
-                }}
-            >
-                <Box p={2}>
-                    <Stack spacing={1.5}>
-                            {bug.description && (
-                                <Card
-                                    sx={{
-                                        backgroundColor: "rgba(50, 50, 50, 0.85)",
-                                        border: "1px solid rgba(255,255,255,0.1)",
-                                        borderRadius: 1,
-                                        backdropFilter: "blur(1px)",
-                                        transition: "all 0.2s ease",
-                                        width: "100%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        "&:hover": {
-                                            backgroundColor: "rgba(55, 55, 55, 0.9)",
-                                            border: "1px solid " + SEVERITY_COLORS[bug.severity],
-                                        }
-                                    }}
-                                >
-                                    <CardContent sx={{ p: 2, "&:last-child": { pb: 2, pt: 2 }, flex: 1, display: "flex", flexDirection: "column" }}>
-                                        <Typography
-                                            variant="overline"
-                                            sx={{
-                                                color: "#f48fb1",
-                                                fontWeight: 800,
-                                                fontSize: '0.75rem',
-                                                letterSpacing: 1.2,
-                                                mb: 1.5,
-                                                mt: 0,
-                                                lineHeight: 1,
-                                                display: "block",
-                                                textTransform: "none",
-                                            }}
-                                        >
-                                            Description
-                                        </Typography>
-                                        <Typography
-                                            component="div"
-                                            variant="body2"
-                                            sx={{
-                                                whiteSpace: "pre-line",
-                                                color: "rgba(255,255,255,0.95)",
-                                                fontWeight: 400,
-                                                lineHeight: 1.7,
-                                                fontSize: "0.9rem",
-                                                flex: 1
-                                            }}
-                                        >
-                                            {bug.description}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            )}
-
-                            {bug.notes && (
-                                <Card
-                                    sx={{
-                                        backgroundColor: "rgba(50, 50, 50, 0.85)",
-                                        border: "1px solid rgba(255,255,255,0.1)",
-                                        borderRadius: 1,
-                                        backdropFilter: "blur(4px)",
-                                        transition: "all 0.2s ease",
-                                        "&:hover": {
-                                            backgroundColor: "rgba(55, 55, 55, 0.9)",
-                                            border: "1px solid " + SEVERITY_COLORS[bug.severity],
-                                        }
-                                    }}
-                                >
-                                    <CardContent sx={{ p: 2, "&:last-child": { pb: 2, pt: 2 } }}>
-                                        <Typography
-                                            variant="overline"
-                                            sx={{
-                                                color: "#ce93d8",
-                                                fontWeight: 800,
-                                                fontSize: '0.75rem',
-                                                letterSpacing: 1.2,
-                                                mb: 1.5,
-                                                mt: 0,
-                                                lineHeight: 1,
-                                                display: "block",
-                                                textTransform: "none",
-                                                flexShrink: 0,
-                                            }}
-                                        >
-                                            Notes
-                                        </Typography>
-                                        <Typography
-                                            component="div"
-                                            variant="body2"
-                                            sx={{
-                                                whiteSpace: "pre-line",
-                                                color: "rgba(255,255,255,0.95)",
-                                                fontWeight: 400,
-                                                lineHeight: 1.7,
-                                                fontSize: "0.9rem",
-                                                wordBreak: "break-word",
-                                                overflowWrap: "break-word"
-                                            }}
-                                        >
-                                            {bug.notes}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            )}
-
-                            {bug.logs && bug.logs.length > 0 && (
-                                <Card
-                                    sx={{
-                                        backgroundColor: "rgba(50, 50, 50, 0.85)",
-                                        border: "1px solid rgba(255,255,255,0.1)",
-                                        borderRadius: 1,
-                                        backdropFilter: "blur(1px)",
-                                        transition: "all 0.2s ease",
-                                        "&:hover": {
-                                            backgroundColor: "rgba(55, 55, 55, 0.9)",
-                                            border: "1px solid " + SEVERITY_COLORS[bug.severity],
-                                        }
-                                    }}
-                                >
-                                    <CardContent sx={{ p: 2, "&:last-child": { pb: 2, pt: 2 } }}>
-                                        <Typography
-                                            variant="overline"
-                                            sx={{
-                                                color: "#ffcc80",
-                                                fontWeight: 800,
-                                                fontSize: '0.75rem',
-                                                letterSpacing: 1.2,
-                                                mb: 1.5,
-                                                mt: 0,
-                                                lineHeight: 1,
-                                                display: "block",
-                                                textTransform: "none",
-                                            }}
-                                        >
-                                            Logs
-                                        </Typography>
-                                        <Stack spacing={1}>
-                                            {bug.logs.map((log, index) => (
-                                                <Box 
-                                                    key={index}
-                                                    sx={{
-                                                        display: "flex",
-                                                        flexDirection: "column",
-                                                        gap: 0.5,
-                                                        p: 1.5,
-                                                        backgroundColor: "rgba(255, 255, 255, 0.03)",
-                                                        borderRadius: 1,
-                                                        border: "1px solid rgba(255,255,255,0.08)",
-                                                        transition: "all 0.2s ease",
-                                                        "&:hover": {
-                                                            backgroundColor: "rgba(255, 255, 255, 0.06)",
-                                                            border: "1px solid " + SEVERITY_COLORS[bug.severity],
-                                                        }
-                                                    }}
-                                                >
-                                                    <Typography
-                                                        variant="caption"
-                                                        sx={{
-                                                            color: "rgba(255,255,255,0.7)",
-                                                            fontWeight: 600,
-                                                            fontSize: "0.7rem",
-                                                            textTransform: "uppercase",
-                                                            letterSpacing: 0.5,
-                                                        }}
-                                                    >
-                                                        {log.label}
-                                                    </Typography>
-                                                    <Link
-                                                        href={log.url}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        sx={{
-                                                            color: "primary.main",
-                                                            textDecoration: "none",
-                                                            fontWeight: 500,
-                                                            fontSize: "0.85rem",
-                                                            wordBreak: "break-all",
-                                                            "&:hover": {
-                                                                textDecoration: "underline wavy",
-                                                                color: "primary.light",
-                                                            }
-                                                        }}
-                                                    >
-                                                        {formatLogUrl(log.url)}
-                                                    </Link>
-                                                </Box>
-                                            ))}
-                                        </Stack>
-                                    </CardContent>
-                                </Card>
-                            )}
-                    </Stack>
+            <DialogContent sx={{ p: 0 }}>
+                <Divider />
+                <Box sx={{ px: 3, py: 2, display: "flex", flexDirection: "column", gap: 2 }}>
+                    {bug.description && (
+                        <Section label="Description" severityColor={severityColor}>
+                            <Typography component="div" variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                                {bug.description}
+                            </Typography>
+                        </Section>
+                    )}
+                    {bug.notes && (
+                        <Section label="Notes" severityColor={severityColor}>
+                            <Typography component="div" variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                                {bug.notes}
+                            </Typography>
+                        </Section>
+                    )}
+                    {bug.logs && bug.logs.length > 0 && (
+                        <Section label="Logs" severityColor={severityColor}>
+                            <Stack spacing={0.75}>
+                                {bug.logs.map((log, i) => (
+                                    <Box key={i} sx={{ display: "flex", alignItems: "baseline", gap: 1 }}>
+                                        {log.label && (
+                                            <>
+                                                <Typography variant="caption" color="text.disabled">{log.label}</Typography>
+                                                <Typography variant="caption" color="text.disabled">—</Typography>
+                                            </>
+                                        )}
+                                        <SwirlLink href={log.url} target="_blank" sx={{ fontSize: "0.85rem", wordBreak: "break-all" }}>
+                                            {formatLogUrl(log.url)}
+                                        </SwirlLink>
+                                    </Box>
+                                ))}
+                            </Stack>
+                        </Section>
+                    )}
                 </Box>
             </DialogContent>
 
-            <DialogActions 
-                sx={{ 
-                    px: 3, 
-                    py: 1, 
-                    backgroundColor: "transparent",
-                    borderTop: "1px solid rgba(255,255,255,0.12)",
-                    justifyContent: "flex-end"
-                }}
-            >
-                <SwirlButton onClick={onClose}>
-                    Close
-                </SwirlButton>
+            <Divider />
+            <DialogActions sx={{ px: 2.5, py: 1.5 }}>
+                <SwirlButton onClick={onClose}>Close</SwirlButton>
             </DialogActions>
         </Dialog>
     );
