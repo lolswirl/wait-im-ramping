@@ -122,10 +122,6 @@ const Home = () => {
                                 height: '100%',
                                 display: 'flex',
                                 flexDirection: 'column',
-                                '&:hover': {
-                                    transform: 'translateY(-4px)',
-                                    boxShadow: 6,
-                                }
                             }}
                         >
                             <Link href={tool.path} style={{ textDecoration: "none", color: "inherit", height: "100%", display: "flex", flexDirection: "column", flex: 1 }}>
