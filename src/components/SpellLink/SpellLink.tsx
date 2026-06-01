@@ -92,7 +92,7 @@ const SpellLink: React.FC<SpellLinkProps> = ({
                 component="span"
                 sx={{
                     color: "primary.light",
-                    fontWeight: 500,
+                    fontWeight: "inherit",
                     textDecoration: "none",
                     "a:hover &": { textDecoration: "underline wavy" },
                     ...textSx,
