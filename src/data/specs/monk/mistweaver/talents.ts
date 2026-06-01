@@ -464,7 +464,7 @@ const talents = {
             healing: 2,
         },
         custom: {
-            targetsHit: 5
+            targetsHit: { healing: 5 }, // damage is technically unlimited targets
         }
     },
     ASPECT_OF_HARMONY: {
