@@ -139,16 +139,18 @@ const resolveCoeff = (coeff: spell['coeff'], type: 'damage' | 'healing'): number
     return coeff[type];
 };
 
-export const calcSpellValue = (spell: spell, spellpower: number, type: 'damage' | 'healing' = 'healing', corePassives: CorePassive[] = []): number => {
+export const calcSpellValue = (spell: spell, player: Player, type: 'damage' | 'healing' = 'healing'): number => {
     const coeff = resolveCoeff(spell.coeff, type);
     if (coeff === undefined) return 0;
-    return spellpower * coeff * getSpellAura(spell, corePassives);
+    const critMultiplier = 1 + (player.stats.crit / 100);
+    const versMultiplier = 1 + (player.stats.versatility / 100);
+    return player.stats.intellect * coeff * getSpellAura(spell, player.corePassives) * critMultiplier * versMultiplier;
 };
 
 export const calculateSpellDamage = (spell: spell, player: Player): number => {
     const coeff = resolveCoeff(spell.coeff, 'damage');
     const base = coeff !== undefined
-        ? calcSpellValue(spell, player.stats.intellect, 'damage', player.corePassives)
+        ? calcSpellValue(spell, player, 'damage')
         : (spell.value?.damage ?? 0);
     return base * calculateSpellDamageMultiplier(spell, player);
 };
@@ -156,7 +158,7 @@ export const calculateSpellDamage = (spell: spell, player: Player): number => {
 export const calculateSpellHealing = (spell: spell, player: Player): number => {
     const coeff = resolveCoeff(spell.coeff, 'healing');
     const base = coeff !== undefined
-        ? calcSpellValue(spell, player.stats.intellect, 'healing', player.corePassives)
+        ? calcSpellValue(spell, player, 'healing')
         : (spell.value?.healing ?? 0);
     return base * calculateSpellHealingMultiplier(spell, player);
 };
@@ -171,6 +173,12 @@ export const getHealingMultiplier = (talents?: TalentMap): number => {
     }
 
     return multiplier;
+};
+
+export const calculateGustOfMists = (player: Player): number => {
+    const gom = TALENTS.GUST_OF_MISTS;
+    const pseudoGom = { ...gom, coeff: player.stats.mastery / 100 } as spell;
+    return calculateSpellHealing(pseudoGom, player);
 };
 
 export const getAncientTeachingsBaseTransfer = (): number => {
