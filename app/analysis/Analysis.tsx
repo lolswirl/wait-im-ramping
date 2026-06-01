@@ -40,7 +40,7 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
             >
-                <Box sx={{ height: 200, position: "relative" }}>
+                <Box sx={{ height: 200, position: "relative", overflow: "hidden" }}>
                     {/* image */}
                     <Box sx={{
                         position: "absolute", inset: 0,
@@ -97,7 +97,7 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                     {/* title — shifts up by description height on hover */}
                     <Box sx={{
                         position: "absolute", bottom: 0, left: 0, right: 0, px: 1.5, pb: 1.5,
-                        transform: hovered ? `translateY(-${descHeight - 12}px)` : "translateY(0)",
+                        transform: hovered ? `translateY(-${descHeight}px)` : "translateY(0)",
                         transition: "transform 0.3s ease",
                         willChange: "transform",
                     }}>
@@ -105,19 +105,18 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                             <T>{tool.label}</T>
                         </Typography>
                     </Box>
-                    {/* description — starts just below the bottom, slides up flush under title */}
+                    {/* description — slides up from below */}
                     <Box
                         ref={descRef}
                         sx={{
                             position: "absolute", bottom: 0, left: 0, right: 0, px: 1.5, pb: 1.5,
-                            transform: hovered ? "translateY(0)" : "translateY(100%)",
+                            transform: hovered ? "translateY(0)" : "translateY(200px)",
                             opacity: hovered ? 1 : 0,
                             transition: "transform 0.3s ease, opacity 0.2s ease",
                             willChange: "transform",
                         }}
                     >
                         <Typography variant="caption" sx={{
-                            display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden",
                             color: "rgba(255,255,255,0.75)", lineHeight: 1.4,
                         }}>
                             <T>{tool.description}</T>
