@@ -40,6 +40,9 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                 }}
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
+                onClickCapture={(e) => {
+                    if ((e.target as HTMLElement).closest('a')) e.preventDefault();
+                }}
                 onClick={(e) => {
                     if ((e.target as HTMLElement).closest('a')) return;
                     router.push(tool.path);
