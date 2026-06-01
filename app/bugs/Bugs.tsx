@@ -4,6 +4,7 @@ import { Box, Container, Typography } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 
 import PageHeader from "@components/PageHeader/PageHeader";
+import SwirlLink from "@components/SwirlLink/SwirlLink";
 import BugTable from "@components/BugTable/BugTable";
 import BugDialog from "@components/BugDialog/BugDialog";
 import BugFilters from "@components/BugFilters/BugFilters";
@@ -92,10 +93,7 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
             <PageHeader 
                 title={title}
                 subtitle={
-                    [
-                        description,
-                        "Don't see your spec's bugs? Report them <a href=\"https://github.com/lolswirl/wait-im-ramping/issues\" target=\"_blank\">here</a>!",
-                    ]
+                    <>{description}<br />Don't see your spec's bugs? Report them <SwirlLink href="https://github.com/lolswirl/wait-im-ramping/issues" target="_blank" sx={{ fontSize: "0.85rem" }}>here</SwirlLink>!</>
                 }
                 marginBottom={3}
             />
