@@ -208,9 +208,9 @@ const AboutCard = () => {
                 <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
                     About The Site
                 </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     {siteInfo.map((info, i) => (
-                        <WarningChip key={i} message={info.label} borderColor={info.color} sx={{ fontWeight: 0 }} />
+                        <WarningChip key={i} message={info.label} borderColor={info.color} sx={{ fontWeight: 0, fontSize: '0.825rem' }} />
                     ))}
                 </Box>
             </Box>
