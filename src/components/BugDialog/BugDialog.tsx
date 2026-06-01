@@ -112,7 +112,7 @@ const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose }) => {
             </DialogContent>
 
             <Divider />
-            <DialogActions sx={{ px: 2.5, py: 1.5 }}>
+            <DialogActions sx={{ px: 2, py: 0.75 }}>
                 <SwirlButton onClick={onClose}>Close</SwirlButton>
             </DialogActions>
         </Dialog>
