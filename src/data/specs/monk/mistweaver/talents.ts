@@ -236,8 +236,8 @@ const talents = {
         school: SCHOOLS.NATURE,
         coeff: { damage: 1.8694, healing: 1.7731 }, // healing might be wrong, ph for now
         custom: {
+            targetsHit: { healing: 5 },
             maxDamageTargets: 5,
-            maxHealingTargets: 5,
             damageIncrease: 0.06
         },
         exclusive: [467293],

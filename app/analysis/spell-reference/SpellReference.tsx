@@ -89,9 +89,16 @@ const resolveValue = (
 const hasValue = (s: spell) =>
   s.coeff !== undefined || s.formula !== undefined || s.value?.damage !== undefined || s.value?.healing !== undefined;
 
-const expandRows = (s: spell, player: Player): SpellRow[] => {
-  const maxTargets: number = (s as any).custom?.targetsHit ?? 1;
-  return coeffTypes(s).flatMap(type => {
+const getMaxTargets = (s: spell, type: SpellType): number => {
+  const th = (s as any).custom?.targetsHit;
+  if (!th) return 1;
+  if (typeof th === "number") return th;
+  return (type === CATEGORY.DAMAGE ? th.damage : th.healing) ?? 1;
+};
+
+const expandRows = (s: spell, player: Player): SpellRow[] =>
+  coeffTypes(s).flatMap(type => {
+    const maxTargets = getMaxTargets(s, type);
     if (maxTargets > 1) {
       return [
         { spell: s, type, targets: 1, ...resolveValue(s, type, player, 1) },
@@ -100,7 +107,6 @@ const expandRows = (s: spell, player: Player): SpellRow[] => {
     }
     return [{ spell: s, type, ...resolveValue(s, type, player, 1) }];
   });
-};
 
 const SpellReference: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const [spec, setSpec] = useState<specialization>(CLASSES.MONK.SPECS.MISTWEAVER);

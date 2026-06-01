@@ -70,7 +70,7 @@ const resolveRskValue = (
     if (asHealing) {
       const atHealing = calculateAncientTeachingsHealing(rwkDamage, player, false, rwk);
       // assuming 4.5 rems on avg for efficiency
-      const directHealing = calculateSpellHealing(rwk, player) * rwk.custom.maxHealingTargets * 0.9;
+      const directHealing = calculateSpellHealing(rwk, player) * rwk.custom.targetsHit.healing * 0.9;
       return atHealing + directHealing;
     }
     return rwkDamage;

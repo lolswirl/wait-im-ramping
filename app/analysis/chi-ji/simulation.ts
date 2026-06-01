@@ -279,7 +279,7 @@ export const calculateRotationHPS = async (
 
                 if (isTalentEnabled(options, TALENTS.RUSHING_WIND_KICK)) {
                     const rwk = TALENTS.RUSHING_WIND_KICK;
-                    const rwkHealTargets = Math.min(rwk.custom.maxHealingTargets, allies.length);
+                    const rwkHealTargets = Math.min(rwk.custom.targetsHit.healing, allies.length);
                     const rwkDirectHeal = calculateSpellHealing(spellObj, player);
                     const rwkHealTargetAllies = getRandomAllies(allies, rwkHealTargets);
                     breakdown.baseHealing = rwkHealTargetAllies.reduce((sum, a) => sum + calculateHealingWithAmp(rwkDirectHeal, a), 0);
