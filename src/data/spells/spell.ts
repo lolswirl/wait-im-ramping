@@ -3,14 +3,19 @@ import type { HeroTree } from "@data/heroTalents";
 import type { Stats } from "@data/shared/stats";
 
 export const CATEGORY = {
-    DAMAGE: "damage",
-    HEALING: "healing",
-    COOLDOWN: "cooldown",
-    OTHER: "other",
-    UTILITY: "utility",
+    DAMAGE: "Damage",
+    HEALING: "Healing",
+    COOLDOWN: "Cooldown",
+    OTHER: "Other",
+    UTILITY: "Utility",
 } as const;
 
 export type SpellCategory = typeof CATEGORY[keyof typeof CATEGORY];
+
+export const CATEGORY_COLORS: Partial<Record<SpellCategory, string>> = {
+    [CATEGORY.DAMAGE]: "#f87171",
+    [CATEGORY.HEALING]: "#4ade80",
+};
 
 export default interface spell {
     category?: SpellCategory;
