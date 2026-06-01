@@ -87,7 +87,7 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({
             <div style={{ display: "grid", gridTemplateColumns: "max-content 1px auto", gap: "6px 10px", alignItems: "center" }}>
                 {groups.map(({ label, spells }) => (
                     <React.Fragment key={label}>
-                        <span style={rowLabel}><T>{label}</T></span>
+                        <span style={rowLabel}>{label}</span>
                         {rowSep}
                         <div style={{ display: "flex", gap: 5, flexWrap: "wrap", alignItems: "center" }}>
                             {spells.map((spell) => (
@@ -99,7 +99,7 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({
 
                 {presetEntries.length > 0 && (
                     <React.Fragment>
-                        <span style={rowLabel}><T>presets</T></span>
+                        <span style={rowLabel}>Presets</span>
                         {rowSep}
                         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
                             {presetEntries.map(([name, presetSpells]) => (
@@ -129,7 +129,7 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({
                                             whiteSpace: "nowrap",
                                         }}
                                     >
-                                        <T>{formatPresetName(name)}</T>
+                                        {formatPresetName(name)}
                                     </button>
                                 </GlassTooltip>
                             ))}

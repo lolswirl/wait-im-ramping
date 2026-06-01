@@ -340,7 +340,7 @@ const TimeSliderCard: React.FC<{
         '& .MuiSlider-rail': { backgroundColor: 'rgba(54, 162, 235, 0.3)' },
     }}>
         <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', color: 'rgb(54, 162, 235)' }}>
-            <T>Time Range</T>
+            Time Range
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
             {timeRange} seconds ({formatTime(timeRange)})
@@ -450,10 +450,10 @@ const StatsCard: React.FC<{
                 borderColor: 'rgba(156, 39, 176, 0.3)'
             }}>
                 <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: 'rgb(156, 39, 176)' }}>
-                    <T>Heart of the Jade Serpent Events</T>: {events.length}
+                    Heart of the Jade Serpent Events: {events.length}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    <T>Total Uptime</T>: {events.reduce((sum, event) => sum + event.duration, 0).toFixed(1)}s
+                    Total Uptime: {events.reduce((sum, event) => sum + event.duration, 0).toFixed(1)}s
                     ({((events.reduce((sum, event) => sum + event.duration, 0) / timeRange) * 100).toFixed(1)}%)
                 </Typography>
             </Card>
@@ -482,7 +482,7 @@ const StatsCard: React.FC<{
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                             <SpellButton selectedSpell={ability.spell} size={32} />
                             <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: ability.color }}>
-                                <T>{ability.spell.name}</T>
+                                {ability.spell.name}
                             </Typography>
                         </Box>
                         <Stack direction="row" spacing={1} flexWrap="wrap">
@@ -656,8 +656,8 @@ const TimelineView: React.FC<{
 
                                     <GlassTooltip title={
                                         <div style={{ textAlign: 'center' }}>
-                                            <T>{event.source.name}</T> cast starts at {event.castStartTime.toFixed(1)}s<br />
-                                            <T>Heart of the Jade Serpent</T> activates at {event.startTime.toFixed(1)}s
+                                            {event.source.name} cast starts at {event.castStartTime.toFixed(1)}s<br />
+                                            Heart of the Jade Serpent activates at {event.startTime.toFixed(1)}s
                                         </div>
                                     }>
                                         <Box sx={{
@@ -678,8 +678,8 @@ const TimelineView: React.FC<{
                                     
                                     <GlassTooltip title={
                                         <div style={{ textAlign: 'center' }}>
-                                            <T>Heart of the Jade Serpent active</T>: {event.startTime.toFixed(1)}s - {(event.startTime + event.duration).toFixed(1)}s<br />
-                                            ({event.multiplier === 2.5 ? '150%' : '75%'} <T>Cooldown Reduction</T>)
+                                            Heart of the Jade Serpent active: {event.startTime.toFixed(1)}s - {(event.startTime + event.duration).toFixed(1)}s<br />
+                                            ({event.multiplier === 2.5 ? '150%' : '75%'} Cooldown Reduction)
                                         </div>
                                     }>
                                         <Box sx={{

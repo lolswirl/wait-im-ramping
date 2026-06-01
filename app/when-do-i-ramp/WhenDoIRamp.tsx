@@ -146,7 +146,7 @@ const WhenDoIRamp: React.FC<{ title: React.ReactNode; description: React.ReactNo
                     py: 1.5,
                 }}>
                     <Typography variant="h6" sx={{ fontWeight: 600, textAlign: 'center' }}>
-                        <T>Start ramping ~{Math.ceil(totalCastTime)}s before a mechanic</T>
+                        Start ramping ~{Math.ceil(totalCastTime)}s before a mechanic
                     </Typography>
                 </Card>
             )}

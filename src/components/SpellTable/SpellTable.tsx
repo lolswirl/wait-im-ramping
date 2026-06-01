@@ -107,12 +107,12 @@ const SpellTable: React.FC<SpellTableProps> = ({
                                     <SpellButton selectedSpell={spell} size={32} />
                                     <Box sx={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'baseline', gap: 0.75 }}>
                                         <Typography variant="body2" noWrap>
-                                            <T>{spell.name}</T> {spell.empowerLevel ? `(${toRomanNumeral(spell.empowerLevel)})` : ''}
+                                            {spell.name} {spell.empowerLevel ? `(${toRomanNumeral(spell.empowerLevel)})` : ''}
                                         </Typography>
                                         <Typography variant="caption" color="text.disabled" sx={{ flexShrink: 0 }}>
-                                            <T>
+                                            
                                                 {isGCDConstrained ? `GCD: ${effectiveTime.toFixed(2)}s` : `${effectiveTime.toFixed(2)}s`}
-                                            </T>
+                                            
                                         </Typography>
                                         <Box sx={{ flex: 1, borderBottom: '1px solid rgba(255,255,255,0.08)', alignSelf: 'center' }} />
                                     </Box>
@@ -146,7 +146,7 @@ const SpellTable: React.FC<SpellTableProps> = ({
             }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <Typography variant="body2" color="text.secondary">
-                        <T>Total</T>
+                        Total
                     </Typography>
                     <WarningChip message={`${totalTime.toFixed(2)}s`} />
                 </Box>
@@ -156,7 +156,7 @@ const SpellTable: React.FC<SpellTableProps> = ({
                     onClick={clearTable}
                     startIcon={<DeleteForever />}
                 >
-                    <T>Clear All</T>
+                    Clear All
                 </SwirlButton>
             </Box>
         </Card>

@@ -276,8 +276,8 @@ export default function TimelineVisualizer({ selectedSpec, haste, rotations = []
         .attr("class", "legend");
 
       const legendItems = [
-        { label: T("GCD"), shape: "rect", color: GREY },
-        { label: T("Cast"), shape: "rect", color: ORANGE }
+        { label: ("GCD"), shape: "rect", color: GREY },
+        { label: ("Cast"), shape: "rect", color: ORANGE }
       ];
 
       const legendPadding = 10;

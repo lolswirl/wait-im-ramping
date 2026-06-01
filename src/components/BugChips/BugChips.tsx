@@ -16,7 +16,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
         <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
             {bug.status && bug.status !== STATUS.OPEN && (
                 <WarningChip
-                    message={T(bug.status)}
+                    message={bug.status}
                     showIcon={true}
                     icon={getStatusBadge(bug.status)}
                     borderColor={STATUS_COLORS[bug.status]}
@@ -24,7 +24,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
                 />
             )}
             <WarningChip
-                message={T(bug.severity + " Severity")}
+                message={bug.severity + " Severity"}
                 borderColor={SEVERITY_COLORS[bug.severity]}
                 fontSize="0.75rem"
             />
@@ -37,7 +37,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
                 const tooltipContent = showTooltip && hasMultipleBuilds ? (
                     <Stack spacing={0.25} sx={{ py: 0.25 }}>
                         <Typography variant="caption" sx={{ fontSize: '0.7rem', opacity: 0.7, mb: 0.25 }}>
-                            <T>Build History:</T>
+                            Build History:
                         </Typography>
                         <Stack spacing={0} sx={{ textAlign: "center" }}>
                             {[...builds].reverse().map((build, index) => (
@@ -71,7 +71,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
                 
                 const chip = (
                     <WarningChip
-                        message={T(chipMessage)}
+                        message={chipMessage}
                         borderColor="#eaeaea"
                         fontSize="0.75rem"
                         showIcon={hasMultipleBuilds}
@@ -91,7 +91,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
             {bug.tags?.map((tag) => (
                 <WarningChip
                     key={tag.name}
-                    message={T(tag.name)}
+                    message={tag.name}
                     size="small"
                     borderColor={tag.color}
                     fontSize="0.75rem"

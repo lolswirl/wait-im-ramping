@@ -60,7 +60,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                     }
                 }}
             >
-                <T>{subtitle as React.ReactNode}</T>
+                {subtitle as React.ReactNode}
             </Typography>
         )
     );
@@ -73,7 +73,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                         variant="h1"
                         sx={{ fontWeight: "bold", fontSize: "2em", color: "text.primary", lineHeight: 1.2, mb: 0.4 }}
                     >
-                        <T>{title}</T>
+                        {title}
                     </Typography>
                     <Box sx={{ height: 2, borderRadius: 1, background: RAINBOW_GRADIENT }} />
                 </Box>

@@ -100,12 +100,12 @@ const BugFilters: React.FC<BugFiltersProps> = ({
             </Box>
 
             <FormControl size="small">
-                <InputLabel id="status-select-label"><T>Status</T></InputLabel>
+                <InputLabel id="status-select-label">Status</InputLabel>
                 <Select
                     labelId="status-select-label"
                     id="status-select"
                     value={status}
-                    label={T("Status")}
+                    label={"Status"}
                     onChange={(e) => onStatusChange(e.target.value)}
                     sx={{ height: filtersHeight }}
                     MenuProps={{
@@ -139,19 +139,19 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                                 },
                             }}
                         >
-                            <T>{status}</T>
+                            {status}
                         </MenuItem>
                     ))}
                 </Select>
             </FormControl>
 
             <FormControl size="small" sx={{ minWidth: 75 }}>
-                <InputLabel id="severity-select-label"><T>Severity</T></InputLabel>
+                <InputLabel id="severity-select-label">Severity</InputLabel>
                 <Select
                     labelId="severity-select-label"
                     id="severity-select"
                     value={severity}
-                    label={T("Severity")}
+                    label={"Severity"}
                     onChange={(e) => onSeverityChange(e.target.value)}
                     sx={{ height: filtersHeight }}
                     MenuProps={{
@@ -186,7 +186,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                                 },
                             }}
                         >
-                            <T>{severity}</T>
+                            {severity}
                         </MenuItem>
                     ))}
                 </Select>
@@ -194,7 +194,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
 
             {onExportToExcel && (
                 <Box sx={{ marginLeft: "auto" }}>
-                    <GlassTooltip title={T("Export to Excel")}>
+                    <GlassTooltip title={"Export to Excel"}>
                         <IconButton
                             onClick={onExportToExcel}
                             sx={{
@@ -217,7 +217,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
             
             {isLocalhost && onOpenBugUpdate && (
                 <Box>
-                    <GlassTooltip title={T("Update Bugs")}>
+                    <GlassTooltip title={"Update Bugs"}>
                         <IconButton
                             onClick={onOpenBugUpdate}
                             sx={{

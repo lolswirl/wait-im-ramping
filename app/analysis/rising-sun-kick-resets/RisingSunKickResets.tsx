@@ -55,7 +55,7 @@ const ProgressBar: React.FC<{
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <Box sx={{ flex: 1 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                <Typography variant="caption"><T>{label}</T></Typography>
+                <Typography variant="caption">{label}</Typography>
                 <Typography variant="caption" fontWeight="bold">{value}</Typography>
             </Box>
             <Box sx={{ 
@@ -94,26 +94,26 @@ const SpellInfoDisplay: React.FC<{
     }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 'medium', minWidth: 100 }}>
-                <T>Tiger Palm:</T>
+                Tiger Palm:
             </Typography>
             <Typography variant="body2" color="primary.main" sx={{ fontWeight: 'bold' }}>
-                <T>
+                
                     {wayOfTheCrane ? '2' : '1'} {pluralize(wayOfTheCrane, 'hit')}
-                </T>
+                
             </Typography>
         </Box>
         
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 'medium', minWidth: 100 }}>
-                <T>Blackout Kick:</T>
+                Blackout Kick:
             </Typography>
             <Typography variant="body2" color="secondary.main" sx={{ fontWeight: 'bold' }}>
-                <T>
+                
                     {wayOfTheCrane ? Math.min(3, targets) : 1} {pluralize(wayOfTheCrane ? Math.min(3, targets) : 1, 'hit')}
-                </T>
+                
             </Typography>
             <Typography variant="caption" color="text.secondary">
-                (<T>{targets} {pluralize(targets, "target")}</T>)
+                ({targets} {pluralize(targets, "target")})
             </Typography>
         </Box>
         
@@ -121,18 +121,18 @@ const SpellInfoDisplay: React.FC<{
         
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 'medium', minWidth: 100 }}>
-                <T>Reset Chance:</T>
+                Reset Chance:
             </Typography>
             <Typography variant="body2" color="warning.main" sx={{ fontWeight: 'bold' }}>
-                <T>
+                
                     {(totmResetChance * 100)}% per Blackout Kick
-                </T>
+                
             </Typography>
         </Box>
         
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 'medium', minWidth: 100 }}>
-                <T>Formula:</T>
+                Formula:
             </Typography>
             <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: '0.9em' }}>
                 1 - (reset %)<sup>boks</sup>
@@ -460,7 +460,7 @@ const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React
                                             color="primary.main"
                                             rightContent={
                                                 <Typography variant="body2" sx={{ minWidth: 80, textAlign: 'right' }}>
-                                                    <T>{stats.totalHits} {pluralize(stats.totalHits, "BoK")}</T>
+                                                    {stats.totalHits} {pluralize(stats.totalHits, "BoK")}
                                                 </Typography>
                                             }
                                         />
@@ -472,9 +472,9 @@ const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React
                                             color="secondary.main"
                                             rightContent={
                                                 <Typography variant="body2" sx={{ minWidth: 80, textAlign: 'right' }}>
-                                                    <T>
+                                                    
                                                         {stats.totalGCDs} {pluralize(stats.totalGCDs, "GCD")}
-                                                    </T>
+                                                    
                                                 </Typography>
                                             }
                                         />

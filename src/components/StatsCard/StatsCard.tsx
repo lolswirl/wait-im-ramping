@@ -60,14 +60,14 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
 
     return (
         <React.Fragment>
-            <span style={rowLabel}><T>stats</T></span>
+            <span style={rowLabel}>Stats</span>
             {rowSep}
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, paddingTop: 10, paddingBottom: 10 }}>
                 {statFields.map((field) => {
                     const input = (
                         <TextField
                             key={field.key}
-                            label={T(field.label)}
+                            label={(field.label)}
                             type="text"
                             size="small"
                             value={localValues[field.key] !== undefined ? localValues[field.key] : formatNumber(options[field.key] ?? 0)}
@@ -88,7 +88,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
                     );
 
                     return field.tooltip ? (
-                        <GlassTooltip key={field.key} title={T(field.tooltip)}>{input}</GlassTooltip>
+                        <GlassTooltip key={field.key} title={(field.tooltip)}>{input}</GlassTooltip>
                     ) : input;
                 })}
             </div>

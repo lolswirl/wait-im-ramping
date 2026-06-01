@@ -146,7 +146,7 @@ const Conduit: React.FC<{ title: React.ReactNode; description: React.ReactNode }
 
     const allAbilities = [
         ...conduitValues.map((value, index) => ({
-            label: T(`CC ${value} ` + pluralize(value, "Target")),
+            label: `CC ${value} ` + pluralize(value, "Target"),
             conduitValue: conduitSpellpowers[index],
             unityValue: unityWithinSpellpowers[index],
             totalValue:

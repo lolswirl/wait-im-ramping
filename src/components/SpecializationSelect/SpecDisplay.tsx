@@ -20,7 +20,7 @@ const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec
     >
       <img
         src={FormatIconImg(spec.icon)}
-        alt={T(`${spec.name}`)}
+        alt={`${spec.name}`}
         className="spec_icon"
         style={{
           width: "calc(100% + 4px)",
@@ -38,7 +38,7 @@ const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec
     </div>
     {!short && (
       <>
-        <T>{spec.name}</T>
+        {spec.name}
       </>
     )}
   </div>

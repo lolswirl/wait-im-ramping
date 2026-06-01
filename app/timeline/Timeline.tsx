@@ -103,9 +103,9 @@ const Timeline: React.FC<{ title: React.ReactNode; description: React.ReactNode 
             {isMobile && (
                 <Box sx={{ mb: 2, px: 2, textAlign: 'center' }}>
                     <Typography variant="body2" color="textSecondary">
-                        <T>
+                        
                             For the best experience, rotate your device to <b>horizontal (landscape)</b> mode.
-                        </T>
+                        
                     </Typography>
                 </Box>
             )}

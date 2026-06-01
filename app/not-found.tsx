@@ -80,7 +80,7 @@ const NotFound: React.FC = () => {
                     : <Skeleton variant="text" width={280} height={24} sx={{ mx: "auto", mb: 2 }} />
                 }
                 <SwirlButton href="/">
-                    <T>Home</T>
+                    Home
                 </SwirlButton>
             </Box>
         </Box>

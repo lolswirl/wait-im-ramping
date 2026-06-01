@@ -67,7 +67,7 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
     const imageContent = src && (
         <img
             src={src}
-            alt={T(name)}
+            alt={(name)}
             width={size}
             height={size}
             style={{

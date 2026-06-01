@@ -82,7 +82,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                             <Typography variant="h5" sx={{ fontWeight: 800, color: accent, letterSpacing: '-0.5px', lineHeight: 1 }}>
                                 {Math.round(rotation.hps).toLocaleString()}
                                 <Typography component="span" variant="body2" sx={{ fontWeight: 400, color: 'text.secondary', ml: 0.5 }}>
-                                    <T>hps</T>
+                                    hps
                                 </Typography>
                             </Typography>
                             <Box sx={{ display: 'flex', gap: 1 }}>
@@ -127,7 +127,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                 >
                                     <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: s.color, flexShrink: 0 }} />
                                     <Typography variant="caption" sx={{ color: s.color, fontWeight: 600, lineHeight: 1 }}>
-                                        <T>{s.title}</T>
+                                        {s.title}
                                     </Typography>
                                     <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1 }}>
                                         {((s.value / aggregateTotal) * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%
@@ -154,7 +154,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                     }}
                 >
                     <Typography variant="body2" sx={{ fontWeight: 600, color: accent }}>
-                        <T>Breakdown</T>
+                        Breakdown
                     </Typography>
                     {expanded ? <ExpandLess sx={{ color: accent }} /> : <ExpandMore sx={{ color: accent }} />}
                 </Box>
@@ -179,7 +179,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                             <SpellButton selectedSpell={spellObj} size={32}/>
                                             <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                                                <T>{item.spellName}</T>
+                                                {item.spellName}
                                             </Typography>
                                         </Box>
                                         <WarningChip
@@ -230,7 +230,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                                 >
                                                     <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: s.color, flexShrink: 0 }} />
                                                     <Typography variant="caption" sx={{ color: s.color, fontWeight: 600, lineHeight: 1 }}>
-                                                        <T>{s.title}</T>
+                                                        {s.title}
                                                     </Typography>
                                                     <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1 }}>
                                                         {Math.round(s.value).toLocaleString()}

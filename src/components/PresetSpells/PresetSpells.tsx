@@ -27,7 +27,7 @@ const PresetSpells: React.FC<PresetSpellsProps> = ({ spec, onSelectRotation }) =
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             {rotationEntries.length === 0 ? (
                 <Typography color="text.secondary" sx={{ textAlign: 'center', py: 2 }} variant="body2">
-                    <T>No rotations available for {spec.name}</T>
+                    No rotations available for {spec.name}
                 </Typography>
             ) : (
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>

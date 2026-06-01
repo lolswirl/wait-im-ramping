@@ -38,7 +38,7 @@ const FooterBar = () => {
                     {Object.values(SOCIAL_LINKS).map(({ label, href, icon, color }) => (
                         <GlassTooltip 
                             key={label} 
-                            title={T(label)}
+                            title={label}
                             placement="top"
                         >
                             <ColoredIconButton
@@ -71,9 +71,9 @@ const FooterBar = () => {
                             fontSize: "0.7rem",
                         }}
                     >
-                        <T>
+                        
                             © {currentYear} Wait, I'm Ramping! All rights reserved.
-                        </T>
+                        
                     </Typography>
                     <Typography 
                         variant="caption" 
@@ -84,7 +84,7 @@ const FooterBar = () => {
                             maxWidth: 600,
                         }}
                     >
-                        <T>World of Warcraft and related assets are trademarks and/or registered trademarks of Blizzard Entertainment, Inc.</T>
+                        World of Warcraft and related assets are trademarks and/or registered trademarks of Blizzard Entertainment, Inc.
                     </Typography>
                 </Box>
             </Toolbar>

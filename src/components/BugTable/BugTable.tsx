@@ -140,7 +140,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
             <Table sx={{ minWidth: 600 }}>
                 <TableHead>
                     <TableRow>
-                        <GlassTooltip title={T("Sort by Severity")}>
+                        <GlassTooltip title={"Sort by Severity"}>
                             <TableCell
                                 sx={{ 
                                     width: severityWidth, 
@@ -164,7 +164,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                             }}
                             onClick={() => handleSort("spell")}
                         >
-                            <T>Spell</T>
+                            Spell
                             {getSortArrow("spell")}
                         </TableCell>
                         <TableCell
@@ -176,7 +176,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                             }}
                             onClick={() => handleSort("title")}
                         >
-                            <T>Title</T>
+                            Title
                             {getSortArrow("title")}
                         </TableCell>
                         <TableCell
@@ -189,10 +189,10 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                             }}
                             onClick={() => handleSort("lastBuildTested")}
                         >
-                            <T>Build</T>
+                            Build
                             {getSortArrow("lastBuildTested")}
                         </TableCell>
-                        <GlassTooltip title={T("Logs available")}>
+                        <GlassTooltip title={("Logs available")}>
                             <TableCell
                                 sx={{
                                     ...headerSx,
@@ -203,7 +203,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                 }}
                                 onClick={() => handleSort("logs")}
                             >
-                                <T>Logs</T>
+                                Logs
                                 {getSortArrow("logs")}
                             </TableCell>
                         </GlassTooltip>
@@ -272,7 +272,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                                 minWidth: 0,
                                             }}
                                         >
-                                            <T>{bug.spell.name}</T>
+                                            {bug.spell.name}
                                         </Typography>
                                     </Box>
                                 )}
@@ -294,7 +294,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                                         color: STATUS_COLORS[bug.status ?? STATUS.OPEN],
                                     }}
                                 >
-                                    <T>{bug.title}</T>
+                                    {bug.title}
                                 </Typography>
                             </TableCell>
                             <TableCell

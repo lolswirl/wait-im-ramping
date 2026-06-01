@@ -61,6 +61,11 @@ const Theme = ({ children }: { children: React.ReactNode }) => {
                 gridColor: themeMode === 'dark' ? THEME_COLORS.chart.dark : THEME_COLORS.chart.light,
             },
         },
+        typography: {
+            allVariants: {
+                textTransform: 'lowercase' as const,
+            },
+        },
         components: {
             MuiTableHead: {
                 styleOverrides: {

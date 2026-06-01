@@ -116,7 +116,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                                             }}
                                         >
                                             <Typography variant="body2" color="textSecondary">
-                                                <T>No spells added</T>
+                                                No spells added
                                             </Typography>
                                         </Box>
                                     )}
@@ -135,7 +135,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                     disabled={currentRotation.length === 0}
                     startIcon={<Add />}
                 >
-                    <T>Add Rotation</T>
+                    Add Rotation
                 </SwirlButton>
                 <SwirlButton
                     key={"clear-current"}
@@ -145,7 +145,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                     disabled={currentRotation.length === 0}
                     startIcon={<DeleteTwoTone />}
                 >
-                    <T>Clear Current</T>
+                    Clear Current
                 </SwirlButton>
                 <SwirlButton
                     key={"clear-all"}
@@ -155,7 +155,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                     disabled={!hasRotations}
                     startIcon={<DeleteForever />}
                 >
-                    <T>Clear All</T>
+                    Clear All
                 </SwirlButton>
                 {children}
             </Stack>

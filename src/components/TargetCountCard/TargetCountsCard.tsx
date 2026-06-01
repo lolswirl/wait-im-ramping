@@ -31,13 +31,13 @@ const TargetCountsCard: React.FC<TargetCountsCardProps> = ({ options, onOptionsC
 
     return (
         <React.Fragment>
-            <span style={rowLabel}><T>targets</T></span>
+            <span style={rowLabel}>Targets</span>
             {rowSep}
             <div style={{ display: "flex", gap: 8, paddingTop: 10, paddingBottom: 10 }}>
                 {targets.map(({ key, label }) => (
                     <TextField
                         key={key}
-                        label={T(label)}
+                        label={(label)}
                         type="number"
                         size="small"
                         value={options[key]}

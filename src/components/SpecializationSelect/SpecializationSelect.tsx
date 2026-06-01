@@ -102,7 +102,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
 
   return (
     <FormControl sx={{ minWidth: 150 }} size={size}>
-      <InputLabel id="spec-select-label"><T>Specialization</T></InputLabel>
+      <InputLabel id="spec-select-label">Specialization</InputLabel>
       <Select
         labelId="spec-select-label"
         id="spec-select"
@@ -112,7 +112,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
           if (spec) onSpecChange(spec);
         }}
         autoWidth
-        label={T("Specialization")}
+        label={("Specialization")}
         sx={{ height: height }}
         MenuProps={{
           slotProps: {

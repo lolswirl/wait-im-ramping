@@ -69,7 +69,7 @@ const ChartTooltip: React.FC<any> = ({ active, payload, label }) => {
                 p: 1.5,
             }}>
                 <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 0.5 }}>
-                    {label} <T>Players</T>
+                    {label} Players
                 </Typography>
                 {payload.map((entry: any, index: number) => (
                     <Typography key={index} variant="body2" sx={{ color: entry.color }}>

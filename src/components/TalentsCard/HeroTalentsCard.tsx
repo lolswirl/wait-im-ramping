@@ -20,7 +20,7 @@ interface HeroTreeRowProps {
 const HeroTreeRow: React.FC<HeroTreeRowProps> = ({ info, spells, onChange }) => (
     <>
         <span style={{ ...rowLabel, paddingTop: 6 }}>
-            <T>{info.shortName}</T>
+            {info.shortName}
         </span>
         {rowSep}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
@@ -59,7 +59,7 @@ const HeroTalentsCard: React.FC<HeroTalentsCardProps> = ({ options, label, onCha
     return (
         <React.Fragment>
             <span style={{ ...rowLabel, paddingTop: 6 }}>
-                <T>{label ?? 'Hero'}</T>
+                {label ?? 'Hero'}
             </span>
             {rowSep}
             <Group>

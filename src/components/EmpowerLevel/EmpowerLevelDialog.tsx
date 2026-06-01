@@ -83,7 +83,7 @@ const EmpowerLevelDialog: React.FC<EmpowerLevelDialogProps> = ({
                                     color: "white",
                                 }}
                             >
-                                <T>{spell.name}</T>
+                                {spell.name}
                             </Typography>
                             <Typography
                                 variant="body2"
@@ -91,7 +91,7 @@ const EmpowerLevelDialog: React.FC<EmpowerLevelDialogProps> = ({
                                     color: "rgba(255,255,255,0.7)",
                                 }}
                             >
-                                <T>Select an empower level to add to this spell</T>
+                                Select an empower level to add to this spell
                             </Typography>
                         </Box>
                     </Box>

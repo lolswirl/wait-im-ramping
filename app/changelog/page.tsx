@@ -31,17 +31,17 @@ export default function ChangelogPage() {
             >
                 <CardContent>
                     <Typography variant="h4" sx={{ mt: 1, mb: 3 }}>
-                        <T>changelog</T>
+                        Changelog
                     </Typography>
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 0 }}>
                         {CHANGELOG.map((entry, i) => (
                             <Box key={i}>
                                 <Box sx={{ display: "flex", gap: 3, py: 1.5 }}>
                                     <Typography variant="body2" color="text.disabled" sx={{ minWidth: 96, pt: 0.2, whiteSpace: "nowrap" }}>
-                                        <T>{formatDate(entry.date)}</T>
+                                        {formatDate(entry.date)}
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
-                                        <T>{entry.text}</T>
+                                        {entry.text}
                                     </Typography>
                                 </Box>
                                 {i < CHANGELOG.length - 1 && <Divider />}

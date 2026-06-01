@@ -86,10 +86,10 @@ const Hero = () => (
                 animation: 'gradientShift 6s linear infinite',
             }}
         >
-            <T>Wait, I'm Ramping!</T>
+            Wait, I'm Ramping!
         </Typography>
         <Typography variant="h5" color="text.secondary" sx={{ mb: 2, maxWidth: 800, mx: 'auto' }}>
-            <T>Healer theorycrafting and optimization tools for World of Warcraft</T>
+            Healer theorycrafting and optimization tools for World of Warcraft
         </Typography>
     </Box>
 );
@@ -130,10 +130,10 @@ const QuickAccess = () => (
                             <Divider />
                             <CardContent sx={{ flexGrow: 1 }}>
                                 <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                                    <T>{tool.title}</T>
+                                    {tool.title}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-                                    <T>{tool.description}</T>
+                                    {tool.description}
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
@@ -156,8 +156,8 @@ const CommunityCard = () => (
                     {SOCIAL_LINKS.DISCORD.icon}
                 </Box>
                 <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <Typography variant="body2" fontWeight={600}><T>Discord</T></Typography>
-                    <Typography variant="caption" color="text.secondary"><T>Questions, feedback & theorycrafting</T></Typography>
+                    <Typography variant="body2" fontWeight={600}>Discord</Typography>
+                    <Typography variant="caption" color="text.secondary">Questions, feedback & theorycrafting</Typography>
                 </Box>
                 <OpenInNew fontSize="small" sx={{ color: "text.disabled", flexShrink: 0 }} />
             </RainbowCard>
@@ -171,11 +171,11 @@ const CommunityCard = () => (
                     {SOCIAL_LINKS.PATREON.icon}
                 </Box>
                 <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <Typography variant="body2" fontWeight={600}><T>Support on Patreon</T></Typography>
+                    <Typography variant="body2" fontWeight={600}>Support on Patreon</Typography>
                     <Typography variant="caption" color="text.secondary">
-                        <T>
+                        
                             Has the site helped <i>you</i>? Help keep <i>it</i> running :)
-                        </T>
+                        
                     </Typography>
                 </Box>
                 <OpenInNew fontSize="small" sx={{ color: "text.disabled", flexShrink: 0 }} />
@@ -189,9 +189,9 @@ const CommunityCard = () => (
                     {SOCIAL_LINKS.GITHUB.icon}
                 </Box>
                 <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <Typography variant="body2" fontWeight={600}><T>GitHub - Contributions Welcome</T></Typography>
+                    <Typography variant="body2" fontWeight={600}>GitHub - Contributions Welcome</Typography>
                     <Typography variant="caption" color="text.secondary">
-                        <T>Add Specs · Report Bugs · Suggest Tools · Improve Calcs</T>
+                        Add Specs · Report Bugs · Suggest Tools · Improve Calcs
                     </Typography>
                 </Box>
                 <OpenInNew fontSize="small" sx={{ color: "text.disabled", flexShrink: 0 }} />
@@ -206,7 +206,7 @@ const AboutCard = () => {
         <Card variant="outlined" sx={{ p: 3, display: "flex", flexDirection: "column", gap: 2.5 }}>
             <Box>
                 <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
-                    <T>About The Site</T>
+                    About The Site
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                     {siteInfo.map((info, i) => (
@@ -242,9 +242,9 @@ const AboutCard = () => {
             <Divider />
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                <Typography variant="body2" color="text.disabled"><T>Updated for patch {CURRENT_PATCH}</T></Typography>
+                <Typography variant="body2" color="text.disabled">Updated for patch {CURRENT_PATCH}</Typography>
                 <Typography variant="body2" color="text.disabled">·</Typography>
-                <Typography variant="body2" color="text.disabled"><T>Latest {latestDate}</T></Typography>
+                <Typography variant="body2" color="text.disabled">Latest {latestDate}</Typography>
                 <Typography variant="body2" color="text.disabled">·</Typography>
                 <GlassTooltip
                     title={
@@ -252,10 +252,10 @@ const AboutCard = () => {
                             {CHANGELOG.slice(0, 5).map((entry, i) => (
                                 <Box key={i} sx={{ display: "flex", gap: 2 }}>
                                     <Typography variant="caption" color="text.disabled" sx={{ minWidth: 80, pt: 0.3, whiteSpace: "nowrap" }}>
-                                        <T>{formatDate(entry.date)}</T>
+                                        {formatDate(entry.date)}
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
-                                        <T>{entry.text}</T>
+                                        {entry.text}
                                     </Typography>
                                 </Box>
                             ))}
@@ -265,7 +265,7 @@ const AboutCard = () => {
                     slotProps={{ tooltip: { sx: { maxWidth: 420 } } }}
                 >
                     <SwirlLink href="/changelog" variant="body2" fontWeight={600}>
-                        <T>What's New</T>
+                        What's New
                     </SwirlLink>
                 </GlassTooltip>
             </Box>

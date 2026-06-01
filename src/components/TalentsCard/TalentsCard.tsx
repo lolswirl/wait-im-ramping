@@ -46,7 +46,7 @@ export const TalentOption: React.FC<TalentOptionProps> = ({ talent, isChecked, o
         >
             <SpellButton selectedSpell={talent} size={32} />
             <span style={{ fontSize: "0.72rem", fontWeight: 500 }}>
-                <T>{talent.name}</T>
+                {talent.name}
             </span>
         </div>
     );
@@ -91,7 +91,7 @@ const TalentsCard: React.FC<TalentsCardProps> = ({ options, color, label, card, 
         return (
             <Card variant="outlined" sx={{ p: 2 }}>
                 <Group>
-                    <span style={rowLabel}><T>{label ?? ''}</T></span>
+                    <span style={rowLabel}>{label ?? ''}</span>
                     {rowSep}
                     {chips}
                 </Group>
@@ -101,7 +101,7 @@ const TalentsCard: React.FC<TalentsCardProps> = ({ options, color, label, card, 
 
     return (
         <React.Fragment>
-            <span style={rowLabel}><T>{label ?? ''}</T></span>
+            <span style={rowLabel}>{label ?? ''}</span>
             {rowSep}
             {chips}
         </React.Fragment>

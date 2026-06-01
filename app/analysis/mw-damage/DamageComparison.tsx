@@ -196,14 +196,14 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
   const renderValuesTable = (type: 'DPS' | 'HPS', asHealing: boolean) => (
     <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
       <Box sx={{ px: 2, pt: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' }}>
-        <Typography variant="body2" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
-          <T>{type} Values (500 seconds)</T>
+        <Typography variant="body2" sx={{ fontWeight: 600, letterSpacing: '0.5px', fontSize: '0.75rem' }}>
+          {type} Values (500 seconds)
         </Typography>
       </Box>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1 }}><T>Targets</T></TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1 }}>Targets</TableCell>
             {ROTATION_CONFIGS.map(config => (
               <TableCell key={config.dataKey} align="center" sx={{ border: 0, py: 1, px: 1 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
@@ -213,7 +213,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
                     ))}
                   </Box>
                   <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: '0.7rem', color: config.color }}>
-                    <T>{config.label}</T>
+                    {config.label}
                   </Typography>
                 </Box>
               </TableCell>
@@ -247,14 +247,14 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
   const renderComparisonTable = (type: 'DPS' | 'HPS', asHealing: boolean) => (
     <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
       <Box sx={{ px: 2, pt: 1.5, pb: 0.5, borderBottom: '1px solid', borderColor: 'divider' }}>
-        <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
-          <T>{type} Comparisons (% Difference)</T>
+        <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
+          {type} Comparisons (% Difference)
         </Typography>
       </Box>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1 }}><T>Targets</T></TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1 }}>Targets</TableCell>
             {ROTATION_CONFIGS.map((config1, i) =>
               ROTATION_CONFIGS.slice(i + 1).map(config2 => (
                 <TableCell key={`${config1.dataKey}-vs-${config2.dataKey}`} align="center" sx={{ border: 0, py: 1, px: 1 }}>
@@ -263,13 +263,13 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
                       {config1.spells.map((spell, idx) => (
                         <SpellButton key={`${config1.dataKey}-s1-${idx}`} selectedSpell={spell} size={18} />
                       ))}
-                      <Typography variant="caption" sx={{ fontSize: '0.65rem' }}><T>vs</T></Typography>
+                      <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>vs</Typography>
                       {config2.spells.map((spell, idx) => (
                         <SpellButton key={`${config2.dataKey}-s2-${idx}`} selectedSpell={spell} size={18} />
                       ))}
                     </Box>
                     <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>
-                      <T>{config1.label} vs {config2.label}</T>
+                      {config1.label} vs {config2.label}
                     </Typography>
                   </Box>
                 </TableCell>
@@ -326,8 +326,8 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
     return (
       <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
         <Box sx={{ px: 2, pt: 1.5, pb: 1.5, borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
-          <Typography variant="body2" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
-            <T>{type} by Target Count (500 seconds)</T>
+          <Typography variant="body2" sx={{ fontWeight: 600, letterSpacing: '0.5px', fontSize: '0.75rem' }}>
+            {type} by Target Count (500 seconds)
           </Typography>
           <WarningChip message="% shown is relative to the best rotation in each row" borderColor="rgba(255,255,255,0.2)" />
         </Box>
@@ -335,7 +335,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
           <TableHead>
             <TableRow>
               <TableCell align="center" sx={{ fontWeight: 'bold', border: 0, py: 1, px: 1.5, width: 60 }}>
-                <Typography variant="caption" fontWeight="bold"><T>Targets</T></Typography>
+                <Typography variant="caption" fontWeight="bold">Targets</Typography>
               </TableCell>
               {ROTATION_CONFIGS.map(config => (
                 <TableCell key={config.dataKey} align="center" sx={{ border: 0, py: 1, px: 1, width: 120, minWidth: 120 }}>
@@ -346,7 +346,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
                       ))}
                     </Box>
                     <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: '0.7rem', color: config.color }}>
-                      <T>{config.label}</T>
+                      {config.label}
                     </Typography>
                   </Box>
                 </TableCell>
@@ -465,7 +465,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
               onClick={() => setSimulationKey(k => k + 1)}
               startIcon={<Refresh />}
             >
-              <T>Re-formulate</T>
+              Re-formulate
             </SwirlButton>
             <Box sx={{ flexGrow: 1 }} />
             <WarningChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon borderColor="#ffa726" />
@@ -483,8 +483,8 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
 
       <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
         <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
-          <Tab label={T("HPS")} />
-          <Tab label={T("DPS")} />
+          <Tab label={"HPS"} />
+          <Tab label={"DPS"} />
         </Tabs>
         <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
@@ -518,14 +518,14 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
                       ))}
                     </Box>
                     <Typography variant="caption" color="text.secondary">
-                      <T>{config.label}</T>
+                      {config.label}
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
                       <Typography variant="h6" sx={{ fontWeight: 'bold', color: config.color, lineHeight: 1.2 }}>
                         {avg.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
-                        <T>{showAsHealing ? 'HPS' : 'DPS'}</T>
+                        {showAsHealing ? 'HPS' : 'DPS'}
                       </Typography>
                     </Box>
                   </Card>
@@ -541,8 +541,8 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
 
       <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
         <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
-          <Tab label={T("HPS")} />
-          <Tab label={T("DPS")} />
+          <Tab label={"HPS"} />
+          <Tab label={"DPS"} />
         </Tabs>
         <Box sx={{ p: 2 }}>
           {renderHeatmapTable(showAsHealing ? 'HPS' : 'DPS', showAsHealing)}
@@ -555,14 +555,14 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
         sx={{ width: "100%", maxWidth: 1000, borderRadius: '4px', '&:before': { display: 'none' } }}
       >
         <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography variant="body2" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.75rem' }}>
-            <T>Raw Tables</T>
+          <Typography variant="body2" sx={{ fontWeight: 600, letterSpacing: '0.5px', fontSize: '0.75rem' }}>
+            Raw Tables
           </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0 }}>
           <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
-            <Tab label={T("DPS")} />
-            <Tab label={T("HPS")} />
+            <Tab label={"DPS"} />
+            <Tab label={"HPS"} />
           </Tabs>
           <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 3 }}>
             {renderValuesTable(showAsHealing ? 'HPS' : 'DPS', showAsHealing)}

@@ -140,9 +140,9 @@ const AbsorbVsDRCompare: React.FC<{ title: React.ReactNode; description: React.R
 
       {intersectionPoint.x !== null && intersectionPoint.y !== null && (
         <Typography variant="body1">
-          <T>
+          
             Damage Reduction becomes better than Absorb at ${formatNumber(intersectionPoint.x)} damage (${formatNumber(intersectionPoint.y)} damage intake).
-          </T>
+          
         </Typography>
       )}
     </Container>

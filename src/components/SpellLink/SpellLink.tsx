@@ -75,7 +75,7 @@ const SpellLink: React.FC<SpellLinkProps> = ({
                 {src && (
                     <img
                         src={src}
-                        alt={T(spell.name)}
+                        alt={(spell.name)}
                         width={size}
                         height={size}
                         style={{
@@ -98,7 +98,7 @@ const SpellLink: React.FC<SpellLinkProps> = ({
                     ...textSx,
                 }}
             >
-                <T>{spell.name}</T>
+                {spell.name}
             </Box>
         </Box>
     );

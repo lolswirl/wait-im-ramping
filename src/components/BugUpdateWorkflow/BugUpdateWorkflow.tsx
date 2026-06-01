@@ -349,17 +349,17 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
             }}
         >
             <DialogTitle>
-                {step === WorkflowStep.SOURCE_INPUT && <T>Paste Bugs Source Code</T>}
-                {step === WorkflowStep.BUILD_INPUT && <T>Enter Build Number</T>}
-                {step === WorkflowStep.BUG_REVIEW && `${T("Bug Review")} (${currentBugIndex + 1} / ${bugs.length})`}
-                {step === WorkflowStep.COMPLETE && <T>Update Complete</T>}
+                {step === WorkflowStep.SOURCE_INPUT && "Paste Bugs Source Code"}
+                {step === WorkflowStep.BUILD_INPUT && "Enter Build Number"}
+                {step === WorkflowStep.BUG_REVIEW && `${("Bug Review")} (${currentBugIndex + 1} / ${bugs.length})`}
+                {step === WorkflowStep.COMPLETE && "Update Complete"}
             </DialogTitle>
 
             <DialogContent>
                 {step === WorkflowStep.SOURCE_INPUT && (
                     <Box sx={{ pt: 2 }}>
                         <Typography variant="body2" sx={{ mb: 2, color: "rgba(255,255,255,0.7)" }}>
-                            <T>Paste the entire content of your bugs.tsx file here. This will be used to generate the updated version with new build numbers.</T>
+                            Paste the entire content of your bugs.tsx file here. This will be used to generate the updated version with new build numbers.
                         </Typography>
                         <TextField
                             fullWidth
@@ -367,7 +367,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             rows={15}
                             value={originalSource}
                             onChange={(e) => setOriginalSource(e.target.value)}
-                            placeholder={T("Paste your bugs.tsx file content here...")}
+                            placeholder={("Paste your bugs.tsx file content here...")}
                             autoFocus
                             sx={{
                                 "& .MuiInputBase-root": {
@@ -383,7 +383,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             }}
                         />
                         <Typography variant="caption" sx={{ mt: 1, display: "block", color: "info.main" }}>
-                            <T>You will review {bugs.length} open {bugs.length === 1 ? 'bug' : 'bugs'} for {specKey}.</T>
+                            You will review {bugs.length} open {bugs.length === 1 ? 'bug' : 'bugs'} for {specKey}.
                         </Typography>
                     </Box>
                 )}
@@ -392,10 +392,10 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                     <Box sx={{ pt: 2 }}>
                         <TextField
                             fullWidth
-                            label={T("Build Number")}
+                            label={("Build Number")}
                             value={buildNumber}
                             onChange={(e) => setBuildNumber(e.target.value)}
-                            placeholder={T("e.g., 66220")}
+                            placeholder={("e.g., 66220")}
                             autoFocus
                             onKeyPress={(e) => {
                                 if (e.key === "Enter" && buildNumber.trim()) {
@@ -414,10 +414,10 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             }}
                         />
                         <Typography variant="caption" sx={{ mt: 1, display: "block", color: "rgba(255,255,255,0.7)" }}>
-                            <T>This build number will be added to buildsTested for bugs that are still broken.</T>
+                            This build number will be added to buildsTested for bugs that are still broken.
                         </Typography>
                         <Typography variant="body2" sx={{ mt: 2, color: "info.main" }}>
-                            <T>You will review {bugs.length} open {bugs.length === 1 ? 'bug' : 'bugs'} for {specKey}.</T>
+                            You will review {bugs.length} open {bugs.length === 1 ? 'bug' : 'bugs'} for {specKey}.
                         </Typography>
                     </Box>
                 )}
@@ -426,7 +426,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                     <Box sx={{ pt: 2 }}>
                         <Box sx={{ mb: 2 }}>
                             <Typography variant="caption" color="rgba(255,255,255,0.7)">
-                                <T>Progress: {progress}% ({currentBugIndex + 1} of {bugs.length})</T>
+                                Progress: {progress}% ({currentBugIndex + 1} of {bugs.length})
                             </Typography>
                             <Box
                                 sx={{
@@ -453,14 +453,14 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             <SpellButton selectedSpell={currentBug.spell} size={56} />
                             <Box sx={{ flex: 1 }}>
                                 <Typography variant="h6" sx={{ mb: 0.5, color: "white" }}>
-                                    <T>{currentBug.spell.name}</T>
+                                    {currentBug.spell.name}
                                 </Typography>
                                 <BugChips bug={currentBug} />
                             </Box>
                         </Box>
 
                         <Typography variant="h6" sx={{ mb: 2, color: "white", lineHeight: 1.3 }}>
-                            <T>{currentBug.title}</T>
+                            {currentBug.title}
                         </Typography>
 
                         {currentBug.description && (
@@ -493,7 +493,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                                             textTransform: "none",
                                         }}
                                     >
-                                        <T>Description</T>
+                                        Description
                                     </Typography>
                                     <Typography
                                         component="div"
@@ -506,7 +506,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                                             fontSize: "0.9rem",
                                         }}
                                     >
-                                        <T>{currentBug.description}</T>
+                                        {currentBug.description}
                                     </Typography>
                                 </CardContent>
                             </Card>
@@ -542,7 +542,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                                             textTransform: "none",
                                         }}
                                     >
-                                        <T>Notes</T>
+                                        Notes
                                     </Typography>
                                     <Typography
                                         component="div"
@@ -555,14 +555,14 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                                             fontSize: "0.9rem",
                                         }}
                                     >
-                                        <T>{currentBug.notes}</T>
+                                        {currentBug.notes}
                                     </Typography>
                                 </CardContent>
                             </Card>
                         )}
 
                         <Typography variant="h6" sx={{ mt: 3, mb: 1, textAlign: "center", color: "white" }}>
-                            <T>Is this bug still broken in build {buildNumber}?</T>
+                            Is this bug still broken in build {buildNumber}?
                         </Typography>
                     </Box>
                 )}
@@ -571,16 +571,16 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                     <Box sx={{ pt: 2 }}>
                         {isGenerating ? (
                             <Typography variant="body1" sx={{ mb: 2, color: "info.main" }}>
-                                <T>Generating updated code...</T>
+                                Generating updated code...
                             </Typography>
                         ) : (
                             <>
                                 <Alert severity="success" sx={{ mb: 2, borderRadius: 1 }}>
-                                    <T>Review complete! {bugUpdates.length} bug(s) updated.</T>
+                                    Review complete! {bugUpdates.length} bug(s) updated.
                                 </Alert>
                                 
                                 <Typography variant="body2" sx={{ mb: 2, color: "rgba(255,255,255,0.7)" }}>
-                                    <T>Copy the updated code below and replace your entire bugs.tsx file content:</T>
+                                    Copy the updated code below and replace your entire bugs.tsx file content:
                                 </Typography>
                                 
                                 <Box sx={{ position: "relative" }}>
@@ -642,7 +642,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
 
                                 {copySuccess && (
                                     <Typography variant="caption" sx={{ mt: 1, display: "block", color: "success.main" }}>
-                                        <T>Copied to clipboard!</T>
+                                        Copied to clipboard!
                                     </Typography>
                                 )}
                             </>
@@ -654,28 +654,28 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
             <DialogActions>
                 {step === WorkflowStep.SOURCE_INPUT && (
                     <>
-                        <Button onClick={handleClose}><T>Cancel</T></Button>
+                        <Button onClick={handleClose}>Cancel</Button>
                         <Button
                             onClick={proceedToBuildInput}
                             variant="contained"
                             disabled={!originalSource.trim()}
                         >
-                            <T>Next</T>
+                            Next
                         </Button>
                     </>
                 )}
 
                 {step === WorkflowStep.BUILD_INPUT && (
                     <>
-                        <Button onClick={() => setStep(WorkflowStep.SOURCE_INPUT)}><T>Back</T></Button>
+                        <Button onClick={() => setStep(WorkflowStep.SOURCE_INPUT)}>Back</Button>
                         <Box sx={{ flex: 1 }} />
-                        <Button onClick={handleClose}><T>Cancel</T></Button>
+                        <Button onClick={handleClose}>Cancel</Button>
                         <Button
                             onClick={startReview}
                             variant="contained"
                             disabled={!buildNumber.trim()}
                         >
-                            <T>Start Review</T>
+                            Start Review
                         </Button>
                     </>
                 )}
@@ -683,10 +683,10 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                 {step === WorkflowStep.BUG_REVIEW && (
                     <>
                         <Button onClick={handlePrevious} disabled={currentBugIndex === 0}>
-                            <T>Previous</T>
+                            Previous
                         </Button>
                         <Button onClick={handleSkipRest}>
-                            <T>Skip Rest</T>
+                            Skip Rest
                         </Button>
                         <Box sx={{ flex: 1 }} />
                         <Button
@@ -695,7 +695,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             color="success"
                             sx={{ minWidth: 120 }}
                         >
-                            <T>No (Fixed)</T>
+                            No (Fixed)
                         </Button>
                         <Button
                             onClick={() => handleBugResponse('removed')}
@@ -703,7 +703,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             color="info"
                             sx={{ minWidth: 120 }}
                         >
-                            <T>Removed</T>
+                            Removed
                         </Button>
                         <Button
                             onClick={() => handleBugResponse('unknown')}
@@ -711,7 +711,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             color="warning"
                             sx={{ minWidth: 120 }}
                         >
-                            <T>I Don't Know</T>
+                            I Don't Know
                         </Button>
                         <Button
                             onClick={() => handleBugResponse('broken')}
@@ -719,7 +719,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                             color="error"
                             sx={{ minWidth: 120 }}
                         >
-                            <T>Yes (Broken)</T>
+                            Yes (Broken)
                         </Button>
                     </>
                 )}
@@ -727,7 +727,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                 {step === WorkflowStep.COMPLETE && (
                     <>
                         <Button onClick={handleClose} variant="contained">
-                            <T>Done</T>
+                            Done
                         </Button>
                     </>
                 )}

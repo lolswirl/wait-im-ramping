@@ -72,7 +72,7 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                     {/* outdated badge */}
                     {isOutdated && (
                         <GlassTooltip
-                            title={T(tool.extra || "This tool is no longer maintained or supported")}
+                            title={tool.extra || "This tool is no longer maintained or supported"}
                             placement="top"
                         >
                             <Box sx={{
@@ -85,7 +85,7 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                                 boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
                                 border: "2px solid rgba(255,255,255,0.1)", zIndex: 2, cursor: "help",
                             }}>
-                                <T>Outdated</T>
+                                Outdated
                             </Box>
                         </GlassTooltip>
                     )}
@@ -110,7 +110,7 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                         willChange: "transform",
                     }}>
                         <Typography variant="body1" component="div" fontWeight="bold" color="white" sx={{ lineHeight: 1.3 }}>
-                            <T>{tool.label}</T>
+                            {tool.label}
                         </Typography>
                     </Box>
                     {/* description — slides up from below */}
@@ -127,7 +127,7 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                         <Typography variant="caption" sx={{
                             color: "rgba(255,255,255,0.75)", lineHeight: 1.4,
                         }}>
-                            <T>{tool.description}</T>
+                            {tool.description}
                         </Typography>
                     </Box>
                 </Box>
@@ -178,7 +178,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
             <Box sx={{ mb: 3 }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                     <Typography variant="body2" color="text.secondary" sx={{ fontWeight: "medium" }}>
-                        <T>Filter:</T>
+                        Filter:
                     </Typography>
                     <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", flexGrow: 1 }}>
                         {allTags.map((tag) => (
@@ -196,7 +196,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                     {selectedTags.length > 0 && (
                         <>
                             <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>
-                                <T>{`${displayedPages.length} of ${filteredAnalysisPages.length} tools`}</T>
+                                {`${displayedPages.length} of ${filteredAnalysisPages.length} tools`}
                             </Typography>
                             <WarningChip
                                 message={`Clear (${selectedTags.length})`}
@@ -220,10 +220,10 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
             {displayedPages.length === 0 && (
                 <Box sx={{ textAlign: "center", py: 8 }}>
                     <Typography variant="h6" color="text.secondary">
-                        <T>No tools match the selected filters</T>
+                        No tools match the selected filters
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                        <T>Try selecting different tags or clear all filters</T>
+                        Try selecting different tags or clear all filters
                     </Typography>
                 </Box>
             )}

@@ -211,7 +211,7 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
               borderColor: 'rgba(54, 162, 235, 0.3)' 
             }}>
               <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', color: 'rgb(54, 162, 235)', mb: 2 }}>
-                <T>Mode</T>
+                Mode
               </Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 {modeOptions.map(opt => (

@@ -135,10 +135,10 @@ const MissingIcons: React.FC = () => {
             <Box sx={{ py: 4, maxWidth: 600, mx: 'auto' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
                     <Typography variant="h6" color="text.secondary">
-                        <T>
+                        
                             {missingIconsList.length} missing {pluralize(missingIconsList.length, "icon")} found
                             {totalIcons > 0 && ` (${totalIcons} total ${pluralize(totalIcons, "icon")} checked)`}
-                        </T>
+                        
                     </Typography>
                     
                     <Box sx={{ display: 'flex', gap: 1 }}>
@@ -148,7 +148,7 @@ const MissingIcons: React.FC = () => {
                             onClick={handleRefresh}
                             disabled={loading}
                         >
-                            {loading ? <T>Checking...</T> : <T>Refresh</T>}
+                            {loading ? Checking... : Refresh}
                         </Button>
                     </Box>
                 </Box>
@@ -156,7 +156,7 @@ const MissingIcons: React.FC = () => {
                 {loading && (
                     <Box sx={{ mb: 3 }}>
                         <Typography variant="body2" sx={{ mb: 1 }}>
-                            <T>Checking icons...</T> ({Math.round(progress)}%)
+                            Checking icons... ({Math.round(progress)}%)
                         </Typography>
                         <LinearProgress variant="determinate" value={progress} />
                     </Box>
@@ -165,7 +165,7 @@ const MissingIcons: React.FC = () => {
                 {!loading && missingIconsList.length === 0 ? (
                     <Alert severity="success">
                         <Typography>
-                            <T>All icons are available locally. No missing icons found.</T>
+                            All icons are available locally. No missing icons found.
                         </Typography>
                     </Alert>
                 ) : (
@@ -193,7 +193,7 @@ const MissingIcons: React.FC = () => {
                                                 {iconData.iconName}
                                             </Typography>
                                             <Typography variant="body2" color="text.secondary">
-                                                {T(`${iconData.spellName} • ${iconData.specName} ${iconData.className}`)}
+                                                {(`${iconData.spellName} • ${iconData.specName} ${iconData.className}`)}
                                             </Typography>
                                         </Box>
                                         
@@ -206,7 +206,7 @@ const MissingIcons: React.FC = () => {
                                                 target="_blank"
                                                 rel="noopener"
                                             >
-                                                <T>Wowhead Link</T>
+                                                Wowhead Link
                                             </Button>
                                         </Box>
                                     </Box>
@@ -219,7 +219,7 @@ const MissingIcons: React.FC = () => {
                 {!loading && missingIconsList.length > 0 && (
                     <Box sx={{ mt: 3 }}>
                         <Typography variant="h6" gutterBottom>
-                            <T>Summary by Class</T>
+                            Summary by Class
                         </Typography>
                         <Grid container spacing={2}>
                             {Object.entries(
@@ -233,7 +233,7 @@ const MissingIcons: React.FC = () => {
                                     <Paper sx={{ p: 2, textAlign: 'center' }}>
                                         <Typography variant="h6">{count}</Typography>
                                         <Typography variant="body2" color="text.secondary">
-                                            {T(className)}
+                                            {(className)}
                                         </Typography>
                                     </Paper>
                                 </Grid>

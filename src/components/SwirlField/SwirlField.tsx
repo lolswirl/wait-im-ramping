@@ -19,7 +19,7 @@ const SwirlField: React.FC<SwirlFieldProps> = ({ label, value, onChange, suffix,
 
     return (
         <TextField
-            label={T(label)}
+            label={(label)}
             type="number"
             value={value}
             onChange={(e) => {

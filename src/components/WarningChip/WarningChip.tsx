@@ -79,7 +79,7 @@ const WarningChip: React.FC<WarningChipProps> = ({
     
     return (
         <Chip 
-            label={T(displayMessage)}
+            label={(displayMessage)}
             icon={iconPosition === 'left' ? iconElement : undefined}
             deleteIcon={iconPosition === 'right' ? iconElement : undefined}
             onDelete={iconPosition === 'right' && iconElement ? () => {} : undefined}

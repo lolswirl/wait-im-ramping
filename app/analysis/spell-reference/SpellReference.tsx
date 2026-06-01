@@ -180,12 +180,12 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
           <Table size="small">
             <TableHead>
               <TableRow>
-                <TableCell sx={headerSx}><T>Spell</T></TableCell>
-                <TableCell sx={headerSx}><T>Type</T></TableCell>
-                <TableCell align="right" sx={headerSx}><T>Base SP%</T></TableCell>
-                <TableCell align="right" sx={headerSx}><T>Effective SP%</T></TableCell>
+                <TableCell sx={headerSx}>Spell</TableCell>
+                <TableCell sx={headerSx}>Type</TableCell>
+                <TableCell align="right" sx={headerSx}>Base SP%</TableCell>
+                <TableCell align="right" sx={headerSx}>Effective SP%</TableCell>
                 <TableCell align="right" sx={headerSx}>
-                  <T>Value at {stats.intellect.toLocaleString()} Int</T>
+                  Value at {stats.intellect.toLocaleString()} Int
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -195,9 +195,9 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                   <TableCell sx={{ ...cellSx, display: "flex", alignItems: "center", gap: 1 }}>
                     <SpellButton selectedSpell={spell} size={32} />
                     <Typography variant="body2" fontWeight="bold">
-                      <T>
+                      
                         {spell.name}
-                      </T>
+                      
                     </Typography>
                   </TableCell>
                   <TableCell sx={cellSx}>
@@ -205,9 +205,9 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                       variant="caption"
                       sx={{ color: type === "damage" ? "#f87171" : "#4ade80" }}
                     >
-                      <T>
+                      
                         {type === "damage" ? "Damage" : "Healing"}
-                      </T>
+                      
                     </Typography>
                   </TableCell>
                   <TableCell align="right" sx={cellSx}>

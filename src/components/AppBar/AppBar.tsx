@@ -104,7 +104,7 @@ function ResponsiveAppBar() {
                         }}
                     >
                         <img src="/apple-icon.png" alt="Logo" style={{ width: 16, height: 16, transform: 'translateY(2px)' }} />
-                        <span><T>Wait, I'm Ramping!</T></span>
+                        <span>Wait, I'm Ramping!</span>
                     </Typography>
                 </Box>
                 <ColoredIconButton 
@@ -171,7 +171,7 @@ function ResponsiveAppBar() {
                                 }}
                             >
                                 <ListItemText 
-                                    primary={T(label)}
+                                    primary={label}
                                     primaryTypographyProps={{
                                         fontWeight: isActive ? 600 : 400
                                     }}
@@ -199,7 +199,7 @@ function ResponsiveAppBar() {
                         letterSpacing: "0.5px"
                     }}
                 >
-                    <T>Settings</T>
+                    Settings
                 </Typography>
                 <Box 
                     sx={{ 
@@ -286,7 +286,7 @@ function ResponsiveAppBar() {
                                 backgroundClip: isHomePage || titleHovered ? "text" : "unset",
                                 transition: "all 0.3s ease",
                             }}>
-                                <T>Wait, I'm Ramping!</T>
+                                Wait, I'm Ramping!
                             </span>
                             {displayBranch && (
                                 <Typography
@@ -314,12 +314,12 @@ function ResponsiveAppBar() {
                                 
                                 return (
                                     <SwirlButton
-                                        key={T(label)}
+                                        key={label}
                                         href={path}
                                         selected={isActive}
                                         color={buttonColor}
                                     >
-                                        <T>{label}</T>
+                                        {label}
                                     </SwirlButton>
                                 );
                             })}

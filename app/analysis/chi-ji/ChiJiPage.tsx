@@ -210,7 +210,7 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
                                 disabled={isSimulating || rotationHPS.length === 0}
                                 startIcon={<Refresh />}
                             >
-                                <T>{isSimulating ? 'Simulating...' : 'Re-simulate'}</T>
+                                {isSimulating ? 'Simulating...' : 'Re-simulate'}
                             </SwirlButton>
                         </CurrentRotationControl>
                     </Box>

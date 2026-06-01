@@ -147,7 +147,7 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
                         color="text.secondary"
                         sx={{ textAlign: "center", mt: 2 }}
                     >
-                        <T>No bugs found for the selected filters.</T>
+                        No bugs found for the selected filters.
                     </Typography>
                 )}
             </Box>

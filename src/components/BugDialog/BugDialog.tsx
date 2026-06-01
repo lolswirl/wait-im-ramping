@@ -89,7 +89,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                             letterSpacing: "-0.01em"
                         }}
                     >
-                        <T>{bug.title}</T>
+                        {bug.title}
                     </Typography>
                     <BugChips bug={bug} />
                 </Stack>
@@ -136,7 +136,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 textTransform: "none",
                                             }}
                                         >
-                                            <T>Description</T>
+                                            Description
                                         </Typography>
                                         <Typography
                                             component="div"
@@ -150,7 +150,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 flex: 1
                                             }}
                                         >
-                                            <T>{bug.description}</T>
+                                            {bug.description}
                                         </Typography>
                                     </CardContent>
                                 </Card>
@@ -186,7 +186,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 flexShrink: 0,
                                             }}
                                         >
-                                            <T>Notes</T>
+                                            Notes
                                         </Typography>
                                         <Typography
                                             component="div"
@@ -201,7 +201,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 overflowWrap: "break-word"
                                             }}
                                         >
-                                            <T>{bug.notes}</T>
+                                            {bug.notes}
                                         </Typography>
                                     </CardContent>
                                 </Card>
@@ -236,7 +236,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                 textTransform: "none",
                                             }}
                                         >
-                                            <T>Logs</T>
+                                            Logs
                                         </Typography>
                                         <Stack spacing={1}>
                                             {bug.logs.map((log, index) => (
@@ -267,7 +267,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                                                             letterSpacing: 0.5,
                                                         }}
                                                     >
-                                                        <T>{log.label}</T>
+                                                        {log.label}
                                                     </Typography>
                                                     <Link
                                                         href={log.url}
@@ -307,7 +307,7 @@ const BugDialog: React.FC<BugDialogProps> = ({
                 }}
             >
                 <SwirlButton onClick={onClose}>
-                    <T>Close</T>
+                    Close
                 </SwirlButton>
             </DialogActions>
         </Dialog>
