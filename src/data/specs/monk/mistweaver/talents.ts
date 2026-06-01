@@ -606,7 +606,7 @@ const talents = {
         id: 443110,
         icon: 'ability_monk_chargingoxwave',
         heroTalent: COTC,
-        coeff: 1.5, // interpolated via 930 amount ingame
+        coeff: 1.5,
         custom: {
             targetsHit: 5,
         }
