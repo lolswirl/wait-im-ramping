@@ -297,11 +297,19 @@ const talents = {
         name: "Soothing Mist",
         id: 1260617,
         icon: 'ability_monk_soothingmists',
+        display: {
+            name: "Soothing Mist (Spiritfont)"
+        },
+        coeff: 3.36 * 5, // always 5 targets combined
     },
     SPIRITFONT_CHI_COCOON: {
         name: "Chi Cocoon",
         id: 1260681,
         icon: 'ability_monk_chiexplosion',
+        display: {
+            name: "Chi Cocoon (Spiritfont)"
+        },
+        formula: (stats) => (stats.totalHp ?? 0) * (24 * 0.30) / 100 * (1 + stats.versatility / 100), // 30% effectiveness from regular chi cocoons
     },
     ZEN_PULSE: {
         name: "Zen Pulse",
