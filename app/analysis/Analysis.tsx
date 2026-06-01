@@ -102,7 +102,7 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                     {/* title — shifts up by description height on hover */}
                     <Box sx={{
                         position: "absolute", bottom: 0, left: 0, right: 0, px: 1.5, pb: 1.5,
-                        transform: hovered ? `translateY(-${descHeight}px)` : "translateY(0)",
+                        transform: hovered ? `translateY(-${descHeight - 12}px)` : "translateY(0)",
                         transition: "transform 0.3s ease",
                         willChange: "transform",
                     }}>
