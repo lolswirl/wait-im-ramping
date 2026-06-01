@@ -1,8 +1,10 @@
 "use client";
 import React, { useState, useMemo } from "react";
 import {
+  Box,
   Card,
   Container,
+  Divider,
   Table,
   TableBody,
   TableCell,
@@ -128,34 +130,48 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
       <PageHeader title={title} subtitle={description} marginBottom={0} />
 
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, p: 2, display: "flex", flexDirection: "column", gap: 2 }}>
-        <WarningChip message="Work in Progress. Some data might be incorrect." showIcon color="warning"/>
-        <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
-        <Group>
-          <StatsCard options={stats} onOptionsChange={setStats} />
-          {specTalents.size > 0 && (
-            <TalentsCard
-              label="Spec"
-              options={specTalents}
-              color={spec.color}
-              onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))}
-            />
-          )}
-          {heroTalents.size > 0 && (
-            <HeroTalentsCard
-              options={heroTalents}
-              onChange={(t, c) => setHeroTalents(prev => new Map(prev).set(t, c))}
-            />
-          )}
-          {classTalents.size > 0 && (
-            <TalentsCard
-              label="Class"
-              options={classTalents}
-              color={spec.color}
-              onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))}
-            />
-          )}
-        </Group>
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, display: "flex", flexDirection: { xs: "column", md: "row" } }}>
+        <Box sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2, flex: "0 0 auto", width: 300 }}>
+          <WarningChip message="Work in Progress. Some data might be incorrect." showIcon borderColor='#ffa726' />
+          <Box sx={{ width: "fit-content" }}>
+            <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
+          </Box>
+          <Group>
+            <StatsCard options={stats} onOptionsChange={setStats} />
+          </Group>
+        </Box>
+        {(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0) && (
+          <>
+            <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" } }} />
+            <Divider sx={{ display: { md: "none" } }} />
+            <Box sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2, flex: 1 }}>
+              <Group>
+                {specTalents.size > 0 && (
+                  <TalentsCard
+                    label="Spec"
+                    options={specTalents}
+                    color={spec.color}
+                    onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))}
+                  />
+                )}
+                {heroTalents.size > 0 && (
+                  <HeroTalentsCard
+                    options={heroTalents}
+                    onChange={(t, c) => setHeroTalents(prev => new Map(prev).set(t, c))}
+                  />
+                )}
+                {classTalents.size > 0 && (
+                  <TalentsCard
+                    label="Class"
+                    options={classTalents}
+                    color={spec.color}
+                    onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))}
+                  />
+                )}
+              </Group>
+            </Box>
+          </>
+        )}
       </Card>
 
       <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
