@@ -1,14 +1,7 @@
 "use client";
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { 
-    CardActionArea, 
-    CardContent, 
-    Container, 
-    Typography, 
-    Box, 
-    Grid,
-} from "@mui/material";
+import { Container, Typography, Box, Grid } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import { T } from "@util/T";
@@ -18,6 +11,122 @@ import { GlassTooltip } from "@components/Glass";
 
 import { analysisPages, AnalysisPage } from "../AnalysisPages";
 import WarningChip from "@components/WarningChip/WarningChip";
+
+const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ tool, isOutdated }) => {
+    const [hovered, setHovered] = useState(false);
+    const descRef = React.useRef<HTMLDivElement>(null);
+    const [descHeight, setDescHeight] = React.useState(48);
+
+    React.useLayoutEffect(() => {
+        if (descRef.current) {
+            const prev = descRef.current.style.transform;
+            descRef.current.style.transform = "none";
+            setDescHeight(descRef.current.offsetHeight);
+            descRef.current.style.transform = prev;
+        }
+    }, [tool.description]);
+
+    return (
+        <Link href={tool.path} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+            <RainbowCard
+                variant="outlined"
+                sx={{
+                    overflow: "hidden",
+                    opacity: isOutdated ? 0.4 : 1,
+                    cursor: "pointer",
+                    "&:hover": { opacity: isOutdated ? 0.6 : 1 },
+                }}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+            >
+                <Box sx={{ height: 200, position: "relative" }}>
+                    {/* image */}
+                    <Box sx={{
+                        position: "absolute", inset: 0,
+                        backgroundImage: `url(${tool.preview})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        filter: "blur(0.5px)",
+                        opacity: 0.8,
+                        transition: "transform 0.3s ease",
+                    }} />
+
+                    {/* gradient */}
+                    <Box sx={{
+                        position: "absolute", inset: 0,
+                        background: hovered
+                            ? "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.4) 100%)"
+                            : "linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 55%)",
+                        transition: "background 0.3s ease",
+                    }} />
+
+                    {/* outdated badge */}
+                    {isOutdated && (
+                        <GlassTooltip
+                            title={T(tool.extra || "This tool is no longer maintained or supported")}
+                            placement="top"
+                        >
+                            <Box sx={{
+                                position: "absolute", top: "50%", left: "50%",
+                                transform: "translate(-50%, -50%)",
+                                backgroundColor: "error.main", backdropFilter: "blur(8px)",
+                                color: "white", px: 1.5, py: 0.75, borderRadius: 2,
+                                fontSize: "0.875rem", fontWeight: 600, letterSpacing: "0.05em",
+                                textTransform: getCapsMode() ? "none" : "lowercase",
+                                boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+                                border: "2px solid rgba(255,255,255,0.1)", zIndex: 2, cursor: "help",
+                            }}>
+                                <T>Outdated</T>
+                            </Box>
+                        </GlassTooltip>
+                    )}
+
+                    {/* date badge */}
+                    <Box sx={{
+                        position: "absolute", top: 8, right: 8,
+                        backgroundColor: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)",
+                        color: "rgba(255,255,255,0.8)", px: 1.25, py: 0.4, borderRadius: 1,
+                        fontSize: "0.68rem", fontWeight: 500, letterSpacing: "0.02em",
+                        textTransform: getCapsMode() ? "none" : "lowercase",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                    }}>
+                        {formatDate(tool.createdDate)}
+                    </Box>
+
+                    {/* title — shifts up by description height on hover */}
+                    <Box sx={{
+                        position: "absolute", bottom: 0, left: 0, right: 0, px: 1.5, pb: 1.5,
+                        transform: hovered ? `translateY(-${descHeight - 12}px)` : "translateY(0)",
+                        transition: "transform 0.3s ease",
+                        willChange: "transform",
+                    }}>
+                        <Typography variant="body1" fontWeight="bold" color="white" sx={{ lineHeight: 1.3 }}>
+                            <T>{tool.label}</T>
+                        </Typography>
+                    </Box>
+                    {/* description — starts just below the bottom, slides up flush under title */}
+                    <Box
+                        ref={descRef}
+                        sx={{
+                            position: "absolute", bottom: 0, left: 0, right: 0, px: 1.5, pb: 1.5,
+                            transform: hovered ? "translateY(0)" : "translateY(100%)",
+                            opacity: hovered ? 1 : 0,
+                            transition: "transform 0.3s ease, opacity 0.2s ease",
+                            willChange: "transform",
+                        }}
+                    >
+                        <Typography variant="caption" sx={{
+                            display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden",
+                            color: "rgba(255,255,255,0.75)", lineHeight: 1.4,
+                        }}>
+                            <T>{tool.description}</T>
+                        </Typography>
+                    </Box>
+                </Box>
+            </RainbowCard>
+        </Link>
+    );
+};
 
 const Analysis: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -36,50 +145,37 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
 
     const displayedPages = useMemo(() => {
         let filtered = filteredAnalysisPages;
-
         if (selectedTags.length > 0) {
-            filtered = filtered.filter(tool => 
+            filtered = filtered.filter(tool =>
                 selectedTags.every(selectedTag => tool.tags.includes(selectedTag))
             );
         }
-        
-        return filtered.sort((a, b) => 
+        return filtered.sort((a, b) =>
             new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
         );
     }, [filteredAnalysisPages, selectedTags]);
 
     const handleTagToggle = (tag: string) => {
-        setSelectedTags(prev => 
-            prev.includes(tag) 
-                ? prev.filter(t => t !== tag)
-                : [...prev, tag]
+        setSelectedTags(prev =>
+            prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
         );
     };
 
-    const clearAllFilters = () => {
-        setSelectedTags([]);
-    };
-
-    const isOutdated = (tool: AnalysisPage) => {
-        return tool.tags.some(tag => tag.toLowerCase() === 'outdated');
-    };
+    const isOutdated = (tool: AnalysisPage) =>
+        tool.tags.some(tag => tag.toLowerCase() === "outdated");
 
     return (
         <Container>
-            <PageHeader 
-                title={title} 
-                subtitle={description} 
-                marginBottom={3}
-            />
+            <PageHeader title={title} subtitle={description} marginBottom={3} />
 
             <Box sx={{ mb: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'medium' }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: "medium" }}>
                         <T>Filter:</T>
                     </Typography>
-                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', flexGrow: 1 }}>
+                    <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", flexGrow: 1 }}>
                         {allTags.map((tag) => (
-                            <WarningChip 
+                            <WarningChip
                                 key={tag}
                                 message={tag}
                                 variant={selectedTags.includes(tag) ? "filled" : "outlined"}
@@ -95,10 +191,10 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                             <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>
                                 <T>{`${displayedPages.length} of ${filteredAnalysisPages.length} tools`}</T>
                             </Typography>
-                            <WarningChip 
+                            <WarningChip
                                 message={`Clear (${selectedTags.length})`}
                                 color="error"
-                                onClick={clearAllFilters}
+                                onClick={() => setSelectedTags([])}
                                 fontSize="0.8rem"
                             />
                         </>
@@ -109,161 +205,13 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
             <Grid container spacing={3}>
                 {displayedPages.map((tool) => (
                     <Grid size={{ xs: 12, sm: 6, md: 4 }} key={tool.path}>
-                        <Link
-                            href={tool.path}
-                            style={{
-                                textDecoration: "none",
-                                color: "inherit",
-                                display: "block",
-                                height: "100%",
-                            }}
-                        >
-                        <RainbowCard
-                                variant="outlined"
-                                sx={{
-                                    height: "100%",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    opacity: isOutdated(tool) ? 0.4 : 1,
-                                    "&:hover": {
-                                        boxShadow: 6,
-                                        transform: "translateY(-4px)",
-                                        opacity: isOutdated(tool) ? 0.6 : 1,
-                                    },
-                                    cursor: "pointer",
-                                }}
-                            >
-                                <CardActionArea
-                                    sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
-                                >
-                                    <Box
-                                        sx={{
-                                            height: 160,
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            color: 'white',
-                                            position: 'relative',
-                                            overflow: 'hidden'
-                                        }}
-                                    >
-                                        <Box sx={{ 
-                                            position: 'absolute', 
-                                            inset: 0, 
-                                            backgroundImage: `url(${tool.preview})`,
-                                            backgroundSize: 'cover',
-                                            backgroundPosition: 'center',
-                                            opacity: 0.8,
-                                            filter: 'blur(0.5px)'
-                                        }} />
-
-                                        {isOutdated(tool) && (
-                                            <GlassTooltip 
-                                                title={T(tool.extra || "This tool is no longer maintained or supported")}
-                                                placement="top"
-                                            >
-                                                <Box sx={{ 
-                                                    position: 'absolute',
-                                                    top: '50%',
-                                                    left: '50%',
-                                                    transform: 'translate(-50%, -50%)',
-                                                    backgroundColor: 'error.main',
-                                                    backdropFilter: 'blur(8px)',
-                                                    color: 'white',
-                                                    px: 1.5,
-                                                    py: 0.75,
-                                                    borderRadius: 2,
-                                                    fontSize: '0.875rem',
-                                                    fontWeight: 600,
-                                                    letterSpacing: '0.05em',
-                                                    textTransform: getCapsMode() ? 'none' : 'lowercase',
-                                                    boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                                                    border: '2px solid rgba(255,255,255,0.1)',
-                                                    zIndex: 2,
-                                                    cursor: 'help'
-                                                }}>
-                                                    <T>Outdated</T>
-                                                </Box>
-                                            </GlassTooltip>
-                                        )}
-
-                                        <Box sx={{ 
-                                            position: 'absolute', 
-                                            top: 8, 
-                                            right: 8, 
-                                            backgroundColor: 'primary',
-                                            backdropFilter: 'blur(8px)',
-                                            color: 'white',
-                                            px: 1.5,
-                                            py: 0.75,
-                                            borderRadius: 1,
-                                            fontSize: '0.7rem',
-                                            fontWeight: 500,
-                                            letterSpacing: '0.02em',
-                                            textTransform: getCapsMode() ? 'none' : 'lowercase',
-                                            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                                            border: '1px solid rgba(255,255,255,0.1)'
-                                        }}>
-                                            {formatDate(tool.createdDate)}
-                                        </Box>
-                                    </Box>
-                                    
-                                    <Box sx={{ 
-                                        height: 0.001, 
-                                        backgroundColor: 'divider',
-                                        width: '100%'
-                                    }} />
-                                    
-                                    <CardContent sx={{ flexGrow: 1, p: 2.5, display: 'flex', flexDirection: 'column' }}>
-                                        <Typography 
-                                            variant="h6" 
-                                            sx={{ 
-                                                fontWeight: 'bold', 
-                                                mb: 1.5,
-                                                lineHeight: 1.3
-                                            }}
-                                        >
-                                            <T>{tool.label}</T>
-                                        </Typography>
-                                        
-                                        <Typography 
-                                            variant="body2" 
-                                            color="text.secondary" 
-                                            sx={{ 
-                                                mb: 2, 
-                                                lineHeight: 1.5,
-                                                display: '-webkit-box',
-                                                WebkitLineClamp: 3,
-                                                WebkitBoxOrient: 'vertical',
-                                                overflow: 'hidden',
-                                                flexGrow: 1
-                                            }}
-                                        >
-                                            <T>{tool.description}</T>
-                                        </Typography>
-                                        
-                                        <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap', mt: 'auto' }}>
-                                            {tool.tags.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())).map((tag) => (
-                                                <WarningChip 
-                                                    key={tag}
-                                                    message={tag}
-                                                    variant={selectedTags.includes(tag) ? "filled" : "outlined"}
-                                                    color={selectedTags.includes(tag) ? "primary" : "default"}
-                                                    fontSize="0.7rem"
-                                                />
-                                            ))}
-                                        </Box>
-                                    </CardContent>
-                                </CardActionArea>
-                            </RainbowCard>
-                        </Link>
+                        <AnalysisCard tool={tool} isOutdated={isOutdated(tool)} />
                     </Grid>
                 ))}
             </Grid>
 
             {displayedPages.length === 0 && (
-                <Box sx={{ textAlign: 'center', py: 8 }}>
+                <Box sx={{ textAlign: "center", py: 8 }}>
                     <Typography variant="h6" color="text.secondary">
                         <T>No tools match the selected filters</T>
                     </Typography>
