@@ -18,7 +18,7 @@ export const calculateUnityWithin = (intellect: number, targets: number, unityWi
     const unityWithinMultiplier = unityWithin ? 2 : 1;
 
     const sotbo = TALENTS.STRENGTH_OF_THE_BLACK_OX;
-    const sotboMaxTargets = sotbo.custom?.targets;
+    const sotboMaxTargets = sotbo.custom?.targetsHit;
     const sotboTargetsHit = Math.min(targets, sotboMaxTargets);
     const sotboAbsorb = sotboTargetsHit * (sotbo.coeff * unityWithinMultiplier);
 
