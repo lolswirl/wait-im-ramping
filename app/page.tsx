@@ -246,28 +246,9 @@ const AboutCard = () => {
                 <Typography variant="body2" color="text.disabled">·</Typography>
                 <Typography variant="body2" color="text.disabled">Latest {latestDate}</Typography>
                 <Typography variant="body2" color="text.disabled">·</Typography>
-                <GlassTooltip
-                    title={
-                        <Box sx={{ p: 0.5, display: "flex", flexDirection: "column", gap: 1 }}>
-                            {CHANGELOG.slice(0, 5).map((entry, i) => (
-                                <Box key={i} sx={{ display: "flex", gap: 2 }}>
-                                    <Typography variant="caption" color="text.disabled" sx={{ minWidth: 80, pt: 0.3, whiteSpace: "nowrap" }}>
-                                        {formatDate(entry.date)}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {entry.text}
-                                    </Typography>
-                                </Box>
-                            ))}
-                        </Box>
-                    }
-                    placement="bottom-start"
-                    slotProps={{ tooltip: { sx: { maxWidth: 420 } } }}
-                >
-                    <SwirlLink href="/changelog" variant="body2" fontWeight={600}>
-                        What's New
-                    </SwirlLink>
-                </GlassTooltip>
+                <SwirlLink href="/changelog" variant="body2" fontWeight={600}>
+                    What's New
+                </SwirlLink>
             </Box>
         </Card>
     );
