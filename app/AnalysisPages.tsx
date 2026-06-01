@@ -1,4 +1,5 @@
 import DamageComparison from "./analysis/mw-damage/DamageComparison";
+import SpellReference from "./analysis/spell-reference/SpellReference";
 import ChiJiPage from "./analysis/chi-ji/ChiJiPage";
 import HotJS from "./analysis/heart-of-the-jade-serpent/HotJS";
 import RisingSunKickResets from "./analysis/rising-sun-kick-resets/RisingSunKickResets";
@@ -187,7 +188,18 @@ export const spellTimeline = {
   component: Timeline
 };
 
+export const spellReference = {
+  label: "Spell Reference",
+  path: "/analysis/spell-reference",
+  preview: "/previews/spell-reference.png",
+  description: "Spellpower coefficients and absolute values for spells",
+  tags: [],
+  createdDate: "2026-05-31",
+  component: SpellReference,
+};
+
 export const analysisPages: AnalysisPage[] = [
+  spellReference,
   externalComparison,
   mwDamage,
   harmonicSurge,
