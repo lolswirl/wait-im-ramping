@@ -5,20 +5,15 @@ import {
   Card,
   Container,
   Divider,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Typography,
 } from "@mui/material";
+import SwirlTable, { SwirlColumn } from "@components/SwirlTable/SwirlTable";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import StatsCard, { Group, StatsCardOptions } from "@components/StatsCard/StatsCard";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 
-import spell, { CATEGORY } from "@data/spells/spell";
+import spell, { CATEGORY, CATEGORY_COLORS } from "@data/spells/spell";
 import { CLASSES, specialization } from "@data/class";
 import { calculateSpellDamage, calculateSpellHealing, Player } from "@data/specs/monk/mistweaver/helpers";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
@@ -28,54 +23,46 @@ import SpellButton from "@components/SpellButtons/SpellButton";
 
 import WarningChip from "@components/WarningChip/WarningChip";
 
-const headerSx = {
-  fontWeight: "bold",
-  border: 0,
-  py: 1,
-  px: 1.5,
-  fontSize: "0.75rem",
-  letterSpacing: "0.5px",
-};
-
-const cellSx = { border: 0, py: 1, px: 1.5 };
 
 type SpellRow = {
   spell: spell;
-  type: "damage" | "healing";
+  type: SpellType;
   baseSpCoeff: number | null;
   spCoeff: number | null;
   absolute: number | null;
   targets?: number;
 };
 
-const coeffTypes = (s: spell): ("damage" | "healing")[] => {
+type SpellType = typeof CATEGORY.DAMAGE | typeof CATEGORY.HEALING;
+
+const coeffTypes = (s: spell): SpellType[] => {
   if (s.formula !== undefined) {
-    return [s.category === CATEGORY.DAMAGE ? "damage" : "healing"];
+    return [s.category === CATEGORY.DAMAGE ? CATEGORY.DAMAGE : CATEGORY.HEALING];
   }
   if (s.coeff === undefined) {
-    const types: ("damage" | "healing")[] = [];
-    if (s.value?.damage !== undefined) types.push("damage");
-    if (s.value?.healing !== undefined) types.push("healing");
+    const types: SpellType[] = [];
+    if (s.value?.damage !== undefined) types.push(CATEGORY.DAMAGE);
+    if (s.value?.healing !== undefined) types.push(CATEGORY.HEALING);
     return types;
   }
   if (typeof s.coeff === "number") {
-    return [s.category === CATEGORY.DAMAGE ? "damage" : "healing"];
+    return [s.category === CATEGORY.DAMAGE ? CATEGORY.DAMAGE : CATEGORY.HEALING];
   }
-  const types: ("damage" | "healing")[] = [];
-  if (s.coeff.damage !== undefined) types.push("damage");
-  if (s.coeff.healing !== undefined) types.push("healing");
+  const types: SpellType[] = [];
+  if (s.coeff.damage !== undefined) types.push(CATEGORY.DAMAGE);
+  if (s.coeff.healing !== undefined) types.push(CATEGORY.HEALING);
   return types;
 };
 
-const getRawCoeff = (s: spell, type: "damage" | "healing"): number | null => {
+const getRawCoeff = (s: spell, type: SpellType): number | null => {
   if (s.coeff === undefined) return null;
   if (typeof s.coeff === "number") return s.coeff;
-  return s.coeff[type] ?? null;
+  return (type === CATEGORY.DAMAGE ? s.coeff.damage : s.coeff.healing) ?? null;
 };
 
 const resolveValue = (
   s: spell,
-  type: "damage" | "healing",
+  type: SpellType,
   player: Player,
   targetMultiplier = 1,
 ): { baseSpCoeff: number | null; spCoeff: number | null; absolute: number | null } => {
@@ -84,7 +71,7 @@ const resolveValue = (
     return { baseSpCoeff: null, spCoeff: (absolute / player.stats.intellect) * 100, absolute };
   }
   if (s.coeff !== undefined) {
-    const absolute = (type === "damage"
+    const absolute = (type === CATEGORY.DAMAGE
       ? calculateSpellDamage(s, player)
       : calculateSpellHealing(s, player)) * targetMultiplier;
     const rawCoeff = getRawCoeff(s, type);
@@ -94,7 +81,7 @@ const resolveValue = (
       absolute,
     };
   }
-  const raw = type === "damage" ? s.value?.damage : s.value?.healing;
+  const raw = type === CATEGORY.DAMAGE ? s.value?.damage : s.value?.healing;
   return { baseSpCoeff: null, spCoeff: null, absolute: raw ?? null };
 };
 
@@ -192,58 +179,79 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
         )}
       </Card>
 
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
-        <TableContainer>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell sx={headerSx}>Spell</TableCell>
-                <TableCell sx={headerSx}>Type</TableCell>
-                <TableCell align="right" sx={headerSx}>Base SP%</TableCell>
-                <TableCell align="right" sx={headerSx}>Effective SP%</TableCell>
-                <TableCell align="right" sx={headerSx}>
-                  Value at {stats.intellect.toLocaleString()} Int
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(({ spell, type, baseSpCoeff, spCoeff, absolute, targets }) => (
-                <TableRow key={`${spell.id}-${type}-${targets ?? 0}`} hover sx={{ "&:last-child td": { border: 0 } }}>
-                  <TableCell sx={{ ...cellSx, display: "flex", alignItems: "center", gap: 1 }}>
-                    <SpellButton selectedSpell={spell} size={32} />
-                    <Box>
-                      <Typography variant="body2" fontWeight="bold">{spell.name}</Typography>
-                      {targets !== undefined && (
-                        <Typography variant="caption" color="text.disabled">{targets} {targets === 1 ? "target" : "targets"}</Typography>
-                      )}
-                    </Box>
-                  </TableCell>
-                  <TableCell sx={cellSx}>
-                    <Typography variant="caption" sx={{ color: type === "damage" ? "#f87171" : "#4ade80" }}>
-                      {type === "damage" ? "Damage" : "Healing"}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right" sx={cellSx}>
-                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                      {baseSpCoeff !== null ? `${baseSpCoeff.toFixed(2)}%` : "—"}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right" sx={cellSx}>
-                    <Typography variant="body2">
-                      {spCoeff !== null ? `${spCoeff.toFixed(2)}%` : "—"}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right" sx={cellSx}>
-                    <Typography variant="body2" fontWeight="bold">
-                      {absolute!.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Card>
+      <Box sx={{ width: "100%", maxWidth: 1000 }}>
+        <SwirlTable
+          rows={rows}
+          rowKey={(row, i) => `${row.spell.id}-${row.type}-${row.targets ?? i}`}
+          columns={[
+            {
+              key: "spell",
+              label: "Spell",
+              width: "2fr",
+              sortValue: row => row.spell.name,
+              render: row => (
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <SpellButton selectedSpell={row.spell} size={30} />
+                  <Box>
+                    <Typography variant="body2" fontWeight="bold">{row.spell.name}</Typography>
+                    {row.targets !== undefined && (
+                      <Typography variant="caption" color="text.disabled">{row.targets} {row.targets === 1 ? "target" : "targets"}</Typography>
+                    )}
+                  </Box>
+                </Box>
+              ),
+            },
+            {
+              key: "type",
+              label: "Type",
+              width: "1fr",
+              sortValue: row => row.type,
+              render: row => (
+                <Typography variant="caption" sx={{ color: CATEGORY_COLORS[row.type as keyof typeof CATEGORY_COLORS] ?? "#ffffff" }}>
+                  {row.type}
+                </Typography>
+              ),
+            },
+            {
+              key: "baseSp",
+              label: "Base SP%",
+              width: "1fr",
+              align: "right",
+              sortValue: row => row.baseSpCoeff ?? -1,
+              render: row => (
+                <Typography variant="body2" color="text.secondary">
+                  {row.baseSpCoeff !== null ? `${row.baseSpCoeff.toFixed(2)}%` : "—"}
+                </Typography>
+              ),
+            },
+            {
+              key: "effectiveSp",
+              label: "Effective SP%",
+              width: "1fr",
+              align: "right",
+              sortValue: row => row.spCoeff ?? -1,
+              render: row => (
+                <Typography variant="body2">
+                  {row.spCoeff !== null ? `${row.spCoeff.toFixed(2)}%` : "—"}
+                </Typography>
+              ),
+            },
+            {
+              key: "absolute",
+              label: `Throughput`,
+              width: "1fr",
+              align: "right",
+              sortValue: row => row.absolute ?? -1,
+              render: row => (
+                <Typography variant="body2" fontWeight="bold">
+                  {row.absolute!.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                </Typography>
+              ),
+            },
+          ] as SwirlColumn<SpellRow>[]}
+          accentColor={row => CATEGORY_COLORS[row.type as keyof typeof CATEGORY_COLORS] ?? "#ffffff"}
+        />
+      </Box>
     </Container>
   );
 };
