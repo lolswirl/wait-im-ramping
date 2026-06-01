@@ -2,8 +2,7 @@ import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
 import spell from "@data/spells/spell";
-import { calculateSpellHealing } from "../helpers";
-import { type Stats } from "@data/shared/stats";
+import { calculateSpellHealing, Player } from "../helpers";
 
 export interface SheilunsGiftBreakdownData {
   cloudCount: number;
@@ -18,18 +17,12 @@ export interface SheilunsGiftBreakdownData {
   totalHealing: number;
 }
 
-export interface SheilunsGiftCalcParams {
-  stats: Stats;
-  talents: Map<spell, boolean>;
-}
-
-
 export function calculateSheilunsGiftBreakdown(
-  params: SheilunsGiftCalcParams
+  player: Player
 ): SheilunsGiftBreakdownData[] {
-  const { stats, talents } = params;
+  const { stats, talents } = player;
 
-  let sheilunBaseHealing = calculateSpellHealing(SPELLS.SHEILUNS_GIFT, talents, stats);
+  let sheilunBaseHealing = calculateSpellHealing(SPELLS.SHEILUNS_GIFT, player);
   let sheilunCloudHealing = sheilunBaseHealing * SPELLS.SHEILUNS_GIFT.custom.coeffPerStack;
 
   const sheilunTargetsHit = talents.get(TALENTS.LEGACY_OF_WISDOM) 

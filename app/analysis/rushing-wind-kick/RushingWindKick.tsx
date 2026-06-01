@@ -18,6 +18,7 @@ import {
   calculateAncientTeachingsHealing,
   calculateSpellDamage,
   calculateSpellHealing,
+  Player,
 } from "@data/specs/monk/mistweaver/helpers";
 
 import { T } from "@util/T";
@@ -53,18 +54,19 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
 
   const [talents, setTalents] = useState(allTalents);
   const stats = mistweaver.stats;
+  const player: Player = { stats, talents, corePassives: mistweaver.corePassives };
 
   const rsk = SPELLS.RISING_SUN_KICK;
   const rwk = TALENTS.RUSHING_WIND_KICK;
 
   const targetValues = Array.from({ length: 5 }, (_, i) => i + 1);
 
-  const rskBaseDamage = calculateSpellDamage(rsk, talents, stats);
-  const rskBaseHealing = calculateAncientTeachingsHealing(rskBaseDamage, talents, true, rsk);
+  const rskBaseDamage = calculateSpellDamage(rsk, player);
+  const rskBaseHealing = calculateAncientTeachingsHealing(rskBaseDamage, player, true, rsk);
 
-  const rwkBaseDamage = calculateSpellDamage(rwk, talents, stats);
-  const rwkDirectHealing = calculateSpellHealing(rwk, talents, stats);
-  const rwkDamageHealing = calculateAncientTeachingsHealing(rwkBaseDamage, talents, false, rwk);
+  const rwkBaseDamage = calculateSpellDamage(rwk, player);
+  const rwkDirectHealing = calculateSpellHealing(rwk, player);
+  const rwkDamageHealing = calculateAncientTeachingsHealing(rwkBaseDamage, player, false, rwk);
 
   const rwkMaxDamageTargets = rwk.custom.maxDamageTargets;
   const rwkMaxHealingTargets = rwk.custom.maxHealingTargets;

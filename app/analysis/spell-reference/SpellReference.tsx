@@ -18,8 +18,7 @@ import SpecializationSelect from "@components/SpecializationSelect/Specializatio
 
 import spell, { CATEGORY } from "@data/spells/spell";
 import { CLASSES, specialization } from "@data/class";
-import { calculateSpellDamage, calculateSpellHealing, TalentMap } from "@data/specs/monk/mistweaver/helpers";
-import type CorePassive from "@data/core-passives/core-passive";
+import { calculateSpellDamage, calculateSpellHealing, Player } from "@data/specs/monk/mistweaver/helpers";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
 
@@ -72,18 +71,16 @@ const getRawCoeff = (s: spell, type: "damage" | "healing"): number | null => {
 const resolveValue = (
   s: spell,
   type: "damage" | "healing",
-  stats: StatsCardOptions,
-  talents: TalentMap,
-  corePassives: CorePassive[]
+  player: Player
 ): { baseSpCoeff: number | null; spCoeff: number | null; absolute: number | null } => {
   if (s.coeff !== undefined) {
     const absolute = type === "damage"
-      ? calculateSpellDamage(s, talents, stats, corePassives)
-      : calculateSpellHealing(s, talents, stats, corePassives);
+      ? calculateSpellDamage(s, player)
+      : calculateSpellHealing(s, player);
     const rawCoeff = getRawCoeff(s, type);
     return {
       baseSpCoeff: rawCoeff !== null ? rawCoeff * 100 : null,
-      spCoeff: (absolute / stats.intellect) * 100,
+      spCoeff: (absolute / player.stats.intellect) * 100,
       absolute,
     };
   }
@@ -94,8 +91,8 @@ const resolveValue = (
 const hasValue = (s: spell) =>
   s.coeff !== undefined || s.value?.damage !== undefined || s.value?.healing !== undefined;
 
-const expandRows = (s: spell, stats: StatsCardOptions, talents: TalentMap, corePassives: CorePassive[]): SpellRow[] =>
-  coeffTypes(s).map(type => ({ spell: s, type, ...resolveValue(s, type, stats, talents, corePassives) }));
+const expandRows = (s: spell, player: Player): SpellRow[] =>
+  coeffTypes(s).map(type => ({ spell: s, type, ...resolveValue(s, type, player) }));
 
 const SpellReference: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const [spec, setSpec] = useState<specialization>(CLASSES.MONK.SPECS.MISTWEAVER);
@@ -123,7 +120,8 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
       ...Object.values(spec.talents ?? {}),
     ].filter(hasValue);
 
-    return allSpells.flatMap(s => expandRows(s, stats, talents, spec.corePassives ?? []));
+    const player: Player = { stats, talents, corePassives: spec.corePassives ?? [] };
+    return allSpells.flatMap(s => expandRows(s, player));
   }, [spec, stats.intellect, talents]);
 
   return (

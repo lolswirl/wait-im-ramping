@@ -18,7 +18,7 @@ import spell, { calcSpellpower } from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
-import { calculateSpellHealing, calculateAncientTeachingsData } from "@data/specs/monk/mistweaver/helpers";
+import { calculateSpellHealing, calculateAncientTeachingsData, Player } from "@data/specs/monk/mistweaver/helpers";
 import { T } from "@util/T";
 import { pluralize } from "@util/stringManipulation";
 
@@ -70,6 +70,7 @@ const Conduit: React.FC<{ title: React.ReactNode; description: React.ReactNode }
 
     const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
     const intellect = mistweaver.stats.intellect;
+    const player: Player = { stats: mistweaver.stats, talents: selectedTalents, corePassives: mistweaver.corePassives };
 
     const celestialConduit = SPELLS.CELESTIAL_CONDUIT;
     const conduitValues = Array.from(
@@ -93,7 +94,7 @@ const Conduit: React.FC<{ title: React.ReactNode; description: React.ReactNode }
 
     // Sheilun's Gift calculations
     const sheilunsGift = SPELLS.SHEILUNS_GIFT;
-    const sheilunBaseHealing = calculateSpellHealing(sheilunsGift, selectedTalents, mistweaver.stats);
+    const sheilunBaseHealing = calculateSpellHealing(sheilunsGift, player);
     const sheilunHealingPerStack = sheilunBaseHealing * sheilunsGift.custom.coeffPerStack;
     const sheilunMaxStacks = sheilunsGift.custom?.maxStacks;
     const sheilunMainTargetIncrease = TALENTS.INVIGORATING_MISTS.custom?.sheilunsMainTargetIncrease;
@@ -123,7 +124,7 @@ const Conduit: React.FC<{ title: React.ReactNode; description: React.ReactNode }
         return calcSpellpower(totalHealing, intellect);
     };
 
-    const cjlHealing = calculateAncientTeachingsData(SPELLS.CRACKLING_JADE_LIGHTNING, selectedTalents, mistweaver.stats).healing;
+    const cjlHealing = calculateAncientTeachingsData(SPELLS.CRACKLING_JADE_LIGHTNING, player).healing;
     const cjlSpCoeff = (cjlHealing / intellect) * 100;
 
     const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;

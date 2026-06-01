@@ -11,7 +11,7 @@ import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
-import { calculateAncientTeachingsData, calculateSpellHealing } from "@data/specs/monk/mistweaver/helpers";
+import { calculateAncientTeachingsData, calculateSpellHealing, Player } from "@data/specs/monk/mistweaver/helpers";
 import MISTWEAVER_DEFAULT_TALENTS from "@data/specs/monk/mistweaver/defaultTalents";
 
 import { T } from "@util/T";
@@ -63,14 +63,14 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const chijiGustHealing = gustOfMistHealingAbsolute * (1 + (selectedTalents.get(jadeBond) ? jadeBond.custom.gustIncrease : 0));
     const chijiGustSpellpower = (chijiGustHealing / intellect) * 100;
 
-    const tigerPalm = SPELLS.TIGER_PALM;
-    const corePassives = mistweaver.corePassives ?? [];
+    const player: Player = { stats: mistweaver.stats, talents: selectedTalents, corePassives: mistweaver.corePassives };
 
-    const tigerPalmData = calculateAncientTeachingsData(tigerPalm, selectedTalents, mistweaver.stats, true, corePassives);
+    const tigerPalm = SPELLS.TIGER_PALM;
+    const tigerPalmData = calculateAncientTeachingsData(tigerPalm, player);
     const tigerPalmHealing = (tigerPalmData.healing / intellect) * 100 * wayOfTheCraneTigerPalmHits;
 
     const blackoutKick = SPELLS.BLACKOUT_KICK;
-    const blackoutKickData = calculateAncientTeachingsData(blackoutKick, selectedTalents, mistweaver.stats, true, corePassives);
+    const blackoutKickData = calculateAncientTeachingsData(blackoutKick, player);
 
     // calc bok healing breakdown for stacked bars
     const calculateBlackoutKickBreakdown = (totmStacks: number) => {
@@ -93,13 +93,13 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     };
 
     const risingSunKick = SPELLS.RISING_SUN_KICK;
-    const risingSunKickData = calculateAncientTeachingsData(risingSunKick, selectedTalents, mistweaver.stats, true, corePassives);
+    const risingSunKickData = calculateAncientTeachingsData(risingSunKick, player);
     const risingSunKickAncientTeachingsHealing = (risingSunKickData.healing / intellect) * 100;
     const risingSunKickNormalGOMHealing = gustOfMistSpellpower * craneStyleRisingSunKickGOM;
     const risingSunKickChiJiGustHealing = includeChiJiGusts ? chijiGustSpellpower * 6 : 0;
 
     const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
-    const cjlData = calculateAncientTeachingsData(cjl, selectedTalents, mistweaver.stats, true, corePassives);
+    const cjlData = calculateAncientTeachingsData(cjl, player);
     const cjlSpCoeff = (cjlData.healing / intellect) * 100;
     const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
     const jadeEmpowermentIncrease = jadeEmpowerment.custom.spellpowerIncrease / 100;
@@ -109,7 +109,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     let jeSpellpowers = jeValues.map(value => jeSpellpowerCalc(jadeEmpowermentIncrease + (value - 1) * jadeEmpowermentChain));
 
     const harmonicSurge = TALENTS.HARMONIC_SURGE;
-    const harmonicSurgeHealing = calculateSpellHealing(harmonicSurge, selectedTalents, mistweaver.stats);
+    const harmonicSurgeHealing = calculateSpellHealing(harmonicSurge, player);
     const harmonicSurgeTargetsHit = harmonicSurge.custom?.targetsHit;
     const harmonicSurgePureHealing = (harmonicSurgeHealing / intellect) * 100 * harmonicSurgeTargetsHit;
 

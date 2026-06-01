@@ -1,14 +1,15 @@
 ﻿"use client";
-import React, { useMemo } from "react";
+import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Box, Container, useTheme } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 
+import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
-import { calculateSpellDamage, calculateWayOfTheCraneHealing } from "@data/specs/monk/mistweaver/helpers";
+import { calculateSpellDamage, calculateWayOfTheCraneHealing, Player } from "@data/specs/monk/mistweaver/helpers";
 import { CLASSES } from "@data/class";
 import { calculateSheilunsGiftBreakdown } from "@data/specs/monk/mistweaver/calcs/SheilunsGift";
 
@@ -20,27 +21,25 @@ const SheilunVsDocJ: React.FC<{ title: React.ReactNode; description: React.React
   const theme = useTheme();
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
-  const stats = mistweaver.stats;
+  const player: Player = {
+    stats: mistweaver.stats,
+    talents: new Map<spell, boolean>([
+      [TALENTS.LEGACY_OF_WISDOM, true],
+      [TALENTS.INVIGORATING_MISTS, true],
+    ]),
+    corePassives: mistweaver.corePassives,
+  };
 
-  const sheilunData = useMemo(() => {
-    const selectedTalents = new Map();
-    selectedTalents.set(TALENTS.LEGACY_OF_WISDOM, true);
-    selectedTalents.set(TALENTS.INVIGORATING_MISTS, true);
-    
-    return calculateSheilunsGiftBreakdown({
-      stats,
-      talents: selectedTalents,
-    });
-  }, [stats]);
+  const sheilunData = calculateSheilunsGiftBreakdown(player);
 
   // docj calcs
   const sck = SPELLS.SPINNING_CRANE_KICK;
   const danceofChijiIncrease = TALENTS.DANCE_OF_CHI_JI.custom.spellpowerIncrease;
 
   const docjSpellpowerCalc = () => {
-    const sckDamage = calculateSpellDamage(sck, undefined, stats) * (danceofChijiIncrease / 100);
-    const healing = calculateWayOfTheCraneHealing(sckDamage, undefined);
-    return (healing / stats.intellect) * 100;
+    const sckDamage = calculateSpellDamage(sck, player) * (danceofChijiIncrease / 100);
+    const healing = calculateWayOfTheCraneHealing(sckDamage, player);
+    return (healing / player.stats.intellect) * 100;
   };
   const docjValues = Array.from({ length: 10 }, (_, i) => i + 1);
   const docjSpellpowers = docjValues.map(targets =>

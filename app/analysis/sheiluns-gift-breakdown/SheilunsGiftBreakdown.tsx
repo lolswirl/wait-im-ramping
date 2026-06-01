@@ -51,6 +51,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: React.ReactNode; description: Rea
     return calculateSheilunsGiftBreakdown({
       stats: options,
       talents: selectedTalents,
+      corePassives: mistweaver.corePassives,
     });
   }, [options, selectedTalents]);
 
