@@ -72,6 +72,7 @@ const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose }) => {
                 </Stack>
             </Box>
 
+            {(bug.description || bug.notes || (bug.logs && bug.logs.length > 0)) && (
             <DialogContent sx={{ p: 0 }}>
                 <Divider />
                 <Box sx={{ px: 3, py: 2, display: "flex", flexDirection: "column", gap: 2 }}>
@@ -110,6 +111,7 @@ const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose }) => {
                     )}
                 </Box>
             </DialogContent>
+            )}
 
             <Divider />
             <DialogActions sx={{ px: 2, py: 0.75 }}>
