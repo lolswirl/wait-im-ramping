@@ -61,6 +61,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
   const [specTalents, setSpecTalents] = useState<Map<spell, boolean>>(new Map<spell, boolean>([
     [TALENTS.JADEFIRE_TEACHINGS, true],
     [TALENTS.RUSHING_WIND_KICK, false],
+    [TALENTS.WAY_OF_THE_CRANE, true],
     [TALENTS.SPIRITFONT, false], // haha lol not used
     [TALENTS.MORNING_BREEZE, true], // used in keys woo
     [TALENTS.JADE_EMPOWERMENT, false],

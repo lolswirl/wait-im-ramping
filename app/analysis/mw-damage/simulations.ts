@@ -110,13 +110,15 @@ export const simulateMeleeRotationAt2Stacks = (
   const rskValue = resolveRskValue(targets, asHealing, player);
   const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, player);
   const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, player);
-  const tpValue = asHealing
+  const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
+  const tpHits = hasWotC ? TALENTS.WAY_OF_THE_CRANE.custom.tigerPalmHits : 1;
+  const tpValue = (asHealing
     ? calculateAncientTeachingsHealing(tpDamage, player, true, SPELLS.TIGER_PALM)
-    : tpDamage;
+    : tpDamage) * tpHits;
   const bokValue = asHealing
     ? calculateAncientTeachingsHealing(bokDamage, player, true, SPELLS.BLACKOUT_KICK)
     : bokDamage;
-  const bokCleaveTargets = Math.min(targets - 1, 2);
+  const bokCleaveTargets = hasWotC ? Math.min(targets - 1, 2) : 0;
   const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.custom.blackoutKickEffectiveness;
 
   const actions: RotationAction[] = [
@@ -148,7 +150,7 @@ export const simulateMeleeRotationAt2Stacks = (
       priority: 2,
       cooldown: 0,
       getValue: () => tpValue,
-      onCast: (state) => { state.totmStacks += 2; },
+      onCast: (state) => { state.totmStacks += tpHits; },
     },
   ];
 
@@ -164,17 +166,15 @@ export const simulateMeleeRotation = (
   const rskValue = resolveRskValue(targets, asHealing, player);
   const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, player);
   const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, player);
-  const tpValue = (
-    asHealing
-      ? calculateAncientTeachingsHealing(tpDamage, player, true, SPELLS.TIGER_PALM)
-      : tpDamage
-  );
-  const bokValue = (
-    asHealing
-      ? calculateAncientTeachingsHealing(bokDamage, player, true, SPELLS.BLACKOUT_KICK)
-      : bokDamage
-  );
-  const bokCleaveTargets = Math.min(targets - 1, 2);
+  const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
+  const tpValue = asHealing
+    ? calculateAncientTeachingsHealing(tpDamage, player, true, SPELLS.TIGER_PALM)
+    : tpDamage;
+  const totmStacksPerTP = hasWotC ? TALENTS.WAY_OF_THE_CRANE.custom.tigerPalmHits : 1;
+  const bokValue = asHealing
+    ? calculateAncientTeachingsHealing(bokDamage, player, true, SPELLS.BLACKOUT_KICK)
+    : bokDamage;
+  const bokCleaveTargets = hasWotC ? Math.min(targets - 1, 2) : 0;
   const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.custom.blackoutKickEffectiveness;
   const totmMaxStacks = TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks;
 
@@ -207,7 +207,7 @@ export const simulateMeleeRotation = (
       priority: 2,
       cooldown: 0, // SPELLS.TIGER_PALM.cooldown
       getValue: () => tpValue,
-      onCast: (state) => { state.totmStacks += 2; },
+      onCast: (state) => { state.totmStacks += totmStacksPerTP; },
     },
   ];
 
@@ -220,6 +220,7 @@ export const simulateSpinningCraneKick = (
   asHealing: boolean,
   player: Player
 ): DamagePoint[] => {
+  const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
   const baseValue = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, player);
 
   const actions: RotationAction[] = [
@@ -229,7 +230,7 @@ export const simulateSpinningCraneKick = (
       cooldown: 0,
       getValue: () => {
         const raw = sckDamagePerCast(baseValue, targets);
-        return asHealing ? calculateWayOfTheCraneHealing(raw, player) : raw;
+        return asHealing ? (hasWotC ? calculateWayOfTheCraneHealing(raw, player) : 0) : raw;
       },
     },
   ];
@@ -286,10 +287,11 @@ export const simulateRSKWithSCKAndBok = (
   asHealing: boolean,
   player: Player
 ): DamagePoint[] => {
+  const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
   const rskValue = resolveRskValue(targets, asHealing, player);
   const sckBase = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, player);
   const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, player);
-  const bokCleaveTargets = Math.min(targets - 1, 2);
+  const bokCleaveTargets = hasWotC ? Math.min(targets - 1, 2) : 0;
   const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.custom.blackoutKickEffectiveness;
   const bokValue = asHealing
     ? calculateAncientTeachingsHealing(bokDamage, player, true, SPELLS.BLACKOUT_KICK)
@@ -314,7 +316,7 @@ export const simulateRSKWithSCKAndBok = (
       cooldown: 0,
       getValue: () => {
         const raw = sckDamagePerCast(sckBase, targets);
-        return asHealing ? calculateWayOfTheCraneHealing(raw, player) : raw;
+        return asHealing ? (hasWotC ? calculateWayOfTheCraneHealing(raw, player) : 0) : raw;
       },
     },
   ];
@@ -328,6 +330,7 @@ export const simulateRSKWithSCK = (
   asHealing: boolean,
   player: Player
 ): DamagePoint[] => {
+  const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
   const rskValue = resolveRskValue(targets, asHealing, player);
   const sckBase = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, player);
 
@@ -344,7 +347,7 @@ export const simulateRSKWithSCK = (
       cooldown: 0,
       getValue: () => {
         const raw = sckDamagePerCast(sckBase, targets);
-        return asHealing ? calculateWayOfTheCraneHealing(raw, player) : raw;
+        return asHealing ? (hasWotC ? calculateWayOfTheCraneHealing(raw, player) : 0) : raw;
       },
     },
   ];
