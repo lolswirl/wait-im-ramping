@@ -26,7 +26,6 @@ import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
 
 import SpellButton from "@components/SpellButtons/SpellButton";
 
-import { T } from "@util/T";
 import WarningChip from "@components/WarningChip/WarningChip";
 
 const headerSx = {
@@ -49,6 +48,9 @@ type SpellRow = {
 };
 
 const coeffTypes = (s: spell): ("damage" | "healing")[] => {
+  if (s.formula !== undefined) {
+    return [s.category === CATEGORY.DAMAGE ? "damage" : "healing"];
+  }
   if (s.coeff === undefined) {
     const types: ("damage" | "healing")[] = [];
     if (s.value?.damage !== undefined) types.push("damage");
@@ -73,8 +75,12 @@ const getRawCoeff = (s: spell, type: "damage" | "healing"): number | null => {
 const resolveValue = (
   s: spell,
   type: "damage" | "healing",
-  player: Player
+  player: Player,
 ): { baseSpCoeff: number | null; spCoeff: number | null; absolute: number | null } => {
+  if (s.formula !== undefined) {
+    const absolute = s.formula(player.stats);
+    return { baseSpCoeff: null, spCoeff: (absolute / player.stats.intellect) * 100, absolute };
+  }
   if (s.coeff !== undefined) {
     const targetMultiplier = (s as any).custom?.targetsHit ?? 1;
     const absolute = (type === "damage"
@@ -92,7 +98,7 @@ const resolveValue = (
 };
 
 const hasValue = (s: spell) =>
-  s.coeff !== undefined || s.value?.damage !== undefined || s.value?.healing !== undefined;
+  s.coeff !== undefined || s.formula !== undefined || s.value?.damage !== undefined || s.value?.healing !== undefined;
 
 const expandRows = (s: spell, player: Player): SpellRow[] =>
   coeffTypes(s).map(type => ({ spell: s, type, ...resolveValue(s, type, player) }));
@@ -125,7 +131,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
 
     const player: Player = { stats, talents, corePassives: spec.corePassives ?? [] };
     return allSpells.flatMap(s => expandRows(s, player));
-  }, [spec, stats.intellect, talents]);
+  }, [spec, stats.intellect, stats.haste, stats.crit, stats.versatility, stats.mastery, stats.totalHp, talents]);
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>

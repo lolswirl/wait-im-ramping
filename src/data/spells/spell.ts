@@ -1,5 +1,6 @@
 import { SCHOOLS } from "@data/shared/schools";
 import type { HeroTree } from "@data/heroTalents";
+import type { Stats } from "@data/shared/stats";
 
 export const CATEGORY = {
     DAMAGE: "damage",
@@ -27,6 +28,7 @@ export default interface spell {
     school?: (typeof SCHOOLS)[keyof typeof SCHOOLS];
 
     coeff?: number | { damage?: number; healing?: number };
+    formula?: (stats: Stats) => number;
     periodic?: boolean;
 
     value?: {

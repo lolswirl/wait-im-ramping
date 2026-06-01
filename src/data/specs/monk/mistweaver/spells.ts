@@ -166,12 +166,7 @@ const spells = {
         castTime: 0,
         cooldown: 120,
         gcd: false,
-        coeff: 0,
-        custom: {
-            absorbFormula: (sourceHp: number, versatility: number) => {
-                return sourceHp * 48 / 100 * (1 + versatility);
-            },
-        },
+        formula: (stats) => (stats.totalHp ?? 0) * 48 / 100 * (1 + stats.versatility / 100),
         category: CATEGORY.COOLDOWN,
     },
     CELESTIAL_CONDUIT: {

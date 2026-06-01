@@ -121,11 +121,9 @@ const talents = {
         name: "Celestial Harmony",
         id: 343655,
         icon: 'ability_monk_jadeserpentbreath',
+        formula: (stats) => (stats.totalHp ?? 0) * 24 / 100 * (1 + stats.versatility / 100),
         custom: {
-            chiCocoonTargets: 5,
-            chiCocoonFormula: (sourceHp: number, versatility: number) => {
-                return sourceHp * 24 / 100 * (1 + versatility);
-            },
+            targetsHit: 5,
         }
     },
     JADE_BOND: {
