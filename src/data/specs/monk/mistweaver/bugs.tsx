@@ -6,6 +6,7 @@ import { Bug, SEVERITY, STATUS } from "@data/bugs";
 import { TAGS } from "@data/shared/tags";
 import { TIER } from '@data/items/tier';
 import SpellLink from '@components/SpellLink';
+import Code from '@components/Code/Code';
 import React from 'react';
 
 const BUGS: Bug[] = [
@@ -1085,7 +1086,7 @@ const BUGS: Bug[] = [
         spell: SPELLS.SOOTHING_MIST,
         severity: SEVERITY.HIGH,
         title: <>Costs double the mana when casting on someone other than the player</>,
-        description: <><SpellLink spell={SPELLS.SOOTHING_MIST}/> costs double the mana when cast on someone other than the player - 2k mana/sec when casting on someone else or 1k mana per (what the toolip and `C_Spell.GetSpellPowerCost(115175)` returns).</>,
+        description: <><SpellLink spell={SPELLS.SOOTHING_MIST}/> costs double the mana when cast on someone other than the player - 2k mana/sec when casting on someone else or 1k mana/sec (what the tooltip and <Code>C_Spell.GetSpellPowerCost(115175)</Code> returns) on the player.</>,
         buildsTested: ["67602"],
         logs: [ { label: "First few casts are self, latter half are other target", url: "https://www.warcraftlogs.com/reports/tT3nhRfb1QZAzvKJ?fight=2&type=resources&source=1&view=timeline&spell=100" },]
     },
