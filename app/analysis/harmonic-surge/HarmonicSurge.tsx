@@ -110,8 +110,6 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
 
     const harmonicSurge = TALENTS.HARMONIC_SURGE;
     const harmonicSurgeHealing = calculateSpellHealing(harmonicSurge, player);
-    const harmonicSurgeTargetsHit = harmonicSurge.custom?.targetsHit;
-    const harmonicSurgePureHealing = (harmonicSurgeHealing / intellect) * 100 * harmonicSurgeTargetsHit;
 
     type AbilityDatum = {
         label: string;
@@ -155,15 +153,18 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
         total: rskTotal
     });
 
-    const totalHarmonicSurgeHealing = harmonicSurgePureHealing + tigerPalmHealing;
-    abilityData.push({
-        label: T(TALENTS.HARMONIC_SURGE.name),
-        ancientTeachings: tigerPalmHealing,
-        harmonicSurge: harmonicSurgePureHealing,
-        gom: 0,
-        chiJi: 0,
-        total: totalHarmonicSurgeHealing
-    });
+    for (let stacks = 1; stacks <= 6; stacks++) {
+        const hsHealing = (harmonicSurgeHealing / intellect) * 100 * stacks;
+        const total = hsHealing + tigerPalmHealing;
+        abilityData.push({
+            label: T(`HS (${stacks} ${pluralize(stacks, "stack")})`),
+            ancientTeachings: tigerPalmHealing,
+            harmonicSurge: hsHealing,
+            gom: 0,
+            chiJi: 0,
+            total
+        });
+    }
 
     if (selectedTalents.get(TALENTS.JADE_EMPOWERMENT)) {
         jeSpellpowers.forEach((spellpower, index) => {
