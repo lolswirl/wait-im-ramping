@@ -184,7 +184,7 @@ export const calculateRotationHPS = async (
 
     const emperorsElixirOpt = isTalentEnabled(options, TALENTS.EMPERORS_ELIXIR);
     const jfs = TALENTS.JADEFIRE_STOMP;
-    const jfsMaxTargets = jfs.custom.enemyTargets;
+    const jfsMaxTargets = jfs.custom.targetsHit;
     const eeATEffectiveness = TALENTS.EMPERORS_ELIXIR.custom.ancientTeachingsEffectiveness;
 
     const wayOfTheCrane = TALENTS.WAY_OF_THE_CRANE;
@@ -206,8 +206,8 @@ export const calculateRotationHPS = async (
 
     const chijiGustHealing = gustOfMistHealing * ( 1 + (jadeBondOpt ? TALENTS.JADE_BOND.custom.gustIncrease : 0));
     const celestialHarmony = TALENTS.CELESTIAL_HARMONY;
-    const celestialHarmonyChiCocoonAmount = celestialHarmony.custom.chiCocoonFormula(options.totalHp, options.versatility / 100);
-    const celestialHarmonyChiCocoonMaxTargets = celestialHarmony.custom.chiCocoonTargets;
+    const celestialHarmonyChiCocoonAmount = celestialHarmony.formula!(options);
+    const celestialHarmonyChiCocoonMaxTargets = celestialHarmony.custom.targetsHit;
 
     const rapidDiffusionOpt = isTalentEnabled(options, TALENTS.RAPID_DIFFUSION);
 
