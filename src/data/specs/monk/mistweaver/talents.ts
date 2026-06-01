@@ -11,6 +11,7 @@ const talents = {
         icon: 'ability_monk_vivify',
         coeff: 3.2318,
         custom: {
+            targetsHit: 20, // sorta max hits, just for display purposes on spell ref
             sheilunsMainTargetIncrease: 5.0,
         }
     },
