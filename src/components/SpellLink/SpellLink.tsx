@@ -12,14 +12,16 @@ interface SpellLinkProps {
     gap?: number;
     sx?: any;
     textSx?: any;
+    noLink?: boolean;
 }
 
-const SpellLink: React.FC<SpellLinkProps> = ({ 
-    spell, 
+const SpellLink: React.FC<SpellLinkProps> = ({
+    spell,
     size = 18,
     gap = 0.5,
     sx,
-    textSx
+    textSx,
+    noLink = false,
 }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [src, setSrc] = useState("");
@@ -36,9 +38,10 @@ const SpellLink: React.FC<SpellLinkProps> = ({
     return (
         <Box
             component="a"
-            href={spell.id ? `https://www.wowhead.com/spell=${spell.id}` : undefined}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={noLink ? undefined : (spell.id ? `https://www.wowhead.com/spell=${spell.id}` : undefined)}
+            target={noLink ? undefined : "_blank"}
+            rel={noLink ? undefined : "noopener noreferrer"}
+            onClick={noLink ? (e: React.MouseEvent) => e.preventDefault() : undefined}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             sx={{
