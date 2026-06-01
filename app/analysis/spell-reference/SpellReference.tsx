@@ -14,6 +14,7 @@ import StatsCard, { Group, StatsCardOptions } from "@components/StatsCard/StatsC
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 
 import spell, { CATEGORY, CATEGORY_COLORS } from "@data/spells/spell";
+import { formatNumber, formatPercent } from "@util/stringManipulation";
 import { CLASSES, specialization } from "@data/class";
 import { calculateSpellDamage, calculateSpellHealing, Player } from "@data/specs/monk/mistweaver/helpers";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
@@ -220,7 +221,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               sortValue: row => row.baseSpCoeff ?? -1,
               render: row => (
                 <Typography variant="body2" color="text.secondary">
-                  {row.baseSpCoeff !== null ? `${row.baseSpCoeff.toFixed(2)}%` : "—"}
+                  {row.baseSpCoeff !== null ? formatPercent(row.baseSpCoeff) : "—"}
                 </Typography>
               ),
             },
@@ -232,7 +233,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               sortValue: row => row.spCoeff ?? -1,
               render: row => (
                 <Typography variant="body2">
-                  {row.spCoeff !== null ? `${row.spCoeff.toFixed(2)}%` : "—"}
+                  {row.spCoeff !== null ? formatPercent(row.spCoeff) : "—"}
                 </Typography>
               ),
             },
@@ -244,7 +245,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               sortValue: row => row.absolute ?? -1,
               render: row => (
                 <Typography variant="body2" fontWeight="bold">
-                  {row.absolute!.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                  {formatNumber(row.absolute!)}
                 </Typography>
               ),
             },

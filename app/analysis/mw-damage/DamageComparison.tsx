@@ -21,6 +21,7 @@ import { CLASSES } from "@data/class";
 import { type Player } from '@data/specs/monk/mistweaver/helpers';
 
 import { T } from "@util/T";
+import { formatNumber, formatPercent } from "@util/stringManipulation";
 import WarningChip from "@components/WarningChip/WarningChip";
 import { RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
 import {
@@ -233,7 +234,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
                 </TableCell>
                 {rotationValues.map((value, idx) => (
                   <TableCell key={ROTATION_CONFIGS[idx].dataKey} align="center" sx={{ border: 0, py: 1, px: 1 }}>
-                    <Typography variant="body2" sx={{ color: ROTATION_CONFIGS[idx].color, fontWeight: 'bold' }}>{value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Typography>
+                    <Typography variant="body2" sx={{ color: ROTATION_CONFIGS[idx].color, fontWeight: 'bold' }}>{formatNumber(value, 2)}</Typography>
                   </TableCell>
                 ))}
               </TableRow>
@@ -376,11 +377,11 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
                         backgroundColor: `rgba(${r}, ${g}, ${b}, 0.18)`,
                       }}>
                         <Typography variant="body2" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
-                          {value.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                          {formatNumber(value)}
                         </Typography>
                         {t < 1 && (
                           <Typography variant="caption" sx={{ color: '#ef4444', lineHeight: 1, display: 'block', fontSize: '0.65rem', fontWeight: 700 }}>
-                            {((value - max) / max * 100).toFixed(1)}%
+                            {formatPercent((value - max) / max * 100, 1)}
                           </Typography>
                         )}
                       </TableCell>
@@ -522,7 +523,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
                       <Typography variant="h6" sx={{ fontWeight: 'bold', color: config.color, lineHeight: 1.2 }}>
-                        {avg.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        {formatNumber(avg, 2)}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
                         {showAsHealing ? 'HPS' : 'DPS'}

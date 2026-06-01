@@ -30,7 +30,7 @@ import type spell from "@data/spells/spell";
 
 import { useRotationManager } from "@hooks/useRotationManager";
 import { T } from "@util/T";
-import { pluralize, hexToRgb } from "@util/stringManipulation";
+import { pluralize, hexToRgb, formatNumber, formatPercent } from "@util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -192,7 +192,7 @@ const createChartOptions = (theme: any, rotations: any[], calculateRotationStats
                     const stats = calculateRotationStats(rotation.steps);
                     
                     if (context.datasetIndex === 0) {
-                        return ` ${context.dataset.label}: ${stats.rotationResetChance.toFixed(1)}%`;
+                        return ` ${context.dataset.label}: ${formatPercent(stats.rotationResetChance, 1)}`;
                     } else {
                         return ` ${context.dataset.label}: ${stats.resetsPerGCD.toFixed(3)}`;
                     }
@@ -455,7 +455,7 @@ const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                                         <ProgressBar
                                             label="Reset Chance"
-                                            value={`${stats.rotationResetChance.toFixed(0)}%`}
+                                            value={`${formatPercent(stats.rotationResetChance, 0)}`}
                                             percentage={stats.rotationResetChance}
                                             color="primary.main"
                                             rightContent={
@@ -481,7 +481,7 @@ const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React
                                         
                                         <ProgressBar
                                             label={`Chance of reset after ${attempts} ${pluralize(attempts, "Attempt")}`}
-                                            value={`${(stats.attemptsChance * 100).toFixed(0)}%`}
+                                            value={`${formatPercent(stats.attemptsChance * 100, 0)}`}
                                             percentage={stats.attemptsChance * 100}
                                             color="success.main"
                                         />

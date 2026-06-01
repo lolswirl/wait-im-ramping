@@ -7,6 +7,7 @@ import { TextField, Box, Container, Typography, useTheme } from "@mui/material";
 import PageHeader from "@components/PageHeader/PageHeader";
 
 import { T } from "@util/T";
+import { formatNumber } from "@util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -48,9 +49,6 @@ const AbsorbVsDRCompare: React.FC<{ title: React.ReactNode; description: React.R
     });
   }, [absorbValue, damageReduction, damageValues, absorbDamageIntake, reductionDamageIntake]);
 
-  const formatNumber = (num: number) => {
-    return num.toLocaleString();
-  };
 
   const chartData = useMemo(() => ({
     labels: damageValues.map((value) => formatNumber(value)),
@@ -63,7 +61,7 @@ const AbsorbVsDRCompare: React.FC<{ title: React.ReactNode; description: React.R
         fill: true,
       },
       {
-        label: T(`${damageReduction}% damage reduction`),
+        label: T(`${formatNumber(damageReduction, 1)}% damage reduction`),
         data: reductionDamageIntake,
         borderColor: "rgba(53, 162, 235, 0.6)",
         backgroundColor: "rgba(53, 162, 235, 0.2)",
@@ -141,7 +139,7 @@ const AbsorbVsDRCompare: React.FC<{ title: React.ReactNode; description: React.R
       {intersectionPoint.x !== null && intersectionPoint.y !== null && (
         <Typography variant="body1">
           
-            Damage Reduction becomes better than Absorb at ${formatNumber(intersectionPoint.x)} damage (${formatNumber(intersectionPoint.y)} damage intake).
+            Damage Reduction becomes better than Absorb at {formatNumber(intersectionPoint.x)} damage ({formatNumber(intersectionPoint.y)} damage intake).
           
         </Typography>
       )}

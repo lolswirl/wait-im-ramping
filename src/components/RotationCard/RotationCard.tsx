@@ -5,6 +5,7 @@ import { RotationResult } from '../../../app/analysis/chi-ji/types';
 import SpellButton from "@components/SpellButtons/SpellButton";
 import WarningChip from "@components/WarningChip/WarningChip";
 import { T } from "@util/T";
+import { formatNumber, formatPercent } from "@util/stringManipulation";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SPELLS from "@data/spells";
 import { RAINBOW_COLORS } from '@components/Buttons/RainbowCard';
@@ -80,18 +81,18 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                     <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, flexShrink: 0 }}>
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 0.25 }}>
                             <Typography variant="h5" sx={{ fontWeight: 800, color: accent, letterSpacing: '-0.5px', lineHeight: 1 }}>
-                                {Math.round(rotation.hps).toLocaleString()}
+                                {formatNumber(Math.round(rotation.hps))}
                                 <Typography component="span" variant="body2" sx={{ fontWeight: 400, color: 'text.secondary', ml: 0.5 }}>
                                     hps
                                 </Typography>
                             </Typography>
                             <Box sx={{ display: 'flex', gap: 1 }}>
                                 <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                                    {rotation.duration.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}s
+                                    {formatNumber(rotation.duration, 1)}s
                                 </Typography>
                                 <Typography variant="caption" sx={{ color: 'text.secondary' }}>·</Typography>
                                 <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                                    {Math.round(rotation.totalHealing).toLocaleString()} total
+                                    {formatNumber(Math.round(rotation.totalHealing))} total
                                 </Typography>
                             </Box>
                         </Box>
@@ -130,7 +131,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                         {s.title}
                                     </Typography>
                                     <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1 }}>
-                                        {((s.value / aggregateTotal) * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%
+                                        {formatPercent((s.value / aggregateTotal) * 100, 1)}
                                     </Typography>
                                 </Box>
                             ))}
@@ -183,7 +184,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                             </Typography>
                                         </Box>
                                         <WarningChip
-                                            message={`${item.percentage.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
+                                            message={`${formatPercent(item.percentage, 1)}`}
                                             borderColor={accent}
                                             fontSize="0.7rem"
                                         />
@@ -233,7 +234,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                                         {s.title}
                                                     </Typography>
                                                     <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1 }}>
-                                                        {Math.round(s.value).toLocaleString()}
+                                                        {formatNumber(Math.round(s.value))}
                                                     </Typography>
                                                 </Box>
                                             ))}

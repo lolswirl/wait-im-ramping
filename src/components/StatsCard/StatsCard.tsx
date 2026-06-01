@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { TextField } from '@mui/material';
 import { GlassTooltip } from '@components/Glass';
-import { T } from '@util/T';
 import { type Stats } from '@data/shared/stats';
 
 export interface StatsCardOptions extends Stats {

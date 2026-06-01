@@ -80,3 +80,9 @@ export const formatDate = (date: Date) =>
 
 export const date = (year: number, month: number, day: number): Date =>
     new Date(year, month - 1, day);
+
+export const formatNumber = (n: number, decimals = 0) =>
+    n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+
+export const formatPercent = (n: number, decimals = 2) =>
+    `${formatNumber(n, decimals)}%`;
