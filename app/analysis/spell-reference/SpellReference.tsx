@@ -76,12 +76,13 @@ const resolveValue = (
   player: Player
 ): { baseSpCoeff: number | null; spCoeff: number | null; absolute: number | null } => {
   if (s.coeff !== undefined) {
-    const absolute = type === "damage"
+    const targetMultiplier = (s as any).custom?.targetsHit ?? 1;
+    const absolute = (type === "damage"
       ? calculateSpellDamage(s, player)
-      : calculateSpellHealing(s, player);
+      : calculateSpellHealing(s, player)) * targetMultiplier;
     const rawCoeff = getRawCoeff(s, type);
     return {
-      baseSpCoeff: rawCoeff !== null ? rawCoeff * 100 : null,
+      baseSpCoeff: rawCoeff !== null ? rawCoeff * 100 * targetMultiplier : null,
       spCoeff: (absolute / player.stats.intellect) * 100,
       absolute,
     };
