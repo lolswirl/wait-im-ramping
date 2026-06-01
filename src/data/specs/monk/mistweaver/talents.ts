@@ -307,6 +307,10 @@ const talents = {
         name: "Zen Pulse",
         id: 124081,
         icon: 'ability_monk_forcesphere',
+        coeff: 1.6,
+        custom: {
+            targetsHit: 20,
+        }
     },
     UPLIFTED_SPIRITS: {
         name: "Uplifted Spirits",
