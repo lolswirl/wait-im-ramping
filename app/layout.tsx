@@ -1,12 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-
-const roboto = Roboto({
-    weight: ["300", "400", "500", "700"],
-    subsets: ["latin"],
-    display: "swap",
-});
+import { Inter } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -19,6 +13,7 @@ import FooterBar from "@components/AppBar/FooterBar";
 import ClientTilingBackground from "@components/Tiling/ClientTilingBackground";
 import { PageMetadata } from "@components/PageMetadata/PageMetadata";
 
+const font = Inter({ subsets: ["latin"], display: "swap" });
 export const metadata = PageMetadata();
 
 export default function RootLayout({
@@ -27,7 +22,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={roboto.className}>
+        <html lang="en" className={font.className}>
             <head>
                 <script
                     dangerouslySetInnerHTML={{

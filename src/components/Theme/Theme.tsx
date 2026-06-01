@@ -62,6 +62,7 @@ const Theme = ({ children }: { children: React.ReactNode }) => {
             },
         },
         typography: {
+            fontFamily: 'inherit',
             allVariants: {
                 textTransform: 'lowercase' as const,
             },
