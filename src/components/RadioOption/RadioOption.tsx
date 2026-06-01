@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Radio, Typography } from '@mui/material';
 
-interface RadioOptionProps {
+interface RadioOptionProps<T extends string> {
   value: T;
   currentValue: T;
   onChange: (value: T) => void;
@@ -10,14 +10,14 @@ interface RadioOptionProps {
   color?: string;
 }
 
-function RadioOption<T extends string>({ 
+function RadioOption<T extends string>({
   value, 
   currentValue, 
   onChange, 
   title, 
   description,
   color = '54, 162, 235'
-}: RadioOptionProps) {
+}: RadioOptionProps<T>) {
   const isSelected = value === currentValue;
 
   return (
