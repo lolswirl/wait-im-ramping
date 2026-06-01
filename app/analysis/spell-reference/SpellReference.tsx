@@ -206,6 +206,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               key: "type",
               label: "Type",
               width: "1fr",
+              align: "center",
               sortValue: row => row.type,
               render: row => (
                 <Typography variant="caption" sx={{ color: CATEGORY_COLORS[row.type as keyof typeof CATEGORY_COLORS] ?? "#ffffff" }}>

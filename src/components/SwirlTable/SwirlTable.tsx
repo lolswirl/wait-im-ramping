@@ -70,7 +70,6 @@ function SwirlTable<T>({
             <Box sx={{
                 display: "grid",
                 gridTemplateColumns: accentColor ? `4px ${gridTemplateColumns}` : gridTemplateColumns,
-                px: 1.5,
                 py: 0.75,
                 borderRadius: 1,
                 backgroundColor: "background.paper",
@@ -92,7 +91,7 @@ function SwirlTable<T>({
                                 cursor: isSortable ? "pointer" : "default",
                                 userSelect: "none",
                                 "&:hover": isSortable ? { opacity: 0.7 } : {},
-                                px: 1,
+                                px: 1.5,
                             }}
                         >
                             <Typography variant="caption" color="text.disabled" sx={{ fontWeight: 700, letterSpacing: 0.5 }}>
