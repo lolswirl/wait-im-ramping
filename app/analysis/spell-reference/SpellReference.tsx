@@ -14,7 +14,7 @@ import StatsCard, { Group, StatsCardOptions } from "@components/StatsCard/StatsC
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 
 import spell, { CATEGORY, CATEGORY_COLORS } from "@data/spells/spell";
-import { formatNumber, formatPercent } from "@util/stringManipulation";
+import { formatNumber, formatPercent, pluralize } from "@util/stringManipulation";
 import { CLASSES, specialization } from "@data/class";
 import { calculateSpellDamage, calculateSpellHealing, Player } from "@data/specs/monk/mistweaver/helpers";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
@@ -196,7 +196,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                   <Box>
                     <Typography variant="body2" fontWeight="bold">{row.spell.name}</Typography>
                     {row.targets !== undefined && (
-                      <Typography variant="caption" color="text.disabled">{row.targets} {row.targets === 1 ? "target" : "targets"}</Typography>
+                      <Typography variant="caption" color="text.disabled">{row.targets} {pluralize(row.targets, "target")}</Typography>
                     )}
                   </Box>
                 </Box>
