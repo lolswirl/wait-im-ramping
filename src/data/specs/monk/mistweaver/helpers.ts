@@ -6,6 +6,7 @@ import { SCHOOLS } from "@data/shared/schools";
 import { getSpellAura } from "@data/core-passives/core-passive";
 import type CorePassive from "@data/core-passives/core-passive";
 import type { Stats } from '@data/shared/stats';
+import { CLASSES } from "@data/class";
 
 export type TalentMap = Map<spell, boolean>;
 
@@ -165,7 +166,7 @@ export const calculateSpellHealing = (
     spell: spell,
     talents?: TalentMap,
     stats?: Stats,
-    corePassives: CorePassive[] = []
+    corePassives: CorePassive[] = CLASSES.MONK.SPECS.MISTWEAVER.corePassives
 ): number => {
     const coeff = resolveCoeff(spell.coeff, 'healing');
     const base = stats?.intellect !== undefined && coeff !== undefined
