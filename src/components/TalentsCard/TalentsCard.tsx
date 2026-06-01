@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from '@mui/material';
+import { Box, Card } from '@mui/material';
 import SpellButton from '@components/SpellButtons/SpellButton';
 import spell from '@data/spells/spell';
 import { Group } from '@components/StatsCard/StatsCard';
@@ -27,28 +27,29 @@ export interface TalentOptionProps {
 
 export const TalentOption: React.FC<TalentOptionProps> = ({ talent, isChecked, onChange, color }) => {
     return (
-        <div
+        <Box
             onClick={() => onChange(talent, !isChecked)}
-            style={{
+            sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: 6,
+                gap: "6px",
                 cursor: "pointer",
                 padding: "4px 8px 4px 4px",
-                borderRadius: 4,
+                borderRadius: "4px",
                 border: `1px solid ${isChecked ? color + "55" : "rgba(255,255,255,0.08)"}`,
                 backgroundColor: isChecked ? color + "18" : "transparent",
                 opacity: isChecked ? 1 : 0.35,
-                transition: "all 0.15s",
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
                 userSelect: "none",
                 whiteSpace: "nowrap",
+                "&:hover": { transform: "scale(1.03)" },
             }}
         >
             <SpellButton selectedSpell={talent} size={32} />
             <span style={{ fontSize: "0.72rem", fontWeight: 500 }}>
                 {talent.name}
             </span>
-        </div>
+        </Box>
     );
 };
 
