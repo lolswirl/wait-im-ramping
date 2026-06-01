@@ -32,7 +32,7 @@ const talents = {
         id: 450427,
         icon: 'ability_monk_palmstrike',
         custom: {
-            damageIncrease: 0.04,
+            damageIncrease: 0.02,
         }
     },
     STILLSTEP_COIL: {

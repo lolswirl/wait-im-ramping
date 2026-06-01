@@ -51,7 +51,7 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
     },
     {
         talent: SHARED.MARTIAL_INSTINCTS,
-        getValue: () => SHARED.MARTIAL_INSTINCTS.custom.damageIncrease,
+        getValue: () => 2 * SHARED.MARTIAL_INSTINCTS.custom.damageIncrease,
         appliesTo: (spell) => spell.school === SCHOOLS.PHYSICAL
     },
     {
