@@ -602,6 +602,10 @@ const talents = {
         id: 443255,
         icon: 'inv_pet_cranegod',
         heroTalent: COTC,
+        coeff: 1.25 * 2, // doubling since unity within is the only accessor
+        custom: {
+            targetsHit: 5,
+        }
     },
     STAMPEDE_OF_THE_ANCIENTS: {
         name: "Stampede of the Ancients",
