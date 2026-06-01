@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useMemo } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Container, Typography, Box, Grid } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
@@ -27,8 +27,9 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
         }
     }, [tool.description]);
 
+    const router = useRouter();
+
     return (
-        <Link href={tool.path} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
             <RainbowCard
                 variant="outlined"
                 sx={{
@@ -39,6 +40,10 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                 }}
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
+                onClick={(e) => {
+                    if ((e.target as HTMLElement).closest('a')) return;
+                    router.push(tool.path);
+                }}
             >
                 <Box sx={{ height: 200, position: "relative", overflow: "hidden" }}>
                     {/* image */}
@@ -101,7 +106,7 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                         transition: "transform 0.3s ease",
                         willChange: "transform",
                     }}>
-                        <Typography variant="body1" fontWeight="bold" color="white" sx={{ lineHeight: 1.3 }}>
+                        <Typography variant="body1" component="div" fontWeight="bold" color="white" sx={{ lineHeight: 1.3 }}>
                             <T>{tool.label}</T>
                         </Typography>
                     </Box>
@@ -124,7 +129,6 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                     </Box>
                 </Box>
             </RainbowCard>
-        </Link>
     );
 };
 
