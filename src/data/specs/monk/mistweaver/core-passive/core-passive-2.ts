@@ -144,7 +144,7 @@ const corePassive = {
                 ]
             },
             {
-                type: 'Apply Aura: Add Modifier - % (Label): Modifies Damage/Healing Done',
+                type: 'Apply Aura: Modifies Damage Done',
                 value: 700,
                 pvpMultiplier: 1,
                 affectedSpells: [
