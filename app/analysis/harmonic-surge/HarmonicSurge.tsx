@@ -11,23 +11,29 @@ import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
-import { calculateAncientTeachingsData } from "@data/specs/monk/mistweaver/helpers";
+import { calculateAncientTeachingsData, calculateSpellHealing } from "@data/specs/monk/mistweaver/helpers";
+import MISTWEAVER_DEFAULT_TALENTS from "@data/specs/monk/mistweaver/defaultTalents";
 
 import { T } from "@util/T";
 import { pluralize } from "@util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+const VISIBLE_TALENTS: spell[] = [TALENTS.JADE_EMPOWERMENT, SPELLS.CHI_JI, TALENTS.JADE_BOND];
+
+const DEFAULT_TALENTS = new Map<spell, boolean>([
+    ...MISTWEAVER_DEFAULT_TALENTS.spec,
+    ...MISTWEAVER_DEFAULT_TALENTS.hero,
+    ...MISTWEAVER_DEFAULT_TALENTS.class,
+    [TALENTS.JADE_EMPOWERMENT, false],
+    [SPELLS.CHI_JI, false],
+    [TALENTS.JADE_BOND, false],
+]);
+
 const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title, description }) => {
     const theme = useTheme();
-    
-    const [selectedTalents, setSelectedTalents] = useState(
-        new Map<spell, boolean>([
-            [TALENTS.JADE_EMPOWERMENT, false],
-            [SPELLS.CHI_JI, false],
-            [TALENTS.JADE_BOND, false],
-        ])
-    );
+
+    const [selectedTalents, setSelectedTalents] = useState<Map<spell, boolean>>(DEFAULT_TALENTS);
 
     const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
     const intellect = mistweaver.stats.intellect;
@@ -59,7 +65,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
 
     const tigerPalm = SPELLS.TIGER_PALM;
     const tigerPalmData = calculateAncientTeachingsData(tigerPalm, selectedTalents, mistweaver.stats, true);
-    const tigerPalmHealing = tigerPalmData.healing * wayOfTheCraneTigerPalmHits;
+    const tigerPalmHealing = (tigerPalmData.healing / intellect) * 100 * wayOfTheCraneTigerPalmHits;
 
     const blackoutKick = SPELLS.BLACKOUT_KICK;
     const blackoutKickData = calculateAncientTeachingsData(blackoutKick, selectedTalents, mistweaver.stats, true);
@@ -67,7 +73,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     // calc bok healing breakdown for stacked bars
     const calculateBlackoutKickBreakdown = (totmStacks: number) => {
         const bokHits = 1 + totmStacks;
-        const ancientTeachingsHealing = blackoutKickData.healing * bokHits;
+        const ancientTeachingsHealing = (blackoutKickData.healing / intellect) * 100 * bokHits;
         const expectedGOMProcs = bokHits * craneStyleBlackoutKickGOMChance;
         const normalGOMHealing = gustOfMistSpellpower * craneStyleBlackoutKickGOM * expectedGOMProcs;
 
@@ -86,7 +92,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
 
     const risingSunKick = SPELLS.RISING_SUN_KICK;
     const risingSunKickData = calculateAncientTeachingsData(risingSunKick, selectedTalents, mistweaver.stats, true);
-    const risingSunKickAncientTeachingsHealing = risingSunKickData.healing;
+    const risingSunKickAncientTeachingsHealing = (risingSunKickData.healing / intellect) * 100;
     const risingSunKickNormalGOMHealing = gustOfMistSpellpower * craneStyleRisingSunKickGOM;
     const risingSunKickChiJiGustHealing = includeChiJiGusts ? chijiGustSpellpower * 6 : 0;
 
@@ -101,7 +107,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     let jeSpellpowers = jeValues.map(value => jeSpellpowerCalc(jadeEmpowermentIncrease + (value - 1) * jadeEmpowermentChain));
 
     const harmonicSurge = TALENTS.HARMONIC_SURGE;
-    const harmonicSurgeHealing = harmonicSurge.value.healing;
+    const harmonicSurgeHealing = calculateSpellHealing(harmonicSurge, selectedTalents, mistweaver.stats);
     const harmonicSurgeTargetsHit = harmonicSurge.custom?.targetsHit;
     const harmonicSurgePureHealing = (harmonicSurgeHealing / intellect) * 100 * harmonicSurgeTargetsHit;
 
@@ -283,7 +289,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
             />
 
             <TalentsCard
-                options={selectedTalents}
+                options={new Map(VISIBLE_TALENTS.map(t => [t, selectedTalents.get(t) ?? false]))}
                 color={"9966ff"}
                 onChange={handleTalentChange}
                 card
