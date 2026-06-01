@@ -21,6 +21,7 @@ import { DeleteTwoTone } from "@mui/icons-material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import SpellButton from "@components/SpellButtons/SpellButton";
+import RainbowCard from "@components/Buttons/RainbowCard";
 import CurrentRotationControl from "@components/CurrentRotationControl/CurrentRotationControl";
 import { TalentOption } from "@components/TalentsCard/TalentsCard";
 
@@ -149,13 +150,6 @@ const cardSx = {
     boxSizing: "border-box",
 };
 
-const rotationItemSx = (isDark: boolean) => ({
-    p: 2, 
-    border: 1, 
-    borderColor: 'divider', 
-    borderRadius: 1,
-    backgroundColor: isDark ? '#2a2a2a' : '#f5f5f5'
-});
 
 const createChartData = (rotations: any[], calculateRotationStats: Function) => ({
     labels: rotations.map(r => r.name),
@@ -248,7 +242,7 @@ const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React
     const [attempts, setAttempts] = useState<number>(1);
     const [targets, setTargets] = useState<number>(1);
     
-    const [selectedTalents, setSelectedTalents] = useState(new Map<spell, boolean>([[TALENTS.WAY_OF_THE_CRANE, false]]));
+    const [selectedTalents, setSelectedTalents] = useState(new Map<spell, boolean>([[TALENTS.WAY_OF_THE_CRANE, true]]));
     const wayOfTheCrane = selectedTalents.get(TALENTS.WAY_OF_THE_CRANE) || false;
     
     const totm = TALENTS.TEACHINGS_OF_THE_MONASTERY;
@@ -433,7 +427,7 @@ const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React
                         {rotations.map((rotation) => {
                             const stats = calculateRotationStats(rotation.steps);
                             return (
-                                <Box key={rotation.id} sx={rotationItemSx(theme.palette.mode === 'dark')}>
+                                <RainbowCard key={rotation.id} sx={{ p: 2 }}>
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                                         <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>
                                             {rotation.steps.map((step) => (
@@ -486,7 +480,7 @@ const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React
                                             color="success.main"
                                         />
                                     </Box>
-                                </Box>
+                                </RainbowCard>
                             );
                         })}
                     </Stack>
