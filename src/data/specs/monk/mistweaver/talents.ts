@@ -376,9 +376,9 @@ const talents = {
         castTime: 0,
         coeff: 1.04,
         custom: {
-            enemyTargets: 5,
-            friendlyTargets: 5,
-        }
+            targetsHit: 5,
+        },
+        category: CATEGORY.DAMAGE,
     },
     OVERFLOWING_MISTS: {
         name: "Overflowing Mists",
@@ -593,7 +593,7 @@ const talents = {
         heroTalent: COTC,
         coeff: 1.5, // interpolated via 930 amount ingame
         custom: {
-            targets: 5,
+            targetsHit: 5,
         }
     },
     FLIGHT_OF_THE_RED_CRANE: {
