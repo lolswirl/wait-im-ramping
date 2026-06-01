@@ -48,9 +48,7 @@ export const mwDamage = {
 };
 
 export const harmonicSurge = { 
-  label: <>
-    <SpellLink spell={TALENTS.HARMONIC_SURGE}/>
-  </>, 
+  label: <SpellLink spell={TALENTS.HARMONIC_SURGE}/>, 
   path: "/analysis/harmonic-surge", 
   preview: "/previews/harmonic-surge.png",
   description: <>
@@ -76,70 +74,94 @@ export const risingSunKickResets = {
 };
 
 export const chiJi = {
-  label: 'Chi-Ji "Simulation"',
+  label: <>
+    <SpellLink spell={SPELLS.CHI_JI}/> "Simulation"
+  </>,
   path: "/analysis/chi-ji",
   preview: "/previews/chi-ji.png",
-  description: "Simulate the theoretical HPS of various rotations done inside of Chi-Ji",
+  description: <>
+    Simulate the theoretical HPS of various rotations done inside of <SpellLink spell={SPELLS.CHI_JI}/>
+  </>,
   tags: ["Healing", "Monk", "Rotation"],
   createdDate: "2025-07-12",
   component: ChiJiPage
 };
 
 export const heartOfTheJadeSerpent = {
-  label: 'Heart of the Jade Serpent',
+  label: <SpellLink spell={TALENTS.HEART_OF_THE_JADE_SERPENT}/>,
   path: "/analysis/heart-of-the-jade-serpent",
   preview: "/previews/heart-of-the-jade-serpent.png",
-  description: "Analyze the effects of Heart of the Jade Serpent's increased cooldown recovery rate to find how many extra casts are received during a fight",
+  description: <>
+    Analyze the effects of <SpellLink spell={TALENTS.HEART_OF_THE_JADE_SERPENT}/>'s increased cooldown recovery rate to find how many extra casts are received during a fight
+  </>,
   tags: ["Monk"],
   createdDate: "2025-08-01",
   component: HotJS
 };
 
 export const celestialConduit = {
-  label: 'Celestial Conduit Comparison',
+  label: <>
+    <SpellLink spell={SPELLS.CELESTIAL_CONDUIT}/> Comparison
+  </>,
   path: "/analysis/celestial-conduit",
   preview: "/previews/celestial-conduit.png",
-  description: "Analyze Celestial Conduit's output compared to other spells and abilities",
+  description: <>
+    Analyze <SpellLink spell={SPELLS.CELESTIAL_CONDUIT}/>'s output compared to other spells and abilities
+  </>,
   tags: ["Monk"],
   createdDate: "2025-09-16",
   component: Conduit
 };
 
 export const mistyCoalescence = {
-  label: 'Misty Coalescence',
+  label: <SpellLink spell={TALENTS.MISTY_COALESCENCE}/>,
   path: "/analysis/misty-coalescence",
   preview: "/previews/misty-coalescence.png",
-  description: "Visually graph Renewing Mist's healing increase based on group size with Misty Coalescence",
+  description: <>
+    Visually graph <SpellLink spell={SPELLS.RENEWING_MIST}/>'s healing increase based on group size with <SpellLink spell={TALENTS.MISTY_COALESCENCE}/>
+  </>,
   tags: ["Healing", "Monk"],
   createdDate: "2026-1-25",
   component: MistyCoalescence
 };
 
 export const jadefireTeachingsRwk = {
-  label: 'Jadefire Teachings vs Rushing Wind Kick',
+  label: <>
+    <SpellLink spell={TALENTS.JADEFIRE_TEACHINGS}/> vs. <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/>
+  </>,
   path: "/analysis/rushing-wind-kick",
   preview: "/previews/jft-rwk.png",
-  description: "Comparison of Rising Sun Kick (Jadefire Teachings) and Rushing Wind Kick damage and healing output",
+  description: <>
+    Comparison of <SpellLink spell={SPELLS.RISING_SUN_KICK}/> (<SpellLink spell={TALENTS.JADEFIRE_TEACHINGS}/>) and <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> damage and healing output
+  </>,
   tags: ["Healing", "Monk"],
   createdDate: "2026-02-15",
   component: RushingWindKickComparison
 };
 
 export const sheilunVsDocj = {
-  label: "Sheilun's Gift vs Dance of Chi-Ji",
+  label: <>
+    <SpellLink spell={SPELLS.SHEILUNS_GIFT}/> vs. <SpellLink spell={TALENTS.DANCE_OF_CHI_JI}/>
+  </>,
   path: "/analysis/sheilun-vs-docj",
   preview: "/previews/sg-docj.png",
-  description: "Comparing the healing output of Sheilun's Gift main target to a Dance of Chi-Ji proc (1 Friendly Only)",
+  description: <>
+    Comparing the healing output of <SpellLink spell={SPELLS.SHEILUNS_GIFT}/> main target to a <SpellLink spell={TALENTS.DANCE_OF_CHI_JI}/> proc (1 Friendly Only)
+  </>,
   tags: ["Healing", "Monk"],
   createdDate: "2026-04-15",
   component: SheilunVsDocJ
 };
 
 export const sheilunsGiftBreakdown = {
-  label: "Sheilun's Gift Breakdown",
+  label: <>
+    <SpellLink spell={SPELLS.SHEILUNS_GIFT}/> Breakdown
+  </>,
   path: "/analysis/sheiluns-gift-breakdown",
   preview: "/previews/sg-breakdown.png",
-  description: "Detailed breakdown of Sheilun's Gift's healing distribution",
+  description: <>
+    Detailed breakdown of <SpellLink spell={SPELLS.SHEILUNS_GIFT}/>'s healing distribution
+  </>,
   tags: ["Healing", "Monk"],
   createdDate: "2026-04-22",
   component: SheilunsGiftBreakdown
