@@ -8,7 +8,8 @@ const HEALING_SPELLS = [
     // SPELLS.EXPEL_HARM.id, removed in midnight
     //451968, // Expel Harm (alt id), removed in midnight
     SPELLS.SOOTHING_MIST.id,
-    //198533, // Soothing Mist (Jade Serpent Statue)
+    TALENTS.SPIRITFONT_SOOTHING_MIST.id,
+    TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST.id,
     SPELLS.REVIVAL.id,
     //297850, // Revival (alt id)
     SPELLS.ENVELOPING_MIST.id,
