@@ -69,7 +69,7 @@ const HEALING_SPELLS = [
     //TALENTS.SPHERE_OF_HOPE.id, pvp
     TALENTS.INVIGORATING_MISTS.id,
     //425804, // Invigorating Mists (alt spell id)
-    //TALENTS.FLIGHT_OF_THE_RED_CRANE.id, can only proc from unity within now, shouldn't be in the game
+    TALENTS.FLIGHT_OF_THE_RED_CRANE.id,
     //443611, // Flight of the Red Crane (alt id)
     TALENTS.RESTORAL.id,
     //388615, // Restoral (alt id)
