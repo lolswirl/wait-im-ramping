@@ -320,6 +320,9 @@ const talents = {
         name: "Uplifted Spirits",
         id: 388551,
         icon: 'inv_helm_leather_raidmonkgoblin_d_01',
+        custom: {
+            revivalIncrease: 0.15,
+        }
     },
     CHI_COCOON: {
         name: "Chi Cocoon",

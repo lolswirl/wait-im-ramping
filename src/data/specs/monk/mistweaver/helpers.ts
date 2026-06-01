@@ -103,6 +103,11 @@ const HEALING_MULTIPLIER_RULES: TalentRule[] = [
         getValue: () => TALENTS.WAY_OF_THE_SERPENT.custom.renewingMistIncrease,
         appliesTo: (spell) => spell.id === SPELLS.RENEWING_MIST.id
     },
+    {
+        talent: TALENTS.UPLIFTED_SPIRITS,
+        getValue: () => TALENTS.UPLIFTED_SPIRITS.custom.revivalIncrease,
+        appliesTo: (spell) => spell.id === SPELLS.REVIVAL.id || spell.id == TALENTS.RESTORAL.id,
+    }
 ];
 
 export const calculateSpellDamageMultiplier = (spell: spell, player: Player): number => {
