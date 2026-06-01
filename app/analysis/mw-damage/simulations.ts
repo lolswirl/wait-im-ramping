@@ -101,17 +101,17 @@ const sckDamagePerCast = (baseValue: number, targets: number): number =>
     ? baseValue * targets
     : baseValue * targets * Math.sqrt(5 / targets);
 
-export const simulateMeleeRotationAt2Stacks = (
+const simulateMeleeRotationWithStacks = (
   totalTime: number,
   targets: number,
   asHealing: boolean,
-  player: Player
+  player: Player,
+  bokMinStacks: number,
 ): DamagePoint[] => {
-  const rskValue = resolveRskValue(targets, asHealing, player);
-  const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, player);
-  const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, player);
   const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
   const tpHits = hasWotC ? TALENTS.WAY_OF_THE_CRANE.custom.tigerPalmHits : 1;
+  const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, player);
+  const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, player);
   const tpValue = (asHealing
     ? calculateAncientTeachingsHealing(tpDamage, player, true, SPELLS.TIGER_PALM)
     : tpDamage) * tpHits;
@@ -120,6 +120,7 @@ export const simulateMeleeRotationAt2Stacks = (
     : bokDamage;
   const bokCleaveTargets = hasWotC ? Math.min(targets - 1, 2) : 0;
   const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.custom.blackoutKickEffectiveness;
+  const rskValue = resolveRskValue(targets, asHealing, player);
 
   const actions: RotationAction[] = [
     {
@@ -129,10 +130,10 @@ export const simulateMeleeRotationAt2Stacks = (
       getValue: () => rskValue,
     },
     {
-      // bok at 2 stacks
+      // bok
       priority: 1,
       cooldown: SPELLS.BLACKOUT_KICK.cooldown,
-      canCast: (state) => state.totmStacks >= 2,
+      canCast: (state) => state.totmStacks >= bokMinStacks,
       getValue: (state) => {
         const waves = 1 + state.totmStacks;
         const mainTargetVal = bokValue * waves;
@@ -162,57 +163,19 @@ export const simulateMeleeRotation = (
   targets: number,
   asHealing: boolean,
   player: Player
-): DamagePoint[] => {
-  const rskValue = resolveRskValue(targets, asHealing, player);
-  const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, player);
-  const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, player);
-  const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
-  const tpValue = asHealing
-    ? calculateAncientTeachingsHealing(tpDamage, player, true, SPELLS.TIGER_PALM)
-    : tpDamage;
-  const totmStacksPerTP = hasWotC ? TALENTS.WAY_OF_THE_CRANE.custom.tigerPalmHits : 1;
-  const bokValue = asHealing
-    ? calculateAncientTeachingsHealing(bokDamage, player, true, SPELLS.BLACKOUT_KICK)
-    : bokDamage;
-  const bokCleaveTargets = hasWotC ? Math.min(targets - 1, 2) : 0;
-  const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.custom.blackoutKickEffectiveness;
-  const totmMaxStacks = TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks;
+): DamagePoint[] =>
+  simulateMeleeRotationWithStacks(
+    totalTime, targets, asHealing, player,
+    TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks
+  );
 
-  const actions: RotationAction[] = [
-    {
-      // rsk/rwk
-      priority: 0,
-      cooldown: chosenRsk(player.talents).cooldown,
-      getValue: () => rskValue,
-    },
-    {
-      // bok
-      priority: 1,
-      cooldown: SPELLS.BLACKOUT_KICK.cooldown,
-      canCast: (state) => state.totmStacks >= totmMaxStacks,
-      getValue: (state) => {
-        const waves = 1 + state.totmStacks;
-        const mainTargetVal = bokValue * waves;
-        const cleaveVal = mainTargetVal * bokCleaveEffectiveness * bokCleaveTargets;
-        return mainTargetVal + cleaveVal;
-      },
-      onCast: (state, cooldowns) => {
-        const hits = (1 + state.totmStacks) * (1 + bokCleaveTargets);
-        state.totmStacks = 0;
-        if (bokProcsReset(hits)) cooldowns[0] = 0;
-      },
-    },
-    {
-      // tp
-      priority: 2,
-      cooldown: 0, // SPELLS.TIGER_PALM.cooldown
-      getValue: () => tpValue,
-      onCast: (state) => { state.totmStacks += totmStacksPerTP; },
-    },
-  ];
-
-  return runRotation(actions, totalTime, { totmStacks: 0 });
-};
+export const simulateMeleeRotationAt2Stacks = (
+  totalTime: number,
+  targets: number,
+  asHealing: boolean,
+  player: Player
+): DamagePoint[] =>
+  simulateMeleeRotationWithStacks(totalTime, targets, asHealing, player, TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks / 2);
 
 export const simulateSpinningCraneKick = (
   totalTime: number,
