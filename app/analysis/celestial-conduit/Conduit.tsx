@@ -78,7 +78,7 @@ const Conduit: React.FC<{ title: React.ReactNode; description: React.ReactNode }
         (_, i) => i + 1
     );
 
-    const conduitSpellpower = celestialConduit.coeff.healing;
+    const conduitSpellpower = celestialConduit.coeff.healing * 100;
     const conduitSpellpowerCalc = (targets: number) => conduitSpellpower;
     const conduitSpellpowers = conduitValues.map(conduitSpellpowerCalc);
 
@@ -88,7 +88,7 @@ const Conduit: React.FC<{ title: React.ReactNode; description: React.ReactNode }
                   intellect,
                   targets,
                   selectedTalents.get(TALENTS.UNITY_WITHIN)!
-              ).spellpower
+              ).spellpower * 100
             : 0;
     const unityWithinSpellpowers = conduitValues.map(unityWithinSpellpowerCalc);
 
