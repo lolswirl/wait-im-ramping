@@ -73,7 +73,7 @@ const spells = {
         icon: 'ability_monk_soothingmists',
         castTime: 1,
         school: SCHOOLS.NATURE,
-        coeff: 16.8,
+        coeff: 2.10 * 12, // 210 sp% per sec, pip turns this into 12s baseline
         custom: {
             replaceGCD: 1
         },
