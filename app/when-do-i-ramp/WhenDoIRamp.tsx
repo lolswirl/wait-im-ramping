@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef } from "react";
 import { Card, Box, Stack, Divider, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
@@ -18,7 +18,7 @@ import { T } from "@util/T";
 import { useSpec } from '@context/SpecContext';
 import { encodeShare, decodeShare } from '@util/rotationShare';
 
-const WhenDoIRamp: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const WhenDoIRamp: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const { spec, setSpec } = useSpec();
     const [lockedSpecName, setLockedSpecName] = useState<string | null>(null);
     const [spellList, setSpellList] = useState<spell[]>([]);

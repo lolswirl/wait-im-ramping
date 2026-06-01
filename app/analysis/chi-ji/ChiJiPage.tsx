@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect } from "react";
 import { Box, useTheme, Card, Divider, Grid } from "@mui/material";
 import { Refresh } from "@mui/icons-material";
@@ -21,7 +21,7 @@ import { T } from "@util/T";
 import { calculateRotationHPS } from './simulation';
 import { RotationResult, SimulationOptions } from './types';
 
-const ChiJiPage: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const theme = useTheme();
     const [rotationHPS, setRotationHPS] = useState<RotationResult[]>([]);
     const [expandedRotations, setExpandedRotations] = useState<Set<number>>(new Set());

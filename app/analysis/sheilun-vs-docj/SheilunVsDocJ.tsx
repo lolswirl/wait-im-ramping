@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
@@ -16,7 +16,7 @@ import { T } from "@util/T";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const SheilunVsDocJ: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const SheilunVsDocJ: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const theme = useTheme();
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;

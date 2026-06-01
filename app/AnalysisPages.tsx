@@ -11,16 +11,19 @@ import MistyCoalescence from "./analysis/misty-coalescence/MistyCoalescence";
 import AbsorbVsDRCompare from "./analysis/external-comparison/AbsorbVsDRCompare";
 import WhenDoIRamp from "./when-do-i-ramp/WhenDoIRamp";
 import Timeline from "./timeline/Timeline";
+import SPELLS from "@data/spells";
+import SpellLink from "@components/SpellLink";
+import TALENTS from "@data/talents";
 
 export interface AnalysisPage {
-  label: string;
+  label: React.ReactNode;
   path: string;
   preview: string;
-  description: string;
+  description: React.ReactNode;
   extra?: string;
   tags: string[];
   createdDate: string;
-  component: React.ComponentType<{ title: string; description: string }>;
+  component: React.ComponentType<{ title: React.ReactNode; description: React.ReactNode }>;
 }
 
 export const externalComparison = { 
@@ -45,20 +48,28 @@ export const mwDamage = {
 };
 
 export const harmonicSurge = { 
-  label: "Harmonic Surge", 
+  label: <>
+    <SpellLink spell={TALENTS.HARMONIC_SURGE}/>
+  </>, 
   path: "/analysis/harmonic-surge", 
   preview: "/previews/harmonic-surge.png",
-  description: "Analyze Harmonic Surge's spellpower output compared to the other Ancient Teachings abilities",
+  description: <>
+    Analyze <SpellLink spell={TALENTS.HARMONIC_SURGE}/>'s spellpower output compared to the other <SpellLink spell={TALENTS.ANCIENT_TEACHINGS}/> abilities
+  </>,
   tags: ["Procs", "Monk"],
   createdDate: "2025-06-28",
   component: HarmonicSurge
 };
 
 export const risingSunKickResets = { 
-  label: "Rising Sun Kick Resets", 
+  label: <>
+    <SpellLink spell={SPELLS.RISING_SUN_KICK}/> Resets
+  </>, 
   path: "/analysis/rising-sun-kick-resets", 
   preview: "/previews/rising-sun-kick-resets.png",
-  description: "Find the probabilities of Rising Sun Kick resets based on various input rotations",
+  description: <>
+    Find the probabilities of <SpellLink spell={SPELLS.RISING_SUN_KICK}/> resets based on various input rotations
+  </>,
   tags: ["Probability", "Monk", "Rotation"],
   createdDate: "2025-07-10",
   component: RisingSunKickResets

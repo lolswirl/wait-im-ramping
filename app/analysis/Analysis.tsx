@@ -10,6 +10,7 @@ import RainbowCard from "@components/Buttons/RainbowCard";
 import { GlassTooltip } from "@components/Glass";
 
 import { analysisPages, AnalysisPage } from "../AnalysisPages";
+import { extractTextFromReactNode } from "@util/extractTextFromReactNode";
 import WarningChip from "@components/WarningChip/WarningChip";
 
 const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ tool, isOutdated }) => {
@@ -132,7 +133,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
     const filteredAnalysisPages = analysisPages.filter(
-        (tool) => tool.label.toLowerCase() !== "analysis"
+        (tool) => extractTextFromReactNode(tool.label).toLowerCase() !== "analysis"
     );
 
     const allTags = useMemo(() => {

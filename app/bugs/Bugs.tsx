@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect } from "react";
 import { Box, Container, Typography } from "@mui/material";
 import { useSearchParams } from "next/navigation";
@@ -17,7 +17,7 @@ import T from "@util/T";
 import { pluralize } from "@util/stringManipulation";
 import { exportBugsToExcel } from "@util/exportBugsToExcel";
 
-const BugsPage: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const searchParams = useSearchParams();
     
     const getInitialSpec = (): specialization => {

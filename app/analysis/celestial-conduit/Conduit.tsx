@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
@@ -33,7 +33,7 @@ ChartJS.register(
     Legend
 );
 
-const Conduit: React.FC<{ title: string; description: string }> = ({
+const Conduit: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({
     title,
     description,
 }) => {

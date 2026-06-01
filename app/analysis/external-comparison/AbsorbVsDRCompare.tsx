@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
@@ -10,7 +10,7 @@ import { T } from "@util/T";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const AbsorbVsDRCompare: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const [absorbValue, setAbsorbValue] = useState(253000);
   const [damageReduction, setDamageReduction] = useState(40.5);
   const [maxXAxis, setMaxXAxis] = useState(1000000);
@@ -150,3 +150,4 @@ const AbsorbVsDRCompare: React.FC<{ title: string; description: string }> = ({ t
 };
 
 export default AbsorbVsDRCompare;
+

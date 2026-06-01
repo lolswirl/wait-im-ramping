@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useMemo } from 'react';
 import {
@@ -82,7 +82,7 @@ const ChartTooltip: React.FC<any> = ({ active, payload, label }) => {
     return null;
 };
 
-const MistyCoalescence: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const MistyCoalescence: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const theme = useTheme();
     const { themeMode } = useThemeContext();
     const isDark = themeMode === 'dark';

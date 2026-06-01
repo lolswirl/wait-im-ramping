@@ -4,8 +4,8 @@ import { RAINBOW_GRADIENT } from '@components/Buttons/RainbowCard';
 import { T } from '@util/T';
 
 interface PageHeaderProps {
-    title: string;
-    subtitle?: string | string[];
+    title: React.ReactNode;
+    subtitle?: string | string[] | React.ReactNode;
     maxWidth?: number | string;
     align?: 'left' | 'center' | 'right';
     marginBottom?: number;
@@ -18,11 +18,52 @@ const PageHeader: React.FC<PageHeaderProps> = ({
     align = 'center',
     marginBottom = 1
 }) => {
-    const subtitleText = subtitle
-        ? (Array.isArray(subtitle) ? subtitle.join("<br>") : subtitle)
+    const mx = align === 'center' ? 'auto' : 0;
+
+    const isStringSubtitle = typeof subtitle === 'string' || Array.isArray(subtitle);
+    const subtitleText = isStringSubtitle
+        ? (Array.isArray(subtitle) ? (subtitle as string[]).join("<br>") : subtitle as string)
         : null;
 
-    const mx = align === 'center' ? 'auto' : 0;
+    const subtitleContent = isStringSubtitle ? (
+        subtitleText && (
+            <Typography
+                sx={{
+                    fontSize: "0.85rem",
+                    color: "text.secondary",
+                    opacity: 0.6,
+                    minWidth: 0,
+                    maxWidth: maxWidth,
+                    '& a': {
+                        color: 'primary.light',
+                        textDecoration: 'none',
+                        '&:hover': { textDecoration: 'underline wavy' }
+                    }
+                }}
+                dangerouslySetInnerHTML={{ __html: T(subtitleText) }}
+            />
+        )
+    ) : (
+        subtitle && (
+            <Typography
+                component="div"
+                sx={{
+                    fontSize: "0.85rem",
+                    color: "text.secondary",
+                    opacity: 0.6,
+                    minWidth: 0,
+                    maxWidth: maxWidth,
+                    '& a': {
+                        color: 'primary.light',
+                        textDecoration: 'none',
+                        '&:hover': { textDecoration: 'underline wavy' }
+                    }
+                }}
+            >
+                <T>{subtitle as React.ReactNode}</T>
+            </Typography>
+        )
+    );
 
     return (
         <Box sx={{ mb: marginBottom, mx }}>
@@ -36,24 +77,10 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                     </Typography>
                     <Box sx={{ height: 2, borderRadius: 1, background: RAINBOW_GRADIENT }} />
                 </Box>
-                {subtitleText && (
+                {subtitleContent && (
                     <>
                         <Typography sx={{ fontSize: "0.85rem", color: "text.secondary", opacity: 0.4, flexShrink: 0 }}>/</Typography>
-                        <Typography
-                            sx={{
-                                fontSize: "0.85rem",
-                                color: "text.secondary",
-                                opacity: 0.6,
-                                minWidth: 0,
-                                maxWidth: maxWidth,
-                                '& a': {
-                                    color: 'primary.light',
-                                    textDecoration: 'none',
-                                    '&:hover': { textDecoration: 'underline wavy' }
-                                }
-                            }}
-                            dangerouslySetInnerHTML={{ __html: T(subtitleText) }}
-                        />
+                        {subtitleContent}
                     </>
                 )}
             </Box>

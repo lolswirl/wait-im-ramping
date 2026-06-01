@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { Typography, Box, Card, Stack, Divider, useMediaQuery, useTheme } from '@mui/material';
 
@@ -20,7 +20,7 @@ import { useRotationManager } from '@hooks/useRotationManager';
 import { T } from '@util/T';
 import { encodeShare, decodeShare } from '@util/rotationShare';
 
-const Timeline: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const Timeline: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const { spec, setSpec } = useSpec();
     const [spellList, setSpellList] = useState<spell[]>([]);
     const [haste, setHaste] = useState<number | "">(0);

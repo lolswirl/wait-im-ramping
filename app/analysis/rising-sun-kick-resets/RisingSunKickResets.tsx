@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useMemo, useCallback } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
@@ -243,7 +243,7 @@ const createChartOptions = (theme: any, rotations: any[], calculateRotationStats
     },
 });
 
-const RisingSunKickResets: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const theme = useTheme();
     const [attempts, setAttempts] = useState<number>(1);
     const [targets, setTargets] = useState<number>(1);

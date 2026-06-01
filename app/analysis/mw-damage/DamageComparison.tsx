@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
@@ -49,7 +49,7 @@ type RotationConfig = {
   simulateFn: (time: number, targets: number, asHealing: boolean, params: SimulationParams) => DamagePoint[];
 };
 
-const DamageComparison: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const DamageComparison: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const theme = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);

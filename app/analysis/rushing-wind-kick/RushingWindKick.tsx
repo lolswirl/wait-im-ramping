@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
@@ -33,7 +33,7 @@ const modeOptions: { value: CalcMode; label: string}[] = [
   { value: "damage", label: "Raw Damage" },
 ];
 
-const RushingWindKickComparison: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const theme = useTheme();
   const [calcMode, setCalcMode] = useState<CalcMode>("totalHealing");
 

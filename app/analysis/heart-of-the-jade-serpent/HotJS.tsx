@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useMemo } from 'react';
 import {
@@ -764,7 +764,7 @@ const TimelineView: React.FC<{
     );
 };
 
-const HotJS: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const HotJS: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const { themeMode } = useThemeContext();
     const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
     

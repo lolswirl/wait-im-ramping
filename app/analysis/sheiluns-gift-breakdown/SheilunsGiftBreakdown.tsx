@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
@@ -19,7 +19,7 @@ import { pluralize } from "@util/stringManipulation";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const SheilunsGiftBreakdown: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+const SheilunsGiftBreakdown: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const theme = useTheme();
   
   const [selectedTalents, setSelectedTalents] = useState(
