@@ -20,14 +20,14 @@ export const calculateUnityWithin = (intellect: number, targets: number, unityWi
     const sotbo = TALENTS.STRENGTH_OF_THE_BLACK_OX;
     const sotboMaxTargets = sotbo.custom?.targets;
     const sotboTargetsHit = Math.min(targets, sotboMaxTargets);
-    const sotboAbsorb = sotboTargetsHit * (sotbo.custom?.absorbAmount * unityWithinMultiplier);
+    const sotboAbsorb = sotboTargetsHit * (sotbo.coeff * unityWithinMultiplier);
 
     const cotwt = TALENTS.COURAGE_OF_THE_WHITE_TIGER;
-    const cotwtHeal = cotwt.value.healing * unityWithinMultiplier;
+    const cotwtHeal = cotwt.coeff.healing * unityWithinMultiplier;
 
     const totalHealing = sotboAbsorb + cotwtHeal;
     
-    const spellpower = (totalHealing / intellect) * 100;
+    const spellpower = totalHealing;
 
     return {
         sotbo: sotboAbsorb,
