@@ -5,6 +5,7 @@ import {
   Card,
   Container,
   Divider,
+  TextField,
   Typography,
 } from "@mui/material";
 import SwirlTable, { SwirlColumn } from "@components/SwirlTable/SwirlTable";
@@ -113,12 +114,15 @@ const expandRows = (s: spell, player: Player): SpellRow[] =>
     return [{ spell: s, type, ...resolveValue(s, type, player, 1) }];
   });
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const SpellReference: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const [spec, setSpec] = useState<specialization>(CLASSES.MONK.SPECS.MISTWEAVER);
   const [stats, setStats] = useState<StatsCardOptions>({ ...spec.stats });
   const [specTalents, setSpecTalents] = useState(spec.defaultTalents?.spec ?? new Map<spell, boolean>());
   const [heroTalents, setHeroTalents] = useState(spec.defaultTalents?.hero ?? new Map<spell, boolean>());
   const [classTalents, setClassTalents] = useState(spec.defaultTalents?.class ?? new Map<spell, boolean>());
+  const [nerfPercent, setNerfPercent] = useState<number>(-10);
 
   const talents = useMemo(
     () => new Map<spell, boolean>([...specTalents, ...heroTalents, ...classTalents]),
@@ -133,15 +137,15 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
     setClassTalents(newSpec.defaultTalents?.class ?? new Map());
   };
 
-  const rows = useMemo(() => {
-    const allSpells = [
-      ...Object.values(spec.spells),
-      ...Object.values(spec.talents ?? {}),
-    ].filter(hasValue);
+  const allSpells = useMemo(() => [
+    ...Object.values(spec.spells),
+    ...Object.values(spec.talents ?? {}),
+  ].filter(hasValue), [spec]);
 
+  const rows = useMemo(() => {
     const player: Player = { stats, talents, corePassives: spec.corePassives ?? [] };
     return allSpells.flatMap(s => expandRows(s, player));
-  }, [spec, stats.intellect, stats.haste, stats.crit, stats.versatility, stats.mastery, stats.totalHp, talents]);
+  }, [spec, allSpells, stats.intellect, stats.haste, stats.crit, stats.versatility, stats.mastery, stats.totalHp, talents]);
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
@@ -190,6 +194,20 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
           </>
         )}
       </Card>
+
+      {isDev && (
+        <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, p: 2, display: "flex", gap: 2, alignItems: "center" }}>
+          <Typography variant="body2" color="text.secondary">Nerf simulator</Typography>
+          <TextField
+            size="small"
+            label="% change"
+            type="number"
+            value={nerfPercent}
+            onChange={e => setNerfPercent(Number(e.target.value))}
+            sx={{ width: 120 }}
+          />
+        </Card>
+      )}
 
       <Box sx={{ width: "100%", maxWidth: 1000 }}>
         <SwirlTable
@@ -261,6 +279,25 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                 </Typography>
               ),
             },
+          ...(isDev ? [{
+            key: "nerf",
+            label: `After (${nerfPercent > 0 ? "+" : ""}${nerfPercent}%)`,
+            width: "1fr",
+            align: "right" as const,
+            sortValue: (row: SpellRow) => (row.absolute ?? -1) * (1 + nerfPercent / 100),
+            render: (row: SpellRow) => {
+              if (row.absolute === null) return <Typography variant="body2" color="text.disabled">—</Typography>;
+              const adjusted = row.absolute * (1 + nerfPercent / 100);
+              return (
+                <Box sx={{ textAlign: "right" }}>
+                  <Typography variant="body2" fontWeight="bold">{formatNumber(adjusted)}</Typography>
+                  <Typography variant="caption" color={nerfPercent < 0 ? "error.main" : "success.main"}>
+                    {nerfPercent > 0 ? "+" : ""}{nerfPercent.toFixed(1)}%
+                  </Typography>
+                </Box>
+              );
+            },
+          }] : []),
           ] as SwirlColumn<SpellRow>[]}
           accentColor={row => CATEGORY_COLORS[row.type as keyof typeof CATEGORY_COLORS] ?? "#ffffff"}
         />
