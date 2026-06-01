@@ -79,7 +79,11 @@ const Conduit: React.FC<{ title: React.ReactNode; description: React.ReactNode }
     );
 
     const conduitSpellpower = celestialConduit.coeff.healing * 100;
-    const conduitSpellpowerCalc = (targets: number) => conduitSpellpower;
+    const fallingStarTalent = TALENTS.PATH_OF_THE_FALLING_STAR;
+    const conduitSpellpowerCalc = (targets: number) => {
+        const bonus = Math.max(0, fallingStarTalent.custom.singleTargetBonus - (targets - 1) * fallingStarTalent.custom.reductionPerTarget);
+        return conduitSpellpower * (1 + bonus);
+    };
     const conduitSpellpowers = conduitValues.map(conduitSpellpowerCalc);
 
     const unityWithinSpellpowerCalc = (targets: number) =>

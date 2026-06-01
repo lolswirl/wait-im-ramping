@@ -616,6 +616,16 @@ const talents = {
             mainTargetIncrease: 4.0,
         }
     },
+    PATH_OF_THE_FALLING_STAR: {
+        name: "Path of the Falling Star",
+        id: 1273154,
+        icon: 'ability_monk_chiswirl',
+        heroTalent: COTC,
+        custom: {
+            singleTargetBonus: 1.0, // +100% at 1 target
+            reductionPerTarget: 0.20, // -20% per additional target
+        }
+    },
     INNER_COMPASS: {
         name: "Inner Compass",
         id: 443571,
