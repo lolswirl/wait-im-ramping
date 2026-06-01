@@ -45,6 +45,7 @@ type SpellRow = {
   baseSpCoeff: number | null;
   spCoeff: number | null;
   absolute: number | null;
+  targets?: number;
 };
 
 const coeffTypes = (s: spell): ("damage" | "healing")[] => {
@@ -76,13 +77,13 @@ const resolveValue = (
   s: spell,
   type: "damage" | "healing",
   player: Player,
+  targetMultiplier = 1,
 ): { baseSpCoeff: number | null; spCoeff: number | null; absolute: number | null } => {
   if (s.formula !== undefined) {
-    const absolute = s.formula(player.stats);
+    const absolute = s.formula(player.stats) * targetMultiplier;
     return { baseSpCoeff: null, spCoeff: (absolute / player.stats.intellect) * 100, absolute };
   }
   if (s.coeff !== undefined) {
-    const targetMultiplier = (s as any).custom?.targetsHit ?? 1;
     const absolute = (type === "damage"
       ? calculateSpellDamage(s, player)
       : calculateSpellHealing(s, player)) * targetMultiplier;
@@ -100,8 +101,18 @@ const resolveValue = (
 const hasValue = (s: spell) =>
   s.coeff !== undefined || s.formula !== undefined || s.value?.damage !== undefined || s.value?.healing !== undefined;
 
-const expandRows = (s: spell, player: Player): SpellRow[] =>
-  coeffTypes(s).map(type => ({ spell: s, type, ...resolveValue(s, type, player) }));
+const expandRows = (s: spell, player: Player): SpellRow[] => {
+  const maxTargets: number = (s as any).custom?.targetsHit ?? 1;
+  return coeffTypes(s).flatMap(type => {
+    if (maxTargets > 1) {
+      return [
+        { spell: s, type, targets: 1, ...resolveValue(s, type, player, 1) },
+        { spell: s, type, targets: maxTargets, ...resolveValue(s, type, player, maxTargets) },
+      ];
+    }
+    return [{ spell: s, type, ...resolveValue(s, type, player, 1) }];
+  });
+};
 
 const SpellReference: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const [spec, setSpec] = useState<specialization>(CLASSES.MONK.SPECS.MISTWEAVER);
@@ -196,24 +207,20 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map(({ spell, type, baseSpCoeff, spCoeff, absolute }) => (
-                <TableRow key={`${spell.id}-${type}`} hover sx={{ "&:last-child td": { border: 0 } }}>
+              {rows.map(({ spell, type, baseSpCoeff, spCoeff, absolute, targets }) => (
+                <TableRow key={`${spell.id}-${type}-${targets ?? 0}`} hover sx={{ "&:last-child td": { border: 0 } }}>
                   <TableCell sx={{ ...cellSx, display: "flex", alignItems: "center", gap: 1 }}>
                     <SpellButton selectedSpell={spell} size={32} />
-                    <Typography variant="body2" fontWeight="bold">
-                      
-                        {spell.name}
-                      
-                    </Typography>
+                    <Box>
+                      <Typography variant="body2" fontWeight="bold">{spell.name}</Typography>
+                      {targets !== undefined && (
+                        <Typography variant="caption" color="text.disabled">{targets} {targets === 1 ? "target" : "targets"}</Typography>
+                      )}
+                    </Box>
                   </TableCell>
                   <TableCell sx={cellSx}>
-                    <Typography
-                      variant="caption"
-                      sx={{ color: type === "damage" ? "#f87171" : "#4ade80" }}
-                    >
-                      
-                        {type === "damage" ? "Damage" : "Healing"}
-                      
+                    <Typography variant="caption" sx={{ color: type === "damage" ? "#f87171" : "#4ade80" }}>
+                      {type === "damage" ? "Damage" : "Healing"}
                     </Typography>
                   </TableCell>
                   <TableCell align="right" sx={cellSx}>
