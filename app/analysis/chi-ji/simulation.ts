@@ -4,9 +4,16 @@ import { calculateCastTime } from "@data/spells/spell";
 import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
-import SHARED from "@data/specs/monk/talents";
 import { CLASSES } from '@data/class';
-import { SCHOOLS } from '@data/shared/schools';
+import {
+    calculateSpellDamage,
+    calculateSpellHealing,
+    calculateAncientTeachingsHealing,
+    calculateGustOfMists,
+    getWayOfTheCraneTransfer,
+    getWayOfTheCraneArmorModifier,
+    Player,
+} from '@data/specs/monk/mistweaver/helpers';
 
 export const createAllyState = (id: number): AllyState => ({
     id,
@@ -136,7 +143,7 @@ export const calculateRotationHPS = async (
     rotation: spell[],
     rotationIndex: number,
     options: SimulationOptions,
-    mistweaver: any
+    specData: any
 ): Promise<RotationResult> => {
     const rwkEnabled = isTalentEnabled(options, TALENTS.RUSHING_WIND_KICK);
     const normalizedRotation = rotation.map(s => {
@@ -144,33 +151,26 @@ export const calculateRotationHPS = async (
         if (!rwkEnabled && s.id === TALENTS.RUSHING_WIND_KICK.id) return SPELLS.RISING_SUN_KICK;
         return s;
     });
-    const buffedSpells = await applyBuffEffects(mistweaver, normalizedRotation);
+    const buffedSpells = await applyBuffEffects(specData, normalizedRotation);
     let totalTime = 0;
     let totalHealing = 0;
     let spellsCastInChiJi: spell[] = [];
     let totmStacks = 0;
 
-    const calcWithStats = (spellpower: number) => {
-        // law of large numbers lets us directly multiply by the percentage of crit
-        const critMultiplier = (1 + (options.crit / 100));
-        const versMultiplier = (1 + (options.versatility / 100));
-        return spellpower * options.intellect * critMultiplier * versMultiplier;
+    const mergedTalents = new Map<spell, boolean>([...options.specTalents, ...options.classTalents]);
+    const mwSpec = CLASSES.MONK.SPECS.MISTWEAVER;
+    const player: Player = {
+        stats: {
+            intellect: options.intellect,
+            crit: options.crit,
+            versatility: options.versatility,
+            mastery: options.mastery,
+            haste: options.haste,
+        },
+        talents: mergedTalents,
+        corePassives: mwSpec.corePassives,
     };
 
-    const baseIntellect = CLASSES.MONK.SPECS.MISTWEAVER.stats.intellect;
-
-    const fastFeet = isTalentEnabled(options, SHARED.FAST_FEET);
-    const fastFeetRSK = 1 + (fastFeet ? SHARED.FAST_FEET.custom.risingSunKickIncrease : 0);
-    const fastFeetSCK = 1 + (fastFeet ? SHARED.FAST_FEET.custom.spinningCraneKickIncrease : 0);
-
-    const ferocityOfXuenMulti = 1 + (isTalentEnabled(options, SHARED.FEROCITY_OF_XUEN) ? SHARED.FEROCITY_OF_XUEN.custom.damageIncrease : 0);
-
-    const chiProficiency = isTalentEnabled(options, SHARED.CHI_PROFICIENCY);
-    const chiProficiencyDamage = 1 + (chiProficiency ? SHARED.CHI_PROFICIENCY.custom.magicDamageIncrease : 0);
-    const chiProficiencyHealing = 1 + (chiProficiency ? SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease : 0);
-    
-    const martialInstincts = isTalentEnabled(options, SHARED.MARTIAL_INSTINCTS);
-    const martialInstinctsMulti = (1 + (martialInstincts ? SHARED.MARTIAL_INSTINCTS.custom.damageIncrease : 0));
     
     const jadeBond = TALENTS.JADE_BOND;
     const jadeBondOpt = isTalentEnabled(options, TALENTS.JADE_BOND);
@@ -187,16 +187,9 @@ export const calculateRotationHPS = async (
     const jfsMaxTargets = jfs.custom.enemyTargets;
     const eeATEffectiveness = TALENTS.EMPERORS_ELIXIR.custom.ancientTeachingsEffectiveness;
 
-    const ancientTeachings = TALENTS.ANCIENT_TEACHINGS;
-    const jadefireTeachings = TALENTS.JADEFIRE_TEACHINGS;
-    const ancientTeachingsTransfer = isTalentEnabled(options, TALENTS.JADEFIRE_TEACHINGS) ? ancientTeachings.custom.transferRate + jadefireTeachings.custom.transferRate : ancientTeachings.custom.transferRate;
-    const ancientTeachingsArmorModifier = ancientTeachings.custom.armorModifier;
-    
     const wayOfTheCrane = TALENTS.WAY_OF_THE_CRANE;
     const wayOfTheCraneOpt = isTalentEnabled(options, TALENTS.WAY_OF_THE_CRANE);
-    const wayOfTheCraneTransfer = wayOfTheCraneOpt ? wayOfTheCrane.custom.transferRate : 0;
     const wayOfTheCraneTargetsPerSCK = wayOfTheCrane.custom.targetsPerSCK;
-    const wayOfTheCraneArmorModifier = wayOfTheCrane.custom.armorModifier;
     const wayOfTheCraneTigerPalmHits = wayOfTheCraneOpt ? wayOfTheCrane.custom.tigerPalmHits : 1;
 
     const craneStyle = TALENTS.CRANE_STYLE;
@@ -209,9 +202,7 @@ export const calculateRotationHPS = async (
     const teachingsOfTheMonastery = TALENTS.TEACHINGS_OF_THE_MONASTERY;
     const totmMaxStacks = teachingsOfTheMonastery.custom.maxStacks;
 
-    const gomSpellpower = options.mastery * 0.95; // 5% is from effect #1 of mw core passive
-    const gustOfMistSpellpower = gomSpellpower / 100;
-    const gustOfMistHealing = calcWithStats(gustOfMistSpellpower) * chiProficiencyHealing;
+    const gustOfMistHealing = calculateGustOfMists(player);
 
     const chijiGustHealing = gustOfMistHealing * ( 1 + (jadeBondOpt ? TALENTS.JADE_BOND.custom.gustIncrease : 0));
     const celestialHarmony = TALENTS.CELESTIAL_HARMONY;
@@ -224,52 +215,8 @@ export const calculateRotationHPS = async (
 
     const healingBySpell: { [key: string]: { healing: number; sources: any; count: number } } = {};
 
-    const calculateDamage = (spellObj: spell): number => {
-        const baseDamage = spellObj.value?.damage || 0;
-        const spellpower = baseDamage / baseIntellect;
-        let damage = calcWithStats(spellpower) * ferocityOfXuenMulti;
-        if (spellObj.school === SCHOOLS.NATURE) {
-            damage *= chiProficiencyDamage;
-        } 
-        else if (spellObj.school === SCHOOLS.PHYSICAL) {
-            damage *= martialInstinctsMulti;
-        }
-
-        switch (spellObj.id) {
-            case SPELLS.RISING_SUN_KICK.id:
-                damage *= fastFeetRSK;
-                break;
-            case TALENTS.RUSHING_WIND_KICK.id: {
-                if (isTalentEnabled(options, TALENTS.RUSHING_WIND_KICK)) {
-                    const rwk = TALENTS.RUSHING_WIND_KICK;
-                    const rwkTargets = Math.min(options.enemyCount, rwk.custom.maxDamageTargets);
-                    damage *= fastFeetRSK * (1 + rwk.custom.damageIncrease * rwkTargets);
-                } else {
-                    damage *= fastFeetRSK;
-                }
-                break;
-            }
-            case SPELLS.SPINNING_CRANE_KICK.id:
-                damage *= fastFeetSCK;
-                break;
-            default:
-                break;
-        }
-        return damage;
-    };
-
-    const calculateHealing = (spellObj: spell): number => {
-        const baseHealing = spellObj.value?.healing || 0;
-        const spellpower = baseHealing / baseIntellect;
-        let healing = calcWithStats(spellpower);
-        if (spellObj.school === SCHOOLS.NATURE) {
-            healing *= chiProficiencyHealing;
-        }
-        return healing;
-    };
-
     const calculateRenewingMistHealing = (spellObj: spell): number => {
-        const renewingMistBaseHealing = calculateHealing(spellObj);
+        const renewingMistBaseHealing = calculateSpellHealing(spellObj, player);
         const renewingMistBaseHPS = renewingMistBaseHealing / SPELLS.RENEWING_MIST.custom.duration;
         return renewingMistBaseHPS * spellObj.custom?.duration;
     };
@@ -296,15 +243,15 @@ export const calculateRotationHPS = async (
                 break;
 
             case SPELLS.TIGER_PALM.id:
-                const tigerPalmDamage = calculateDamage(spellObj);
+                const tigerPalmDamage = calculateSpellDamage(spellObj, player);
                 const tigerPalmHits = wayOfTheCraneTigerPalmHits;
-                const tigerPalmATHealing = tigerPalmDamage * ancientTeachingsTransfer * ancientTeachingsArmorModifier * tigerPalmHits;
+                const tigerPalmATHealing = calculateAncientTeachingsHealing(tigerPalmDamage, player, true, spellObj) * tigerPalmHits;
                 breakdown.ancientTeachings = distributeAncientTeachings(allies, tigerPalmATHealing);
                 break;
             
             case SPELLS.RISING_SUN_KICK.id:
-                const rskDamage = calculateDamage(spellObj);
-                const rskATHealing = rskDamage * ancientTeachingsTransfer * ancientTeachingsArmorModifier;
+                const rskDamage = calculateSpellDamage(spellObj, player);
+                const rskATHealing = calculateAncientTeachingsHealing(rskDamage, player, true, spellObj);
                 breakdown.ancientTeachings = distributeAncientTeachings(allies, rskATHealing);
 
                 if (chiJiActive) {
@@ -326,14 +273,14 @@ export const calculateRotationHPS = async (
                 break;
 
             case TALENTS.RUSHING_WIND_KICK.id: {
-                const rwkDamage = calculateDamage(spellObj);
-                const rwkATHealing = rwkDamage * ancientTeachingsTransfer * ancientTeachingsArmorModifier;
+                const rwkDamage = calculateSpellDamage(spellObj, player);
+                const rwkATHealing = calculateAncientTeachingsHealing(rwkDamage, player, true, spellObj);
                 breakdown.ancientTeachings = distributeAncientTeachings(allies, rwkATHealing);
 
                 if (isTalentEnabled(options, TALENTS.RUSHING_WIND_KICK)) {
                     const rwk = TALENTS.RUSHING_WIND_KICK;
                     const rwkHealTargets = Math.min(rwk.custom.maxHealingTargets, allies.length);
-                    const rwkDirectHeal = calculateHealing(spellObj);
+                    const rwkDirectHeal = calculateSpellHealing(spellObj, player);
                     const rwkHealTargetAllies = getRandomAllies(allies, rwkHealTargets);
                     breakdown.baseHealing = rwkHealTargetAllies.reduce((sum, a) => sum + calculateHealingWithAmp(rwkDirectHeal, a), 0);
                 }
@@ -358,9 +305,9 @@ export const calculateRotationHPS = async (
             }
             
             case SPELLS.BLACKOUT_KICK.id:
-                const bokDamage = calculateDamage(spellObj);
+                const bokDamage = calculateSpellDamage(spellObj, player);
                 const bokHits = 1 + totmStacks;
-                let bokATHealing = bokDamage * ancientTeachingsTransfer * ancientTeachingsArmorModifier * bokHits;
+                let bokATHealing = calculateAncientTeachingsHealing(bokDamage, player, true, spellObj) * bokHits;
                 
                 if (chiJiActive) {
                     breakdown.chiJiGusts = distributeGusts(allies, 6 * bokHits, chijiGustHealing);
@@ -373,7 +320,7 @@ export const calculateRotationHPS = async (
                     
                     if (wayOfTheCraneBokHits > 0) {
                         const wayOfTheCraneBokDamage = bokDamage * bokEffectiveness;
-                        bokATHealing += wayOfTheCraneBokDamage * ancientTeachingsTransfer * ancientTeachingsArmorModifier * wayOfTheCraneBokHits * bokHits;
+                        bokATHealing += calculateAncientTeachingsHealing(wayOfTheCraneBokDamage, player, true, spellObj) * wayOfTheCraneBokHits * bokHits;
                     }
                 }
                 
@@ -394,13 +341,13 @@ export const calculateRotationHPS = async (
                 break;
             
             case SPELLS.SPINNING_CRANE_KICK.id:
-                const sckDamage = calculateDamage(spellObj);
+                const sckDamage = calculateSpellDamage(spellObj, player);
                 const sckTargetMultiplier = options.enemyCount <= 5 
                     ? options.enemyCount
                     : options.enemyCount * Math.sqrt(5 / options.enemyCount);
 
                 const sckTicks = 4;
-                const sckPartDamage = (sckDamage * sckTargetMultiplier * wayOfTheCraneTransfer * wayOfTheCraneArmorModifier) / sckTicks;
+                const sckPartDamage = (sckDamage * sckTargetMultiplier * getWayOfTheCraneTransfer() * getWayOfTheCraneArmorModifier()) / sckTicks;
                 
                 let sckAJTotalHealing = 0;
                 for (let i = 0; i < sckTicks; i++) {
@@ -428,7 +375,7 @@ export const calculateRotationHPS = async (
             
             case SPELLS.ENVELOPING_MIST.id:
                 const envTarget = applyEnvelopingMist(allies, options);
-                const envBaseHealing = calculateHealing(spellObj);
+                const envBaseHealing = calculateSpellHealing(spellObj, player);
                 breakdown.baseHealing = calculateHealingWithAmp(envBaseHealing, envTarget);
 
                 breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistHealing, envTarget);
@@ -443,7 +390,7 @@ export const calculateRotationHPS = async (
             
             case SPELLS.VIVIFY.id:
                 const vivifyTarget = getRandomAlly(allies);
-                const vivifyBaseHealing = calculateHealing(spellObj);
+                const vivifyBaseHealing = calculateSpellHealing(spellObj, player);
                 breakdown.baseHealing = calculateHealingWithAmp(vivifyBaseHealing, vivifyTarget);
 
                 breakdown.gustOfMists = calculateHealingWithAmp(gustOfMistHealing, vivifyTarget);
@@ -458,7 +405,7 @@ export const calculateRotationHPS = async (
                 break;
             default:
                 const defaultTarget = getRandomAlly(allies);
-                const defaultBaseHealing = calculateHealing(spellObj);
+                const defaultBaseHealing = calculateSpellHealing(spellObj, player);
                 breakdown.baseHealing = calculateHealingWithAmp(defaultBaseHealing, defaultTarget);
         }
 
@@ -527,8 +474,8 @@ export const calculateRotationHPS = async (
 
                     if (emperorsElixirOpt) {
                         const stompTargets = Math.min(jfsMaxTargets, options.enemyCount);
-                        const stompDamage = calculateDamage(jfs) * stompTargets;
-                        const stompATHealing = stompDamage * ancientTeachingsTransfer * eeATEffectiveness;
+                        const stompDamage = calculateSpellDamage(jfs, player) * stompTargets;
+                        const stompATHealing = calculateAncientTeachingsHealing(stompDamage, player, true, jfs) * eeATEffectiveness;
                         const stompHealing = distributeAncientTeachings(allies, stompATHealing);
 
                         totalHealing += stompHealing;
