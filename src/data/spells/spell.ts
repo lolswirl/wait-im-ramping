@@ -45,6 +45,11 @@ export default interface spell {
     custom?: {
         [key: string]: any;
     };
+
+    display?: { // optionally, display this as something else
+        name?: string;
+        icon?: string;
+    };
 }
 
 export const GCD = 1.5;

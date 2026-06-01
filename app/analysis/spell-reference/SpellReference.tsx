@@ -195,12 +195,12 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               key: "spell",
               label: "Spell",
               width: "2fr",
-              sortValue: row => row.spell.name,
+              sortValue: row => row.spell.display?.name ?? row.spell.name,
               render: row => (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <SpellButton selectedSpell={row.spell} size={30} />
+                  <SpellButton selectedSpell={{ ...row.spell, icon: row.spell.display?.icon ?? row.spell.icon }} size={30} />
                   <Box>
-                    <Typography variant="body2" fontWeight="bold">{row.spell.name}</Typography>
+                    <Typography variant="body2" fontWeight="bold">{row.spell.display?.name ?? row.spell.name}</Typography>
                     {row.targets !== undefined && (
                       <Typography variant="caption" color="text.disabled">{row.targets} {pluralize(row.targets, "target")}</Typography>
                     )}
