@@ -4,6 +4,8 @@ export interface Stats {
     crit: number;
     versatility: number;
     haste: number;
+    stamina?: number;
+    totalHp?: number;
 }
 
 export const STATS = {

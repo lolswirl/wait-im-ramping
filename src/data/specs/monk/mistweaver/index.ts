@@ -30,6 +30,8 @@ const MISTWEAVER_MONK = attachGetters({
     crit: 0,
     versatility: 0,
     haste: 0,
+    stamina: 4600, 
+    totalHp: 92000, // stamina * 20, unsure if we keep hp here
   },
 } satisfies specialization )
 

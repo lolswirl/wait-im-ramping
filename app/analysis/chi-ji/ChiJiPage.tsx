@@ -29,7 +29,7 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
     const maxWidth = 1200;
 
     const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
-    const { intellect, mastery, crit, versatility, haste } = mistweaver.stats;
+    const { intellect, mastery, crit, versatility, haste, totalHp } = mistweaver.stats;
 
     const mistweaverTalents = new Map<spell, boolean>([
         [TALENTS.CELESTIAL_HARMONY, true],
@@ -54,7 +54,7 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
     
     const [options, setOptions] = useState<SimulationOptions>({
         intellect,
-        totalHp: 99690,
+        totalHp,
         crit,
         versatility,
         mastery,
