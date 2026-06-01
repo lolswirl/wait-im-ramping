@@ -138,6 +138,7 @@ const DAMAGE_SPELLS = [
     //1272696, // Zenith Stomp, ww only
 ];
 
+// TODO: fix these to use IDs correctly for dmg/healing
 const corePassive = {
     MISTWEAVER_MONK: {
         name: "Mistweaver Monk",
@@ -145,25 +146,25 @@ const corePassive = {
         icon: "ability_mage_firestarter",
         effects: [
             {
-                type: "Apply Aura: Modifies Damage/Healing Done",
+                type: "Apply Aura: Modifies Healing Done",
                 value: -10,
                 pvpMultiplier: 1,
                 affectedSpells: HEALING_SPELLS,
             },
             {
-                type: "Apply Aura: Modifies Periodic Damage/Healing Done",
+                type: "Apply Aura: Modifies Periodic Healing Done",
                 value: -10,
                 pvpMultiplier: 1,
                 affectedSpells: HEALING_SPELLS,
             },
             {
-                type: "Apply Aura: Modifies Damage/Healing Done",
+                type: "Apply Aura: Modifies Damage Done",
                 value: 90,
                 pvpMultiplier: 1,
                 affectedSpells: DAMAGE_SPELLS,
             },
             {
-                type: "Apply Aura: Modifies Periodic Damage/Healing Done",
+                type: "Apply Aura: Modifies Periodic Damage Done",
                 value: 90,
                 pvpMultiplier: 1,
                 affectedSpells: DAMAGE_SPELLS,
@@ -177,7 +178,7 @@ const corePassive = {
                 pvpMultiplier: 1,
             },
             {
-                type: "Apply Aura: Modifies Damage/Healing Done",
+                type: "Apply Aura: Modifies Healing Done",
                 value: 92,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.VIVIFY.id],
@@ -188,7 +189,7 @@ const corePassive = {
                 affectedSpells: [TALENTS.INVIGORATING_MISTS.id],
             },
             {
-                type: "Apply Aura: Modifies Damage/Healing Done",
+                type: "Apply Aura: Modifies Damage Done",
                 value: 41,
                 pvpMultiplier: 0.447,
                 affectedSpells: [
@@ -197,31 +198,31 @@ const corePassive = {
                 ],
             },
             {
-                type: "Apply Aura: Modifies Damage/Healing Done",
+                type: "Apply Aura: Modifies Damage Done",
                 value: 56,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.BLACKOUT_KICK.id],
             },
             {
-                type: "Apply Aura: Modifies Damage/Healing Done",
+                type: "Apply Aura: Modifies Damage Done",
                 value: -17,
                 pvpMultiplier: 0.325,
                 affectedSpells: [SPELLS.TIGER_PALM.id],
             },
             {
-                type: "Apply Aura: Modifies Damage/Healing Done",
+                type: "Apply Aura: Modifies Damage Done",
                 value: 213,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.SPINNING_CRANE_KICK.id],
             },
             {
-                type: "Apply Aura: Modifies Periodic Damage/Healing Done",
+                type: "Apply Aura: Modifies Periodic Damage Done",
                 value: 242,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.CRACKLING_JADE_LIGHTNING.id],
             },
             {
-                type: "Apply Aura: Add Modifier - % (Label): Modifies Damage/Healing Done",
+                type: "Apply Aura: Add Modifier - % (Label): Modifies Damage Done",
                 value: -40,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.CELESTIAL_CONDUIT.id],
