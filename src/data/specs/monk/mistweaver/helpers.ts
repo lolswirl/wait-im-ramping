@@ -86,7 +86,7 @@ const HEALING_MULTIPLIER_RULES: TalentRule[] = [
     {
         talent: SHARED.CHI_PROFICIENCY,
         getValue: () => SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease,
-        appliesTo: (spell) => spell.category === CATEGORY.HEALING || spell.category === CATEGORY.COOLDOWN
+        appliesTo: (spell) => spell.category === CATEGORY.HEALING || spell.category === CATEGORY.COOLDOWN || spell.id === TALENTS.RUSHING_WIND_KICK.id || spell.id === TALENTS.HARMONIC_SURGE.id
     },
     {
         talent: TALENTS.TEAR_OF_MORNING,

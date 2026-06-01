@@ -110,9 +110,8 @@ const talents = {
         name: "Gust of Mists",
         id: 117907,
         icon: 'ability_monk_souldance',
-        value: {
-            healing: 990
-        },
+        category: CATEGORY.HEALING,
+        coeff: 0.1,
         custom: {
             multiplier: 13.86,
         }
@@ -233,7 +232,7 @@ const talents = {
         castTime: 0,
         cooldown: 12,
         school: SCHOOLS.NATURE,
-        coeff: { damage: 1.8694, healing: 1.7731 }, // healing might be wrong, ph for now
+        coeff: { damage: 1.8694, healing: 5 }, // healing might be wrong, ph for now
         custom: {
             targetsHit: { healing: 5 },
             maxDamageTargets: 5,
@@ -315,6 +314,7 @@ const talents = {
         id: 124081,
         icon: 'ability_monk_forcesphere',
         coeff: 1.6,
+        category: CATEGORY.HEALING,
     },
     UPLIFTED_SPIRITS: {
         name: "Uplifted Spirits",
@@ -462,6 +462,8 @@ const talents = {
             damage: 0.4,
             healing: 2,
         },
+        school: SCHOOLS.NATURE,
+        category: CATEGORY.DAMAGE,
         custom: {
             targetsHit: { healing: 5 }, // damage is technically unlimited targets
         }
@@ -591,6 +593,7 @@ const talents = {
             healing: 3.51 * 2
         },
         school: SCHOOLS.PHYSICAL,
+        category: CATEGORY.DAMAGE,
     },
     HEART_OF_THE_JADE_SERPENT: {
         name: "Heart of the Jade Serpent",

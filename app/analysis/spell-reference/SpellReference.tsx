@@ -16,7 +16,8 @@ import SpecializationSelect from "@components/SpecializationSelect/Specializatio
 import spell, { CATEGORY, CATEGORY_COLORS } from "@data/spells/spell";
 import { formatNumber, formatPercent, pluralize } from "@util/stringManipulation";
 import { CLASSES, specialization } from "@data/class";
-import { calculateSpellDamage, calculateSpellHealing, Player } from "@data/specs/monk/mistweaver/helpers";
+import { calculateSpellDamage, calculateSpellHealing, calculateGustOfMists, Player } from "@data/specs/monk/mistweaver/helpers";
+import TALENTS from "@data/specs/monk/mistweaver/talents";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
 
@@ -67,6 +68,10 @@ const resolveValue = (
   player: Player,
   targetMultiplier = 1,
 ): { baseSpCoeff: number | null; spCoeff: number | null; absolute: number | null } => {
+  if (s.id === TALENTS.GUST_OF_MISTS.id) {
+    const absolute = calculateGustOfMists(player) * targetMultiplier;
+    return { baseSpCoeff: null, spCoeff: (absolute / player.stats.intellect) * 100, absolute };
+  }
   if (s.formula !== undefined) {
     const absolute = s.formula(player.stats) * targetMultiplier;
     return { baseSpCoeff: null, spCoeff: (absolute / player.stats.intellect) * 100, absolute };

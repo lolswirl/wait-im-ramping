@@ -134,7 +134,7 @@ const DAMAGE_SPELLS = [
     //1217411, // Slicing Winds, ww only
     //1262765, // Empty the Cellar, bm only
     //1263667, // Celestial Flames, cotc only
-    //1271011, // Harmonic Surge (damage component) - note: different id from healing (1271045)
+    TALENTS.HARMONIC_SURGE.id, // main cast id, damage component is 1271011
     //1272696, // Zenith Stomp, ww only
 ];
 
