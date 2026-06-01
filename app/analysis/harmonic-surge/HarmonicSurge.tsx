@@ -64,11 +64,13 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const chijiGustSpellpower = (chijiGustHealing / intellect) * 100;
 
     const tigerPalm = SPELLS.TIGER_PALM;
-    const tigerPalmData = calculateAncientTeachingsData(tigerPalm, selectedTalents, mistweaver.stats, true);
+    const corePassives = mistweaver.corePassives ?? [];
+
+    const tigerPalmData = calculateAncientTeachingsData(tigerPalm, selectedTalents, mistweaver.stats, true, corePassives);
     const tigerPalmHealing = (tigerPalmData.healing / intellect) * 100 * wayOfTheCraneTigerPalmHits;
 
     const blackoutKick = SPELLS.BLACKOUT_KICK;
-    const blackoutKickData = calculateAncientTeachingsData(blackoutKick, selectedTalents, mistweaver.stats, true);
+    const blackoutKickData = calculateAncientTeachingsData(blackoutKick, selectedTalents, mistweaver.stats, true, corePassives);
 
     // calc bok healing breakdown for stacked bars
     const calculateBlackoutKickBreakdown = (totmStacks: number) => {
@@ -91,13 +93,13 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     };
 
     const risingSunKick = SPELLS.RISING_SUN_KICK;
-    const risingSunKickData = calculateAncientTeachingsData(risingSunKick, selectedTalents, mistweaver.stats, true);
+    const risingSunKickData = calculateAncientTeachingsData(risingSunKick, selectedTalents, mistweaver.stats, true, corePassives);
     const risingSunKickAncientTeachingsHealing = (risingSunKickData.healing / intellect) * 100;
     const risingSunKickNormalGOMHealing = gustOfMistSpellpower * craneStyleRisingSunKickGOM;
     const risingSunKickChiJiGustHealing = includeChiJiGusts ? chijiGustSpellpower * 6 : 0;
 
     const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
-    const cjlData = calculateAncientTeachingsData(cjl, selectedTalents, mistweaver.stats);
+    const cjlData = calculateAncientTeachingsData(cjl, selectedTalents, mistweaver.stats, true, corePassives);
     const cjlSpCoeff = (cjlData.healing / intellect) * 100;
     const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
     const jadeEmpowermentIncrease = jadeEmpowerment.custom.spellpowerIncrease / 100;
