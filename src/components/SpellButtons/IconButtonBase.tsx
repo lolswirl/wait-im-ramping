@@ -10,6 +10,7 @@ interface IconButtonBaseProps {
     id?: number;
     onClick?: () => void;
     size?: number;
+    tooltip?: boolean;
     [key: string]: any;
 }
 
@@ -19,6 +20,7 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
     id,
     onClick,
     size = 40,
+    tooltip: _tooltip,
     ...rest
 }) => {
     const [isHovered, setIsHovered] = useState(false);
