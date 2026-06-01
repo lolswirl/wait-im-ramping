@@ -23,7 +23,6 @@ const SpellLink: React.FC<SpellLinkProps> = ({
     textSx,
     noLink = false,
 }) => {
-    const [isHovered, setIsHovered] = useState(false);
     const [src, setSrc] = useState("");
 
     useEffect(() => {
@@ -42,8 +41,6 @@ const SpellLink: React.FC<SpellLinkProps> = ({
             target={noLink ? undefined : "_blank"}
             rel={noLink ? undefined : "noopener noreferrer"}
             onClick={noLink ? (e: React.MouseEvent) => e.preventDefault() : undefined}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
             sx={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -96,7 +93,8 @@ const SpellLink: React.FC<SpellLinkProps> = ({
                 sx={{
                     color: "primary.light",
                     fontWeight: 500,
-                    textDecoration: isHovered ? "underline wavy" : "none",
+                    textDecoration: "none",
+                    "a:hover &": { textDecoration: "underline wavy" },
                     ...textSx,
                 }}
             >
