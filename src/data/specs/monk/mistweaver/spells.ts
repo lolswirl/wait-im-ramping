@@ -38,7 +38,7 @@ const spells = {
         icon: 'ability_monk_cracklingjadelightning',
         castTime: 3,
         school: SCHOOLS.NATURE,
-        coeff: 0.23296 * 0.65779532967033, // base x multi to get to matched ingame value, not sure where its scaled
+        coeff: 0.23296 * 1.2504, // base x multi to get to matched ingame value, not sure where its scaled
         category: CATEGORY.DAMAGE,
         periodic: true,
     },
