@@ -197,6 +197,7 @@ const talents = {
         icon: 'ability_monk_uplift',
         custom: {
             sheilunsGiftIncrease: 0.20,
+            invigoratingMistsIncrease: 0.20,
         },
         exclusive: [274909],
     },

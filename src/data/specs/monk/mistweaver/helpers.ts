@@ -94,6 +94,11 @@ const HEALING_MULTIPLIER_RULES: TalentRule[] = [
         appliesTo: (spell) => spell.id === SPELLS.SHEILUNS_GIFT.id
     },
     {
+        talent: TALENTS.TEAR_OF_MORNING,
+        getValue: () => TALENTS.TEAR_OF_MORNING.custom.invigoratingMistsIncrease,
+        appliesTo: (spell) => spell.id === TALENTS.INVIGORATING_MISTS.id
+    },
+    {
         talent: TALENTS.WAY_OF_THE_SERPENT,
         getValue: () => TALENTS.WAY_OF_THE_SERPENT.custom.sheilunsGiftIncrease,
         appliesTo: (spell) => spell.id === SPELLS.SHEILUNS_GIFT.id
