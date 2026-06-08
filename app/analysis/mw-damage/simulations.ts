@@ -14,7 +14,10 @@ import {
 type DamagePoint = { time: number; damage: number };
 type SimState = Record<string, number>;
 
+export type SimResult = { points: DamagePoint[]; perAbility: Record<string, number> };
+
 interface RotationAction {
+  key: string;
   priority: number;
   cooldown: number;
   castTime?: number;
@@ -96,10 +99,24 @@ const chosenRsk = (talents: Map<spell, boolean>): spell & { cooldown: number } =
   ) as spell & { cooldown: number };
 }
 
-const sckDamagePerCast = (baseValue: number, targets: number): number =>
-  targets <= 5
+const sqrtScaledDamage = (baseValue: number, targets: number, cap: number = 5): number =>
+  targets <= cap
     ? baseValue * targets
-    : baseValue * targets * Math.sqrt(5 / targets);
+    : baseValue * targets * Math.sqrt(cap / targets);
+
+const calculateHarmonicSurgeValue = (
+  stacks: number,
+  targets: number,
+  asHealing: boolean,
+  player: Player,
+): number => {
+  const hs = TALENTS.HARMONIC_SURGE;
+  const perChargeDamage = calculateSpellDamage(hs, player);
+  const perChargeHealing = calculateSpellHealing(hs, player);
+  const totalDamage = sqrtScaledDamage(perChargeDamage * stacks, targets);
+  const totalHealing = perChargeHealing * stacks * hs.custom.targetsHit.healing;
+  return asHealing ? totalHealing : totalDamage;
+};
 
 const simulateMeleeRotationWithStacks = (
   totalTime: number,
@@ -109,6 +126,7 @@ const simulateMeleeRotationWithStacks = (
   bokMinStacks: number,
 ): DamagePoint[] => {
   const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
+  const hasHarmonicSurge = player.talents.get(TALENTS.HARMONIC_SURGE) === true;
   const tpHits = hasWotC ? TALENTS.WAY_OF_THE_CRANE.custom.tigerPalmHits : 1;
   const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, player);
   const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, player);
@@ -128,6 +146,11 @@ const simulateMeleeRotationWithStacks = (
       priority: 0,
       cooldown: chosenRsk(player.talents).cooldown,
       getValue: () => rskValue,
+      onCast: (state) => {
+        if (hasHarmonicSurge) {
+          state.potentialEnergyStacks = Math.min(state.potentialEnergyStacks + 1, TALENTS.HARMONIC_SURGE.custom.maxStacks);
+        }
+      },
     },
     {
       // bok
@@ -150,12 +173,20 @@ const simulateMeleeRotationWithStacks = (
       // tp
       priority: 2,
       cooldown: 0,
-      getValue: () => tpValue,
-      onCast: (state) => { state.totmStacks += tpHits; },
+      getValue: (state) => {
+        const hsValue = hasHarmonicSurge && state.potentialEnergyStacks > 0
+          ? calculateHarmonicSurgeValue(state.potentialEnergyStacks, targets, asHealing, player)
+          : 0;
+        return tpValue + hsValue;
+      },
+      onCast: (state) => {
+        state.totmStacks += tpHits;
+        if (hasHarmonicSurge) state.potentialEnergyStacks = 0;
+      },
     },
   ];
 
-  return runRotation(actions, totalTime, { totmStacks: 0 });
+  return runRotation(actions, totalTime, { totmStacks: 0, potentialEnergyStacks: 0 });
 };
 
 export const simulateMeleeRotation = (
@@ -192,7 +223,7 @@ export const simulateSpinningCraneKick = (
       priority: 0,
       cooldown: 0,
       getValue: () => {
-        const raw = sckDamagePerCast(baseValue, targets);
+        const raw = sqrtScaledDamage(baseValue, targets);
         return asHealing ? (hasWotC ? calculateWayOfTheCraneHealing(raw, player) : 0) : raw;
       },
     },
@@ -278,7 +309,7 @@ export const simulateRSKWithSCKAndBok = (
       priority: 2,
       cooldown: 0,
       getValue: () => {
-        const raw = sckDamagePerCast(sckBase, targets);
+        const raw = sqrtScaledDamage(sckBase, targets);
         return asHealing ? (hasWotC ? calculateWayOfTheCraneHealing(raw, player) : 0) : raw;
       },
     },
@@ -309,7 +340,7 @@ export const simulateRSKWithSCK = (
       priority: 1,
       cooldown: 0,
       getValue: () => {
-        const raw = sckDamagePerCast(sckBase, targets);
+        const raw = sqrtScaledDamage(sckBase, targets);
         return asHealing ? (hasWotC ? calculateWayOfTheCraneHealing(raw, player) : 0) : raw;
       },
     },

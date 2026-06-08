@@ -71,6 +71,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
     [TALENTS.TEMPLE_TRAINING, true], // bugged sck increase
     [TALENTS.YULONS_KNOWLEDGE, true], // just gonna assume this one since its in keys
     [TALENTS.MEDITATIVE_FOCUS, false],
+    [TALENTS.HARMONIC_SURGE, false],
   ]));
 
   const [classTalents, setClassTalents] = useState<Map<spell, boolean>>(new Map<spell, boolean>([

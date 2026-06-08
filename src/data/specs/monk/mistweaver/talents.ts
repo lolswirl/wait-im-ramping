@@ -466,6 +466,7 @@ const talents = {
         school: SCHOOLS.NATURE,
         category: CATEGORY.DAMAGE,
         custom: {
+            maxStacks: 6,
             targetsHit: { healing: 5 }, // damage is technically unlimited targets
         }
     },
