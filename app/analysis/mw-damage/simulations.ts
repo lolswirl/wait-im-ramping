@@ -14,10 +14,10 @@ import {
 type DamagePoint = { time: number; damage: number };
 type SimState = Record<string, number>;
 
-export type SimResult = { points: DamagePoint[]; perAbility: Record<string, number> };
+export type SimResult = { points: DamagePoint[]; perAbility: Map<spell, number> };
 
 interface RotationAction {
-  key: string;
+  spell: spell;
   priority: number;
   cooldown: number;
   castTime?: number;
@@ -31,21 +31,24 @@ const runRotation = (
   actions: RotationAction[],
   totalTime: number,
   initialState: SimState = {}
-): DamagePoint[] => {
+): SimResult => {
   const cooldowns = actions.map(() => 0);
   const state = { ...initialState };
   const sorted = [...actions.keys()].sort((a, b) => actions[a].priority - actions[b].priority);
   let currentTime = 0;
   let cumulativeDamage = 0;
-  const result: DamagePoint[] = [];
+  const points: DamagePoint[] = [];
+  const perAbility = new Map<spell, number>(actions.map(a => [a.spell, 0]));
 
   while (currentTime < totalTime) {
     for (const i of sorted) {
       if (cooldowns[i] > 0) continue;
       if (actions[i].canCast && !actions[i].canCast!(state)) continue;
 
-      cumulativeDamage += actions[i].getValue(state);
-      result.push({ time: currentTime, damage: cumulativeDamage });
+      const value = actions[i].getValue(state);
+      cumulativeDamage += value;
+      perAbility.set(actions[i].spell, perAbility.get(actions[i].spell)! + value);
+      points.push({ time: currentTime, damage: cumulativeDamage });
       actions[i].onCast?.(state, cooldowns);
 
       const castTime = actions[i].castTime ?? GCD;
@@ -58,7 +61,7 @@ const runRotation = (
     }
   }
 
-  return result;
+  return { points, perAbility };
 };
 
 const resolveRskValue = (
@@ -92,7 +95,7 @@ const bokProcsReset = (hits: number): boolean => {
 
 const chosenRsk = (talents: Map<spell, boolean>): spell & { cooldown: number } => {
   return (
-    talents.get(TALENTS.RUSHING_WIND_KICK) === true 
+    talents.get(TALENTS.RUSHING_WIND_KICK) === true
       ? TALENTS.RUSHING_WIND_KICK
       : SPELLS.RISING_SUN_KICK
     // typescript for whatever reason doesn't want to see .cooldown -is- available
@@ -124,7 +127,7 @@ const simulateMeleeRotationWithStacks = (
   asHealing: boolean,
   player: Player,
   bokMinStacks: number,
-): DamagePoint[] => {
+): SimResult => {
   const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
   const hasHarmonicSurge = player.talents.get(TALENTS.HARMONIC_SURGE) === true;
   const tpHits = hasWotC ? TALENTS.WAY_OF_THE_CRANE.custom.tigerPalmHits : 1;
@@ -138,13 +141,14 @@ const simulateMeleeRotationWithStacks = (
     : bokDamage;
   const bokCleaveTargets = hasWotC ? Math.min(targets - 1, 2) : 0;
   const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.custom.blackoutKickEffectiveness;
+  const rskSpell = chosenRsk(player.talents);
   const rskValue = resolveRskValue(targets, asHealing, player);
 
   const actions: RotationAction[] = [
     {
-      // rsk/rwk
+      spell: rskSpell,
       priority: 0,
-      cooldown: chosenRsk(player.talents).cooldown,
+      cooldown: rskSpell.cooldown,
       getValue: () => rskValue,
       onCast: (state) => {
         if (hasHarmonicSurge) {
@@ -153,7 +157,7 @@ const simulateMeleeRotationWithStacks = (
       },
     },
     {
-      // bok
+      spell: SPELLS.BLACKOUT_KICK,
       priority: 1,
       cooldown: SPELLS.BLACKOUT_KICK.cooldown,
       canCast: (state) => state.totmStacks >= bokMinStacks,
@@ -170,7 +174,7 @@ const simulateMeleeRotationWithStacks = (
       },
     },
     {
-      // tp
+      spell: SPELLS.TIGER_PALM,
       priority: 2,
       cooldown: 0,
       getValue: (state) => {
@@ -194,7 +198,7 @@ export const simulateMeleeRotation = (
   targets: number,
   asHealing: boolean,
   player: Player
-): DamagePoint[] =>
+): SimResult =>
   simulateMeleeRotationWithStacks(
     totalTime, targets, asHealing, player,
     TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks
@@ -205,7 +209,7 @@ export const simulateMeleeRotationAt2Stacks = (
   targets: number,
   asHealing: boolean,
   player: Player
-): DamagePoint[] =>
+): SimResult =>
   simulateMeleeRotationWithStacks(totalTime, targets, asHealing, player, TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks / 2);
 
 export const simulateSpinningCraneKick = (
@@ -213,13 +217,13 @@ export const simulateSpinningCraneKick = (
   targets: number,
   asHealing: boolean,
   player: Player
-): DamagePoint[] => {
+): SimResult => {
   const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
   const baseValue = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, player);
 
   const actions: RotationAction[] = [
     {
-      // sck
+      spell: SPELLS.SPINNING_CRANE_KICK,
       priority: 0,
       cooldown: 0,
       getValue: () => {
@@ -253,7 +257,7 @@ export const simulateCracklingJadeLightning = (
   targets: number,
   asHealing: boolean,
   player: Player
-): DamagePoint[] => {
+): SimResult => {
   const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
   const tickInterval = 1.5; // not really 1.5s, actual is every 0.75 but graphing it is weird here
   const ticksPerChannel = cjl.castTime / tickInterval;
@@ -264,7 +268,7 @@ export const simulateCracklingJadeLightning = (
 
   const actions: RotationAction[] = [
     {
-      // cjl
+      spell: SPELLS.CRACKLING_JADE_LIGHTNING,
       priority: 0,
       cooldown: 0,
       castTime: tickInterval,
@@ -280,8 +284,9 @@ export const simulateRSKWithSCKAndBok = (
   targets: number,
   asHealing: boolean,
   player: Player
-): DamagePoint[] => {
+): SimResult => {
   const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
+  const rskSpell = chosenRsk(player.talents);
   const rskValue = resolveRskValue(targets, asHealing, player);
   const sckBase = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, player);
   const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, player);
@@ -293,19 +298,19 @@ export const simulateRSKWithSCKAndBok = (
 
   const actions: RotationAction[] = [
     {
-      // rsk/rwk
+      spell: rskSpell,
       priority: 0,
-      cooldown: chosenRsk(player.talents).cooldown,
+      cooldown: rskSpell.cooldown,
       getValue: () => rskValue,
     },
     {
-      // bok on cooldown, no totm stacks
+      spell: SPELLS.BLACKOUT_KICK,
       priority: 1,
       cooldown: SPELLS.BLACKOUT_KICK.cooldown,
       getValue: () => bokValue + bokValue * bokCleaveEffectiveness * bokCleaveTargets,
     },
     {
-      // sck
+      spell: SPELLS.SPINNING_CRANE_KICK,
       priority: 2,
       cooldown: 0,
       getValue: () => {
@@ -323,20 +328,21 @@ export const simulateRSKWithSCK = (
   targets: number,
   asHealing: boolean,
   player: Player
-): DamagePoint[] => {
+): SimResult => {
   const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
+  const rskSpell = chosenRsk(player.talents);
   const rskValue = resolveRskValue(targets, asHealing, player);
   const sckBase = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, player);
 
   const actions: RotationAction[] = [
     {
-      // rsk/rwk
+      spell: rskSpell,
       priority: 0,
-      cooldown: chosenRsk(player.talents).cooldown,
+      cooldown: rskSpell.cooldown,
       getValue: () => rskValue,
     },
     {
-      // sck
+      spell: SPELLS.SPINNING_CRANE_KICK,
       priority: 1,
       cooldown: 0,
       getValue: () => {

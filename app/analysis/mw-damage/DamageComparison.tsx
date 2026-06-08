@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
@@ -31,6 +31,7 @@ import {
   simulateCracklingJadeLightning,
   simulateRSKWithSCK,
   simulateRSKWithSCKAndBok,
+  type SimResult,
 } from "./simulations";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -42,7 +43,7 @@ type RotationConfig = {
   label: string;
   spells: spell[];
   color: string;
-  simulateFn: (time: number, targets: number, asHealing: boolean, params: Player) => DamagePoint[];
+  simulateFn: (time: number, targets: number, asHealing: boolean, params: Player) => SimResult;
 };
 
 const DamageComparison: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
@@ -52,9 +53,10 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
   const [timeSpent, setTimeSpent] = useState(60);
   const [targetCount, setTargetCount] = useState(1);
   const [activeTab, setActiveTab] = useState(0);
+  const [breakdownTab, setBreakdownTab] = useState(0);
   const [simulationKey, setSimulationKey] = useState(0);
   const showAsHealing = activeTab === 0;
-  const [damageData, setDamageData] = useState<Record<string, DamagePoint[]>>({});
+  const [damageData, setDamageData] = useState<Record<string, SimResult>>({});
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
 
@@ -167,15 +169,15 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
       tooltip: { mode: "index" as const, intersect: false },
     },
     scales: {
-      x: { 
-        title: { display: true, text: T("Time (Seconds)") }, 
+      x: {
+        title: { display: true, text: T("Time (Seconds)") },
         ticks: { autoSkip: true },
         grid: {
           color: theme.custom.chart.gridColor,
         },
       },
-      y: { 
-        title: { display: true, text: T(showAsHealing ? "Cumulative Healing" : "Cumulative Damage") }, 
+      y: {
+        title: { display: true, text: T(showAsHealing ? "Cumulative Healing" : "Cumulative Damage") },
         beginAtZero: true,
         grid: {
           color: theme.custom.chart.gridColor,
@@ -226,8 +228,8 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
         <TableBody>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(targets => {
             const rotationValues = ROTATION_CONFIGS.map(config => {
-              const data = config.simulateFn(500, targets, asHealing, simulationParams);
-              return data.length > 0 ? data[data.length - 1].damage / 500 : 0;
+              const result = config.simulateFn(500, targets, asHealing, simulationParams);
+              return result.points.length > 0 ? result.points[result.points.length - 1].damage / 500 : 0;
             });
             return (
               <TableRow key={targets} hover>
@@ -283,8 +285,8 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
         <TableBody>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(targets => {
             const rotationValues = ROTATION_CONFIGS.map(config => {
-              const data = config.simulateFn(500, targets, asHealing, simulationParams);
-              return data.length > 0 ? data[data.length - 1].damage / 500 : 0;
+              const result = config.simulateFn(500, targets, asHealing, simulationParams);
+              return result.points.length > 0 ? result.points[result.points.length - 1].damage / 500 : 0;
             });
             return (
               <TableRow key={targets} hover>
@@ -312,12 +314,12 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
     return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(targets => ({
       targets,
       dps: ROTATION_CONFIGS.map(config => {
-        const data = config.simulateFn(time, targets, false, simulationParams);
-        return data.length > 0 ? data[data.length - 1].damage / time : 0;
+        const result = config.simulateFn(time, targets, false, simulationParams);
+        return result.points.length > 0 ? result.points[result.points.length - 1].damage / time : 0;
       }),
       hps: ROTATION_CONFIGS.map(config => {
-        const data = config.simulateFn(time, targets, true, simulationParams);
-        return data.length > 0 ? data[data.length - 1].damage / time : 0;
+        const result = config.simulateFn(time, targets, true, simulationParams);
+        return result.points.length > 0 ? result.points[result.points.length - 1].damage / time : 0;
       }),
     }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -398,11 +400,63 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
     );
   };
 
+  const renderBreakdown = () => {
+    const config = ROTATION_CONFIGS[breakdownTab];
+    if (!config) return null;
+    const result = damageData[config.dataKey];
+    if (!result) return null;
+    const totalDamage = result.points.length > 0 ? result.points[result.points.length - 1].damage : 0;
+    const totalDps = totalDamage / timeSpent;
+    const entries = [...result.perAbility.entries()].sort((a, b) => b[1] - a[1]);
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+        {entries.map(([spellObj, total]) => {
+          const dps = total / timeSpent;
+          const pct = totalDamage > 0 ? total / totalDamage : 0;
+          return (
+            <Box key={spellObj.id} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <SpellButton selectedSpell={spellObj} size={28} />
+              <Box sx={{ flex: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.25 }}>
+                  <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                    {spellObj.name}
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Typography variant="caption" sx={{ color: config.color, fontWeight: 700 }}>
+                      {formatNumber(dps, 2)} {showAsHealing ? 'HPS' : 'DPS'}
+                    </Typography>
+                    <WarningChip message={formatPercent(pct * 100, 1)} borderColor={config.color} fontSize="0.7rem" />
+                  </Box>
+                </Box>
+                <Box sx={{ position: 'relative', height: 6, borderRadius: 0.5, bgcolor: 'rgba(255,255,255,0.08)' }}>
+                  <Box sx={{
+                    position: 'absolute',
+                    left: 0, top: 0, bottom: 0,
+                    width: `${pct * 100}%`,
+                    borderRadius: 0.5,
+                    bgcolor: config.color,
+                    opacity: 0.85,
+                  }} />
+                </Box>
+              </Box>
+            </Box>
+          );
+        })}
+        <Divider />
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+            Total: <Typography component="span" variant="caption" sx={{ color: config.color, fontWeight: 700 }}>{formatNumber(totalDps, 2)} {showAsHealing ? 'HPS' : 'DPS'}</Typography>
+          </Typography>
+        </Box>
+      </Box>
+    );
+  };
+
   const chartData = {
-    labels: [...new Set(ROTATION_CONFIGS.flatMap(c => (damageData[c.dataKey] ?? []).map(p => p.time)))],
+    labels: [...new Set(ROTATION_CONFIGS.flatMap(c => (damageData[c.dataKey]?.points ?? []).map(p => p.time)))],
     datasets: ROTATION_CONFIGS.map(config => ({
       label: T(config.label),
-      data: (damageData[config.dataKey] ?? []).map(item => item.damage),
+      data: (damageData[config.dataKey]?.points ?? []).map(item => item.damage),
       borderColor: config.color,
       backgroundColor: getBackgroundColor(config.color),
       fill: false,
@@ -493,8 +547,8 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             {(() => {
               const avgs = ROTATION_CONFIGS.map(config => {
-                const series = damageData[config.dataKey] ?? [];
-                return series.length > 0 ? series[series.length - 1].damage / timeSpent : 0;
+                const result = damageData[config.dataKey];
+                return result && result.points.length > 0 ? result.points[result.points.length - 1].damage / timeSpent : 0;
               });
               const bestAvg = Math.max(...avgs);
               return ROTATION_CONFIGS.map((config, idx) => {
@@ -539,6 +593,32 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
           <Box sx={{ height: "500px", width: "100%" }}>
             <Line data={chartData} options={chartOptions} />
           </Box>
+          <Card variant="outlined" sx={{ borderColor: 'divider' }}>
+            <Tabs
+              value={breakdownTab}
+              onChange={(_, v) => setBreakdownTab(v)}
+              variant="scrollable"
+              scrollButtons="auto"
+              sx={{ borderBottom: 1, borderColor: 'divider' }}
+            >
+              {ROTATION_CONFIGS.map((config, idx) => (
+                <Tab
+                  key={config.dataKey}
+                  value={idx}
+                  label={
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, pointerEvents: 'none' }}>
+                      {config.spells.map((s, i) => (
+                        <SpellButton key={i} selectedSpell={s} size={18} />
+                      ))}
+                    </Box>
+                  }
+                />
+              ))}
+            </Tabs>
+            <Box sx={{ p: 2 }}>
+              {renderBreakdown()}
+            </Box>
+          </Card>
         </Box>
       </Card>
 
