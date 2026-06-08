@@ -55,8 +55,9 @@ self.onmessage = (e: MessageEvent<{ targetCount: number; asHealing: boolean }>) 
 
   const specExclusivePairs: [spell, spell][] = [
     [TALENTS.JADEFIRE_TEACHINGS, TALENTS.RUSHING_WIND_KICK],
+    [TALENTS.JADE_EMPOWERMENT, TALENTS.MORNING_BREEZE],
   ];
-  const specIndependent: spell[] = [TALENTS.WAY_OF_THE_CRANE, TALENTS.SPIRITFONT, TALENTS.MORNING_BREEZE];
+  const specIndependent: spell[] = [TALENTS.WAY_OF_THE_CRANE, TALENTS.SPIRITFONT];
   const exclusivePairCombos: [boolean, boolean][] = [[true, false], [false, true], [false, false]];
   const specPairCombos = specExclusivePairs.map(() => exclusivePairCombos);
   const specIndepCombos: boolean[][] = specIndependent.map(() => [true, false]);
@@ -73,10 +74,11 @@ self.onmessage = (e: MessageEvent<{ targetCount: number; asHealing: boolean }>) 
   }
 
   const classTalentList = [SHARED.FAST_FEET, SHARED.FEROCITY_OF_XUEN, SHARED.CHI_PROFICIENCY, SHARED.MARTIAL_INSTINCTS];
+  const classTalentIdSet = new Set(classTalentList.map(t => t.id));
 
-  // count total iterations for progress
   const totalIterations =
     specPairCombos[0].length *
+    specPairCombos[1].length *
     cartesian(specIndepCombos).length *
     heroCombos.length;
 
@@ -85,46 +87,46 @@ self.onmessage = (e: MessageEvent<{ targetCount: number; asHealing: boolean }>) 
   let lastReportTime = performance.now();
 
   for (const [p1a, p1b] of specPairCombos[0]) {
-    for (const indepVals of cartesian(specIndepCombos)) {
-      for (const heroMap of heroCombos) {
-        {
+    for (const [p2a, p2b] of specPairCombos[1]) {
+      for (const indepVals of cartesian(specIndepCombos)) {
+        for (const heroMap of heroCombos) {
           const talentMap = new Map<spell, boolean>();
           talentMap.set(specExclusivePairs[0][0], p1a);
           talentMap.set(specExclusivePairs[0][1], p1b);
-          talentMap.set(TALENTS.JADE_EMPOWERMENT, false);
+          talentMap.set(specExclusivePairs[1][0], p2a);
+          talentMap.set(specExclusivePairs[1][1], p2b);
           specIndependent.forEach((t, i) => talentMap.set(t, indepVals[i]));
           heroMap.forEach((v, t) => talentMap.set(t, v));
           classTalentList.forEach(t => talentMap.set(t, true));
 
-            const player: Player = { talents: talentMap, stats: mistweaver.stats, corePassives: mistweaver.corePassives };
-            const useRwk = talentMap.get(TALENTS.RUSHING_WIND_KICK) === true;
-            const useJe = talentMap.get(TALENTS.JADE_EMPOWERMENT) === true;
+          const player: Player = { talents: talentMap, stats: mistweaver.stats, corePassives: mistweaver.corePassives };
+          const useRwk = talentMap.get(TALENTS.RUSHING_WIND_KICK) === true;
+          const useJe = talentMap.get(TALENTS.JADE_EMPOWERMENT) === true;
 
-            let bestDef = ROTATION_DEFS[0];
-            let bestVal = 0;
-            for (const def of ROTATION_DEFS) {
-              const result = def.simulateFn(SIM_TIME, targetCount, asHealing, player);
-              const val = result.points.length > 0 ? result.points[result.points.length - 1].damage / SIM_TIME : 0;
-              if (val > bestVal) { bestVal = val; bestDef = def; }
-            }
+          let bestDef = ROTATION_DEFS[0];
+          let bestVal = 0;
+          for (const def of ROTATION_DEFS) {
+            const result = def.simulateFn(SIM_TIME, targetCount, asHealing, player);
+            const val = result.points.length > 0 ? result.points[result.points.length - 1].damage / SIM_TIME : 0;
+            if (val > bestVal) { bestVal = val; bestDef = def; }
+          }
 
-            const classTalentIdSet = new Set(classTalentList.map(t => t.id));
-            const activeTalentIds = [...talentMap.entries()].filter(([t, v]) => v && !classTalentIdSet.has(t.id)).map(([t]) => t.id);
-            results.push({
-              talentIds: activeTalentIds,
-              rotationDataKey: bestDef.dataKey,
-              rotationLabel: bestDef.label(useRwk, useJe),
-              rotationColor: bestDef.color,
-              rotationSpellIds: bestDef.spells(useRwk, useJe).map(s => s.id),
-              value: bestVal,
-            });
+          const activeTalentIds = [...talentMap.entries()].filter(([t, v]) => v && !classTalentIdSet.has(t.id)).map(([t]) => t.id);
+          results.push({
+            talentIds: activeTalentIds,
+            rotationDataKey: bestDef.dataKey,
+            rotationLabel: bestDef.label(useRwk, useJe),
+            rotationColor: bestDef.color,
+            rotationSpellIds: bestDef.spells(useRwk, useJe).map(s => s.id),
+            value: bestVal,
+          });
 
-            done++;
-            const now = performance.now();
-            if (now - lastReportTime >= 50) {
-              lastReportTime = now;
-              self.postMessage({ type: 'progress', pct: done / totalIterations });
-            }
+          done++;
+          const now = performance.now();
+          if (now - lastReportTime >= 50) {
+            lastReportTime = now;
+            self.postMessage({ type: 'progress', pct: done / totalIterations });
+          }
         }
       }
     }
