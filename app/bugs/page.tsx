@@ -2,23 +2,11 @@ import { Suspense } from "react";
 import Bugs from "./Bugs";
 import { PageMetadata } from "@components/PageMetadata/PageMetadata";
 import Loading from "@components/Loading/Loading";
-import { getSpecializationByKey } from "@data/class";
 
 const title = "Bugs";
+const description = "Current known bugs and issues";
 
-type Props = {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
-
-export async function generateMetadata({ searchParams }: Props) {
-    const params = await searchParams;
-    const specParam = params.spec;
-    const spec = typeof specParam === 'string' ? getSpecializationByKey(specParam) : null;
-    
-    const description = spec 
-        ? `Current known bugs and issues for ${spec.name} ${spec.class}`
-        : "Current known bugs and issues";
-    
+export function generateMetadata() {
     return PageMetadata(title, description);
 }
 
