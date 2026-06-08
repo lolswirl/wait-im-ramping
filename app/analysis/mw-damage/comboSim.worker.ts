@@ -80,7 +80,8 @@ self.onmessage = (e: MessageEvent<{ targetCount: number; asHealing: boolean }>) 
     specPairCombos[0].length *
     specPairCombos[1].length *
     cartesian(specIndepCombos).length *
-    heroCombos.length;
+    heroCombos.length *
+    ROTATION_DEFS.length;
 
   const results: ComboResultSerialized[] = [];
   let done = 0;
@@ -102,30 +103,25 @@ self.onmessage = (e: MessageEvent<{ targetCount: number; asHealing: boolean }>) 
           const player: Player = { talents: talentMap, stats: mistweaver.stats, corePassives: mistweaver.corePassives };
           const useRwk = talentMap.get(TALENTS.RUSHING_WIND_KICK) === true;
           const useJe = talentMap.get(TALENTS.JADE_EMPOWERMENT) === true;
+          const activeTalentIds = [...talentMap.entries()].filter(([t, v]) => v && !classTalentIdSet.has(t.id)).map(([t]) => t.id);
 
-          let bestDef = ROTATION_DEFS[0];
-          let bestVal = 0;
           for (const def of ROTATION_DEFS) {
             const result = def.simulateFn(SIM_TIME, targetCount, asHealing, player);
             const val = result.points.length > 0 ? result.points[result.points.length - 1].damage / SIM_TIME : 0;
-            if (val > bestVal) { bestVal = val; bestDef = def; }
-          }
-
-          const activeTalentIds = [...talentMap.entries()].filter(([t, v]) => v && !classTalentIdSet.has(t.id)).map(([t]) => t.id);
-          results.push({
-            talentIds: activeTalentIds,
-            rotationDataKey: bestDef.dataKey,
-            rotationLabel: bestDef.label(useRwk, useJe),
-            rotationColor: bestDef.color,
-            rotationSpellIds: bestDef.spells(useRwk, useJe).map(s => s.id),
-            value: bestVal,
-          });
-
-          done++;
-          const now = performance.now();
-          if (now - lastReportTime >= 50) {
-            lastReportTime = now;
-            self.postMessage({ type: 'progress', pct: done / totalIterations });
+            results.push({
+              talentIds: activeTalentIds,
+              rotationDataKey: def.dataKey,
+              rotationLabel: def.label(useRwk, useJe),
+              rotationColor: def.color,
+              rotationSpellIds: def.spells(useRwk, useJe).map(s => s.id),
+              value: val,
+            });
+            done++;
+            const now = performance.now();
+            if (now - lastReportTime >= 50) {
+              lastReportTime = now;
+              self.postMessage({ type: 'progress', pct: done / totalIterations });
+            }
           }
         }
       }
