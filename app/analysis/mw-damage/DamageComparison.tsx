@@ -35,6 +35,7 @@ import {
   type SimResult,
   type AbilityEntry,
 } from "./simulations";
+import type { ComboResultSerialized } from "./comboSim.worker";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -48,6 +49,49 @@ type RotationConfig = {
   simulateFn: (time: number, targets: number, asHealing: boolean, params: Player) => SimResult;
 };
 
+const cartesian = <T,>(arrays: T[][]): T[][] => {
+  if (arrays.length === 0) return [[]];
+  const [first, ...rest] = arrays;
+  const restCombos = cartesian(rest);
+  return first.flatMap(v => restCombos.map(combo => [v, ...combo]));
+};
+
+const buildRotationConfigs = (useRwk: boolean, talents: Map<spell, boolean>): RotationConfig[] =>
+  [
+    {
+      dataKey: 'melee',
+      label: 'TP TP BOK ' + (useRwk ? 'RWK' : 'RSK'),
+      spells: [SPELLS.TIGER_PALM, SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK],
+      simulateFn: simulateMeleeRotation,
+    },
+    {
+      dataKey: 'melee2',
+      label: 'TP BoK ' + (useRwk ? 'RWK' : 'RSK'),
+      spells: [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK],
+      simulateFn: simulateMeleeRotationAt2Stacks,
+    },
+    {
+      dataKey: 'sck',
+      label: 'SCK',
+      spells: [SPELLS.SPINNING_CRANE_KICK],
+      simulateFn: simulateSpinningCraneKick,
+    },
+    {
+      dataKey: 'rskSck',
+      label: (useRwk ? 'RWK' : 'RSK') + ' + SCK',
+      spells: [useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK, SPELLS.SPINNING_CRANE_KICK],
+      simulateFn: simulateRSKWithSCK,
+    },
+    {
+      dataKey: 'je',
+      label: talents.get(TALENTS.JADE_EMPOWERMENT) ? 'CJL + JE' : 'CJL',
+      spells: talents.get(TALENTS.JADE_EMPOWERMENT)
+        ? [SPELLS.CRACKLING_JADE_LIGHTNING, TALENTS.JADE_EMPOWERMENT]
+        : [SPELLS.CRACKLING_JADE_LIGHTNING],
+      simulateFn: simulateCracklingJadeLightning,
+    },
+  ].map((e, i) => ({ ...e, color: RAINBOW_COLORS[i % RAINBOW_COLORS.length] }));
+
 const DamageComparison: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const theme = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -59,6 +103,26 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
   const [simulationKey, setSimulationKey] = useState(0);
   const showAsHealing = activeTab === 0;
   const [damageData, setDamageData] = useState<Record<string, SimResult>>({});
+
+  const [comboResults, setComboResults] = useState<ComboResultSerialized[] | null>(null);
+  const [comboAsHealing, setComboAsHealing] = useState(true);
+  const workerRef = React.useRef<Worker | null>(null);
+
+  useEffect(() => {
+    workerRef.current?.terminate();
+    setComboResults(null);
+    const worker = new Worker(new URL('./comboSim.worker.ts', import.meta.url));
+    workerRef.current = worker;
+    worker.onmessage = (e: MessageEvent<{ type: 'progress'; pct: number } | { type: 'done'; results: ComboResultSerialized[] }>) => {
+      if (e.data.type === 'done') {
+        setComboResults(e.data.results);
+        worker.terminate();
+        workerRef.current = null;
+      }
+    };
+    worker.postMessage({ targetCount, asHealing: comboAsHealing });
+    return () => { worker.terminate(); };
+  }, [targetCount, comboAsHealing]);
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
 
@@ -87,67 +151,25 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
 
   const talents = useMemo(() => new Map<spell, boolean>([...specTalents, ...classTalents, ...heroTalents]), [specTalents, classTalents, heroTalents]);
 
+  const spellById = useMemo<Map<number, spell>>(() => {
+    const all: spell[] = [
+      ...Object.values(SPELLS),
+      ...Object.values(TALENTS),
+      ...Object.values(SHARED),
+    ];
+    return new Map(all.map(s => [s.id, s]));
+  }, []);
+
   const simulationParams = useMemo(() => ({ talents, stats: mistweaver.stats, corePassives: mistweaver.corePassives }), [talents, mistweaver.stats]);
 
   const useRwk = talents.get(TALENTS.RUSHING_WIND_KICK) === true;
 
-  const ROTATION_CONFIGS: RotationConfig[] = useMemo(() => [
-    {
-      dataKey: 'melee',
-      label: 'TP TP BOK ' + (useRwk ? 'RWK' : 'RSK'),
-      spells: [
-        SPELLS.TIGER_PALM,
-        SPELLS.TIGER_PALM,
-        SPELLS.BLACKOUT_KICK,
-        useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK
-      ],
-      simulateFn: simulateMeleeRotation,
-    },
-    {
-      dataKey: 'melee2',
-      label: 'TP BoK ' + (useRwk ? 'RWK' : 'RSK'),
-      spells: [
-        SPELLS.TIGER_PALM,
-        SPELLS.BLACKOUT_KICK,
-        useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK
-      ],
-      simulateFn: simulateMeleeRotationAt2Stacks,
-    },
-    {
-      dataKey: 'sck',
-      label: 'SCK',
-      spells: [SPELLS.SPINNING_CRANE_KICK],
-      simulateFn: simulateSpinningCraneKick,
-    },
-    {
-      dataKey: 'rskSck',
-      label: (useRwk ? 'RWK' : 'RSK') + ' + SCK',
-      spells: [
-        useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK,
-        SPELLS.SPINNING_CRANE_KICK
-      ],
-      simulateFn: simulateRSKWithSCK,
-    },
-    // lower than everything, but keeping here for later
-    // {
-    //   dataKey: 'rskSckBok',
-    //   label: (useRwk ? 'RWK' : 'RSK') + ' + SCK + BoK',
-    //   spells: [
-    //     useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK,
-    //     SPELLS.SPINNING_CRANE_KICK,
-    //     SPELLS.BLACKOUT_KICK,
-    //   ],
-    //   simulateFn: simulateRSKWithSCKAndBok,
-    // },
-    {
-      dataKey: 'je',
-      label: talents.get(TALENTS.JADE_EMPOWERMENT) ? 'CJL + JE' : 'CJL',
-      spells: talents.get(TALENTS.JADE_EMPOWERMENT)
-        ? [SPELLS.CRACKLING_JADE_LIGHTNING, TALENTS.JADE_EMPOWERMENT]
-        : [SPELLS.CRACKLING_JADE_LIGHTNING],
-      simulateFn: simulateCracklingJadeLightning,
-    },
-  ].map((e, i) => ({ ...e, color: RAINBOW_COLORS[i % RAINBOW_COLORS.length] })), [useRwk, talents]);
+  const useJe = talents.get(TALENTS.JADE_EMPOWERMENT) === true;
+  const ROTATION_CONFIGS: RotationConfig[] = useMemo(
+    () => buildRotationConfigs(useRwk, talents),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [useRwk, useJe]
+  );
 
   useEffect(() => {
     setDamageData(
@@ -675,6 +697,71 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
           </Box>
         </AccordionDetails>
       </Accordion>
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
+          <Box sx={{ borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', justifyContent: 'space-between', pr: 2 }}>
+            <Tabs value={comboAsHealing ? 0 : 1} onChange={(_, v) => setComboAsHealing(v === 0)}>
+              <Tab label="HPS" />
+              <Tab label="DPS" />
+            </Tabs>
+            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+              All Combos · {targetCount} target{targetCount !== 1 ? 's' : ''}, 500s{comboResults === null ? ' · loading…' : ` · ${comboResults.length} combinations`}
+            </Typography>
+          </Box>
+          <Box sx={{ maxHeight: 480, overflowY: 'auto' }}>
+            {comboResults === null ? (
+              <Table size="small"><TableBody>
+                {[...Array(14)].map((_, i) => (
+                  <TableRow key={i}>
+                    <TableCell sx={{ border: 0, py: 0.75, px: 1.5, width: 36 }}><Skeleton variant="text" width={24} /></TableCell>
+                    <TableCell sx={{ border: 0, py: 0.75, px: 1 }}><Box sx={{ display: 'flex', gap: 0.5 }}>{[...Array(5)].map((_, j) => <Skeleton key={j} variant="rounded" width={22} height={22} />)}</Box></TableCell>
+                    <TableCell sx={{ border: 0, py: 0.75, px: 1 }}><Box sx={{ display: 'flex', gap: 0.5 }}>{[...Array(3)].map((_, j) => <Skeleton key={j} variant="rounded" width={18} height={18} />)}</Box></TableCell>
+                    <TableCell align="right" sx={{ border: 0, py: 0.75, px: 1.5 }}><Skeleton variant="text" width={48} sx={{ ml: 'auto' }} /></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody></Table>
+            ) : <Table size="small">
+              <TableBody>
+                {comboResults.map((r, idx) => {
+                  const isTop = idx === 0;
+                  const pct = comboResults[0].value > 0 ? r.value / comboResults[0].value : 0;
+                  const activeTalentSpells = r.talentIds.map(id => spellById.get(id)).filter((s): s is spell => s !== undefined);
+                  return (
+                    <TableRow key={idx} sx={{ bgcolor: isTop ? 'rgba(250,204,21,0.06)' : undefined }}>
+                      <TableCell sx={{ border: 0, py: 0.75, px: 1.5, width: 36, color: isTop ? '#facc15' : 'text.disabled', fontWeight: 700, fontSize: '0.75rem' }}>
+                        #{idx + 1}
+                      </TableCell>
+                      <TableCell sx={{ border: 0, py: 0.75, px: 1 }}>
+                        <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap', pointerEvents: 'none' }}>
+                          {activeTalentSpells.map(t => (
+                            <SpellButton key={t.id} selectedSpell={t} size={22} />
+                          ))}
+                        </Box>
+                      </TableCell>
+                      <TableCell sx={{ border: 0, py: 0.75, px: 1, whiteSpace: 'nowrap' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, pointerEvents: 'none' }}>
+                          {r.rotationSpellIds.map((id, i) => {
+                            const s = spellById.get(id);
+                            return s ? <SpellButton key={i} selectedSpell={s} size={18} /> : null;
+                          })}
+                        </Box>
+                      </TableCell>
+                      <TableCell align="right" sx={{ border: 0, py: 0.75, px: 1.5, whiteSpace: 'nowrap' }}>
+                        <Typography variant="caption" sx={{ color: r.rotationColor, fontWeight: 700 }}>
+                          {formatNumber(r.value, 2)}
+                        </Typography>
+                        {!isTop && (
+                          <Typography variant="caption" sx={{ color: '#ef4444', ml: 0.75 }}>
+                            {formatPercent((pct - 1) * 100, 1)}
+                          </Typography>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>}
+          </Box>
+        </Card>
     </Container>
   );
 };
