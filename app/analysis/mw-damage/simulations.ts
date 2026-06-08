@@ -14,18 +14,23 @@ import {
 type DamagePoint = { time: number; damage: number };
 type SimState = Record<string, number>;
 
-export type SimResult = { points: DamagePoint[]; perAbility: Map<spell, number> };
+export type AbilityEntry = { total: number; sub?: Map<spell, number> };
+export type SimResult = { points: DamagePoint[]; perAbility: Map<spell, AbilityEntry> };
 
 interface RotationAction {
   spell: spell;
   priority: number;
   cooldown: number;
   castTime?: number;
-  getValue: (state: SimState) => number;
+  getValue?: (state: SimState) => number;
+  getBreakdown?: (state: SimState) => Map<spell, number>;
   canCast?: (state: SimState) => boolean;
   onCast?: (state: SimState, cooldowns: number[]) => void;
 }
 
+const addToMap = (map: Map<spell, number>, key: spell, value: number) => {
+  map.set(key, (map.get(key) ?? 0) + value);
+};
 
 const runRotation = (
   actions: RotationAction[],
@@ -38,17 +43,29 @@ const runRotation = (
   let currentTime = 0;
   let cumulativeDamage = 0;
   const points: DamagePoint[] = [];
-  const perAbility = new Map<spell, number>(actions.map(a => [a.spell, 0]));
+  const perAbility = new Map<spell, AbilityEntry>();
 
   while (currentTime < totalTime) {
     for (const i of sorted) {
       if (cooldowns[i] > 0) continue;
       if (actions[i].canCast && !actions[i].canCast!(state)) continue;
 
-      const value = actions[i].getValue(state);
+      const actionSpell = actions[i].spell;
+      const existing = perAbility.get(actionSpell) ?? { total: 0 };
+      let value: number;
+      if (actions[i].getBreakdown) {
+        const castBreakdown = actions[i].getBreakdown!(state);
+        value = [...castBreakdown.values()].reduce((a, b) => a + b, 0);
+        const sub = existing.sub ?? new Map<spell, number>();
+        for (const [s, v] of castBreakdown) addToMap(sub, s, v);
+        perAbility.set(actionSpell, { total: existing.total + value, sub });
+      } else {
+        value = actions[i].getValue!(state);
+        perAbility.set(actionSpell, { total: existing.total + value });
+      }
       cumulativeDamage += value;
-      perAbility.set(actions[i].spell, perAbility.get(actions[i].spell)! + value);
       points.push({ time: currentTime, damage: cumulativeDamage });
+
       actions[i].onCast?.(state, cooldowns);
 
       const castTime = actions[i].castTime ?? GCD;
@@ -144,6 +161,9 @@ const simulateMeleeRotationWithStacks = (
   const rskSpell = chosenRsk(player.talents);
   const rskValue = resolveRskValue(targets, asHealing, player);
 
+  const initialState: SimState = { totmStacks: 0 };
+  if (hasHarmonicSurge) initialState.potentialEnergyStacks = 0;
+
   const actions: RotationAction[] = [
     {
       spell: rskSpell,
@@ -161,11 +181,13 @@ const simulateMeleeRotationWithStacks = (
       priority: 1,
       cooldown: SPELLS.BLACKOUT_KICK.cooldown,
       canCast: (state) => state.totmStacks >= bokMinStacks,
-      getValue: (state) => {
+      getBreakdown: (state) => {
         const waves = 1 + state.totmStacks;
         const mainTargetVal = bokValue * waves;
         const cleaveVal = mainTargetVal * bokCleaveEffectiveness * bokCleaveTargets;
-        return mainTargetVal + cleaveVal;
+        const breakdown = new Map<spell, number>([[SPELLS.BLACKOUT_KICK, mainTargetVal]]);
+        if (cleaveVal > 0) addToMap(breakdown, TALENTS.BLACKOUT_KICK_CLEAVE, cleaveVal);
+        return breakdown;
       },
       onCast: (state, cooldowns) => {
         const hits = (1 + state.totmStacks) * (1 + bokCleaveTargets);
@@ -177,11 +199,13 @@ const simulateMeleeRotationWithStacks = (
       spell: SPELLS.TIGER_PALM,
       priority: 2,
       cooldown: 0,
-      getValue: (state) => {
-        const hsValue = hasHarmonicSurge && state.potentialEnergyStacks > 0
-          ? calculateHarmonicSurgeValue(state.potentialEnergyStacks, targets, asHealing, player)
-          : 0;
-        return tpValue + hsValue;
+      getBreakdown: (state) => {
+        const breakdown = new Map<spell, number>([[SPELLS.TIGER_PALM, tpValue]]);
+        if (hasHarmonicSurge && state.potentialEnergyStacks > 0) {
+          const hsValue = calculateHarmonicSurgeValue(state.potentialEnergyStacks, targets, asHealing, player);
+          addToMap(breakdown, TALENTS.HARMONIC_SURGE, hsValue);
+        }
+        return breakdown;
       },
       onCast: (state) => {
         state.totmStacks += tpHits;
@@ -190,7 +214,7 @@ const simulateMeleeRotationWithStacks = (
     },
   ];
 
-  return runRotation(actions, totalTime, { totmStacks: 0, potentialEnergyStacks: 0 });
+  return runRotation(actions, totalTime, initialState);
 };
 
 export const simulateMeleeRotation = (
@@ -307,7 +331,13 @@ export const simulateRSKWithSCKAndBok = (
       spell: SPELLS.BLACKOUT_KICK,
       priority: 1,
       cooldown: SPELLS.BLACKOUT_KICK.cooldown,
-      getValue: () => bokValue + bokValue * bokCleaveEffectiveness * bokCleaveTargets,
+      getBreakdown: () => {
+        const mainTargetVal = bokValue;
+        const cleaveVal = mainTargetVal * bokCleaveEffectiveness * bokCleaveTargets;
+        const breakdown = new Map<spell, number>([[SPELLS.BLACKOUT_KICK, mainTargetVal]]);
+        if (cleaveVal > 0) addToMap(breakdown, TALENTS.BLACKOUT_KICK_CLEAVE, cleaveVal);
+        return breakdown;
+      },
     },
     {
       spell: SPELLS.SPINNING_CRANE_KICK,

@@ -86,6 +86,13 @@ const talents = {
         },
         exclusive: [1243155],
     },
+    BLACKOUT_KICK_CLEAVE: {
+        name: 'Blackout Kick (Cleave)',
+        id: 228649,
+        icon: 'ability_monk_roundhousekick',
+        school: SCHOOLS.PHYSICAL,
+        category: CATEGORY.DAMAGE,
+    },
     CRANE_STYLE: {
         name: "Crane Style",
         id: 446260,
