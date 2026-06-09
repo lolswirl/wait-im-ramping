@@ -1095,7 +1095,7 @@ const BUGS: Bug[] = [
         spell: TALENTS.JADEFIRE_STOMP,
         severity: SEVERITY.TRIVIAL,
         title: <>Cannot apply or remove <ItemLink item={ITEMS.GLYPH_OF_FAELINE_STOMP}/></>,
-        description: <>Since <SpellLink spell={TALENTS.JADEFIRE_STOMP}/> is not an ability anymore, its greyed out in the spellbook and does not accept any glyphs being added on it, namely the <ItemLink item={ITEMS.GLYPH_OF_FAELINE_STOMP}/>.</>,
+        description: <>Since <SpellLink spell={TALENTS.JADEFIRE_STOMP}/> is not an ability anymore, it's greyed out in the spellbook and does not accept any glyphs being added on it, namely the <ItemLink item={ITEMS.GLYPH_OF_FAELINE_STOMP}/>.</>,
         buildsTested: ["67823"],
     }
 ];
