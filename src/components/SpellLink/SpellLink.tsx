@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import type spell from "@data/spells/spell";
 import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
-import { T } from "@util/T";
 
-interface SpellLinkProps {
-    spell: spell;
+export interface WowLinkProps {
+    name: string;
+    icon: string;
+    href?: string;
     size?: number;
     gap?: number;
     sx?: any;
@@ -15,8 +16,10 @@ interface SpellLinkProps {
     noLink?: boolean;
 }
 
-const SpellLink: React.FC<SpellLinkProps> = ({
-    spell,
+export const WowLink: React.FC<WowLinkProps> = ({
+    name,
+    icon,
+    href,
     size = 18,
     gap = 0.5,
     sx,
@@ -27,17 +30,18 @@ const SpellLink: React.FC<SpellLinkProps> = ({
 
     useEffect(() => {
         const img = new Image();
-        const localSrc = FormatIconImg(spell.icon);
-        const fallbackSrc = FormatIconLink(spell.icon);
+        const localSrc = FormatIconImg(icon);
+        const fallbackSrc = FormatIconLink(icon);
         img.onload = () => setSrc(localSrc);
         img.onerror = () => setSrc(fallbackSrc);
         img.src = localSrc;
-    }, [spell.icon]);
+    }, [icon]);
 
     return (
         <Box
             component="a"
-            href={noLink ? undefined : (spell.id ? `https://www.wowhead.com/spell=${spell.id}` : undefined)}
+            suppressHydrationWarning
+            href={noLink ? undefined : href}
             target={noLink ? undefined : "_blank"}
             rel={noLink ? undefined : "noopener noreferrer"}
             onClick={noLink ? (e: React.MouseEvent) => e.preventDefault() : undefined}
@@ -75,7 +79,7 @@ const SpellLink: React.FC<SpellLinkProps> = ({
                 {src && (
                     <img
                         src={src}
-                        alt={(spell.name)}
+                        alt={name}
                         width={size}
                         height={size}
                         style={{
@@ -98,10 +102,28 @@ const SpellLink: React.FC<SpellLinkProps> = ({
                     ...textSx,
                 }}
             >
-                {spell.name}
+                {name}
             </Box>
         </Box>
     );
 };
+
+interface SpellLinkProps {
+    spell: spell;
+    size?: number;
+    gap?: number;
+    sx?: any;
+    textSx?: any;
+    noLink?: boolean;
+}
+
+const SpellLink: React.FC<SpellLinkProps> = ({ spell, ...rest }) => (
+    <WowLink
+        name={spell.name}
+        icon={spell.icon}
+        href={spell.id ? `https://www.wowhead.com/spell=${spell.id}` : undefined}
+        {...rest}
+    />
+);
 
 export default SpellLink;
