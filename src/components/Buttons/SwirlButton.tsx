@@ -60,7 +60,7 @@ const SwirlButton: React.FC<SwirlButtonProps> = ({
             startIcon={startIcon}
             sx={{
                 color: selected ? resolveColor(color, theme) : resolveTextColor(textColor, theme),
-                fontWeight: selected ? 600 : 400,
+                fontWeight: 600,
                 textTransform: "none",
                 transition: "color 0.2s ease",
                 position: "relative",
