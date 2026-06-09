@@ -29,6 +29,10 @@ export default function RootLayout({
                         __html: `const whTooltips = {colorLinks: true, iconizeLinks: false, renameLinks: false, iconSize: 'medium'};`,
                     }}
                 />
+                <Script
+                    src="/wowheadRestyle.js"
+                    strategy="afterInteractive"
+                />
             </head>
             <body>
                 <Script 

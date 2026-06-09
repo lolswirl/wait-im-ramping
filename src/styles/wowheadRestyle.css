@@ -1,0 +1,31 @@
+.wowhead-tooltip {
+    background: rgba(18, 18, 18, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 4px !important;
+    /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important; */
+    color: #e0e0e0 !important;
+}
+
+.wowhead-tooltip table,
+.wowhead-tooltip td,
+.wowhead-tooltip th {
+    background: transparent !important;
+    background-image: none !important;
+    color: #e0e0e0 !important;
+    border-color: transparent !important;
+}
+
+.wowhead-tooltip .whtt-tooltip-icon {
+    display: none !important;
+}
+
+.wowhead-tooltip .subtext,
+.wowhead-tooltip .q0 { color: #9e9e9e !important; }
+.wowhead-tooltip .whtt-name b { color: #ffffff !important; }
+.wowhead-tooltip .q2 { color: #1eff00 !important; }
+.wowhead-tooltip .q3 { color: #0070dd !important; }
+.wowhead-tooltip .q4 { color: #a335ee !important; }
+.wowhead-tooltip .q5 { color: #ff8000 !important; }
+.wowhead-tooltip .q6,
+.wowhead-tooltip .q7 { color: #e6cc80 !important; }
+.wowhead-tooltip a { color: #7ee5ff !important; text-decoration: none !important; }
