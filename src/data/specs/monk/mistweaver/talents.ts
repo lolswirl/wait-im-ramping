@@ -575,6 +575,7 @@ const talents = {
         id: 1271105,
         icon: 'inv_misc_herb_mountainsilversage',
         heroTalent: MOH,
+        spellModifier: 388023,
         custom: {
             transferRate: 0.50
         }

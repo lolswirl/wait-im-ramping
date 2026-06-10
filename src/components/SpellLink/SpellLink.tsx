@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import type spell from "@data/spells/spell";
 import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
+import { wowheadSpellUrl } from "@util/wowhead";
 
 export interface WowLinkProps {
     name: string;
@@ -121,7 +122,7 @@ const SpellLink: React.FC<SpellLinkProps> = ({ spell, ...rest }) => (
     <WowLink
         name={spell.name}
         icon={spell.icon}
-        href={spell.id ? `https://www.wowhead.com/spell=${spell.id}` : undefined}
+        href={spell.id ? wowheadSpellUrl(spell.id, spell.spellModifier) : undefined}
         {...rest}
     />
 );

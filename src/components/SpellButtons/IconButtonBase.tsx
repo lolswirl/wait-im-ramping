@@ -2,12 +2,14 @@
 import React, { useEffect, useState } from "react";
 
 import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
+import { wowheadSpellUrl } from "@util/wowhead";
 import { T } from "@util/T";
 
 interface IconButtonBaseProps {
     icon: string;
     name: string;
     id?: number;
+    spellModifier?: number;
     onClick?: () => void;
     size?: number;
     tooltip?: boolean;
@@ -18,6 +20,7 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
     icon,
     name,
     id,
+    spellModifier,
     onClick,
     size = 40,
     tooltip: _tooltip,
@@ -82,7 +85,7 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
 
     const button = id ? (
         <a
-            href={`https://www.wowhead.com/spell=${id}`}
+            href={wowheadSpellUrl(id, spellModifier)}
             target={onClick ? undefined : "_blank"}
             rel={onClick ? undefined : "noopener noreferrer"}
             onClick={onClick ? handleClick : undefined}

@@ -23,6 +23,7 @@ export default interface spell {
     heroTalent?: HeroTree;
     name: string;
     id: number;
+    spellModifier?: number;
     uuid?: string;
     icon: string;
     castTime?: number;

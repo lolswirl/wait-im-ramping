@@ -27,6 +27,7 @@ const SpellButton: React.FC<SpellButtonProps> = ({
             icon={selectedSpell.icon}
             name={selectedSpell.name}
             id={selectedSpell.id}
+            spellModifier={selectedSpell.spellModifier}
             onClick={action ? () => action(selectedSpell, safeEmpowerLevel) : undefined}
             size={size}
             {...rest}
