@@ -2,6 +2,7 @@
 
 import React from "react";
 import { WowLink } from "@components/SpellLink/SpellLink";
+import { wowheadItemUrl } from "@util/wowhead";
 
 export interface Item {
     name: string;
@@ -22,7 +23,7 @@ const ItemLink: React.FC<ItemLinkProps> = ({ item, ...rest }) => (
     <WowLink
         name={item.name}
         icon={item.icon}
-        href={`https://www.wowhead.com/item=${item.id}`}
+        href={wowheadItemUrl(item.id)}
         {...rest}
     />
 );

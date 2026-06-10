@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import type spell from "@data/spells/spell";
-import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
-import { wowheadSpellUrl } from "@util/wowhead";
+import { iconLocalUrl, iconFallbackUrl, wowheadSpellUrl } from "@util/wowhead";
 
 export interface WowLinkProps {
     name: string;
@@ -31,8 +30,8 @@ export const WowLink: React.FC<WowLinkProps> = ({
 
     useEffect(() => {
         const img = new Image();
-        const localSrc = FormatIconImg(icon);
-        const fallbackSrc = FormatIconLink(icon);
+        const localSrc = iconLocalUrl(icon);
+        const fallbackSrc = iconFallbackUrl(icon);
         img.onload = () => setSrc(localSrc);
         img.onerror = () => setSrc(fallbackSrc);
         img.src = localSrc;

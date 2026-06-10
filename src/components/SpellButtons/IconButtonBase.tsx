@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
-import { wowheadSpellUrl } from "@util/wowhead";
+import { iconLocalUrl, iconFallbackUrl, wowheadSpellUrl } from "@util/wowhead";
 import { T } from "@util/T";
 
 interface IconButtonBaseProps {
@@ -31,8 +30,8 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
 
     useEffect(() => {
         const img = new Image();
-        const localSrc = FormatIconImg(icon);
-        const fallbackSrc = FormatIconLink(icon);
+        const localSrc = iconLocalUrl(icon);
+        const fallbackSrc = iconFallbackUrl(icon);
         img.onload = () => setSrc(localSrc);
         img.onerror = () => setSrc(fallbackSrc);
         img.src = localSrc;

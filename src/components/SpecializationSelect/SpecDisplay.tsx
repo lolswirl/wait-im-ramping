@@ -1,6 +1,6 @@
 import React from "react";
 import { T } from "@util/T";
-import { FormatIconImg, FormatIconLink } from "@util/FormatIconImg";
+import { iconLocalUrl, iconFallbackUrl } from "@util/wowhead";
 import { specialization } from "@data/class";
 import "./SpecializationSelect.css";
 
@@ -19,7 +19,7 @@ const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec
       }}
     >
       <img
-        src={FormatIconImg(spec.icon)}
+        src={iconLocalUrl(spec.icon)}
         alt={`${spec.name}`}
         className="spec_icon"
         style={{
@@ -32,7 +32,7 @@ const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec
           left: "-2px",
         }}
         onError={(e) => {
-          (e.currentTarget as HTMLImageElement).src = FormatIconLink(spec.icon);
+          (e.currentTarget as HTMLImageElement).src = iconFallbackUrl(spec.icon);
         }}
       />
     </div>

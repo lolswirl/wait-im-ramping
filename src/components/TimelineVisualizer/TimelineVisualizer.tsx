@@ -9,7 +9,7 @@ import spell, { calculateCastTime, calculateGCD } from '@data/spells/spell';
 import { specialization } from "@data/class";
 import { applyBuffEffects } from '@data/buffs';
 
-import { FormatIconImg, FormatIconLink } from '@util/FormatIconImg';
+import { iconLocalUrl, iconFallbackUrl } from '@util/wowhead';
 import { toRomanNumeral } from "@util/toRomanNumeral";
 import { T } from "@util/T";
 
@@ -175,9 +175,9 @@ export default function TimelineVisualizer({ selectedSpec, haste, rotations = []
         .attr("height", zoomedSize)
         .attr("clip-path", `url(#${clipId})`)
         .attr("opacity", 0)
-        .attr("href", FormatIconImg(ability.icon))
+        .attr("href", iconLocalUrl(ability.icon))
         .on("error", function () {
-          d3.select(this).attr("href", FormatIconLink(ability.icon));
+          d3.select(this).attr("href", iconFallbackUrl(ability.icon));
         })
         .transition()
         .duration(TRANSITION_DURATION)
