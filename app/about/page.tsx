@@ -4,7 +4,7 @@ import { PageMetadata } from "@components/PageMetadata/PageMetadata";
 import { RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
 
 const title = "About";
-const description = "Learn more about the creator of Wait, I'm Ramping!";
+const description = "Learn more about Swirl, the creator of Wait, I'm Ramping!";
 export const metadata = PageMetadata(title, description);
 
 const swirlImg = "/swirl_panda.jpg";
