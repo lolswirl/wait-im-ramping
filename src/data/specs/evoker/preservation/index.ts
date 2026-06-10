@@ -1,9 +1,8 @@
-import { attachGetters } from '@data/shared/attachGetters';
 import { specialization } from '@data/class';
 import PRESERVATION_EVOKER_SPELLS from '@data/specs/evoker/preservation/spells';
 import PRESERVATION_EVOKER_ROTATIONS from '@data/specs/evoker/preservation/rotations';
 
-const PRESERVATION_EVOKER = attachGetters({
+const PRESERVATION_EVOKER = ({
   key: "evoker_preservation",
   spells: PRESERVATION_EVOKER_SPELLS,
   icon: 'classicon_evoker_preservation',

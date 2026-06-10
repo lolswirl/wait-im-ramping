@@ -1,4 +1,4 @@
-import { attachGetters } from '@data/shared/attachGetters';
+import '@data/specs/monk/mistweaver/helpers';
 import { specialization } from '@data/class';
 import MISTWEAVER_MONK_SPELLS from '@data/specs/monk/mistweaver/spells';
 import MISTWEAVER_MONK_TALENTS from '@data/specs/monk/mistweaver/talents';
@@ -10,7 +10,7 @@ import MISTWEAVER_DEFAULT_TALENTS from '@data/specs/monk/mistweaver/defaultTalen
 import corePassive from '@data/specs/monk/mistweaver/core-passive/core-passive';
 import corePassive2 from '@data/specs/monk/mistweaver/core-passive/core-passive-2';
 
-const MISTWEAVER_MONK = attachGetters({
+const MISTWEAVER_MONK = ({
   key: "monk_mistweaver",
   spells: MISTWEAVER_MONK_SPELLS,
   talents: MISTWEAVER_MONK_TALENTS,
@@ -33,6 +33,6 @@ const MISTWEAVER_MONK = attachGetters({
     stamina: 4600, 
     totalHp: 92000, // stamina * 20, unsure if we keep hp here
   },
-} satisfies specialization )
+} satisfies specialization)
 
 export default MISTWEAVER_MONK;

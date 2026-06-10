@@ -1,9 +1,8 @@
-import { attachGetters } from '@data/shared/attachGetters';
 import { specialization } from '@data/class';
 import DISCIPLINE_PRIEST_SPELLS from '@data/specs/priest/discipline/spells';
 import DISCIPLINE_PRIEST_ROTATIONS from '@data/specs/priest/discipline/rotations';
 
-const DISCIPLINE_PRIEST = attachGetters({
+const DISCIPLINE_PRIEST = ({
   key: "priest_discipline",
   spells: DISCIPLINE_PRIEST_SPELLS,
   rotations: DISCIPLINE_PRIEST_ROTATIONS,
