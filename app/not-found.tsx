@@ -32,7 +32,7 @@ const MESSAGES: React.ReactNode[] = [
     <>accidentally {S(SPELLS.CONVOKE_THE_SPIRITS)}'d in bear form</>,
     <>{S(SPELLS.INCARNATION_TREE_OF_LIFE)} didn't grow here</>,
     // rsham
-    <>{S(SPELLS.HEALING_TIDE_TOTEM)} didn't heal through the damage</>,
+    <>{S(SPELLS.HEALING_TIDE_TOTEM)}'s healed for 0.0404 instead of 404k, oops!</>,
     <>didn't have an external except for {S(SPELLS.EARTH_SHIELD)}</>,
     <>{S(SPELLS.CHAIN_HEAL)} bounced past this page</>,
     <>dropped {S(SPELLS.SPIRIT_LINK_TOTEM)} and redistributed this page out of existence</>,
