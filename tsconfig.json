@@ -24,25 +24,24 @@
       }
     ],
     "strictNullChecks": true,
-    "baseUrl": ".",
     "paths": {
       "@components/*": [
-        "src/components/*"
+        "./src/components/*"
       ],
       "@context/*": [
-        "src/context/*"
+        "./src/context/*"
       ],
       "@data/*": [
-        "src/data/*"
+        "./src/data/*"
       ],
       "@hooks/*": [
-        "src/hooks/*"
+        "./src/hooks/*"
       ],
       "@util/*": [
-        "src/util/*"
+        "./src/util/*"
       ],
       "@lib/*": [
-        "lib/*"
+        "./lib/*"
       ]
     }
   },
