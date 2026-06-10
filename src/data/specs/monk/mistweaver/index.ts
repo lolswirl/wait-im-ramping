@@ -1,5 +1,6 @@
 import '@data/specs/monk/mistweaver/helpers';
 import { specialization } from '@data/class';
+import MISTWEAVER_KEY from '@data/specs/monk/mistweaver/key';
 import MISTWEAVER_MONK_SPELLS from '@data/specs/monk/mistweaver/spells';
 import MISTWEAVER_MONK_TALENTS from '@data/specs/monk/mistweaver/talents';
 import MISTWEAVER_MONK_ROTATIONS from '@data/specs/monk/mistweaver/rotations';
@@ -11,7 +12,7 @@ import corePassive from '@data/specs/monk/mistweaver/core-passive/core-passive';
 import corePassive2 from '@data/specs/monk/mistweaver/core-passive/core-passive-2';
 
 const MISTWEAVER_MONK = ({
-  key: "monk_mistweaver",
+  key: MISTWEAVER_KEY,
   spells: MISTWEAVER_MONK_SPELLS,
   talents: MISTWEAVER_MONK_TALENTS,
   rotations: MISTWEAVER_MONK_ROTATIONS,
