@@ -1,35 +1,28 @@
 import spell, { CATEGORY } from "@data/spells/spell";
-import TALENTS from "./talents";
+import TALENTS from "../talents";
 import SHARED from "@data/specs/monk/talents";
 import SPELLS from "@data/spells";
 import { SCHOOLS } from "@data/shared/schools";
-import { getSpellAura } from "@data/core-passives/core-passive";
-import type CorePassive from "@data/core-passives/core-passive";
-import type { Stats } from '@data/shared/stats';
+import { registerSpecEngine } from "@data/shared/specEngines";
+import MISTWEAVER_KEY from "../key";
+import {
+    TalentMap,
+    Player,
+    TalentRule,
+    isTalentEnabled,
+    calculateSpellDamageMultiplier,
+    calculateSpellHealingMultiplier,
+    calcSpellValue,
+} from "@data/shared/engine";
+import * as Engine from "@data/shared/engine";
 
-export type TalentMap = Map<spell, boolean>;
-
-export interface Player {
-    stats: Stats;
-    talents: TalentMap;
-    corePassives: CorePassive[];
-}
-
-export const isTalentEnabled = (talents: TalentMap | undefined, talent: spell): boolean => {
-    if (!talents) return false;
-    return talents.get(talent) === true;
-};
-
-interface TalentRule {
-    talent: spell;
-    getValue: (stats?: Stats) => number;
-    appliesTo: (spell: spell) => boolean;
-}
+export type { TalentMap, Player };
+export { isTalentEnabled, calcSpellValue, calculateSpellDamageMultiplier, calculateSpellHealingMultiplier };
 
 const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
     {
         talent: SHARED.FEROCITY_OF_XUEN,
-        getValue: () => 2 * SHARED.FEROCITY_OF_XUEN.custom.damageIncrease, // 2 pts
+        getValue: () => 2 * SHARED.FEROCITY_OF_XUEN.custom.damageIncrease,
         appliesTo: (spell) => spell.category === CATEGORY.DAMAGE
     },
     {
@@ -115,80 +108,17 @@ const HEALING_MULTIPLIER_RULES: TalentRule[] = [
     }
 ];
 
-export const calculateSpellDamageMultiplier = (spell: spell, player: Player): number => {
-    let multiplier = 1;
+export const calculateSpellDamage = (spell: spell, player: Player): number =>
+    Engine.calculateSpellDamage(spell, player, DAMAGE_MULTIPLIER_RULES);
 
-    for (const rule of DAMAGE_MULTIPLIER_RULES) {
-        if (!isTalentEnabled(player.talents, rule.talent)) continue;
+export const calculateSpellHealing = (spell: spell, player: Player): number =>
+    Engine.calculateSpellHealing(spell, player, HEALING_MULTIPLIER_RULES);
 
-        if (rule.appliesTo(spell)) {
-            multiplier *= (1 + rule.getValue(player.stats));
-        }
-    }
-
-    return multiplier;
-};
-
-export const calculateSpellHealingMultiplier = (spell: spell, player: Player): number => {
-    let multiplier = 1;
-
-    for (const rule of HEALING_MULTIPLIER_RULES) {
-        if (!isTalentEnabled(player.talents, rule.talent)) continue;
-
-        if (rule.appliesTo(spell)) {
-            multiplier *= (1 + rule.getValue(player.stats));
-        }
-    }
-
-    return multiplier;
-};
-
-const resolveCoeff = (coeff: spell['coeff'], type: 'damage' | 'healing'): number | undefined => {
-    if (coeff === undefined) return undefined;
-    if (typeof coeff === 'number') return coeff;
-    return coeff[type];
-};
-
-export const calcSpellValue = (spell: spell, player: Player, type: 'damage' | 'healing' = 'healing'): number => {
-    const coeff = resolveCoeff(spell.coeff, type);
-    if (coeff === undefined) return 0;
-    const critMultiplier = 1 + (player.stats.crit / 100);
-    const versMultiplier = 1 + (player.stats.versatility / 100);
-    return player.stats.intellect * coeff * getSpellAura(spell, player.corePassives, type) * critMultiplier * versMultiplier;
-};
-
-export const calculateSpellDamage = (spell: spell, player: Player): number => {
-    const coeff = resolveCoeff(spell.coeff, 'damage');
-    const base = coeff !== undefined
-        ? calcSpellValue(spell, player, 'damage')
-        : (spell.value?.damage ?? 0);
-    return base * calculateSpellDamageMultiplier(spell, player);
-};
-
-export const calculateSpellHealing = (spell: spell, player: Player): number => {
-    const coeff = resolveCoeff(spell.coeff, 'healing');
-    const base = coeff !== undefined
-        ? calcSpellValue(spell, player, 'healing')
-        : (spell.value?.healing ?? 0);
-    return base * calculateSpellHealingMultiplier(spell, player);
-};
-
-export const getHealingMultiplier = (talents?: TalentMap): number => {
-    let multiplier = 1;
-
-    for (const rule of HEALING_MULTIPLIER_RULES) {
-        if (isTalentEnabled(talents, rule.talent)) {
-            multiplier *= (1 + rule.getValue());
-        }
-    }
-
-    return multiplier;
-};
 
 export const calculateGustOfMists = (player: Player): number => {
     const gom = TALENTS.GUST_OF_MISTS;
     const pseudoGom = { ...gom, coeff: player.stats.mastery / 100 } as spell;
-    return calculateSpellHealing(pseudoGom, player);
+    return Engine.calculateSpellHealing(pseudoGom, player, HEALING_MULTIPLIER_RULES);
 };
 
 export const getAncientTeachingsBaseTransfer = (): number => {
@@ -255,16 +185,24 @@ export const calculateAncientTeachingsHealing = (
 ): number => {
     const transfer = getCombinedTeachingsTransfer(player, includeJadefire);
     const armorModifier = sourceSpell?.school === SCHOOLS.NATURE ? 1 : getAncientTeachingsArmorModifier();
-    const healingMultiplier = getHealingMultiplier(player.talents);
-    return damage * transfer * armorModifier * healingMultiplier;
+    return damage * transfer * armorModifier;
 };
 
 export const calculateWayOfTheCraneHealing = (
     damage: number,
-    player: Player
 ): number => {
     const transfer = getWayOfTheCraneTransfer();
     const armorModifier = getWayOfTheCraneArmorModifier();
-    const healingMultiplier = getHealingMultiplier(player.talents);
-    return damage * transfer * armorModifier * healingMultiplier;
+    return damage * transfer * armorModifier;
 };
+
+registerSpecEngine(MISTWEAVER_KEY, {
+    calculateSpellDamage,
+    calculateSpellHealing,
+    resolveSpellValue: (spell, player) => {
+        if (spell.id === TALENTS.GUST_OF_MISTS.id) {
+            return calculateGustOfMists(player);
+        }
+        return null;
+    },
+});

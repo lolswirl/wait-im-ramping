@@ -11,7 +11,7 @@ import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
-import { calculateAncientTeachingsData, calculateSpellHealing, Player } from "@data/specs/monk/mistweaver/helpers";
+import { calculateAncientTeachingsData, calculateSpellHealing, Player } from "@data/specs/monk/mistweaver/calcs";
 import MISTWEAVER_DEFAULT_TALENTS from "@data/specs/monk/mistweaver/defaultTalents";
 
 import { T } from "@util/T";

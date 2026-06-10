@@ -9,7 +9,7 @@ import {
   calculateSpellDamage,
   calculateSpellHealing,
   Player,
-} from "@data/specs/monk/mistweaver/helpers";
+} from "@data/specs/monk/mistweaver/calcs";
 
 type DamagePoint = { time: number; damage: number };
 type SimState = Record<string, number>;
@@ -252,7 +252,7 @@ export const simulateSpinningCraneKick = (
       cooldown: 0,
       getValue: () => {
         const raw = sqrtScaledDamage(baseValue, targets);
-        return asHealing ? (hasWotC ? calculateWayOfTheCraneHealing(raw, player) : 0) : raw;
+        return asHealing ? (hasWotC ? calculateWayOfTheCraneHealing(raw) : 0) : raw;
       },
     },
   ];
@@ -345,7 +345,7 @@ export const simulateRSKWithSCKAndBok = (
       cooldown: 0,
       getValue: () => {
         const raw = sqrtScaledDamage(sckBase, targets);
-        return asHealing ? (hasWotC ? calculateWayOfTheCraneHealing(raw, player) : 0) : raw;
+        return asHealing ? (hasWotC ? calculateWayOfTheCraneHealing(raw) : 0) : raw;
       },
     },
   ];
@@ -377,7 +377,7 @@ export const simulateRSKWithSCK = (
       cooldown: 0,
       getValue: () => {
         const raw = sqrtScaledDamage(sckBase, targets);
-        return asHealing ? (hasWotC ? calculateWayOfTheCraneHealing(raw, player) : 0) : raw;
+        return asHealing ? (hasWotC ? calculateWayOfTheCraneHealing(raw) : 0) : raw;
       },
     },
   ];

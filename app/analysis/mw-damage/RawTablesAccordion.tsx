@@ -4,7 +4,7 @@ import { Box, Card, Typography, Tab, Tabs, Table, TableBody, TableCell, TableCon
 import { ExpandMore } from "@mui/icons-material";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { formatNumber, formatPercent } from "@util/stringManipulation";
-import { type Player } from "@data/specs/monk/mistweaver/helpers";
+import { type Player } from "@data/specs/monk/mistweaver/calcs";
 import { type RotationConfig } from "./types";
 
 type Props = {

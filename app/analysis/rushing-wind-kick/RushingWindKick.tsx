@@ -19,7 +19,7 @@ import {
   calculateSpellDamage,
   calculateSpellHealing,
   Player,
-} from "@data/specs/monk/mistweaver/helpers";
+} from "@data/specs/monk/mistweaver/calcs";
 
 import { T } from "@util/T";
 import { Group } from "@components/StatsCard/StatsCard";

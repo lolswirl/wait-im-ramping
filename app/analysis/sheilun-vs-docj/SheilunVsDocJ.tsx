@@ -9,7 +9,7 @@ import PageHeader from "@components/PageHeader/PageHeader";
 import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
-import { calculateSpellDamage, calculateWayOfTheCraneHealing, Player } from "@data/specs/monk/mistweaver/helpers";
+import { calculateSpellDamage, calculateWayOfTheCraneHealing, Player } from "@data/specs/monk/mistweaver/calcs";
 import { CLASSES } from "@data/class";
 import { calculateSheilunsGiftBreakdown } from "@data/specs/monk/mistweaver/calcs/SheilunsGift";
 
@@ -38,7 +38,7 @@ const SheilunVsDocJ: React.FC<{ title: React.ReactNode; description: React.React
 
   const docjSpellpowerCalc = () => {
     const sckDamage = calculateSpellDamage(sck, player) * (danceofChijiIncrease / 100);
-    const healing = calculateWayOfTheCraneHealing(sckDamage, player);
+    const healing = calculateWayOfTheCraneHealing(sckDamage);
     return (healing / player.stats.intellect) * 100;
   };
   const docjValues = Array.from({ length: 10 }, (_, i) => i + 1);

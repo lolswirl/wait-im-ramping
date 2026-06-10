@@ -17,8 +17,8 @@ import SpecializationSelect from "@components/SpecializationSelect/Specializatio
 import spell, { CATEGORY, CATEGORY_COLORS } from "@data/spells/spell";
 import { formatNumber, formatPercent, pluralize } from "@util/stringManipulation";
 import { CLASSES, specialization } from "@data/class";
-import { calculateSpellDamage, calculateSpellHealing, calculateGustOfMists, Player } from "@data/specs/monk/mistweaver/helpers";
-import TALENTS from "@data/specs/monk/mistweaver/talents";
+import { Player } from "@data/shared/engine";
+import { getSpecEngine } from "@data/shared/specEngines";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
 
@@ -67,20 +67,26 @@ const resolveValue = (
   s: spell,
   type: SpellType,
   player: Player,
+  specKey: string,
   targetMultiplier = 1,
 ): { baseSpCoeff: number | null; spCoeff: number | null; absolute: number | null } => {
-  if (s.id === TALENTS.GUST_OF_MISTS.id) {
-    const absolute = calculateGustOfMists(player) * targetMultiplier;
+  const engine = getSpecEngine(specKey);
+
+  const overridden = engine?.resolveSpellValue?.(s, player);
+  if (overridden !== null && overridden !== undefined) {
+    const absolute = overridden * targetMultiplier;
     return { baseSpCoeff: null, spCoeff: (absolute / player.stats.intellect) * 100, absolute };
   }
+
   if (s.formula !== undefined) {
     const absolute = s.formula(player.stats) * targetMultiplier;
     return { baseSpCoeff: null, spCoeff: (absolute / player.stats.intellect) * 100, absolute };
   }
-  if (s.coeff !== undefined) {
+
+  if (s.coeff !== undefined && engine !== undefined) {
     const absolute = (type === CATEGORY.DAMAGE
-      ? calculateSpellDamage(s, player)
-      : calculateSpellHealing(s, player)) * targetMultiplier;
+      ? engine.calculateSpellDamage(s, player)
+      : engine.calculateSpellHealing(s, player)) * targetMultiplier;
     const rawCoeff = getRawCoeff(s, type);
     return {
       baseSpCoeff: rawCoeff !== null ? rawCoeff * 100 * targetMultiplier : null,
@@ -88,8 +94,8 @@ const resolveValue = (
       absolute,
     };
   }
-  const raw = type === CATEGORY.DAMAGE ? s.value?.damage : s.value?.healing;
-  return { baseSpCoeff: null, spCoeff: null, absolute: raw ?? null };
+
+  return { baseSpCoeff: null, spCoeff: null, absolute: null };
 };
 
 const hasValue = (s: spell) =>
@@ -102,16 +108,16 @@ const getMaxTargets = (s: spell, type: SpellType): number => {
   return (type === CATEGORY.DAMAGE ? th.damage : th.healing) ?? 1;
 };
 
-const expandRows = (s: spell, player: Player): SpellRow[] =>
+const expandRows = (s: spell, player: Player, specKey: string): SpellRow[] =>
   coeffTypes(s).flatMap(type => {
     const maxTargets = getMaxTargets(s, type);
     if (maxTargets > 1) {
       return [
-        { spell: s, type, targets: 1, ...resolveValue(s, type, player, 1) },
-        { spell: s, type, targets: maxTargets, ...resolveValue(s, type, player, maxTargets) },
+        { spell: s, type, targets: 1, ...resolveValue(s, type, player, specKey, 1) },
+        { spell: s, type, targets: maxTargets, ...resolveValue(s, type, player, specKey, maxTargets) },
       ];
     }
-    return [{ spell: s, type, ...resolveValue(s, type, player, 1) }];
+    return [{ spell: s, type, ...resolveValue(s, type, player, specKey, 1) }];
   });
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -144,7 +150,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
 
   const rows = useMemo(() => {
     const player: Player = { stats, talents, corePassives: spec.corePassives ?? [] };
-    return allSpells.flatMap(s => expandRows(s, player));
+    return allSpells.flatMap(s => expandRows(s, player, spec.key));
   }, [spec, allSpells, stats.intellect, stats.haste, stats.crit, stats.versatility, stats.mastery, stats.totalHp, talents]);
 
   return (

@@ -2,7 +2,7 @@ import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
 import spell from "@data/spells/spell";
-import { calculateSpellHealing, Player } from "../helpers";
+import { calculateSpellHealing, Player } from ".";
 
 export interface SheilunsGiftBreakdownData {
   cloudCount: number;

@@ -11,7 +11,7 @@ import {
   simulateRSKWithSCK,
   type SimResult,
 } from "./simulations";
-import { type Player } from "@data/specs/monk/mistweaver/helpers";
+import { type Player } from "@data/specs/monk/mistweaver/calcs";
 import { RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
 
 export type ComboResultSerialized = {

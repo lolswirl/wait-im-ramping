@@ -1,4 +1,4 @@
-import '@data/specs/monk/mistweaver/helpers';
+import '@data/specs/monk/mistweaver/calcs';
 import { specialization } from '@data/class';
 import MISTWEAVER_KEY from '@data/specs/monk/mistweaver/key';
 import MISTWEAVER_MONK_SPELLS from '@data/specs/monk/mistweaver/spells';

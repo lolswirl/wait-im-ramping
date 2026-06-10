@@ -13,7 +13,7 @@ import {
     getWayOfTheCraneTransfer,
     getWayOfTheCraneArmorModifier,
     Player,
-} from '@data/specs/monk/mistweaver/helpers';
+} from '@data/specs/monk/mistweaver/calcs';
 
 export const createAllyState = (id: number): AllyState => ({
     id,
