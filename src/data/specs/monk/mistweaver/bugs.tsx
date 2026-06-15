@@ -1097,6 +1097,19 @@ const BUGS: Bug[] = [
         title: <>Cannot apply or remove <ItemLink item={ITEMS.GLYPH_OF_FAELINE_STOMP}/></>,
         description: <>Since <SpellLink spell={TALENTS.JADEFIRE_STOMP}/> is not an ability anymore, it's greyed out in the spellbook and does not accept any glyphs being added on it, namely the <ItemLink item={ITEMS.GLYPH_OF_FAELINE_STOMP}/>.</>,
         buildsTested: ["67823"],
+    },
+    {
+        spell: TALENTS.MISTLINE,
+        severity: SEVERITY.MEDIUM,
+        title: <>Healing increase does not change targets on lowest HP consistently</>,
+        description: <>The bonus healing increase from <SpellLink spell={TALENTS.MISTLINE}/> doesn't consistently change its targeting, regardless of if players are more injured when the HoT ticks. Nearly every single encounter has one player receiving significantly more <SpellLink spell={SPELLS.RENEWING_MIST}/> healing than others, feeling almost like a sticky effect occuring to the HP check.</>,
+        buildsTested: ["67823"],
+        logs: [
+            { label: "Skyeladew is #1 Renewing Mist healing, specifically in P3", url: "https://www.warcraftlogs.com/reports/yka4RbG9jdmCYM27?fight=22&type=healing&start=5352703&end=5454722&source=39&ability=119611&eventstart=5425486", },
+            { label: "Video of above where players are lower HP, 6min mark", url: "https://warcraftrecorder.com/link/12acc83a-cf13-4093-bd0c-974710475eca" },
+            { label: "Log 2", url: "https://www.warcraftlogs.com/reports/jGMtJFCRq2amYgvW?fight=11&type=healing&source=24&ability=119611", },
+            { label: "Log 3", url: "https://www.warcraftlogs.com/reports/jGMtJFCRq2amYgvW?fight=52&type=healing&source=24&ability=119611" },
+        ],
     }
 ];
 
