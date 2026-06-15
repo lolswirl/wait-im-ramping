@@ -40,7 +40,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.REACTIVE_WARDING,
         affectedSpells: [spells.EARTH_SHIELD],
-        severity: SEVERITY.MEDIUM,
+        severity: SEVERITY.LOW,
         title: <>Only reduces self-shield proc ICD to 2s, not ally <SpellLink spell={spells.EARTH_SHIELD} /></>,
         description: <><SpellLink spell={TALENTS.REACTIVE_WARDING} /> correctly reduces the proc ICD of shields on yourself from 3 seconds to 2 seconds, but the <SpellLink spell={spells.EARTH_SHIELD} /> applied to an ally still has the original 3 second ICD.</>,
         buildsTested: ["67823"],
