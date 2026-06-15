@@ -98,7 +98,7 @@ const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose }) => {
                                         {log.label && (
                                             <>
                                                 <Typography variant="caption" color="text.disabled">{log.label}</Typography>
-                                                <Typography variant="caption" color="text.disabled">—</Typography>
+                                                <Typography variant="caption" color="text.disabled">···</Typography>
                                             </>
                                         )}
                                         <SwirlLink href={log.url} target="_blank" sx={{ fontSize: "0.85rem", wordBreak: "break-all" }}>
