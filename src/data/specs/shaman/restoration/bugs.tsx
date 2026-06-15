@@ -25,7 +25,7 @@ const BUGS: Bug[] = [
         affectedSpells: [TALENTS.THERAZANES_RESILIENCE],
         severity: SEVERITY.HIGH,
         title: <>Talenting out of <SpellLink spell={TALENTS.THERAZANES_RESILIENCE} /> causes <SpellLink spell={spells.WATER_SHIELD} /> to restore far more mana than intended</>,
-        description: <>Applying <SpellLink spell={spells.WATER_SHIELD} /> while <SpellLink spell={TALENTS.THERAZANES_RESILIENCE} /> is talented, then talenting out of it, causes the shield to restore significantly more mana per orb than intended.</>,
+        description: <>Applying <SpellLink spell={spells.WATER_SHIELD} /> while <SpellLink spell={TALENTS.THERAZANES_RESILIENCE} /> is talented, then talenting out of it, causes the shield to restore significantly more mana than intended.</>,
         buildsTested: ["67823"],
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/TvLHCqPbzta9GYng?fight=39&type=resources&source=93&spell=100&view=events" }],
     },
