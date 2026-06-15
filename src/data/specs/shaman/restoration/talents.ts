@@ -55,6 +55,26 @@ const talents = {
         name: "Acid Rain",
         id: 378443,
         icon: 'spell_nature_acid_01',
+    },
+    REACTIVE_WARDING: {
+        name: "Reactive Warding",
+        id: 462454,
+        icon: 'inv_10_elementalcombinedfoozles_water',
+    },
+    THERAZANES_RESILIENCE: {
+        name: "Therazane's Resilience",
+        id: 1217622,
+        icon: 'shaman_pvp_rockshield',
+    },
+    SPLITSTREAM: {
+        name: "Splitstream",
+        id: 445035,
+        icon: 'ability_rhyolith_lavapool',
+    },
+    STORMSWELL: {
+        name: "Stormswell",
+        id: 1268684,
+        icon: "inv12_apextalent_shaman_stormstreamtotem",
     }
 } satisfies Record<string, spell>;
 

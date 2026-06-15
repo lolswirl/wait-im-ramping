@@ -107,6 +107,20 @@ const spells = {
         castTime: 0,
         category: CATEGORY.DAMAGE,
     },
+    WATER_SHIELD: {
+        name: "Water Shield",
+        id: 52127,
+        icon: "ability_shaman_watershield",
+        castTime: 0,
+        category: CATEGORY.OTHER,
+    },
+    STORMSTREAM_TOTEM: {
+        name: "Stormstream Totem",
+        id: 1267068,
+        icon: "inv12_apextalent_shaman_stormstreamtotem",
+        castTime: 0,
+        category: CATEGORY.HEALING,
+    },
 } satisfies Record<string, spell>;
 
 export default spells;
