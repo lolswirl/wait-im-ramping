@@ -10,7 +10,7 @@ export function change(d: Date, text: string): ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
-    change(date(2026, 6, 15), "Added Restoration Shaman bugs"),
+    change(date(2026, 6, 15), "Added Restoration Shaman (thanks Harrek and Smazo!) and Holy Paladin (thanks Clarius!) bugs"),
     change(date(2026, 6, 1), "Refreshed more designs across the entire site - fonts, tables, home page, buttons, data selections, and more! This will be ever-changing over time, and expect to see more updates as they come in."),
     change(date(2026, 5, 31), "Added Spell Reference table that hands spellpower values for all relevant spells and talents in one place"),
     change(date(2026, 5, 29), "Updated spellpower calculations across the site to be more accurate and use coefficients with aura multipliers instead of interpolated values"),
