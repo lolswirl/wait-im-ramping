@@ -1,10 +1,59 @@
-import SPELLS from '@data/spells';
 import TALENTS from '@data/specs/shaman/restoration/talents';
+import spells from '@data/specs/shaman/restoration/spells';
 import { Bug, SEVERITY, STATUS } from "@data/bugs";
 import { TAGS } from "@data/shared/tags";
+import SpellLink from '@components/SpellLink';
 import React from 'react';
 
 const BUGS: Bug[] = [
+    {
+        spell: TALENTS.WIND_BARRIER,
+        severity: SEVERITY.HIGH,
+        title: <>Sometimes reapplies every 0.1 seconds instead of every 30</>,
+        description: <><SpellLink spell={TALENTS.WIND_BARRIER} /> occasionally enters a broken state where it reapplies to the caster every 0.1 seconds rather than the intended 30 second interval.</>,
+        buildsTested: ["67823"],
+        logs: [
+            { label: "Hypnocham", url: "https://www.warcraftlogs.com/reports/vAVGFyL19MQhNJdp?fight=29&type=healing&source=2" },
+            { label: "Rober", url: "https://www.warcraftlogs.com/reports/QwGrJRgnWZ1kYKjM?fight=last&type=healing&source=4" },
+            { label: "Catalina", url: "https://www.warcraftlogs.com/reports/VWFXwA9bLntRM4QT?fight=58&type=auras&start=122817133&end=124582470&source=536&ability=457387&view=events" },
+            { label: "Harrek", url: "https://www.warcraftlogs.com/reports/PTQJ38XhKHrZBGag?fight=4&type=auras&source=1&ability=457387" },
+            { label: "Chihao", url: "https://www.warcraftlogs.com/reports/LpA39QBhn4V8PzcH?fight=12&type=healing&source=21" },
+        ],
+    },
+    {
+        spell: spells.WATER_SHIELD,
+        affectedSpells: [TALENTS.THERAZANES_RESILIENCE],
+        severity: SEVERITY.HIGH,
+        title: <>Talenting out of <SpellLink spell={TALENTS.THERAZANES_RESILIENCE} /> causes <SpellLink spell={spells.WATER_SHIELD} /> to restore far more mana than intended</>,
+        description: <>Applying <SpellLink spell={spells.WATER_SHIELD} /> while <SpellLink spell={TALENTS.THERAZANES_RESILIENCE} /> is talented, then talenting out of it, causes the shield to restore significantly more mana per orb than intended.</>,
+        buildsTested: ["67823"],
+        logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/TvLHCqPbzta9GYng?fight=39&type=resources&source=93&spell=100&view=events" }],
+    },
+    {
+        spell: spells.EARTH_SHIELD,
+        affectedSpells: [TALENTS.REACTIVE_WARDING],
+        severity: SEVERITY.LOW,
+        title: <>Sometimes refreshes on its own without reapplication</>,
+        description: <><SpellLink spell={spells.EARTH_SHIELD} /> occasionally refreshes its duration spontaneously without being recast. This is potentially related to the <SpellLink spell={TALENTS.REACTIVE_WARDING} /> talent.</>,
+        buildsTested: [""],
+    },
+    {
+        spell: TALENTS.REACTIVE_WARDING,
+        affectedSpells: [spells.EARTH_SHIELD],
+        severity: SEVERITY.MEDIUM,
+        title: <>Only reduces self-shield proc ICD to 2s, not ally <SpellLink spell={spells.EARTH_SHIELD} /></>,
+        description: <><SpellLink spell={TALENTS.REACTIVE_WARDING} /> correctly reduces the proc ICD of shields on yourself from 3 seconds to 2 seconds, but the <SpellLink spell={spells.EARTH_SHIELD} /> applied to an ally still has the original 3 second ICD.</>,
+        buildsTested: ["67823"],
+    },
+    {
+        spell: TALENTS.SPLITSTREAM,
+        affectedSpells: [spells.HEALING_STREAM_TOTEM, spells.STORMSTREAM_TOTEM],
+        severity: SEVERITY.MEDIUM,
+        title: <>Extra <SpellLink spell={TALENTS.STORMSWELL} /> target from <SpellLink spell={TALENTS.SPLITSTREAM} /> heals at full value</>,
+        description: <><SpellLink spell={TALENTS.SPLITSTREAM} /> adds one extra target to <SpellLink spell={spells.HEALING_STREAM_TOTEM} /> at 30% effectiveness as intended, but the same extra target it adds to <SpellLink spell={TALENTS.STORMSWELL} /> (the initial burst heal of <SpellLink spell={spells.STORMSTREAM_TOTEM} />) receives a full-value heal rather than the reduced 30%.</>,
+        buildsTested: ["67823"],
+        logs: [{ label: "Hit 3 people at full strength", url: "https://www.warcraftlogs.com/reports/TvLHCqPbzta9GYng?fight=39&type=healing&source=93&view=events&ability=1268684" }],
+    },
 ];
 
 export default BUGS;
