@@ -51,7 +51,7 @@ const BUGS: Bug[] = [
         spell: SPELLS.CRACKLING_JADE_LIGHTNING,
         severity: SEVERITY.LOW,
         title: <>Knockback on melee attackers is non-existent or incredibly low</>,
-        description: <>The knockback effect of <SpellLink spell={SPELLS.CRACKLING_JADE_LIGHTNING}/> on melee attackers is either non-existent or incredibly low, after multiple minutes of receiving melee hits getting 0 procs.</>,
+        description: <>The knockback effect of <SpellLink spell={SPELLS.CRACKLING_JADE_LIGHTNING}/> on melee attackers is either non-existent or incredibly low, after multiple minutes of receiving melee hits getting 0 knockbacks.</>,
         buildsTested: ["68235"],
     },
 ];
