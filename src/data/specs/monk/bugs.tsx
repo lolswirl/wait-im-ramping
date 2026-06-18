@@ -47,6 +47,13 @@ const BUGS: Bug[] = [
         description: <>Multiple monks placing a <SpellLink spell={SPELLS.TRANSCENDENCE_LINKED_SPIRITS}/> link on the same target will not stack, and only the most recent link will remain active, removing the older link.</>,
         buildsTested: ["67823"],
     },
+    {
+        spell: SPELLS.CRACKLING_JADE_LIGHTNING,
+        severity: SEVERITY.LOW,
+        title: <>Knockback on melee attackers is non-existent or incredibly low</>,
+        description: <>The knockback effect of <SpellLink spell={SPELLS.CRACKLING_JADE_LIGHTNING}/> on melee attackers is either non-existent or incredibly low, after multiple minutes of receiving melee hits getting 0 procs.</>,
+        buildsTested: ["68235"],
+    },
 ];
 
 export default BUGS;
