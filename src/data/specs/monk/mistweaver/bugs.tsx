@@ -229,10 +229,10 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.TEMPLE_TRAINING,
         affectedSpells: [SPELLS.SPINNING_CRANE_KICK],
-        severity: SEVERITY.LOW,
-        title: <>Increases <SpellLink spell={SPELLS.SPINNING_CRANE_KICK} /> damage by 10%</>,
-        buildsTested: ["65848", "66220", "67186"],
-        notes: "Likely a side effect of the windwalker version of the talent",
+        severity: SEVERITY.HIGH,
+        title: <>Increases <SpellLink spell={SPELLS.SPINNING_CRANE_KICK} /> damage by 30%</>,
+        buildsTested: ["65848", "66220", "67186", "68209"],
+        notes: "A side effect of the Windwalker's version of the talent",
         tags: [TAGS.CONDUIT],
     },
     {
