@@ -231,7 +231,7 @@ const BUGS: Bug[] = [
         affectedSpells: [SPELLS.SPINNING_CRANE_KICK],
         severity: SEVERITY.HIGH,
         title: <>Increases <SpellLink spell={SPELLS.SPINNING_CRANE_KICK} /> damage by 30%</>,
-        buildsTested: ["65848", "66220", "67186", "68209"],
+        buildsTested: ["65848", "66220", "67186", "12.1.0.68209"],
         notes: "A side effect of the Windwalker's version of the talent",
         tags: [TAGS.CONDUIT],
     },
@@ -1016,7 +1016,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.MANTRA_OF_PURITY,
         severity: SEVERITY.LOW,
-        buildsTested: ["67186", "68209"],
+        buildsTested: ["67186", "12.1.0.68209"],
         title: <>Does not increase the healing of any <SpellLink spell={SPELLS.SOOTHING_MIST}/></>,
         status: STATUS.FIXED,
     },
@@ -1089,7 +1089,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: <>Costs double the mana when casting on someone other than the player</>,
         description: <><SpellLink spell={SPELLS.SOOTHING_MIST}/> costs double the mana when cast on someone other than the player - 2k mana/sec when casting on someone else or 1k mana/sec (what the tooltip and <Code>C_Spell.GetSpellPowerCost(115175)</Code> returns) on the player.</>,
-        buildsTested: ["67602", "68209"],
+        buildsTested: ["67602", "12.1.0.68209"],
         logs: [ { label: "First few casts are self, latter half are other target", url: "https://www.warcraftlogs.com/reports/tT3nhRfb1QZAzvKJ?fight=2&type=resources&source=1&view=timeline&spell=100" },],
         status: STATUS.FIXED,
     },
@@ -1117,7 +1117,7 @@ const BUGS: Bug[] = [
         spell: TIER.T36_MISTWEAVER_4SET,
         severity: SEVERITY.CRITICAL,
         title: <>Reset chance on <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> not implemented</>,
-        buildsTested: ["68209"],
+        buildsTested: ["12.1.0.68209"],
     }
 ];
 
