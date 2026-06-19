@@ -227,6 +227,11 @@ const corePassive = {
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.CELESTIAL_CONDUIT.id],
             },
+            {
+                type: "Apply Aura: Allows Cast while Moving",
+                pvpMultiplier: 1,
+                affectedSpells: [SPELLS.CRACKLING_JADE_LIGHTNING, SPELLS.SOOTHING_MIST],
+            }
         ],
     } as CorePassive,
 };
