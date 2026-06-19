@@ -1117,12 +1117,14 @@ const BUGS: Bug[] = [
         spell: TIER.T36_MISTWEAVER_4SET,
         severity: SEVERITY.CRITICAL,
         title: <>Reset chance on <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> not implemented</>,
+        description: <>Reset chance on <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> not implemented, while it works for <SpellLink spell={SPELLS.RISING_SUN_KICK}/>.</>,
         buildsTested: ["12.1.0.68209"],
     },
     {
         spell: TALENTS.VITAL_EXPENDITURE,
         severity: SEVERITY.MEDIUM,
         title: <>Does not increase <SpellLink spell={TALENTS.JADE_SERPENT_STATUE}/>'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> healing</>,
+        description: <>Does not increase <SpellLink spell={TALENTS.JADE_SERPENT_STATUE}/>'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> healing, but does work on <SpellLink spell={TALENTS.SPIRITFONT}/> <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST}/> and normal <SpellLink spell={SPELLS.SOOTHING_MIST}/>.</>,
         buildsTested: ["12.1.0.68209"],
     }
 ];
