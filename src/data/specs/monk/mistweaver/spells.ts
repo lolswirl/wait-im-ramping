@@ -177,7 +177,7 @@ const spells = {
         cooldown: 90,
         school: SCHOOLS.NATURE,
         coeff: {
-            damage: 2.288 * 5,
+            damage: 1.716 * 5,
             healing: 11 * 5,
         },
         custom: {

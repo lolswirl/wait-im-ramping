@@ -67,7 +67,7 @@ const talents = {
         id: 467293,
         icon: 'inv_misc_book_07',
         custom: {
-            transferRate: 2.7,
+            transferRate: 3.2,
             armorModifier: 0.7, // sad
         },
         exclusive: [467307],
@@ -78,7 +78,7 @@ const talents = {
         icon: 'monk_stance_redcrane',
         custom: {
             targetsPerSCK: 1,
-            transferRate: 3.40,
+            transferRate: 2.80,
             armorModifier: 0.7,
             tigerPalmHits: 2,
             blackoutKickHits: 2,
@@ -120,7 +120,7 @@ const talents = {
         category: CATEGORY.HEALING,
         coeff: 0.1,
         custom: {
-            multiplier: 13.86,
+            multiplier: 20.79,
         }
     },
     CELESTIAL_HARMONY: {
@@ -590,7 +590,7 @@ const talents = {
         custom: {
             vivifyIncrease: 0.06,
             envIncrease: 0.06,
-            sckIncrease: 0.10 // lmao
+            sckIncrease: 0.30 // EVEN MORE LMAO
         }
     },
     COURAGE_OF_THE_WHITE_TIGER: {

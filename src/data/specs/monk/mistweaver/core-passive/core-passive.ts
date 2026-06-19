@@ -147,7 +147,7 @@ const corePassive = {
         effects: [
             {
                 type: "Apply Aura: Modifies Healing Done",
-                value: -10,
+                value: -13,
                 pvpMultiplier: 1,
                 affectedSpells: HEALING_SPELLS,
             },
@@ -211,7 +211,7 @@ const corePassive = {
             },
             {
                 type: "Apply Aura: Modifies Damage Done",
-                value: 213,
+                value: 166,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.SPINNING_CRANE_KICK.id],
             },
@@ -223,7 +223,7 @@ const corePassive = {
             },
             {
                 type: "Apply Aura: Add Modifier - % (Label): Modifies Damage Done",
-                value: -40,
+                value: -20,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.CELESTIAL_CONDUIT.id],
             },

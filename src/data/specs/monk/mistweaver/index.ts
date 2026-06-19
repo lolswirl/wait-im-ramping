@@ -22,12 +22,12 @@ const MISTWEAVER_MONK = ({
   name: 'Mistweaver',
   class: 'Monk',
   color: '#4ea55c',
-  masteryCoefficient: 13.86,
+  masteryCoefficient: 20.79,
   corePassives: [corePassive.MISTWEAVER_MONK, corePassive2.MISTWEAVER_MONK_2],
   defaultTalents: MISTWEAVER_DEFAULT_TALENTS,
   stats: {
     intellect: 620,
-    mastery: 13.86 * 8, // 110.88%
+    mastery: 20.79 * 8, // 166.32%
     crit: 0,
     versatility: 0,
     haste: 0,
