@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Bug, STATUS, SEVERITY } from "@data/bugs";
+import { Bug, STATUS, SEVERITY, getBuildSortValue } from "@data/bugs";
 import { Tags } from "@data/shared/tags";
 import { specialization } from "@data/class";
 import { extractTextFromReactNode } from "@util/extractTextFromReactNode";
@@ -70,11 +70,11 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
 
     const sortedBugs = useMemo(() => {
         return [...bugs].sort((a, b) => {
-            const aBuild = a.buildsTested?.length ? parseInt(a.buildsTested[a.buildsTested.length - 1]) : 0;
-            const bBuild = b.buildsTested?.length ? parseInt(b.buildsTested[b.buildsTested.length - 1]) : 0;
-            
+            const aBuild = a.buildsTested?.length ? getBuildSortValue(a.buildsTested) : 0;
+            const bBuild = b.buildsTested?.length ? getBuildSortValue(b.buildsTested) : 0;
+
             if (bBuild !== aBuild) return bBuild - aBuild;
-            
+
             // reverse array for "newer" bug entries to appear first
             const aIndex = bugs.indexOf(a);
             const bIndex = bugs.indexOf(b);
