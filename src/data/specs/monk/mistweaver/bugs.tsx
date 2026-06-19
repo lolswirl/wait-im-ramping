@@ -1114,7 +1114,10 @@ const BUGS: Bug[] = [
         ],
     },
     {
-
+        spell: TIER.T36_MISTWEAVER_4SET,
+        severity: SEVERITY.CRITICAL,
+        title: <>Reset chance on <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> not implemented</>,
+        buildsTested: ["68209"],
     }
 ];
 
