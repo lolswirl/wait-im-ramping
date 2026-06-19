@@ -53,7 +53,7 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
         {
             key: "spell",
             label: "Spell",
-            width: "200px",
+            width: "250px",
             sortValue: bug => bug.spell?.name ?? "",
             render: bug => bug.spell ? (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 0 }}>
