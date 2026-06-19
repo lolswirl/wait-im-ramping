@@ -458,6 +458,11 @@ const talents = {
         id: 122280,
         icon: 'ability_monk_jasmineforcetea',
     },
+    VITAL_EXPENDITURE: {
+        name: "Vital Expenditure",
+        id: 1299572,
+        icon: "ability_monk_soothingmists",
+    },
 
     // hero talents
     // master of harmony

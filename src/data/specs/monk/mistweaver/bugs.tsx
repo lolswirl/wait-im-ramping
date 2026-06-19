@@ -1118,6 +1118,12 @@ const BUGS: Bug[] = [
         severity: SEVERITY.CRITICAL,
         title: <>Reset chance on <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> not implemented</>,
         buildsTested: ["12.1.0.68209"],
+    },
+    {
+        spell: TALENTS.VITAL_EXPENDITURE,
+        severity: SEVERITY.MEDIUM,
+        title: <>Does not increase <SpellLink spell={TALENTS.JADE_SERPENT_STATUE}/>'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> healing</>,
+        buildsTested: ["12.1.0.68209"],
     }
 ];
 
