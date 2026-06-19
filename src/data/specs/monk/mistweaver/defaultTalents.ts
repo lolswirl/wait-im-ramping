@@ -18,6 +18,7 @@ const MISTWEAVER_DEFAULT_TALENTS: SpecTalentConfig = {
         [TALENTS.TEAR_OF_MORNING, false],
         [TALENTS.WAY_OF_THE_SERPENT, false],
         [TALENTS.UPLIFTED_SPIRITS, true],
+        [TALENTS.VITAL_EXPENDITURE, false],
     ]),
     hero: new Map<spell, boolean>([
         [TALENTS.TEMPLE_TRAINING, true],

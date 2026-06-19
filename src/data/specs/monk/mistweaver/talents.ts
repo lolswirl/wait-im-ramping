@@ -462,6 +462,9 @@ const talents = {
         name: "Vital Expenditure",
         id: 1299572,
         icon: "ability_monk_soothingmists",
+        custom: {
+            soomIncrease: 3.0
+        }
     },
 
     // hero talents

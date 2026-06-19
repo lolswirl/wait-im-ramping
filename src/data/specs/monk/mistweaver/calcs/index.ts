@@ -105,6 +105,13 @@ const HEALING_MULTIPLIER_RULES: TalentRule[] = [
         talent: TALENTS.UPLIFTED_SPIRITS,
         getValue: () => TALENTS.UPLIFTED_SPIRITS.custom.revivalIncrease,
         appliesTo: (spell) => spell.id === SPELLS.REVIVAL.id || spell.id == TALENTS.RESTORAL.id,
+    },
+    {
+        talent: TALENTS.VITAL_EXPENDITURE,
+        getValue: () => TALENTS.VITAL_EXPENDITURE.custom.soomIncrease,
+        appliesTo: (spell) => 
+            spell.id === SPELLS.SOOTHING_MIST.id || 
+            spell.id === TALENTS.SPIRITFONT_SOOTHING_MIST.id
     }
 ];
 
