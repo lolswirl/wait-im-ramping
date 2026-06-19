@@ -1016,8 +1016,9 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.MANTRA_OF_PURITY,
         severity: SEVERITY.LOW,
-        buildsTested: ["67186"],
+        buildsTested: ["67186", "68209"],
         title: <>Does not increase the healing of any <SpellLink spell={SPELLS.SOOTHING_MIST}/></>,
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM_PHYSICAL,
@@ -1088,8 +1089,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: <>Costs double the mana when casting on someone other than the player</>,
         description: <><SpellLink spell={SPELLS.SOOTHING_MIST}/> costs double the mana when cast on someone other than the player - 2k mana/sec when casting on someone else or 1k mana/sec (what the tooltip and <Code>C_Spell.GetSpellPowerCost(115175)</Code> returns) on the player.</>,
-        buildsTested: ["67602"],
-        logs: [ { label: "First few casts are self, latter half are other target", url: "https://www.warcraftlogs.com/reports/tT3nhRfb1QZAzvKJ?fight=2&type=resources&source=1&view=timeline&spell=100" },]
+        buildsTested: ["67602", "68209"],
+        logs: [ { label: "First few casts are self, latter half are other target", url: "https://www.warcraftlogs.com/reports/tT3nhRfb1QZAzvKJ?fight=2&type=resources&source=1&view=timeline&spell=100" },],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.JADEFIRE_STOMP,
@@ -1110,6 +1112,9 @@ const BUGS: Bug[] = [
             { label: "Log 2", url: "https://www.warcraftlogs.com/reports/jGMtJFCRq2amYgvW?fight=11&type=healing&source=24&ability=119611", },
             { label: "Log 3", url: "https://www.warcraftlogs.com/reports/jGMtJFCRq2amYgvW?fight=52&type=healing&source=24&ability=119611" },
         ],
+    },
+    {
+
     }
 ];
 
