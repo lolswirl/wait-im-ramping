@@ -2,12 +2,11 @@
 import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Box, Container, useTheme, Card, Divider, Typography } from "@mui/material";
+import { Box, Container, useTheme, Card } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
-import RadioOption from "@components/RadioOption/RadioOption";
 
 import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
@@ -22,7 +21,7 @@ import {
 } from "@data/specs/monk/mistweaver/calcs";
 
 import { T } from "@util/T";
-import { Group } from "@components/StatsCard/StatsCard";
+import { Group, rowLabel, rowSep } from "@components/StatsCard/StatsCard";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -197,63 +196,69 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
         subtitle={description}
       />
       
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1200 }}>
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
-          <Box sx={{ flex: 1, p: 2 }}>
-            <Card variant="outlined" sx={{ 
-              p: 2, 
-              background: `linear-gradient(135deg, rgba(54, 162, 235, 0.1), rgba(54, 162, 235, 0.05))`, 
-              borderColor: 'rgba(54, 162, 235, 0.3)' 
-            }}>
-              <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', color: 'rgb(54, 162, 235)', mb: 2 }}>
-                Mode
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                {modeOptions.map(opt => (
-                  <RadioOption
-                    key={opt.value}
-                    value={opt.value}
-                    currentValue={calcMode}
-                    onChange={handleModeChange}
-                    title={T(opt.label)}
-                  />
-                ))}
-              </Box>
-            </Card>
-          </Box>
+      <Card variant="outlined" sx={{ width: "fit-content", maxWidth: 1200, p: 2 }}>
+        <Group>
+          <span style={rowLabel}>Mode</span>
+          {rowSep}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+            {modeOptions.map(opt => {
+              const isSelected = opt.value === calcMode;
+              return (
+                <Box
+                  key={opt.value}
+                  onClick={() => handleModeChange(opt.value)}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    cursor: "pointer",
+                    padding: "6px 12px",
+                    borderRadius: "4px",
+                    border: `1px solid ${isSelected ? mistweaver.color + "55" : "rgba(255,255,255,0.08)"}`,
+                    backgroundColor: isSelected ? mistweaver.color + "18" : "transparent",
+                    opacity: isSelected ? 1 : 0.45,
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                    userSelect: "none",
+                    whiteSpace: "nowrap",
+                    "&:hover": { transform: "scale(1.03)" },
+                  }}
+                >
+                  <span style={{ fontSize: "0.72rem", fontWeight: 500 }}>{T(opt.label)}</span>
+                </Box>
+              );
+            })}
+          </div>
 
-          <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', md: 'block' } }} />
-          <Divider sx={{ display: { md: 'none' } }} />
+          <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)" }} />
 
-          <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Group>
-              <TalentsCard
-                label="Spec"
-                options={specTalentSubset}
-                color={mistweaver.color}
-                onChange={handleTalentChange}
-              />
-              <HeroTalentsCard
-                options={heroTalentSubset}
-                onChange={handleTalentChange}
-              />
-              <TalentsCard
-                label="Class"
-                options={classTalentSubset}
-                color={CLASSES.MONK.color}
-                onChange={handleTalentChange}
-              />
-              {tierSetSubset.size > 0 && (
-                <TalentsCard
-                  label="Tier"
-                  options={tierSetSubset}
-                  color={mistweaver.color}
-                  onChange={handleTalentChange}
-                />
-              )}
-            </Group>
-          </Box>
-        </Box>
+          <TalentsCard
+            label="Spec"
+            options={specTalentSubset}
+            color={mistweaver.color}
+            onChange={handleTalentChange}
+          />
+          <HeroTalentsCard
+            options={heroTalentSubset}
+            onChange={handleTalentChange}
+          />
+          <TalentsCard
+            label="Class"
+            options={classTalentSubset}
+            color={CLASSES.MONK.color}
+            onChange={handleTalentChange}
+          />
+          {tierSetSubset.size > 0 && (
+            <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)" }} />
+          )}
+          {tierSetSubset.size > 0 && (
+            <TalentsCard
+              label="Tier"
+              options={tierSetSubset}
+              color={mistweaver.color}
+              onChange={handleTalentChange}
+            />
+          )}
+        </Group>
       </Card>
 
       <Box sx={{ width: "100%", maxWidth: 1200 }}>
