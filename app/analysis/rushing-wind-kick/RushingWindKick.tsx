@@ -12,7 +12,7 @@ import RadioOption from "@components/RadioOption/RadioOption";
 import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
-import SHARED from "@data/specs/monk/talents";
+import TIER from "@data/items/tier";
 import { CLASSES } from "@data/class";
 import {
   calculateAncientTeachingsHealing,
@@ -39,17 +39,14 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
   const [calcMode, setCalcMode] = useState<CalcMode>("totalHealing");
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
+  const defaultTalents = mistweaver.defaultTalents!;
+  const defaultTierSet = mistweaver.tierSet!;
 
   const allTalents = new Map<spell, boolean>([
-    [TALENTS.JADEFIRE_TEACHINGS, true],
-    [TALENTS.MORNING_BREEZE, true],
-    [TALENTS.SPIRITFONT, false],
-    [SHARED.FAST_FEET, true],
-    [SHARED.FEROCITY_OF_XUEN, true],
-    [SHARED.CHI_PROFICIENCY, true],
-    [SHARED.MARTIAL_INSTINCTS, true],
-    [TALENTS.YULONS_KNOWLEDGE, true],
-    [TALENTS.MEDITATIVE_FOCUS, false],
+    ...defaultTalents.spec,
+    ...defaultTalents.hero,
+    ...defaultTalents.class,
+    ...defaultTierSet,
   ]);
 
   const [talents, setTalents] = useState(allTalents);
@@ -177,23 +174,21 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
     setTalents(prev => new Map(prev).set(talent, checked));
   };
 
-  const specTalentSubset = new Map<spell, boolean>([
-    [TALENTS.JADEFIRE_TEACHINGS, talents.get(TALENTS.JADEFIRE_TEACHINGS) ?? false],
-    [TALENTS.MORNING_BREEZE, talents.get(TALENTS.MORNING_BREEZE) ?? false],
-    [TALENTS.SPIRITFONT, talents.get(TALENTS.SPIRITFONT) ?? false],
-  ]);
+  const specTalentSubset = new Map<spell, boolean>(
+    [TALENTS.SPIRITFONT, TALENTS.MORNING_BREEZE,].map(t => [t, talents.get(t) ?? false])
+  );
 
-  const heroTalentSubset = new Map<spell, boolean>([
-    [TALENTS.YULONS_KNOWLEDGE, talents.get(TALENTS.YULONS_KNOWLEDGE) ?? false],
-    [TALENTS.MEDITATIVE_FOCUS, talents.get(TALENTS.MEDITATIVE_FOCUS) ?? false],
-  ]);
+  const heroTalentSubset = new Map<spell, boolean>(
+    [TALENTS.YULONS_KNOWLEDGE, TALENTS.MEDITATIVE_FOCUS].map(t => [t, talents.get(t) ?? false])
+  );
 
-  const classTalentSubset = new Map<spell, boolean>([
-    [SHARED.FAST_FEET, talents.get(SHARED.FAST_FEET) ?? false],
-    [SHARED.FEROCITY_OF_XUEN, talents.get(SHARED.FEROCITY_OF_XUEN) ?? false],
-    [SHARED.CHI_PROFICIENCY, talents.get(SHARED.CHI_PROFICIENCY) ?? false],
-    [SHARED.MARTIAL_INSTINCTS, talents.get(SHARED.MARTIAL_INSTINCTS) ?? false],
-  ]);
+  const classTalentSubset = new Map<spell, boolean>(
+    Array.from(defaultTalents.class, ([t]) => [t, talents.get(t) ?? false])
+  );
+
+  const tierSetSubset = new Map<spell, boolean>(
+    [TIER.T36_MISTWEAVER_2SET].map(t => [t, talents.get(t) ?? false])
+  );
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
@@ -248,6 +243,14 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
                 color={CLASSES.MONK.color}
                 onChange={handleTalentChange}
               />
+              {tierSetSubset.size > 0 && (
+                <TalentsCard
+                  label="Tier"
+                  options={tierSetSubset}
+                  color={mistweaver.color}
+                  onChange={handleTalentChange}
+                />
+              )}
             </Group>
           </Box>
         </Box>
