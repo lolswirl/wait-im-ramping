@@ -128,11 +128,12 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
   const [specTalents, setSpecTalents] = useState(spec.defaultTalents?.spec ?? new Map<spell, boolean>());
   const [heroTalents, setHeroTalents] = useState(spec.defaultTalents?.hero ?? new Map<spell, boolean>());
   const [classTalents, setClassTalents] = useState(spec.defaultTalents?.class ?? new Map<spell, boolean>());
+  const [tierSet, setTierSet] = useState(spec.tierSet ?? new Map<spell, boolean>());
   const [nerfPercent, setNerfPercent] = useState<number>(-10);
 
   const talents = useMemo(
-    () => new Map<spell, boolean>([...specTalents, ...heroTalents, ...classTalents]),
-    [specTalents, heroTalents, classTalents]
+    () => new Map<spell, boolean>([...specTalents, ...heroTalents, ...classTalents, ...tierSet]),
+    [specTalents, heroTalents, classTalents, tierSet]
   );
 
   const handleSpecChange = (newSpec: specialization) => {
@@ -141,6 +142,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
     setSpecTalents(newSpec.defaultTalents?.spec ?? new Map());
     setHeroTalents(newSpec.defaultTalents?.hero ?? new Map());
     setClassTalents(newSpec.defaultTalents?.class ?? new Map());
+    setTierSet(newSpec.tierSet ?? new Map());
   };
 
   const allSpells = useMemo(() => [
@@ -167,7 +169,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
             <StatsCard options={stats} onOptionsChange={setStats} />
           </Group>
         </Box>
-        {(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0) && (
+        {(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0 || tierSet.size > 0) && (
           <>
             <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" } }} />
             <Divider sx={{ display: { md: "none" } }} />
@@ -193,6 +195,14 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                     options={classTalents}
                     color={spec.color}
                     onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))}
+                  />
+                )}
+                {tierSet.size > 0 && (
+                  <TalentsCard
+                    label="Tier"
+                    options={tierSet}
+                    color={spec.color}
+                    onChange={(t, c) => setTierSet(prev => new Map(prev).set(t, c))}
                   />
                 )}
               </Group>

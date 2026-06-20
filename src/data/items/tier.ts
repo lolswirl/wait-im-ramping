@@ -25,11 +25,18 @@ const tier = {
         name: "12.1 Mistweaver 2pc",
         id: 1296619,
         icon: "inv_helm_leather_raidmonkulatek_d_01",
+        custom: {
+            rwkHealingIncrease: 1.0,
+            rskDamageIncrease: 0.3,
+        }
     },
     T36_MISTWEAVER_4SET: {
         name: "12.1 Mistweaver 4pc",
         id: 1296620,
         icon: "inv_shoulder_leather_raidmonkulatek_d_01",
+        custom: {
+            resetChance: 0.2,
+        }
     }
 } satisfies Record<string, spell>;
 

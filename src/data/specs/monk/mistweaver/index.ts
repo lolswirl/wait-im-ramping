@@ -10,6 +10,13 @@ import MONK_BUGS from '@data/specs/monk/bugs';
 import MISTWEAVER_DEFAULT_TALENTS from '@data/specs/monk/mistweaver/defaultTalents';
 import corePassive from '@data/specs/monk/mistweaver/core-passive/core-passive';
 import corePassive2 from '@data/specs/monk/mistweaver/core-passive/core-passive-2';
+import TIER from '@data/items/tier';
+import spell from '@data/spells/spell';
+
+const MISTWEAVER_TIER_SET = new Map<spell, boolean>([
+  [TIER.T36_MISTWEAVER_2SET, true],
+  [TIER.T36_MISTWEAVER_4SET, true],
+]);
 
 const MISTWEAVER_MONK = ({
   key: MISTWEAVER_KEY,
@@ -25,6 +32,7 @@ const MISTWEAVER_MONK = ({
   masteryCoefficient: 20.79,
   corePassives: [corePassive.MISTWEAVER_MONK, corePassive2.MISTWEAVER_MONK_2],
   defaultTalents: MISTWEAVER_DEFAULT_TALENTS,
+  tierSet: MISTWEAVER_TIER_SET,
   stats: {
     intellect: 620,
     mastery: 20.79 * 8, // 166.32%

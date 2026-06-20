@@ -15,6 +15,7 @@ import {
     calcSpellValue,
 } from "@data/shared/engine";
 import * as Engine from "@data/shared/engine";
+import { TIER } from "@data/items/tier";
 
 export type { TalentMap, Player };
 export { isTalentEnabled, calcSpellValue, calculateSpellDamageMultiplier, calculateSpellHealingMultiplier };
@@ -72,7 +73,12 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
         talent: TALENTS.TEMPLE_TRAINING,
         getValue: () => TALENTS.TEMPLE_TRAINING.custom.sckIncrease,
         appliesTo: (spell) => spell.id === SPELLS.SPINNING_CRANE_KICK.id
-    }
+    },
+    {
+        talent: TIER.T36_MISTWEAVER_2SET,
+        getValue: () => TIER.T36_MISTWEAVER_2SET.custom.rskDamageIncrease,
+        appliesTo: (spell) => spell.id === SPELLS.RISING_SUN_KICK.id
+    },
 ];
 
 const HEALING_MULTIPLIER_RULES: TalentRule[] = [
@@ -112,7 +118,12 @@ const HEALING_MULTIPLIER_RULES: TalentRule[] = [
         appliesTo: (spell) => 
             spell.id === SPELLS.SOOTHING_MIST.id || 
             spell.id === TALENTS.SPIRITFONT_SOOTHING_MIST.id
-    }
+    },
+    {
+        talent: TIER.T36_MISTWEAVER_2SET,
+        getValue: () => TIER.T36_MISTWEAVER_2SET.custom.rwkHealingIncrease,
+        appliesTo: (spell) => spell.id === TALENTS.RUSHING_WIND_KICK.id
+    },
 ];
 
 export const calculateSpellDamage = (spell: spell, player: Player): number =>
