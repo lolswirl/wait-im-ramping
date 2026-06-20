@@ -16,6 +16,7 @@ import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
+import TIER from "@data/items/tier";
 import { CLASSES } from "@data/class";
 
 import { T } from "@util/T";
@@ -67,7 +68,9 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
     [SHARED.MARTIAL_INSTINCTS, true],
   ]));
 
-  const talents = useMemo(() => new Map<spell, boolean>([...specTalents, ...classTalents, ...heroTalents]), [specTalents, classTalents, heroTalents]);
+  const [tierSet, setTierSet] = useState<Map<spell, boolean>>(mistweaver.tierSet ?? new Map<spell, boolean>());
+
+  const talents = useMemo(() => new Map<spell, boolean>([...specTalents, ...classTalents, ...heroTalents, ...tierSet]), [specTalents, classTalents, heroTalents, tierSet]);
 
   const spellById = useMemo<Map<number, spell>>(() => {
     const all: spell[] = [
@@ -209,6 +212,9 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
               <TalentsCard label="Spec" options={specTalents} color={mistweaver.color} onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))} />
               <HeroTalentsCard label="Hero" options={heroTalents} onChange={(t, c) => setHeroTalents(prev => new Map(prev).set(t, c))} />
               <TalentsCard label="Class" options={classTalents} color={CLASSES.MONK.color} onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))} />
+              {tierSet.size > 0 && (
+                <TalentsCard label="Tier" options={tierSet} color={mistweaver.color} onChange={(t, c) => setTierSet(prev => new Map(prev).set(t, c))} />
+              )}
             </Group>
           </Box>
         </Box>

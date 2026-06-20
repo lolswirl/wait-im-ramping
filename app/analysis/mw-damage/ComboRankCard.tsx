@@ -1,7 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Card, Typography, Tab, Tabs, Table, TableBody, TableCell, TableRow, Skeleton } from "@mui/material";
 import SpellButton from "@components/SpellButtons/SpellButton";
+import SwirlButton from "@components/Buttons/SwirlButton";
+import { Calculate } from "@mui/icons-material";
 import spell from "@data/spells/spell";
 import { formatNumber, formatPercent } from "@util/stringManipulation";
 import type { ComboResultSerialized } from "./comboSim.worker";
@@ -14,23 +16,27 @@ type Props = {
 const ComboRankCard: React.FC<Props> = ({ targetCount, spellById }) => {
   const [comboResults, setComboResults] = useState<ComboResultSerialized[] | null>(null);
   const [comboAsHealing, setComboAsHealing] = useState(true);
-  const workerRef = React.useRef<Worker | null>(null);
+  const [isCalculating, setIsCalculating] = useState(false);
+  const workerRef = useRef<Worker | null>(null);
 
-  useEffect(() => {
+  useEffect(() => () => workerRef.current?.terminate(), []);
+
+  const runCalculation = () => {
     workerRef.current?.terminate();
     setComboResults(null);
+    setIsCalculating(true);
     const worker = new Worker(new URL('./comboSim.worker.ts', import.meta.url));
     workerRef.current = worker;
     worker.onmessage = (e: MessageEvent<{ type: 'progress'; pct: number } | { type: 'done'; results: ComboResultSerialized[] }>) => {
       if (e.data.type === 'done') {
         setComboResults(e.data.results);
+        setIsCalculating(false);
         worker.terminate();
         workerRef.current = null;
       }
     };
     worker.postMessage({ targetCount, asHealing: comboAsHealing });
-    return () => { worker.terminate(); };
-  }, [targetCount, comboAsHealing]);
+  };
 
   return (
     <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
@@ -39,12 +45,30 @@ const ComboRankCard: React.FC<Props> = ({ targetCount, spellById }) => {
           <Tab label="HPS" />
           <Tab label="DPS" />
         </Tabs>
-        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-          All Combos · {targetCount} target{targetCount !== 1 ? 's' : ''}, 500s{comboResults === null ? ' · loading…' : ` · ${comboResults.length} combinations`}
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+            All Combos · {targetCount} target{targetCount !== 1 ? 's' : ''}, 500s{comboResults !== null ? ` · ${comboResults.length} combinations` : ''}
+          </Typography>
+          <SwirlButton
+            color="success"
+            textColor="success"
+            onClick={runCalculation}
+            disabled={isCalculating}
+            startIcon={<Calculate />}
+          >
+            {isCalculating ? 'Calculating…' : 'Calculate'}
+          </SwirlButton>
+        </Box>
       </Box>
       <Box sx={{ maxHeight: 480, overflowY: 'auto' }}>
-        {comboResults === null ? (
+        {comboResults === null && !isCalculating && (
+          <Box sx={{ p: 4, textAlign: 'center' }}>
+            <Typography variant="body2" color="text.secondary">
+              Click Calculate to simulate all talent/rotation combinations.
+            </Typography>
+          </Box>
+        )}
+        {comboResults === null && isCalculating && (
           <Table size="small"><TableBody>
             {[...Array(14)].map((_, i) => (
               <TableRow key={i}>
@@ -55,7 +79,8 @@ const ComboRankCard: React.FC<Props> = ({ targetCount, spellById }) => {
               </TableRow>
             ))}
           </TableBody></Table>
-        ) : <Table size="small">
+        )}
+        {comboResults !== null && <Table size="small">
           <TableBody>
             {comboResults.map((r, idx) => {
               const isTop = idx === 0;
