@@ -198,12 +198,17 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                   />
                 )}
                 {tierSet.size > 0 && (
-                  <TalentsCard
-                    label="Tier"
-                    options={tierSet}
-                    color={spec.color}
-                    onChange={(t, c) => setTierSet(prev => new Map(prev).set(t, c))}
-                  />
+                  <>
+                    {(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0) && (
+                      <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)" }} />
+                    )}
+                    <TalentsCard
+                      label="Tier"
+                      options={tierSet}
+                      color={spec.color}
+                      onChange={(t, c) => setTierSet(prev => new Map(prev).set(t, c))}
+                    />
+                  </>
                 )}
               </Group>
             </Box>

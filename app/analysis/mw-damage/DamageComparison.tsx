@@ -16,7 +16,6 @@ import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
-import TIER from "@data/items/tier";
 import { CLASSES } from "@data/class";
 
 import { T } from "@util/T";
@@ -213,7 +212,10 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
               <HeroTalentsCard label="Hero" options={heroTalents} onChange={(t, c) => setHeroTalents(prev => new Map(prev).set(t, c))} />
               <TalentsCard label="Class" options={classTalents} color={CLASSES.MONK.color} onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))} />
               {tierSet.size > 0 && (
-                <TalentsCard label="Tier" options={tierSet} color={mistweaver.color} onChange={(t, c) => setTierSet(prev => new Map(prev).set(t, c))} />
+                <>
+                  <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)" }} />
+                  <TalentsCard label="Tier" options={tierSet} color={mistweaver.color} onChange={(t, c) => setTierSet(prev => new Map(prev).set(t, c))} />
+                </>
               )}
             </Group>
           </Box>
