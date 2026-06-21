@@ -2,6 +2,7 @@ import { GCD } from "@data/spells/spell";
 import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
+import TIER from "@data/items/tier";
 import {
   calculateAncientTeachingsHealing,
   calculateAncientTeachingsData,
@@ -66,10 +67,10 @@ const runRotation = (
       cumulativeDamage += value;
       points.push({ time: currentTime, damage: cumulativeDamage });
 
+      cooldowns[i] = actions[i].cooldown;
       actions[i].onCast?.(state, cooldowns);
 
       const castTime = actions[i].castTime ?? GCD;
-      cooldowns[i] = actions[i].cooldown;
       currentTime += castTime;
       for (let j = 0; j < cooldowns.length; j++) {
         cooldowns[j] = Math.max(0, cooldowns[j] - castTime);
@@ -108,6 +109,11 @@ const bokProcsReset = (hits: number): boolean => {
   const totmResetChance = TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.resetChance;
   for (let i = 0; i < hits; i++) if (Math.random() < totmResetChance) return true;
   return false;
+};
+
+const rskTierProcsReset = (player: Player): boolean => {
+  if (player.talents.get(TIER.T36_MISTWEAVER_4SET) !== true) return false;
+  return Math.random() < TIER.T36_MISTWEAVER_4SET.custom.resetChance;
 };
 
 const chosenRsk = (talents: Map<spell, boolean>): spell & { cooldown: number } => {
@@ -170,10 +176,11 @@ const simulateMeleeRotationWithStacks = (
       priority: 0,
       cooldown: rskSpell.cooldown,
       getValue: () => rskValue,
-      onCast: (state) => {
+      onCast: (state, cooldowns) => {
         if (hasHarmonicSurge) {
           state.potentialEnergyStacks = Math.min(state.potentialEnergyStacks + 1, TALENTS.HARMONIC_SURGE.custom.maxStacks);
         }
+        if (rskTierProcsReset(player)) cooldowns[0] = 0;
       },
     },
     {
@@ -326,6 +333,9 @@ export const simulateRSKWithSCKAndBok = (
       priority: 0,
       cooldown: rskSpell.cooldown,
       getValue: () => rskValue,
+      onCast: (_state, cooldowns) => {
+        if (rskTierProcsReset(player)) cooldowns[0] = 0;
+      },
     },
     {
       spell: SPELLS.BLACKOUT_KICK,
@@ -370,6 +380,9 @@ export const simulateRSKWithSCK = (
       priority: 0,
       cooldown: rskSpell.cooldown,
       getValue: () => rskValue,
+      onCast: (_state, cooldowns) => {
+        if (rskTierProcsReset(player)) cooldowns[0] = 0;
+      },
     },
     {
       spell: SPELLS.SPINNING_CRANE_KICK,
