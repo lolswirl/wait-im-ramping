@@ -25,12 +25,13 @@ import { Group, rowLabel, rowSep } from "@components/StatsCard/StatsCard";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-type CalcMode = "totalHealing" | "healingPerTarget" | "damage";
+type CalcMode = "totalHealing" | "healingPerTarget" | "damage" | "spellpower";
 
 const modeOptions: { value: CalcMode; label: string}[] = [
   { value: "totalHealing", label: "Total Healing" },
   { value: "healingPerTarget", label: "Healing Per Target" },
   { value: "damage", label: "Raw Damage" },
+  { value: "spellpower", label: "Spellpower %" },
 ];
 
 const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
@@ -62,11 +63,10 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
 
   const rwkBaseDamage = calculateSpellDamage(rwk, player);
   const rwkDirectHealing = calculateSpellHealing(rwk, player);
-  const rwkDamageHealing = calculateAncientTeachingsHealing(rwkBaseDamage, player, false, rwk);
-
   const rwkMaxDamageTargets = rwk.custom.maxDamageTargets;
   const rwkMaxHealingTargets = rwk.custom.targetsHit.healing;
   const rwkDamageIncreasePerTarget = rwk.custom.damageIncrease;
+  const rwkDamageHealing = calculateAncientTeachingsHealing(rwkBaseDamage * (1 + rwkDamageIncreasePerTarget), player, false, rwk);
 
   let rskValues: number[] = [];
   let rwkValues: number[] = [];
@@ -78,40 +78,44 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
     rwkValues = targetValues.map(targets => {
       const effectiveTargets = Math.min(targets, rwkMaxHealingTargets);
       const directHealing = rwkDirectHealing * effectiveTargets;
-      const effectiveDamageTargets = Math.min(targets, rwkMaxDamageTargets);
-      const damageBonus = 1 + (rwkDamageIncreasePerTarget * effectiveDamageTargets);
-      const damageHealing = rwkDamageHealing * damageBonus;
-      return directHealing + damageHealing;
+      return directHealing + rwkDamageHealing;
     });
-    
+
     yAxisLabel = T("Total Healing");
   } else if (calcMode === "healingPerTarget") {
     rskValues = targetValues.map(targets => {
       const effectiveTargets = Math.min(targets, 5);
       return rskBaseHealing / effectiveTargets;
     });
-    
+
     rwkValues = targetValues.map(targets => {
       const effectiveTargets = Math.min(targets, rwkMaxHealingTargets);
       const directHealing = rwkDirectHealing * effectiveTargets;
-      const effectiveDamageTargets = Math.min(targets, rwkMaxDamageTargets);
-      const damageBonus = 1 + (rwkDamageIncreasePerTarget * effectiveDamageTargets);
-      const damageHealing = rwkDamageHealing * damageBonus;
-      const totalHealing = directHealing + damageHealing;
+      const totalHealing = directHealing + rwkDamageHealing;
       return totalHealing / targets;
     });
     
     yAxisLabel = T("Healing Per Target");
   } else if (calcMode === "damage") {
     rskValues = targetValues.map(targets => rskBaseDamage);
-    
+
     rwkValues = targetValues.map(targets => {
       const effectiveTargets = Math.min(targets, rwkMaxDamageTargets);
       const damageBonus = 1 + (rwkDamageIncreasePerTarget * effectiveTargets);
       return rwkBaseDamage * damageBonus;
     });
-    
+
     yAxisLabel = T("Raw Damage");
+  } else if (calcMode === "spellpower") {
+    rskValues = targetValues.map(targets => (rskBaseHealing / stats.intellect) * 100);
+
+    rwkValues = targetValues.map(targets => {
+      const effectiveTargets = Math.min(targets, rwkMaxHealingTargets);
+      const directHealing = rwkDirectHealing * effectiveTargets;
+      return ((directHealing + rwkDamageHealing) / stats.intellect) * 100;
+    });
+
+    yAxisLabel = T("Spellpower %");
   }
 
   const chartData = {
