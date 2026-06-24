@@ -1,6 +1,6 @@
 ﻿"use client";
 import { useState, useEffect, useRef } from "react";
-import { Card, Box, Stack, Divider, Typography } from '@mui/material';
+import { Card, Box, Stack, Divider } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
 import PageHeader from '@components/PageHeader/PageHeader';
@@ -9,6 +9,7 @@ import SpellButtons from '@components/SpellButtons/SpellButtons';
 import SpellTable from '@components/SpellTable/SpellTable';
 import WarningChip from '@components/WarningChip/WarningChip';
 import SwirlField from '@components/SwirlField/SwirlField';
+import { rowLabel, rowSep, Group } from '@components/StatsCard/StatsCard';
 
 import { CLASSES, specialization, getSpecializationByKey } from '@data/class';
 import spell from '@data/spells/spell';
@@ -110,8 +111,12 @@ const WhenDoIRamp: React.FC<{ title: React.ReactNode; description: React.ReactNo
             >
                 <Box sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
                     <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                        <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
-                        <SwirlField label="Haste" value={haste} onChange={setHaste} suffix="%" />
+                        <SpecializationSelect short withLabel selectedSpec={spec} onSpecChange={handleSpecChange} />
+                        <Group>
+                            <span style={rowLabel}>haste</span>
+                            {rowSep}
+                            <SwirlField value={haste} onChange={setHaste} suffix="%" />
+                        </Group>
                     </Stack>
 
                     {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (

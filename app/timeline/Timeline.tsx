@@ -1,6 +1,6 @@
 ﻿"use client";
 import React, { useState, useEffect, useRef } from 'react';
-import { Typography, Box, Card, Stack, Divider, useMediaQuery, useTheme } from '@mui/material';
+import { Typography, Box, Card, Stack, Divider, useMediaQuery, useTheme, } from '@mui/material';
 
 import TimelineVisualizer from '@components/TimelineVisualizer/TimelineVisualizer';
 import SpecializationSelect from '@components/SpecializationSelect/SpecializationSelect';
@@ -9,6 +9,7 @@ import CurrentRotationControl from '@components/CurrentRotationControl/CurrentRo
 import PageHeader from '@components/PageHeader/PageHeader';
 import WarningChip from '@components/WarningChip/WarningChip';
 import SwirlField from '@components/SwirlField/SwirlField';
+import { rowLabel, rowSep, Group } from '@components/StatsCard/StatsCard';
 
 import { useSpec } from '@context/SpecContext';
 
@@ -123,8 +124,12 @@ const Timeline: React.FC<{ title: React.ReactNode; description: React.ReactNode 
             >
                 <Box sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
                     <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                        <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
-                        <SwirlField label="Haste" value={haste} onChange={setHaste} suffix="%" />
+                        <SpecializationSelect short withLabel selectedSpec={spec} onSpecChange={handleSpecChange} />
+                        <Group>
+                            <span style={rowLabel}>haste</span>
+                            {rowSep}
+                            <SwirlField value={haste} onChange={setHaste} suffix="%" />
+                        </Group>
                     </Stack>
 
                     {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
