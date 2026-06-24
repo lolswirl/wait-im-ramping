@@ -225,9 +225,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: React.ReactNode; description: Rea
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, overflowY: 'auto' }}>
-              <Group>
-                <StatsCard options={options} onOptionsChange={setOptions} />
-              </Group>
+              <StatsCard options={options} onOptionsChange={setOptions} />
             </Box>
           </Box>
           

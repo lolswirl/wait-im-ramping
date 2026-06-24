@@ -142,11 +142,12 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
                         {/* Top-left: stats + spells */}
-                        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
-                            <Group>
+                        <Box sx={{ flex: 0.5, display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                                 <StatsCard options={options} onOptionsChange={setOptions} />
+                                <div style={{ height: 1, background: "rgba(255,255,255,0.12)" }} />
                                 <TargetCountsCard options={options} onOptionsChange={setOptions} />
-                            </Group>
+                            </div>
                             <Divider sx={{ mx: -2 }} />
                             <SpellButtons
                                 spells={
