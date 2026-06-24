@@ -93,7 +93,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
             : <React.Fragment key={field.key}>{input}</React.Fragment>;
         return (
             <React.Fragment key={field.key}>
-                <span style={rowLabel}>{field.label}</span>
+                <span style={{ ...rowLabel, paddingTop: 4 }}>{field.label}</span>
                 {rowSep}
                 {inputCell}
             </React.Fragment>
@@ -101,7 +101,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
     };
 
     return (
-        <div style={{ display: "grid", gridTemplateColumns: "max-content 1px auto", gap: "4px 10px", alignItems: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "max-content 1px auto", gap: "4px 10px", alignItems: "start" }}>
             {baseFields.map(renderRow)}
             <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)", margin: "4px 0" }} />
             {secondaryFields.map(renderRow)}

@@ -113,7 +113,7 @@ const WhenDoIRamp: React.FC<{ title: React.ReactNode; description: React.ReactNo
                     <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <SpecializationSelect short withLabel selectedSpec={spec} onSpecChange={handleSpecChange} />
                         <Group>
-                            <span style={rowLabel}>haste</span>
+                            <span style={{ ...rowLabel, paddingTop: 6 }}>haste</span>
                             {rowSep}
                             <SwirlField value={haste} onChange={setHaste} suffix="%" />
                         </Group>
