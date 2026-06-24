@@ -152,38 +152,12 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
     
     // ty claude for these holy moly
     const findArrayBoundaries = (source: string, arrayStart: number) => {
-        let braceCount = 1;
-        let squareBraceCount = 1;
-        let inString = false;
-        let stringChar = '';
-        
-        for (let i = arrayStart; i < source.length; i++) {
-            const char = source[i];
-            const prevChar = i > 0 ? source[i - 1] : '';
-            
-            if ((char === '"' || char === "'" || char === '`') && prevChar !== '\\') {
-                if (!inString) {
-                    inString = true;
-                    stringChar = char;
-                } else if (char === stringChar) {
-                    inString = false;
-                }
-                continue;
-            }
-            
-            if (inString) continue;
-            
-            if (char === '{') braceCount++;
-            if (char === '}') braceCount--;
-            if (char === '[') squareBraceCount++;
-            if (char === ']') {
-                squareBraceCount--;
-                if (squareBraceCount === 0 && braceCount === 1) {
-                    return i;
-                }
-            }
+        const exportIdx = source.indexOf('\nexport default', arrayStart);
+        if (exportIdx === -1) return -1;
+        // Walk backwards from export to find the closing ];
+        for (let i = exportIdx - 1; i >= arrayStart; i--) {
+            if (source[i] === ']') return i;
         }
-        
         return -1;
     };
 
