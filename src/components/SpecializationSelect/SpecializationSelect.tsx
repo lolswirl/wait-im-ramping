@@ -8,7 +8,7 @@ import { GlassMenu } from '@components/Glass';
 import SpecDisplay from "@components/SpecializationSelect/SpecDisplay";
 
 import { specialization, getSpecs, getSpecializationByKey } from '@data/class';
-import { T } from "@util/T";
+import { KeyboardArrowDown } from '@mui/icons-material';
 
 interface SpecializationSelectProps {
   selectedSpec: specialization;
@@ -71,7 +71,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
           }}
         >
           <SpecDisplay spec={selectedSpec} short={!withLabel} />
-          {withLabel && <ArrowDropDownIcon sx={{ fontSize: 18, opacity: 0.5, ml: 'auto' }} />}
+          {withLabel && <KeyboardArrowDown sx={{ fontSize: 18, opacity: 0.5, ml: 'auto', transition: 'transform 0.2s ease', transform: open ? 'rotate(90deg)' : 'none' }} />}
         </Box>
         
         <GlassMenu
