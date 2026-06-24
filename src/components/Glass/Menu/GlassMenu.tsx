@@ -2,7 +2,7 @@ import { Popover, PopoverProps } from "@mui/material";
 
 export const GlassMenu = (props: PopoverProps) => {
     const { PaperProps, slotProps, ...otherProps } = props;
-    
+
     return (
         <Popover
             {...otherProps}
@@ -19,6 +19,7 @@ export const GlassMenu = (props: PopoverProps) => {
                         borderRadius: 1,
                         backgroundImage: 'none',
                         ...PaperProps?.sx,
+                        ...(slotProps?.paper as any)?.sx,
                     }
                 }
             }}

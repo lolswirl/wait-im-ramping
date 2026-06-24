@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from 'react';
-import { FormControl, InputLabel, MenuItem, Box, MenuList } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Box, MenuList, Typography } from '@mui/material';
 import Select from '@mui/material/Select';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { GlassMenu } from '@components/Glass';
 
 import SpecDisplay from "@components/SpecializationSelect/SpecDisplay";
@@ -14,6 +15,7 @@ interface SpecializationSelectProps {
   onSpecChange: (spec: specialization) => void;
   size?: "small" | "medium";
   short?: boolean;
+  withLabel?: boolean;
   height?: number;
 }
 
@@ -22,6 +24,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   onSpecChange,
   size = "medium",
   short = false,
+  withLabel = false,
   height = 50,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -43,34 +46,41 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   if (short) {
     return (
       <>
-        <Box 
+        <Box
           onClick={handleClick}
-          sx={{ 
+          sx={withLabel ? {
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            px: 1.5,
+            py: 1,
+            border: '1px solid',
+            borderColor: 'divider',
+            borderRadius: 1,
+            color: 'text.primary',
+            fontSize: '0.8rem',
+            transition: 'border-color 0.2s ease',
+            '&:hover': { borderColor: 'text.secondary' },
+          } : {
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
             transition: 'transform 0.3s ease',
-            '&:hover': {
-              opacity: 0.8,
-              transform: 'scale(1.1)',
-            }
+            '&:hover': { opacity: 0.8, transform: 'scale(1.1)' },
           }}
         >
-          <SpecDisplay spec={selectedSpec} short={true} />
+          <SpecDisplay spec={selectedSpec} short={!withLabel} />
+          {withLabel && <ArrowDropDownIcon sx={{ fontSize: 18, opacity: 0.5, ml: 'auto' }} />}
         </Box>
         
         <GlassMenu
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+          slotProps={{ paper: { sx: { minWidth: anchorEl?.offsetWidth } } }}
         >
           <MenuList dense>
             {getSpecs().map((spec, index) => (

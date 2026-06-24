@@ -11,18 +11,12 @@ interface TargetCountsCardProps {
     onOptionsChange: (newOptions: any) => void;
 }
 
-const fieldStyles = {
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': { borderColor: 'rgba(255, 152, 0, 0.3)' },
-        '&:hover fieldset': { borderColor: 'rgba(255, 152, 0, 0.5)' },
-        '&.Mui-focused fieldset': { borderColor: 'rgba(255, 152, 0, 0.8)' },
-    },
-};
-
 const targets = [
     { key: 'enemyCount' as const, label: 'Enemies' },
     { key: 'allyCount' as const, label: 'Allies' },
 ];
+
+const inputSx = { width: "100%", maxWidth: 110, '& .MuiInputBase-input': { textAlign: 'right', fontSize: '0.9rem', fontFamily: 'monospace' } };
 
 const TargetCountsCard: React.FC<TargetCountsCardProps> = ({ options, onOptionsChange }) => {
     const handleChange = (field: string, value: number) => {
@@ -30,24 +24,23 @@ const TargetCountsCard: React.FC<TargetCountsCardProps> = ({ options, onOptionsC
     };
 
     return (
-        <React.Fragment>
-            <span style={rowLabel}>Targets</span>
-            {rowSep}
-            <div style={{ display: "flex", gap: 8, paddingTop: 10, paddingBottom: 10 }}>
-                {targets.map(({ key, label }) => (
+        <div style={{ display: "grid", gridTemplateColumns: "max-content 1px auto", gap: "4px 10px", alignItems: "center" }}>
+            {targets.map(({ key, label }) => (
+                <React.Fragment key={key}>
+                    <span style={rowLabel}>{T(label)}</span>
+                    {rowSep}
                     <TextField
-                        key={key}
-                        label={(label)}
-                        type="number"
+                        type="text"
                         size="small"
+                        variant="standard"
                         value={options[key]}
                         onChange={(e) => handleChange(key, Math.max(1, Number(e.target.value)))}
-                        slotProps={{ htmlInput: { min: 1 } }}
-                        sx={{ ...fieldStyles, width: 90 }}
+                        slotProps={{ htmlInput: { min: 1, inputMode: 'numeric' } }}
+                        sx={inputSx}
                     />
-                ))}
-            </div>
-        </React.Fragment>
+                </React.Fragment>
+            ))}
+        </div>
     );
 };
 

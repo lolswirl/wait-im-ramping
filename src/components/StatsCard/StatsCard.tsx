@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { TextField } from '@mui/material';
+import { TextField, InputAdornment, Typography } from '@mui/material';
 import { GlassTooltip } from '@components/Glass';
 import { type Stats } from '@data/shared/stats';
 
@@ -18,6 +18,7 @@ interface StatField {
     label: string;
     min?: number;
     tooltip?: string;
+    adornment?: string;
 }
 
 export const rowLabel: React.CSSProperties = { fontSize: "0.7rem", fontWeight: 600, opacity: 0.45, textAlign: "right", whiteSpace: "nowrap" };
@@ -29,23 +30,19 @@ export const Group: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     </div>
 );
 
-const fieldStyles = {
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': { borderColor: 'rgba(54, 162, 235, 0.3)' },
-        '&:hover fieldset': { borderColor: 'rgba(54, 162, 235, 0.5)' },
-        '&.Mui-focused fieldset': { borderColor: 'rgba(54, 162, 235, 0.8)' },
-    },
-};
-
-const statFields: StatField[] = [
-    { key: 'intellect', label: 'Intellect', min: 1 },
-    { key: 'totalHp', label: 'Total HP', min: 1 },
-    { key: 'haste', label: 'Haste %', min: 0 },
-    { key: 'crit', label: 'Crit %', min: 0, tooltip: "We're using the law of large numbers to assume that, out of a large number of casts, you will critically strike as often as your crit percentage." },
-    { key: 'versatility', label: 'Vers %', min: 0 },
-    { key: 'mastery', label: 'Mastery %', min: 55.4 },
-    
+const baseFields: StatField[] = [
+    { key: 'intellect', label: 'intellect', min: 1 },
+    { key: 'totalHp', label: 'total hp', min: 1 },
 ];
+
+const secondaryFields: StatField[] = [
+    { key: 'haste', label: 'haste', min: 0, adornment: "%" },
+    { key: 'crit', label: 'crit', min: 0, adornment: "%", tooltip: "We're using the law of large numbers to assume that, out of a large number of casts, you will critically strike as often as your crit percentage." },
+    { key: 'versatility', label: 'vers', min: 0, adornment: "%" },
+    { key: 'mastery', label: 'mastery', min: 55.4, adornment: "%" },
+];
+
+const inputSx = { width: "100%", maxWidth: 110, '& .MuiInputBase-input': { textAlign: 'right', fontSize: '0.9rem', fontFamily: 'monospace' } };
 
 const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
     const [localValues, setLocalValues] = useState<{ [key: string]: string }>({});
@@ -57,41 +54,58 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
     const formatNumber = (num: number): string => num.toLocaleString();
     const parseNumber = (str: string): number => Number(str.replace(/,/g, ''));
 
-    return (
-        <React.Fragment>
-            <span style={rowLabel}>Stats</span>
-            {rowSep}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, paddingTop: 10, paddingBottom: 10 }}>
-                {statFields.map((field) => {
-                    const input = (
-                        <TextField
-                            key={field.key}
-                            label={(field.label)}
-                            type="text"
-                            size="small"
-                            value={localValues[field.key] !== undefined ? localValues[field.key] : formatNumber(options[field.key] ?? 0)}
-                            onChange={(e) => {
-                                setLocalValues(prev => ({ ...prev, [field.key]: e.target.value }));
-                                const raw = parseNumber(e.target.value);
-                                if (!isNaN(raw)) handleChange(field.key, raw);
-                            }}
-                            onBlur={() => {
-                                const cur = options[field.key] ?? 0;
-                                const min = field.min ?? 0;
-                                if (cur < min) handleChange(field.key, min);
-                                setLocalValues(prev => { const s = { ...prev }; delete s[field.key]; return s; });
-                            }}
-                            slotProps={{ htmlInput: { min: field.min, inputMode: 'numeric', pattern: '[0-9,]*' } }}
-                            sx={{ ...fieldStyles, width: 100 }}
-                        />
-                    );
+    const makeInput = (field: StatField) => (
+        <TextField
+            key={field.key}
+            type="text"
+            size="small"
+            variant="standard"
+            value={localValues[field.key] !== undefined ? localValues[field.key] : formatNumber(options[field.key] ?? 0)}
+            onChange={(e) => {
+                setLocalValues(prev => ({ ...prev, [field.key]: e.target.value }));
+                const raw = parseNumber(e.target.value);
+                if (!isNaN(raw)) handleChange(field.key, raw);
+            }}
+            onBlur={() => {
+                const cur = options[field.key] ?? 0;
+                const min = field.min ?? 0;
+                if (cur < min) handleChange(field.key, min);
+                setLocalValues(prev => { const s = { ...prev }; delete s[field.key]; return s; });
+            }}
+            slotProps={{
+                htmlInput: { min: field.min, inputMode: 'numeric', pattern: '[0-9,]*' },
+                input: field.adornment ? {
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <Typography variant="caption" color="text.disabled">{field.adornment}</Typography>
+                        </InputAdornment>
+                    ),
+                } : undefined,
+            }}
+            sx={inputSx}
+        />
+    );
 
-                    return field.tooltip ? (
-                        <GlassTooltip key={field.key} title={(field.tooltip)}>{input}</GlassTooltip>
-                    ) : input;
-                })}
-            </div>
-        </React.Fragment>
+    const renderRow = (field: StatField) => {
+        const input = makeInput(field);
+        const inputCell = field.tooltip
+            ? <GlassTooltip key={field.key} title={field.tooltip}>{input}</GlassTooltip>
+            : <React.Fragment key={field.key}>{input}</React.Fragment>;
+        return (
+            <React.Fragment key={field.key}>
+                <span style={rowLabel}>{field.label}</span>
+                {rowSep}
+                {inputCell}
+            </React.Fragment>
+        );
+    };
+
+    return (
+        <div style={{ display: "grid", gridTemplateColumns: "max-content 1px auto", gap: "4px 10px", alignItems: "center" }}>
+            {baseFields.map(renderRow)}
+            <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)", margin: "4px 0" }} />
+            {secondaryFields.map(renderRow)}
+        </div>
     );
 };
 
