@@ -1,6 +1,6 @@
 ﻿"use client";
 import { useState, useEffect, useRef } from "react";
-import { Card, Box, Stack, Divider } from '@mui/material';
+import { Card, Box, Stack, Divider, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
 import PageHeader from '@components/PageHeader/PageHeader';
