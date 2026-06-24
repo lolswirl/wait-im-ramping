@@ -231,7 +231,7 @@ const BUGS: Bug[] = [
         affectedSpells: [SPELLS.SPINNING_CRANE_KICK],
         severity: SEVERITY.HIGH,
         title: <>Increases <SpellLink spell={SPELLS.SPINNING_CRANE_KICK} /> damage by 30%</>,
-        buildsTested: ["65848", "66220", "67186", "12.1.0.68209"],
+        buildsTested: ["65848", "66220", "67186", "68209", "68301"],
         notes: "A side effect of the Windwalker's version of the talent",
         tags: [TAGS.CONDUIT],
     },
@@ -1016,7 +1016,7 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.MANTRA_OF_PURITY,
         severity: SEVERITY.LOW,
-        buildsTested: ["67186", "12.1.0.68209"],
+        buildsTested: ["67186", "68209"],
         title: <>Does not increase the healing of any <SpellLink spell={SPELLS.SOOTHING_MIST}/></>,
         status: STATUS.FIXED,
     },
@@ -1089,7 +1089,7 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: <>Costs double the mana when casting on someone other than the player</>,
         description: <><SpellLink spell={SPELLS.SOOTHING_MIST}/> costs double the mana when cast on someone other than the player - 2k mana/sec when casting on someone else or 1k mana/sec (what the tooltip and <Code>C_Spell.GetSpellPowerCost(115175)</Code> returns) on the player.</>,
-        buildsTested: ["67602", "12.1.0.68209"],
+        buildsTested: ["67602", "68209"],
         logs: [ { label: "First few casts are self, latter half are other target", url: "https://www.warcraftlogs.com/reports/tT3nhRfb1QZAzvKJ?fight=2&type=resources&source=1&view=timeline&spell=100" },],
         status: STATUS.FIXED,
     },
@@ -1118,14 +1118,14 @@ const BUGS: Bug[] = [
         severity: SEVERITY.CRITICAL,
         title: <>Reset chance on <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> not implemented</>,
         description: <>Reset chance on <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> not implemented, while it works for <SpellLink spell={SPELLS.RISING_SUN_KICK}/>.</>,
-        buildsTested: ["12.1.0.68209"],
+        buildsTested: ["68209", "68301"],
     },
     {
         spell: TALENTS.VITAL_EXPENDITURE,
         severity: SEVERITY.MEDIUM,
         title: <>Does not increase <SpellLink spell={TALENTS.JADE_SERPENT_STATUE}/>'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> healing</>,
         description: <>Does not increase <SpellLink spell={TALENTS.JADE_SERPENT_STATUE}/>'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> healing, but does work on <SpellLink spell={TALENTS.SPIRITFONT}/> <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST}/> and normal <SpellLink spell={SPELLS.SOOTHING_MIST}/>.</>,
-        buildsTested: ["12.1.0.68209"],
+        buildsTested: ["68209", "68301"],
     }
 ];
 
