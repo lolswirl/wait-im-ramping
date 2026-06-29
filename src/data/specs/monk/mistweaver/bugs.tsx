@@ -1131,7 +1131,7 @@ const BUGS: Bug[] = [
         spell: TALENTS.JADEFIRE_STOMP,
         severity: SEVERITY.TRIVIAL,
         title: <>Wrong spell id in spellbook</>,
-        description: <>The spell id in the spell book is in reference to the Windwalker version of <SpellLink spell={TALENTS.JADEFIRE_STOMP} />, instead of the one that comes out of <SpellLink spell={TALENTS.EMPERORS_ELIXIR}/> for Mistweaver.</>,
+        description: <>The spell id in the spell book is in reference to the Windwalker version of <SpellLink spell={TALENTS.JADEFIRE_STOMP} />, instead of the one that comes out of <SpellLink spell={TALENTS.EMPERORS_ELIXIR}/> for Mistweaver. Currently is <Code>457974</Code>, but should be <Code>1248812</Code>.</>,
         buildsTested: ["68275"],
     },
 ];
