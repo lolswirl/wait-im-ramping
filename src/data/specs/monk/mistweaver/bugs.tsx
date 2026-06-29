@@ -1126,7 +1126,14 @@ const BUGS: Bug[] = [
         title: <>Does not increase <SpellLink spell={TALENTS.JADE_SERPENT_STATUE}/>'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> healing</>,
         description: <>Does not increase <SpellLink spell={TALENTS.JADE_SERPENT_STATUE}/>'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> healing, but does work on <SpellLink spell={TALENTS.SPIRITFONT}/> <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST}/> and normal <SpellLink spell={SPELLS.SOOTHING_MIST}/>.</>,
         buildsTested: ["68209", "68301"],
-    }
+    },
+    {
+        spell: TALENTS.JADEFIRE_STOMP,
+        severity: SEVERITY.TRIVIAL,
+        title: <>Wrong spell id in spellbook</>,
+        description: <>The spell id in the spell book is in reference to the Windwalker version of <SpellLink spell={TALENTS.JADEFIRE_STOMP} />, instead of the one that comes out of <SpellLink spell={TALENTS.EMPERORS_ELIXIR}/> for Mistweaver.</>,
+        buildsTested: ["68275"],
+    },
 ];
 
 export default BUGS;
