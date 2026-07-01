@@ -1118,7 +1118,8 @@ const BUGS: Bug[] = [
         severity: SEVERITY.CRITICAL,
         title: <>Reset chance on <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> not implemented</>,
         description: <>Reset chance on <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> not implemented, while it works for <SpellLink spell={SPELLS.RISING_SUN_KICK}/>.</>,
-        buildsTested: ["68209", "68301"],
+        buildsTested: ["68209", "68301", "68412"],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.VITAL_EXPENDITURE,
