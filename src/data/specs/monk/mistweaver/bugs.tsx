@@ -1135,6 +1135,13 @@ const BUGS: Bug[] = [
         description: <>The spell id in the spell book is in reference to the Windwalker version of <SpellLink spell={TALENTS.JADEFIRE_STOMP} />, instead of the one that comes out of <SpellLink spell={TALENTS.EMPERORS_ELIXIR}/> for Mistweaver. Currently is <Code>457974</Code>, but should be <Code>1248812</Code>.</>,
         buildsTested: ["68275"],
     },
+    {
+        spell: TIER.T36_MISTWEAVER_4SET,
+        severity: SEVERITY.LOW,
+        title: <><SpellLink spell={TALENTS.MORNING_BREEZE} /> puts one charge on cooldown if used with 2 charges ready</>,
+        description: <>If pressing <SpellLink spell={SPELLS.THUNDER_FOCUS_TEA}/> with two charges available (from 4pc), <SpellLink spell={TALENTS.MORNING_BREEZE}/> will put one charge on cooldown instead of doing nothing (since both charges are off cooldown). Acts -fine-, considering you get the cooldown reduction from the empower on the first charge and its available practically immediately anyways.</>,
+        buildsTested: ["68412"],
+    }
 ];
 
 export default BUGS;
