@@ -62,6 +62,14 @@ const talents = {
             armorModifier: 0.7, // sad
         }
     },
+    AMPLIFIED_RUSH: {
+        name: "Amplified Rush",
+        id: 1271431,
+        icon: 'ability_monk_rushingjadewind',
+        custom: {
+            gustOfMistsIncrease: 1.0,
+        }
+    },
     JADEFIRE_TEACHINGS: {
         name: "Jadefire Teachings",
         id: 467293,

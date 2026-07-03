@@ -87,6 +87,11 @@ const HEALING_MULTIPLIER_RULES: TalentRule[] = [
         getValue: () => SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease,
         appliesTo: (spell) => spell.category === CATEGORY.HEALING || spell.category === CATEGORY.COOLDOWN || spell.id === TALENTS.RUSHING_WIND_KICK.id || spell.id === TALENTS.HARMONIC_SURGE.id
     },
+    { // this isn't entirely correct, since amp rush is just from rems
+        talent: TALENTS.AMPLIFIED_RUSH,
+        getValue: () => TALENTS.AMPLIFIED_RUSH.custom.gustOfMistsIncrease,
+        appliesTo: (spell) => spell.id === TALENTS.GUST_OF_MISTS.id
+    },
     {
         talent: TALENTS.TEAR_OF_MORNING,
         getValue: () => TALENTS.TEAR_OF_MORNING.custom.sheilunsGiftIncrease,
