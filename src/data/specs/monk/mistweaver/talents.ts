@@ -606,7 +606,7 @@ const talents = {
         custom: {
             vivifyIncrease: 0.06,
             envIncrease: 0.06,
-            sckIncrease: 0.30 // EVEN MORE LMAO
+            sckIncrease: 0 // yay
         }
     },
     COURAGE_OF_THE_WHITE_TIGER: {

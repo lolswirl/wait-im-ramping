@@ -211,7 +211,7 @@ const corePassive = {
             },
             {
                 type: "Apply Aura: Modifies Damage Done",
-                value: 166,
+                value: 193,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.SPINNING_CRANE_KICK.id],
             },
