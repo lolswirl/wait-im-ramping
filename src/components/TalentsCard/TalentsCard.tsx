@@ -117,7 +117,7 @@ const TalentsCard: React.FC<TalentsCardProps> = ({ options, color, label, card, 
                 <Box key={talent.name} sx={{
                     display: "flex",
                     transition: "transform 0.3s ease",
-                    "&:hover": { transform: "scale(1.03)" },
+                    "&:hover": { transform: "scale(1.02)" },
                 }}>
                     <TalentOption talent={talent} isChecked={isChecked} onChange={handleChange} color={color} joined="left" />
                     <TalentOption talent={partner[0]} isChecked={partner[1]} onChange={handleChange} color={color} joined="right" joinedNeighborChecked={isChecked} />
