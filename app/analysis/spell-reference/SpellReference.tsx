@@ -157,7 +157,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
   }, [spec, allSpells, stats.intellect, stats.haste, stats.crit, stats.versatility, stats.mastery, stats.totalHp, talents]);
 
   return (
-    <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
+    <Container sx={{ display: "flex", flexDirection: "column", gap: 1, alignItems: "center" }}>
       <PageHeader title={title} subtitle={description} marginBottom={0} />
 
       <ConfigPanel
@@ -246,7 +246,6 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
           }] : []),
         ]}
       />
-
 
       <Box sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide }}>
         <SwirlTable
