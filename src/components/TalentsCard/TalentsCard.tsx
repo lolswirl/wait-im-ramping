@@ -3,7 +3,7 @@ import { Box, Card } from '@mui/material';
 import SpellButton from '@components/SpellButtons/SpellButton';
 import spell from '@data/spells/spell';
 import { Group } from '@components/StatsCard/StatsCard';
-import { T } from '@util/T';
+import { HAIRLINE } from '@components/Theme/tokens';
 
 export interface TalentItem {
   key: string;
@@ -23,32 +23,54 @@ export interface TalentOptionProps {
   isChecked: boolean;
   onChange: (talent: spell, checked: boolean) => void;
   color: string;
+  joined?: 'left' | 'right';
+  joinedNeighborChecked?: boolean;
 }
 
-export const TalentOption: React.FC<TalentOptionProps> = ({ talent, isChecked, onChange, color }) => {
+export const TalentOption: React.FC<TalentOptionProps> = ({ talent, isChecked, onChange, color, joined, joinedNeighborChecked }) => {
+    // joined chips square off the side facing their choice node
+    let radius = '4px';
+    if (joined === 'left') {
+        radius = '4px 0 0 4px';
+    } else if (joined === 'right') {
+        radius = '0 4px 4px 0';
+    }
+    const dividerColor = (isChecked || joinedNeighborChecked) ? color : HAIRLINE;
     return (
         <Box
             onClick={() => onChange(talent, !isChecked)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onChange(talent, !isChecked);
+                }
+            }}
             sx={{
                 display: "flex",
                 alignItems: "center",
                 gap: "6px",
                 cursor: "pointer",
-                padding: "4px 8px 4px 4px",
-                borderRadius: "4px",
-                border: `1px solid ${isChecked ? color + "55" : "rgba(255,255,255,0.08)"}`,
-                backgroundColor: isChecked ? color + "18" : "transparent",
-                opacity: isChecked ? 1 : 0.35,
-                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                padding: "4px 10px 4px 4px",
+                borderRadius: radius,
+                position: "relative",
+                border: `1px solid ${isChecked ? color : HAIRLINE}`,
+                borderRight: joined === 'left' ? 'none' : undefined,
+                borderLeft: joined === 'right' ? `1px solid ${dividerColor}` : undefined,
+                backgroundColor: isChecked ? color + "14" : "transparent",
+                transition: "transform 0.3s ease, border-color 0.15s ease, background-color 0.15s ease",
                 userSelect: "none",
                 whiteSpace: "nowrap",
-                "&:hover": { transform: "scale(1.03)" },
+                ...(joined === undefined && { "&:hover": { transform: "scale(1.03)" } }),
             }}
         >
-            <SpellButton selectedSpell={talent} size={32} />
-            <span style={{ fontSize: "0.72rem", fontWeight: 500 }}>
+            <Box sx={{ filter: isChecked ? "none" : "grayscale(1)", opacity: isChecked ? 1 : 0.55, display: "flex" }}>
+                <SpellButton selectedSpell={talent} size={32} />
+            </Box>
+            <Box component="span" sx={{ fontSize: "0.72rem", fontWeight: 500, color: isChecked ? "text.primary" : "text.disabled" }}>
                 {talent.name}
-            </span>
+            </Box>
         </Box>
     );
 };
@@ -80,11 +102,38 @@ const TalentsCard: React.FC<TalentsCardProps> = ({ options, color, label, card, 
         onChange(talent, checked);
     };
 
+    // exclusive pairs where both talents are present render as one joined choice node
+    const consumed = new Set<spell>();
+    const items: React.ReactNode[] = [];
+    for (const [talent, isChecked] of entries) {
+        if (consumed.has(talent)) continue;
+        const partner = talent.exclusive
+            ? entries.find(([other]) => other !== talent && !consumed.has(other) && talent.exclusive!.includes(other.id))
+            : undefined;
+        if (partner) {
+            consumed.add(talent);
+            consumed.add(partner[0]);
+            items.push(
+                <Box key={talent.name} sx={{
+                    display: "flex",
+                    transition: "transform 0.3s ease",
+                    "&:hover": { transform: "scale(1.03)" },
+                }}>
+                    <TalentOption talent={talent} isChecked={isChecked} onChange={handleChange} color={color} joined="left" />
+                    <TalentOption talent={partner[0]} isChecked={partner[1]} onChange={handleChange} color={color} joined="right" joinedNeighborChecked={isChecked} />
+                </Box>
+            );
+        } else {
+            consumed.add(talent);
+            items.push(
+                <TalentOption key={talent.name} talent={talent} isChecked={isChecked} onChange={handleChange} color={color} />
+            );
+        }
+    }
+
     const chips = (
         <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
-            {entries.map(([talent, isChecked]) => (
-                <TalentOption key={talent.name} talent={talent} isChecked={isChecked} onChange={handleChange} color={color} />
-            ))}
+            {items}
         </div>
     );
 
