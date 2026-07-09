@@ -52,7 +52,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
     };
 
     return (
-        <Box sx={{ mb: 1.5, display: "flex", alignItems: "flex-end", gap: 1.5, flexWrap: "wrap", width: "80%", mx: "auto" }}>
+        <Box sx={{ mb: 1, display: "flex", alignItems: "flex-end", gap: 1, flexWrap: "wrap", width: "80%", mx: "auto" }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 <Typography variant="caption" sx={{ fontSize: '0.7rem', fontWeight: 600, opacity: 0.45, px: 0.5 }}>spec</Typography>
                 <SpecializationSelect
