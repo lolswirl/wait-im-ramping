@@ -19,6 +19,7 @@ import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
 import { CHIJI_ABILITIES } from "@data/specs/monk/mistweaver/spells";
 import { useRotationManager } from "@hooks/useRotationManager";
+import { pluralize } from "@util/stringManipulation";
 import { calculateRotationHPS } from './simulation';
 import { RotationResult, SimulationOptions } from './types';
 
@@ -152,7 +153,7 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
                         {
                             key: "targets",
                             title: "targets",
-                            summary: `${options.enemyCount} enemies · ${options.allyCount} allies`,
+                            summary: `${options.enemyCount} ${pluralize(options.enemyCount, "enemy", "enemies")} · ${options.allyCount} ${pluralize(options.allyCount, "ally", "allies")}`,
                             content: <TargetCountsCard options={options} onOptionsChange={setOptions} />,
                         },
                         {
