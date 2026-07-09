@@ -86,6 +86,7 @@ const StatusChip = () => {
             display: 'inline-flex',
             alignItems: 'stretch',
             borderRadius: 1,
+            height: 24,
             overflow: 'hidden',
             border: '1px solid',
             borderColor: 'divider',
