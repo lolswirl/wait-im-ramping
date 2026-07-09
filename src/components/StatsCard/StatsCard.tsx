@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { TextField, InputAdornment, Typography } from '@mui/material';
+import { Box, TextField, InputAdornment, Typography } from '@mui/material';
 import { GlassTooltip } from '@components/Glass';
 import { type Stats } from '@data/shared/stats';
 
@@ -11,6 +11,8 @@ export interface StatsCardOptions extends Stats {
 interface StatsCardProps {
     options: StatsCardOptions;
     onOptionsChange: (newOptions: any) => void;
+    label?: string;
+    fields?: (keyof StatsCardOptions)[];
 }
 
 interface StatField {
@@ -42,9 +44,9 @@ const secondaryFields: StatField[] = [
     { key: 'mastery', label: 'mastery', min: 55.4, adornment: "%" },
 ];
 
-const inputSx = { width: "100%", maxWidth: 110, '& .MuiInputBase-input': { textAlign: 'right', fontSize: '0.9rem', fontFamily: 'monospace' } };
+const inputSx = { width: 92, '& .MuiInputBase-input': { fontSize: '0.85rem', fontFamily: 'monospace', py: 0 } };
 
-const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
+const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange, label, fields }) => {
     const [localValues, setLocalValues] = useState<{ [key: string]: string }>({});
 
     const handleChange = (field: string, value: number) => {
@@ -56,7 +58,6 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
 
     const makeInput = (field: StatField) => (
         <TextField
-            key={field.key}
             type="text"
             size="small"
             variant="standard"
@@ -74,37 +75,56 @@ const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
             }}
             slotProps={{
                 htmlInput: { min: field.min, inputMode: 'numeric', pattern: '[0-9,]*' },
-                input: field.adornment ? {
-                    endAdornment: (
+                input: {
+                    disableUnderline: true,
+                    endAdornment: field.adornment ? (
                         <InputAdornment position="end">
                             <Typography variant="caption" color="text.disabled">{field.adornment}</Typography>
                         </InputAdornment>
-                    ),
-                } : undefined,
+                    ) : undefined,
+                },
             }}
             sx={inputSx}
         />
     );
 
-    const renderRow = (field: StatField) => {
-        const input = makeInput(field);
-        const inputCell = field.tooltip
-            ? <GlassTooltip key={field.key} title={field.tooltip}>{input}</GlassTooltip>
-            : <React.Fragment key={field.key}>{input}</React.Fragment>;
-        return (
-            <React.Fragment key={field.key}>
-                <span style={{ ...rowLabel, paddingTop: 4 }}>{field.label}</span>
-                {rowSep}
-                {inputCell}
-            </React.Fragment>
+    const renderCell = (field: StatField) => {
+        const cell = (
+            <Box
+                key={field.key}
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 0.25,
+                    px: 1.25,
+                    py: 0.75,
+                    borderRadius: 1,
+                    border: "1px solid",
+                    borderColor: "divider",
+                    "&:focus-within": { borderColor: "text.secondary" },
+                }}
+            >
+                <Typography sx={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: 0.5, color: "text.disabled" }}>
+                    {field.label}
+                </Typography>
+                {makeInput(field)}
+            </Box>
         );
+        return field.tooltip
+            ? <GlassTooltip key={field.key} title={field.tooltip}>{cell}</GlassTooltip>
+            : cell;
     };
 
     return (
-        <div style={{ display: "grid", gridTemplateColumns: "max-content 1px auto", gap: "4px 10px", alignItems: "start" }}>
-            {baseFields.map(renderRow)}
-            <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)", margin: "4px 0" }} />
-            {secondaryFields.map(renderRow)}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {label && (
+                <span style={{ ...rowLabel, textAlign: "left", letterSpacing: 1 }}>{label}</span>
+            )}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {[...baseFields, ...secondaryFields]
+                    .filter(field => !fields || fields.includes(field.key))
+                    .map(renderCell)}
+            </div>
         </div>
     );
 };
