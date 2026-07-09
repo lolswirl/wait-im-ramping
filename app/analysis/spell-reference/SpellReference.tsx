@@ -23,6 +23,7 @@ import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
 
 import SpellButton from "@components/SpellButtons/SpellButton";
+import FieldCells from "@components/FieldCells/FieldCells";
 
 
 type SpellRow = {
@@ -234,13 +235,10 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
             title: "nerf sim",
             summary: `${nerfPercent}%`,
             content: (
-              <TextField
-                size="small"
-                label="Nerf Simulator"
-                type="number"
-                value={nerfPercent}
-                onChange={e => setNerfPercent(Number(e.target.value))}
-                sx={{ width: "auto" }}
+              <FieldCells
+                fields={[{ key: "nerfPercent", label: "Nerf Percent", min: -100, adornment: "%" }]}
+                options={{ nerfPercent }}
+                onOptionsChange={newOptions => setNerfPercent(newOptions.nerfPercent ?? 0)}
               />
             ),
           }] : []),
