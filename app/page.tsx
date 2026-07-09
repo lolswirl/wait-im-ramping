@@ -20,7 +20,7 @@ import { CHANGELOG } from "@data/changelog";
 import { formatDate } from "@util/stringManipulation";
 import { SOCIAL_LINKS } from "@data/socials";
 
-const CURRENT_PATCH = "12.0.5";
+const CURRENT_PATCH = "12.0.7";
 
 const siteInfo = [
     { label: "Data-Driven Optimization", color: "#7ee5ff" },
