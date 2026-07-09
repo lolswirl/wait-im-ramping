@@ -65,10 +65,10 @@ const WarningChip: React.FC<WarningChipProps> = ({
         borderRadius: "4px",
         ...(hasCustomColor && {
             color: borderColor,
-            borderColor: borderColor,
-            backgroundColor: `color-mix(in srgb, ${borderColor} 20%, transparent)`,
+            borderColor: `color-mix(in srgb, ${borderColor} 40%, transparent)`,
+            backgroundColor: `color-mix(in srgb, ${borderColor} 8%, transparent)`,
             '&:hover': {
-                backgroundColor: `color-mix(in srgb, ${borderColor} 35%, transparent)`,
+                backgroundColor: `color-mix(in srgb, ${borderColor} 18%, transparent)`,
             },
         }),
         ...(onClick && { cursor: 'pointer' }),
