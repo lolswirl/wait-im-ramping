@@ -1,7 +1,6 @@
 "use client"
 import { AppBar, Toolbar, Box, Typography } from "@mui/material";
 import { useThemeContext } from "@context/ThemeContext";
-import { T } from "@util/T";
 import { GlassTooltip } from "@components/Glass";
 import { ColoredIconButton } from "@components/Buttons/ColoredIconButton";
 import { SOCIAL_LINKS } from "@data/socials";
@@ -25,19 +24,44 @@ const FooterBar = () => {
                 boxShadow: "none",
             }}
         >
-            <Toolbar 
-                sx={{ 
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    minHeight: 64,
-                    py: 1,
-                    gap: 0.5,
+            <Toolbar
+                variant="dense"
+                sx={{
+                    minHeight: 44,
+                    py: 0.5,
+                    gap: 2,
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", md: "1fr auto 1fr" },
+                    justifyItems: { xs: "center", md: "stretch" },
                 }}
             >
-                <Box sx={{ display: "flex", gap: 0.5 }}>
+                <Typography
+                    variant="caption"
+                    sx={{
+                        color: "rgba(255, 255, 255, 0.5)",
+                        fontSize: "0.7rem",
+                        whiteSpace: "nowrap",
+                        justifySelf: { xs: "center", md: "start" },
+                    }}
+                >
+                    © {currentYear} Wait, I'm Ramping!
+                </Typography>
+
+                <Typography
+                    variant="caption"
+                    sx={{
+                        color: "rgba(255, 255, 255, 0.35)",
+                        fontSize: "0.65rem",
+                        textAlign: "center",
+                    }}
+                >
+                    World of Warcraft and related assets are trademarks and/or registered trademarks of Blizzard Entertainment, Inc.
+                </Typography>
+
+                <Box sx={{ display: "flex", gap: 0.5, justifySelf: { xs: "center", md: "end" } }}>
                     {Object.values(SOCIAL_LINKS).map(({ label, href, icon, color }) => (
-                        <GlassTooltip 
-                            key={label} 
+                        <GlassTooltip
+                            key={label}
                             title={label}
                             placement="top"
                         >
@@ -54,38 +78,6 @@ const FooterBar = () => {
                             </ColoredIconButton>
                         </GlassTooltip>
                     ))}
-                </Box>
-                
-                <Box 
-                    sx={{ 
-                        display: "flex", 
-                        flexDirection: "column", 
-                        alignItems: "center",
-                        gap: 0.5,
-                    }}
-                >
-                    <Typography 
-                        variant="caption" 
-                        sx={{ 
-                            color: "rgba(255, 255, 255, 0.7)",
-                            fontSize: "0.7rem",
-                        }}
-                    >
-                        
-                            © {currentYear} Wait, I'm Ramping! All rights reserved.
-                        
-                    </Typography>
-                    <Typography 
-                        variant="caption" 
-                        sx={{ 
-                            color: "rgba(255, 255, 255, 0.5)",
-                            fontSize: "0.65rem",
-                            textAlign: "center",
-                            maxWidth: 600,
-                        }}
-                    >
-                        World of Warcraft and related assets are trademarks and/or registered trademarks of Blizzard Entertainment, Inc.
-                    </Typography>
                 </Box>
             </Toolbar>
         </AppBar>
