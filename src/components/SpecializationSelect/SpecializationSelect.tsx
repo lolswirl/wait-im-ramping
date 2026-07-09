@@ -55,6 +55,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
             gap: 1,
             px: 1.5,
             py: 1,
+            height: 51,
             border: '1px solid',
             borderColor: 'divider',
             borderRadius: 1,
@@ -111,7 +112,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   }
 
   return (
-    <FormControl sx={{ minWidth: 150 }} size={size}>
+    <FormControl sx={{ minWidth: 150, height: 100 }} size={size}>
       <InputLabel id="spec-select-label">Specialization</InputLabel>
       <Select
         labelId="spec-select-label"
