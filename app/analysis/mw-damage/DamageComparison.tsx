@@ -11,6 +11,8 @@ import SpellButton from "@components/SpellButtons/SpellButton";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
 import { Group } from "@components/StatsCard/StatsCard";
+import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
+import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
 import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
@@ -145,7 +147,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
       <PageHeader title={title} subtitle={description} marginBottom={0} />
       {/* controls card */}
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, p: 2 }}>
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide, p: 2 }}>
         <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap', mb: 2 }}>
           <Skeleton variant="rounded" width={160} height={40} />
           <Skeleton variant="rounded" width={100} height={40} />
@@ -159,14 +161,14 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
         </Box>
       </Card>
       {/* stat cards + chart */}
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, p: 2 }}>
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide, p: 2 }}>
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 2 }}>
           {[...Array(5)].map((_, i) => <Skeleton key={i} variant="rounded" sx={{ flex: '1 1 140px' }} height={80} />)}
         </Box>
         <Skeleton variant="rounded" width="100%" height={500} />
       </Card>
       {/* heatmap */}
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, p: 2 }}>
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide, p: 2 }}>
         <Skeleton variant="rounded" width="100%" height={320} />
       </Card>
     </Container>
@@ -175,54 +177,69 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
       <PageHeader title={title} subtitle={description} marginBottom={0} />
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Box sx={{ p: 2, display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
-            <TextField
-              label={T("Time (Seconds)")}
-              type="number"
-              value={timeSpent}
-              onChange={handleTimeChange}
-              size="small"
-              sx={{ maxWidth: 160 }}
-            />
-            <TextField
-              label={T("Targets")}
-              type="number"
-              value={targetCount}
-              onChange={handleTargetCountChange}
-              size="small"
-              sx={{ maxWidth: 100 }}
-            />
-            <SwirlButton
-              color="success"
-              textColor="success"
-              onClick={() => setSimulationKey(k => k + 1)}
-              startIcon={<Refresh />}
-            >
-              Re-formulate
-            </SwirlButton>
-            <Box sx={{ flexGrow: 1 }} />
-            <WarningChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon borderColor="#ffa726" />
-          </Box>
-          <Divider />
-          <Box sx={{ p: 2 }}>
-            <Group>
-              <TalentsCard label="Spec" options={specTalents} color={mistweaver.color} onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))} />
-              <HeroTalentsCard label="Hero" options={heroTalents} onChange={(t, c) => setHeroTalents(prev => new Map(prev).set(t, c))} />
-              <TalentsCard label="Class" options={classTalents} color={CLASSES.MONK.color} onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))} />
-              {tierSet.size > 0 && (
-                <>
-                  <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)" }} />
-                  <TalentsCard label="Tier" options={tierSet} color={mistweaver.color} onChange={(t, c) => setTierSet(prev => new Map(prev).set(t, c))} />
-                </>
-              )}
-            </Group>
-          </Box>
-        </Box>
-      </Card>
+      <Box sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide }}>
+        <ConfigPanel
+          accent={mistweaver.color}
+          sections={[
+            {
+              key: "sim",
+              title: "sim",
+              summary: `${timeSpent}s · ${targetCount} ${targetCount === 1 ? "target" : "targets"}`,
+              content: (
+                <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
+                  <TextField
+                    label={T("Time (Seconds)")}
+                    type="number"
+                    value={timeSpent}
+                    onChange={handleTimeChange}
+                    size="small"
+                    sx={{ maxWidth: 160 }}
+                  />
+                  <TextField
+                    label={T("Targets")}
+                    type="number"
+                    value={targetCount}
+                    onChange={handleTargetCountChange}
+                    size="small"
+                    sx={{ maxWidth: 100 }}
+                  />
+                  <SwirlButton
+                    color="success"
+                    textColor="success"
+                    onClick={() => setSimulationKey(k => k + 1)}
+                    startIcon={<Refresh />}
+                  >
+                    Re-formulate
+                  </SwirlButton>
+                  <Box sx={{ flexGrow: 1 }} />
+                  <WarningChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon borderColor="#ffa726" />
+                </Box>
+              ),
+            },
+            {
+              key: "talents",
+              title: "talents",
+              summary: `${[...specTalents.values(), ...heroTalents.values(), ...classTalents.values(), ...tierSet.values()].filter(Boolean).length} active`,
+              defaultOpen: true,
+              content: (
+                <Group>
+                  <TalentsCard label="Spec" options={specTalents} color={mistweaver.color} onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))} />
+                  <HeroTalentsCard label="Hero" options={heroTalents} onChange={(t, c) => setHeroTalents(prev => new Map(prev).set(t, c))} />
+                  <TalentsCard label="Class" options={classTalents} color={CLASSES.MONK.color} onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))} />
+                  {tierSet.size > 0 && (
+                    <>
+                      <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)" }} />
+                      <TalentsCard label="Tier" options={tierSet} color={mistweaver.color} onChange={(t, c) => setTierSet(prev => new Map(prev).set(t, c))} />
+                    </>
+                  )}
+                </Group>
+              ),
+            },
+          ]}
+        />
+      </Box>
 
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide }}>
         <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
           <Tab label={"HPS"} />
           <Tab label={"DPS"} />

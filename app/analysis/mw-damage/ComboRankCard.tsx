@@ -7,6 +7,7 @@ import { Calculate } from "@mui/icons-material";
 import spell from "@data/spells/spell";
 import { formatNumber, formatPercent } from "@util/stringManipulation";
 import type { ComboResultSerialized } from "./comboSim.worker";
+import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
 type Props = {
   targetCount: number;
@@ -39,7 +40,7 @@ const ComboRankCard: React.FC<Props> = ({ targetCount, spellById }) => {
   };
 
   return (
-    <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
+    <Card variant="outlined" sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide }}>
       <Box sx={{ borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', justifyContent: 'space-between', pr: 2 }}>
         <Tabs value={comboAsHealing ? 0 : 1} onChange={(_, v) => setComboAsHealing(v === 0)}>
           <Tab label="HPS" />

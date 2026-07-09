@@ -2,9 +2,7 @@
 import React, { useState, useMemo } from "react";
 import {
   Box,
-  Card,
   Container,
-  Divider,
   TextField,
   Typography,
 } from "@mui/material";
@@ -12,6 +10,8 @@ import SwirlTable, { SwirlColumn } from "@components/SwirlTable/SwirlTable";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import StatsCard, { Group, type StatsCardOptions } from "@components/StatsCard/StatsCard";
+import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
+import { CONTENT_WIDTH } from "@components/Theme/tokens";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 
 import spell, { CATEGORY, CATEGORY_COLORS } from "@data/spells/spell";
@@ -120,6 +120,9 @@ const expandRows = (s: spell, player: Player, specKey: string): SpellRow[] =>
 
 const isDev = process.env.NODE_ENV === 'development';
 
+const formatK = (value: number): string =>
+  value >= 1000 ? `${Math.round(value / 1000)}k` : `${value}`;
+
 const SpellReference: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const [spec, setSpec] = useState<specialization>(CLASSES.MONK.SPECS.MISTWEAVER);
   const [stats, setStats] = useState<StatsCardOptions>({ ...spec.stats });
@@ -127,7 +130,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
   const [heroTalents, setHeroTalents] = useState(spec.defaultTalents?.hero ?? new Map<spell, boolean>());
   const [classTalents, setClassTalents] = useState(spec.defaultTalents?.class ?? new Map<spell, boolean>());
   const [tierSet, setTierSet] = useState(spec.tierSet ?? new Map<spell, boolean>());
-  const [nerfPercent, setNerfPercent] = useState<number>(-10);
+  const [nerfPercent, setNerfPercent] = useState<number>(0);
 
   const talents = useMemo(
     () => new Map<spell, boolean>([...specTalents, ...heroTalents, ...classTalents, ...tierSet]),
@@ -157,12 +160,80 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
       <PageHeader title={title} subtitle={description} marginBottom={0} />
 
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, overflow: "hidden" }}>
-        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}>
-          <Box sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2, flex: "0 0 auto", width: { md: 220 } }}>
-            <SpecializationSelect short withLabel selectedSpec={spec} onSpecChange={handleSpecChange} />
-            <StatsCard options={stats} onOptionsChange={setStats} />
-            {isDev && (
+      <ConfigPanel
+        sx={{ maxWidth: CONTENT_WIDTH.wide }}
+        accent={spec.color}
+        onReset={() => handleSpecChange(spec)}
+        sections={[
+          {
+            key: "spec",
+            title: "spec",
+            summary: spec.name.toLowerCase(),
+            content: <SpecializationSelect short withLabel selectedSpec={spec} onSpecChange={handleSpecChange} />,
+          },
+          {
+            key: "stats",
+            title: "stats",
+            summary: [
+              `${stats.intellect.toLocaleString()} int`,
+              `${formatK(stats.totalHp ?? 0)} hp`,
+              `${stats.mastery}% mast`,
+              ...(stats.haste > 0 || stats.crit > 0 || stats.versatility > 0
+                ? [`${stats.haste}h ${stats.crit}c ${stats.versatility}v`]
+                : []),
+            ].join(" · "),
+            content: <StatsCard options={stats} onOptionsChange={setStats} />,
+          },
+          ...(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0 || tierSet.size > 0 ? [{
+            key: "talents",
+            title: "talents",
+            summary: `${[...talents.values()].filter(Boolean).length} active`,
+            defaultOpen: true,
+            content: (
+              <Group>
+                {specTalents.size > 0 && (
+                  <TalentsCard
+                    label="Spec"
+                    options={specTalents}
+                    color={spec.color}
+                    onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))}
+                  />
+                )}
+                {heroTalents.size > 0 && (
+                  <HeroTalentsCard
+                    options={heroTalents}
+                    onChange={(t, c) => setHeroTalents(prev => new Map(prev).set(t, c))}
+                  />
+                )}
+                {classTalents.size > 0 && (
+                  <TalentsCard
+                    label="Class"
+                    options={classTalents}
+                    color={spec.color}
+                    onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))}
+                  />
+                )}
+                {tierSet.size > 0 && (
+                  <>
+                    {(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0) && (
+                      <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)" }} />
+                    )}
+                    <TalentsCard
+                      label="Tier"
+                      options={tierSet}
+                      color={spec.color}
+                      onChange={(t, c) => setTierSet(prev => new Map(prev).set(t, c))}
+                    />
+                  </>
+                )}
+              </Group>
+            ),
+          }] : []),
+          ...(isDev ? [{
+            key: "nerf",
+            title: "nerf sim",
+            summary: `${nerfPercent}%`,
+            content: (
               <TextField
                 size="small"
                 label="Nerf Simulator"
@@ -171,59 +242,13 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                 onChange={e => setNerfPercent(Number(e.target.value))}
                 sx={{ width: "auto" }}
               />
-            )}
-          </Box>
-
-          {(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0 || tierSet.size > 0) && (
-            <>
-              <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" } }} />
-              <Divider sx={{ display: { md: "none" } }} />
-              <Box sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2, flex: 1 }}>
-                <Group>
-                  {specTalents.size > 0 && (
-                    <TalentsCard
-                      label="Spec"
-                      options={specTalents}
-                      color={spec.color}
-                      onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))}
-                    />
-                  )}
-                  {heroTalents.size > 0 && (
-                    <HeroTalentsCard
-                      options={heroTalents}
-                      onChange={(t, c) => setHeroTalents(prev => new Map(prev).set(t, c))}
-                    />
-                  )}
-                  {classTalents.size > 0 && (
-                    <TalentsCard
-                      label="Class"
-                      options={classTalents}
-                      color={spec.color}
-                      onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))}
-                    />
-                  )}
-                  {tierSet.size > 0 && (
-                    <>
-                      {(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0) && (
-                        <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)" }} />
-                      )}
-                      <TalentsCard
-                        label="Tier"
-                        options={tierSet}
-                        color={spec.color}
-                        onChange={(t, c) => setTierSet(prev => new Map(prev).set(t, c))}
-                      />
-                    </>
-                  )}
-                </Group>
-              </Box>
-            </>
-          )}
-        </Box>
-      </Card>
+            ),
+          }] : []),
+        ]}
+      />
 
 
-      <Box sx={{ width: "100%", maxWidth: 1000 }}>
+      <Box sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide }}>
         <SwirlTable
           rows={rows}
           rowKey={(row, i) => `${row.spell.id}-${row.type}-${row.targets ?? i}`}
@@ -251,11 +276,23 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               width: "1fr",
               align: "center",
               sortValue: row => row.type,
-              render: row => (
-                <Typography variant="caption" sx={{ color: CATEGORY_COLORS[row.type as keyof typeof CATEGORY_COLORS] ?? "#ffffff" }}>
-                  {row.type}
-                </Typography>
-              ),
+              render: row => {
+                const typeColor = CATEGORY_COLORS[row.type as keyof typeof CATEGORY_COLORS] ?? "#ffffff";
+                return (
+                  <Box sx={{
+                    display: "inline-flex",
+                    px: 1,
+                    py: 0.25,
+                    borderRadius: 1,
+                    border: `1px solid ${typeColor}66`,
+                    backgroundColor: typeColor + "14",
+                  }}>
+                    <Typography variant="caption" sx={{ color: typeColor, fontWeight: 600 }}>
+                      {row.type}
+                    </Typography>
+                  </Box>
+                );
+              },
             },
             {
               key: "baseSp",

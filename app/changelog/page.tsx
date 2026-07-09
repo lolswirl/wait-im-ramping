@@ -1,6 +1,7 @@
 import { Typography, Card, CardContent, Box, Divider } from "@mui/material";
 import { PageMetadata } from "@components/PageMetadata/PageMetadata";
 import { RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
+import { CONTENT_WIDTH } from "@components/Theme/tokens";
 import { CHANGELOG } from "@data/changelog";
 import { formatDate } from "@util/stringManipulation";
 import { T } from "@util/T";
@@ -15,7 +16,7 @@ export default function ChangelogPage() {
             <Card
                 variant="outlined"
                 sx={{
-                    maxWidth: 600,
+                    maxWidth: CONTENT_WIDTH.wide,
                     width: { xs: "90%", sm: "90%", md: "100%" },
                     mx: "auto",
                     position: "relative",

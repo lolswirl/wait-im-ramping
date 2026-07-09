@@ -3,9 +3,10 @@ import React from "react";
 import { Box, Card, Typography, Tab, Tabs, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 import SpellButton from "@components/SpellButtons/SpellButton";
-import { formatNumber, formatPercent } from "@util/stringManipulation";
+import { formatNumber } from "@util/stringManipulation";
 import { type Player } from "@data/specs/monk/mistweaver/calcs";
 import { type RotationConfig } from "./types";
+import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
 type Props = {
   rotationConfigs: RotationConfig[];
@@ -139,7 +140,7 @@ const RawTablesAccordion: React.FC<Props> = ({ rotationConfigs, simulationParams
     <Accordion
       variant="outlined"
       disableGutters
-      sx={{ width: "100%", maxWidth: 1000, borderRadius: '4px', '&:before': { display: 'none' } }}
+      sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide, borderRadius: '4px', '&:before': { display: 'none' } }}
     >
       <AccordionSummary expandIcon={<ExpandMore />}>
         <Typography variant="body2" sx={{ fontWeight: 600, letterSpacing: '0.5px', fontSize: '0.75rem' }}>
