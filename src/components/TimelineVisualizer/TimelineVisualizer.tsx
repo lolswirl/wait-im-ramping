@@ -11,8 +11,6 @@ import { applyBuffEffects } from '@data/buffs';
 
 import { iconLocalUrl, iconFallbackUrl } from '@util/wowhead';
 import { toRomanNumeral } from "@util/toRomanNumeral";
-import { T } from "@util/T";
-
 
 const RECT_HEIGHT = 35;
 const ROW_PADDING = 20;
