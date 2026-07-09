@@ -21,6 +21,7 @@ const RainbowCard: React.FC<RainbowCardProps> = ({ sx, children, href, ...rest }
                     border: "1px solid transparent",
                     background: `linear-gradient(${theme.palette.background.paper}, ${theme.palette.background.paper}) padding-box, linear-gradient(${theme.palette.divider}, ${theme.palette.divider}) border-box`,
                     transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                    boxShadow: "0 0 0 0",
                     cursor: href ? "pointer" : "default",
                     textDecoration: "none",
                     "&:hover": {
