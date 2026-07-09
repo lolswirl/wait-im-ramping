@@ -603,6 +603,7 @@ const talents = {
         id: 442743,
         icon: 'ability_monk_provoke',
         heroTalent: COTC,
+        spellModifier: 137024,
         custom: {
             vivifyIncrease: 0.06,
             envIncrease: 0.06,

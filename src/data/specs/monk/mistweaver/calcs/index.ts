@@ -70,11 +70,6 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
             spell.id === TALENTS.RUSHING_WIND_KICK.id
     },
     {
-        talent: TALENTS.TEMPLE_TRAINING,
-        getValue: () => TALENTS.TEMPLE_TRAINING.custom.sckIncrease,
-        appliesTo: (spell) => spell.id === SPELLS.SPINNING_CRANE_KICK.id
-    },
-    {
         talent: TIER.T36_MISTWEAVER_2SET,
         getValue: () => TIER.T36_MISTWEAVER_2SET.custom.rskDamageIncrease,
         appliesTo: (spell) => spell.id === SPELLS.RISING_SUN_KICK.id
