@@ -25,7 +25,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   size = "medium",
   short = false,
   withLabel = false,
-  height = 50,
+  height = 51,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -55,7 +55,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
             gap: 1,
             px: 1.5,
             py: 1,
-            height: 51,
+            height: height,
             border: '1px solid',
             borderColor: 'divider',
             borderRadius: 1,

@@ -60,6 +60,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                     onSpecChange={handleSpecChange}
                     short
                     withLabel
+                    height={42}
                 />
             </Box>
 
