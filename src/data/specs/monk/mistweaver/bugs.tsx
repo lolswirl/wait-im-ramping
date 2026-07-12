@@ -566,6 +566,8 @@ const BUGS: Bug[] = [
         description: <>The duration of the <SpellLink spell={SPELLS.RENEWING_MIST} /> applied by the 4pc is not increased by <SpellLink spell={TALENTS.LOTUS_INFUSION} /></>,
         buildsTested: ["65448", "66017", "67186"],
         tags: [TAGS.TIER],
+        notes: "With 12.1 taking the 12.0 tier set away, we can effectively say it was removed.",
+        status: STATUS.REMOVED,
     },
     {
         spell: TALENTS.MISTS_OF_LIFE,
@@ -951,6 +953,8 @@ const BUGS: Bug[] = [
             { label: "Video 2", url: "https://www.youtube.com/watch?v=BQoZXADMOuY" },
         ],
         tags: [TAGS.TIER],
+        notes: "Not entirely possible to recreate, so recent logs are sparse but with 12.1 taking the 12.0 tier set away, we can effectively say it was removed.",
+        status: STATUS.REMOVED,
     },
     {
         spell: TIER.T35_MISTWEAVER_4SET,
@@ -960,6 +964,8 @@ const BUGS: Bug[] = [
         title: <><SpellLink spell={SPELLS.RENEWING_MIST} /> from 4pc doesn't follow traditional rules</>,
         description: <>The <SpellLink spell={SPELLS.RENEWING_MIST} /> created is completely independent from a normal <SpellLink spell={SPELLS.RENEWING_MIST} /> meaning that it is significantly stronger because it has no interaction with pandemic durations of normal <SpellLink spell={SPELLS.RENEWING_MIST} />s and thus can do significantly more HPS with talents such as <SpellLink spell={TALENTS.MISTY_PEAKS} /></>,
         tags: [TAGS.TIER],
+        notes: "With 12.1 taking the 12.0 tier set away, we can effectively say it was removed.",
+        status: STATUS.REMOVED,
     },
     {
         spell: TALENTS.GIFT_OF_THE_CELESTIALS,
