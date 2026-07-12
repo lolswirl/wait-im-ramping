@@ -891,10 +891,12 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.SPIRITFONT,
         severity: SEVERITY.HIGH,
-        buildsTested: ["66431"],
+        buildsTested: ["66431", "68629"],
         title: <>Sometimes doesn't refresh the active duration buff</>,
         description: <>Sometimes, when using 2 <SpellLink spell={TALENTS.SPIRITFONT} /> stacks back to back, the active duration buff (the 8s buff) doesn't get refreshed, and stays at its current duration. For example, if one stack is used, then 4 seconds later another stack is used, the buff will only have 4 seconds remaining instead of refreshing back to 8 seconds.</>,
+        notes: "Not -entirely- fixed in 68629, but effectively fixed since the Spiritfont active and proc are separated. Will keep a look out for non-refreshed uses.",
         tags: [TAGS.APEX],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.SPIRITFONT,
