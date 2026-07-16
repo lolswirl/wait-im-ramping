@@ -182,7 +182,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                 ? [`${stats.haste}h ${stats.crit}c ${stats.versatility}v`]
                 : []),
             ].join(" · "),
-            content: <StatsCard options={stats} onOptionsChange={setStats} />,
+            content: <StatsCard options={stats} onOptionsChange={setStats} spec={spec} />,
           },
           ...(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0 || tierSet.size > 0 ? [{
             key: "talents",

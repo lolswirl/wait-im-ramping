@@ -231,7 +231,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: React.ReactNode; description: Rea
             key: "stats",
             title: "stats",
             summary: `${options.intellect.toLocaleString()} int · ${options.mastery}% mast`,
-            content: <StatsCard options={options} onOptionsChange={setOptions} />,
+            content: <StatsCard options={options} onOptionsChange={setOptions} spec={mistweaver} />,
           },
           {
             key: "talents",

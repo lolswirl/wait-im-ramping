@@ -2,6 +2,7 @@
 import React from 'react';
 import { FieldCells, type FieldDef } from '@components/FieldCells/FieldCells';
 import { type Stats } from '@data/shared/stats';
+import { type specialization } from '@data/class';
 
 export interface StatsCardOptions extends Stats {
     totalHp?: number;
@@ -12,6 +13,7 @@ interface StatsCardProps {
     onOptionsChange: (newOptions: any) => void;
     label?: string;
     fields?: (keyof StatsCardOptions)[];
+    spec?: specialization;
 }
 
 export const rowLabel: React.CSSProperties = { fontSize: "0.7rem", fontWeight: 600, opacity: 0.45, textAlign: "right", whiteSpace: "nowrap" };
@@ -32,11 +34,13 @@ const secondaryFields: FieldDef[] = [
     { key: 'haste', label: 'haste', min: 0, adornment: "%" },
     { key: 'crit', label: 'crit', min: 0, adornment: "%", tooltip: "We're using the law of large numbers to assume that, out of a large number of casts, you will critically strike as often as your crit percentage." },
     { key: 'versatility', label: 'vers', min: 0, adornment: "%" },
-    { key: 'mastery', label: 'mastery', min: 55.4, adornment: "%" },
+    { key: 'mastery', label: 'mastery', min: 0, adornment: "%" },
 ];
 
-const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange, label, fields }) => {
+const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange, label, fields, spec }) => {
+    const masteryMin = spec ? spec.masteryCoefficient * 8 : 0;
     const visibleFields = [...baseFields, ...secondaryFields]
+        .map(field => field.key === 'mastery' ? { ...field, min: masteryMin } : field)
         .filter(field => !fields || fields.includes(field.key as keyof StatsCardOptions));
 
     return (

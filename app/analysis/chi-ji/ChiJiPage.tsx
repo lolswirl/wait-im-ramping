@@ -148,7 +148,7 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
                             key: "stats",
                             title: "stats",
                             summary: `${options.intellect.toLocaleString()} int · ${options.mastery}% mast`,
-                            content: <StatsCard options={options} onOptionsChange={setOptions} />,
+                            content: <StatsCard options={options} onOptionsChange={setOptions} spec={mistweaver} />,
                         },
                         {
                             key: "targets",

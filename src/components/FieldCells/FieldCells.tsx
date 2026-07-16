@@ -23,6 +23,7 @@ const inputSx = { width: 92, '& .MuiInputBase-input': { fontSize: '0.85rem', fon
 export const FieldCells: React.FC<FieldCellsProps> = ({ fields, options, onOptionsChange, label }) => {
     const values = options as Record<string, number | undefined>;
     const [localValues, setLocalValues] = useState<{ [key: string]: string }>({});
+    const [belowMin, setBelowMin] = useState<{ [key: string]: boolean }>({});
 
     const handleChange = (field: string, value: number) => {
         onOptionsChange((prev: any) => ({ ...prev, [field]: value }));
@@ -40,13 +41,17 @@ export const FieldCells: React.FC<FieldCellsProps> = ({ fields, options, onOptio
             onChange={(e) => {
                 setLocalValues(prev => ({ ...prev, [field.key]: e.target.value }));
                 const raw = parseNumber(e.target.value);
-                if (!isNaN(raw)) handleChange(field.key, raw);
+                if (!isNaN(raw)) {
+                    handleChange(field.key, raw);
+                    setBelowMin(prev => ({ ...prev, [field.key]: raw < (field.min ?? 0) }));
+                }
             }}
             onBlur={() => {
                 const cur = values[field.key] ?? 0;
                 const min = field.min ?? 0;
                 if (cur < min) handleChange(field.key, min);
                 setLocalValues(prev => { const s = { ...prev }; delete s[field.key]; return s; });
+                setBelowMin(prev => ({ ...prev, [field.key]: false }));
             }}
             slotProps={{
                 htmlInput: { min: field.min, inputMode: 'numeric', pattern: '[0-9,]*' },
@@ -64,6 +69,7 @@ export const FieldCells: React.FC<FieldCellsProps> = ({ fields, options, onOptio
     );
 
     const renderCell = (field: FieldDef) => {
+        const isBelowMin = !!belowMin[field.key];
         const cell = (
             <Box
                 key={field.key}
@@ -75,12 +81,12 @@ export const FieldCells: React.FC<FieldCellsProps> = ({ fields, options, onOptio
                     py: 0.75,
                     borderRadius: 1,
                     border: "1px solid",
-                    borderColor: "divider",
-                    "&:focus-within": { borderColor: "text.secondary" },
+                    borderColor: isBelowMin ? "error.main" : "divider",
+                    "&:focus-within": { borderColor: isBelowMin ? "error.main" : "text.secondary" },
                 }}
             >
-                <Typography sx={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: 0.5, color: "text.disabled" }}>
-                    {field.label}
+                <Typography sx={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: 0.5, color: isBelowMin ? "error.main" : "text.disabled" }}>
+                    {isBelowMin ? `min ${formatNumber(field.min ?? 0)}${field.adornment ?? ''}` : field.label}
                 </Typography>
                 {makeInput(field)}
             </Box>
