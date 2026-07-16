@@ -712,6 +712,7 @@ const BUGS: Bug[] = [
         description: <>Despite being removed from the talent tree, the spell still activates when <SpellLink spell={TALENTS.UNITY_WITHIN} /> occurs. Only heals, as it has done since its inception from <SpellLink spell={TALENTS.UNITY_WITHIN} /> to not proc mana tea despite its original talent's wording.</>,
         buildsTested: ["66220", "67186"],
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=7&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443028%7C443591%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443614" }],
+        status: STATUS.INTENDED,
     },
     {
         spell: SPELLS.REVIVAL,
@@ -1086,7 +1087,8 @@ const BUGS: Bug[] = [
         title: <><SpellLink spell={TALENTS.MISTY_PEAKS}/> <SpellLink spell={SPELLS.ENVELOPING_MIST}/>s are not increased by 4s during celestial</>,
         description: <>The portion of <SpellLink spell={TALENTS.TEAR_OF_MORNING}/> that increases <SpellLink spell={SPELLS.ENVELOPING_MIST}/> duration by +4s while a celestial is summoned does not increase the duration of <SpellLink spell={TALENTS.MISTY_PEAKS}/> <SpellLink spell={SPELLS.ENVELOPING_MIST}/>s.</>,
         notes: "Likely not entirely a 'bug', per se, as Misty Peaks doesn't get increased by anything and has not, but this behavior is inconsistent for a talent that reads 'The duration of Enveloping Mist is increased by 4 sec while you have a celestial summoned' and Misty Peaks directly leading into Tear of Morning on the talent tree.",
-        buildsTested: ["67314"]
+        buildsTested: ["67314"],
+        status: STATUS.INTENDED,
     },
     {
         spell: TALENTS.TEAR_OF_MORNING,
