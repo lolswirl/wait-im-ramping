@@ -25,12 +25,14 @@ export enum STATUS {
     OPEN = "Open",
     FIXED = "Fixed",
     REMOVED = "Removed",
+    INTENDED = "Intended",
 }
 
 export const STATUS_COLORS: Record<STATUS, string> = {
     [STATUS.OPEN]: "",
     [STATUS.FIXED]: "#89ff7f",
     [STATUS.REMOVED]: "#ff5555ff",
+    [STATUS.INTENDED]: "#7fb8ff",
 };
 
 export const getStatusBadge = (status: STATUS): ReactNode => {

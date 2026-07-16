@@ -813,6 +813,7 @@ const BUGS: Bug[] = [
         title: <><SpellLink spell={TALENTS.JADE_SERPENT_STATUE} /> <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> does not provide damage reduction</>,
         description: <>Elusive Mists does not provide damage reduction when <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> is cast by <SpellLink spell={TALENTS.JADE_SERPENT_STATUE} /></>,
         buildsTested: ["65617", "66220", "67186"],
+        status: STATUS.INTENDED,
     },
     {
         spell: TALENTS.INNER_COMPASS,
@@ -1137,6 +1138,7 @@ const BUGS: Bug[] = [
         title: <>Does not increase <SpellLink spell={TALENTS.JADE_SERPENT_STATUE}/>'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> healing</>,
         description: <>Does not increase <SpellLink spell={TALENTS.JADE_SERPENT_STATUE}/>'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> healing, but does work on <SpellLink spell={TALENTS.SPIRITFONT}/> <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST}/> and normal <SpellLink spell={SPELLS.SOOTHING_MIST}/>.</>,
         buildsTested: ["68209", "68301"],
+        status: STATUS.INTENDED,
     },
     {
         spell: TALENTS.JADEFIRE_STOMP,
