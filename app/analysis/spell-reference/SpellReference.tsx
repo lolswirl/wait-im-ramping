@@ -6,6 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { GlassTooltip } from "@components/Glass";
 import SwirlTable, { SwirlColumn } from "@components/SwirlTable/SwirlTable";
 
 import PageHeader from "@components/PageHeader/PageHeader";
@@ -17,7 +18,7 @@ import SpecializationSelect from "@components/SpecializationSelect/Specializatio
 import spell, { CATEGORY, CATEGORY_COLORS } from "@data/spells/spell";
 import { formatNumber, formatPercent, pluralize } from "@util/stringManipulation";
 import { CLASSES, specialization } from "@data/class";
-import { Player } from "@data/shared/engine";
+import { Player, SpellModifier } from "@data/shared/engine";
 import { getSpecEngine } from "@data/shared/specEngines";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
@@ -32,6 +33,7 @@ type SpellRow = {
   baseSpCoeff: number | null;
   spCoeff: number | null;
   absolute: number | null;
+  modifiers?: SpellModifier[];
   targets?: number;
 };
 
@@ -68,13 +70,20 @@ const resolveValue = (
   player: Player,
   specKey: string,
   targetMultiplier = 1,
-): { baseSpCoeff: number | null; spCoeff: number | null; absolute: number | null } => {
+): { baseSpCoeff: number | null; spCoeff: number | null; absolute: number | null; modifiers?: SpellModifier[] } => {
   const engine = getSpecEngine(specKey);
 
   const overridden = engine?.resolveSpellValue?.(s, player);
   if (overridden !== null && overridden !== undefined) {
     const absolute = overridden * targetMultiplier;
-    return { baseSpCoeff: null, spCoeff: (absolute / player.stats.intellect) * 100, absolute };
+    const spCoeff = (absolute / player.stats.intellect) * 100;
+    const modifiers = engine?.getSpellModifiers?.(s, player, type === CATEGORY.DAMAGE ? "damage" : "healing");
+    if (modifiers?.length) {
+      // no datamined coeff here, so derive the base by backing the modifiers out
+      const totalMultiplier = modifiers.reduce((acc, m) => acc * m.multiplier, 1);
+      return { baseSpCoeff: spCoeff / totalMultiplier, spCoeff, absolute, modifiers };
+    }
+    return { baseSpCoeff: null, spCoeff, absolute };
   }
 
   if (s.formula !== undefined) {
@@ -91,6 +100,7 @@ const resolveValue = (
       baseSpCoeff: rawCoeff !== null ? rawCoeff * 100 * targetMultiplier : null,
       spCoeff: (absolute / player.stats.intellect) * 100,
       absolute,
+      modifiers: engine.getSpellModifiers?.(s, player, type === CATEGORY.DAMAGE ? "damage" : "healing"),
     };
   }
 
@@ -308,11 +318,36 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               width: "1fr",
               align: "right",
               sortValue: row => row.spCoeff ?? -1,
-              render: row => (
-                <Typography variant="body2">
-                  {row.spCoeff !== null ? formatPercent(row.spCoeff) : "—"}
-                </Typography>
-              ),
+              render: row => {
+                if (row.spCoeff === null) return <Typography variant="body2">—</Typography>;
+                const value = <Typography variant="body2">{formatPercent(row.spCoeff)}</Typography>;
+                if (row.baseSpCoeff === null || !row.modifiers?.length) return value;
+                return (
+                  <GlassTooltip
+                    placement="left"
+                    title={
+                      <Box sx={{ display: "grid", gridTemplateColumns: "auto auto", columnGap: 1.5, rowGap: 0.25 }}>
+                        <Typography variant="caption" color="text.secondary">base</Typography>
+                        <Typography variant="caption" align="right">{formatPercent(row.baseSpCoeff)}</Typography>
+                        {row.modifiers.map(m => (
+                          <React.Fragment key={m.label}>
+                            <Typography variant="caption" color="text.secondary">{m.label.toLowerCase()}</Typography>
+                            <Typography variant="caption" align="right">
+                              {m.multiplier >= 1 ? "+" : ""}{((m.multiplier - 1) * 100).toFixed(1)}%
+                            </Typography>
+                          </React.Fragment>
+                        ))}
+                        <Typography variant="caption" fontWeight="bold">effective</Typography>
+                        <Typography variant="caption" align="right" fontWeight="bold">{formatPercent(row.spCoeff)}</Typography>
+                      </Box>
+                    }
+                  >
+                    <Box component="span" sx={{ cursor: "help", textDecoration: "underline dotted", textUnderlineOffset: 3 }}>
+                      {value}
+                    </Box>
+                  </GlassTooltip>
+                );
+              },
             },
             {
               key: "absolute",

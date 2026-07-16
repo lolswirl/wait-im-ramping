@@ -223,4 +223,6 @@ registerSpecEngine(MISTWEAVER_KEY, {
         }
         return null;
     },
+    getSpellModifiers: (spell, player, type) =>
+        Engine.getSpellModifiers(spell, player, type, type === 'damage' ? DAMAGE_MULTIPLIER_RULES : HEALING_MULTIPLIER_RULES),
 });
