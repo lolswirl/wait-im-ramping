@@ -131,7 +131,6 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
   const [heroTalents, setHeroTalents] = useState(spec.defaultTalents?.hero ?? new Map<spell, boolean>());
   const [classTalents, setClassTalents] = useState(spec.defaultTalents?.class ?? new Map<spell, boolean>());
   const [tierSet, setTierSet] = useState(spec.tierSet ?? new Map<spell, boolean>());
-  const [nerfPercent, setNerfPercent] = useState<number>(0);
 
   const talents = useMemo(
     () => new Map<spell, boolean>([...specTalents, ...heroTalents, ...classTalents, ...tierSet]),
@@ -230,18 +229,18 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               </Group>
             ),
           }] : []),
-          ...(isDev ? [{
-            key: "nerf",
-            title: "nerf sim",
-            summary: `${nerfPercent}%`,
-            content: (
-              <FieldCells
-                fields={[{ key: "nerfPercent", label: "Nerf Percent", min: -100, adornment: "%" }]}
-                options={{ nerfPercent }}
-                onOptionsChange={newOptions => setNerfPercent(newOptions.nerfPercent ?? 0)}
-              />
-            ),
-          }] : []),
+          // ...(isDev ? [{
+          //   key: "nerf",
+          //   title: "nerf sim",
+          //   summary: `${nerfPercent}%`,
+          //   content: (
+          //     <FieldCells
+          //       fields={[{ key: "nerfPercent", label: "Nerf Percent", min: -100, adornment: "%" }]}
+          //       options={{ nerfPercent }}
+          //       onOptionsChange={newOptions => setNerfPercent(newOptions.nerfPercent ?? 0)}
+          //     />
+          //   ),
+          // }] : []),
         ]}
       />
 
@@ -327,25 +326,25 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                 </Typography>
               ),
             },
-          ...(isDev ? [{
-            key: "nerf",
-            label: `After (${nerfPercent > 0 ? "+" : ""}${nerfPercent}%)`,
-            width: "1fr",
-            align: "right" as const,
-            sortValue: (row: SpellRow) => (row.absolute ?? -1) * (1 + nerfPercent / 100),
-            render: (row: SpellRow) => {
-              if (row.absolute === null) return <Typography variant="body2" color="text.disabled">—</Typography>;
-              const adjusted = row.absolute * (1 + nerfPercent / 100);
-              return (
-                <Box sx={{ textAlign: "right" }}>
-                  <Typography variant="body2" fontWeight="bold">{formatNumber(adjusted)}</Typography>
-                  <Typography variant="caption" color={nerfPercent < 0 ? "error.main" : "success.main"}>
-                    {nerfPercent > 0 ? "+" : ""}{nerfPercent.toFixed(1)}%
-                  </Typography>
-                </Box>
-              );
-            },
-          }] : []),
+          // ...(isDev ? [{
+          //   key: "nerf",
+          //   label: `After (${nerfPercent > 0 ? "+" : ""}${nerfPercent}%)`,
+          //   width: "1fr",
+          //   align: "right" as const,
+          //   sortValue: (row: SpellRow) => (row.absolute ?? -1) * (1 + nerfPercent / 100),
+          //   render: (row: SpellRow) => {
+          //     if (row.absolute === null) return <Typography variant="body2" color="text.disabled">—</Typography>;
+          //     const adjusted = row.absolute * (1 + nerfPercent / 100);
+          //     return (
+          //       <Box sx={{ textAlign: "right" }}>
+          //         <Typography variant="body2" fontWeight="bold">{formatNumber(adjusted)}</Typography>
+          //         <Typography variant="caption" color={nerfPercent < 0 ? "error.main" : "success.main"}>
+          //           {nerfPercent > 0 ? "+" : ""}{nerfPercent.toFixed(1)}%
+          //         </Typography>
+          //       </Box>
+          //     );
+          //   },
+          // }] : []),
           ] as SwirlColumn<SpellRow>[]}
           accentColor={row => CATEGORY_COLORS[row.type as keyof typeof CATEGORY_COLORS] ?? "#ffffff"}
         />
