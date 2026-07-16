@@ -18,6 +18,8 @@ const MISTWEAVER_TIER_SET = new Map<spell, boolean>([
   [TIER.T36_MISTWEAVER_4SET, true],
 ]);
 
+export const MASTERY_COEFFICIENT = 31.185;
+
 const MISTWEAVER_MONK = ({
   key: MISTWEAVER_KEY,
   spells: MISTWEAVER_MONK_SPELLS,
@@ -29,13 +31,13 @@ const MISTWEAVER_MONK = ({
   name: 'Mistweaver',
   class: 'Monk',
   color: '#4ea55c',
-  masteryCoefficient: 20.79,
+  masteryCoefficient: MASTERY_COEFFICIENT,
   corePassives: [corePassive.MISTWEAVER_MONK, corePassive2.MISTWEAVER_MONK_2],
   defaultTalents: MISTWEAVER_DEFAULT_TALENTS,
   tierSet: MISTWEAVER_TIER_SET,
   stats: {
     intellect: 620,
-    mastery: 20.79 * 8, // 166.32%
+    mastery: MASTERY_COEFFICIENT * 8, // 249.48%
     crit: 0,
     versatility: 0,
     haste: 0,

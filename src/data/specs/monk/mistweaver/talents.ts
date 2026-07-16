@@ -1,6 +1,7 @@
 import { SCHOOLS } from '@data/shared/schools';
 import spell, { CATEGORY } from '@data/spells/spell';
 import { HERO_TREES } from '@data/heroTalents';
+import { MASTERY_COEFFICIENT } from '.';
 const MOH = HERO_TREES.MASTER_OF_HARMONY;
 const COTC = HERO_TREES.CONDUIT_OF_THE_CELESTIALS;
 
@@ -128,7 +129,7 @@ const talents = {
         category: CATEGORY.HEALING,
         coeff: 0.1,
         custom: {
-            multiplier: 20.79,
+            multiplier: MASTERY_COEFFICIENT,
         }
     },
     CELESTIAL_HARMONY: {

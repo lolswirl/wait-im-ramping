@@ -10,6 +10,7 @@ export function change(d: Date, text: string): ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+    change(date(2026, 7, 16), "12.1 PTR Healer Hotfixes"),
     change(date(2026, 7, 9), "More site redesigns for modernity and higher consistency between pages"),
     change(date(2026, 7, 8), "12.1 PTR week 3 changes"),
     change(date(2026, 6, 18), "12.1 PTR initial changes"),
