@@ -120,7 +120,7 @@ const DAMAGE_SPELLS = [
     //395519, // Strike of the Windlord, ww only
     //395521, // Strike of the Windlord (alt id), ww only
     //418360, // Press the Advantage, ww only
-    //443038, // Celestial Conduit (damage component) - note: different id from healing (443028)
+    SPELLS.CELESTIAL_CONDUIT.id, // note: should be different id from healing (443038)
     TALENTS.COURAGE_OF_THE_WHITE_TIGER.id, // 443088
     //457917, // Courage of the White Tiger (alt id)
     //443127, // Strength of the Black Ox, cotc only
