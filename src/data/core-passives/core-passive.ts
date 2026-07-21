@@ -12,6 +12,7 @@ export interface CorePassiveEffect {
     value?: number | string;
     pvpMultiplier?: number;
     affectedSpells?: number[];
+    effectId?: number;
 }
 
 const DAMAGE_EFFECT_TYPES = [
