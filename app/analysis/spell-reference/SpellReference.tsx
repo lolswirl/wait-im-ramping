@@ -10,7 +10,7 @@ import { GlassTooltip } from "@components/Glass";
 import SwirlTable, { SwirlColumn } from "@components/SwirlTable/SwirlTable";
 
 import PageHeader from "@components/PageHeader/PageHeader";
-import StatsCard, { Group, type StatsCardOptions } from "@components/StatsCard/StatsCard";
+import StatsCard, { Group, statsSummary, type StatsCardOptions } from "@components/StatsCard/StatsCard";
 import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
 import { CONTENT_WIDTH } from "@components/Theme/tokens";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
@@ -131,9 +131,6 @@ const expandRows = (s: spell, player: Player, specKey: string): SpellRow[] =>
 
 const isDev = process.env.NODE_ENV === 'development';
 
-const formatK = (value: number): string =>
-  value >= 1000 ? `${Math.round(value / 1000)}k` : `${value}`;
-
 const SpellReference: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const [spec, setSpec] = useState<specialization>(CLASSES.MONK.SPECS.MISTWEAVER);
   const [stats, setStats] = useState<StatsCardOptions>({ ...spec.stats });
@@ -184,14 +181,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
           {
             key: "stats",
             title: "stats",
-            summary: [
-              `${stats.intellect.toLocaleString()} int`,
-              `${formatK(stats.totalHp ?? 0)} hp`,
-              `${stats.mastery}% mast`,
-              ...(stats.haste > 0 || stats.crit > 0 || stats.versatility > 0
-                ? [`${stats.haste}h ${stats.crit}c ${stats.versatility}v`]
-                : []),
-            ].join(" · "),
+            summary: statsSummary(stats),
             content: <StatsCard options={stats} onOptionsChange={setStats} spec={spec} />,
           },
           ...(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0 || tierSet.size > 0 ? [{

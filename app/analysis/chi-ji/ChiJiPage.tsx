@@ -6,7 +6,7 @@ import PageHeader from "@components/PageHeader/PageHeader";
 import SpellButtons from "@components/SpellButtons/SpellButtons";
 import CurrentRotationControl from "@components/CurrentRotationControl/CurrentRotationControl";
 import { RotationCard } from '@components/RotationCard/RotationCard';
-import StatsCard, { Group } from "@components/StatsCard/StatsCard";
+import StatsCard, { Group, statsSummary } from "@components/StatsCard/StatsCard";
 import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
 import { CONTENT_WIDTH } from "@components/Theme/tokens";
 import TargetCountsCard from "@components/TargetCountCard/TargetCountsCard";
@@ -147,7 +147,7 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
                         {
                             key: "stats",
                             title: "stats",
-                            summary: `${options.intellect.toLocaleString()} int · ${options.mastery}% mast`,
+                            summary: statsSummary(options),
                             content: <StatsCard options={options} onOptionsChange={setOptions} spec={mistweaver} />,
                         },
                         {

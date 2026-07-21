@@ -6,7 +6,7 @@ import { Box, Container, useTheme } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
-import StatsCard, { Group, type StatsCardOptions } from "@components/StatsCard/StatsCard";
+import StatsCard, { Group, statsSummary, type StatsCardOptions } from "@components/StatsCard/StatsCard";
 import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
 import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
@@ -230,7 +230,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: React.ReactNode; description: Rea
           {
             key: "stats",
             title: "stats",
-            summary: `${options.intellect.toLocaleString()} int · ${options.mastery}% mast`,
+            summary: statsSummary(options),
             content: <StatsCard options={options} onOptionsChange={setOptions} spec={mistweaver} />,
           },
           {

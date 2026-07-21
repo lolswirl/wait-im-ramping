@@ -10,7 +10,7 @@ import PageHeader from "@components/PageHeader/PageHeader";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
-import { Group } from "@components/StatsCard/StatsCard";
+import StatsCard, { Group, statsSummary, type StatsCardOptions } from "@components/StatsCard/StatsCard";
 import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
 import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
@@ -71,6 +71,8 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
 
   const [tierSet, setTierSet] = useState<Map<spell, boolean>>(mistweaver.tierSet ?? new Map<spell, boolean>());
 
+  const [stats, setStats] = useState<StatsCardOptions>({ ...mistweaver.stats });
+
   const talents = useMemo(() => new Map<spell, boolean>([...specTalents, ...classTalents, ...heroTalents, ...tierSet]), [specTalents, classTalents, heroTalents, tierSet]);
 
   const spellById = useMemo<Map<number, spell>>(() => {
@@ -82,7 +84,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
     return new Map(all.map(s => [s.id, s]));
   }, []);
 
-  const simulationParams = useMemo(() => ({ talents, stats: mistweaver.stats, corePassives: mistweaver.corePassives }), [talents, mistweaver.stats]);
+  const simulationParams = useMemo(() => ({ talents, stats, corePassives: mistweaver.corePassives }), [talents, stats, mistweaver.corePassives]);
 
   const useRwk = talents.get(TALENTS.RUSHING_WIND_KICK) === true;
 
@@ -214,6 +216,16 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
                   <Box sx={{ flexGrow: 1 }} />
                   <WarningChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon borderColor="#ffa726" />
                 </Box>
+              ),
+            },
+            {
+              key: "stats",
+              title: "stats",
+              summary: statsSummary(stats),
+              content: (
+                <Group>
+                  <StatsCard options={stats} onOptionsChange={setStats} spec={mistweaver} />
+                </Group>
               ),
             },
             {
