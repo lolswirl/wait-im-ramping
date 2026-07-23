@@ -55,6 +55,13 @@ const BUGS: Bug[] = [
         description: <>The knockback effect of <SpellLink spell={SPELLS.CRACKLING_JADE_LIGHTNING}/> on melee attackers is either non-existent or incredibly low, after multiple minutes of receiving melee hits getting 0 knockbacks.</>,
         buildsTested: ["68235"],
     },
+    {
+        spell: TALENTS.IMPROVED_TOUCH_OF_DEATH,
+        severity: SEVERITY.LOW,
+        title: <><SpellLink spell={SPELLS.TOUCH_OF_DEATH}/> does not execute under max HP threshold</>,
+        description: <>Attempting to execute a mob with <SpellLink spell={SPELLS.TOUCH_OF_DEATH}/> while the target is below your max hp threshold instead deals 35% of your max hp as damage. Works fine above the threshold, as the talent states.</>,
+        buildsTested: ["68453"],
+    }
 ];
 
 export default BUGS;

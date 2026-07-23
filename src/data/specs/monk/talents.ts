@@ -98,6 +98,11 @@ const talents = {
         id: 115203,
         icon: 'ability_monk_fortifyingale_new',
     },
+    IMPROVED_TOUCH_OF_DEATH: {
+        name: "Improved Touch of Death",
+        id: 322113,
+        icon: 'ability_monk_touchofdeath',
+    },
 } satisfies Record<string, spell>;
 
 export default talents;
