@@ -1,14 +1,14 @@
 import React from "react";
-import { Box, FormControl, InputLabel, MenuItem, Select, TextField, IconButton, InputAdornment } from "@mui/material";
+import { Box, TextField, IconButton, InputAdornment, Typography } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import BuildIcon from "@mui/icons-material/Build";
 import CloseIcon from "@mui/icons-material/Close";
 import { useRouter, useSearchParams } from "next/navigation";
 import { T } from "@util/T";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
+import { GlassSelect, GlassTooltip } from "@components/Glass";
 import { specialization } from "@data/class";
 import { SEVERITY_COLORS } from "@data/bugs";
-import { GlassTooltip } from "@components/Glass";
 import { useIsLocalhost } from "@hooks/useIsLocalhost";
 
 interface BugFiltersProps {
@@ -42,7 +42,6 @@ const BugFilters: React.FC<BugFiltersProps> = ({
 }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const filtersHeight = 45;
     const isLocalhost = useIsLocalhost();
 
     const handleSpecChange = (newSpec: specialization) => {
@@ -53,13 +52,20 @@ const BugFilters: React.FC<BugFiltersProps> = ({
     };
 
     return (
-        <Box sx={{ mb: 1.5, display: "flex", alignItems: "center", gap: 1.5, flexWrap: "wrap", width: "80%", mx: "auto" }}>
-            <SpecializationSelect
-                selectedSpec={selectedSpec}
-                onSpecChange={handleSpecChange}
-                height={45}
-            />
-            <Box sx={{ flexGrow: 1, minWidth: 200, maxWidth: 300 }}>
+        <Box sx={{ mb: 1, display: "flex", alignItems: "flex-end", gap: 1, flexWrap: "wrap", width: "80%", mx: "auto" }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <Typography variant="caption" sx={{ fontSize: '0.7rem', fontWeight: 600, opacity: 0.45, px: 0.5 }}>spec</Typography>
+                <SpecializationSelect
+                    selectedSpec={selectedSpec}
+                    onSpecChange={handleSpecChange}
+                    short
+                    withLabel
+                    height={42}
+                />
+            </Box>
+
+            <Box sx={{ flexGrow: 1, minWidth: 200, maxWidth: 300, display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <Typography variant="caption" sx={{ fontSize: '0.7rem', fontWeight: 600, opacity: 0.45, px: 0.5 }}>search</Typography>
                 <TextField
                     variant="outlined"
                     size="small"
@@ -67,11 +73,17 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                     onChange={(e) => onSearchChange(e.target.value)}
                     placeholder={T("Search bugs...")}
                     fullWidth
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            height: 42,
+                            fontSize: '0.8rem',
+                            '& fieldset': { borderColor: 'divider' },
+                            '&:hover fieldset': { borderColor: 'text.secondary' },
+                            '&.Mui-focused fieldset': { borderColor: 'text.secondary' },
+                        },
+                    }}
                     slotProps={{
                         input: {
-                            style: {
-                                height: filtersHeight,
-                            },
                             endAdornment: search ? (
                                 <InputAdornment position="end">
                                     <IconButton
@@ -99,98 +111,23 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                 />
             </Box>
 
-            <FormControl size="small">
-                <InputLabel id="status-select-label">Status</InputLabel>
-                <Select
-                    labelId="status-select-label"
-                    id="status-select"
-                    value={status}
-                    label={"Status"}
-                    onChange={(e) => onStatusChange(e.target.value)}
-                    sx={{ height: filtersHeight }}
-                    MenuProps={{
-                        slotProps: {
-                            paper: {
-                                sx: {
-                                    backgroundColor: "rgba(0, 0, 0, 0.3) !important",
-                                    backdropFilter: "blur(8px)",
-                                    border: "1px solid rgba(255,255,255,0.1)",
-                                    boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                                    backgroundImage: 'none',
-                                }
-                            }
-                        }
-                    }}
-                >
-                    {statuses.map((status) => (
-                        <MenuItem 
-                            key={status} 
-                            value={status}
-                            sx={{
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                },
-                                '&.Mui-selected': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                                    },
-                                },
-                            }}
-                        >
-                            {status}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+            <GlassSelect
+                value={status}
+                onChange={onStatusChange}
+                label="status"
+                options={statuses.map(s => ({ value: s, label: s }))}
+            />
 
-            <FormControl size="small" sx={{ minWidth: 75 }}>
-                <InputLabel id="severity-select-label">Severity</InputLabel>
-                <Select
-                    labelId="severity-select-label"
-                    id="severity-select"
-                    value={severity}
-                    label={"Severity"}
-                    onChange={(e) => onSeverityChange(e.target.value)}
-                    sx={{ height: filtersHeight }}
-                    MenuProps={{
-                        slotProps: {
-                            paper: {
-                                sx: {
-                                    backgroundColor: "rgba(0, 0, 0, 0.3) !important",
-                                    backdropFilter: "blur(8px)",
-                                    border: "1px solid rgba(255,255,255,0.1)",
-                                    boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                                    backgroundImage: 'none',
-                                }
-                            }
-                        }
-                    }}
-                >
-                    {severities.map((severity) => (
-                        <MenuItem 
-                            key={severity} 
-                            value={severity} 
-                            sx={{ 
-                                borderBottom: `3px solid ${SEVERITY_COLORS[severity]}`,
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                },
-                                '&.Mui-selected': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                                    },
-                                },
-                            }}
-                        >
-                            {severity}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+            <GlassSelect
+                value={severity}
+                onChange={onSeverityChange}
+                label="severity"
+                options={severities.map(s => ({
+                    value: s,
+                    label: s,
+                    sx: { borderBottom: `2px solid ${SEVERITY_COLORS[s] ?? 'transparent'}` },
+                }))}
+            />
 
             {onExportToExcel && (
                 <Box sx={{ marginLeft: "auto" }}>
@@ -198,8 +135,6 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                         <IconButton
                             onClick={onExportToExcel}
                             sx={{
-                                height: filtersHeight,
-                                width: filtersHeight,
                                 border: "1px solid rgba(255, 255, 255, 0.23)",
                                 borderRadius: 1,
                                 color: "primary.light",
@@ -214,15 +149,13 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                     </GlassTooltip>
                 </Box>
             )}
-            
+
             {isLocalhost && onOpenBugUpdate && (
                 <Box>
                     <GlassTooltip title={"Update Bugs"}>
                         <IconButton
                             onClick={onOpenBugUpdate}
                             sx={{
-                                height: filtersHeight,
-                                width: filtersHeight,
                                 border: "1px solid rgba(255, 165, 0, 0.23)",
                                 borderRadius: 1,
                                 color: "warning.light",

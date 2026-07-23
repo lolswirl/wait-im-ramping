@@ -2,29 +2,29 @@
 import React, { useState, useMemo } from "react";
 import {
   Box,
-  Card,
   Container,
-  Divider,
   TextField,
   Typography,
 } from "@mui/material";
+import { GlassTooltip } from "@components/Glass";
 import SwirlTable, { SwirlColumn } from "@components/SwirlTable/SwirlTable";
 
 import PageHeader from "@components/PageHeader/PageHeader";
-import StatsCard, { Group, StatsCardOptions } from "@components/StatsCard/StatsCard";
+import StatsCard, { Group, statsSummary, type StatsCardOptions } from "@components/StatsCard/StatsCard";
+import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
+import { CONTENT_WIDTH } from "@components/Theme/tokens";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 
 import spell, { CATEGORY, CATEGORY_COLORS } from "@data/spells/spell";
 import { formatNumber, formatPercent, pluralize } from "@util/stringManipulation";
 import { CLASSES, specialization } from "@data/class";
-import { Player } from "@data/shared/engine";
+import { Player, SpellModifier } from "@data/shared/engine";
 import { getSpecEngine } from "@data/shared/specEngines";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
 
 import SpellButton from "@components/SpellButtons/SpellButton";
-
-import WarningChip from "@components/WarningChip/WarningChip";
+import FieldCells from "@components/FieldCells/FieldCells";
 
 
 type SpellRow = {
@@ -33,6 +33,7 @@ type SpellRow = {
   baseSpCoeff: number | null;
   spCoeff: number | null;
   absolute: number | null;
+  modifiers?: SpellModifier[];
   targets?: number;
 };
 
@@ -69,13 +70,20 @@ const resolveValue = (
   player: Player,
   specKey: string,
   targetMultiplier = 1,
-): { baseSpCoeff: number | null; spCoeff: number | null; absolute: number | null } => {
+): { baseSpCoeff: number | null; spCoeff: number | null; absolute: number | null; modifiers?: SpellModifier[] } => {
   const engine = getSpecEngine(specKey);
 
   const overridden = engine?.resolveSpellValue?.(s, player);
   if (overridden !== null && overridden !== undefined) {
     const absolute = overridden * targetMultiplier;
-    return { baseSpCoeff: null, spCoeff: (absolute / player.stats.intellect) * 100, absolute };
+    const spCoeff = (absolute / player.stats.intellect) * 100;
+    const modifiers = engine?.getSpellModifiers?.(s, player, type === CATEGORY.DAMAGE ? "damage" : "healing");
+    if (modifiers?.length) {
+      // no datamined coeff here, so derive the base by backing the modifiers out
+      const totalMultiplier = modifiers.reduce((acc, m) => acc * m.multiplier, 1);
+      return { baseSpCoeff: spCoeff / totalMultiplier, spCoeff, absolute, modifiers };
+    }
+    return { baseSpCoeff: null, spCoeff, absolute };
   }
 
   if (s.formula !== undefined) {
@@ -92,6 +100,7 @@ const resolveValue = (
       baseSpCoeff: rawCoeff !== null ? rawCoeff * 100 * targetMultiplier : null,
       spCoeff: (absolute / player.stats.intellect) * 100,
       absolute,
+      modifiers: engine.getSpellModifiers?.(s, player, type === CATEGORY.DAMAGE ? "damage" : "healing"),
     };
   }
 
@@ -128,11 +137,11 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
   const [specTalents, setSpecTalents] = useState(spec.defaultTalents?.spec ?? new Map<spell, boolean>());
   const [heroTalents, setHeroTalents] = useState(spec.defaultTalents?.hero ?? new Map<spell, boolean>());
   const [classTalents, setClassTalents] = useState(spec.defaultTalents?.class ?? new Map<spell, boolean>());
-  const [nerfPercent, setNerfPercent] = useState<number>(-10);
+  const [tierSet, setTierSet] = useState(spec.tierSet ?? new Map<spell, boolean>());
 
   const talents = useMemo(
-    () => new Map<spell, boolean>([...specTalents, ...heroTalents, ...classTalents]),
-    [specTalents, heroTalents, classTalents]
+    () => new Map<spell, boolean>([...specTalents, ...heroTalents, ...classTalents, ...tierSet]),
+    [specTalents, heroTalents, classTalents, tierSet]
   );
 
   const handleSpecChange = (newSpec: specialization) => {
@@ -141,6 +150,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
     setSpecTalents(newSpec.defaultTalents?.spec ?? new Map());
     setHeroTalents(newSpec.defaultTalents?.hero ?? new Map());
     setClassTalents(newSpec.defaultTalents?.class ?? new Map());
+    setTierSet(newSpec.tierSet ?? new Map());
   };
 
   const allSpells = useMemo(() => [
@@ -154,24 +164,32 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
   }, [spec, allSpells, stats.intellect, stats.haste, stats.crit, stats.versatility, stats.mastery, stats.totalHp, talents]);
 
   return (
-    <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
+    <Container sx={{ display: "flex", flexDirection: "column", gap: 1, alignItems: "center" }}>
       <PageHeader title={title} subtitle={description} marginBottom={0} />
 
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, display: "flex", flexDirection: { xs: "column", md: "row" } }}>
-        <Box sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2, flex: "0 0 auto", width: 300 }}>
-          <WarningChip message="Work in Progress. Some data might be incorrect." showIcon borderColor='#ffa726' />
-          <Box sx={{ width: "fit-content" }}>
-            <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
-          </Box>
-          <Group>
-            <StatsCard options={stats} onOptionsChange={setStats} />
-          </Group>
-        </Box>
-        {(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0) && (
-          <>
-            <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" } }} />
-            <Divider sx={{ display: { md: "none" } }} />
-            <Box sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2, flex: 1 }}>
+      <ConfigPanel
+        sx={{ maxWidth: CONTENT_WIDTH.wide }}
+        accent={spec.color}
+        onReset={() => handleSpecChange(spec)}
+        sections={[
+          {
+            key: "spec",
+            title: "spec",
+            summary: spec.name.toLowerCase(),
+            content: <SpecializationSelect short withLabel selectedSpec={spec} onSpecChange={handleSpecChange} />,
+          },
+          {
+            key: "stats",
+            title: "stats",
+            summary: statsSummary(stats),
+            content: <StatsCard options={stats} onOptionsChange={setStats} spec={spec} />,
+          },
+          ...(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0 || tierSet.size > 0 ? [{
+            key: "talents",
+            title: "talents",
+            summary: `${[...talents.values()].filter(Boolean).length} active`,
+            defaultOpen: true,
+            content: (
               <Group>
                 {specTalents.size > 0 && (
                   <TalentsCard
@@ -195,27 +213,38 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                     onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))}
                   />
                 )}
+                {tierSet.size > 0 && (
+                  <>
+                    {(specTalents.size > 0 || heroTalents.size > 0 || classTalents.size > 0) && (
+                      <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)" }} />
+                    )}
+                    <TalentsCard
+                      label="Tier"
+                      options={tierSet}
+                      color={spec.color}
+                      onChange={(t, c) => setTierSet(prev => new Map(prev).set(t, c))}
+                    />
+                  </>
+                )}
               </Group>
-            </Box>
-          </>
-        )}
-      </Card>
+            ),
+          }] : []),
+          // ...(isDev ? [{
+          //   key: "nerf",
+          //   title: "nerf sim",
+          //   summary: `${nerfPercent}%`,
+          //   content: (
+          //     <FieldCells
+          //       fields={[{ key: "nerfPercent", label: "Nerf Percent", min: -100, adornment: "%" }]}
+          //       options={{ nerfPercent }}
+          //       onOptionsChange={newOptions => setNerfPercent(newOptions.nerfPercent ?? 0)}
+          //     />
+          //   ),
+          // }] : []),
+        ]}
+      />
 
-      {isDev && (
-        <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000, p: 2, display: "flex", gap: 2, alignItems: "center" }}>
-          <Typography variant="body2" color="text.secondary">Nerf simulator</Typography>
-          <TextField
-            size="small"
-            label="% change"
-            type="number"
-            value={nerfPercent}
-            onChange={e => setNerfPercent(Number(e.target.value))}
-            sx={{ width: 120 }}
-          />
-        </Card>
-      )}
-
-      <Box sx={{ width: "100%", maxWidth: 1000 }}>
+      <Box sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide }}>
         <SwirlTable
           rows={rows}
           rowKey={(row, i) => `${row.spell.id}-${row.type}-${row.targets ?? i}`}
@@ -243,11 +272,23 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               width: "1fr",
               align: "center",
               sortValue: row => row.type,
-              render: row => (
-                <Typography variant="caption" sx={{ color: CATEGORY_COLORS[row.type as keyof typeof CATEGORY_COLORS] ?? "#ffffff" }}>
-                  {row.type}
-                </Typography>
-              ),
+              render: row => {
+                const typeColor = CATEGORY_COLORS[row.type as keyof typeof CATEGORY_COLORS] ?? "#ffffff";
+                return (
+                  <Box sx={{
+                    display: "inline-flex",
+                    px: 1,
+                    py: 0.25,
+                    borderRadius: 1,
+                    border: `1px solid ${typeColor}66`,
+                    backgroundColor: typeColor + "14",
+                  }}>
+                    <Typography variant="caption" sx={{ color: typeColor, fontWeight: 600 }}>
+                      {row.type}
+                    </Typography>
+                  </Box>
+                );
+              },
             },
             {
               key: "baseSp",
@@ -267,11 +308,36 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               width: "1fr",
               align: "right",
               sortValue: row => row.spCoeff ?? -1,
-              render: row => (
-                <Typography variant="body2">
-                  {row.spCoeff !== null ? formatPercent(row.spCoeff) : "—"}
-                </Typography>
-              ),
+              render: row => {
+                if (row.spCoeff === null) return <Typography variant="body2">—</Typography>;
+                const value = <Typography variant="body2">{formatPercent(row.spCoeff)}</Typography>;
+                if (row.baseSpCoeff === null || !row.modifiers?.length) return value;
+                return (
+                  <GlassTooltip
+                    placement="left"
+                    title={
+                      <Box sx={{ display: "grid", gridTemplateColumns: "auto auto", columnGap: 1.5, rowGap: 0.25 }}>
+                        <Typography variant="caption" color="text.secondary">base</Typography>
+                        <Typography variant="caption" align="right">{formatPercent(row.baseSpCoeff)}</Typography>
+                        {row.modifiers.map(m => (
+                          <React.Fragment key={m.label}>
+                            <Typography variant="caption" color="text.secondary">{m.label.toLowerCase()}</Typography>
+                            <Typography variant="caption" align="right">
+                              {m.multiplier >= 1 ? "+" : ""}{((m.multiplier - 1) * 100).toFixed(1)}%
+                            </Typography>
+                          </React.Fragment>
+                        ))}
+                        <Typography variant="caption" fontWeight="bold">effective</Typography>
+                        <Typography variant="caption" align="right" fontWeight="bold">{formatPercent(row.spCoeff)}</Typography>
+                      </Box>
+                    }
+                  >
+                    <Box component="span" sx={{ cursor: "help", textDecoration: "underline dotted", textUnderlineOffset: 3 }}>
+                      {value}
+                    </Box>
+                  </GlassTooltip>
+                );
+              },
             },
             {
               key: "absolute",
@@ -285,25 +351,25 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                 </Typography>
               ),
             },
-          ...(isDev ? [{
-            key: "nerf",
-            label: `After (${nerfPercent > 0 ? "+" : ""}${nerfPercent}%)`,
-            width: "1fr",
-            align: "right" as const,
-            sortValue: (row: SpellRow) => (row.absolute ?? -1) * (1 + nerfPercent / 100),
-            render: (row: SpellRow) => {
-              if (row.absolute === null) return <Typography variant="body2" color="text.disabled">—</Typography>;
-              const adjusted = row.absolute * (1 + nerfPercent / 100);
-              return (
-                <Box sx={{ textAlign: "right" }}>
-                  <Typography variant="body2" fontWeight="bold">{formatNumber(adjusted)}</Typography>
-                  <Typography variant="caption" color={nerfPercent < 0 ? "error.main" : "success.main"}>
-                    {nerfPercent > 0 ? "+" : ""}{nerfPercent.toFixed(1)}%
-                  </Typography>
-                </Box>
-              );
-            },
-          }] : []),
+          // ...(isDev ? [{
+          //   key: "nerf",
+          //   label: `After (${nerfPercent > 0 ? "+" : ""}${nerfPercent}%)`,
+          //   width: "1fr",
+          //   align: "right" as const,
+          //   sortValue: (row: SpellRow) => (row.absolute ?? -1) * (1 + nerfPercent / 100),
+          //   render: (row: SpellRow) => {
+          //     if (row.absolute === null) return <Typography variant="body2" color="text.disabled">—</Typography>;
+          //     const adjusted = row.absolute * (1 + nerfPercent / 100);
+          //     return (
+          //       <Box sx={{ textAlign: "right" }}>
+          //         <Typography variant="body2" fontWeight="bold">{formatNumber(adjusted)}</Typography>
+          //         <Typography variant="caption" color={nerfPercent < 0 ? "error.main" : "success.main"}>
+          //           {nerfPercent > 0 ? "+" : ""}{nerfPercent.toFixed(1)}%
+          //         </Typography>
+          //       </Box>
+          //     );
+          //   },
+          // }] : []),
           ] as SwirlColumn<SpellRow>[]}
           accentColor={row => CATEGORY_COLORS[row.type as keyof typeof CATEGORY_COLORS] ?? "#ffffff"}
         />

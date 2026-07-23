@@ -24,7 +24,8 @@ import SpecializationSelect from "@components/SpecializationSelect/Specializatio
 import SwirlButton from "@components/Buttons/SwirlButton";
 import { ColoredIconButton } from "@components/Buttons/ColoredIconButton";
 import { GlassBox } from "@components/Glass";
-import { RAINBOW_GRADIENT, RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
+import { RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
+import { SECTIONS, INK } from "@components/Theme/tokens";
 
 const MoonIcon = () => (
     <SvgIcon viewBox="0 0 16 16" sx={{ fontSize: 15 }}>
@@ -47,14 +48,6 @@ const SunIcon = () => (
         />
     </SvgIcon>
 );
-
-const pages = [
-    { label: "Home", path: "/" },
-    { label: "When do I ramp?", path: "/when-do-i-ramp" },
-    { label: "Timeline", path: "/timeline" },
-    { label: "Analysis", path: "/analysis" },
-    { label: "Bugs", path: "/bugs" },
-];
 
 function ResponsiveAppBar() {
     const pathname = usePathname();
@@ -118,12 +111,12 @@ function ResponsiveAppBar() {
 
             {/* mobile nav */}
             <List sx={{ px: 1, py: 2 }}>
-                {pages.map(({ label, path }, index) => {
-                    const isActive = path === "/analysis" 
-                        ? pathname?.startsWith("/analysis") 
-                        : pathname === path;
-                    const buttonColor = RAINBOW_COLORS[index % RAINBOW_COLORS.length];
-                    
+                {SECTIONS.map(({ label, path, color }) => {
+                    const isActive = path === "/"
+                        ? pathname === path
+                        : pathname?.startsWith(path);
+                    const buttonColor = color;
+
                     return (
                         <ListItem key={label} disablePadding sx={{ mb: 0.5 }}>
                             <ListItemButton 
@@ -306,18 +299,18 @@ function ResponsiveAppBar() {
 
                         {/* desktop navigation */}
                         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1, mb: "-2px" }}>
-                            {pages.map(({ label, path }, index) => {
-                                const isActive = path === "/analysis" 
-                                    ? pathname?.startsWith("/analysis") 
-                                    : pathname === path;
-                                const buttonColor = RAINBOW_COLORS[index % RAINBOW_COLORS.length];
-                                
+                            {SECTIONS.map(({ label, path, color }) => {
+                                const isActive = path === "/"
+                                    ? pathname === path
+                                    : pathname?.startsWith(path);
+
                                 return (
                                     <SwirlButton
                                         key={label}
                                         href={path}
                                         selected={isActive}
-                                        color={buttonColor}
+                                        color={color}
+                                        textColor={INK.secondary}
                                     >
                                         {label}
                                     </SwirlButton>

@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from 'react';
-import { TextField } from '@mui/material';
-import { GlassTooltip } from '@components/Glass';
+import React from 'react';
+import { FieldCells, type FieldDef } from '@components/FieldCells/FieldCells';
 import { type Stats } from '@data/shared/stats';
+import { type specialization } from '@data/class';
 
 export interface StatsCardOptions extends Stats {
     totalHp?: number;
@@ -11,13 +11,9 @@ export interface StatsCardOptions extends Stats {
 interface StatsCardProps {
     options: StatsCardOptions;
     onOptionsChange: (newOptions: any) => void;
-}
-
-interface StatField {
-    key: keyof StatsCardOptions;
-    label: string;
-    min?: number;
-    tooltip?: string;
+    label?: string;
+    fields?: (keyof StatsCardOptions)[];
+    spec?: specialization;
 }
 
 export const rowLabel: React.CSSProperties = { fontSize: "0.7rem", fontWeight: 600, opacity: 0.45, textAlign: "right", whiteSpace: "nowrap" };
@@ -29,69 +25,59 @@ export const Group: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     </div>
 );
 
-const fieldStyles = {
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': { borderColor: 'rgba(54, 162, 235, 0.3)' },
-        '&:hover fieldset': { borderColor: 'rgba(54, 162, 235, 0.5)' },
-        '&.Mui-focused fieldset': { borderColor: 'rgba(54, 162, 235, 0.8)' },
-    },
-};
+interface StatFieldDef extends FieldDef {
+    summary?: {
+        suffix: string;
+        compact?: boolean;
+        format?: (value: number) => string;
+    };
+}
 
-const statFields: StatField[] = [
-    { key: 'intellect', label: 'Intellect', min: 1 },
-    { key: 'totalHp', label: 'Total HP', min: 1 },
-    { key: 'haste', label: 'Haste %', min: 0 },
-    { key: 'crit', label: 'Crit %', min: 0, tooltip: "We're using the law of large numbers to assume that, out of a large number of casts, you will critically strike as often as your crit percentage." },
-    { key: 'versatility', label: 'Vers %', min: 0 },
-    { key: 'mastery', label: 'Mastery %', min: 55.4 },
-    
+const formatK = (value: number): string =>
+    value >= 1000 ? `${Math.round(value / 1000)}k` : `${value}`;
+
+const baseFields: StatFieldDef[] = [
+    { key: 'intellect', label: 'intellect', min: 1, summary: { suffix: ' int' } },
+    { key: 'totalHp', label: 'total hp', min: 1, summary: { suffix: ' hp', format: formatK } },
 ];
 
-const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange }) => {
-    const [localValues, setLocalValues] = useState<{ [key: string]: string }>({});
+const secondaryFields: StatFieldDef[] = [
+    { key: 'haste', label: 'haste', min: 0, adornment: "%", summary: { suffix: 'h', compact: true } },
+    { key: 'crit', label: 'crit', min: 0, adornment: "%", tooltip: "We're using the law of large numbers to assume that, out of a large number of casts, you will critically strike as often as your crit percentage.", summary: { suffix: 'c', compact: true } },
+    { key: 'versatility', label: 'vers', min: 0, adornment: "%", summary: { suffix: 'v', compact: true } },
+    { key: 'mastery', label: 'mastery', min: 0, adornment: "%", summary: { suffix: '% mast' } },
+];
 
-    const handleChange = (field: string, value: number) => {
-        onOptionsChange((prev: any) => ({ ...prev, [field]: value }));
-    };
+export const statsSummary = (options: StatsCardOptions, fields?: (keyof StatsCardOptions)[]): string => {
+    type SummaryEntry = { summary: NonNullable<StatFieldDef['summary']>; value: number };
 
-    const formatNumber = (num: number): string => num.toLocaleString();
-    const parseNumber = (str: string): number => Number(str.replace(/,/g, ''));
+    const present = [...baseFields, ...secondaryFields]
+        .filter(field => field.summary && (!fields || fields.includes(field.key as keyof StatsCardOptions)))
+        .map(field => ({ summary: field.summary!, value: options[field.key as keyof StatsCardOptions] }))
+        .filter((entry): entry is SummaryEntry => typeof entry.value === 'number' && entry.value > 0);
+
+    const format = ({ summary, value }: SummaryEntry) =>
+        `${(summary.format ?? (v => v.toLocaleString()))(value)}${summary.suffix}`;
+
+    const compact = present.filter(entry => entry.summary.compact).map(format).join(" ");
+    const separate = present.filter(entry => !entry.summary.compact).map(format);
+
+    return [...separate, ...(compact ? [compact] : [])].join(" · ");
+};
+
+const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange, label, fields, spec }) => {
+    const masteryMin = spec ? spec.masteryCoefficient * 8 : 0;
+    const visibleFields = [...baseFields, ...secondaryFields]
+        .map(field => field.key === 'mastery' ? { ...field, min: masteryMin } : field)
+        .filter(field => !fields || fields.includes(field.key as keyof StatsCardOptions));
 
     return (
-        <React.Fragment>
-            <span style={rowLabel}>Stats</span>
-            {rowSep}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, paddingTop: 10, paddingBottom: 10 }}>
-                {statFields.map((field) => {
-                    const input = (
-                        <TextField
-                            key={field.key}
-                            label={(field.label)}
-                            type="text"
-                            size="small"
-                            value={localValues[field.key] !== undefined ? localValues[field.key] : formatNumber(options[field.key] ?? 0)}
-                            onChange={(e) => {
-                                setLocalValues(prev => ({ ...prev, [field.key]: e.target.value }));
-                                const raw = parseNumber(e.target.value);
-                                if (!isNaN(raw)) handleChange(field.key, raw);
-                            }}
-                            onBlur={() => {
-                                const cur = options[field.key] ?? 0;
-                                const min = field.min ?? 0;
-                                if (cur < min) handleChange(field.key, min);
-                                setLocalValues(prev => { const s = { ...prev }; delete s[field.key]; return s; });
-                            }}
-                            slotProps={{ htmlInput: { min: field.min, inputMode: 'numeric', pattern: '[0-9,]*' } }}
-                            sx={{ ...fieldStyles, width: 100 }}
-                        />
-                    );
-
-                    return field.tooltip ? (
-                        <GlassTooltip key={field.key} title={(field.tooltip)}>{input}</GlassTooltip>
-                    ) : input;
-                })}
-            </div>
-        </React.Fragment>
+        <FieldCells
+            fields={visibleFields}
+            options={options}
+            onOptionsChange={onOptionsChange}
+            label={label}
+        />
     );
 };
 

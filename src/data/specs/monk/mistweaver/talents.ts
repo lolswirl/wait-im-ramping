@@ -62,12 +62,20 @@ const talents = {
             armorModifier: 0.7, // sad
         }
     },
+    AMPLIFIED_RUSH: {
+        name: "Amplified Rush",
+        id: 1271431,
+        icon: 'ability_monk_rushingjadewind',
+        custom: {
+            gustOfMistsIncrease: 1.0,
+        }
+    },
     JADEFIRE_TEACHINGS: {
         name: "Jadefire Teachings",
         id: 467293,
         icon: 'inv_misc_book_07',
         custom: {
-            transferRate: 2.7,
+            transferRate: 3.2,
             armorModifier: 0.7, // sad
         },
         exclusive: [467307],
@@ -78,7 +86,7 @@ const talents = {
         icon: 'monk_stance_redcrane',
         custom: {
             targetsPerSCK: 1,
-            transferRate: 3.40,
+            transferRate: 2.80,
             armorModifier: 0.7,
             tigerPalmHits: 2,
             blackoutKickHits: 2,
@@ -119,9 +127,6 @@ const talents = {
         icon: 'ability_monk_souldance',
         category: CATEGORY.HEALING,
         coeff: 0.1,
-        custom: {
-            multiplier: 13.86,
-        }
     },
     CELESTIAL_HARMONY: {
         name: "Celestial Harmony",
@@ -458,6 +463,14 @@ const talents = {
         id: 122280,
         icon: 'ability_monk_jasmineforcetea',
     },
+    VITAL_EXPENDITURE: {
+        name: "Vital Expenditure",
+        id: 1299572,
+        icon: "ability_monk_soothingmists",
+        custom: {
+            soomIncrease: 3.0
+        }
+    },
 
     // hero talents
     // master of harmony
@@ -587,10 +600,11 @@ const talents = {
         id: 442743,
         icon: 'ability_monk_provoke',
         heroTalent: COTC,
+        spellModifier: 137024,
         custom: {
             vivifyIncrease: 0.06,
             envIncrease: 0.06,
-            sckIncrease: 0.10 // lmao
+            sckIncrease: 0 // yay
         }
     },
     COURAGE_OF_THE_WHITE_TIGER: {

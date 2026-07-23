@@ -29,6 +29,7 @@ export interface specialization {
   masteryCoefficient: number;
   corePassives?: CorePassive[];
   defaultTalents?: SpecTalentConfig;
+  tierSet?: Map<spell, boolean>;
   buffs?: (spellList: spell[]) => spell[];
 
   getSpell?: (spellName: string) => spell | undefined;

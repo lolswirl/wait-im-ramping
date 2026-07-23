@@ -1,19 +1,21 @@
 "use client";
 import React, { useState } from 'react';
-import { FormControl, InputLabel, MenuItem, Box, MenuList } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Box, MenuList, Typography } from '@mui/material';
 import Select from '@mui/material/Select';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { GlassMenu } from '@components/Glass';
 
 import SpecDisplay from "@components/SpecializationSelect/SpecDisplay";
 
 import { specialization, getSpecs, getSpecializationByKey } from '@data/class';
-import { T } from "@util/T";
+import { KeyboardArrowDown } from '@mui/icons-material';
 
 interface SpecializationSelectProps {
   selectedSpec: specialization;
   onSpecChange: (spec: specialization) => void;
   size?: "small" | "medium";
   short?: boolean;
+  withLabel?: boolean;
   height?: number;
 }
 
@@ -22,7 +24,8 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   onSpecChange,
   size = "medium",
   short = false,
-  height = 50,
+  withLabel = false,
+  height = 51,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -43,34 +46,42 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   if (short) {
     return (
       <>
-        <Box 
+        <Box
           onClick={handleClick}
-          sx={{ 
+          sx={withLabel ? {
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            px: 1.5,
+            py: 1,
+            height: height,
+            border: '1px solid',
+            borderColor: 'divider',
+            borderRadius: 1,
+            color: 'text.primary',
+            fontSize: '0.8rem',
+            transition: 'border-color 0.2s ease',
+            '&:hover': { borderColor: 'text.secondary' },
+          } : {
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
             transition: 'transform 0.3s ease',
-            '&:hover': {
-              opacity: 0.8,
-              transform: 'scale(1.1)',
-            }
+            '&:hover': { opacity: 0.8, transform: 'scale(1.1)' },
           }}
         >
-          <SpecDisplay spec={selectedSpec} short={true} />
+          <SpecDisplay spec={selectedSpec} short={!withLabel} />
+          {withLabel && <KeyboardArrowDown sx={{ fontSize: 18, opacity: 0.5, ml: 'auto', transition: 'transform 0.2s ease', transform: open ? 'rotate(90deg)' : 'none' }} />}
         </Box>
         
         <GlassMenu
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+          slotProps={{ paper: { sx: { minWidth: anchorEl?.offsetWidth } } }}
         >
           <MenuList dense>
             {getSpecs().map((spec, index) => (
@@ -101,7 +112,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   }
 
   return (
-    <FormControl sx={{ minWidth: 150 }} size={size}>
+    <FormControl sx={{ minWidth: 150, height: 100 }} size={size}>
       <InputLabel id="spec-select-label">Specialization</InputLabel>
       <Select
         labelId="spec-select-label"
@@ -122,6 +133,8 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
                 backdropFilter: "blur(8px)",
                 border: "1px solid rgba(255,255,255,0.1)",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                maxHeight: 400,
+                borderRadius: 1,
                 backgroundImage: 'none',
               }
             }

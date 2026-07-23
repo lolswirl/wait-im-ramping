@@ -65,7 +65,7 @@ function SwirlTable<T>({
     ).join(" ");
 
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 0, width: "100%" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "100%" }}>
             {/* header */}
             <Box sx={{
                 display: "grid",
@@ -108,7 +108,7 @@ function SwirlTable<T>({
             </Box>
 
             {/* rows */}
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5, pt: 0.5 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
                 {sorted.map((row, i) => {
                     const accent = accentColor?.(row);
                     return (

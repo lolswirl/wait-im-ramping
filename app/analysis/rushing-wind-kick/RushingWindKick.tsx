@@ -2,17 +2,16 @@
 import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Box, Container, useTheme, Card, Divider, Typography } from "@mui/material";
+import { Box, Container, useTheme } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
-import RadioOption from "@components/RadioOption/RadioOption";
 
 import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
-import SHARED from "@data/specs/monk/talents";
+import TIER from "@data/items/tier";
 import { CLASSES } from "@data/class";
 import {
   calculateAncientTeachingsHealing,
@@ -23,15 +22,18 @@ import {
 
 import { T } from "@util/T";
 import { Group } from "@components/StatsCard/StatsCard";
+import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
+import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-type CalcMode = "totalHealing" | "healingPerTarget" | "damage";
+type CalcMode = "totalHealing" | "healingPerTarget" | "damage" | "spellpower";
 
 const modeOptions: { value: CalcMode; label: string}[] = [
   { value: "totalHealing", label: "Total Healing" },
   { value: "healingPerTarget", label: "Healing Per Target" },
   { value: "damage", label: "Raw Damage" },
+  { value: "spellpower", label: "Spellpower %" },
 ];
 
 const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
@@ -39,17 +41,14 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
   const [calcMode, setCalcMode] = useState<CalcMode>("totalHealing");
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
+  const defaultTalents = mistweaver.defaultTalents!;
+  const defaultTierSet = mistweaver.tierSet!;
 
   const allTalents = new Map<spell, boolean>([
-    [TALENTS.JADEFIRE_TEACHINGS, true],
-    [TALENTS.MORNING_BREEZE, true],
-    [TALENTS.SPIRITFONT, false],
-    [SHARED.FAST_FEET, true],
-    [SHARED.FEROCITY_OF_XUEN, true],
-    [SHARED.CHI_PROFICIENCY, true],
-    [SHARED.MARTIAL_INSTINCTS, true],
-    [TALENTS.YULONS_KNOWLEDGE, true],
-    [TALENTS.MEDITATIVE_FOCUS, false],
+    ...defaultTalents.spec,
+    ...defaultTalents.hero,
+    ...defaultTalents.class,
+    ...defaultTierSet,
   ]);
 
   const [talents, setTalents] = useState(allTalents);
@@ -66,11 +65,10 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
 
   const rwkBaseDamage = calculateSpellDamage(rwk, player);
   const rwkDirectHealing = calculateSpellHealing(rwk, player);
-  const rwkDamageHealing = calculateAncientTeachingsHealing(rwkBaseDamage, player, false, rwk);
-
   const rwkMaxDamageTargets = rwk.custom.maxDamageTargets;
   const rwkMaxHealingTargets = rwk.custom.targetsHit.healing;
   const rwkDamageIncreasePerTarget = rwk.custom.damageIncrease;
+  const rwkDamageHealing = calculateAncientTeachingsHealing(rwkBaseDamage * (1 + rwkDamageIncreasePerTarget), player, false, rwk);
 
   let rskValues: number[] = [];
   let rwkValues: number[] = [];
@@ -82,40 +80,44 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
     rwkValues = targetValues.map(targets => {
       const effectiveTargets = Math.min(targets, rwkMaxHealingTargets);
       const directHealing = rwkDirectHealing * effectiveTargets;
-      const effectiveDamageTargets = Math.min(targets, rwkMaxDamageTargets);
-      const damageBonus = 1 + (rwkDamageIncreasePerTarget * effectiveDamageTargets);
-      const damageHealing = rwkDamageHealing * damageBonus;
-      return directHealing + damageHealing;
+      return directHealing + rwkDamageHealing;
     });
-    
+
     yAxisLabel = T("Total Healing");
   } else if (calcMode === "healingPerTarget") {
     rskValues = targetValues.map(targets => {
       const effectiveTargets = Math.min(targets, 5);
       return rskBaseHealing / effectiveTargets;
     });
-    
+
     rwkValues = targetValues.map(targets => {
       const effectiveTargets = Math.min(targets, rwkMaxHealingTargets);
       const directHealing = rwkDirectHealing * effectiveTargets;
-      const effectiveDamageTargets = Math.min(targets, rwkMaxDamageTargets);
-      const damageBonus = 1 + (rwkDamageIncreasePerTarget * effectiveDamageTargets);
-      const damageHealing = rwkDamageHealing * damageBonus;
-      const totalHealing = directHealing + damageHealing;
+      const totalHealing = directHealing + rwkDamageHealing;
       return totalHealing / targets;
     });
     
     yAxisLabel = T("Healing Per Target");
   } else if (calcMode === "damage") {
     rskValues = targetValues.map(targets => rskBaseDamage);
-    
+
     rwkValues = targetValues.map(targets => {
       const effectiveTargets = Math.min(targets, rwkMaxDamageTargets);
       const damageBonus = 1 + (rwkDamageIncreasePerTarget * effectiveTargets);
       return rwkBaseDamage * damageBonus;
     });
-    
+
     yAxisLabel = T("Raw Damage");
+  } else if (calcMode === "spellpower") {
+    rskValues = targetValues.map(targets => (rskBaseHealing / stats.intellect) * 100);
+
+    rwkValues = targetValues.map(targets => {
+      const effectiveTargets = Math.min(targets, rwkMaxHealingTargets);
+      const directHealing = rwkDirectHealing * effectiveTargets;
+      return ((directHealing + rwkDamageHealing) / stats.intellect) * 100;
+    });
+
+    yAxisLabel = T("Spellpower %");
   }
 
   const chartData = {
@@ -177,23 +179,21 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
     setTalents(prev => new Map(prev).set(talent, checked));
   };
 
-  const specTalentSubset = new Map<spell, boolean>([
-    [TALENTS.JADEFIRE_TEACHINGS, talents.get(TALENTS.JADEFIRE_TEACHINGS) ?? false],
-    [TALENTS.MORNING_BREEZE, talents.get(TALENTS.MORNING_BREEZE) ?? false],
-    [TALENTS.SPIRITFONT, talents.get(TALENTS.SPIRITFONT) ?? false],
-  ]);
+  const specTalentSubset = new Map<spell, boolean>(
+    [TALENTS.SPIRITFONT, TALENTS.MORNING_BREEZE,].map(t => [t, talents.get(t) ?? false])
+  );
 
-  const heroTalentSubset = new Map<spell, boolean>([
-    [TALENTS.YULONS_KNOWLEDGE, talents.get(TALENTS.YULONS_KNOWLEDGE) ?? false],
-    [TALENTS.MEDITATIVE_FOCUS, talents.get(TALENTS.MEDITATIVE_FOCUS) ?? false],
-  ]);
+  const heroTalentSubset = new Map<spell, boolean>(
+    [TALENTS.YULONS_KNOWLEDGE, TALENTS.MEDITATIVE_FOCUS].map(t => [t, talents.get(t) ?? false])
+  );
 
-  const classTalentSubset = new Map<spell, boolean>([
-    [SHARED.FAST_FEET, talents.get(SHARED.FAST_FEET) ?? false],
-    [SHARED.FEROCITY_OF_XUEN, talents.get(SHARED.FEROCITY_OF_XUEN) ?? false],
-    [SHARED.CHI_PROFICIENCY, talents.get(SHARED.CHI_PROFICIENCY) ?? false],
-    [SHARED.MARTIAL_INSTINCTS, talents.get(SHARED.MARTIAL_INSTINCTS) ?? false],
-  ]);
+  const classTalentSubset = new Map<spell, boolean>(
+    Array.from(defaultTalents.class, ([t]) => [t, talents.get(t) ?? false])
+  );
+
+  const tierSetSubset = new Map<spell, boolean>(
+    [TIER.T36_MISTWEAVER_2SET].map(t => [t, talents.get(t) ?? false])
+  );
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center", justifyContent: "center" }}>
@@ -202,58 +202,86 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
         subtitle={description}
       />
       
-      <Card variant="outlined" sx={{ width: "100%", maxWidth: 1200 }}>
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
-          <Box sx={{ flex: 1, p: 2 }}>
-            <Card variant="outlined" sx={{ 
-              p: 2, 
-              background: `linear-gradient(135deg, rgba(54, 162, 235, 0.1), rgba(54, 162, 235, 0.05))`, 
-              borderColor: 'rgba(54, 162, 235, 0.3)' 
-            }}>
-              <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', color: 'rgb(54, 162, 235)', mb: 2 }}>
-                Mode
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                {modeOptions.map(opt => (
-                  <RadioOption
-                    key={opt.value}
-                    value={opt.value}
-                    currentValue={calcMode}
-                    onChange={handleModeChange}
-                    title={T(opt.label)}
+      <ConfigPanel
+        sx={{ maxWidth: CONTENT_WIDTH.wide }}
+        accent={mistweaver.color}
+        sections={[
+          {
+            key: "mode",
+            title: "mode",
+            summary: (modeOptions.find(opt => opt.value === calcMode)?.label ?? "").toLowerCase(),
+            content: (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                {modeOptions.map(opt => {
+                  const isSelected = opt.value === calcMode;
+                  return (
+                    <Box
+                      key={opt.value}
+                      onClick={() => handleModeChange(opt.value)}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        cursor: "pointer",
+                        padding: "6px 12px",
+                        borderRadius: "4px",
+                        border: `1px solid ${isSelected ? mistweaver.color + "55" : "rgba(255,255,255,0.08)"}`,
+                        backgroundColor: isSelected ? mistweaver.color + "18" : "transparent",
+                        opacity: isSelected ? 1 : 0.45,
+                        transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                        userSelect: "none",
+                        whiteSpace: "nowrap",
+                        "&:hover": { transform: "scale(1.03)" },
+                      }}
+                    >
+                      <span style={{ fontSize: "0.72rem", fontWeight: 500 }}>{T(opt.label)}</span>
+                    </Box>
+                  );
+                })}
+              </div>
+            ),
+          },
+          {
+            key: "talents",
+            title: "talents",
+            summary: `${[...talents.values()].filter(Boolean).length} active`,
+            defaultOpen: true,
+            content: (
+              <Group>
+                <TalentsCard
+                  label="Spec"
+                  options={specTalentSubset}
+                  color={mistweaver.color}
+                  onChange={handleTalentChange}
+                />
+                <HeroTalentsCard
+                  options={heroTalentSubset}
+                  onChange={handleTalentChange}
+                />
+                <TalentsCard
+                  label="Class"
+                  options={classTalentSubset}
+                  color={CLASSES.MONK.color}
+                  onChange={handleTalentChange}
+                />
+                {tierSetSubset.size > 0 && (
+                  <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)" }} />
+                )}
+                {tierSetSubset.size > 0 && (
+                  <TalentsCard
+                    label="Tier"
+                    options={tierSetSubset}
+                    color={mistweaver.color}
+                    onChange={handleTalentChange}
                   />
-                ))}
-              </Box>
-            </Card>
-          </Box>
+                )}
+              </Group>
+            ),
+          },
+        ]}
+      />
 
-          <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', md: 'block' } }} />
-          <Divider sx={{ display: { md: 'none' } }} />
-
-          <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Group>
-              <TalentsCard
-                label="Spec"
-                options={specTalentSubset}
-                color={mistweaver.color}
-                onChange={handleTalentChange}
-              />
-              <HeroTalentsCard
-                options={heroTalentSubset}
-                onChange={handleTalentChange}
-              />
-              <TalentsCard
-                label="Class"
-                options={classTalentSubset}
-                color={CLASSES.MONK.color}
-                onChange={handleTalentChange}
-              />
-            </Group>
-          </Box>
-        </Box>
-      </Card>
-
-      <Box sx={{ width: "100%", maxWidth: 1200 }}>
+      <Box sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide }}>
         <Line data={chartData} options={chartOptions} />
       </Box>
     </Container>

@@ -1,19 +1,13 @@
 import { T } from "@util/T";
 
 const getBranchName = () => {
-    const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
-    
-    if (isProduction) {
+    const branch = process.env.NEXT_PUBLIC_CF_PAGES_BRANCH;
+
+    if (!branch || branch === 'main' || branch === 'master') {
         return null;
     }
-    
-    const vercelBranch = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF;
-    
-    if (vercelBranch === 'main' || vercelBranch === 'master') {
-        return null;
-    }
-    
-    return vercelBranch || process.env.NEXT_PUBLIC_BRANCH_NAME || null;
+
+    return branch;
 };
 
 const SITE_NAME = "Wait, I'm Ramping!";

@@ -1,6 +1,6 @@
 ﻿"use client";
 import React, { useState, useEffect, useRef } from 'react';
-import { Typography, Box, Card, Stack, Divider, useMediaQuery, useTheme } from '@mui/material';
+import { Typography, Box, Card, Divider, useMediaQuery, useTheme, } from '@mui/material';
 
 import TimelineVisualizer from '@components/TimelineVisualizer/TimelineVisualizer';
 import SpecializationSelect from '@components/SpecializationSelect/SpecializationSelect';
@@ -8,7 +8,9 @@ import SpellButtons from '@components/SpellButtons/SpellButtons';
 import CurrentRotationControl from '@components/CurrentRotationControl/CurrentRotationControl';
 import PageHeader from '@components/PageHeader/PageHeader';
 import WarningChip from '@components/WarningChip/WarningChip';
-import SwirlField from '@components/SwirlField/SwirlField';
+import StatsCard from '@components/StatsCard/StatsCard';
+import ConfigPanel from '@components/ConfigPanel/ConfigPanel';
+import { CONTENT_WIDTH } from '@components/Theme/tokens';
 
 import { useSpec } from '@context/SpecContext';
 
@@ -17,7 +19,6 @@ import { CLASSES, specialization, getSpecializationByKey } from '@data/class';
 import { getSpellById } from '@data/spells';
 
 import { useRotationManager } from '@hooks/useRotationManager';
-import { T } from '@util/T';
 import { encodeShare, decodeShare } from '@util/rotationShare';
 
 const Timeline: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
@@ -110,11 +111,51 @@ const Timeline: React.FC<{ title: React.ReactNode; description: React.ReactNode 
                 </Box>
             )}
 
+            <Box sx={{ maxWidth: { xs: '90%', sm: '90%', md: CONTENT_WIDTH.narrow }, width: { xs: '90%', sm: '90%', md: '100%' }, mx: 'auto' }}>
+                <ConfigPanel
+                    accent={spec.color}
+                    sections={[
+                        {
+                            key: "spec",
+                            title: "spec",
+                            summary: spec.name.toLowerCase(),
+                            content: <SpecializationSelect short withLabel selectedSpec={spec} onSpecChange={handleSpecChange} />,
+                        },
+                        {
+                            key: "stats",
+                            title: "stats",
+                            summary: `${haste === "" ? 0 : haste}% haste`,
+                            content: (
+                                <StatsCard
+                                    fields={["haste"]}
+                                    options={{ intellect: 0, mastery: 0, crit: 0, versatility: 0, haste: haste === "" ? 0 : haste }}
+                                    onOptionsChange={(updater: any) => {
+                                        const prev = { intellect: 0, mastery: 0, crit: 0, versatility: 0, haste: haste === "" ? 0 : haste };
+                                        const next = typeof updater === "function" ? updater(prev) : updater;
+                                        setHaste(next.haste);
+                                    }}
+                                />
+                            ),
+                        },
+                    ]}
+                />
+
+                {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
+                    <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'center' }}>
+                        <WarningChip
+                            message="This spec has limited support for cast time reductions and haste buff gains"
+                            showIcon
+                            borderColor="#ffa726"
+                        />
+                    </Box>
+                )}
+            </Box>
+
             <Card
                 variant="outlined"
                 sx={{
                     overflowX: { xs: 'auto', md: 'visible' },
-                    maxWidth: { xs: '90%', sm: '90%', md: 600 },
+                    maxWidth: { xs: '90%', sm: '90%', md: CONTENT_WIDTH.narrow },
                     width: { xs: '90%', sm: '90%', md: '100%' },
                     mx: 'auto',
                     mb: { xs: 2, sm: 3 },
@@ -122,30 +163,13 @@ const Timeline: React.FC<{ title: React.ReactNode; description: React.ReactNode 
                 }}
             >
                 <Box sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
-                    <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                        <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
-                        <SwirlField label="Haste" value={haste} onChange={setHaste} suffix="%" />
-                    </Stack>
-
-                    {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
-                        <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'center' }}>
-                            <WarningChip
-                                message="This spec has limited support for cast time reductions and haste buff gains"
-                                showIcon
-                                borderColor="#ffa726"
-                            />
-                        </Box>
-                    )}
-
-                    <Divider sx={{ mx: -2, my: 2, width: 'auto' }} />
-
                     <SpellButtons
                         selectedSpec={spec}
                         addSpellToTable={addSpellToRotation}
                         onSelectPreset={handleSelectPreset}
                     />
 
-                    <Divider sx={{ mx: -2, my: 2, width: 'auto' }} />
+                    <Divider sx={{ mx: -2, mt: 2, mb: 2, width: 'auto' }} />
 
                     {spec && (
                         <CurrentRotationControl

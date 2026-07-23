@@ -2,11 +2,13 @@
 import React, { useState, useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
-import { Box, Card, Container, Divider, useTheme } from "@mui/material";
+import { Box, Container, useTheme } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
-import StatsCard, { Group, type StatsCardOptions } from "@components/StatsCard/StatsCard";
+import StatsCard, { Group, statsSummary, type StatsCardOptions } from "@components/StatsCard/StatsCard";
+import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
+import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
 import spell from "@data/spells/spell";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
@@ -221,31 +223,34 @@ const SheilunsGiftBreakdown: React.FC<{ title: React.ReactNode; description: Rea
         subtitle={description}
       />
 
-      <Card variant="outlined" sx={{ maxWidth: 1200, width: "95%", mx: "auto"}}>
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
-          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
-            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, overflowY: 'auto' }}>
+      <ConfigPanel
+        sx={{ maxWidth: CONTENT_WIDTH.wide }}
+        accent={mistweaver.color}
+        sections={[
+          {
+            key: "stats",
+            title: "stats",
+            summary: statsSummary(options),
+            content: <StatsCard options={options} onOptionsChange={setOptions} spec={mistweaver} />,
+          },
+          {
+            key: "talents",
+            title: "talents",
+            summary: `${[...selectedTalents.values()].filter(Boolean).length} active`,
+            defaultOpen: true,
+            content: (
               <Group>
-                <StatsCard options={options} onOptionsChange={setOptions} />
+                <TalentsCard
+                  label="Talents"
+                  options={selectedTalents}
+                  color={mistweaver.color}
+                  onChange={handleTalentChange}
+                />
               </Group>
-            </Box>
-          </Box>
-          
-          <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', md: 'block' } }} />
-          <Divider sx={{ display: { md: 'none' } }} />
-
-          <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2, overflowY: 'auto' }}>
-            <Group>
-              <TalentsCard
-                label="Talents"
-                options={selectedTalents}
-                color={mistweaver.color}
-                onChange={handleTalentChange}
-              />
-            </Group>
-          </Box>
-        </Box>
-      </Card>
+            ),
+          },
+        ]}
+      />
 
       <Box sx={{ width: "100%", display: "flex", flexDirection: "column", gap: 2 }}>
         <Box sx={{ height: 500, width: "100%" }}>

@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import SwirlTable, { SwirlColumn } from "@components/SwirlTable/SwirlTable";
-import { Bug, SEVERITY_COLORS, STATUS, STATUS_COLORS } from "@data/bugs";
+import { Bug, SEVERITY_COLORS, STATUS, STATUS_COLORS, getLatestBuild, getBuildSortValue } from "@data/bugs";
 import { extractTextFromReactNode } from "@util/extractTextFromReactNode";
 import { AttachFile } from "@mui/icons-material";
 
@@ -13,15 +13,12 @@ interface BugTableProps {
     onRowClick: (bug: Bug) => void;
 }
 
-const getLatestBuild = (bug: Bug): number =>
-    parseInt(bug.buildsTested[bug.buildsTested.length - 1]);
-
 const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
     const columns: SwirlColumn<Bug>[] = [
         {
             key: "spell",
             label: "Spell",
-            width: "200px",
+            width: "250px",
             sortValue: bug => bug.spell?.name ?? "",
             render: bug => bug.spell ? (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 0 }}>
@@ -54,10 +51,10 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
             label: "Build",
             width: "80px",
             align: "center",
-            sortValue: bug => getLatestBuild(bug),
+            sortValue: bug => getBuildSortValue(bug.buildsTested),
             render: bug => (
                 <Typography variant="body2" sx={{ color: STATUS_COLORS[bug.status ?? STATUS.OPEN], fontFamily: "monospace", textAlign: "center" }}>
-                    {getLatestBuild(bug) || "—"}
+                    {getLatestBuild(bug.buildsTested) || "—"}
                 </Typography>
             ),
         },
@@ -81,7 +78,8 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                 columns={columns}
                 onRowClick={onRowClick}
                 accentColor={bug => SEVERITY_COLORS[bug.severity]}
-                defaultSortKey=""
+                defaultSortKey="build"
+                defaultSortDir="desc"
             />
         </Box>
     );

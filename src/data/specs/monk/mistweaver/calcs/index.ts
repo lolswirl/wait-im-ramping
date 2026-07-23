@@ -15,6 +15,7 @@ import {
     calcSpellValue,
 } from "@data/shared/engine";
 import * as Engine from "@data/shared/engine";
+import { TIER } from "@data/items/tier";
 
 export type { TalentMap, Player };
 export { isTalentEnabled, calcSpellValue, calculateSpellDamageMultiplier, calculateSpellHealingMultiplier };
@@ -69,10 +70,10 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
             spell.id === TALENTS.RUSHING_WIND_KICK.id
     },
     {
-        talent: TALENTS.TEMPLE_TRAINING,
-        getValue: () => TALENTS.TEMPLE_TRAINING.custom.sckIncrease,
-        appliesTo: (spell) => spell.id === SPELLS.SPINNING_CRANE_KICK.id
-    }
+        talent: TIER.T36_MISTWEAVER_2SET,
+        getValue: () => TIER.T36_MISTWEAVER_2SET.custom.rskDamageIncrease,
+        appliesTo: (spell) => spell.id === SPELLS.RISING_SUN_KICK.id
+    },
 ];
 
 const HEALING_MULTIPLIER_RULES: TalentRule[] = [
@@ -80,6 +81,11 @@ const HEALING_MULTIPLIER_RULES: TalentRule[] = [
         talent: SHARED.CHI_PROFICIENCY,
         getValue: () => SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease,
         appliesTo: (spell) => spell.category === CATEGORY.HEALING || spell.category === CATEGORY.COOLDOWN || spell.id === TALENTS.RUSHING_WIND_KICK.id || spell.id === TALENTS.HARMONIC_SURGE.id
+    },
+    { // this isn't entirely correct, since amp rush is just from rems
+        talent: TALENTS.AMPLIFIED_RUSH,
+        getValue: () => TALENTS.AMPLIFIED_RUSH.custom.gustOfMistsIncrease,
+        appliesTo: (spell) => spell.id === TALENTS.GUST_OF_MISTS.id
     },
     {
         talent: TALENTS.TEAR_OF_MORNING,
@@ -105,7 +111,19 @@ const HEALING_MULTIPLIER_RULES: TalentRule[] = [
         talent: TALENTS.UPLIFTED_SPIRITS,
         getValue: () => TALENTS.UPLIFTED_SPIRITS.custom.revivalIncrease,
         appliesTo: (spell) => spell.id === SPELLS.REVIVAL.id || spell.id == TALENTS.RESTORAL.id,
-    }
+    },
+    {
+        talent: TALENTS.VITAL_EXPENDITURE,
+        getValue: () => TALENTS.VITAL_EXPENDITURE.custom.soomIncrease,
+        appliesTo: (spell) => 
+            spell.id === SPELLS.SOOTHING_MIST.id || 
+            spell.id === TALENTS.SPIRITFONT_SOOTHING_MIST.id
+    },
+    {
+        talent: TIER.T36_MISTWEAVER_2SET,
+        getValue: () => TIER.T36_MISTWEAVER_2SET.custom.rwkHealingIncrease,
+        appliesTo: (spell) => spell.id === TALENTS.RUSHING_WIND_KICK.id
+    },
 ];
 
 export const calculateSpellDamage = (spell: spell, player: Player): number =>
@@ -205,4 +223,6 @@ registerSpecEngine(MISTWEAVER_KEY, {
         }
         return null;
     },
+    getSpellModifiers: (spell, player, type) =>
+        Engine.getSpellModifiers(spell, player, type, type === 'damage' ? DAMAGE_MULTIPLIER_RULES : HEALING_MULTIPLIER_RULES),
 });

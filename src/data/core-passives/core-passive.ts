@@ -12,6 +12,7 @@ export interface CorePassiveEffect {
     value?: number | string;
     pvpMultiplier?: number;
     affectedSpells?: number[];
+    effectId?: number;
 }
 
 const DAMAGE_EFFECT_TYPES = [
@@ -30,15 +31,30 @@ const isMatchingEffect = (type: string, calcType: 'damage' | 'healing'): boolean
     return typeSpecific.some(t => lower.includes(t));
 };
 
-export const getSpellAura = (spell: Spell, corePassives: CorePassive | CorePassive[], calcType: 'damage' | 'healing' = 'damage'): number => {
-    const passives = Array.isArray(corePassives) ? corePassives : [corePassives];
-    return passives.flatMap(p => p.effects ?? [])
-        .filter(e => {
+const matchingEffects = (spell: Spell, passive: CorePassive, calcType: 'damage' | 'healing'): { effect: CorePassiveEffect; effectIndex: number }[] =>
+    (passive.effects ?? [])
+        .map((effect, i) => ({ effect, effectIndex: i + 1 }))
+        .filter(({ effect: e }) => {
             if (typeof e.value !== 'number') return false;
             if (!isMatchingEffect(e.type, calcType)) return false;
             if (!e.affectedSpells?.includes(spell.id)) return false;
             const isPeriodic = e.type.toLowerCase().includes('periodic');
             return spell.periodic ? isPeriodic : !isPeriodic;
-        })
-        .reduce((aura, e) => aura * (1 + (e.value as number) / 100), 1);
+        });
+
+export const getSpellAura = (spell: Spell, corePassives: CorePassive | CorePassive[], calcType: 'damage' | 'healing' = 'damage'): number => {
+    const passives = Array.isArray(corePassives) ? corePassives : [corePassives];
+    return passives.flatMap(p => matchingEffects(spell, p, calcType))
+        .reduce((aura, { effect }) => aura * (1 + (effect.value as number) / 100), 1);
+};
+
+export const getSpellAuraSources = (spell: Spell, corePassives: CorePassive | CorePassive[], calcType: 'damage' | 'healing' = 'damage'): { name: string; effectIndex: number; multiplier: number }[] => {
+    const passives = Array.isArray(corePassives) ? corePassives : [corePassives];
+    return passives
+        .flatMap(p => matchingEffects(spell, p, calcType).map(({ effect, effectIndex }) => ({
+            name: p.name,
+            effectIndex,
+            multiplier: 1 + (effect.value as number) / 100,
+        })))
+        .filter(source => source.multiplier !== 1);
 };

@@ -6,7 +6,9 @@ import PageHeader from "@components/PageHeader/PageHeader";
 import SpellButtons from "@components/SpellButtons/SpellButtons";
 import CurrentRotationControl from "@components/CurrentRotationControl/CurrentRotationControl";
 import { RotationCard } from '@components/RotationCard/RotationCard';
-import StatsCard, { Group } from "@components/StatsCard/StatsCard";
+import StatsCard, { Group, statsSummary } from "@components/StatsCard/StatsCard";
+import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
+import { CONTENT_WIDTH } from "@components/Theme/tokens";
 import TargetCountsCard from "@components/TargetCountCard/TargetCountsCard";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import SwirlButton from "@components/Buttons/SwirlButton";
@@ -17,7 +19,7 @@ import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
 import { CHIJI_ABILITIES } from "@data/specs/monk/mistweaver/spells";
 import { useRotationManager } from "@hooks/useRotationManager";
-import { T } from "@util/T";
+import { pluralize } from "@util/stringManipulation";
 import { calculateRotationHPS } from './simulation';
 import { RotationResult, SimulationOptions } from './types';
 
@@ -26,7 +28,7 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
     const [rotationHPS, setRotationHPS] = useState<RotationResult[]>([]);
     const [expandedRotations, setExpandedRotations] = useState<Set<number>>(new Set());
     const [isSimulating, setIsSimulating] = useState(false);
-    const maxWidth = 1200;
+    const maxWidth = CONTENT_WIDTH.wide;
 
     const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
     const { intellect, mastery, crit, versatility, haste, totalHp } = mistweaver.stats;
@@ -138,55 +140,69 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
                 subtitle={description}
             />
 
+            <Box sx={{ maxWidth: maxWidth, width: "75%", mx: "auto" }}>
+                <ConfigPanel
+                    accent={mistweaver.color}
+                    sections={[
+                        {
+                            key: "stats",
+                            title: "stats",
+                            summary: statsSummary(options),
+                            content: <StatsCard options={options} onOptionsChange={setOptions} spec={mistweaver} />,
+                        },
+                        {
+                            key: "targets",
+                            title: "targets",
+                            summary: `${options.enemyCount} ${pluralize(options.enemyCount, "enemy", "enemies")} · ${options.allyCount} ${pluralize(options.allyCount, "ally", "allies")}`,
+                            content: <TargetCountsCard options={options} onOptionsChange={setOptions} />,
+                        },
+                        {
+                            key: "talents",
+                            title: "talents",
+                            summary: `${[...options.specTalents.values(), ...options.classTalents.values()].filter(Boolean).length} active`,
+                            defaultOpen: true,
+                            content: (
+                                <Group>
+                                    <TalentsCard
+                                        label="Spec"
+                                        options={options.specTalents}
+                                        color={mistweaver.color}
+                                        onChange={(talent, checked) => {
+                                            setOptions(prev => ({
+                                                ...prev,
+                                                specTalents: new Map(prev.specTalents).set(talent, checked)
+                                            }));
+                                        }}
+                                    />
+                                    <TalentsCard
+                                        label="Class"
+                                        options={options.classTalents}
+                                        color={CLASSES.MONK.color}
+                                        onChange={(talent, checked) => {
+                                            setOptions(prev => ({
+                                                ...prev,
+                                                classTalents: new Map(prev.classTalents).set(talent, checked)
+                                            }));
+                                        }}
+                                    />
+                                </Group>
+                            ),
+                        },
+                    ]}
+                />
+            </Box>
+
             <Card variant="outlined" sx={{ maxWidth: maxWidth, width: "75%", mx: "auto", mb: rotationHPS.length > 0 ? 0 : 3 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
-                        {/* Top-left: stats + spells */}
-                        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
-                            <Group>
-                                <StatsCard options={options} onOptionsChange={setOptions} />
-                                <TargetCountsCard options={options} onOptionsChange={setOptions} />
-                            </Group>
-                            <Divider sx={{ mx: -2 }} />
-                            <SpellButtons
-                                spells={
-                                    options.specTalents.get(TALENTS.RUSHING_WIND_KICK)
-                                        ? CHIJI_ABILITIES.map(s => s.id === SPELLS.RISING_SUN_KICK.id ? TALENTS.RUSHING_WIND_KICK : s)
-                                        : CHIJI_ABILITIES
-                                }
-                                addSpellToTable={addSpellToRotationCollapse}
-                            />
-                        </Box>
-
-                        <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', md: 'block' } }} />
-
-                        {/* Top-right: talents */}
-                        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
-                            <Group>
-                                <TalentsCard
-                                    label="Spec"
-                                    options={options.specTalents}
-                                    color={mistweaver.color}
-                                    onChange={(talent, checked) => {
-                                        setOptions(prev => ({
-                                            ...prev,
-                                            specTalents: new Map(prev.specTalents).set(talent, checked)
-                                        }));
-                                    }}
-                                />
-                                <TalentsCard
-                                    label="Class"
-                                    options={options.classTalents}
-                                    color={CLASSES.MONK.color}
-                                    onChange={(talent, checked) => {
-                                        setOptions(prev => ({
-                                            ...prev,
-                                            classTalents: new Map(prev.classTalents).set(talent, checked)
-                                        }));
-                                    }}
-                                />
-                            </Group>
-                        </Box>
+                    <Box sx={{ p: 2 }}>
+                        <SpellButtons
+                            spells={
+                                options.specTalents.get(TALENTS.RUSHING_WIND_KICK)
+                                    ? CHIJI_ABILITIES.map(s => s.id === SPELLS.RISING_SUN_KICK.id ? TALENTS.RUSHING_WIND_KICK : s)
+                                    : CHIJI_ABILITIES
+                            }
+                            addSpellToTable={addSpellToRotationCollapse}
+                        />
                     </Box>
 
                     <Divider />
@@ -216,7 +232,6 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
                     </Box>
                 </Box>
             </Card>
-
             {rotationHPS.length > 0 && (
                 <>
                     <Box sx={{ width: "75%", maxWidth: maxWidth, px: 0, mb: 2 }}>

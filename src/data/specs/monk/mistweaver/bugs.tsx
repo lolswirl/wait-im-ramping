@@ -229,11 +229,12 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.TEMPLE_TRAINING,
         affectedSpells: [SPELLS.SPINNING_CRANE_KICK],
-        severity: SEVERITY.LOW,
-        title: <>Increases <SpellLink spell={SPELLS.SPINNING_CRANE_KICK} /> damage by 10%</>,
-        buildsTested: ["65848", "66220", "67186"],
-        notes: "Likely a side effect of the windwalker version of the talent",
+        severity: SEVERITY.HIGH,
+        title: <>Increases <SpellLink spell={SPELLS.SPINNING_CRANE_KICK} /> damage by 30%</>,
+        buildsTested: ["65848", "66220", "67186", "68209", "68301", "68569"],
+        notes: "A side effect of the Windwalker's version of the talent",
         tags: [TAGS.CONDUIT],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.TEMPLE_TRAINING,
@@ -565,6 +566,8 @@ const BUGS: Bug[] = [
         description: <>The duration of the <SpellLink spell={SPELLS.RENEWING_MIST} /> applied by the 4pc is not increased by <SpellLink spell={TALENTS.LOTUS_INFUSION} /></>,
         buildsTested: ["65448", "66017", "67186"],
         tags: [TAGS.TIER],
+        notes: "With 12.1 taking the 12.0 tier set away, we can effectively say it was removed.",
+        status: STATUS.REMOVED,
     },
     {
         spell: TALENTS.MISTS_OF_LIFE,
@@ -709,6 +712,7 @@ const BUGS: Bug[] = [
         description: <>Despite being removed from the talent tree, the spell still activates when <SpellLink spell={TALENTS.UNITY_WITHIN} /> occurs. Only heals, as it has done since its inception from <SpellLink spell={TALENTS.UNITY_WITHIN} /> to not proc mana tea despite its original talent's wording.</>,
         buildsTested: ["66220", "67186"],
         logs: [{ label: "", url: "https://www.warcraftlogs.com/reports/DM4mgPtCnGLFXBvQ?fight=7&view=events&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443028%7C443591%24or%24healing%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24443614" }],
+        status: STATUS.INTENDED,
     },
     {
         spell: SPELLS.REVIVAL,
@@ -810,6 +814,7 @@ const BUGS: Bug[] = [
         title: <><SpellLink spell={TALENTS.JADE_SERPENT_STATUE} /> <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> does not provide damage reduction</>,
         description: <>Elusive Mists does not provide damage reduction when <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> is cast by <SpellLink spell={TALENTS.JADE_SERPENT_STATUE} /></>,
         buildsTested: ["65617", "66220", "67186"],
+        status: STATUS.INTENDED,
     },
     {
         spell: TALENTS.INNER_COMPASS,
@@ -890,10 +895,12 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.SPIRITFONT,
         severity: SEVERITY.HIGH,
-        buildsTested: ["66431"],
+        buildsTested: ["66431", "68629"],
         title: <>Sometimes doesn't refresh the active duration buff</>,
         description: <>Sometimes, when using 2 <SpellLink spell={TALENTS.SPIRITFONT} /> stacks back to back, the active duration buff (the 8s buff) doesn't get refreshed, and stays at its current duration. For example, if one stack is used, then 4 seconds later another stack is used, the buff will only have 4 seconds remaining instead of refreshing back to 8 seconds.</>,
+        notes: "Not -entirely- fixed in 68629, but effectively fixed since the Spiritfont active and proc are separated. Will keep a look out for non-refreshed uses.",
         tags: [TAGS.APEX],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.SPIRITFONT,
@@ -948,6 +955,8 @@ const BUGS: Bug[] = [
             { label: "Video 2", url: "https://www.youtube.com/watch?v=BQoZXADMOuY" },
         ],
         tags: [TAGS.TIER],
+        notes: "Not entirely possible to recreate, so recent logs are sparse but with 12.1 taking the 12.0 tier set away, we can effectively say it was removed.",
+        status: STATUS.REMOVED,
     },
     {
         spell: TIER.T35_MISTWEAVER_4SET,
@@ -957,6 +966,8 @@ const BUGS: Bug[] = [
         title: <><SpellLink spell={SPELLS.RENEWING_MIST} /> from 4pc doesn't follow traditional rules</>,
         description: <>The <SpellLink spell={SPELLS.RENEWING_MIST} /> created is completely independent from a normal <SpellLink spell={SPELLS.RENEWING_MIST} /> meaning that it is significantly stronger because it has no interaction with pandemic durations of normal <SpellLink spell={SPELLS.RENEWING_MIST} />s and thus can do significantly more HPS with talents such as <SpellLink spell={TALENTS.MISTY_PEAKS} /></>,
         tags: [TAGS.TIER],
+        notes: "With 12.1 taking the 12.0 tier set away, we can effectively say it was removed.",
+        status: STATUS.REMOVED,
     },
     {
         spell: TALENTS.GIFT_OF_THE_CELESTIALS,
@@ -1016,8 +1027,9 @@ const BUGS: Bug[] = [
     {
         spell: TALENTS.MANTRA_OF_PURITY,
         severity: SEVERITY.LOW,
-        buildsTested: ["67186"],
+        buildsTested: ["67186", "68209"],
         title: <>Does not increase the healing of any <SpellLink spell={SPELLS.SOOTHING_MIST}/></>,
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.BALANCED_STRATAGEM_PHYSICAL,
@@ -1056,10 +1068,11 @@ const BUGS: Bug[] = [
     {
         spell: SPELLS.SOOTHING_MIST,
         severity: SEVERITY.LOW,
-        buildsTested: ["67186", "67314"],
+        buildsTested: ["67186", "67314", "68629"],
         title: <>Personal <SpellLink spell={SPELLS.SOOTHING_MIST} /> no longer appears in buffs</>,
         description: <>The caster's personal <SpellLink spell={SPELLS.SOOTHING_MIST}/> buff no longer appears, regardless of the target of the channel.</>,
-        notes: "Started in 12.0.5, likely to remove several bugs with the personal buff (including it appearing on the player and the target when casting on someone else). Not a major deal as the HoT still heals, however, tracking the buff on the player is impossible now when casting on ourselves."
+        notes: "Started in 12.0.5, likely to remove several bugs with the personal buff (including it appearing on the player and the target when casting on someone else). Not a major deal as the HoT still heals, however, tracking the buff on the player is impossible now when casting on ourselves.",
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.TEAR_OF_MORNING,
@@ -1074,7 +1087,8 @@ const BUGS: Bug[] = [
         title: <><SpellLink spell={TALENTS.MISTY_PEAKS}/> <SpellLink spell={SPELLS.ENVELOPING_MIST}/>s are not increased by 4s during celestial</>,
         description: <>The portion of <SpellLink spell={TALENTS.TEAR_OF_MORNING}/> that increases <SpellLink spell={SPELLS.ENVELOPING_MIST}/> duration by +4s while a celestial is summoned does not increase the duration of <SpellLink spell={TALENTS.MISTY_PEAKS}/> <SpellLink spell={SPELLS.ENVELOPING_MIST}/>s.</>,
         notes: "Likely not entirely a 'bug', per se, as Misty Peaks doesn't get increased by anything and has not, but this behavior is inconsistent for a talent that reads 'The duration of Enveloping Mist is increased by 4 sec while you have a celestial summoned' and Misty Peaks directly leading into Tear of Morning on the talent tree.",
-        buildsTested: ["67314"]
+        buildsTested: ["67314"],
+        status: STATUS.INTENDED,
     },
     {
         spell: TALENTS.TEAR_OF_MORNING,
@@ -1088,8 +1102,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.HIGH,
         title: <>Costs double the mana when casting on someone other than the player</>,
         description: <><SpellLink spell={SPELLS.SOOTHING_MIST}/> costs double the mana when cast on someone other than the player - 2k mana/sec when casting on someone else or 1k mana/sec (what the tooltip and <Code>C_Spell.GetSpellPowerCost(115175)</Code> returns) on the player.</>,
-        buildsTested: ["67602"],
-        logs: [ { label: "First few casts are self, latter half are other target", url: "https://www.warcraftlogs.com/reports/tT3nhRfb1QZAzvKJ?fight=2&type=resources&source=1&view=timeline&spell=100" },]
+        buildsTested: ["67602", "68209"],
+        logs: [ { label: "First few casts are self, latter half are other target", url: "https://www.warcraftlogs.com/reports/tT3nhRfb1QZAzvKJ?fight=2&type=resources&source=1&view=timeline&spell=100" },],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.JADEFIRE_STOMP,
@@ -1110,6 +1125,36 @@ const BUGS: Bug[] = [
             { label: "Log 2", url: "https://www.warcraftlogs.com/reports/jGMtJFCRq2amYgvW?fight=11&type=healing&source=24&ability=119611", },
             { label: "Log 3", url: "https://www.warcraftlogs.com/reports/jGMtJFCRq2amYgvW?fight=52&type=healing&source=24&ability=119611" },
         ],
+    },
+    {
+        spell: TIER.T36_MISTWEAVER_4SET,
+        severity: SEVERITY.CRITICAL,
+        title: <>Reset chance on <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> not implemented</>,
+        description: <>Reset chance on <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> not implemented, while it works for <SpellLink spell={SPELLS.RISING_SUN_KICK}/>.</>,
+        buildsTested: ["68209", "68301", "68412"],
+        status: STATUS.FIXED,
+    },
+    {
+        spell: TALENTS.VITAL_EXPENDITURE,
+        severity: SEVERITY.MEDIUM,
+        title: <>Does not increase <SpellLink spell={TALENTS.JADE_SERPENT_STATUE}/>'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> healing</>,
+        description: <>Does not increase <SpellLink spell={TALENTS.JADE_SERPENT_STATUE}/>'s <SpellLink spell={TALENTS.JADE_SERPENT_STATUE_SOOTHING_MIST} /> healing, but does work on <SpellLink spell={TALENTS.SPIRITFONT}/> <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST}/> and normal <SpellLink spell={SPELLS.SOOTHING_MIST}/>.</>,
+        buildsTested: ["68209", "68301"],
+        status: STATUS.INTENDED,
+    },
+    {
+        spell: TALENTS.JADEFIRE_STOMP,
+        severity: SEVERITY.TRIVIAL,
+        title: <>Wrong spell id in spellbook</>,
+        description: <>The spell id in the spell book is in reference to the Windwalker version of <SpellLink spell={TALENTS.JADEFIRE_STOMP} />, instead of the one that comes out of <SpellLink spell={TALENTS.EMPERORS_ELIXIR}/> for Mistweaver. Currently is <Code>457974</Code>, but should be <Code>1248812</Code>.</>,
+        buildsTested: ["68275"],
+    },
+    {
+        spell: TIER.T36_MISTWEAVER_4SET,
+        severity: SEVERITY.LOW,
+        title: <><SpellLink spell={TALENTS.MORNING_BREEZE} /> puts one charge on cooldown if used with 2 charges ready</>,
+        description: <>If pressing <SpellLink spell={SPELLS.THUNDER_FOCUS_TEA}/> with two charges available (from 4pc), <SpellLink spell={TALENTS.MORNING_BREEZE}/> will put one charge on cooldown instead of doing nothing (since both charges are off cooldown). Acts -fine-, considering you get the cooldown reduction from the empower on the first charge and its available practically immediately anyways.</>,
+        buildsTested: ["68412"],
     }
 ];
 

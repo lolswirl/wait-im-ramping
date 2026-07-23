@@ -1,6 +1,6 @@
 ﻿"use client";
 import { useState, useEffect, useRef } from "react";
-import { Card, Box, Stack, Divider, Typography } from '@mui/material';
+import { Card, Box, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
 import PageHeader from '@components/PageHeader/PageHeader';
@@ -8,13 +8,14 @@ import SpecializationSelect from '@components/SpecializationSelect/Specializatio
 import SpellButtons from '@components/SpellButtons/SpellButtons';
 import SpellTable from '@components/SpellTable/SpellTable';
 import WarningChip from '@components/WarningChip/WarningChip';
-import SwirlField from '@components/SwirlField/SwirlField';
+import StatsCard from '@components/StatsCard/StatsCard';
+import ConfigPanel from '@components/ConfigPanel/ConfigPanel';
+import { CONTENT_WIDTH } from '@components/Theme/tokens';
 
 import { CLASSES, specialization, getSpecializationByKey } from '@data/class';
 import spell from '@data/spells/spell';
 import { getSpellById } from '@data/spells';
 
-import { T } from "@util/T";
 import { useSpec } from '@context/SpecContext';
 import { encodeShare, decodeShare } from '@util/rotationShare';
 
@@ -99,32 +100,45 @@ const WhenDoIRamp: React.FC<{ title: React.ReactNode; description: React.ReactNo
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
             <PageHeader title={title} subtitle={description} />
 
-            <Card
-                variant="outlined"
-                sx={{
-                    maxWidth: 600,
-                    width: { xs: "90%", sm: "90%", md: "100%" },
-                    mx: "auto",
-                    boxSizing: "border-box",
-                }}
-            >
-                <Box sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
-                    <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                        <SpecializationSelect selectedSpec={spec} onSpecChange={handleSpecChange} />
-                        <SwirlField label="Haste" value={haste} onChange={setHaste} suffix="%" />
-                    </Stack>
+            <Box sx={{ maxWidth: CONTENT_WIDTH.narrow, width: { xs: "90%", sm: "90%", md: "100%" }, mx: "auto" }}>
+                <ConfigPanel
+                    accent={spec.color}
+                    sections={[
+                        {
+                            key: "spec",
+                            title: "spec",
+                            summary: spec.name.toLowerCase(),
+                            content: <SpecializationSelect short withLabel selectedSpec={spec} onSpecChange={handleSpecChange} />,
+                        },
+                        {
+                            key: "stats",
+                            title: "stats",
+                            summary: `${haste === "" ? 0 : haste}% haste`,
+                            content: (
+                                <StatsCard
+                                    fields={["haste"]}
+                                    options={{ intellect: 0, mastery: 0, crit: 0, versatility: 0, haste: haste === "" ? 0 : haste }}
+                                    onOptionsChange={(updater: any) => {
+                                        const prev = { intellect: 0, mastery: 0, crit: 0, versatility: 0, haste: haste === "" ? 0 : haste };
+                                        const next = typeof updater === "function" ? updater(prev) : updater;
+                                        setHaste(next.haste);
+                                    }}
+                                />
+                            ),
+                        },
+                    ]}
+                />
 
-                    {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
-                        <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'center' }}>
-                            <WarningChip message="This spec has limited support for cast time reductions and haste buff gains" showIcon borderColor='#ffa726' />
-                        </Box>
-                    )}
+                {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
+                    <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'center' }}>
+                        <WarningChip message="This spec has limited support for cast time reductions and haste buff gains" showIcon borderColor='#ffa726' />
+                    </Box>
+                )}
 
-                    <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
-
+                <Card variant="outlined" sx={{ mt: 1.5, p: 2, boxSizing: "border-box" }}>
                     <SpellButtons selectedSpec={spec} addSpellToTable={addSpellToTable} />
-                </Box>
-            </Card>
+                </Card>
+            </Box>
 
             <SpellTable
                 spellList={spellList}
@@ -138,7 +152,7 @@ const WhenDoIRamp: React.FC<{ title: React.ReactNode; description: React.ReactNo
 
             {totalCastTime > 0 && (
                 <Card variant="outlined" sx={{
-                    maxWidth: 600,
+                    maxWidth: CONTENT_WIDTH.narrow,
                     width: { xs: '90%', sm: '90%', md: '100%' },
                     mx: 'auto',
                     boxSizing: 'border-box',

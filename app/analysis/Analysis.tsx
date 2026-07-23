@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Container, Typography, Box, Grid } from "@mui/material";
+import { Container, Typography, Box, Grid, useTheme } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import { T } from "@util/T";
@@ -11,7 +11,6 @@ import { GlassTooltip } from "@components/Glass";
 
 import { analysisPages, AnalysisPage } from "../AnalysisPages";
 import { extractTextFromReactNode } from "@util/extractTextFromReactNode";
-import WarningChip from "@components/WarningChip/WarningChip";
 
 const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ tool, isOutdated }) => {
     const [hovered, setHovered] = useState(false);
@@ -135,7 +134,41 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
     );
 };
 
+const FilterChip: React.FC<{ label: string; active?: boolean; accent: string; onClick: () => void }> = ({ label, active, accent, onClick }) => (
+    <Box
+        onClick={onClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onClick();
+            }
+        }}
+        sx={{
+            display: "inline-flex",
+            alignItems: "center",
+            px: 1.5,
+            py: 0.75,
+            borderRadius: 1,
+            border: "1px solid",
+            borderColor: active ? accent : "divider",
+            backgroundColor: active ? accent + "14" : "background.paper",
+            cursor: "pointer",
+            userSelect: "none",
+            whiteSpace: "nowrap",
+            transition: "border-color 0.15s ease, background-color 0.15s ease",
+            "&:hover": { borderColor: accent + "88" },
+        }}
+    >
+        <Typography component="span" sx={{ fontSize: "0.8rem", fontFamily: "monospace", color: "text.primary" }}>
+            {T(label)}
+        </Typography>
+    </Box>
+);
+
 const Analysis: React.FC<{ title: string; description: string }> = ({ title, description }) => {
+    const theme = useTheme();
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
     const filteredAnalysisPages = analysisPages.filter(
@@ -175,34 +208,31 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
         <Container>
             <PageHeader title={title} subtitle={description} marginBottom={3} />
 
-            <Box sx={{ mb: 3 }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: "medium" }}>
-                        Filter:
+            <Box sx={{ mb: 1 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1 }}>
+                    <Typography sx={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: 0.5, color: "text.disabled" }}>
+                        filter
                     </Typography>
                     <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", flexGrow: 1 }}>
                         {allTags.map((tag) => (
-                            <WarningChip
+                            <FilterChip
                                 key={tag}
-                                message={tag}
-                                variant={selectedTags.includes(tag) ? "filled" : "outlined"}
-                                color={selectedTags.includes(tag) ? "primary" : "default"}
+                                label={tag}
+                                active={selectedTags.includes(tag)}
+                                accent={theme.palette.primary.main}
                                 onClick={() => handleTagToggle(tag)}
-                                size="small"
-                                fontSize="0.8rem"
                             />
                         ))}
                     </Box>
                     {selectedTags.length > 0 && (
                         <>
-                            <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>
+                            <Typography variant="caption" color="text.secondary" sx={{ ml: 1, whiteSpace: "nowrap" }}>
                                 {`${displayedPages.length} of ${filteredAnalysisPages.length} tools`}
                             </Typography>
-                            <WarningChip
-                                message={`Clear (${selectedTags.length})`}
-                                color="error"
+                            <FilterChip
+                                label={`Clear (${selectedTags.length})`}
+                                accent={theme.palette.error.main}
                                 onClick={() => setSelectedTags([])}
-                                fontSize="0.8rem"
                             />
                         </>
                     )}

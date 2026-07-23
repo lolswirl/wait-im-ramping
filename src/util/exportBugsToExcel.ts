@@ -3,7 +3,7 @@ import { extractTextFromReactNode } from "./extractTextFromReactNode";
 import * as XLSX from "xlsx";
 
 export const exportBugsToExcel = (bugs: Bug[], fileName: string = "bugs.xlsx") => {
-    const openBugs = bugs.filter(bug => bug.status !== STATUS.FIXED && bug.status !== STATUS.REMOVED);
+    const openBugs = bugs.filter(bug => bug.status !== STATUS.FIXED && bug.status !== STATUS.REMOVED && bug.status !== STATUS.INTENDED);
 
     const sortedBugs = [...openBugs].sort((a, b) => {
         return SEVERITY_ORDER.indexOf(a.severity) - SEVERITY_ORDER.indexOf(b.severity);

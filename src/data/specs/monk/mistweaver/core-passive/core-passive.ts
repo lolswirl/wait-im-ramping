@@ -120,7 +120,7 @@ const DAMAGE_SPELLS = [
     //395519, // Strike of the Windlord, ww only
     //395521, // Strike of the Windlord (alt id), ww only
     //418360, // Press the Advantage, ww only
-    //443038, // Celestial Conduit (damage component) - note: different id from healing (443028)
+    SPELLS.CELESTIAL_CONDUIT.id, // note: should be different id from healing (443038)
     TALENTS.COURAGE_OF_THE_WHITE_TIGER.id, // 443088
     //457917, // Courage of the White Tiger (alt id)
     //443127, // Strength of the Black Ox, cotc only
@@ -147,46 +147,54 @@ const corePassive = {
         effects: [
             {
                 type: "Apply Aura: Modifies Healing Done",
-                value: -10,
+                value: -20,
                 pvpMultiplier: 1,
                 affectedSpells: HEALING_SPELLS,
+                effectId: 179708,
             },
             {
                 type: "Apply Aura: Modifies Periodic Healing Done",
-                value: -10,
+                value: -20,
                 pvpMultiplier: 1,
                 affectedSpells: HEALING_SPELLS,
+                effectId: 191104,
             },
             {
                 type: "Apply Aura: Modifies Damage Done",
                 value: 90,
                 pvpMultiplier: 1,
                 affectedSpells: DAMAGE_SPELLS,
+                effectId: 191105,
             },
             {
                 type: "Apply Aura: Modifies Periodic Damage Done",
                 value: 90,
                 pvpMultiplier: 1,
                 affectedSpells: DAMAGE_SPELLS,
+                effectId: 191106,
             },
             {
                 type: "Apply Aura: Mod Guardian Damage %",
                 pvpMultiplier: 1,
+                effectId: 191107,
             },
             {
                 type: "Apply Aura: Mod Auto Attack Damage %",
                 pvpMultiplier: 1,
+                effectId: 260828,
             },
             {
                 type: "Apply Aura: Modifies Healing Done",
                 value: 92,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.VIVIFY.id],
+                effectId: 260829,
             },
             {
                 type: "Apply Aura: Add Modifier - % (Label): Modifies Damage/Healing Done",
                 pvpMultiplier: 1,
                 affectedSpells: [TALENTS.INVIGORATING_MISTS.id],
+                effectId: 260830,
             },
             {
                 type: "Apply Aura: Modifies Damage Done",
@@ -196,41 +204,48 @@ const corePassive = {
                     SPELLS.RISING_SUN_KICK.id,
                     TALENTS.RUSHING_WIND_KICK.id,
                 ],
+                effectId: 260832,
             },
             {
                 type: "Apply Aura: Modifies Damage Done",
                 value: 56,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.BLACKOUT_KICK.id],
+                effectId: 260833,
             },
             {
                 type: "Apply Aura: Modifies Damage Done",
                 value: -17,
                 pvpMultiplier: 0.325,
                 affectedSpells: [SPELLS.TIGER_PALM.id],
+                effectId: 260834,
             },
             {
                 type: "Apply Aura: Modifies Damage Done",
-                value: 213,
+                value: 193,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.SPINNING_CRANE_KICK.id],
+                effectId: 260835,
             },
             {
                 type: "Apply Aura: Modifies Periodic Damage Done",
                 value: 242,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.CRACKLING_JADE_LIGHTNING.id],
+                effectId: 741702,
             },
             {
                 type: "Apply Aura: Add Modifier - % (Label): Modifies Damage Done",
-                value: -40,
+                value: -20,
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.CELESTIAL_CONDUIT.id],
+                effectId: 1266574,
             },
             {
                 type: "Apply Aura: Allows Cast while Moving",
                 pvpMultiplier: 1,
                 affectedSpells: [SPELLS.CRACKLING_JADE_LIGHTNING, SPELLS.SOOTHING_MIST],
+                effectId: 1313361,
             }
         ],
     } as CorePassive,

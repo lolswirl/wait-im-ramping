@@ -23,7 +23,7 @@ const categorize = (spell: SPELL): SpellCategory => {
 
 const formatPresetName = (key: string) => key.replace(/_/g, " ").toLowerCase();
 
-const rowLabel: React.CSSProperties = { fontSize: "0.7rem", fontWeight: 600, opacity: 0.45, textAlign: "right", whiteSpace: "nowrap" };
+const rowLabel: React.CSSProperties = { fontSize: "0.7rem", fontWeight: 600, opacity: 0.45, textAlign: "right", whiteSpace: "nowrap", paddingTop: 6 };
 const rowSep = <div style={{ width: 1, alignSelf: "stretch", background: "rgba(255,255,255,0.12)" }} />;
 
 const SpellButtons: React.FC<SpellButtonsProps> = ({
@@ -84,7 +84,7 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({
 
     return (
         <div>
-            <div style={{ display: "grid", gridTemplateColumns: "max-content 1px auto", gap: "6px 10px", alignItems: "center" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "max-content 1px auto", gap: "6px 10px", alignItems: "start" }}>
                 {groups.map(({ label, spells }) => (
                     <React.Fragment key={label}>
                         <span style={rowLabel}>{label}</span>
@@ -99,7 +99,7 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({
 
                 {presetEntries.length > 0 && (
                     <React.Fragment>
-                        <span style={rowLabel}>Presets</span>
+                        <span style={{ ...rowLabel, paddingTop: 0 }}>presets</span>
                         {rowSep}
                         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
                             {presetEntries.map(([name, presetSpells]) => (

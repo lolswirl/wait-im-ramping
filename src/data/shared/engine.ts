@@ -1,6 +1,6 @@
 import type spell from "@data/spells/spell";
 import type CorePassive from "@data/core-passives/core-passive";
-import { getSpellAura } from "@data/core-passives/core-passive";
+import { getSpellAura, getSpellAuraSources } from "@data/core-passives/core-passive";
 import type { Stats } from "@data/shared/stats";
 
 export type TalentMap = Map<spell, boolean>;
@@ -37,6 +37,31 @@ export const calcSpellValue = (spell: spell, player: Player, type: 'damage' | 'h
     const versMultiplier = 1 + (player.stats.versatility / 100);
 
     return player.stats.intellect * coeff * getSpellAura(spell, player.corePassives, type) * critMultiplier * versMultiplier;
+};
+
+export interface SpellModifier {
+    label: string;
+    multiplier: number;
+}
+
+export const getSpellModifiers = (spell: spell, player: Player, type: 'damage' | 'healing', rules: TalentRule[]): SpellModifier[] => {
+    const modifiers: SpellModifier[] = getSpellAuraSources(spell, player.corePassives, type)
+        .map(source => ({ label: `${source.name} #${source.effectIndex}`, multiplier: source.multiplier }));
+
+    if (player.stats.crit > 0) {
+        modifiers.push({ label: "Critical Strike", multiplier: 1 + player.stats.crit / 100 });
+    }
+    if (player.stats.versatility > 0) {
+        modifiers.push({ label: "Versatility", multiplier: 1 + player.stats.versatility / 100 });
+    }
+
+    for (const rule of rules) {
+        if (!isTalentEnabled(player.talents, rule.talent)) continue;
+        if (!rule.appliesTo(spell)) continue;
+        modifiers.push({ label: rule.talent.name, multiplier: 1 + rule.getValue(player.stats) });
+    }
+
+    return modifiers.filter(m => m.multiplier !== 1);
 };
 
 export const calculateSpellDamageMultiplier = (spell: spell, player: Player, rules: TalentRule[]): number => {

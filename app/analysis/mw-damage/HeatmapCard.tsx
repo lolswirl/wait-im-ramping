@@ -6,6 +6,7 @@ import WarningChip from "@components/WarningChip/WarningChip";
 import { formatNumber, formatPercent } from "@util/stringManipulation";
 import { type Player } from "@data/specs/monk/mistweaver/calcs";
 import { type RotationConfig } from "./types";
+import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
 type Props = {
   rotationConfigs: RotationConfig[];
@@ -109,7 +110,7 @@ const HeatmapCard: React.FC<Props> = ({ rotationConfigs, simulationParams, simul
   };
 
   return (
-    <Card variant="outlined" sx={{ width: "100%", maxWidth: 1000 }}>
+    <Card variant="outlined" sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide }}>
       <Tabs value={activeTab} onChange={(_, v) => onTabChange(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
         <Tab label={"HPS"} />
         <Tab label={"DPS"} />

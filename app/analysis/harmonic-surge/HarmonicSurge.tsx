@@ -11,7 +11,7 @@ import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { CLASSES } from "@data/class";
-import { calculateAncientTeachingsData, calculateSpellHealing, Player } from "@data/specs/monk/mistweaver/calcs";
+import { calculateAncientTeachingsData, calculateGustOfMists, calculateSpellHealing, Player } from "@data/specs/monk/mistweaver/calcs";
 import MISTWEAVER_DEFAULT_TALENTS from "@data/specs/monk/mistweaver/defaultTalents";
 
 import { T } from "@util/T";
@@ -49,21 +49,15 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const teachingsOfTheMonastery = TALENTS.TEACHINGS_OF_THE_MONASTERY;
     const totmMaxStacks = teachingsOfTheMonastery.custom.maxStacks;
 
-    const gustOfMists = TALENTS.GUST_OF_MISTS;
-    const gustOfMistsMasteryCoeff = gustOfMists.custom.multiplier;
+    const player: Player = { stats: mistweaver.stats, talents: selectedTalents, corePassives: mistweaver.corePassives };
 
-    const baseMastery = gustOfMistsMasteryCoeff / 100 * 8;
-    const masteryFromRating = mistweaver.stats.mastery / 180 * gustOfMistsMasteryCoeff / 100;
-    const totalMasteryMultiplier = 1 + (baseMastery + masteryFromRating);
-    const gustOfMistHealingAbsolute = (0.1 + totalMasteryMultiplier) * intellect;
+    const gustOfMistHealingAbsolute = calculateGustOfMists(player);
     const gustOfMistSpellpower = (gustOfMistHealingAbsolute / intellect) * 100;
 
     const jadeBond = TALENTS.JADE_BOND;
     const includeChiJiGusts = selectedTalents.get(SPELLS.CHI_JI);
     const chijiGustHealing = gustOfMistHealingAbsolute * (1 + (selectedTalents.get(jadeBond) ? jadeBond.custom.gustIncrease : 0));
     const chijiGustSpellpower = (chijiGustHealing / intellect) * 100;
-
-    const player: Player = { stats: mistweaver.stats, talents: selectedTalents, corePassives: mistweaver.corePassives };
 
     const tigerPalm = SPELLS.TIGER_PALM;
     const tigerPalmData = calculateAncientTeachingsData(tigerPalm, player);
