@@ -4,13 +4,13 @@ import SPELLS from "@data/spells";
 import { CLASSES } from "@data/class";
 import spell from "@data/spells/spell";
 import {
-  simulateMeleeRotation,
-  simulateMeleeRotationAt2Stacks,
-  simulateSpinningCraneKick,
-  simulateCracklingJadeLightning,
-  simulateRSKWithSCK,
-  type SimResult,
-} from "./simulations";
+  modelMeleeRotation,
+  modelMeleeRotationAt2Stacks,
+  modelSpinningCraneKick,
+  modelCracklingJadeLightning,
+  modelRSKWithSCK,
+  type ModelResult,
+} from "./model";
 import { type Player } from "@data/specs/monk/mistweaver/calcs";
 import { RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
 
@@ -35,22 +35,22 @@ type RotationDef = {
   label: (useRwk: boolean, useJe: boolean) => string;
   spells: (useRwk: boolean, useJe: boolean) => spell[];
   color: string;
-  simulateFn: (time: number, targets: number, asHealing: boolean, player: Player) => SimResult;
+  modelFn: (time: number, targets: number, asHealing: boolean, player: Player) => ModelResult;
 };
 
 const rsk = (useRwk: boolean) => useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK;
 
 const ROTATION_DEFS: RotationDef[] = [
-  { dataKey: 'melee', label: (rwk) => 'TP TP BOK ' + (rwk ? 'RWK' : 'RSK'), spells: (rwk) => [SPELLS.TIGER_PALM, SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, rsk(rwk)], color: RAINBOW_COLORS[0], simulateFn: simulateMeleeRotation },
-  { dataKey: 'melee2', label: (rwk) => 'TP BoK ' + (rwk ? 'RWK' : 'RSK'), spells: (rwk) => [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, rsk(rwk)], color: RAINBOW_COLORS[1], simulateFn: simulateMeleeRotationAt2Stacks },
-  { dataKey: 'sck', label: () => 'SCK', spells: () => [SPELLS.SPINNING_CRANE_KICK], color: RAINBOW_COLORS[2], simulateFn: simulateSpinningCraneKick },
-  { dataKey: 'rskSck', label: (rwk) => (rwk ? 'RWK' : 'RSK') + ' + SCK', spells: (rwk) => [rsk(rwk), SPELLS.SPINNING_CRANE_KICK], color: RAINBOW_COLORS[3], simulateFn: simulateRSKWithSCK },
-  { dataKey: 'je', label: (_, je) => je ? 'CJL + JE' : 'CJL', spells: (_, je) => je ? [SPELLS.CRACKLING_JADE_LIGHTNING, TALENTS.JADE_EMPOWERMENT] : [SPELLS.CRACKLING_JADE_LIGHTNING], color: RAINBOW_COLORS[4], simulateFn: simulateCracklingJadeLightning },
+  { dataKey: 'melee', label: (rwk) => 'TP TP BOK ' + (rwk ? 'RWK' : 'RSK'), spells: (rwk) => [SPELLS.TIGER_PALM, SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, rsk(rwk)], color: RAINBOW_COLORS[0], modelFn: modelMeleeRotation },
+  { dataKey: 'melee2', label: (rwk) => 'TP BoK ' + (rwk ? 'RWK' : 'RSK'), spells: (rwk) => [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, rsk(rwk)], color: RAINBOW_COLORS[1], modelFn: modelMeleeRotationAt2Stacks },
+  { dataKey: 'sck', label: () => 'SCK', spells: () => [SPELLS.SPINNING_CRANE_KICK], color: RAINBOW_COLORS[2], modelFn: modelSpinningCraneKick },
+  { dataKey: 'rskSck', label: (rwk) => (rwk ? 'RWK' : 'RSK') + ' + SCK', spells: (rwk) => [rsk(rwk), SPELLS.SPINNING_CRANE_KICK], color: RAINBOW_COLORS[3], modelFn: modelRSKWithSCK },
+  { dataKey: 'je', label: (_, je) => je ? 'CJL + JE' : 'CJL', spells: (_, je) => je ? [SPELLS.CRACKLING_JADE_LIGHTNING, TALENTS.JADE_EMPOWERMENT] : [SPELLS.CRACKLING_JADE_LIGHTNING], color: RAINBOW_COLORS[4], modelFn: modelCracklingJadeLightning },
 ];
 
 self.onmessage = (e: MessageEvent<{ targetCount: number; asHealing: boolean }>) => {
   const { targetCount, asHealing } = e.data;
-  const SIM_TIME = 500;
+  const MODEL_TIME = 500;
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
 
   const specExclusivePairs: [spell, spell][] = [
@@ -106,8 +106,8 @@ self.onmessage = (e: MessageEvent<{ targetCount: number; asHealing: boolean }>) 
           const activeTalentIds = [...talentMap.entries()].filter(([t, v]) => v && !classTalentIdSet.has(t.id)).map(([t]) => t.id);
 
           for (const def of ROTATION_DEFS) {
-            const result = def.simulateFn(SIM_TIME, targetCount, asHealing, player);
-            const val = result.points.length > 0 ? result.points[result.points.length - 1].damage / SIM_TIME : 0;
+            const result = def.modelFn(MODEL_TIME, targetCount, asHealing, player);
+            const val = result.points.length > 0 ? result.points[result.points.length - 1].damage / MODEL_TIME : 0;
             results.push({
               talentIds: activeTalentIds,
               rotationDataKey: def.dataKey,

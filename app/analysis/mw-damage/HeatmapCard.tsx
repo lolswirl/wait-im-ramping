@@ -10,29 +10,29 @@ import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
 type Props = {
   rotationConfigs: RotationConfig[];
-  simulationParams: Player;
-  simulationKey: number;
+  player: Player;
+  rerollKey: number;
   showAsHealing: boolean;
   activeTab: number;
   onTabChange: (v: number) => void;
 };
 
-const HeatmapCard: React.FC<Props> = ({ rotationConfigs, simulationParams, simulationKey, showAsHealing, activeTab, onTabChange }) => {
+const HeatmapCard: React.FC<Props> = ({ rotationConfigs, player, rerollKey, showAsHealing, activeTab, onTabChange }) => {
   const heatmapRows = useMemo(() => {
     const time = 500;
     return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(targets => ({
       targets,
       dps: rotationConfigs.map(config => {
-        const result = config.simulateFn(time, targets, false, simulationParams);
+        const result = config.modelFn(time, targets, false, player);
         return result.points.length > 0 ? result.points[result.points.length - 1].damage / time : 0;
       }),
       hps: rotationConfigs.map(config => {
-        const result = config.simulateFn(time, targets, true, simulationParams);
+        const result = config.modelFn(time, targets, true, player);
         return result.points.length > 0 ? result.points[result.points.length - 1].damage / time : 0;
       }),
     }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [simulationKey, simulationParams, rotationConfigs]);
+  }, [rerollKey, player, rotationConfigs]);
 
   const renderHeatmapTable = (type: 'DPS' | 'HPS', asHealing: boolean) => {
     const rows = heatmapRows.map(row => ({ targets: row.targets, values: asHealing ? row.hps : row.dps }));

@@ -13,20 +13,20 @@ import {
 } from "@data/specs/monk/mistweaver/calcs";
 
 type DamagePoint = { time: number; damage: number };
-type SimState = Record<string, number>;
+type RotationState = Record<string, number>;
 
 export type AbilityEntry = { total: number; sub?: Map<spell, number> };
-export type SimResult = { points: DamagePoint[]; perAbility: Map<spell, AbilityEntry> };
+export type ModelResult = { points: DamagePoint[]; perAbility: Map<spell, AbilityEntry> };
 
 interface RotationAction {
   spell: spell;
   priority: number;
   cooldown: number;
   castTime?: number;
-  getValue?: (state: SimState) => number;
-  getBreakdown?: (state: SimState) => Map<spell, number>;
-  canCast?: (state: SimState) => boolean;
-  onCast?: (state: SimState, cooldowns: number[]) => void;
+  getValue?: (state: RotationState) => number;
+  getBreakdown?: (state: RotationState) => Map<spell, number>;
+  canCast?: (state: RotationState) => boolean;
+  onCast?: (state: RotationState, cooldowns: number[]) => void;
 }
 
 const addToMap = (map: Map<spell, number>, key: spell, value: number) => {
@@ -36,8 +36,8 @@ const addToMap = (map: Map<spell, number>, key: spell, value: number) => {
 const runRotation = (
   actions: RotationAction[],
   totalTime: number,
-  initialState: SimState = {}
-): SimResult => {
+  initialState: RotationState = {}
+): ModelResult => {
   const cooldowns = actions.map(() => 0);
   const state = { ...initialState };
   const sorted = [...actions.keys()].sort((a, b) => actions[a].priority - actions[b].priority);
@@ -144,13 +144,13 @@ const calculateHarmonicSurgeValue = (
   return asHealing ? totalHealing : totalDamage;
 };
 
-const simulateMeleeRotationWithStacks = (
+const modelMeleeRotationWithStacks = (
   totalTime: number,
   targets: number,
   asHealing: boolean,
   player: Player,
   bokMinStacks: number,
-): SimResult => {
+): ModelResult => {
   const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
   const hasHarmonicSurge = player.talents.get(TALENTS.HARMONIC_SURGE) === true;
   const tpHits = hasWotC ? TALENTS.WAY_OF_THE_CRANE.custom.tigerPalmHits : 1;
@@ -167,7 +167,7 @@ const simulateMeleeRotationWithStacks = (
   const rskSpell = chosenRsk(player.talents);
   const rskValue = resolveRskValue(targets, asHealing, player);
 
-  const initialState: SimState = { totmStacks: 0 };
+  const initialState: RotationState = { totmStacks: 0 };
   if (hasHarmonicSurge) initialState.potentialEnergyStacks = 0;
 
   const actions: RotationAction[] = [
@@ -224,31 +224,31 @@ const simulateMeleeRotationWithStacks = (
   return runRotation(actions, totalTime, initialState);
 };
 
-export const simulateMeleeRotation = (
+export const modelMeleeRotation = (
   totalTime: number,
   targets: number,
   asHealing: boolean,
   player: Player
-): SimResult =>
-  simulateMeleeRotationWithStacks(
+): ModelResult =>
+  modelMeleeRotationWithStacks(
     totalTime, targets, asHealing, player,
     TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks
   );
 
-export const simulateMeleeRotationAt2Stacks = (
+export const modelMeleeRotationAt2Stacks = (
   totalTime: number,
   targets: number,
   asHealing: boolean,
   player: Player
-): SimResult =>
-  simulateMeleeRotationWithStacks(totalTime, targets, asHealing, player, TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks / 2);
+): ModelResult =>
+  modelMeleeRotationWithStacks(totalTime, targets, asHealing, player, TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks / 2);
 
-export const simulateSpinningCraneKick = (
+export const modelSpinningCraneKick = (
   totalTime: number,
   targets: number,
   asHealing: boolean,
   player: Player
-): SimResult => {
+): ModelResult => {
   const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
   const baseValue = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, player);
 
@@ -283,12 +283,12 @@ export const calculateJadeEmpowermentData = (
   };
 };
 
-export const simulateCracklingJadeLightning = (
+export const modelCracklingJadeLightning = (
   totalTime: number,
   targets: number,
   asHealing: boolean,
   player: Player
-): SimResult => {
+): ModelResult => {
   const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
   const tickInterval = 1.5; // not really 1.5s, actual is every 0.75 but graphing it is weird here
   const ticksPerChannel = cjl.castTime / tickInterval;
@@ -310,12 +310,12 @@ export const simulateCracklingJadeLightning = (
   return runRotation(actions, totalTime);
 };
 
-export const simulateRSKWithSCKAndBok = (
+export const modelRSKWithSCKAndBok = (
   totalTime: number,
   targets: number,
   asHealing: boolean,
   player: Player
-): SimResult => {
+): ModelResult => {
   const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
   const rskSpell = chosenRsk(player.talents);
   const rskValue = resolveRskValue(targets, asHealing, player);
@@ -363,12 +363,12 @@ export const simulateRSKWithSCKAndBok = (
   return runRotation(actions, totalTime);
 };
 
-export const simulateRSKWithSCK = (
+export const modelRSKWithSCK = (
   totalTime: number,
   targets: number,
   asHealing: boolean,
   player: Player
-): SimResult => {
+): ModelResult => {
   const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
   const rskSpell = chosenRsk(player.talents);
   const rskValue = resolveRskValue(targets, asHealing, player);

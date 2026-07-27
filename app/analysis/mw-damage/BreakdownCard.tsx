@@ -6,12 +6,12 @@ import SpellButton from "@components/SpellButtons/SpellButton";
 import AbilityBar from "@components/AbilityBar/AbilityBar";
 import spell from "@data/spells/spell";
 import { formatNumber } from "@util/stringManipulation";
-import { type SimResult, type AbilityEntry } from "./simulations";
+import { type ModelResult, type AbilityEntry } from "./model";
 import { type RotationConfig } from "./types";
 
 type Props = {
   rotationConfigs: RotationConfig[];
-  damageData: Record<string, SimResult>;
+  damageData: Record<string, ModelResult>;
   showAsHealing: boolean;
   timeSpent: number;
 };

@@ -25,7 +25,7 @@ import { T } from "@util/T";
 import { formatNumber } from "@util/stringManipulation";
 import WarningChip from "@components/WarningChip/WarningChip";
 
-import { type SimResult } from "./simulations";
+import { type ModelResult } from "./model";
 import { buildRotationConfigs, getBackgroundColor, getBorderColor, getCardBg } from "./types";
 import BreakdownCard from "./BreakdownCard";
 import HeatmapCard from "./HeatmapCard";
@@ -34,9 +34,9 @@ import ComboRankCard from "./ComboRankCard";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-type SimOptions = { timeSpent: number; targetCount: number };
+type Options = { timeSpent: number; targetCount: number };
 
-const SIM_FIELDS: FieldDef[] = [
+const OPTIONS_FIELDS: FieldDef[] = [
   { key: 'timeSpent', label: 'time', min: 1, adornment: "sec", },
   { key: 'targetCount', label: 'targets', min: 1, stepper: true },
 ];
@@ -48,9 +48,9 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
   const [timeSpent, setTimeSpent] = useState(60);
   const [targetCount, setTargetCount] = useState(1);
   const [activeTab, setActiveTab] = useState(0);
-  const [simulationKey, setSimulationKey] = useState(0);
+  const [rerollKey, setRerollKey] = useState(0);
   const showAsHealing = activeTab === 0;
-  const [damageData, setDamageData] = useState<Record<string, SimResult>>({});
+  const [damageData, setDamageData] = useState<Record<string, ModelResult>>({});
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
 
@@ -92,7 +92,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
     return new Map(all.map(s => [s.id, s]));
   }, []);
 
-  const simulationParams = useMemo(() => ({ talents, stats, corePassives: mistweaver.corePassives }), [talents, stats, mistweaver.corePassives]);
+  const player = useMemo(() => ({ talents, stats, corePassives: mistweaver.corePassives }), [talents, stats, mistweaver.corePassives]);
 
   const useRwk = talents.get(TALENTS.RUSHING_WIND_KICK) === true;
 
@@ -106,12 +106,12 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
   useEffect(() => {
     setDamageData(
       Object.fromEntries(
-        ROTATION_CONFIGS.map(c => [c.dataKey, c.simulateFn(timeSpent, targetCount, showAsHealing, simulationParams)])
+        ROTATION_CONFIGS.map(c => [c.dataKey, c.modelFn(timeSpent, targetCount, showAsHealing, player)])
       )
     );
-  }, [timeSpent, targetCount, showAsHealing, simulationParams, simulationKey, ROTATION_CONFIGS]);
+  }, [timeSpent, targetCount, showAsHealing, player, rerollKey, ROTATION_CONFIGS]);
 
-  const handleSimChange = (updater: (prev: SimOptions) => SimOptions) => {
+  const handleOptionsChange = (updater: (prev: Options) => Options) => {
     const next = updater({ timeSpent, targetCount });
     setTimeSpent(next.timeSpent);
     setTargetCount(next.targetCount);
@@ -190,20 +190,20 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
           accent={mistweaver.color}
           sections={[
             {
-              key: "sim",
-              title: "sim",
+              key: "options",
+              title: "options",
               summary: `${timeSpent}s · ${targetCount} ${targetCount === 1 ? "target" : "targets"}`,
               content: (
                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
                   <FieldCells
-                    fields={SIM_FIELDS}
+                    fields={OPTIONS_FIELDS}
                     options={{ timeSpent, targetCount }}
-                    onOptionsChange={handleSimChange}
+                    onOptionsChange={handleOptionsChange}
                   />
                   <SwirlButton
                     color="success"
                     textColor="success"
-                    onClick={() => setSimulationKey(k => k + 1)}
+                    onClick={() => setRerollKey(k => k + 1)}
                     startIcon={<Refresh />}
                   >
                     Re-formulate
@@ -312,8 +312,8 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
 
       <HeatmapCard
         rotationConfigs={ROTATION_CONFIGS}
-        simulationParams={simulationParams}
-        simulationKey={simulationKey}
+        player={player}
+        rerollKey={rerollKey}
         showAsHealing={showAsHealing}
         activeTab={activeTab}
         onTabChange={setActiveTab}
@@ -321,7 +321,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
 
       <RawTablesAccordion
         rotationConfigs={ROTATION_CONFIGS}
-        simulationParams={simulationParams}
+        player={player}
         showAsHealing={showAsHealing}
         activeTab={activeTab}
         onTabChange={setActiveTab}

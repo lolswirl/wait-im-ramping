@@ -10,13 +10,13 @@ import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
 type Props = {
   rotationConfigs: RotationConfig[];
-  simulationParams: Player;
+  player: Player;
   showAsHealing: boolean;
   activeTab: number;
   onTabChange: (v: number) => void;
 };
 
-const RawTablesAccordion: React.FC<Props> = ({ rotationConfigs, simulationParams, showAsHealing, activeTab, onTabChange }) => {
+const RawTablesAccordion: React.FC<Props> = ({ rotationConfigs, player, showAsHealing, activeTab, onTabChange }) => {
   const renderComparisonCell = (value: string, key: string) => (
     <TableCell key={key} align="center" sx={{ border: 0, py: 1, px: 1 }}>
       <Typography variant="body2" sx={{ color: parseFloat(value) > 0 ? '#4ade80' : '#ef4444', fontWeight: 600 }}>
@@ -55,7 +55,7 @@ const RawTablesAccordion: React.FC<Props> = ({ rotationConfigs, simulationParams
         <TableBody>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(targets => {
             const rotationValues = rotationConfigs.map(config => {
-              const result = config.simulateFn(500, targets, asHealing, simulationParams);
+              const result = config.modelFn(500, targets, asHealing, player);
               return result.points.length > 0 ? result.points[result.points.length - 1].damage / 500 : 0;
             });
             return (
@@ -112,7 +112,7 @@ const RawTablesAccordion: React.FC<Props> = ({ rotationConfigs, simulationParams
         <TableBody>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(targets => {
             const rotationValues = rotationConfigs.map(config => {
-              const result = config.simulateFn(500, targets, asHealing, simulationParams);
+              const result = config.modelFn(500, targets, asHealing, player);
               return result.points.length > 0 ? result.points[result.points.length - 1].damage / 500 : 0;
             });
             return (

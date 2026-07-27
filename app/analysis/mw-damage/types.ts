@@ -4,20 +4,20 @@ import TALENTS from "@data/specs/monk/mistweaver/talents";
 import { type Player } from "@data/specs/monk/mistweaver/calcs";
 import { RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
 import {
-  simulateMeleeRotation,
-  simulateMeleeRotationAt2Stacks,
-  simulateSpinningCraneKick,
-  simulateCracklingJadeLightning,
-  simulateRSKWithSCK,
-  type SimResult,
-} from "./simulations";
+  modelMeleeRotation,
+  modelMeleeRotationAt2Stacks,
+  modelSpinningCraneKick,
+  modelCracklingJadeLightning,
+  modelRSKWithSCK,
+  type ModelResult,
+} from "./model";
 
 export type RotationConfig = {
   dataKey: string;
   label: string;
   spells: spell[];
   color: string;
-  simulateFn: (time: number, targets: number, asHealing: boolean, params: Player) => SimResult;
+  modelFn: (time: number, targets: number, asHealing: boolean, params: Player) => ModelResult;
 };
 
 export const cartesian = <T,>(arrays: T[][]): T[][] => {
@@ -33,25 +33,25 @@ export const buildRotationConfigs = (useRwk: boolean, talents: Map<spell, boolea
       dataKey: 'melee',
       label: 'TP TP BOK ' + (useRwk ? 'RWK' : 'RSK'),
       spells: [SPELLS.TIGER_PALM, SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK],
-      simulateFn: simulateMeleeRotation,
+      modelFn: modelMeleeRotation,
     },
     {
       dataKey: 'melee2',
       label: 'TP BoK ' + (useRwk ? 'RWK' : 'RSK'),
       spells: [SPELLS.TIGER_PALM, SPELLS.BLACKOUT_KICK, useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK],
-      simulateFn: simulateMeleeRotationAt2Stacks,
+      modelFn: modelMeleeRotationAt2Stacks,
     },
     {
       dataKey: 'sck',
       label: 'SCK',
       spells: [SPELLS.SPINNING_CRANE_KICK],
-      simulateFn: simulateSpinningCraneKick,
+      modelFn: modelSpinningCraneKick,
     },
     {
       dataKey: 'rskSck',
       label: (useRwk ? 'RWK' : 'RSK') + ' + SCK',
       spells: [useRwk ? TALENTS.RUSHING_WIND_KICK : SPELLS.RISING_SUN_KICK, SPELLS.SPINNING_CRANE_KICK],
-      simulateFn: simulateRSKWithSCK,
+      modelFn: modelRSKWithSCK,
     },
     {
       dataKey: 'je',
@@ -59,7 +59,7 @@ export const buildRotationConfigs = (useRwk: boolean, talents: Map<spell, boolea
       spells: talents.get(TALENTS.JADE_EMPOWERMENT)
         ? [SPELLS.CRACKLING_JADE_LIGHTNING, TALENTS.JADE_EMPOWERMENT]
         : [SPELLS.CRACKLING_JADE_LIGHTNING],
-      simulateFn: simulateCracklingJadeLightning,
+      modelFn: modelCracklingJadeLightning,
     },
   ].map((e, i) => ({ ...e, color: RAINBOW_COLORS[i % RAINBOW_COLORS.length] }));
 

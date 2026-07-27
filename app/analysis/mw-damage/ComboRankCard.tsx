@@ -6,7 +6,7 @@ import SwirlButton from "@components/Buttons/SwirlButton";
 import { Calculate } from "@mui/icons-material";
 import spell from "@data/spells/spell";
 import { formatNumber, formatPercent } from "@util/stringManipulation";
-import type { ComboResultSerialized } from "./comboSim.worker";
+import type { ComboResultSerialized } from "./comboRank.worker";
 import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
 type Props = {
@@ -26,7 +26,7 @@ const ComboRankCard: React.FC<Props> = ({ targetCount, spellById }) => {
     workerRef.current?.terminate();
     setComboResults(null);
     setIsCalculating(true);
-    const worker = new Worker(new URL('./comboSim.worker.ts', import.meta.url));
+    const worker = new Worker(new URL('./comboRank.worker.ts', import.meta.url));
     workerRef.current = worker;
     worker.onmessage = (e: MessageEvent<{ type: 'progress'; pct: number } | { type: 'done'; results: ComboResultSerialized[] }>) => {
       if (e.data.type === 'done') {
@@ -65,7 +65,7 @@ const ComboRankCard: React.FC<Props> = ({ targetCount, spellById }) => {
         {comboResults === null && !isCalculating && (
           <Box sx={{ p: 4, textAlign: 'center' }}>
             <Typography variant="body2" color="text.secondary">
-              Click Calculate to simulate all talent/rotation combinations.
+              Click Calculate to evaluate all talent/rotation combinations.
             </Typography>
           </Box>
         )}
