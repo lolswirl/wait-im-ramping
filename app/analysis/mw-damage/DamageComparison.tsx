@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Box, Container, Divider, TextField, useTheme, Card, Typography, Tab, Tabs, Skeleton } from "@mui/material";
+import { Box, Container, Divider, useTheme, Card, Typography, Tab, Tabs, Skeleton } from "@mui/material";
 import { Refresh, EmojiEvents } from "@mui/icons-material";
 import SwirlButton from "@components/Buttons/SwirlButton";
 
@@ -11,6 +11,7 @@ import SpellButton from "@components/SpellButtons/SpellButton";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
 import StatsCard, { Group, statsSummary, type StatsCardOptions } from "@components/StatsCard/StatsCard";
+import { FieldCells, type FieldDef } from "@components/FieldCells/FieldCells";
 import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
 import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
@@ -32,6 +33,13 @@ import RawTablesAccordion from "./RawTablesAccordion";
 import ComboRankCard from "./ComboRankCard";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+
+type SimOptions = { timeSpent: number; targetCount: number };
+
+const SIM_FIELDS: FieldDef[] = [
+  { key: 'timeSpent', label: 'time', min: 1, adornment: "sec", },
+  { key: 'targetCount', label: 'targets', min: 1, stepper: true },
+];
 
 const DamageComparison: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const theme = useTheme();
@@ -103,12 +111,10 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
     );
   }, [timeSpent, targetCount, showAsHealing, simulationParams, simulationKey, ROTATION_CONFIGS]);
 
-  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTimeSpent(Number(e.target.value));
-  };
-
-  const handleTargetCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTargetCount(Number(e.target.value));
+  const handleSimChange = (updater: (prev: SimOptions) => SimOptions) => {
+    const next = updater({ timeSpent, targetCount });
+    setTimeSpent(next.timeSpent);
+    setTargetCount(next.targetCount);
   };
 
   const chartOptions = {
@@ -189,21 +195,10 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
               summary: `${timeSpent}s · ${targetCount} ${targetCount === 1 ? "target" : "targets"}`,
               content: (
                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
-                  <TextField
-                    label={T("Time (Seconds)")}
-                    type="number"
-                    value={timeSpent}
-                    onChange={handleTimeChange}
-                    size="small"
-                    sx={{ maxWidth: 160 }}
-                  />
-                  <TextField
-                    label={T("Targets")}
-                    type="number"
-                    value={targetCount}
-                    onChange={handleTargetCountChange}
-                    size="small"
-                    sx={{ maxWidth: 100 }}
+                  <FieldCells
+                    fields={SIM_FIELDS}
+                    options={{ timeSpent, targetCount }}
+                    onOptionsChange={handleSimChange}
                   />
                   <SwirlButton
                     color="success"

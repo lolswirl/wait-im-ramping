@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { Box, TextField, InputAdornment, Typography } from '@mui/material';
+import { Add, Remove } from '@mui/icons-material';
 import { GlassTooltip } from '@components/Glass';
 
 export interface FieldDef {
@@ -9,6 +10,7 @@ export interface FieldDef {
     min?: number;
     tooltip?: string;
     adornment?: string;
+    stepper?: boolean;
 }
 
 interface FieldCellsProps {
@@ -31,6 +33,34 @@ export const FieldCells: React.FC<FieldCellsProps> = ({ fields, options, onOptio
 
     const formatNumber = (num: number): string => num.toLocaleString();
     const parseNumber = (str: string): number => Number(str.replace(/,/g, ''));
+
+    const step = (field: FieldDef, delta: number) => {
+        const next = Math.max((values[field.key] ?? 0) + delta, field.min ?? 0);
+        handleChange(field.key, next);
+        setLocalValues(prev => { const s = { ...prev }; delete s[field.key]; return s; });
+        setBelowMin(prev => ({ ...prev, [field.key]: false }));
+    };
+
+    const stepperButtons = (field: FieldDef) => (
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, ml: 1, mr: "-4px" }}>
+            {[[Remove, -1] as const, [Add, 1] as const].map(([Icon, delta]) => (
+                <Box
+                    key={delta}
+                    component="span"
+                    role="button"
+                    onClick={() => step(field, delta)}
+                    sx={{
+                        display: "flex",
+                        cursor: "pointer",
+                        color: "text.disabled",
+                        "&:hover": { color: "text.primary" },
+                    }}
+                >
+                    <Icon sx={{ fontSize: 12 }} />
+                </Box>
+            ))}
+        </Box>
+    );
 
     const makeInput = (field: FieldDef) => (
         <TextField
@@ -85,9 +115,12 @@ export const FieldCells: React.FC<FieldCellsProps> = ({ fields, options, onOptio
                     "&:focus-within": { borderColor: isBelowMin ? "error.main" : "text.secondary" },
                 }}
             >
-                <Typography sx={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: 0.5, color: isBelowMin ? "error.main" : "text.disabled" }}>
-                    {isBelowMin ? `min ${formatNumber(field.min ?? 0)}${field.adornment ?? ''}` : field.label}
-                </Typography>
+                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <Typography sx={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: 0.5, color: isBelowMin ? "error.main" : "text.disabled" }}>
+                        {isBelowMin ? `min ${formatNumber(field.min ?? 0)}${field.adornment ?? ''}` : field.label}
+                    </Typography>
+                    {field.stepper && stepperButtons(field)}
+                </Box>
                 {makeInput(field)}
             </Box>
         );
