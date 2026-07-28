@@ -36,6 +36,9 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 type Options = { timeSpent: number; targetCount: number };
 
+const TARGET_WINDOW = 10;
+const SWEEP_TIME = 500;
+
 const OPTIONS_FIELDS: FieldDef[] = [
   { key: 'timeSpent', label: 'time', min: 1, adornment: "sec", },
   { key: 'targetCount', label: 'targets', min: 1, stepper: true },
@@ -117,6 +120,20 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
     setTargetCount(next.targetCount);
   };
 
+  const targetRange = useMemo(() => {
+    const end = Math.max(TARGET_WINDOW, targetCount);
+    return Array.from({ length: TARGET_WINDOW }, (_, i) => end - TARGET_WINDOW + 1 + i);
+  }, [targetCount]);
+
+  const targetSweep = useMemo(
+    () => targetRange.map(targets => ROTATION_CONFIGS.map(config => {
+      const result = config.modelFn(SWEEP_TIME, targets, showAsHealing, player);
+      return result.points.length > 0 ? result.points[result.points.length - 1].damage / SWEEP_TIME : 0;
+    })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [targetRange, ROTATION_CONFIGS, showAsHealing, player, rerollKey]
+  );
+
   const chartOptions = {
     responsive: true,
     plugins: {
@@ -124,14 +141,13 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
     },
     scales: {
       x: {
-        title: { display: true, text: T("Time (Seconds)") },
-        ticks: { autoSkip: true },
+        title: { display: true, text: T("Targets") },
         grid: {
           color: theme.custom.chart.gridColor,
         },
       },
       y: {
-        title: { display: true, text: T(showAsHealing ? "Cumulative Healing" : "Cumulative Damage") },
+        title: { display: true, text: T(showAsHealing ? "HPS" : "DPS") },
         beginAtZero: true,
         grid: {
           color: theme.custom.chart.gridColor,
@@ -141,13 +157,16 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
   };
 
   const chartData = {
-    labels: [...new Set(ROTATION_CONFIGS.flatMap(c => (damageData[c.dataKey]?.points ?? []).map(p => p.time)))],
-    datasets: ROTATION_CONFIGS.map(config => ({
+    labels: targetRange,
+    datasets: ROTATION_CONFIGS.map((config, idx) => ({
       label: T(config.label),
-      data: (damageData[config.dataKey]?.points ?? []).map(item => item.damage),
+      data: targetSweep.map(values => values[idx]),
       borderColor: config.color,
       backgroundColor: getBackgroundColor(config.color),
       fill: false,
+      // only the selected target count carries a visible point
+      pointRadius: targetRange.map(targets => targets === targetCount ? 6 : 0),
+      pointHoverRadius: 6,
     }))
   };
 
@@ -227,7 +246,6 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
               key: "talents",
               title: "talents",
               summary: `${[...specTalents.values(), ...heroTalents.values(), ...classTalents.values(), ...tierSet.values()].filter(Boolean).length} active`,
-              defaultOpen: true,
               content: (
                 <Group>
                   <TalentsCard label="Spec" options={specTalents} color={mistweaver.color} onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))} />
@@ -247,10 +265,15 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
       </Box>
 
       <Card variant="outlined" sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide }}>
-        <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
-          <Tab label={"HPS"} />
-          <Tab label={"DPS"} />
-        </Tabs>
+        <Box sx={{ borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', justifyContent: 'space-between', pr: 2 }}>
+          <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}>
+            <Tab label={"HPS"} />
+            <Tab label={"DPS"} />
+          </Tabs>
+          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+            {timeSpent}s · {targetCount} target{targetCount !== 1 ? 's' : ''}
+          </Typography>
+        </Box>
         <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             {(() => {
@@ -298,6 +321,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
               });
             })()}
           </Box>
+          <Divider/>
           <Box sx={{ height: "500px", width: "100%" }}>
             <Line data={chartData} options={chartOptions} />
           </Box>
