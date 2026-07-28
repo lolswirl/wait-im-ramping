@@ -140,7 +140,6 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                 <SwirlButton
                     key={"clear-current"}
                     color="error"
-                    textColor="error"
                     onClick={onClearCurrentRotation}
                     disabled={currentRotation.length === 0}
                     startIcon={<DeleteTwoTone />}
@@ -150,7 +149,6 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                 <SwirlButton
                     key={"clear-all"}
                     color="error"
-                    textColor="error"
                     onClick={onClearAllRotations}
                     disabled={!hasRotations}
                     startIcon={<DeleteForever />}

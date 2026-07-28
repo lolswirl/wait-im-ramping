@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { TextField, InputAdornment, Box, Typography } from '@mui/material';
 import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material';
-import { GlassIconButton } from '@components/Buttons/GlassIconButton';
+import { SwirlIconButton } from '@components/Buttons/SwirlIconButton';
 
 interface SwirlFieldProps {
     label?: string;
@@ -54,18 +54,18 @@ const SwirlField: React.FC<SwirlFieldProps> = ({ label, value, onChange, suffix,
                             <InputAdornment position="end">
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px', opacity: hovered ? 1 : 0, transition: 'opacity 0.15s ease' }}>
-                                        <GlassIconButton
+                                        <SwirlIconButton
                                             onClick={() => onChange(value === "" ? min + 1 : value + 1)}
                                             sx={{ p: '1px', minWidth: 0, height: 18, width: 18 }}
                                         >
                                             <ArrowDropUp sx={{ fontSize: 16 }} />
-                                        </GlassIconButton>
-                                        <GlassIconButton
+                                        </SwirlIconButton>
+                                        <SwirlIconButton
                                             onClick={() => onChange(value === "" ? min : Math.max(min, value - 1))}
                                             sx={{ p: '1px', minWidth: 0, height: 18, width: 18 }}
                                         >
                                             <ArrowDropDown sx={{ fontSize: 16 }} />
-                                        </GlassIconButton>
+                                        </SwirlIconButton>
                                     </Box>
                                     {suffix && <Typography variant="body2" color="text.secondary">{suffix}</Typography>}
                                 </Box>

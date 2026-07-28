@@ -513,10 +513,10 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                         <SwirlButton onClick={handlePrevious} disabled={currentBugIndex === 0}>Previous</SwirlButton>
                         <SwirlButton onClick={handleSkipRest}>Skip Rest</SwirlButton>
                         <Box sx={{ flex: 1 }} />
-                        <SwirlButton onClick={() => handleBugResponse('fixed')} color="success" textColor="success">No (Fixed)</SwirlButton>
-                        <SwirlButton onClick={() => handleBugResponse('removed')} color="info" textColor="info">Removed</SwirlButton>
-                        <SwirlButton onClick={() => handleBugResponse('unknown')} color="warning" textColor="warning">I Don't Know</SwirlButton>
-                        <SwirlButton onClick={() => handleBugResponse('broken')} color="error" textColor="error">Yes (Broken)</SwirlButton>
+                        <SwirlButton onClick={() => handleBugResponse('fixed')} color="success">No (Fixed)</SwirlButton>
+                        <SwirlButton onClick={() => handleBugResponse('removed')} color="info">Removed</SwirlButton>
+                        <SwirlButton onClick={() => handleBugResponse('unknown')} color="warning">I Don't Know</SwirlButton>
+                        <SwirlButton onClick={() => handleBugResponse('broken')} color="error">Yes (Broken)</SwirlButton>
                     </>
                 )}
                 {step === WorkflowStep.COMPLETE && (

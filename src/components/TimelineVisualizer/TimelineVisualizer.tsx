@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/material";
 import { ArrowUpward, ArrowDownward, Delete } from "@mui/icons-material";
-import { GlassIconButton } from "@components/Buttons/GlassIconButton";
+import { SwirlIconButton } from "@components/Buttons/SwirlIconButton";
 
 import spell, { calculateCastTime, calculateGCD } from '@data/spells/spell';
 import { specialization } from "@data/class";
@@ -410,30 +410,30 @@ export default function TimelineVisualizer({ selectedSpec, haste, rotations = []
                   gap: 0.5,
                 }}
               >
-                <GlassIconButton
+                <SwirlIconButton
                   onClick={() => onMoveRotationUp(rotation.id)}
                   disabled={index === 0}
                   width={RECT_HEIGHT}
                   height={RECT_HEIGHT}
                 >
                   <ArrowUpward sx={{ fontSize: 15 }} />
-                </GlassIconButton>
-                <GlassIconButton
+                </SwirlIconButton>
+                <SwirlIconButton
                   tint="danger"
                   onClick={() => onRemoveRotation(rotation.id)}
                   width={RECT_HEIGHT}
                   height={RECT_HEIGHT}
                 >
                   <Delete sx={{ fontSize: 15 }} />
-                </GlassIconButton>
-                <GlassIconButton
+                </SwirlIconButton>
+                <SwirlIconButton
                   onClick={() => onMoveRotationDown(rotation.id)}
                   disabled={index === rotations.length - 1}
                   width={RECT_HEIGHT}
                   height={RECT_HEIGHT}
                 >
                   <ArrowDownward sx={{ fontSize: 15 }} />
-                </GlassIconButton>
+                </SwirlIconButton>
               </Box>
             ))}
           </Box>

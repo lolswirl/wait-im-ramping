@@ -221,7 +221,6 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
                             <SwirlButton
                                 key={"refresh-rotation"}
                                 color="success"
-                                textColor="success"
                                 onClick={handleRefresh}
                                 disabled={isSimulating || rotationHPS.length === 0}
                                 startIcon={<Refresh />}

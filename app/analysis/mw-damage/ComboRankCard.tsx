@@ -52,7 +52,6 @@ const ComboRankCard: React.FC<Props> = ({ targetCount, spellById }) => {
           </Typography>
           <SwirlButton
             color="success"
-            textColor="success"
             onClick={runCalculation}
             disabled={isCalculating}
             startIcon={<Calculate />}

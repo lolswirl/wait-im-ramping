@@ -221,7 +221,6 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
                   />
                   <SwirlButton
                     color="success"
-                    textColor="success"
                     onClick={() => setRerollKey(k => k + 1)}
                     startIcon={<Refresh />}
                   >

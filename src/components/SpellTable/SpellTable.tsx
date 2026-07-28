@@ -5,7 +5,7 @@ import { Box, Stack, Typography, Divider, Card } from "@mui/material";
 import { ArrowUpward, ArrowDownward, DeleteTwoTone, DeleteForever } from "@mui/icons-material";
 
 import SwirlButton from "@components/Buttons/SwirlButton";
-import { GlassIconButton } from "@components/Buttons/GlassIconButton";
+import { SwirlIconButton } from "@components/Buttons/SwirlIconButton";
 import SpellButton from "@components/SpellButtons/SpellButton";
 
 import spell, { calculateEffectiveCastTime } from "@data/spells/spell";
@@ -117,15 +117,15 @@ const SpellTable: React.FC<SpellTableProps> = ({
                                         <Box sx={{ flex: 1, borderBottom: '1px solid rgba(255,255,255,0.08)', alignSelf: 'center' }} />
                                     </Box>
                                     <Box sx={{ display: "flex", gap: 0.5, flexShrink: 0 }}>
-                                        <GlassIconButton onClick={() => moveSpell(index, "up")} disabled={index === 0} sx={{ p: '4px' }}>
+                                        <SwirlIconButton onClick={() => moveSpell(index, "up")} disabled={index === 0} sx={{ p: '4px' }}>
                                             <ArrowUpward sx={{ fontSize: 14 }} />
-                                        </GlassIconButton>
-                                        <GlassIconButton onClick={() => moveSpell(index, "down")} disabled={index === adjustedSpells.length - 1} sx={{ p: '4px' }}>
+                                        </SwirlIconButton>
+                                        <SwirlIconButton onClick={() => moveSpell(index, "down")} disabled={index === adjustedSpells.length - 1} sx={{ p: '4px' }}>
                                             <ArrowDownward sx={{ fontSize: 14 }} />
-                                        </GlassIconButton>
-                                        <GlassIconButton tint="danger" onClick={() => removeSpellFromTable(index)} sx={{ p: '4px' }}>
+                                        </SwirlIconButton>
+                                        <SwirlIconButton tint="danger" onClick={() => removeSpellFromTable(index)} sx={{ p: '4px' }}>
                                             <DeleteTwoTone sx={{ fontSize: 14 }} />
-                                        </GlassIconButton>
+                                        </SwirlIconButton>
                                     </Box>
                                 </Box>
                             </motion.div>
@@ -152,7 +152,6 @@ const SpellTable: React.FC<SpellTableProps> = ({
                 </Box>
                 <SwirlButton
                     color="error"
-                    textColor="error"
                     onClick={clearTable}
                     startIcon={<DeleteForever />}
                 >
