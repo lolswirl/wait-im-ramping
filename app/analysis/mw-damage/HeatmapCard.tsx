@@ -111,7 +111,7 @@ const HeatmapCard: React.FC<Props> = ({ rotationConfigs, player, rerollKey, show
 
   return (
     <Card variant="outlined" sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide }}>
-      <Tabs value={activeTab} onChange={(_, v) => onTabChange(v)} sx={{ borderBottom: 1, borderColor: 'divider' }} variant="fullWidth">
+      <Tabs value={activeTab} onChange={(_, v) => onTabChange(v)} sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tab label={"HPS"} />
         <Tab label={"DPS"} />
       </Tabs>
