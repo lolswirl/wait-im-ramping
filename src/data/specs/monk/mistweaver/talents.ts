@@ -357,7 +357,7 @@ const talents = {
         id: 1277302,
         icon: 'expansionicon_mistsofpandaria',
         custom: {
-            masteryMultiplier: 0.20,
+            masteryMultiplier: 0.08,
         },
         exclusive: [467317],
     },
