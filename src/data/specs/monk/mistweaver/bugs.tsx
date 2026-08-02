@@ -988,7 +988,9 @@ const BUGS: Bug[] = [
         description: <>Yulon will sometimes choose the caster as the target of <SpellLink spell={TALENTS.SOOTHING_BREATH} /> many times within the Celestial window, even though there are many actors in range of her.</>,
         logs: [
             { label: "First Yu'lon is fine, second is not", url: "https://www.warcraftlogs.com/reports/wfXRjWGt3aVJbAYQ?fight=66&type=healing&source=155&ability=-322118" },
-        ]
+        ],
+        notes: "Setting as intended as Soothing Breath has an 8y range",
+        status: STATUS.INTENDED,
     },
     {
         spell: TALENTS.UPLIFTED_SPIRITS,
