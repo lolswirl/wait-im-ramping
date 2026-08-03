@@ -29,7 +29,6 @@ import { type ModelResult } from "./model";
 import { buildRotationConfigs, getBackgroundColor, getBorderColor, getCardBg } from "./types";
 import BreakdownCard from "./BreakdownCard";
 import HeatmapCard from "./HeatmapCard";
-import RawTablesAccordion from "./RawTablesAccordion";
 import ComboRankCard from "./ComboRankCard";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -337,14 +336,6 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
         rotationConfigs={ROTATION_CONFIGS}
         player={player}
         rerollKey={rerollKey}
-        showAsHealing={showAsHealing}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
-
-      <RawTablesAccordion
-        rotationConfigs={ROTATION_CONFIGS}
-        player={player}
         showAsHealing={showAsHealing}
         activeTab={activeTab}
         onTabChange={setActiveTab}
