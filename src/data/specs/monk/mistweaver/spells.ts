@@ -100,7 +100,7 @@ const spells = {
         icon: 'ability_monk_vivify',
         castTime: 1.5,
         school: SCHOOLS.NATURE,
-        coeff: 2.58,
+        coeff: 2.58 * 1.95, // spell has 1.95 scalar on it for some reason
         category: CATEGORY.HEALING,
     },
     SHEILUNS_GIFT: {
