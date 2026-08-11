@@ -1113,7 +1113,9 @@ const BUGS: Bug[] = [
         severity: SEVERITY.TRIVIAL,
         title: <>Cannot apply or remove <ItemLink item={ITEMS.GLYPH_OF_FAELINE_STOMP}/></>,
         description: <>Since <SpellLink spell={TALENTS.JADEFIRE_STOMP}/> is not an ability anymore, it's greyed out in the spellbook and does not accept any glyphs being added on it, namely the <ItemLink item={ITEMS.GLYPH_OF_FAELINE_STOMP}/>.</>,
-        buildsTested: ["67823"],
+        notes: "Gets applied to Emperor's Elixir now",
+        buildsTested: ["67823", "69273"],
+        status: STATUS.FIXED,
     },
     {
         spell: TALENTS.MISTLINE,
