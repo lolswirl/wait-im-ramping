@@ -14,7 +14,7 @@ import SwirlLink from "@components/SwirlLink/SwirlLink";
 import { CHANGELOG } from "@data/changelog";
 import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
-const CURRENT_PATCH = "12.1 PTR";
+const CURRENT_PATCH = "12.1";
 
 const quickAccessIconSize = 22;
 const quickAccessPages = [
