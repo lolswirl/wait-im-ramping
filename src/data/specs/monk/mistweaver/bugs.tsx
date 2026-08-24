@@ -925,13 +925,6 @@ const BUGS: Bug[] = [
         title: <><SpellLink spell={SPELLS.YULON} /> will not channel <SpellLink spell={TALENTS.SOOTHING_BREATH} /> a second time occasionally</>,
     },
     {
-        spell: TALENTS.MANA_TEA,
-        severity: SEVERITY.MEDIUM,
-        buildsTested: ["66709"],
-        title: <>Rarely does not restore the correct amount of mana</>,
-        description: <>Will consume a stack but not actually grant mana</>,
-    },
-    {
         spell: TALENTS.MISTS_OF_LIFE,
         affectedSpells: [SPELLS.THUNDER_FOCUS_TEA],
         severity: SEVERITY.MEDIUM,
@@ -940,22 +933,55 @@ const BUGS: Bug[] = [
         status: STATUS.FIXED,
     },
     {
+        spell: TALENTS.SPIRITFONT,
+        affectedSpells: [TALENTS.REFRESHMENT, TALENTS.UPLIFTED_SPIRITS, TALENTS.UNITY_WITHIN, TALENTS.CHRYSALIS, TALENTS.GIFT_OF_THE_CELESTIALS, TALENTS.MANA_TEA, TALENTS.HEART_OF_THE_JADE_SERPENT],
+        severity: SEVERITY.CRITICAL,
+        buildsTested: ["66066", "66709", "67088", "67186", "67602"],
+        title: <>Outright removes buffs, breaking talents that depend on them</>,
+        description: <><SpellLink spell={TALENTS.SPIRITFONT} /> outright removes buffs from players. Because so many talents are implemented as hidden buffs, this surfaces as a long list of seemingly unrelated bugs that are all the same root cause:
+        <br/><br/>
+        <b>Talent buffs removed (usually in raid, reported as of 12.0.5):</b>
+        <ul>
+            <li><SpellLink spell={TALENTS.REFRESHMENT} /> stops giving <SpellLink spell={TALENTS.MANA_TEA} /> and <SpellLink spell={TALENTS.HEALING_ELIXIR} />.</li>
+            <li><SpellLink spell={TALENTS.UPLIFTED_SPIRITS} /> reverts back to a 3 min <SpellLink spell={SPELLS.REVIVAL} />.</li>
+            <li><SpellLink spell={TALENTS.CHRYSALIS} /> reverts back to a 2 min <SpellLink spell={SPELLS.LIFE_COCOON} />.</li>
+            <li><SpellLink spell={TALENTS.UNITY_WITHIN} /> stops giving all celestial assists - <SpellLink spell={TALENTS.HEART_OF_THE_JADE_SERPENT} />, <SpellLink spell={TALENTS.COURAGE_OF_THE_WHITE_TIGER} />, <SpellLink spell={TALENTS.STRENGTH_OF_THE_BLACK_OX} />, <SpellLink spell={TALENTS.FLIGHT_OF_THE_RED_CRANE} />.</li>
+            <li><SpellLink spell={TALENTS.GIFT_OF_THE_CELESTIALS} /> reverts the Celestial (usually <SpellLink spell={SPELLS.YULON} />) to baseline without the talent being modified - 2 min CD, active for 25 seconds, <SpellLink spell={TALENTS.CHI_COCOON} /> activate at higher strength, but the <SpellLink spell={TALENTS.SOOTHING_BREATH} /> healing is not increased.</li>
+            <li><SpellLink spell={TALENTS.MANA_TEA} /> does not restore the correct amount of mana - it consumes a stack but grants no mana, because Energizing Brew is the buff being removed.</li>
+        </ul>
+        <b>Non-talent buffs removed:</b> flasks and other raid consumables are removed outright. This is not limited to the Mistweaver's own buffs - other players' buffs are stripped too, with Stormkeeper and Defensive Stance among those seen removed.</>,
+        logs: [
+            { label: "Refreshment - Mana Tea/Healing Elixir removed", url: "https://www.warcraftlogs.com/reports/bkAJNnWaDGMdvX2g?fight=20&type=summary&source=2&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24115294%7C115867%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116849&view=events&start=34207271&end=34219232" },
+            { label: "Unity Within - celestial assists removed", url: "https://www.warcraftlogs.com/reports/9crMhkxNPgHFmXA3?type=summary&fight=46&sourceclass=Any&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%240.0.0.Any%24true%24443028%24or%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%240.0.0.Any%24true%24443421%7C1238904&view=events" },
+            { label: "Gift of the Celestials - Celestial reverted to baseline", url: "https://www.warcraftlogs.com/reports/QWMGbN49qhLFpzn7?fight=28" },
+            { label: "Gift of the Celestials - WowAnalyzer CD Tab", url: "https://wowanalyzer.com/report/QWMGbN49qhLFpzn7/28-Mythic+Vorasius+-+Wipe+8+(4:22)/5-Casualtyh/standard/cooldowns" },
+            { label: "Buff removal - Log", url: "https://www.warcraftlogs.com/reports/gJdQDb6F8aVcXTR3" },
+            { label: "Buff removal - Video", url: "https://www.youtube.com/watch?v=c4YciBeeEXc" },
+            { label: "Buff removal - Video 2", url: "https://www.youtube.com/watch?v=BQoZXADMOuY" },
+            { label: "7:06.820", url: "https://www.warcraftlogs.com/reports/ZFag9BhNvMmLb2K7?fight=33&start=25218533&end=25232319&view=events&eventstart=25221693" },
+            { label: "04:22.347", url: "https://www.warcraftlogs.com/reports/ZFag9BhNvMmLb2K7?fight=51&view=events&start=28065513&end=28068513&eventstart=28065930" },
+            { label: "01:58.131", url: "https://www.warcraftlogs.com/reports/TYDrQ2JNGZXmxc7p?fight=8&view=events&start=1610812&end=1774863&eventstart=1612901" },
+            { label: "00:33.436", url: "https://www.warcraftlogs.com/reports/ZCvqfkApJRw1PX3m?fight=27&view=events&start=5996844&end=6102787&eventstart=5999403" },
+            { label: "Aura removals across a full log", url: "https://www.warcraftlogs.com/reports/ATmF8Dyqctxfwnp1?type=auras&view=events&ability=1269410&boss=-2&difficulty=0&wipes=1&source=16" },
+            { label: "Peak of Serenity screenshots", url: "https://discord.com/channels/114786249750872069/114793792648904706/1534054494370005093" },
+        ],
+        tags: [TAGS.APEX],
+        notes: "Buff removal was originally blamed on the T35 4pc, but it persisted after 12.1 took the 12.0 tier set away - Spiritfont is the likely actual cause. Distinct from the 4pc bug, which set buff durations to 20-32s rather than removing them. Not entirely possible to recreate on demand, so recent logs are sparse.",
+    },
+    {
         spell: TIER.T35_MISTWEAVER_4SET,
         severity: SEVERITY.CRITICAL,
         buildsTested: ["66709", "67602"],
-        title: <>Completely removes or sets random buffs durations to 20-32 seconds</>,
+        title: <>Sets random buff durations to 20-32 seconds</>,
         description: <>Buffs like <SpellLink spell={SPELLS.ENVELOPING_MIST} />, <SpellLink spell={SPELLS.LIFE_COCOON} />, flasks, vantus runes, etc. become set to 20-32 seconds when it should be a <SpellLink spell={SPELLS.RENEWING_MIST} />.
-        
+
         This has transpired further by outright removing Vantus Runes, not even directly tied to the Renewing Mist application. The Vantus removal doesn't send a combat log event, so finding the resulting buff gain/loss is incredibly difficult.</>,
         logs: [
             { label: "Vantus Removal Video (no combat log event)", url: "https://youtu.be/HewXYiOCbZw?si=bJl33wRHIh0unlWM" },
             { label: "Log from video (no combat log event)", url: "https://www.warcraftlogs.com/reports/Nt4djnwFv21MQhTC?source=32&type=auras&fight=7&start=3232640&end=3245311&view=events" },
-            { label: "Log", url: "https://www.warcraftlogs.com/reports/gJdQDb6F8aVcXTR3" },
-            { label: "Video", url: "https://www.youtube.com/watch?v=c4YciBeeEXc" },
-            { label: "Video 2", url: "https://www.youtube.com/watch?v=BQoZXADMOuY" },
         ],
         tags: [TAGS.TIER],
-        notes: "Not entirely possible to recreate, so recent logs are sparse but with 12.1 taking the 12.0 tier set away, we can effectively say it was removed.",
+        notes: "Not entirely possible to recreate, so recent logs are sparse but with 12.1 taking the 12.0 tier set away, we can effectively say it was removed. Distinct from Spiritfont outright removing buffs, which persists after the tier set was taken away.",
         status: STATUS.REMOVED,
     },
     {
@@ -970,17 +996,6 @@ const BUGS: Bug[] = [
         status: STATUS.REMOVED,
     },
     {
-        spell: TALENTS.GIFT_OF_THE_CELESTIALS,
-        severity: SEVERITY.HIGH,
-        buildsTested: ["66709", "66838"],
-        title: <>Sometimes in Raid, Celestial reverts to baseline without modifying talent</>,
-        description: <>Sometimes in Raid, the Celestial (Usually <SpellLink spell={SPELLS.YULON} />), gets set to 2 min CD, active for 25 seconds, <SpellLink spell={TALENTS.CHI_COCOON} /> activate at higher strength, but the <SpellLink spell={TALENTS.SOOTHING_BREATH} /> healing is not increased.</>,
-        logs: [
-            { label: "", url: "https://www.warcraftlogs.com/reports/QWMGbN49qhLFpzn7?fight=28" },
-            { label: "WowAnalyzer CD Tab", url: "https://wowanalyzer.com/report/QWMGbN49qhLFpzn7/28-Mythic+Vorasius+-+Wipe+8+(4:22)/5-Casualtyh/standard/cooldowns" },
-        ],
-    },
-    {
         spell: SPELLS.YULON,
         severity: SEVERITY.HIGH,
         buildsTested: ["~55933", "66709", "67088"],
@@ -991,40 +1006,6 @@ const BUGS: Bug[] = [
         ],
         notes: "Setting as intended as Soothing Breath has an 8y range",
         status: STATUS.INTENDED,
-    },
-    {
-        spell: TALENTS.UPLIFTED_SPIRITS,
-        severity: SEVERITY.HIGH,
-        buildsTested: ["67088", "67186"],
-        title: <>Randomly reverted back to 3 min <SpellLink spell={SPELLS.REVIVAL} /> in raid</>,
-        description: <><SpellLink spell={TALENTS.UPLIFTED_SPIRITS} /> randomly reverted back to 3 min <SpellLink spell={SPELLS.REVIVAL} /> in raid as of 12.0.5.</>,
-    },
-    {
-        spell: TALENTS.REFRESHMENT,
-        severity: SEVERITY.HIGH,
-        buildsTested: ["67088", "67186"],
-        title: <>Randomly stopped giving <SpellLink spell={TALENTS.MANA_TEA} /> and <SpellLink spell={TALENTS.HEALING_ELIXIR} /> in raid</>,
-        description: <><SpellLink spell={TALENTS.REFRESHMENT} /> randomly stopped giving <SpellLink spell={TALENTS.MANA_TEA} /> and <SpellLink spell={TALENTS.HEALING_ELIXIR} /> in raid as of 12.0.5</>,
-        logs: [
-            { label: "", url: "https://www.warcraftlogs.com/reports/bkAJNnWaDGMdvX2g?fight=20&type=summary&source=2&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24115294%7C115867%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116849&view=events&start=34207271&end=34219232" },
-        ]
-    },
-    {
-        spell: TALENTS.CHRYSALIS,
-        severity: SEVERITY.HIGH,
-        buildsTested: ["67088"],
-        title: <>Randomly reverted back to 2 min <SpellLink spell={SPELLS.LIFE_COCOON} /> in raid</>,
-        description: <><SpellLink spell={TALENTS.CHRYSALIS} /> randomly reverted back to 2 min <SpellLink spell={SPELLS.LIFE_COCOON} /> in raid as of 12.0.5.</>,
-    },
-    {
-        spell: TALENTS.UNITY_WITHIN,
-        severity: SEVERITY.HIGH,
-        buildsTested: ["66066", "67088"],
-        title: <>Randomly stopped giving all celestial assists in raid</>,
-        description: <><SpellLink spell={TALENTS.UNITY_WITHIN} /> randomly stopped giving all celestial assists in raid as of 12.0.5 - <SpellLink spell={TALENTS.HEART_OF_THE_JADE_SERPENT}/>, <SpellLink spell={TALENTS.COURAGE_OF_THE_WHITE_TIGER}/>, <SpellLink spell={TALENTS.STRENGTH_OF_THE_BLACK_OX}/>, <SpellLink spell={TALENTS.FLIGHT_OF_THE_RED_CRANE}/>. </>,
-        logs: [
-            { label: "", url: "https://www.warcraftlogs.com/reports/9crMhkxNPgHFmXA3?type=summary&fight=46&sourceclass=Any&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%240.0.0.Any%24true%24443028%24or%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%240.0.0.Any%24true%24443421%7C1238904&view=events" },
-        ]
     },
     {
         spell: TALENTS.MANTRA_OF_PURITY,
