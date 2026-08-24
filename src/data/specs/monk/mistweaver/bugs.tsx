@@ -940,7 +940,7 @@ const BUGS: Bug[] = [
         title: <>Outright removes buffs, breaking talents that depend on them</>,
         description: <><SpellLink spell={TALENTS.SPIRITFONT} /> outright removes buffs from players. The combat log will remove a buff at the exact same timestamp as Spiritfont's <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST}/> HoT removal. Because so many talents are implemented as hidden buffs, this surfaces as a long list of seemingly unrelated bugs that are all the same root cause:
         <br/><br/>
-        <b>Talent buffs removed (usually in raid, reported as of 12.0.5):</b>
+        <b>Talent buffs removed (all in raid, reported as of 12.0.5):</b>
         <ul>
             <li><SpellLink spell={TALENTS.REFRESHMENT} /> stops giving <SpellLink spell={TALENTS.MANA_TEA} /> and <SpellLink spell={TALENTS.HEALING_ELIXIR} /></li>
             <li><SpellLink spell={TALENTS.UPLIFTED_SPIRITS} /> reverts back to a 3 min <SpellLink spell={SPELLS.REVIVAL} /></li>
@@ -953,7 +953,9 @@ const BUGS: Bug[] = [
                 <li>doesn't return the right amount of mana because <SpellLink spell={TALENTS.ENERGIZING_BREW}/> gets removed</li>
             </ul></li>
         </ul>
-        <b>Non-talent buffs removed:</b> flasks and other raid consumables reported to be removed outright. This is not limited to the Mistweaver's own buffs - other players buffs are stripped too, with Stormkeeper and Defensive Stance among those seen removed.</>,
+        <b>Non-talent buffs removed:</b> flasks and other raid consumables reported to be removed outright. This is not limited to the Mistweaver's own buffs - other players buffs are stripped too, with Stormkeeper and Defensive Stance among those seen removed.
+        <br/><br/>
+        has also (presumably the fault of <SpellLink spell={TALENTS.SPIRITFONT} />), removed Mistweaver's Monk (spell id: <Code>137022</Code>) core passive, making <SpellLink spell={TALENTS.RUSHING_WIND_KICK}/>/<SpellLink spell={SPELLS.RISING_SUN_KICK}/> have a 12s CD, removing the hasted bonus to it.</>,
         logs: [
             { label: "Refreshment - Mana Tea/Healing Elixir removed", url: "https://www.warcraftlogs.com/reports/bkAJNnWaDGMdvX2g?fight=20&type=summary&source=2&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24115294%7C115867%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116849&view=events&start=34207271&end=34219232" },
             { label: "Unity Within - celestial assists removed", url: "https://www.warcraftlogs.com/reports/9crMhkxNPgHFmXA3?type=summary&fight=46&sourceclass=Any&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%240.0.0.Any%24true%24443028%24or%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%240.0.0.Any%24true%24443421%7C1238904&view=events" },
