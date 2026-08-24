@@ -938,18 +938,22 @@ const BUGS: Bug[] = [
         severity: SEVERITY.CRITICAL,
         buildsTested: ["66066", "66709", "67088", "67186", "67602", "69404"],
         title: <>Outright removes buffs, breaking talents that depend on them</>,
-        description: <><SpellLink spell={TALENTS.SPIRITFONT} /> outright removes buffs from players. Because so many talents are implemented as hidden buffs, this surfaces as a long list of seemingly unrelated bugs that are all the same root cause:
+        description: <><SpellLink spell={TALENTS.SPIRITFONT} /> outright removes buffs from players. The combat log will remove a buff at the exact same timestamp as Spiritfont's <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST}/> HoT removal. Because so many talents are implemented as hidden buffs, this surfaces as a long list of seemingly unrelated bugs that are all the same root cause:
         <br/><br/>
         <b>Talent buffs removed (usually in raid, reported as of 12.0.5):</b>
         <ul>
-            <li><SpellLink spell={TALENTS.REFRESHMENT} /> stops giving <SpellLink spell={TALENTS.MANA_TEA} /> and <SpellLink spell={TALENTS.HEALING_ELIXIR} />.</li>
-            <li><SpellLink spell={TALENTS.UPLIFTED_SPIRITS} /> reverts back to a 3 min <SpellLink spell={SPELLS.REVIVAL} />.</li>
-            <li><SpellLink spell={TALENTS.CHRYSALIS} /> reverts back to a 2 min <SpellLink spell={SPELLS.LIFE_COCOON} />.</li>
-            <li><SpellLink spell={TALENTS.UNITY_WITHIN} /> stops giving all celestial assists - <SpellLink spell={TALENTS.HEART_OF_THE_JADE_SERPENT} />, <SpellLink spell={TALENTS.COURAGE_OF_THE_WHITE_TIGER} />, <SpellLink spell={TALENTS.STRENGTH_OF_THE_BLACK_OX} />, <SpellLink spell={TALENTS.FLIGHT_OF_THE_RED_CRANE} />.</li>
+            <li><SpellLink spell={TALENTS.REFRESHMENT} /> stops giving <SpellLink spell={TALENTS.MANA_TEA} /> and <SpellLink spell={TALENTS.HEALING_ELIXIR} /></li>
+            <li><SpellLink spell={TALENTS.UPLIFTED_SPIRITS} /> reverts back to a 3 min <SpellLink spell={SPELLS.REVIVAL} /></li>
+            <li><SpellLink spell={TALENTS.CHRYSALIS} /> reverts back to a 2 min <SpellLink spell={SPELLS.LIFE_COCOON} /></li>
+            <li><SpellLink spell={TALENTS.UNITY_WITHIN} /> stops giving all celestial assists - namely <SpellLink spell={TALENTS.HEART_OF_THE_JADE_SERPENT} /></li>
             <li><SpellLink spell={TALENTS.GIFT_OF_THE_CELESTIALS} /> reverts the Celestial (usually <SpellLink spell={SPELLS.YULON} />) to baseline without the talent being modified - 2 min CD, active for 25 seconds, <SpellLink spell={TALENTS.CHI_COCOON} /> activate at higher strength, but the <SpellLink spell={TALENTS.SOOTHING_BREATH} /> healing is not increased.</li>
-            <li><SpellLink spell={TALENTS.MANA_TEA} /> does not restore the correct amount of mana - it consumes a stack but grants no mana, because Energizing Brew is the buff being removed.</li>
+            <li><SpellLink spell={TALENTS.MANA_TEA} /> does not restore the correct amount of mana
+            <ul>
+                <li>consumes a stack but grants no mana (maybe unrelated)</li>
+                <li>doesn't return the right amount of mana because <SpellLink spell={TALENTS.ENERGIZING_BREW}/> gets removed</li>
+            </ul></li>
         </ul>
-        <b>Non-talent buffs removed:</b> flasks and other raid consumables are removed outright. This is not limited to the Mistweaver's own buffs - other players' buffs are stripped too, with Stormkeeper and Defensive Stance among those seen removed.</>,
+        <b>Non-talent buffs removed:</b> flasks and other raid consumables reported to be removed outright. This is not limited to the Mistweaver's own buffs - other players buffs are stripped too, with Stormkeeper and Defensive Stance among those seen removed.</>,
         logs: [
             { label: "Refreshment - Mana Tea/Healing Elixir removed", url: "https://www.warcraftlogs.com/reports/bkAJNnWaDGMdvX2g?fight=20&type=summary&source=2&pins=2%24Separate%24%23244F4B%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24115294%7C115867%24or%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24116849&view=events&start=34207271&end=34219232" },
             { label: "Unity Within - celestial assists removed", url: "https://www.warcraftlogs.com/reports/9crMhkxNPgHFmXA3?type=summary&fight=46&sourceclass=Any&pins=2%24Separate%24%23244F4B%24casts%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%240.0.0.Any%24true%24443028%24or%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%240.0.0.Any%24true%24443421%7C1238904&view=events" },

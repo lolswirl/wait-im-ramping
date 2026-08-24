@@ -471,6 +471,11 @@ const talents = {
             soomIncrease: 3.0
         }
     },
+    ENERGIZING_BREW: {
+        name: "Energizing Brew",
+        id: 422031,
+        icon: "ui_profession_herbalism",
+    },
 
     // hero talents
     // master of harmony
