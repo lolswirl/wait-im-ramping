@@ -936,7 +936,7 @@ const BUGS: Bug[] = [
         spell: TALENTS.SPIRITFONT,
         affectedSpells: [TALENTS.REFRESHMENT, TALENTS.UPLIFTED_SPIRITS, TALENTS.UNITY_WITHIN, TALENTS.CHRYSALIS, TALENTS.GIFT_OF_THE_CELESTIALS, TALENTS.MANA_TEA, TALENTS.HEART_OF_THE_JADE_SERPENT],
         severity: SEVERITY.CRITICAL,
-        buildsTested: ["66066", "66709", "67088", "67186", "67602"],
+        buildsTested: ["66066", "66709", "67088", "67186", "67602", "69404"],
         title: <>Outright removes buffs, breaking talents that depend on them</>,
         description: <><SpellLink spell={TALENTS.SPIRITFONT} /> outright removes buffs from players. Because so many talents are implemented as hidden buffs, this surfaces as a long list of seemingly unrelated bugs that are all the same root cause:
         <br/><br/>
