@@ -936,7 +936,7 @@ const BUGS: Bug[] = [
         spell: TALENTS.SPIRITFONT,
         affectedSpells: [TALENTS.REFRESHMENT, TALENTS.UPLIFTED_SPIRITS, TALENTS.UNITY_WITHIN, TALENTS.CHRYSALIS, TALENTS.GIFT_OF_THE_CELESTIALS, TALENTS.MANA_TEA, TALENTS.HEART_OF_THE_JADE_SERPENT],
         severity: SEVERITY.CRITICAL,
-        buildsTested: ["66066", "66709", "67088", "67186", "67602", "69404"],
+        buildsTested: ["66066", "66709", "67088", "67186", "67602", "69404", "69587"],
         title: <>Outright removes buffs, breaking talents that depend on them</>,
         description: <><SpellLink spell={TALENTS.SPIRITFONT} /> outright removes buffs from players. The combat log will remove a buff at the exact same timestamp as Spiritfont's <SpellLink spell={TALENTS.SPIRITFONT_SOOTHING_MIST}/> HoT removal. Because so many talents are implemented as hidden buffs, this surfaces as a long list of seemingly unrelated bugs that are all the same root cause:
         <br/><br/>
@@ -972,7 +972,8 @@ const BUGS: Bug[] = [
             { label: "Peak of Serenity screenshots", url: "https://discord.com/channels/114786249750872069/114793792648904706/1534054494370005093" },
         ],
         tags: [TAGS.APEX],
-        notes: "Buff removal was originally blamed on the T35 4pc, but it persisted after 12.1 took the 12.0 tier set away - Spiritfont is the likely actual cause. Distinct from the 4pc bug, which set buff durations to 20-32s rather than removing them. Not entirely possible to recreate on demand, so recent logs are sparse.",
+        notes: "Buff removal was originally blamed on the T35 4pc, but it persisted after 12.1 took the 12.0 tier set away - Spiritfont is the likely actual cause. Distinct from the 4pc bug, which set buff durations to 20-32s rather than removing them. Not entirely possible to recreate on demand, so recent logs are sparse. Patch notes fixed as of 69587, will see with time if truly fixed.",
+        status: STATUS.FIXED,
     },
     {
         spell: TIER.T35_MISTWEAVER_4SET,
