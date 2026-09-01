@@ -36,7 +36,7 @@ const tier = {
         id: 1296620,
         icon: "inv_helm_leather_raidmonkulatek_d_01",
         custom: {
-            resetChance: 0.2,
+            resetChance: 0.25,
         }
     }
 } satisfies Record<string, spell>;

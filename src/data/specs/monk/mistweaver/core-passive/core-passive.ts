@@ -147,14 +147,14 @@ const corePassive = {
         effects: [
             {
                 type: "Apply Aura: Modifies Healing Done",
-                value: -14,
+                value: -10,
                 pvpMultiplier: 1,
                 affectedSpells: HEALING_SPELLS,
                 effectId: 179708,
             },
             {
                 type: "Apply Aura: Modifies Periodic Healing Done",
-                value: -14,
+                value: -10,
                 pvpMultiplier: 1,
                 affectedSpells: HEALING_SPELLS,
                 effectId: 191104,
