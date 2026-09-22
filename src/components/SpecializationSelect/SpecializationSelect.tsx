@@ -9,6 +9,7 @@ import SpecDisplay from "@components/SpecializationSelect/SpecDisplay";
 
 import { specialization, getSpecs, getSpecializationByKey } from '@data/class';
 import { KeyboardArrowDown } from '@mui/icons-material';
+import { BLUR } from "@components/Theme/tokens";
 
 interface SpecializationSelectProps {
   selectedSpec: specialization;
@@ -130,7 +131,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
             paper: {
               sx: {
                 backgroundColor: "rgba(0, 0, 0, 0.3) !important",
-                backdropFilter: "blur(8px)",
+                backdropFilter: BLUR.surface,
                 border: "1px solid rgba(255,255,255,0.1)",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                 maxHeight: 400,

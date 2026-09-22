@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Card } from '@mui/material';
 import SpellButton from '@components/SpellButtons/SpellButton';
 import spell from '@data/spells/spell';
-import { Group } from '@components/StatsCard/StatsCard';
+import { Group, rowLabel as baseRowLabel, rowSep } from '@components/StatsCard/StatsCard';
 import { HAIRLINE } from '@components/Theme/tokens';
 
 export interface TalentItem {
@@ -75,17 +75,8 @@ export const TalentOption: React.FC<TalentOptionProps> = ({ talent, isChecked, o
     );
 };
 
-const rowLabel: React.CSSProperties = {
-    fontSize: "0.7rem",
-    fontWeight: 600,
-    opacity: 0.45,
-    textAlign: "right",
-    whiteSpace: "nowrap",
-    alignSelf: "flex-start",
-    paddingTop: 6,
-};
-
-const rowSep = <div style={{ width: 1, alignSelf: "stretch", background: "rgba(255,255,255,0.12)" }} />;
+// nudged down to sit against the 32px talent icons
+const rowLabel: React.CSSProperties = { ...baseRowLabel, alignSelf: "flex-start", paddingTop: 6 };
 
 
 const TalentsCard: React.FC<TalentsCardProps> = ({ options, color, label, card, onChange }) => {

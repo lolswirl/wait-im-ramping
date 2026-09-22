@@ -10,6 +10,7 @@ import EmpowerLevelButtons from "./EmpowerLevel";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { T } from "@util/T";
 import type spell from "@data/spells/spell";
+import { BLUR } from "@components/Theme/tokens";
 
 interface EmpowerLevelDialogProps {
     open: boolean;
@@ -52,7 +53,7 @@ const EmpowerLevelDialog: React.FC<EmpowerLevelDialogProps> = ({
             BackdropProps={{
                 sx: {
                     backgroundColor: "rgba(0, 0, 0, 0.4)",
-                    backdropFilter: "blur(4px)",
+                    backdropFilter: BLUR.surface,
                 },
             }}
         >

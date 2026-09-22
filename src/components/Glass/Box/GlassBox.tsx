@@ -1,4 +1,5 @@
 import { Box, BoxProps } from "@mui/material";
+import { BLUR } from "@components/Theme/tokens";
 
 interface GlassBoxProps extends BoxProps {
     children: React.ReactNode;
@@ -28,7 +29,7 @@ export const GlassBox = ({
                 zIndex: 1,
                 color: 'white',
                 backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                backdropFilter: 'blur(8px)',
+                backdropFilter: BLUR.surface,
                 ml: 1,
                 px: 1,
                 py: 0.5,

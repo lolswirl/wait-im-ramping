@@ -1,4 +1,5 @@
 import { Popover, PopoverProps } from "@mui/material";
+import { BLUR } from "@components/Theme/tokens";
 
 export const GlassMenu = (props: PopoverProps) => {
     const { PaperProps, slotProps, ...otherProps } = props;
@@ -10,7 +11,7 @@ export const GlassMenu = (props: PopoverProps) => {
                 paper: {
                     sx: {
                         backgroundColor: "rgba(0, 0, 0, 0.3) !important",
-                        backdropFilter: "blur(8px)",
+                        backdropFilter: BLUR.surface,
                         border: "1px solid rgba(255,255,255,0.1)",
                         boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                         maxHeight: 400,
