@@ -20,6 +20,7 @@ import {
 import { DeleteTwoTone } from "@mui/icons-material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
+import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import RainbowCard from "@components/Buttons/RainbowCard";
 import CurrentRotationControl from "@components/CurrentRotationControl/CurrentRotationControl";
@@ -345,48 +346,59 @@ const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React
                 subtitle={description}
             />
             
+            <ConfigPanel
+                sx={{ maxWidth: ROTATION_CARD_WIDTH }}
+                accent={"#4ea55c"}
+                sections={[
+                    {
+                        key: "setup",
+                        title: "setup",
+                        summary: `${attempts} attempts · ${targets} ${pluralize(targets, "target")}`,
+                        content: (
+                            <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                <SpellInfoDisplay
+                                    wayOfTheCrane={wayOfTheCrane}
+                                    targets={targets}
+                                    totmResetChance={totmResetChance}
+                                />
+
+                                <Box sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 1.6,
+                                    width: '45%',
+                                    alignItems: 'stretch'
+                                }}>
+                                    <TextField
+                                        label={T("Reset Attempts")}
+                                        type="number"
+                                        value={attempts}
+                                        onChange={(e) => setAttempts(Math.max(MIN_INPUT_VALUE, parseInt(e.target.value) || MIN_INPUT_VALUE))}
+                                        size="small"
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label={T("# of Targets")}
+                                        type="number"
+                                        value={targets}
+                                        onChange={(e) => setTargets(Math.max(MIN_INPUT_VALUE, parseInt(e.target.value) || MIN_INPUT_VALUE))}
+                                        size="small"
+                                        fullWidth
+                                    />
+                                    <TalentOption
+                                        talent={TALENTS.WAY_OF_THE_CRANE}
+                                        isChecked={wayOfTheCrane}
+                                        onChange={handleTalentChange}
+                                        color={"#4ea55c"}
+                                    />
+                                </Box>
+                            </Stack>
+                        ),
+                    },
+                ]}
+            />
+
             <Card variant="outlined" sx={cardSx}>
-                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                    <SpellInfoDisplay 
-                        wayOfTheCrane={wayOfTheCrane}
-                        targets={targets}
-                        totmResetChance={totmResetChance}
-                    />
-
-                    <Box sx={{  
-                        display: 'flex', 
-                        flexDirection: 'column', 
-                        gap: 1.6,
-                        width: '45%',
-                        alignItems: 'stretch'
-                    }}>
-                        <TextField
-                            label={T("Reset Attempts")}
-                            type="number"
-                            value={attempts}
-                            onChange={(e) => setAttempts(Math.max(MIN_INPUT_VALUE, parseInt(e.target.value) || MIN_INPUT_VALUE))}
-                            size="small"
-                            fullWidth
-                        />
-                        <TextField
-                            label={T("# of Targets")}
-                            type="number"
-                            value={targets}
-                            onChange={(e) => setTargets(Math.max(MIN_INPUT_VALUE, parseInt(e.target.value) || MIN_INPUT_VALUE))}
-                            size="small"
-                            fullWidth
-                        />
-                        <TalentOption
-                            talent={TALENTS.WAY_OF_THE_CRANE}
-                            isChecked={wayOfTheCrane}
-                            onChange={handleTalentChange}
-                            color={"#4ea55c"}
-                        />
-                    </Box>
-                </Stack>
-                
-                <Divider sx={{ mx: -2, my: 2, width: "auto" }} />
-
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <div
                         style={{

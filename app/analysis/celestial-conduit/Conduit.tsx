@@ -14,6 +14,9 @@ import { Box, Container, useTheme } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
+import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
+import { Group } from "@components/StatsCard/StatsCard";
+import { CONTENT_WIDTH } from "@components/Theme/tokens";
 import spell, { calcSpellpower } from "@data/spells/spell";
 import SPELLS from "@data/spells";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
@@ -309,12 +312,25 @@ const Conduit: React.FC<{ title: React.ReactNode; description: React.ReactNode }
             }}
         >
             <PageHeader title={title} subtitle={description} />
-            <TalentsCard
-                label="Talents"
-                options={selectedTalents}
-                color={"4bc0c0"}
-                onChange={handleTalentChange}
-                card
+            <ConfigPanel
+                sx={{ maxWidth: CONTENT_WIDTH.wide }}
+                sections={[
+                    {
+                        key: "talents",
+                        title: "talents",
+                        summary: `${[...selectedTalents.values()].filter(Boolean).length} active`,
+                        content: (
+                            <Group>
+                                <TalentsCard
+                                    label="Talents"
+                                    options={selectedTalents}
+                                    color={"#4bc0c0"}
+                                    onChange={handleTalentChange}
+                                />
+                            </Group>
+                        ),
+                    },
+                ]}
             />
             <Box
                 sx={{

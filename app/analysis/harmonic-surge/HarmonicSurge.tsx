@@ -6,6 +6,9 @@ import { Box, Container, useTheme } from "@mui/material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
+import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
+import { Group } from "@components/StatsCard/StatsCard";
+import { CONTENT_WIDTH } from "@components/Theme/tokens";
 
 import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
@@ -285,12 +288,25 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
                 subtitle={description}
             />
 
-            <TalentsCard
-                options={new Map(VISIBLE_TALENTS.map(t => [t, selectedTalents.get(t) ?? false]))}
-                color={"9966ff"}
-                onChange={handleTalentChange}
-                card
-                label={"Talents"}
+            <ConfigPanel
+                sx={{ maxWidth: CONTENT_WIDTH.wide }}
+                sections={[
+                    {
+                        key: "talents",
+                        title: "talents",
+                        summary: `${VISIBLE_TALENTS.filter(t => selectedTalents.get(t)).length} active`,
+                        content: (
+                            <Group>
+                                <TalentsCard
+                                    label="Talents"
+                                    options={new Map(VISIBLE_TALENTS.map(t => [t, selectedTalents.get(t) ?? false]))}
+                                    color={"#9966ff"}
+                                    onChange={handleTalentChange}
+                                />
+                            </Group>
+                        ),
+                    },
+                ]}
             />
             
             <Box sx={{ height: 600, width: "100%", display: "flex", justifyContent: "center" }}>
