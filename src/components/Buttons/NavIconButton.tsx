@@ -1,6 +1,5 @@
 import { IconButton, IconButtonProps } from "@mui/material";
 
-// borderless by design: these sit inside GlassBox chrome, where a tinted border would double up
 interface NavIconButtonProps extends Omit<IconButtonProps, 'sx'> {
     hoverColor?: string;
     enableLift?: boolean;

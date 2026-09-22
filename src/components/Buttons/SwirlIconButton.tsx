@@ -50,7 +50,6 @@ export const SwirlIconButton = ({
                     ...(height !== undefined && { height }),
                     p: 0.5,
                     ...base,
-                    // no blanket opacity — it erases the low-alpha border
                     '&.Mui-disabled': {
                         borderColor: HAIRLINE_SOFT,
                         color: 'rgba(255,255,255,0.22)',
