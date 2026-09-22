@@ -40,6 +40,8 @@ export const ICON = {
     xl: 48,
 };
 
+export const CONTROL_HEIGHT = 53;
+
 export const RADIUS = {
     card: 8,
     control: 4,

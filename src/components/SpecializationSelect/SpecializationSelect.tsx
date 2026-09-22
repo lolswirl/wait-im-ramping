@@ -8,7 +8,7 @@ import SpecDisplay from "@components/SpecializationSelect/SpecDisplay";
 
 import { specialization, getSpecs, getSpecializationByKey } from '@data/class';
 import { KeyboardArrowDown } from '@mui/icons-material';
-import { BLUR, FONT } from "@components/Theme/tokens";
+import { BLUR, CONTROL_HEIGHT, FONT } from "@components/Theme/tokens";
 
 interface SpecializationSelectProps {
   selectedSpec: specialization;
@@ -25,7 +25,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   size = "medium",
   short = false,
   withLabel = false,
-  height = 51,
+  height = CONTROL_HEIGHT,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -50,12 +50,14 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
           onClick={handleClick}
           sx={withLabel ? {
             cursor: 'pointer',
-            display: 'flex',
+            display: 'inline-flex',
             alignItems: 'center',
             gap: 1,
             px: 1.5,
             py: 1,
             height: height,
+            boxSizing: 'border-box',
+            width: 'fit-content',
             border: '1px solid',
             borderColor: 'divider',
             borderRadius: 1,
@@ -72,7 +74,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
           }}
         >
           <SpecDisplay spec={selectedSpec} short={!withLabel} />
-          {withLabel && <KeyboardArrowDown sx={{ fontSize: 18, opacity: 0.5, ml: 'auto', transition: 'transform 0.2s ease', transform: open ? 'rotate(90deg)' : 'none' }} />}
+          {withLabel && <KeyboardArrowDown sx={{ fontSize: 18, opacity: 0.5, transition: 'transform 0.2s ease', transform: open ? 'rotate(90deg)' : 'none' }} />}
         </Box>
         
         <GlassMenu
