@@ -7,7 +7,7 @@ import { Calculate } from "@mui/icons-material";
 import spell from "@data/spells/spell";
 import { formatNumber, formatPercent } from "@util/stringManipulation";
 import type { ComboResultSerialized } from "./comboRank.worker";
-import { CONTENT_WIDTH, FONT } from "@components/Theme/tokens";
+import { CONTENT_WIDTH, FONT, ICON } from "@components/Theme/tokens";
 
 type Props = {
   targetCount: number;
@@ -94,7 +94,7 @@ const ComboRankCard: React.FC<Props> = ({ targetCount, spellById }) => {
                   <TableCell sx={{ border: 0, py: 0.75, px: 1 }}>
                     <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap', pointerEvents: 'none' }}>
                       {activeTalentSpells.map(t => (
-                        <SpellButton key={t.id} selectedSpell={t} size={22} />
+                        <SpellButton key={t.id} selectedSpell={t} size={ICON.sm} />
                       ))}
                     </Box>
                   </TableCell>
@@ -102,7 +102,7 @@ const ComboRankCard: React.FC<Props> = ({ targetCount, spellById }) => {
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, pointerEvents: 'none' }}>
                       {r.rotationSpellIds.map((id, i) => {
                         const s = spellById.get(id);
-                        return s ? <SpellButton key={i} selectedSpell={s} size={18} /> : null;
+                        return s ? <SpellButton key={i} selectedSpell={s} size={ICON.xs} /> : null;
                       })}
                     </Box>
                   </TableCell>

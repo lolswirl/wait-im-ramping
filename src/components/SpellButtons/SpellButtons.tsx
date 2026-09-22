@@ -5,7 +5,7 @@ import { type SpellCategory, CATEGORY } from "@data/spells/spell";
 import { specialization } from "@data/class";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import { GlassTooltip } from "@components/Glass/Tooltip/GlassTooltip";
-import { FONT } from "@components/Theme/tokens";
+import { FONT, ICON } from "@components/Theme/tokens";
 
 interface SpellButtonsProps {
     selectedSpec?: specialization;
@@ -108,7 +108,7 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({
                                     title={
                                         <div style={{ display: "flex", gap: 4 }}>
                                             {presetSpells.map((spell, i) => (
-                                                <SpellButton key={spell.uuid || spell.id + i} selectedSpell={spell} size={36} />
+                                                <SpellButton key={spell.uuid || spell.id + i} selectedSpell={spell} size={ICON.md} />
                                             ))}
                                         </div>
                                     }

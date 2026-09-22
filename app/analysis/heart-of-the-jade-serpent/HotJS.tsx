@@ -27,7 +27,7 @@ import { T } from '@util/T';
 import { pluralize } from '@util/stringManipulation';
 import TALENTS from '@data/talents';
 import { CLASSES } from '@data/class';
-import { FONT } from "@components/Theme/tokens";
+import { FONT, ICON } from "@components/Theme/tokens";
 
 const MAX_WIDTH = 1100;
 const TIMELINE_HEIGHT = 500;
@@ -481,7 +481,7 @@ const StatsCard: React.FC<{
                         borderColor: `${ability.color}50`
                     }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                            <SpellButton selectedSpell={ability.spell} size={32} />
+                            <SpellButton selectedSpell={ability.spell} size={ICON.md} />
                             <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: ability.color }}>
                                 {ability.spell.name}
                             </Typography>
@@ -672,7 +672,7 @@ const TimelineView: React.FC<{
                                                 icon={event.source.icon}
                                                 name={event.source.name}
                                                 tooltip={false}
-                                                size={32}
+                                                size={ICON.md}
                                             />
                                         </Box>
                                     </GlassTooltip>
@@ -737,7 +737,7 @@ const TimelineView: React.FC<{
                                                             icon={ability.spell.icon}
                                                             name={ability.spell.name}
                                                             tooltip={false}
-                                                            size={24}
+                                                            size={ICON.sm}
                                                         />
                                                     </Box>
                                                 </GlassTooltip>

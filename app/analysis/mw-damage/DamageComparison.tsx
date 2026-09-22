@@ -13,7 +13,7 @@ import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
 import StatsCard, { Group, statsSummary, type StatsCardOptions } from "@components/StatsCard/StatsCard";
 import { FieldCells, type FieldDef } from "@components/FieldCells/FieldCells";
 import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
-import { CONTENT_WIDTH } from "@components/Theme/tokens";
+import { CONTENT_WIDTH, ICON } from "@components/Theme/tokens";
 
 import spell from "@data/spells/spell";
 import SPELLS from "@data/spells";
@@ -300,7 +300,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
                     )}
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                       {config.spells.map((s, i) => (
-                        <SpellButton key={i} selectedSpell={s} size={22} />
+                        <SpellButton key={i} selectedSpell={s} size={ICON.sm} />
                       ))}
                     </Box>
                     <Typography variant="caption" color="text.secondary">

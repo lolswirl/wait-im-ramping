@@ -18,7 +18,7 @@ import { BugChips } from "@components/BugChips/BugChips";
 import { GlassBox } from "@components/Glass/Box/GlassBox";
 import SwirlButton from "@components/Buttons/SwirlButton";
 import SpellLink from "@components/SpellLink/SpellLink";
-import { FONT } from "@components/Theme/tokens";
+import { FONT, ICON } from "@components/Theme/tokens";
 
 interface BugUpdateWorkflowProps {
     open: boolean;
@@ -341,7 +341,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                 {step === WorkflowStep.BUG_REVIEW && currentBug ? (
                     <>
                         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1 }}>
-                            <SpellButton selectedSpell={currentBug.spell} size={48} />
+                            <SpellButton selectedSpell={currentBug.spell} size={ICON.xl} />
                             <Box sx={{ flex: 1 }}>
                                 <Typography variant="caption" color="text.secondary" sx={{ display: "block", mb: 0.5 }}>
                                     {currentBug.spell.name}

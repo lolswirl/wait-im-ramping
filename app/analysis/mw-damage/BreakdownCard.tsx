@@ -8,6 +8,7 @@ import spell from "@data/spells/spell";
 import { formatNumber } from "@util/stringManipulation";
 import { type ModelResult, type AbilityEntry } from "./model";
 import { type RotationConfig } from "./types";
+import { ICON } from "@components/Theme/tokens";
 
 type Props = {
   rotationConfigs: RotationConfig[];
@@ -107,7 +108,7 @@ const BreakdownCard: React.FC<Props> = ({ rotationConfigs, damageData, showAsHea
             label={
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, pointerEvents: 'none' }}>
                 {config.spells.map((s, i) => (
-                  <SpellButton key={i} selectedSpell={s} size={18} />
+                  <SpellButton key={i} selectedSpell={s} size={ICON.xs} />
                 ))}
               </Box>
             }

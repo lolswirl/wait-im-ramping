@@ -6,7 +6,7 @@ import SwirlChip from "@components/SwirlChip/SwirlChip";
 import { formatNumber, formatPercent } from "@util/stringManipulation";
 import { type Player } from "@data/specs/monk/mistweaver/calcs";
 import { type RotationConfig } from "./types";
-import { CONTENT_WIDTH, FONT } from "@components/Theme/tokens";
+import { CONTENT_WIDTH, FONT, ICON } from "@components/Theme/tokens";
 
 type Props = {
   rotationConfigs: RotationConfig[];
@@ -56,7 +56,7 @@ const HeatmapCard: React.FC<Props> = ({ rotationConfigs, player, rerollKey, show
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                       {config.spells.map((spell, idx) => (
-                        <SpellButton key={`${config.dataKey}-spell-${idx}`} selectedSpell={spell} size={24} />
+                        <SpellButton key={`${config.dataKey}-spell-${idx}`} selectedSpell={spell} size={ICON.sm} />
                       ))}
                     </Box>
                     <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: FONT.micro, color: config.color }}>

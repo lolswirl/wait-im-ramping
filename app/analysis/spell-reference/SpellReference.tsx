@@ -12,7 +12,7 @@ import SwirlTable, { SwirlColumn } from "@components/SwirlTable/SwirlTable";
 import PageHeader from "@components/PageHeader/PageHeader";
 import StatsCard, { Group, statsSummary, type StatsCardOptions } from "@components/StatsCard/StatsCard";
 import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
-import { CONTENT_WIDTH } from "@components/Theme/tokens";
+import { CONTENT_WIDTH, ICON } from "@components/Theme/tokens";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 
 import spell, { CATEGORY, CATEGORY_COLORS } from "@data/spells/spell";
@@ -256,7 +256,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               sortValue: row => row.spell.display?.name ?? row.spell.name,
               render: row => (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <SpellButton selectedSpell={{ ...row.spell, icon: row.spell.display?.icon ?? row.spell.icon }} size={30} />
+                  <SpellButton selectedSpell={{ ...row.spell, icon: row.spell.display?.icon ?? row.spell.icon }} size={ICON.md} />
                   <Box>
                     <Typography variant="body2" fontWeight="bold">{row.spell.display?.name ?? row.spell.name}</Typography>
                     {row.targets !== undefined && (

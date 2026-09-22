@@ -31,6 +31,15 @@ export const FONT = {
     micro: "0.7rem",
 };
 
+// spell icons are the layout's basic unit; call sites used 18/22/24/30/32/36/40/48 before this
+export const ICON = {
+    xs: 18,
+    sm: 24,
+    md: 32,
+    lg: 40,
+    xl: 48,
+};
+
 export const RADIUS = {
     card: 8,
     control: 4,

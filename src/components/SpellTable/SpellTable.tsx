@@ -15,6 +15,7 @@ import { specialization } from "@data/class";
 import { T } from "@util/T";
 import { toRomanNumeral } from "@util/toRomanNumeral";
 import SwirlChip from "@components/SwirlChip/SwirlChip";
+import { ICON } from "@components/Theme/tokens";
 
 
 interface SpellTableProps {
@@ -104,7 +105,7 @@ const SpellTable: React.FC<SpellTableProps> = ({
                                     <Typography variant="caption" color="text.disabled" sx={{ flexShrink: 0, minWidth: 16, textAlign: 'right' }}>
                                         {index + 1}
                                     </Typography>
-                                    <SpellButton selectedSpell={spell} size={32} />
+                                    <SpellButton selectedSpell={spell} size={ICON.md} />
                                     <Box sx={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'baseline', gap: 0.75 }}>
                                         <Typography variant="body2" noWrap>
                                             {spell.name} {spell.empowerLevel ? `(${toRomanNumeral(spell.empowerLevel)})` : ''}

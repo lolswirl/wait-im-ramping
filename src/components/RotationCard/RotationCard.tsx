@@ -9,6 +9,7 @@ import { formatNumber, formatPercent } from "@util/stringManipulation";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SPELLS from "@data/spells";
 import { RAINBOW_COLORS } from '@components/Buttons/RainbowCard';
+import { ICON } from "@components/Theme/tokens";
 
 interface RotationCardProps {
     rotation: RotationResult;
@@ -178,7 +179,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                 <Box key={i}>
                                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75 }}>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            <SpellButton selectedSpell={spellObj} size={32}/>
+                                            <SpellButton selectedSpell={spellObj} size={ICON.md}/>
                                             <Typography variant="body2" sx={{ fontWeight: 600 }}>
                                                 {item.spellName}
                                             </Typography>
