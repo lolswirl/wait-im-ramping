@@ -3,6 +3,7 @@ import React from 'react';
 import { FieldCells, type FieldDef } from '@components/FieldCells/FieldCells';
 import { type Stats } from '@data/shared/stats';
 import { type specialization } from '@data/class';
+import { FONT } from "@components/Theme/tokens";
 
 export interface StatsCardOptions extends Stats {
     totalHp?: number;
@@ -16,7 +17,7 @@ interface StatsCardProps {
     spec?: specialization;
 }
 
-export const rowLabel: React.CSSProperties = { fontSize: "0.7rem", fontWeight: 600, opacity: 0.45, textAlign: "right", whiteSpace: "nowrap" };
+export const rowLabel: React.CSSProperties = { fontSize: FONT.micro, fontWeight: 600, opacity: 0.45, textAlign: "right", whiteSpace: "nowrap" };
 export const rowSep = <div style={{ width: 1, alignSelf: "stretch", background: "rgba(255,255,255,0.12)" }} />;
 
 export const Group: React.FC<{ children: React.ReactNode }> = ({ children }) => (

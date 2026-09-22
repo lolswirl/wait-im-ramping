@@ -6,7 +6,7 @@ import WarningChip from "@components/WarningChip/WarningChip";
 import { formatNumber, formatPercent } from "@util/stringManipulation";
 import { type Player } from "@data/specs/monk/mistweaver/calcs";
 import { type RotationConfig } from "./types";
-import { CONTENT_WIDTH } from "@components/Theme/tokens";
+import { CONTENT_WIDTH, FONT } from "@components/Theme/tokens";
 
 type Props = {
   rotationConfigs: RotationConfig[];
@@ -40,7 +40,7 @@ const HeatmapCard: React.FC<Props> = ({ rotationConfigs, player, rerollKey, show
     return (
       <TableContainer component={Card} variant="outlined" sx={{ borderRadius: 1, border: "1px solid", borderColor: "divider", overflowX: "auto" }}>
         <Box sx={{ px: 2, pt: 1.5, pb: 1.5, borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
-          <Typography variant="body2" sx={{ fontWeight: 600, letterSpacing: '0.5px', fontSize: '0.75rem' }}>
+          <Typography variant="body2" sx={{ fontWeight: 600, letterSpacing: '0.5px', fontSize: FONT.small }}>
             {type} by Target Count (500 seconds)
           </Typography>
           <WarningChip message="% shown is relative to the best rotation in each row" borderColor="rgba(255,255,255,0.2)" />
@@ -59,7 +59,7 @@ const HeatmapCard: React.FC<Props> = ({ rotationConfigs, player, rerollKey, show
                         <SpellButton key={`${config.dataKey}-spell-${idx}`} selectedSpell={spell} size={24} />
                       ))}
                     </Box>
-                    <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: '0.7rem', color: config.color }}>
+                    <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: FONT.micro, color: config.color }}>
                       {config.label}
                     </Typography>
                   </Box>
@@ -93,7 +93,7 @@ const HeatmapCard: React.FC<Props> = ({ rotationConfigs, player, rerollKey, show
                           {formatNumber(value)}
                         </Typography>
                         {t < 1 && (
-                          <Typography variant="caption" sx={{ color: '#ef4444', lineHeight: 1, display: 'block', fontSize: '0.65rem', fontWeight: 700 }}>
+                          <Typography variant="caption" sx={{ color: '#ef4444', lineHeight: 1, display: 'block', fontSize: FONT.micro, fontWeight: 700 }}>
                             {formatPercent((value - max) / max * 100, 1)}
                           </Typography>
                         )}

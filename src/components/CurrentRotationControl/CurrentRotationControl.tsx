@@ -13,6 +13,7 @@ import { toRomanNumeral } from '../../util/toRomanNumeral';
 import type Spell from "../../data/spells/spell";
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import SwirlButton from '../Buttons/SwirlButton';
+import { FONT } from "@components/Theme/tokens";
 
 interface CurrentRotationControlProps {
     children?: React.ReactNode;
@@ -91,7 +92,7 @@ const CurrentRotationControl: React.FC<CurrentRotationControlProps> = ({
                                                                     right: -2,
                                                                     backgroundColor: "rgba(0, 0, 0, 0.75)",
                                                                     color: "white",
-                                                                    fontSize: "0.75rem",
+                                                                    fontSize: FONT.small,
                                                                     fontWeight: "bold",
                                                                     padding: "2px 4px",
                                                                     borderRadius: 1,

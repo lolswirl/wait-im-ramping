@@ -5,6 +5,7 @@ import WarningChip from "@components/WarningChip/WarningChip";
 import { GlassTooltip } from "@components/Glass";
 import { T } from "@util/T";
 import { Bug, STATUS, SEVERITY_COLORS, STATUS_COLORS, getStatusBadge } from "@data/bugs";
+import { FONT } from "@components/Theme/tokens";
 
 interface BugChipsProps {
     bug: Bug;
@@ -36,7 +37,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
                 const hasMultipleBuilds = builds.length > 1;
                 const tooltipContent = showTooltip && hasMultipleBuilds ? (
                     <Stack spacing={0.25} sx={{ py: 0.25 }}>
-                        <Typography variant="caption" sx={{ fontSize: '0.7rem', opacity: 0.7, mb: 0.25 }}>
+                        <Typography variant="caption" sx={{ fontSize: FONT.micro, opacity: 0.7, mb: 0.25 }}>
                             Build History:
                         </Typography>
                         <Stack spacing={0} sx={{ textAlign: "center" }}>
@@ -53,7 +54,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
                                     <Typography 
                                         variant="caption" 
                                         sx={{ 
-                                            fontSize: '0.75rem',
+                                            fontSize: FONT.small,
                                             fontFamily: 'monospace',
                                             opacity: index === 0 ? 1 : 0.8,
                                             fontWeight: 400,

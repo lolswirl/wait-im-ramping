@@ -23,7 +23,7 @@ import {
 import { T } from "@util/T";
 import { Group } from "@components/StatsCard/StatsCard";
 import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
-import { CONTENT_WIDTH } from "@components/Theme/tokens";
+import { CONTENT_WIDTH, FONT } from "@components/Theme/tokens";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -234,7 +234,7 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
                         "&:hover": { transform: "scale(1.03)" },
                       }}
                     >
-                      <span style={{ fontSize: "0.72rem", fontWeight: 500 }}>{T(opt.label)}</span>
+                      <span style={{ fontSize: FONT.micro, fontWeight: 500 }}>{T(opt.label)}</span>
                     </Box>
                   );
                 })}

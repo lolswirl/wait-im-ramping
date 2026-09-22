@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Box } from '@mui/material';
 import { RAINBOW_GRADIENT } from '@components/Buttons/RainbowCard';
 import { T } from '@util/T';
+import { FONT } from "@components/Theme/tokens";
 
 interface PageHeaderProps {
     title: React.ReactNode;
@@ -29,9 +30,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({
         subtitleText && (
             <Typography
                 sx={{
-                    fontSize: "0.85rem",
+                    fontSize: FONT.body,
                     color: "text.secondary",
-                    opacity: 0.6,
                     minWidth: 0,
                     maxWidth: maxWidth,
                     '& a': {
@@ -48,9 +48,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({
             <Typography
                 component="div"
                 sx={{
-                    fontSize: "0.85rem",
+                    fontSize: FONT.body,
                     color: "text.secondary",
-                    opacity: 0.6,
                     minWidth: 0,
                     maxWidth: maxWidth,
                     '& a': {
@@ -79,7 +78,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                 </Box>
                 {subtitleContent && (
                     <>
-                        <Typography sx={{ fontSize: "0.85rem", color: "text.secondary", opacity: 0.4, flexShrink: 0 }}>/</Typography>
+                        <Typography sx={{ fontSize: FONT.body, color: "text.secondary", opacity: 0.4, flexShrink: 0 }}>/</Typography>
                         {subtitleContent}
                     </>
                 )}

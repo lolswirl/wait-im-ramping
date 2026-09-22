@@ -12,7 +12,7 @@ import RainbowCard, { RAINBOW_COLORS, RAINBOW_GRADIENT } from "@components/Butto
 import { Timeline, Analytics, TimerTwoTone, BugReport, Percent } from "@mui/icons-material";
 import SwirlLink from "@components/SwirlLink/SwirlLink";
 import { CHANGELOG } from "@data/changelog";
-import { CONTENT_WIDTH } from "@components/Theme/tokens";
+import { CONTENT_WIDTH, FONT } from "@components/Theme/tokens";
 
 const CURRENT_PATCH = "12.1";
 
@@ -102,16 +102,16 @@ const StatusChip = () => {
                 borderColor: 'divider',
             }}>
                 <Box sx={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: STATUS_GREEN }} />
-                <Typography sx={{ fontSize: '0.72rem', fontFamily: 'monospace', fontWeight: 700, color: STATUS_GREEN }}>
+                <Typography sx={{ fontSize: FONT.micro, fontFamily: 'monospace', fontWeight: 700, color: STATUS_GREEN }}>
                     {CURRENT_PATCH}
                 </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 1.25, py: 0.5, backgroundColor: 'background.paper' }}>
-                <Typography sx={{ fontSize: '0.72rem', color: 'text.disabled' }}>
+                <Typography sx={{ fontSize: FONT.micro, color: 'text.disabled' }}>
                     updated {relativeTime(latest)}
                 </Typography>
                 <Box sx={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
-                    <SwirlLink href="/changelog" variant="body2" fontWeight={700} sx={{ fontSize: '0.72rem' }} onClick={markSeen}>
+                    <SwirlLink href="/changelog" variant="body2" fontWeight={700} sx={{ fontSize: FONT.micro }} onClick={markSeen}>
                         what's new
                     </SwirlLink>
                     {hasNew && (
@@ -196,7 +196,7 @@ const ToolGrid = () => (
                     </Box>
                     <Divider />
                     <Box sx={{ p: 2, flexGrow: 1 }}>
-                        <Typography sx={{ fontSize: '0.95rem', fontWeight: 700, textAlign: 'center', mb: 0.5 }}>
+                        <Typography sx={{ fontSize: FONT.subhead, fontWeight: 700, textAlign: 'center', mb: 0.5 }}>
                             {tool.title}
                         </Typography>
                         <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
@@ -226,7 +226,7 @@ const Byline = () => (
                     alt="swirl"
                     sx={{ width: 22, height: 22, borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}
                 />
-                <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: 'text.secondary', transition: 'color 0.2s' }}>
+                <Typography sx={{ fontSize: FONT.small, fontWeight: 600, color: 'text.secondary', transition: 'color 0.2s' }}>
                     made by{' '}
                     <Box
                         component="span"

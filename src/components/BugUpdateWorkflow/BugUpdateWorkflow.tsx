@@ -18,6 +18,7 @@ import { BugChips } from "@components/BugChips/BugChips";
 import { GlassBox } from "@components/Glass/Box/GlassBox";
 import SwirlButton from "@components/Buttons/SwirlButton";
 import SpellLink from "@components/SpellLink/SpellLink";
+import { FONT } from "@components/Theme/tokens";
 
 interface BugUpdateWorkflowProps {
     open: boolean;
@@ -387,7 +388,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                                 onChange={(e) => setOriginalSource(e.target.value)}
                                 placeholder="Paste your bugs.tsx file content here..."
                                 autoFocus
-                                sx={{ "& .MuiInputBase-root": { fontFamily: "monospace", fontSize: "0.85rem", alignItems: "flex-start" } }}
+                                sx={{ "& .MuiInputBase-root": { fontFamily: "monospace", fontSize: FONT.body, alignItems: "flex-start" } }}
                             />
                             <Typography variant="caption" color="text.secondary">
                                 You will review {bugs.length} open {bugs.length === 1 ? 'bug' : 'bugs'} for {specKey}.
@@ -473,7 +474,7 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                                             maxRows={25}
                                             value={sourceCode}
                                             onChange={(e) => setSourceCode(e.target.value)}
-                                            InputProps={{ style: { fontFamily: "monospace", fontSize: "0.85rem" } }}
+                                            InputProps={{ style: { fontFamily: "monospace", fontSize: FONT.body } }}
                                             sx={{
                                                 "& .MuiInputBase-root": { alignItems: "flex-start" },
                                                 "& .MuiInputBase-input": { whiteSpace: "pre", overflowWrap: "normal", overflowX: "auto" },

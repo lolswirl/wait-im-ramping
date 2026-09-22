@@ -21,6 +21,16 @@ export const BLUR = {
     bar: "blur(12px)",
 };
 
+// 1.25 ratio steps
+export const FONT = {
+    display: "2rem",
+    heading: "1.5rem",
+    subhead: "1.125rem",
+    body: "0.875rem",
+    small: "0.78rem",
+    micro: "0.7rem",
+};
+
 export const RADIUS = {
     card: 8,
     control: 4,

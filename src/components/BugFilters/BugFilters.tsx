@@ -10,6 +10,7 @@ import { GlassSelect, GlassTooltip } from "@components/Glass";
 import { specialization } from "@data/class";
 import { SEVERITY_COLORS } from "@data/bugs";
 import { useIsLocalhost } from "@hooks/useIsLocalhost";
+import { FONT } from "@components/Theme/tokens";
 
 interface BugFiltersProps {
     selectedSpec: specialization;
@@ -54,7 +55,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
     return (
         <Box sx={{ mb: 1, display: "flex", alignItems: "flex-end", gap: 1, flexWrap: "wrap", width: "80%", mx: "auto" }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                <Typography variant="caption" sx={{ fontSize: '0.7rem', fontWeight: 600, opacity: 0.45, px: 0.5 }}>spec</Typography>
+                <Typography variant="caption" sx={{ fontSize: FONT.micro, fontWeight: 600, opacity: 0.45, px: 0.5 }}>spec</Typography>
                 <SpecializationSelect
                     selectedSpec={selectedSpec}
                     onSpecChange={handleSpecChange}
@@ -65,7 +66,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
             </Box>
 
             <Box sx={{ flexGrow: 1, minWidth: 200, maxWidth: 300, display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                <Typography variant="caption" sx={{ fontSize: '0.7rem', fontWeight: 600, opacity: 0.45, px: 0.5 }}>search</Typography>
+                <Typography variant="caption" sx={{ fontSize: FONT.micro, fontWeight: 600, opacity: 0.45, px: 0.5 }}>search</Typography>
                 <TextField
                     variant="outlined"
                     size="small"
@@ -76,7 +77,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                     sx={{
                         '& .MuiOutlinedInput-root': {
                             height: 42,
-                            fontSize: '0.8rem',
+                            fontSize: FONT.small,
                             '& fieldset': { borderColor: 'divider' },
                             '&:hover fieldset': { borderColor: 'text.secondary' },
                             '&.Mui-focused fieldset': { borderColor: 'text.secondary' },

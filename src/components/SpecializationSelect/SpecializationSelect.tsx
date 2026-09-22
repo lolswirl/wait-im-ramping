@@ -1,15 +1,14 @@
 "use client";
 import React, { useState } from 'react';
-import { FormControl, InputLabel, MenuItem, Box, MenuList, Typography } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Box, MenuList } from '@mui/material';
 import Select from '@mui/material/Select';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { GlassMenu } from '@components/Glass';
 
 import SpecDisplay from "@components/SpecializationSelect/SpecDisplay";
 
 import { specialization, getSpecs, getSpecializationByKey } from '@data/class';
 import { KeyboardArrowDown } from '@mui/icons-material';
-import { BLUR } from "@components/Theme/tokens";
+import { BLUR, FONT } from "@components/Theme/tokens";
 
 interface SpecializationSelectProps {
   selectedSpec: specialization;
@@ -61,7 +60,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
             borderColor: 'divider',
             borderRadius: 1,
             color: 'text.primary',
-            fontSize: '0.8rem',
+            fontSize: FONT.small,
             transition: 'border-color 0.2s ease',
             '&:hover': { borderColor: 'text.secondary' },
           } : {

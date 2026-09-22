@@ -14,6 +14,7 @@ import { formatLogUrl } from "@util/stringManipulation";
 import { Bug, SEVERITY_COLORS } from "@data/bugs";
 import SwirlButton from "@components/Buttons/SwirlButton";
 import { BugChips } from "@components/BugChips/BugChips";
+import { FONT } from "@components/Theme/tokens";
 
 interface BugDialogProps {
     open: boolean;
@@ -64,7 +65,7 @@ const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose }) => {
 
             <Box sx={{ px: 3, pt: 2.5, pb: 2, backgroundColor: `${severityColor}0d` }}>
                 <Stack spacing={0.75}>
-                    <SpellLink spell={bug.spell} size={18} textSx={{ fontSize: "0.78rem", color: "text.secondary" }} noLink />
+                    <SpellLink spell={bug.spell} size={18} textSx={{ fontSize: FONT.small, color: "text.secondary" }} noLink />
                     <Typography variant="h6" fontWeight={600} lineHeight={1.3}>
                         {bug.title}
                     </Typography>
@@ -101,7 +102,7 @@ const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose }) => {
                                                 <Typography variant="caption" color="text.disabled">···</Typography>
                                             </>
                                         )}
-                                        <SwirlLink href={log.url} target="_blank" sx={{ fontSize: "0.85rem", wordBreak: "break-all" }}>
+                                        <SwirlLink href={log.url} target="_blank" sx={{ fontSize: FONT.body, wordBreak: "break-all" }}>
                                             {formatLogUrl(log.url)}
                                         </SwirlLink>
                                     </Box>

@@ -4,8 +4,8 @@ import type SPELL from "@data/spells/spell";
 import { type SpellCategory, CATEGORY } from "@data/spells/spell";
 import { specialization } from "@data/class";
 import SpellButton from "@components/SpellButtons/SpellButton";
-import { T } from "@util/T";
 import { GlassTooltip } from "@components/Glass/Tooltip/GlassTooltip";
+import { FONT } from "@components/Theme/tokens";
 
 interface SpellButtonsProps {
     selectedSpec?: specialization;
@@ -23,7 +23,7 @@ const categorize = (spell: SPELL): SpellCategory => {
 
 const formatPresetName = (key: string) => key.replace(/_/g, " ").toLowerCase();
 
-const rowLabel: React.CSSProperties = { fontSize: "0.7rem", fontWeight: 600, opacity: 0.45, textAlign: "right", whiteSpace: "nowrap", paddingTop: 6 };
+const rowLabel: React.CSSProperties = { fontSize: FONT.micro, fontWeight: 600, opacity: 0.45, textAlign: "right", whiteSpace: "nowrap", paddingTop: 6 };
 const rowSep = <div style={{ width: 1, alignSelf: "stretch", background: "rgba(255,255,255,0.12)" }} />;
 
 const SpellButtons: React.FC<SpellButtonsProps> = ({
@@ -120,7 +120,7 @@ const SpellButtons: React.FC<SpellButtonsProps> = ({
                                         style={{
                                             all: "unset",
                                             cursor: "pointer",
-                                            fontSize: "0.65rem",
+                                            fontSize: FONT.micro,
                                             padding: "2px 8px",
                                             borderRadius: 4,
                                             border: "1px solid rgba(255,255,255,0.12)",

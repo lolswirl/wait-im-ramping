@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Box, useTheme } from "@mui/material";
-import { TINT, tintedControl } from "@components/Theme/tokens";
+import { FONT, TINT, tintedControl } from "@components/Theme/tokens";
 
 import { toRomanNumeral } from "@util/toRomanNumeral";
 
@@ -31,7 +31,7 @@ const EmpowerLevelButtons: React.FC<EmpowerLevelButtonsProps> = ({
                         minHeight: 36,
                         width: iconSize,
                         height: iconSize,
-                        fontSize: "0.75rem",
+                        fontSize: FONT.small,
                         fontWeight: 700,
                         p: 0,
                         "&:hover": {

@@ -27,6 +27,7 @@ import { T } from '@util/T';
 import { pluralize } from '@util/stringManipulation';
 import TALENTS from '@data/talents';
 import { CLASSES } from '@data/class';
+import { FONT } from "@components/Theme/tokens";
 
 const MAX_WIDTH = 1100;
 const TIMELINE_HEIGHT = 500;
@@ -359,7 +360,7 @@ const TimeSliderCard: React.FC<{
             sx={{
                 '& .MuiSlider-markLabel': {
                     color: 'text.secondary',
-                    fontSize: '0.75rem',
+                    fontSize: FONT.small,
                 },
             }}
         />
@@ -622,7 +623,7 @@ const TimelineView: React.FC<{
                                     left: `calc(${leftMargin}px + ${(time / timeRange) * (100 - (leftMargin / (timeRange * 6 + leftMargin)) * 100)}%)`,
                                     top: mainTimelineY + 20,
                                     transform: 'translateX(-50%)',
-                                    fontSize: '0.8rem',
+                                    fontSize: FONT.small,
                                     fontWeight: 'bold',
                                 }}>
                                     {formatTime(time)}

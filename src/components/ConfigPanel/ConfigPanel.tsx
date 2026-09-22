@@ -2,7 +2,7 @@
 import React, { useState, useRef } from "react";
 import { Box, Collapse, Typography, useTheme } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
-import { TINT } from "@components/Theme/tokens";
+import { FONT, TINT } from "@components/Theme/tokens";
 
 export interface ConfigSection {
     key: string;
@@ -65,7 +65,7 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({ sections, accent, onReset, sx
                                 "&:hover": { borderColor: accentColor },
                             }}
                         >
-                            <Typography sx={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: 0.5, color: "text.disabled" }}>
+                            <Typography sx={{ fontSize: FONT.micro, fontWeight: 700, letterSpacing: 0.5, color: "text.disabled" }}>
                                 {section.title}
                             </Typography>
                             {section.icon && (
@@ -73,7 +73,7 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({ sections, accent, onReset, sx
                                     {section.icon}
                                 </Box>
                             )}
-                            <Typography component="div" sx={{ fontSize: "0.8rem", fontFamily: "monospace", color: "text.primary" }}>
+                            <Typography component="div" sx={{ fontSize: FONT.small, fontFamily: "monospace", color: "text.primary" }}>
                                 {section.summary}
                             </Typography>
                             <ExpandMore sx={{
@@ -103,7 +103,7 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({ sections, accent, onReset, sx
                             px: 1,
                             cursor: "pointer",
                             userSelect: "none",
-                            fontSize: "0.7rem",
+                            fontSize: FONT.micro,
                             fontWeight: 600,
                             color: "text.disabled",
                             "&:hover": { color: "text.primary" },

@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from 'react';
 import { Box, MenuList, MenuItem, Typography } from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { GlassMenu } from '@components/Glass/Menu';
 import { SxProps } from '@mui/material/styles';
-import { KeyboardArrowDown, KeyboardDoubleArrowDown } from '@mui/icons-material';
+import { KeyboardArrowDown } from '@mui/icons-material';
+import { FONT } from "@components/Theme/tokens";
 
 export interface GlassSelectOption {
     value: string;
@@ -27,7 +27,7 @@ const GlassSelect: React.FC<GlassSelectProps> = ({ value, options, onChange, lab
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
             {label && (
-                <Typography variant="caption" sx={{ fontSize: '0.7rem', fontWeight: 600, opacity: 0.45, px: 0.5 }}>
+                <Typography variant="caption" sx={{ fontSize: FONT.micro, fontWeight: 600, opacity: 0.45, px: 0.5 }}>
                     {label}
                 </Typography>
             )}
@@ -43,7 +43,7 @@ const GlassSelect: React.FC<GlassSelectProps> = ({ value, options, onChange, lab
                     border: '1px solid',
                     borderColor: 'divider',
                     borderRadius: 1,
-                    fontSize: '0.8rem',
+                    fontSize: FONT.small,
                     whiteSpace: 'nowrap',
                     transition: 'border-color 0.2s ease',
                     userSelect: 'none',
@@ -76,7 +76,7 @@ const GlassSelect: React.FC<GlassSelectProps> = ({ value, options, onChange, lab
                             selected={opt.value === value}
                             onClick={() => { onChange(opt.value); setAnchor(null); }}
                             sx={{
-                                fontSize: '0.8rem',
+                                fontSize: FONT.small,
                                 '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' },
                                 '&.Mui-selected': {
                                     backgroundColor: 'rgba(255,255,255,0.12)',

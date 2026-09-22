@@ -3,7 +3,7 @@ import { Box, Card } from '@mui/material';
 import SpellButton from '@components/SpellButtons/SpellButton';
 import spell from '@data/spells/spell';
 import { Group, rowLabel as baseRowLabel, rowSep } from '@components/StatsCard/StatsCard';
-import { HAIRLINE } from '@components/Theme/tokens';
+import { FONT, HAIRLINE } from "@components/Theme/tokens";
 
 export interface TalentItem {
   key: string;
@@ -68,7 +68,7 @@ export const TalentOption: React.FC<TalentOptionProps> = ({ talent, isChecked, o
             <Box sx={{ filter: isChecked ? "none" : "grayscale(1)", opacity: isChecked ? 1 : 0.55, display: "flex" }}>
                 <SpellButton selectedSpell={talent} size={32} />
             </Box>
-            <Box component="span" sx={{ fontSize: "0.72rem", fontWeight: 500, color: isChecked ? "text.primary" : "text.disabled" }}>
+            <Box component="span" sx={{ fontSize: FONT.micro, fontWeight: 500, color: isChecked ? "text.primary" : "text.disabled" }}>
                 {talent.name}
             </Box>
         </Box>

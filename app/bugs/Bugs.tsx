@@ -14,9 +14,9 @@ import { CLASSES, specialization, getSpecializationByKey } from "@data/class";
 import { Bug, STATUS } from "@data/bugs";
 
 import { useBugFilters } from "@hooks/useBugFilters";
-import T from "@util/T";
 import { pluralize } from "@util/stringManipulation";
 import { exportBugsToExcel } from "@util/exportBugsToExcel";
+import { FONT } from "@components/Theme/tokens";
 
 const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const searchParams = useSearchParams();
@@ -93,7 +93,7 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
             <PageHeader 
                 title={title}
                 subtitle={
-                    <>{description}<br />Don't see your spec's bugs? Report them <SwirlLink href="https://github.com/lolswirl/wait-im-ramping/issues" target="_blank" sx={{ fontSize: "0.85rem" }}>here</SwirlLink>!</>
+                    <>{description}<br />Don't see your spec's bugs? Report them <SwirlLink href="https://github.com/lolswirl/wait-im-ramping/issues" target="_blank" sx={{ fontSize: FONT.body }}>here</SwirlLink>!</>
                 }
                 marginBottom={3}
             />

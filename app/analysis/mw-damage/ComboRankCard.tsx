@@ -7,7 +7,7 @@ import { Calculate } from "@mui/icons-material";
 import spell from "@data/spells/spell";
 import { formatNumber, formatPercent } from "@util/stringManipulation";
 import type { ComboResultSerialized } from "./comboRank.worker";
-import { CONTENT_WIDTH } from "@components/Theme/tokens";
+import { CONTENT_WIDTH, FONT } from "@components/Theme/tokens";
 
 type Props = {
   targetCount: number;
@@ -88,7 +88,7 @@ const ComboRankCard: React.FC<Props> = ({ targetCount, spellById }) => {
               const activeTalentSpells = r.talentIds.map(id => spellById.get(id)).filter((s): s is spell => s !== undefined);
               return (
                 <TableRow key={idx} sx={{ bgcolor: isTop ? 'rgba(250,204,21,0.06)' : undefined }}>
-                  <TableCell sx={{ border: 0, py: 0.75, px: 1.5, width: 36, color: isTop ? '#facc15' : 'text.disabled', fontWeight: 700, fontSize: '0.75rem' }}>
+                  <TableCell sx={{ border: 0, py: 0.75, px: 1.5, width: 36, color: isTop ? '#facc15' : 'text.disabled', fontWeight: 700, fontSize: FONT.small }}>
                     #{idx + 1}
                   </TableCell>
                   <TableCell sx={{ border: 0, py: 0.75, px: 1 }}>

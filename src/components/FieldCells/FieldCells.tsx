@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Box, TextField, InputAdornment, Typography } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
 import { GlassTooltip } from '@components/Glass';
+import { FONT } from "@components/Theme/tokens";
 
 export interface FieldDef {
     key: string;
@@ -20,7 +21,7 @@ interface FieldCellsProps {
     label?: string;
 }
 
-const inputSx = { width: 92, '& .MuiInputBase-input': { fontSize: '0.85rem', fontFamily: 'monospace', py: 0 } };
+const inputSx = { width: 92, '& .MuiInputBase-input': { fontSize: FONT.body, fontFamily: 'monospace', py: 0 } };
 
 export const FieldCells: React.FC<FieldCellsProps> = ({ fields, options, onOptionsChange, label }) => {
     const values = options as Record<string, number | undefined>;
@@ -116,7 +117,7 @@ export const FieldCells: React.FC<FieldCellsProps> = ({ fields, options, onOptio
                 }}
             >
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <Typography sx={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: 0.5, color: isBelowMin ? "error.main" : "text.disabled" }}>
+                    <Typography sx={{ fontSize: FONT.micro, fontWeight: 600, letterSpacing: 0.5, color: isBelowMin ? "error.main" : "text.disabled" }}>
                         {isBelowMin ? `min ${formatNumber(field.min ?? 0)}${field.adornment ?? ''}` : field.label}
                     </Typography>
                     {field.stepper && stepperButtons(field)}
@@ -132,7 +133,7 @@ export const FieldCells: React.FC<FieldCellsProps> = ({ fields, options, onOptio
     return (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {label && (
-                <span style={{ fontSize: "0.7rem", fontWeight: 600, opacity: 0.45, letterSpacing: 1, whiteSpace: "nowrap" }}>{label}</span>
+                <span style={{ fontSize: FONT.micro, fontWeight: 600, opacity: 0.45, letterSpacing: 1, whiteSpace: "nowrap" }}>{label}</span>
             )}
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                 {fields.map(renderCell)}

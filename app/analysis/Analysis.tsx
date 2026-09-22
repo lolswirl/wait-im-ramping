@@ -11,6 +11,7 @@ import { GlassTooltip } from "@components/Glass";
 
 import { analysisPages, AnalysisPage } from "../AnalysisPages";
 import { extractTextFromReactNode } from "@util/extractTextFromReactNode";
+import { FONT } from "@components/Theme/tokens";
 
 const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ tool, isOutdated }) => {
     const [hovered, setHovered] = useState(false);
@@ -79,7 +80,7 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                                 transform: "translate(-50%, -50%)",
                                 backgroundColor: "error.main", backdropFilter: "blur(8px)",
                                 color: "white", px: 1.5, py: 0.75, borderRadius: 2,
-                                fontSize: "0.875rem", fontWeight: 600, letterSpacing: "0.05em",
+                                fontSize: FONT.body, fontWeight: 600, letterSpacing: "0.05em",
                                 textTransform: getCapsMode() ? "none" : "lowercase",
                                 boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
                                 border: "2px solid rgba(255,255,255,0.1)", zIndex: 2, cursor: "help",
@@ -94,7 +95,7 @@ const AnalysisCard: React.FC<{ tool: AnalysisPage; isOutdated: boolean }> = ({ t
                         position: "absolute", top: 8, right: 8,
                         backgroundColor: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)",
                         color: "rgba(255,255,255,0.8)", px: 1.25, py: 0.4, borderRadius: 1,
-                        fontSize: "0.68rem", fontWeight: 500, letterSpacing: "0.02em",
+                        fontSize: FONT.micro, fontWeight: 500, letterSpacing: "0.02em",
                         textTransform: getCapsMode() ? "none" : "lowercase",
                         border: "1px solid rgba(255,255,255,0.1)",
                     }}>
@@ -161,7 +162,7 @@ const FilterChip: React.FC<{ label: string; active?: boolean; accent: string; on
             "&:hover": { borderColor: accent + "88" },
         }}
     >
-        <Typography component="span" sx={{ fontSize: "0.8rem", fontFamily: "monospace", color: "text.primary" }}>
+        <Typography component="span" sx={{ fontSize: FONT.small, fontFamily: "monospace", color: "text.primary" }}>
             {T(label)}
         </Typography>
     </Box>
@@ -210,7 +211,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
 
             <Box sx={{ mb: 1 }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1 }}>
-                    <Typography sx={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: 0.5, color: "text.disabled" }}>
+                    <Typography sx={{ fontSize: FONT.micro, fontWeight: 700, letterSpacing: 0.5, color: "text.disabled" }}>
                         filter
                     </Typography>
                     <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", flexGrow: 1 }}>

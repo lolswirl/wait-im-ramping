@@ -4,8 +4,8 @@ import { Box, Typography, Skeleton } from "@mui/material";
 import { RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
 import SwirlButton from "@components/Buttons/SwirlButton";
 import SpellLink from "@components/SpellLink/SpellLink";
-import { T } from "@util/T";
 import SPELLS from "@data/spells";
+import { FONT } from "@components/Theme/tokens";
 
 const S = (spell: (typeof SPELLS)[keyof typeof SPELLS]) => <SpellLink spell={spell} sx={{ marginTop: -0.5 }} />;
 
@@ -76,7 +76,7 @@ const NotFound: React.FC = () => {
                 </Typography>
                 <Box sx={{ height: 2, borderRadius: 1, background: RAINBOW_GRADIENT, mb: 1.5, mx: "auto" }} />
                 {message
-                    ? <Typography component="div" sx={{ fontSize: "1rem", color: "text.secondary", mb: 2 }}>{message}.</Typography>
+                    ? <Typography component="div" sx={{ fontSize: FONT.subhead, color: "text.secondary", mb: 2 }}>{message}.</Typography>
                     : <Skeleton variant="text" width={280} height={24} sx={{ mx: "auto", mb: 2 }} />
                 }
                 <SwirlButton href="/">

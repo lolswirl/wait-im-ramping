@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Theme, useTheme } from "@mui/material";
 import { T } from "@util/T";
 import { useIsNonProd } from "@lib/betaModeClient";
-import { INK, TINT, tintedControl, tintedDisabled } from "@components/Theme/tokens";
+import { FONT, INK, TINT, tintedControl, tintedDisabled } from "@components/Theme/tokens";
 
 interface SwirlButtonProps {
     children: React.ReactNode;
@@ -69,7 +69,7 @@ const SwirlButton: React.FC<SwirlButtonProps> = ({
         minWidth: 0,
         p: 0,
         alignItems: "stretch",
-        fontSize: "0.75rem",
+        fontSize: FONT.small,
         overflow: "hidden",
         "& .sb-icon": {
             display: "flex",

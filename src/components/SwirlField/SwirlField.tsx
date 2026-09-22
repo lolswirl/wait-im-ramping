@@ -3,6 +3,7 @@ import { useState } from "react";
 import { TextField, InputAdornment, Box, Typography } from '@mui/material';
 import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material';
 import { SwirlIconButton } from '@components/Buttons/SwirlIconButton';
+import { FONT } from "@components/Theme/tokens";
 
 interface SwirlFieldProps {
     label?: string;
@@ -19,7 +20,7 @@ const SwirlField: React.FC<SwirlFieldProps> = ({ label, value, onChange, suffix,
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
             {label && (
-                <Typography variant="caption" sx={{ fontSize: '0.7rem', fontWeight: 600, opacity: 0.45, px: 0.5 }}>
+                <Typography variant="caption" sx={{ fontSize: FONT.micro, fontWeight: 600, opacity: 0.45, px: 0.5 }}>
                     {label}
                 </Typography>
             )}
@@ -42,7 +43,7 @@ const SwirlField: React.FC<SwirlFieldProps> = ({ label, value, onChange, suffix,
                     '& input[type=number]::-webkit-inner-spin-button': { WebkitAppearance: 'none', margin: 0 },
                     '& .MuiOutlinedInput-root': {
                         height: 42,
-                        fontSize: '0.8rem',
+                        fontSize: FONT.small,
                         '& fieldset': { borderColor: 'divider' },
                         '&:hover fieldset': { borderColor: 'text.secondary' },
                         '&.Mui-focused fieldset': { borderColor: 'text.secondary' },

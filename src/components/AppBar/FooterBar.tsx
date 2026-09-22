@@ -4,7 +4,7 @@ import { useThemeContext } from "@context/ThemeContext";
 import { GlassTooltip } from "@components/Glass";
 import { NavIconButton } from "@components/Buttons/NavIconButton";
 import { SOCIAL_LINKS } from "@data/socials";
-import { BLUR } from "@components/Theme/tokens";
+import { BLUR, FONT } from "@components/Theme/tokens";
 
 const FooterBar = () => {
     const { themeMode } = useThemeContext();
@@ -40,7 +40,7 @@ const FooterBar = () => {
                     variant="caption"
                     sx={{
                         color: "rgba(255, 255, 255, 0.5)",
-                        fontSize: "0.7rem",
+                        fontSize: FONT.micro,
                         whiteSpace: "nowrap",
                         justifySelf: { xs: "center", md: "start" },
                     }}
@@ -52,7 +52,7 @@ const FooterBar = () => {
                     variant="caption"
                     sx={{
                         color: "rgba(255, 255, 255, 0.35)",
-                        fontSize: "0.65rem",
+                        fontSize: FONT.micro,
                         textAlign: "center",
                     }}
                 >

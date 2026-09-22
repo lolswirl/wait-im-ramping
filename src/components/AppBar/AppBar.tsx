@@ -25,7 +25,7 @@ import SwirlButton from "@components/Buttons/SwirlButton";
 import { NavIconButton } from "@components/Buttons/NavIconButton";
 import { GlassBox } from "@components/Glass";
 import { RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
-import { BLUR, SECTIONS } from "@components/Theme/tokens";
+import { BLUR, FONT, SECTIONS } from "@components/Theme/tokens";
 
 const MoonIcon = () => (
     <SvgIcon viewBox="0 0 16 16" sx={{ fontSize: 15 }}>
@@ -187,7 +187,7 @@ function ResponsiveAppBar() {
                     sx={{ 
                         mb: 2, 
                         color: "rgba(255,255,255,0.7)",
-                        fontSize: "0.75rem",
+                        fontSize: FONT.small,
                         fontWeight: 600,
                         letterSpacing: "0.5px"
                     }}
