@@ -3,7 +3,7 @@ import { Card, Box, Typography, IconButton, Collapse, Divider } from '@mui/mater
 import { ExpandMore, ExpandLess, DeleteTwoTone } from '@mui/icons-material';
 import { RotationResult } from '../../../app/analysis/chi-ji/types';
 import SpellButton from "@components/SpellButtons/SpellButton";
-import WarningChip from "@components/WarningChip/WarningChip";
+import SwirlChip from "@components/SwirlChip/SwirlChip";
 import { T } from "@util/T";
 import { formatNumber, formatPercent } from "@util/stringManipulation";
 import TALENTS from "@data/specs/monk/mistweaver/talents";
@@ -183,7 +183,7 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                                 {item.spellName}
                                             </Typography>
                                         </Box>
-                                        <WarningChip
+                                        <SwirlChip
                                             message={`${formatPercent(item.percentage, 1)}`}
                                             borderColor={accent}
                                             fontSize="0.7rem"

@@ -23,7 +23,7 @@ import { CLASSES } from "@data/class";
 
 import { T } from "@util/T";
 import { formatNumber } from "@util/stringManipulation";
-import WarningChip from "@components/WarningChip/WarningChip";
+import SwirlChip from "@components/SwirlChip/SwirlChip";
 
 import { type ModelResult } from "./model";
 import { buildRotationConfigs, getBackgroundColor, getBorderColor, getCardBg } from "./types";
@@ -226,7 +226,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
                     Re-formulate
                   </SwirlButton>
                   <Box sx={{ flexGrow: 1 }} />
-                  <WarningChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon borderColor="#ffa726" />
+                  <SwirlChip message="Values may slightly shift due to the RNG of Rising Sun Kick resets" showIcon borderColor="#ffa726" />
                 </Box>
               ),
             },

@@ -7,7 +7,7 @@ import PageHeader from '@components/PageHeader/PageHeader';
 import SpecializationSelect from '@components/SpecializationSelect/SpecializationSelect';
 import SpellButtons from '@components/SpellButtons/SpellButtons';
 import SpellTable from '@components/SpellTable/SpellTable';
-import WarningChip from '@components/WarningChip/WarningChip';
+import SwirlChip from '@components/SwirlChip/SwirlChip';
 import StatsCard from '@components/StatsCard/StatsCard';
 import ConfigPanel from '@components/ConfigPanel/ConfigPanel';
 import { CONTENT_WIDTH } from '@components/Theme/tokens';
@@ -131,7 +131,7 @@ const WhenDoIRamp: React.FC<{ title: React.ReactNode; description: React.ReactNo
 
                 {spec !== CLASSES.MONK.SPECS.MISTWEAVER && (
                     <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'center' }}>
-                        <WarningChip message="This spec has limited support for cast time reductions and haste buff gains" showIcon borderColor='#ffa726' />
+                        <SwirlChip message="This spec has limited support for cast time reductions and haste buff gains" showIcon borderColor='#ffa726' />
                     </Box>
                 )}
 

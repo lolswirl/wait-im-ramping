@@ -14,7 +14,7 @@ import { specialization } from "@data/class";
 
 import { T } from "@util/T";
 import { toRomanNumeral } from "@util/toRomanNumeral";
-import WarningChip from "@components/WarningChip/WarningChip";
+import SwirlChip from "@components/SwirlChip/SwirlChip";
 
 
 interface SpellTableProps {
@@ -148,7 +148,7 @@ const SpellTable: React.FC<SpellTableProps> = ({
                     <Typography variant="body2" color="text.secondary">
                         Total
                     </Typography>
-                    <WarningChip message={`${totalTime.toFixed(2)}s`} />
+                    <SwirlChip message={`${totalTime.toFixed(2)}s`} />
                 </Box>
                 <SwirlButton
                     color="error"

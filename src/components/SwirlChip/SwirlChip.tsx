@@ -3,7 +3,7 @@ import { Chip, SxProps, Theme } from '@mui/material';
 import { T } from '@util/T';
 import { TINT, tintAlpha } from '@components/Theme/tokens';
 
-interface WarningChipProps {
+interface SwirlChipProps {
     message: string;
     size?: 'small' | 'medium';
     showIcon?: boolean;
@@ -17,7 +17,7 @@ interface WarningChipProps {
     sx?: SxProps<Theme>;
 }
 
-const WarningChip: React.FC<WarningChipProps> = ({ 
+const SwirlChip: React.FC<SwirlChipProps> = ({ 
     message, 
     size = 'small',
     showIcon = false,
@@ -93,4 +93,4 @@ const WarningChip: React.FC<WarningChipProps> = ({
     );
 };
 
-export default WarningChip;
+export default SwirlChip;

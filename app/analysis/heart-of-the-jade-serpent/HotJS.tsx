@@ -18,7 +18,7 @@ import { GlassTooltip } from '@components/Glass';
 import IconButtonBase from '@components/SpellButtons/IconButtonBase';
 import SpellButton from '@components/SpellButtons/SpellButton';
 import PageHeader from '@components/PageHeader/PageHeader';
-import WarningChip from '@components/WarningChip/WarningChip';
+import SwirlChip from '@components/SwirlChip/SwirlChip';
 import TalentsCard from '@components/TalentsCard/TalentsCard';
 import { useThemeContext } from '@context/ThemeContext';
 import SPELLS from "@data/spells";
@@ -487,7 +487,7 @@ const StatsCard: React.FC<{
                             </Typography>
                         </Box>
                         <Stack direction="row" spacing={1} flexWrap="wrap">
-                            <WarningChip
+                            <SwirlChip
                                 message={`${withHotJS} ${T(pluralize(withHotJS, "Cast"))}`}
                                 size="small" 
                                 variant='outlined'
@@ -502,7 +502,7 @@ const StatsCard: React.FC<{
                                     }
                                 }}
                             />
-                            <WarningChip 
+                            <SwirlChip 
                                 message={`+${extraCasts} ${T("Extra")}`} 
                                 size="small" 
                                 variant='outlined'
@@ -517,7 +517,7 @@ const StatsCard: React.FC<{
                                     }
                                 }}
                             />
-                            <WarningChip 
+                            <SwirlChip 
                                 message={`${castsPerMinute.toFixed(1)} ${T("cpm")}`} 
                                 size="small" 
                                 variant='outlined'
@@ -533,7 +533,7 @@ const StatsCard: React.FC<{
                                 }}
                             />
                             {avgCooldown > 0 && (
-                                <WarningChip 
+                                <SwirlChip 
                                     message={`${avgCooldown.toFixed(1)}s ${T("avg cd")}`}
                                     size="small" 
                                     variant='outlined'
@@ -834,7 +834,7 @@ const HotJS: React.FC<{ title: React.ReactNode; description: React.ReactNode }> 
             <Card variant="outlined" sx={{ maxWidth: MAX_WIDTH, width: "95%", mx: "auto", mb: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
                     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2, gap: 2 }}>
-                        <WarningChip message="We are assuming every spell is being used on cooldown as it becomes available" borderColor="#ffa726"/>
+                        <SwirlChip message="We are assuming every spell is being used on cooldown as it becomes available" borderColor="#ffa726"/>
                         <OptionsCard
                             cdrEnabled={cdrEnabled}
                             onCdrEnabledChange={setCdrEnabled}

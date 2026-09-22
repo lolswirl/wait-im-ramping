@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
-import WarningChip from "@components/WarningChip/WarningChip";
+import SwirlChip from "@components/SwirlChip/SwirlChip";
 import { GlassTooltip } from "@components/Glass";
 import { T } from "@util/T";
 import { Bug, STATUS, SEVERITY_COLORS, STATUS_COLORS, getStatusBadge } from "@data/bugs";
@@ -16,7 +16,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
     return (
         <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
             {bug.status && bug.status !== STATUS.OPEN && (
-                <WarningChip
+                <SwirlChip
                     message={bug.status}
                     showIcon={true}
                     icon={getStatusBadge(bug.status)}
@@ -24,7 +24,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
                     fontSize="0.75rem"
                 />
             )}
-            <WarningChip
+            <SwirlChip
                 message={bug.severity + " Severity"}
                 borderColor={SEVERITY_COLORS[bug.severity]}
                 fontSize="0.75rem"
@@ -71,7 +71,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
                 const chipMessage = `Build #${latestBuild}`;
                 
                 const chip = (
-                    <WarningChip
+                    <SwirlChip
                         message={chipMessage}
                         borderColor="#eaeaea"
                         fontSize="0.75rem"
@@ -90,7 +90,7 @@ export const BugChips: React.FC<BugChipsProps> = ({ bug, showTooltip = true }) =
                 ) : chip;
             })()}
             {bug.tags?.map((tag) => (
-                <WarningChip
+                <SwirlChip
                     key={tag.name}
                     message={tag.name}
                     size="small"

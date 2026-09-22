@@ -2,7 +2,7 @@
 import React, { useMemo } from "react";
 import { Box, Card, Typography, Tab, Tabs, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import SpellButton from "@components/SpellButtons/SpellButton";
-import WarningChip from "@components/WarningChip/WarningChip";
+import SwirlChip from "@components/SwirlChip/SwirlChip";
 import { formatNumber, formatPercent } from "@util/stringManipulation";
 import { type Player } from "@data/specs/monk/mistweaver/calcs";
 import { type RotationConfig } from "./types";
@@ -43,7 +43,7 @@ const HeatmapCard: React.FC<Props> = ({ rotationConfigs, player, rerollKey, show
           <Typography variant="body2" sx={{ fontWeight: 600, letterSpacing: '0.5px', fontSize: FONT.small }}>
             {type} by Target Count (500 seconds)
           </Typography>
-          <WarningChip message="% shown is relative to the best rotation in each row" borderColor="rgba(255,255,255,0.2)" />
+          <SwirlChip message="% shown is relative to the best rotation in each row" borderColor="rgba(255,255,255,0.2)" />
         </Box>
         <Table size="small">
           <TableHead>
