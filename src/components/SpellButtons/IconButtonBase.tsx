@@ -1,7 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "@mui/material";
 
 import { iconLocalUrl, iconFallbackUrl, wowheadSpellUrl } from "@util/wowhead";
+import { ICON, RADIUS } from "@components/Theme/tokens";
 import { T } from "@util/T";
 
 interface IconButtonBaseProps {
@@ -21,10 +23,11 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
     id,
     spellModifier,
     onClick,
-    size = 40,
+    size = ICON.lg,
     tooltip: _tooltip,
     ...rest
 }) => {
+    const theme = useTheme();
     const [isHovered, setIsHovered] = useState(false);
     const [src, setSrc] = useState("");
 
@@ -50,12 +53,11 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
         width: size + 2,
         height: size + 2,
         padding: 0,
-        borderRadius: "4px",
+        borderRadius: `${RADIUS.control}px`,
         overflow: "hidden",
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-        transition: "transform 0.3s ease",
-        border: "1px solid #575757",
-        transform: isHovered ? "scale(1.1)" : "scale(1)",
+        transition: "transform 0.15s ease",
+        border: `1px solid ${theme.palette.divider}`,
+        transform: isHovered ? "scale(1.06)" : "scale(1)",
         backgroundColor: "transparent",
         cursor: "pointer",
         display: "flex",
@@ -73,7 +75,7 @@ const IconButtonBase: React.FC<IconButtonBaseProps> = ({
             width={size}
             height={size}
             style={{
-                borderRadius: "4px",
+                borderRadius: `${RADIUS.control}px`,
                 objectFit: "cover",
                 transform: "scale(1.1)",
                 transformOrigin: "center",

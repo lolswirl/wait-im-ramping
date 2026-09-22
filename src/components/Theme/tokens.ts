@@ -31,7 +31,7 @@ export const FONT = {
     micro: "0.7rem",
 };
 
-// spell icons are the layout's basic unit; call sites used 18/22/24/30/32/36/40/48 before this
+// spell icons are the layout's basic unit
 export const ICON = {
     xs: 18,
     sm: 24,
@@ -73,8 +73,7 @@ export const sectionForPath = (pathname: string | null): Section => {
     return match ?? SECTIONS[0];
 };
 
-// Shared tinted-control ladder: `66` border at rest -> full accent on hover, `14` wash.
-// Derive from here; don't re-inline these alphas.
+// tinted-control ladder: `66` border at rest, full accent on hover, `14` wash
 export const TINT = {
     restBorder: "66",
     divider: "44",
@@ -97,7 +96,6 @@ export const tintedControl = (accent: string, selected = false) => ({
     "&:hover": { borderColor: accent },
 });
 
-// Disabled = remove the fill, never add grey, never a blanket opacity.
 export const tintedDisabled = {
     borderColor: HAIRLINE,
     color: "text.disabled",
