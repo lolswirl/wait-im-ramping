@@ -10,6 +10,8 @@ export function change(d: Date, text: string): ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+    change(date(2026, 9, 22), "Mistweaver tuning - 5% healing increase, Vivify and Sheilun's Gift buffed by 15%"),
+    change(date(2026, 9, 1), "Mistweaver tuning - 5% healing increase, 25% 4pc rate"),
     change(date(2026, 8, 12), "Site is fully up-to-date with 12.1 release"),
     change(date(2026, 8, 2), "12.1 PTR - Mistweaver Morning Breeze nerf from 20% to 8%"),
     change(date(2026, 7, 16), "12.1 PTR Healer Hotfixes"),
