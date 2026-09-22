@@ -40,7 +40,11 @@ export const ICON = {
     xl: 48,
 };
 
-export const CONTROL_HEIGHT = 53;
+// stacked label + input
+export const FIELD_HEIGHT = 53;
+
+// single-row controls - selects, search, filter spec chip
+export const CONTROL_HEIGHT = 42;
 
 export const RADIUS = {
     card: 8,

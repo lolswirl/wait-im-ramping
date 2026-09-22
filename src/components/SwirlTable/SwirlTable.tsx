@@ -5,6 +5,8 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import RainbowCard from "@components/Buttons/RainbowCard";
 
+const ACCENT_WIDTH = 7;
+
 export interface SwirlColumn<T> {
     key: string;
     label: React.ReactNode;
@@ -69,7 +71,7 @@ function SwirlTable<T>({
             {/* header */}
             <Box sx={{
                 display: "grid",
-                gridTemplateColumns: accentColor ? `4px ${gridTemplateColumns}` : gridTemplateColumns,
+                gridTemplateColumns: accentColor ? `${ACCENT_WIDTH}px ${gridTemplateColumns}` : gridTemplateColumns,
                 py: 0.75,
                 borderRadius: 1,
                 backgroundColor: "background.paper",
@@ -117,15 +119,14 @@ function SwirlTable<T>({
                             onClick={onRowClick ? () => onRowClick(row) : undefined}
                             sx={{
                                 display: "grid",
-                                gridTemplateColumns: accent !== undefined ? `4px ${gridTemplateColumns}` : gridTemplateColumns,
+                                gridTemplateColumns: accent !== undefined ? `${ACCENT_WIDTH}px ${gridTemplateColumns}` : gridTemplateColumns,
                                 alignItems: "center",
                                 cursor: onRowClick ? "pointer" : "default",
                                 overflow: "hidden",
-                                ...(accent ? { borderLeft: `3px solid ${accent}` } : {}),
                             }}
                         >
                             {accent !== undefined && (
-                                <Box sx={{ width: 4, alignSelf: "stretch", backgroundColor: accent }} />
+                                <Box sx={{ width: ACCENT_WIDTH, alignSelf: "stretch", backgroundColor: accent }} />
                             )}
                             {columns.map(col => (
                                 <Box

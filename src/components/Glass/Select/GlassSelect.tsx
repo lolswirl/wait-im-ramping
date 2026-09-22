@@ -4,7 +4,7 @@ import { Box, MenuList, MenuItem, Typography } from '@mui/material';
 import { GlassMenu } from '@components/Glass/Menu';
 import { SxProps } from '@mui/material/styles';
 import { KeyboardArrowDown } from '@mui/icons-material';
-import { FONT } from "@components/Theme/tokens";
+import { CONTROL_HEIGHT, FONT } from "@components/Theme/tokens";
 
 export interface GlassSelectOption {
     value: string;
@@ -39,7 +39,7 @@ const GlassSelect: React.FC<GlassSelectProps> = ({ value, options, onChange, lab
                     alignItems: 'center',
                     gap: 1,
                     px: 1.5,
-                    minHeight: 42,
+                    minHeight: CONTROL_HEIGHT,
                     border: '1px solid',
                     borderColor: 'divider',
                     borderRadius: 1,

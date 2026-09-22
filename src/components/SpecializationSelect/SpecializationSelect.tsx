@@ -8,7 +8,7 @@ import SpecDisplay from "@components/SpecializationSelect/SpecDisplay";
 
 import { specialization, getSpecs, getSpecializationByKey } from '@data/class';
 import { KeyboardArrowDown } from '@mui/icons-material';
-import { BLUR, CONTROL_HEIGHT, FONT } from "@components/Theme/tokens";
+import { BLUR, FIELD_HEIGHT, FONT } from "@components/Theme/tokens";
 
 interface SpecializationSelectProps {
   selectedSpec: specialization;
@@ -25,7 +25,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
   size = "medium",
   short = false,
   withLabel = false,
-  height = CONTROL_HEIGHT,
+  height = FIELD_HEIGHT,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

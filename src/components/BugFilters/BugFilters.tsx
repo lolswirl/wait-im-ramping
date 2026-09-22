@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, TextField, IconButton, InputAdornment, Typography } from "@mui/material";
+import { Box, TextField, InputAdornment, Typography } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import BuildIcon from "@mui/icons-material/Build";
 import CloseIcon from "@mui/icons-material/Close";
@@ -10,7 +10,8 @@ import { GlassSelect, GlassTooltip } from "@components/Glass";
 import { specialization } from "@data/class";
 import { SEVERITY_COLORS } from "@data/bugs";
 import { useIsLocalhost } from "@hooks/useIsLocalhost";
-import { FONT } from "@components/Theme/tokens";
+import { CONTROL_HEIGHT, FONT } from "@components/Theme/tokens";
+import { SwirlIconButton } from "@components/Buttons/SwirlIconButton";
 
 interface BugFiltersProps {
     selectedSpec: specialization;
@@ -61,7 +62,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                     onSpecChange={handleSpecChange}
                     short
                     withLabel
-                    height={42}
+                    height={CONTROL_HEIGHT}
                 />
             </Box>
 
@@ -76,7 +77,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                     fullWidth
                     sx={{
                         '& .MuiOutlinedInput-root': {
-                            height: 42,
+                            height: CONTROL_HEIGHT,
                             fontSize: FONT.small,
                             '& fieldset': { borderColor: 'divider' },
                             '&:hover fieldset': { borderColor: 'text.secondary' },
@@ -87,24 +88,15 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                         input: {
                             endAdornment: search ? (
                                 <InputAdornment position="end">
-                                    <IconButton
+                                    <SwirlIconButton
                                         onClick={() => onSearchChange('')}
                                         edge="end"
-                                        size="small"
-                                        sx={{
-                                            height: 32,
-                                            width: 32,
-                                            border: "1px solid rgba(244, 67, 54, 0.23)",
-                                            borderRadius: 1,
-                                            color: "error.light",
-                                            "&:hover": {
-                                                backgroundColor: "rgba(244, 67, 54, 0.08)",
-                                                borderColor: "error.light",
-                                            }
-                                        }}
+                                        tint="danger"
+                                        width={32}
+                                        height={32}
                                     >
                                         <CloseIcon fontSize="small" />
-                                    </IconButton>
+                                    </SwirlIconButton>
                                 </InputAdornment>
                             ) : null,
                         },
@@ -133,20 +125,14 @@ const BugFilters: React.FC<BugFiltersProps> = ({
             {onExportToExcel && (
                 <Box sx={{ marginLeft: "auto" }}>
                     <GlassTooltip title={"Export to Excel"}>
-                        <IconButton
+                        <SwirlIconButton
                             onClick={onExportToExcel}
-                            sx={{
-                                border: "1px solid rgba(255, 255, 255, 0.23)",
-                                borderRadius: 1,
-                                color: "primary.light",
-                                "&:hover": {
-                                    backgroundColor: "rgba(144, 202, 249, 0.08)",
-                                    borderColor: "primary.light",
-                                }
-                            }}
+                            tint="primary"
+                            width={CONTROL_HEIGHT}
+                            height={CONTROL_HEIGHT}
                         >
                             <DownloadIcon />
-                        </IconButton>
+                        </SwirlIconButton>
                     </GlassTooltip>
                 </Box>
             )}
@@ -154,20 +140,14 @@ const BugFilters: React.FC<BugFiltersProps> = ({
             {isLocalhost && onOpenBugUpdate && (
                 <Box>
                     <GlassTooltip title={"Update Bugs"}>
-                        <IconButton
+                        <SwirlIconButton
                             onClick={onOpenBugUpdate}
-                            sx={{
-                                border: "1px solid rgba(255, 165, 0, 0.23)",
-                                borderRadius: 1,
-                                color: "warning.light",
-                                "&:hover": {
-                                    backgroundColor: "rgba(255, 165, 0, 0.08)",
-                                    borderColor: "warning.light",
-                                }
-                            }}
+                            tint="warning"
+                            width={CONTROL_HEIGHT}
+                            height={CONTROL_HEIGHT}
                         >
                             <BuildIcon />
-                        </IconButton>
+                        </SwirlIconButton>
                     </GlassTooltip>
                 </Box>
             )}

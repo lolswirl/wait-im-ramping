@@ -3,7 +3,7 @@ import { useState } from "react";
 import { TextField, InputAdornment, Box, Typography } from '@mui/material';
 import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material';
 import { SwirlIconButton } from '@components/Buttons/SwirlIconButton';
-import { FONT } from "@components/Theme/tokens";
+import { CONTROL_HEIGHT, FONT } from "@components/Theme/tokens";
 
 interface SwirlFieldProps {
     label?: string;
@@ -42,7 +42,7 @@ const SwirlField: React.FC<SwirlFieldProps> = ({ label, value, onChange, suffix,
                     '& input[type=number]::-webkit-outer-spin-button': { WebkitAppearance: 'none', margin: 0 },
                     '& input[type=number]::-webkit-inner-spin-button': { WebkitAppearance: 'none', margin: 0 },
                     '& .MuiOutlinedInput-root': {
-                        height: 42,
+                        height: CONTROL_HEIGHT,
                         fontSize: FONT.small,
                         '& fieldset': { borderColor: 'divider' },
                         '&:hover fieldset': { borderColor: 'text.secondary' },

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Box, TextField, InputAdornment, Typography } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
 import { GlassTooltip } from '@components/Glass';
-import { CONTROL_HEIGHT, FONT } from "@components/Theme/tokens";
+import { FIELD_HEIGHT, FONT } from "@components/Theme/tokens";
 
 export interface FieldDef {
     key: string;
@@ -109,7 +109,7 @@ export const FieldCells: React.FC<FieldCellsProps> = ({ fields, options, onOptio
                     flexDirection: "column",
                     justifyContent: "center",
                     gap: 0.25,
-                    minHeight: CONTROL_HEIGHT,
+                    minHeight: FIELD_HEIGHT,
                     boxSizing: "border-box",
                     px: 1.25,
                     py: 0.75,

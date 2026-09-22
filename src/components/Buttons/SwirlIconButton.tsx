@@ -2,7 +2,7 @@ import { IconButton, IconButtonProps, SxProps, Theme, useTheme } from "@mui/mate
 import { HAIRLINE_SOFT, TINT, tintedControl } from "@components/Theme/tokens";
 
 interface SwirlIconButtonProps extends Omit<IconButtonProps, 'sx'> {
-    tint?: 'default' | 'danger';
+    tint?: 'default' | 'danger' | 'warning' | 'primary';
     width?: number | string;
     height?: number | string;
     sx?: SxProps<Theme>;
@@ -24,7 +24,10 @@ export const SwirlIconButton = ({
     ...props
 }: SwirlIconButtonProps) => {
     const theme = useTheme();
-    const accent = tint === 'danger' ? theme.palette.error.main : null;
+    const accent = tint === 'danger' ? theme.palette.error.main
+        : tint === 'warning' ? theme.palette.warning.main
+        : tint === 'primary' ? theme.palette.primary.main
+        : null;
 
     const base = accent
         ? {
