@@ -2,8 +2,9 @@
 import { AppBar, Toolbar, Box, Typography } from "@mui/material";
 import { useThemeContext } from "@context/ThemeContext";
 import { GlassTooltip } from "@components/Glass";
-import { ColoredIconButton } from "@components/Buttons/ColoredIconButton";
+import { NavIconButton } from "@components/Buttons/NavIconButton";
 import { SOCIAL_LINKS } from "@data/socials";
+import { BLUR } from "@components/Theme/tokens";
 
 const FooterBar = () => {
     const { themeMode } = useThemeContext();
@@ -18,7 +19,7 @@ const FooterBar = () => {
                 mt: 3.5,
                 backgroundImage: 'none',
                 bgcolor: themeMode === "light" ? "primary.main" : "rgba(23, 23, 23, 0.85)",
-                backdropFilter: "blur(12px)",
+                backdropFilter: BLUR.bar,
                 borderTop: "1px solid",
                 borderColor: themeMode === "light" ? "rgba(255,255,255,0.15)" : "divider",
                 boxShadow: "none",
@@ -65,7 +66,7 @@ const FooterBar = () => {
                             title={label}
                             placement="top"
                         >
-                            <ColoredIconButton
+                            <NavIconButton
                                 color="inherit"
                                 href={href}
                                 target="_blank"
@@ -75,7 +76,7 @@ const FooterBar = () => {
                                 initialColor="rgba(255, 255, 255, 0.5)"
                             >
                                 {icon}
-                            </ColoredIconButton>
+                            </NavIconButton>
                         </GlassTooltip>
                     ))}
                 </Box>

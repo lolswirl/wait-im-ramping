@@ -22,10 +22,10 @@ import { T } from "@util/T";
 import { useSpec } from "@context/SpecContext";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 import SwirlButton from "@components/Buttons/SwirlButton";
-import { ColoredIconButton } from "@components/Buttons/ColoredIconButton";
+import { NavIconButton } from "@components/Buttons/NavIconButton";
 import { GlassBox } from "@components/Glass";
 import { RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
-import { SECTIONS } from "@components/Theme/tokens";
+import { BLUR, SECTIONS } from "@components/Theme/tokens";
 
 const MoonIcon = () => (
     <SvgIcon viewBox="0 0 16 16" sx={{ fontSize: 15 }}>
@@ -100,13 +100,13 @@ function ResponsiveAppBar() {
                         <span>Wait, I'm Ramping!</span>
                     </Typography>
                 </Box>
-                <ColoredIconButton 
+                <NavIconButton 
                     onClick={handleDrawerToggle}
                     size="small"
                     hoverColor="#ef4444"
                 >
                     ✕
-                </ColoredIconButton>
+                </NavIconButton>
             </Box>
 
             {/* mobile nav */}
@@ -200,7 +200,7 @@ function ResponsiveAppBar() {
                         zIndex: 1, 
                         color: 'white',
                         backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                        backdropFilter: 'blur(8px)',
+                        backdropFilter: BLUR.surface,
                         px: 1,
                         py: 0.5,
                         borderRadius: 1,
@@ -236,7 +236,7 @@ function ResponsiveAppBar() {
                     justifyContent: "center",
                     backgroundImage: "none",
                     bgcolor: themeMode === "light" ? "primary.main" : "#171717d9",
-                    backdropFilter: "blur(12px)",
+                    backdropFilter: BLUR.bar,
                     borderBottom: "1px solid",
                     borderColor: themeMode === "light" ? "rgba(255,255,255,0.15)" : "divider",
                     boxShadow: "none",
@@ -320,24 +320,24 @@ function ResponsiveAppBar() {
 
                         <GlassBox showOnMobile={false} sx={{ px: 0.5, py: 0.25 }}>
                             {spec && <SpecializationSelect selectedSpec={spec} onSpecChange={setSpec} short={true} />}
-                            <ColoredIconButton
+                            <NavIconButton
                                 onClick={toggleTheme}
                                 size="small"
                                 hoverColor={themeMode === "dark" ? "#fbbf24" : "#60a5fa"}
                             >
                                 {themeMode === "dark" ? <MoonIcon /> : <SunIcon />}
-                            </ColoredIconButton>
+                            </NavIconButton>
                         </GlassBox>
 
                         {/* mobile menu button */}
                         <GlassBox showOnDesktop={false}>
-                            <ColoredIconButton
+                            <NavIconButton
                                 onClick={handleDrawerToggle}
                                 size="small"
                                 hoverColor="#60a5fa"
                             >
                                 <MenuIcon sx={{ fontSize: 20 }} />
-                            </ColoredIconButton>
+                            </NavIconButton>
                         </GlassBox>
                     </Toolbar>
                 </Container>
