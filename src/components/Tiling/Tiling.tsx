@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useThemeContext } from '../../context/ThemeContext';
 
 type Rect = [number, number, number, number];
 
 const Tiling = ({ patternSrc }: { patternSrc: string }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const pathname = usePathname();
-  const { themeMode } = useThemeContext();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -34,7 +32,7 @@ const Tiling = ({ patternSrc }: { patternSrc: string }) => {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
 
-    ctx.fillStyle = themeMode === 'dark' ? '#121212' : '#ffffff';
+    ctx.fillStyle = '#121212';
     ctx.fillRect(0, 0, screenWidth, screenHeight);
 
     const maxTiles = 200;
@@ -100,7 +98,7 @@ const Tiling = ({ patternSrc }: { patternSrc: string }) => {
     return () => {
       isCancelled = true;
     };
-  }, [mounted, pathname, patternSrc, themeMode]); // Added mounted to dependencies
+  }, [mounted, pathname, patternSrc]);
 
   if (!mounted) return null;
 

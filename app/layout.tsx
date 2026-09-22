@@ -5,7 +5,6 @@ import Script from "next/script";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
-import { ThemeProvider } from "@context/ThemeContext";
 import { SpecProvider } from "@context/SpecContext";
 import Theme from "@components/Theme/Theme";
 import AppBar from "@components/AppBar/AppBar";
@@ -39,19 +38,17 @@ export default function RootLayout({
                     src="https://wow.zamimg.com/js/tooltips.js" 
                     strategy="afterInteractive"
                 />
-                <AppRouterCacheProvider >
-                    <ThemeProvider>
-                        <Theme>
-                            <SpecProvider>
-                                <ClientTilingBackground />
-                                <AppBar />
-                                <main>{children}</main>
-                                <SpeedInsights />
-                                <Analytics />
-                                <FooterBar />
-                            </SpecProvider>
-                        </Theme>
-                    </ThemeProvider>
+                <AppRouterCacheProvider>
+                    <Theme>
+                        <SpecProvider>
+                            <ClientTilingBackground />
+                            <AppBar />
+                            <main>{children}</main>
+                            <SpeedInsights />
+                            <Analytics />
+                            <FooterBar />
+                        </SpecProvider>
+                    </Theme>
                 </AppRouterCacheProvider>
             </body>
         </html>

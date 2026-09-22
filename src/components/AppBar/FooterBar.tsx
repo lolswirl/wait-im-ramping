@@ -1,13 +1,11 @@
 "use client"
 import { AppBar, Toolbar, Box, Typography } from "@mui/material";
-import { useThemeContext } from "@context/ThemeContext";
 import { GlassTooltip } from "@components/Glass";
 import { NavIconButton } from "@components/Buttons/NavIconButton";
 import { SOCIAL_LINKS } from "@data/socials";
 import { BLUR, FONT } from "@components/Theme/tokens";
 
 const FooterBar = () => {
-    const { themeMode } = useThemeContext();
     const currentYear = new Date().getFullYear();
 
     return (
@@ -18,10 +16,10 @@ const FooterBar = () => {
             sx={{
                 mt: 3.5,
                 backgroundImage: 'none',
-                bgcolor: themeMode === "light" ? "primary.main" : "rgba(23, 23, 23, 0.85)",
+                bgcolor: "rgba(23, 23, 23, 0.85)",
                 backdropFilter: BLUR.bar,
                 borderTop: "1px solid",
-                borderColor: themeMode === "light" ? "rgba(255,255,255,0.15)" : "divider",
+                borderColor: "divider",
                 boxShadow: "none",
             }}
         >

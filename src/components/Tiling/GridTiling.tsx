@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { useThemeContext } from '../../context/ThemeContext';
 
 interface TilingBackgroundProps {
   patternSrc: string;
@@ -15,7 +14,6 @@ const GridTiling = ({
 }: TilingBackgroundProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const pathname = usePathname();
-  const { themeMode } = useThemeContext();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -35,7 +33,7 @@ const GridTiling = ({
 
     ctx.scale(dpr, dpr);
 
-    ctx.fillStyle = themeMode === 'dark' ? '#121212' : '#ffffff';
+    ctx.fillStyle = '#121212';
     ctx.fillRect(0, 0, screenWidth, screenHeight);
 
     const image = new Image();
@@ -106,7 +104,7 @@ const GridTiling = ({
         ctx.drawImage(offCanvas, drawX, drawY);
       }
     };
-  }, [pathname, patternSrc, maxTiles, spacing, themeMode]);
+  }, [pathname, patternSrc, maxTiles, spacing]);
 
   return (
     <canvas

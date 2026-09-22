@@ -1,11 +1,5 @@
 import { RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
 
-export const SURFACES = {
-    bg: "#0f0f0f",
-    surface: "#171717",
-    raised: "#1e1e1e",
-};
-
 export const HAIRLINE = "rgba(255,255,255,0.10)";
 export const HAIRLINE_SOFT = "rgba(255,255,255,0.05)";
 

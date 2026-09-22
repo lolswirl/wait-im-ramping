@@ -19,7 +19,6 @@ interface SwirlButtonProps {
 
 const resolveAccent = (color: string, theme: Theme, isNonProd: boolean): string => {
     if (!color || color === "inherit") {
-        if (theme.palette.mode !== "dark") return "#171717";
         return isNonProd ? "#ff7700ff" : "#90caf9";
     }
     const palette = theme.palette as unknown as Record<string, { main?: string }>;

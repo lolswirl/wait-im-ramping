@@ -143,7 +143,7 @@ const SpellTable: React.FC<SpellTableProps> = ({
                 justifyContent: "space-between",
                 px: 2,
                 py: 1,
-                backgroundColor: (theme) => theme.palette.mode === "dark" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
+                backgroundColor: "rgba(255,255,255,0.03)",
             }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <Typography variant="body2" color="text.secondary">

@@ -20,7 +20,6 @@ import SpellButton from '@components/SpellButtons/SpellButton';
 import PageHeader from '@components/PageHeader/PageHeader';
 import SwirlChip from '@components/SwirlChip/SwirlChip';
 import TalentsCard from '@components/TalentsCard/TalentsCard';
-import { useThemeContext } from '@context/ThemeContext';
 import SPELLS from "@data/spells";
 import spell, { GCD } from '@data/spells/spell';
 import { T } from '@util/T';
@@ -441,8 +440,7 @@ const StatsCard: React.FC<{
     abilities: AbilityCooldown[];
     abilityData: SimulationData;
     baselineData: BaselineData;
-    themeMode: string;
-}> = ({ events, timeRange, abilities, abilityData, baselineData, themeMode }) => (
+}> = ({ events, timeRange, abilities, abilityData, baselineData }) => (
     <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Stack spacing={1}>
             <Card variant="outlined" sx={{ 
@@ -509,11 +507,11 @@ const StatsCard: React.FC<{
                                 sx={{ 
                                     fontWeight: null,
                                     backgroundColor: extraCasts > 0 ? '#4ade8020' : 'transparent',
-                                    color: extraCasts > 0 ? '#4ade80' : (themeMode === 'dark' ? 'rgba(255,255,255,0.5)' : '#999'),
-                                    borderColor: extraCasts > 0 ? '#4ade8050' : (themeMode === 'dark' ? 'rgba(255,255,255,0.2)' : '#ddd'),
+                                    color: extraCasts > 0 ? '#4ade80' : 'rgba(255,255,255,0.5)',
+                                    borderColor: extraCasts > 0 ? '#4ade8050' : 'rgba(255,255,255,0.2)',
                                     '&:hover': {
-                                        backgroundColor: extraCasts > 0 ? '#4ade8030' : (themeMode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'),
-                                        borderColor: extraCasts > 0 ? '#4ade8070' : (themeMode === 'dark' ? 'rgba(255,255,255,0.3)' : '#bbb'),
+                                        backgroundColor: extraCasts > 0 ? '#4ade8030' : 'rgba(255,255,255,0.05)',
+                                        borderColor: extraCasts > 0 ? '#4ade8070' : 'rgba(255,255,255,0.3)',
                                     }
                                 }}
                             />
@@ -523,12 +521,12 @@ const StatsCard: React.FC<{
                                 variant='outlined'
                                 sx={{
                                     fontWeight: null,
-                                    backgroundColor: themeMode === 'dark' ? 'rgba(255,255,255,0.1)' : '#f5f5f5',
-                                    color: themeMode === 'dark' ? 'white' : 'inherit',
-                                    borderColor: themeMode === 'dark' ? 'rgba(255,255,255,0.2)' : '#ddd',
+                                    backgroundColor: 'rgba(255,255,255,0.1)',
+                                    color: 'white',
+                                    borderColor: 'rgba(255,255,255,0.2)',
                                     '&:hover': {
-                                        backgroundColor: themeMode === 'dark' ? 'rgba(255,255,255,0.15)' : '#e8e8e8',
-                                        borderColor: themeMode === 'dark' ? 'rgba(255,255,255,0.3)' : '#bbb',
+                                        backgroundColor: 'rgba(255,255,255,0.15)',
+                                        borderColor: 'rgba(255,255,255,0.3)',
                                     }
                                 }}
                             />
@@ -539,12 +537,12 @@ const StatsCard: React.FC<{
                                     variant='outlined'
                                     sx={{
                                         fontWeight: null,
-                                        backgroundColor: themeMode === 'dark' ? 'rgba(255,255,255,0.1)' : '#f5f5f5',
-                                        color: themeMode === 'dark' ? 'white' : 'inherit',
-                                        borderColor: themeMode === 'dark' ? 'rgba(255,255,255,0.2)' : '#ddd',
+                                        backgroundColor: 'rgba(255,255,255,0.1)',
+                                        color: 'white',
+                                        borderColor: 'rgba(255,255,255,0.2)',
                                         '&:hover': {
-                                            backgroundColor: themeMode === 'dark' ? 'rgba(255,255,255,0.15)' : '#e8e8e8',
-                                            borderColor: themeMode === 'dark' ? 'rgba(255,255,255,0.3)' : '#bbb',
+                                            backgroundColor: 'rgba(255,255,255,0.15)',
+                                            borderColor: 'rgba(255,255,255,0.3)',
                                         }
                                     }}
                                 />
@@ -562,10 +560,8 @@ const TimelineView: React.FC<{
     abilities: AbilityCooldown[];
     abilityData: SimulationData;
     timeRange: number;
-    themeMode: string;
-}> = ({ events, abilities, abilityData, timeRange, themeMode }) => {
+}> = ({ events, abilities, abilityData, timeRange }) => {
     const mainTimelineY = TIMELINE_HEIGHT / MAIN_TIMELINE_Y_RATIO;
-    const isDark = themeMode === 'dark';
     const leftMargin = 30;
     
     return (
@@ -581,11 +577,11 @@ const TimelineView: React.FC<{
                     maxWidth: '100%',
                     '&::-webkit-scrollbar': { height: 8 },
                     '&::-webkit-scrollbar-track': {
-                        backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : '#f1f1f1',
+                        backgroundColor: 'rgba(255,255,255,0.1)',
                         borderRadius: 1,
                     },
                     '&::-webkit-scrollbar-thumb': {
-                        backgroundColor: isDark ? 'rgba(255,255,255,0.3)' : '#888',
+                        backgroundColor: 'rgba(255,255,255,0.3)',
                         borderRadius: 1,
                     },
                 }}>
@@ -593,9 +589,9 @@ const TimelineView: React.FC<{
                         position: 'relative', 
                         height: TIMELINE_HEIGHT, 
                         width: Math.max(1200, timeRange * 6 + leftMargin),
-                        backgroundColor: isDark ? 'rgba(20, 20, 20, 0.8)' : '#fafafa',
+                        backgroundColor: 'rgba(20, 20, 20, 0.8)',
                         borderRadius: 1,
-                        border: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid #ddd',
+                        border: '1px solid rgba(255,255,255,0.1)',
                     }}>
                         <Box sx={{
                             position: 'absolute',
@@ -603,7 +599,7 @@ const TimelineView: React.FC<{
                             left: leftMargin,
                             right: 0,
                             height: 3,
-                            backgroundColor: isDark ? '#666' : '#333',
+                            backgroundColor: '#666',
                             zIndex: 1
                         }} />
 
@@ -615,7 +611,7 @@ const TimelineView: React.FC<{
                                     top: mainTimelineY - 15,
                                     width: 2,
                                     height: 30,
-                                    backgroundColor: isDark ? '#999' : '#666',
+                                    backgroundColor: '#999',
                                     zIndex: 2
                                 }} />
                                 <Typography sx={{
@@ -702,7 +698,7 @@ const TimelineView: React.FC<{
                                         top: mainTimelineY - 45 - yOffset,
                                         width: 3,
                                         height: 45 + yOffset,
-                                        backgroundColor: isDark ? '#555' : '#999',
+                                        backgroundColor: '#555',
                                         opacity: 0.5,
                                         zIndex: 1
                                     }} />
@@ -766,7 +762,6 @@ const TimelineView: React.FC<{
 };
 
 const HotJS: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
-    const { themeMode } = useThemeContext();
     const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
     
     const [timeRange, setTimeRange] = useState<number>(300);
@@ -861,7 +856,6 @@ const HotJS: React.FC<{ title: React.ReactNode; description: React.ReactNode }> 
                         abilities={affectedAbilities}
                         abilityData={simulation.abilityData}
                         baselineData={simulation.baselineData}
-                        themeMode={themeMode}
                     />
                 </Box>
             </Card>
@@ -871,7 +865,6 @@ const HotJS: React.FC<{ title: React.ReactNode; description: React.ReactNode }> 
                 abilities={affectedAbilities}
                 abilityData={simulation.abilityData}
                 timeRange={timeRange}
-                themeMode={themeMode}
             />
         </div>
     );

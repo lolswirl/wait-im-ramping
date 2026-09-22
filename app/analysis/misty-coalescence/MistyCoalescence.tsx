@@ -22,7 +22,6 @@ import {
 } from 'recharts';
 
 import PageHeader from '@components/PageHeader/PageHeader';
-import { useThemeContext } from '@context/ThemeContext';
 import { T } from '@util/T';
 import TALENTS from '@data/talents';
 
@@ -58,14 +57,12 @@ const generateData = (): DataPoint[] => {
 };
 
 const ChartTooltip: React.FC<any> = ({ active, payload, label }) => {
-    const { themeMode } = useThemeContext();
-    const isDark = themeMode === 'dark';
     
     if (active && payload && payload.length) {
         return (
             <Card sx={{
-                backgroundColor: isDark ? 'rgba(30, 30, 30, 0.95)' : 'rgba(255, 255, 255, 0.95)',
-                border: `1px solid ${isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)'}`,
+                backgroundColor: 'rgba(30, 30, 30, 0.95)',
+                border: `1px solid ${'rgba(255,255,255,0.2)'}`,
                 p: 1.5,
             }}>
                 <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 0.5 }}>
@@ -84,8 +81,6 @@ const ChartTooltip: React.FC<any> = ({ active, payload, label }) => {
 
 const MistyCoalescence: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const theme = useTheme();
-    const { themeMode } = useThemeContext();
-    const isDark = themeMode === 'dark';
     
     const data = useMemo(() => generateData(), []);
 
@@ -136,7 +131,7 @@ const MistyCoalescence: React.FC<{ title: React.ReactNode; description: React.Re
                         >
                             <CartesianGrid 
                                 strokeDasharray="3 3" 
-                                stroke={isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}
+                                stroke={'rgba(255,255,255,0.1)'}
                             />
                             <XAxis 
                                 dataKey="players"
@@ -144,10 +139,10 @@ const MistyCoalescence: React.FC<{ title: React.ReactNode; description: React.Re
                                     value: T('Number of Players'), 
                                     position: 'insideBottom', 
                                     offset: -10,
-                                    fill: isDark ? '#fff' : '#000',
+                                    fill: '#fff',
                                 }}
-                                stroke={isDark ? '#fff' : '#000'}
-                                tick={{ fill: isDark ? '#fff' : '#000' }}
+                                stroke={'#fff'}
+                                tick={{ fill: '#fff' }}
                             />
                             <YAxis 
                                 label={{ 
@@ -155,27 +150,27 @@ const MistyCoalescence: React.FC<{ title: React.ReactNode; description: React.Re
                                     angle: -90, 
                                     position: 'insideLeft',
                                     style: { textAnchor: 'middle' },
-                                    fill: isDark ? '#fff' : '#000',
+                                    fill: '#fff',
                                 }}
                                 domain={[0, MAX_INCREASE]}
-                                stroke={isDark ? '#fff' : '#000'}
-                                tick={{ fill: isDark ? '#fff' : '#000' }}
+                                stroke={'#fff'}
+                                tick={{ fill: '#fff' }}
                             />
                             <Tooltip content={<ChartTooltip />} />
                             <Legend 
                                 verticalAlign="bottom"
                                 wrapperStyle={{ 
-                                    color: isDark ? '#fff' : '#000',
+                                    color: '#fff',
                                     paddingTop: '15px',
                                 }}
                             />
                             <ReferenceLine 
                                 y={MAX_INCREASE} 
-                                stroke={isDark ? '#a855f7' : '#9333ea'} 
+                                stroke={'#a855f7'} 
                                 strokeDasharray="5 5"
                                 label={{ 
                                     value: T(`Max (${MAX_INCREASE}%)`), 
-                                    fill: isDark ? '#a855f7' : '#9333ea',
+                                    fill: '#a855f7',
                                     fontSize: 12,
                                 }}
                             />
