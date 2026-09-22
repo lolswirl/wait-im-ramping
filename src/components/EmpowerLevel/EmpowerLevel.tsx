@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Box } from "@mui/material";
+import { Button, Box, useTheme } from "@mui/material";
+import { TINT, tintedControl } from "@components/Theme/tokens";
 
 import { toRomanNumeral } from "@util/toRomanNumeral";
 
@@ -14,6 +15,9 @@ const EmpowerLevelButtons: React.FC<EmpowerLevelButtonsProps> = ({
     iconSize = 36,
     levels = [1, 2, 3, 4, 5],
 }) => {
+    const theme = useTheme();
+    const accent = theme.palette.primary.main;
+
     return (
         <Box sx={{ display: "flex", gap: 1.5 }}>
             {levels.map((level) => (
@@ -22,28 +26,17 @@ const EmpowerLevelButtons: React.FC<EmpowerLevelButtonsProps> = ({
                     variant="outlined"
                     onClick={() => setEmpowerLevel(level)}
                     sx={{
+                        ...tintedControl(accent),
                         minWidth: 36,
                         minHeight: 36,
                         width: iconSize,
                         height: iconSize,
-                        borderRadius: 1,
                         fontSize: "0.75rem",
                         fontWeight: 700,
                         p: 0,
-                        transition: "all 0.2s ease-in-out",
-                        borderColor: "divider",
-                        backgroundColor: "background.paper",
-                        color: "text.primary",
-                        boxShadow: 1,
                         "&:hover": {
-                            transform: "translateY(-2px)",
-                            boxShadow: 2,
-                            borderColor: "primary.main",
-                            backgroundColor: "action.hover",
-                        },
-                        "&:active": {
-                            transform: "translateY(0px)",
-                            boxShadow: 1,
+                            borderColor: accent,
+                            backgroundColor: accent + TINT.wash,
                         },
                     }}
                 >

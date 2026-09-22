@@ -1,5 +1,5 @@
 import { IconButton, IconButtonProps, SxProps, Theme, useTheme } from "@mui/material";
-import { HAIRLINE_SOFT } from "@components/Theme/tokens";
+import { HAIRLINE_SOFT, TINT, tintedControl } from "@components/Theme/tokens";
 
 interface SwirlIconButtonProps extends Omit<IconButtonProps, 'sx'> {
     tint?: 'default' | 'danger';
@@ -24,11 +24,21 @@ export const SwirlIconButton = ({
     ...props
 }: SwirlIconButtonProps) => {
     const theme = useTheme();
-    // same accent ladder as SwirlButton: 66 border at rest, full accent on hover, 14 wash
     const accent = tint === 'danger' ? theme.palette.error.main : null;
-    const s = accent
-        ? { border: accent + '66', color: accent, hoverBorder: accent, hoverBg: accent + '14' }
-        : NEUTRAL;
+
+    const base = accent
+        ? {
+            ...tintedControl(accent),
+            '&:hover': { borderColor: accent, backgroundColor: accent + TINT.wash },
+        }
+        : {
+            color: NEUTRAL.color,
+            border: '1px solid',
+            borderColor: NEUTRAL.border,
+            borderRadius: 1,
+            transition: 'border-color 0.2s ease, background-color 0.2s ease',
+            '&:hover': { borderColor: NEUTRAL.hoverBorder, backgroundColor: NEUTRAL.hoverBg },
+        };
 
     return (
         <IconButton
@@ -39,18 +49,8 @@ export const SwirlIconButton = ({
                     ...(width  !== undefined && { width  }),
                     ...(height !== undefined && { height }),
                     p: 0.5,
-                    border: '1px solid',
-                    borderColor: s.border,
-                    borderRadius: 1,
-                    color: s.color,
-                    transition: 'border-color 0.2s ease, background-color 0.2s ease',
-                    '&:hover': {
-                        borderColor: s.hoverBorder,
-                        backgroundColor: s.hoverBg,
-                    },
-                    // no blanket opacity — it would multiply against the border alpha and erase the outline.
-                    // must stay well clear of the neutral tint's resting 0.15 border / 0.7 ink or the
-                    // two states read the same
+                    ...base,
+                    // no blanket opacity — it erases the low-alpha border
                     '&.Mui-disabled': {
                         borderColor: HAIRLINE_SOFT,
                         color: 'rgba(255,255,255,0.22)',

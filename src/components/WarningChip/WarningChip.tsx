@@ -1,6 +1,7 @@
 import React from 'react';
 import { Chip, SxProps, Theme } from '@mui/material';
 import { T } from '@util/T';
+import { TINT, tintAlpha } from '@components/Theme/tokens';
 
 interface WarningChipProps {
     message: string;
@@ -65,10 +66,10 @@ const WarningChip: React.FC<WarningChipProps> = ({
         borderRadius: "4px",
         ...(hasCustomColor && {
             color: borderColor,
-            borderColor: `color-mix(in srgb, ${borderColor} 40%, transparent)`,
-            backgroundColor: `color-mix(in srgb, ${borderColor} 8%, transparent)`,
+            borderColor: tintAlpha(borderColor!, TINT.restBorder),
+            backgroundColor: tintAlpha(borderColor!, TINT.wash),
             '&:hover': {
-                backgroundColor: `color-mix(in srgb, ${borderColor} 18%, transparent)`,
+                backgroundColor: tintAlpha(borderColor!, TINT.hoverWash),
             },
         }),
         ...(onClick && { cursor: 'pointer' }),

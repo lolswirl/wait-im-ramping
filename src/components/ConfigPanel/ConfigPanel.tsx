@@ -2,6 +2,7 @@
 import React, { useState, useRef } from "react";
 import { Box, Collapse, Typography, useTheme } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
+import { TINT } from "@components/Theme/tokens";
 
 export interface ConfigSection {
     key: string;
@@ -56,12 +57,12 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({ sections, accent, onReset, sx
                                 borderRadius: 1,
                                 border: "1px solid",
                                 borderColor: isActive ? accentColor : "divider",
-                                backgroundColor: isActive ? accentColor + "14" : "background.paper",
+                                backgroundColor: isActive ? accentColor + TINT.wash : "background.paper",
                                 cursor: "pointer",
                                 userSelect: "none",
                                 whiteSpace: "nowrap",
                                 transition: "border-color 0.15s ease, background-color 0.15s ease",
-                                "&:hover": { borderColor: accentColor + "88" },
+                                "&:hover": { borderColor: accentColor },
                             }}
                         >
                             <Typography sx={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: 0.5, color: "text.disabled" }}>
