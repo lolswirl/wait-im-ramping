@@ -69,8 +69,8 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
-            transition: 'transform 0.3s ease',
-            '&:hover': { opacity: 0.8, transform: 'scale(1.1)' },
+            transition: 'transform 0.15s ease',
+            '&:hover': { transform: 'scale(1.06)' },
           }}
         >
           <SpecDisplay spec={selectedSpec} short={!withLabel} />

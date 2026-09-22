@@ -1,18 +1,21 @@
 import React from "react";
+import { Box } from "@mui/material";
 import { T } from "@util/T";
 import { iconLocalUrl, iconFallbackUrl } from "@util/wowhead";
 import { specialization } from "@data/class";
+import { ICON, RADIUS } from "@components/Theme/tokens";
 import "./SpecializationSelect.css";
 
 const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec, short }) => (
   <div className="spec">
-    <div
-      style={{
-        width: "24px",
-        height: "24px",
+    <Box
+      sx={{
+        width: ICON.sm,
+        height: ICON.sm,
         overflow: "hidden",
-        borderRadius: "4px",
-        border: "1px solid #575757",
+        borderRadius: `${RADIUS.control}px`,
+        border: "1px solid",
+        borderColor: "divider",
         position: "relative",
         marginRight: "5px",
         flexShrink: 0,
@@ -35,7 +38,7 @@ const SpecDisplay: React.FC<{ spec: specialization, short?: boolean }> = ({ spec
           (e.currentTarget as HTMLImageElement).src = iconFallbackUrl(spec.icon);
         }}
       />
-    </div>
+    </Box>
     {!short && (
       <>
         {spec.name}
