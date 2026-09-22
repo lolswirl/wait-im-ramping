@@ -10,7 +10,7 @@ import SpellTable from '@components/SpellTable/SpellTable';
 import SwirlChip from '@components/SwirlChip/SwirlChip';
 import StatsCard from '@components/StatsCard/StatsCard';
 import ConfigPanel from '@components/ConfigPanel/ConfigPanel';
-import { CONTENT_WIDTH } from '@components/Theme/tokens';
+import { CONTENT_WIDTH, FONT, HAIRLINE, RADIUS } from '@components/Theme/tokens';
 
 import { CLASSES, specialization, getSpecializationByKey } from '@data/class';
 import spell from '@data/spells/spell';
@@ -18,6 +18,44 @@ import { getSpellById } from '@data/spells';
 
 import { useSpec } from '@context/SpecContext';
 import { encodeShare, decodeShare } from '@util/rotationShare';
+
+const RampAnswer: React.FC<{ seconds: number; accent: string }> = ({ seconds, accent }) => {
+    const hasAnswer = seconds > 0;
+
+    return (
+        <Box sx={{
+            mt: 1.5,
+            px: 2,
+            py: 1.5,
+            textAlign: 'center',
+            borderRadius: `${RADIUS.card}px`,
+            border: hasAnswer ? `1px solid ${accent}55` : `1px dashed ${HAIRLINE}`,
+            backgroundColor: hasAnswer ? `${accent}0d` : 'transparent',
+            transition: 'border-color 0.2s ease, background-color 0.2s ease',
+        }}>
+            <Typography sx={{ fontSize: FONT.micro, fontWeight: 700, letterSpacing: 1.2, color: 'text.disabled' }}>
+                start ramping
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 0.25, my: 0.25 }}>
+                <Typography sx={{
+                    fontSize: FONT.display,
+                    fontWeight: 700,
+                    lineHeight: 1.1,
+                    fontFamily: 'monospace',
+                    color: hasAnswer ? accent : 'text.disabled',
+                }}>
+                    {hasAnswer ? Math.ceil(seconds) : '—'}
+                </Typography>
+                {hasAnswer && (
+                    <Typography sx={{ fontSize: FONT.subhead, fontWeight: 700, color: accent }}>s</Typography>
+                )}
+            </Box>
+            <Typography sx={{ fontSize: FONT.micro, color: 'text.secondary' }}>
+                {hasAnswer ? 'before a mechanic' : 'click a spell above to see your ramp time'}
+            </Typography>
+        </Box>
+    );
+};
 
 const WhenDoIRamp: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const { spec, setSpec } = useSpec();
@@ -138,6 +176,8 @@ const WhenDoIRamp: React.FC<{ title: React.ReactNode; description: React.ReactNo
                 <Card variant="outlined" sx={{ mt: 1.5, p: 2, boxSizing: "border-box" }}>
                     <SpellButtons selectedSpec={spec} addSpellToTable={addSpellToTable} />
                 </Card>
+
+                <RampAnswer seconds={totalCastTime} accent={spec.color} />
             </Box>
 
             <SpellTable
@@ -149,21 +189,6 @@ const WhenDoIRamp: React.FC<{ title: React.ReactNode; description: React.ReactNo
                 onTotalCastTimeChange={setTotalCastTime}
                 clearTable={clearTable}
             />
-
-            {totalCastTime > 0 && (
-                <Card variant="outlined" sx={{
-                    maxWidth: CONTENT_WIDTH.narrow,
-                    width: { xs: '90%', sm: '90%', md: '100%' },
-                    mx: 'auto',
-                    boxSizing: 'border-box',
-                    px: 2,
-                    py: 1.5,
-                }}>
-                    <Typography variant="h6" sx={{ fontWeight: 600, textAlign: 'center' }}>
-                        Start ramping ~{Math.ceil(totalCastTime)}s before a mechanic
-                    </Typography>
-                </Card>
-            )}
         </div>
     );
 };
