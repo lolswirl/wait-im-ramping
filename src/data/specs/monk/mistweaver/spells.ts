@@ -109,7 +109,7 @@ const spells = {
         icon: 'inv12_ability_monk_sheilunsgift',
         castTime: 2,
         school: SCHOOLS.NATURE,
-        coeff: 4.1696,
+        coeff: 4.79504,
         custom: {
             coeffPerStack: 0.05,
             targetsHit: 3,
