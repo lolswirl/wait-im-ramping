@@ -14,15 +14,17 @@ const talents = {
         name: "Chi Proficiency",
         id: 450426,
         icon: 'ability_monk_chiswirl',
+        maxRank: 2,
         custom: {
-            magicDamageIncrease: 0.04,
-            healingDoneIncrease: 0.04,
+            magicDamageIncrease: 0.02,
+            healingDoneIncrease: 0.02,
         },
     },
     FEROCITY_OF_XUEN: {
         name: "Ferocity of Xuen",
         id: 388674,
         icon: 'ability_mount_pinktiger',
+        maxRank: 2,
         custom: {
             damageIncrease: 0.02,
         }
@@ -31,6 +33,7 @@ const talents = {
         name: "Martial Instincts",
         id: 450427,
         icon: 'ability_monk_palmstrike',
+        maxRank: 2,
         custom: {
             damageIncrease: 0.02,
         }

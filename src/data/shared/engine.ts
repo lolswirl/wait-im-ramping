@@ -3,7 +3,8 @@ import type CorePassive from "@data/core-passives/core-passive";
 import { getSpellAura, getSpellAuraSources } from "@data/core-passives/core-passive";
 import type { Stats } from "@data/shared/stats";
 
-export type TalentMap = Map<spell, boolean>;
+// a number is points spent; true counts as fully ranked
+export type TalentMap = Map<spell, boolean | number>;
 
 export interface Player {
     stats: Stats;
@@ -11,14 +12,19 @@ export interface Player {
     corePassives: CorePassive[];
 }
 
+export const getTalentRank = (talents: TalentMap | undefined, talent: spell): number => {
+    const value = talents?.get(talent);
+    if (value === true) return talent.maxRank ?? 1;
+    return value || 0;
+};
+
 export const isTalentEnabled = (talents: TalentMap | undefined, talent: spell): boolean => {
-    if (!talents) return false;
-    return talents.get(talent) === true;
+    return getTalentRank(talents, talent) > 0;
 };
 
 export interface TalentRule {
     talent: spell;
-    getValue: (stats?: Stats) => number;
+    getValue: (stats: Stats, rank: number) => number;
     appliesTo: (spell: spell) => boolean;
 }
 
@@ -58,7 +64,7 @@ export const getSpellModifiers = (spell: spell, player: Player, type: 'damage' |
     for (const rule of rules) {
         if (!isTalentEnabled(player.talents, rule.talent)) continue;
         if (!rule.appliesTo(spell)) continue;
-        modifiers.push({ label: rule.talent.name, multiplier: 1 + rule.getValue(player.stats) });
+        modifiers.push({ label: rule.talent.name, multiplier: 1 + rule.getValue(player.stats, getTalentRank(player.talents, rule.talent)) });
     }
 
     return modifiers.filter(m => m.multiplier !== 1);
@@ -70,7 +76,7 @@ export const calculateSpellDamageMultiplier = (spell: spell, player: Player, rul
     for (const rule of rules) {
         if (!isTalentEnabled(player.talents, rule.talent)) continue;
         if (rule.appliesTo(spell)) {
-            multiplier *= (1 + rule.getValue(player.stats));
+            multiplier *= (1 + rule.getValue(player.stats, getTalentRank(player.talents, rule.talent)));
         }
     }
 
@@ -83,7 +89,7 @@ export const calculateSpellHealingMultiplier = (spell: spell, player: Player, ru
     for (const rule of rules) {
         if (!isTalentEnabled(player.talents, rule.talent)) continue;
         if (rule.appliesTo(spell)) {
-            multiplier *= (1 + rule.getValue(player.stats));
+            multiplier *= (1 + rule.getValue(player.stats, getTalentRank(player.talents, rule.talent)));
         }
     }
 

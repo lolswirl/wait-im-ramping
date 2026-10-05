@@ -157,7 +157,7 @@ export const calculateRotationHPS = async (
     let spellsCastInChiJi: spell[] = [];
     let totmStacks = 0;
 
-    const mergedTalents = new Map<spell, boolean>([...options.specTalents, ...options.classTalents]);
+    const mergedTalents: Player["talents"] = new Map([...options.specTalents, ...options.classTalents]);
     const mwSpec = CLASSES.MONK.SPECS.MISTWEAVER;
     const player: Player = {
         stats: {

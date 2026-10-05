@@ -25,6 +25,7 @@ import { T } from "@util/T";
 import { formatNumber } from "@util/stringManipulation";
 import SwirlChip from "@components/SwirlChip/SwirlChip";
 
+import { type TalentMap } from "@data/shared/engine";
 import { type ModelResult } from "./model";
 import { buildRotationConfigs, getBackgroundColor, getBorderColor, getCardBg } from "./types";
 import BreakdownCard from "./BreakdownCard";
@@ -72,7 +73,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
     [TALENTS.HARMONIC_SURGE, false],
   ]));
 
-  const [classTalents, setClassTalents] = useState<Map<spell, boolean>>(new Map<spell, boolean>([
+  const [classTalents, setClassTalents] = useState<TalentMap>(new Map<spell, boolean>([
     [SHARED.FAST_FEET, true],
     [SHARED.FEROCITY_OF_XUEN, true],
     [SHARED.CHI_PROFICIENCY, true],
@@ -83,7 +84,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
 
   const [stats, setStats] = useState<StatsCardOptions>({ ...mistweaver.stats });
 
-  const talents = useMemo(() => new Map<spell, boolean>([...specTalents, ...classTalents, ...heroTalents, ...tierSet]), [specTalents, classTalents, heroTalents, tierSet]);
+  const talents = useMemo((): TalentMap => new Map([...specTalents, ...classTalents, ...heroTalents, ...tierSet]), [specTalents, classTalents, heroTalents, tierSet]);
 
   const spellById = useMemo<Map<number, spell>>(() => {
     const all: spell[] = [
@@ -248,7 +249,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
                 <Group>
                   <TalentsCard label="Spec" options={specTalents} color={mistweaver.color} onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))} />
                   <HeroTalentsCard label="Hero" options={heroTalents} onChange={(t, c) => setHeroTalents(prev => new Map(prev).set(t, c))} />
-                  <TalentsCard label="Class" options={classTalents} color={CLASSES.MONK.color} onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))} />
+                  <TalentsCard label="Class" options={classTalents} color={CLASSES.MONK.color} onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))} onRankChange={(t, r) => setClassTalents(prev => new Map(prev).set(t, r))} />
                   {tierSet.size > 0 && (
                     <>
                       <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)" }} />

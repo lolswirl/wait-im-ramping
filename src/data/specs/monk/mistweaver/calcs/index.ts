@@ -23,7 +23,7 @@ export { isTalentEnabled, calcSpellValue, calculateSpellDamageMultiplier, calcul
 const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
     {
         talent: SHARED.FEROCITY_OF_XUEN,
-        getValue: () => 2 * SHARED.FEROCITY_OF_XUEN.custom.damageIncrease,
+        getValue: (_stats, rank) => rank * SHARED.FEROCITY_OF_XUEN.custom.damageIncrease,
         appliesTo: (spell) => spell.category === CATEGORY.DAMAGE
     },
     {
@@ -40,12 +40,12 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
     },
     {
         talent: SHARED.CHI_PROFICIENCY,
-        getValue: () => SHARED.CHI_PROFICIENCY.custom.magicDamageIncrease,
+        getValue: (_stats, rank) => rank * SHARED.CHI_PROFICIENCY.custom.magicDamageIncrease,
         appliesTo: (spell) => spell.school === SCHOOLS.NATURE
     },
     {
         talent: SHARED.MARTIAL_INSTINCTS,
-        getValue: () => 2 * SHARED.MARTIAL_INSTINCTS.custom.damageIncrease,
+        getValue: (_stats, rank) => rank * SHARED.MARTIAL_INSTINCTS.custom.damageIncrease,
         appliesTo: (spell) => spell.school === SCHOOLS.PHYSICAL
     },
     {
@@ -64,7 +64,7 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
     },
     {
         talent: TALENTS.SPIRITFONT,
-        getValue: () => TALENTS.SPIRITFONT.custom.rskIncrease,
+        getValue: (_stats, rank) => TALENTS.SPIRITFONT.custom.rskIncreaseByRank[rank],
         appliesTo: (spell) =>
             spell.id === SPELLS.RISING_SUN_KICK.id ||
             spell.id === TALENTS.RUSHING_WIND_KICK.id
@@ -78,8 +78,13 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
 
 const HEALING_MULTIPLIER_RULES: TalentRule[] = [
     {
+        talent: TALENTS.SPIRITFONT,
+        getValue: (_stats, rank) => TALENTS.SPIRITFONT.custom.envmIncreaseByRank[rank],
+        appliesTo: (spell) => spell.id === SPELLS.ENVELOPING_MIST.id
+    },
+    {
         talent: SHARED.CHI_PROFICIENCY,
-        getValue: () => SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease,
+        getValue: (_stats, rank) => rank * SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease,
         appliesTo: (spell) => spell.category === CATEGORY.HEALING || spell.category === CATEGORY.COOLDOWN || spell.id === TALENTS.RUSHING_WIND_KICK.id || spell.id === TALENTS.HARMONIC_SURGE.id
     },
     { // this isn't entirely correct, since amp rush is just from rems

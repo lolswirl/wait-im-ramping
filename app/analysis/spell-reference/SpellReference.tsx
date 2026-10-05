@@ -18,7 +18,7 @@ import SpecializationSelect from "@components/SpecializationSelect/Specializatio
 import spell, { CATEGORY, CATEGORY_COLORS } from "@data/spells/spell";
 import { formatNumber, formatPercent, pluralize } from "@util/stringManipulation";
 import { CLASSES, specialization } from "@data/class";
-import { Player, SpellModifier } from "@data/shared/engine";
+import { Player, SpellModifier, TalentMap } from "@data/shared/engine";
 import { getSpecEngine } from "@data/shared/specEngines";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
@@ -134,13 +134,13 @@ const isDev = process.env.NODE_ENV === 'development';
 const SpellReference: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const [spec, setSpec] = useState<specialization>(CLASSES.MONK.SPECS.MISTWEAVER);
   const [stats, setStats] = useState<StatsCardOptions>({ ...spec.stats });
-  const [specTalents, setSpecTalents] = useState(spec.defaultTalents?.spec ?? new Map<spell, boolean>());
+  const [specTalents, setSpecTalents] = useState<TalentMap>(spec.defaultTalents?.spec ?? new Map());
   const [heroTalents, setHeroTalents] = useState(spec.defaultTalents?.hero ?? new Map<spell, boolean>());
-  const [classTalents, setClassTalents] = useState(spec.defaultTalents?.class ?? new Map<spell, boolean>());
+  const [classTalents, setClassTalents] = useState<TalentMap>(spec.defaultTalents?.class ?? new Map());
   const [tierSet, setTierSet] = useState(spec.tierSet ?? new Map<spell, boolean>());
 
   const talents = useMemo(
-    () => new Map<spell, boolean>([...specTalents, ...heroTalents, ...classTalents, ...tierSet]),
+    (): TalentMap => new Map([...specTalents, ...heroTalents, ...classTalents, ...tierSet]),
     [specTalents, heroTalents, classTalents, tierSet]
   );
 
@@ -197,6 +197,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                     options={specTalents}
                     color={spec.color}
                     onChange={(t, c) => setSpecTalents(prev => new Map(prev).set(t, c))}
+                    onRankChange={(t, r) => setSpecTalents(prev => new Map(prev).set(t, r))}
                   />
                 )}
                 {heroTalents.size > 0 && (
@@ -211,6 +212,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
                     options={classTalents}
                     color={spec.color}
                     onChange={(t, c) => setClassTalents(prev => new Map(prev).set(t, c))}
+                    onRankChange={(t, r) => setClassTalents(prev => new Map(prev).set(t, r))}
                   />
                 )}
                 {tierSet.size > 0 && (

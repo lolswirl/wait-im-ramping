@@ -299,9 +299,10 @@ const talents = {
         name: "Spiritfont",
         id: 1260511,
         icon: 'inv12_apextalent_monk_spiritfont',
+        maxRank: 4,
         custom: {
-            rskIncrease: 0.2,
-            envmIncrease: 0.2,
+            rskIncreaseByRank: [0, 0, 0.1, 0.2, 0.2],
+            envmIncreaseByRank: [0, 0, 0.1, 0.2, 0.2],
         }
     },
     SPIRITFONT_SOOTHING_MIST: {

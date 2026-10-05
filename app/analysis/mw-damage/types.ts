@@ -27,7 +27,7 @@ export const cartesian = <T,>(arrays: T[][]): T[][] => {
   return first.flatMap(v => restCombos.map(combo => [v, ...combo]));
 };
 
-export const buildRotationConfigs = (useRwk: boolean, talents: Map<spell, boolean>): RotationConfig[] =>
+export const buildRotationConfigs = (useRwk: boolean, talents: Player["talents"]): RotationConfig[] =>
   [
     {
       dataKey: 'melee',

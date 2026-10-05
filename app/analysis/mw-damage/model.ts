@@ -10,6 +10,7 @@ import {
   calculateSpellDamage,
   calculateSpellHealing,
   Player,
+  TalentMap,
 } from "@data/specs/monk/mistweaver/calcs";
 
 type DamagePoint = { time: number; damage: number };
@@ -116,7 +117,7 @@ const rskTierProcsReset = (player: Player): boolean => {
   return Math.random() < TIER.T36_MISTWEAVER_4SET.custom.resetChance;
 };
 
-const chosenRsk = (talents: Map<spell, boolean>): spell & { cooldown: number } => {
+const chosenRsk = (talents: TalentMap): spell & { cooldown: number } => {
   return (
     talents.get(TALENTS.RUSHING_WIND_KICK) === true
       ? TALENTS.RUSHING_WIND_KICK

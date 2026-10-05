@@ -18,6 +18,7 @@ import {
   calculateSpellDamage,
   calculateSpellHealing,
   Player,
+  TalentMap,
 } from "@data/specs/monk/mistweaver/calcs";
 
 import { T } from "@util/T";
@@ -44,7 +45,7 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
   const defaultTalents = mistweaver.defaultTalents!;
   const defaultTierSet = mistweaver.tierSet!;
 
-  const allTalents = new Map<spell, boolean>([
+  const allTalents: TalentMap = new Map([
     ...defaultTalents.spec,
     ...defaultTalents.hero,
     ...defaultTalents.class,
@@ -175,24 +176,24 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
     setCalcMode(value);
   };
 
-  const handleTalentChange = (talent: spell, checked: boolean) => {
+  const handleTalentChange = (talent: spell, checked: boolean | number) => {
     setTalents(prev => new Map(prev).set(talent, checked));
   };
 
-  const specTalentSubset = new Map<spell, boolean>(
+  const specTalentSubset: TalentMap = new Map(
     [TALENTS.SPIRITFONT, TALENTS.MORNING_BREEZE,].map(t => [t, talents.get(t) ?? false])
   );
 
   const heroTalentSubset = new Map<spell, boolean>(
-    [TALENTS.YULONS_KNOWLEDGE, TALENTS.MEDITATIVE_FOCUS].map(t => [t, talents.get(t) ?? false])
+    [TALENTS.YULONS_KNOWLEDGE, TALENTS.MEDITATIVE_FOCUS].map(t => [t, !!talents.get(t)])
   );
 
-  const classTalentSubset = new Map<spell, boolean>(
+  const classTalentSubset: TalentMap = new Map(
     Array.from(defaultTalents.class, ([t]) => [t, talents.get(t) ?? false])
   );
 
   const tierSetSubset = new Map<spell, boolean>(
-    [TIER.T36_MISTWEAVER_2SET].map(t => [t, talents.get(t) ?? false])
+    [TIER.T36_MISTWEAVER_2SET].map(t => [t, !!talents.get(t)])
   );
 
   return (
@@ -253,6 +254,7 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
                   options={specTalentSubset}
                   color={mistweaver.color}
                   onChange={handleTalentChange}
+                  onRankChange={handleTalentChange}
                 />
                 <HeroTalentsCard
                   options={heroTalentSubset}
@@ -263,6 +265,7 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
                   options={classTalentSubset}
                   color={CLASSES.MONK.color}
                   onChange={handleTalentChange}
+                  onRankChange={handleTalentChange}
                 />
                 {tierSetSubset.size > 0 && (
                   <div style={{ gridColumn: "1 / -1", height: 1, background: "rgba(255,255,255,0.12)" }} />

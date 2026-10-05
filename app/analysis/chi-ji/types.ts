@@ -1,4 +1,5 @@
 import spell from "@data/spells/spell";
+import { TalentMap } from "@data/shared/engine";
 
 export interface AllyState {
     id: number;
@@ -43,7 +44,7 @@ export function isTalentEnabled(
 ): boolean {
   return (
     options.specTalents.get(talent) === true ||
-    options.classTalents.get(talent) === true
+    !!options.classTalents.get(talent)
   );
 }
 
@@ -57,5 +58,5 @@ export interface SimulationOptions {
     enemyCount: number;
     allyCount: number;
     specTalents: Map<spell, boolean>;
-    classTalents: Map<spell, boolean>;
+    classTalents: TalentMap;
 }

@@ -20,6 +20,7 @@ export const CATEGORY_COLORS: Partial<Record<SpellCategory, string>> = {
 export default interface spell {
     category?: SpellCategory;
     exclusive?: number[];
+    maxRank?: number;
     heroTalent?: HeroTree;
     name: string;
     id: number;

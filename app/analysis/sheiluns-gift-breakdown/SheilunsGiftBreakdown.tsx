@@ -15,6 +15,7 @@ import TALENTS from "@data/specs/monk/mistweaver/talents";
 import SHARED from "@data/specs/monk/talents";
 import { CLASSES } from "@data/class";
 import { calculateSheilunsGiftBreakdown } from "@data/specs/monk/mistweaver/calcs/SheilunsGift";
+import { TalentMap } from "@data/shared/engine";
 
 import { T } from "@util/T";
 import { pluralize } from "@util/stringManipulation";
@@ -24,8 +25,8 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const SheilunsGiftBreakdown: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const theme = useTheme();
   
-  const [selectedTalents, setSelectedTalents] = useState(
-    new Map<spell, boolean>([
+  const [selectedTalents, setSelectedTalents] = useState<TalentMap>(
+    new Map<spell, boolean | number>([
       [TALENTS.INVIGORATING_MISTS, true],
       [TALENTS.WAY_OF_THE_SERPENT, false],
       [TALENTS.TEAR_OF_MORNING, false],
@@ -34,7 +35,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: React.ReactNode; description: Rea
     ])
   );
 
-  const handleTalentChange = (talent: spell, checked: boolean) => {
+  const handleTalentChange = (talent: spell, checked: boolean | number) => {
   setSelectedTalents(prev => {
       const newMap = new Map(prev);
       newMap.set(talent, checked);
@@ -245,6 +246,7 @@ const SheilunsGiftBreakdown: React.FC<{ title: React.ReactNode; description: Rea
                   options={selectedTalents}
                   color={mistweaver.color}
                   onChange={handleTalentChange}
+                  onRankChange={handleTalentChange}
                 />
               </Group>
             ),

@@ -184,6 +184,12 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
                                                 classTalents: new Map(prev.classTalents).set(talent, checked)
                                             }));
                                         }}
+                                        onRankChange={(talent, rank) => {
+                                            setOptions(prev => ({
+                                                ...prev,
+                                                classTalents: new Map(prev.classTalents).set(talent, rank)
+                                            }));
+                                        }}
                                     />
                                 </Group>
                             ),
