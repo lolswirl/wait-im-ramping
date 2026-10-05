@@ -12,7 +12,7 @@ const MISTWEAVER_DEFAULT_TALENTS: SpecTalentConfig = {
     spec: new Map<spell, boolean>([
         [TALENTS.JADEFIRE_TEACHINGS, true],
         [TALENTS.RUSHING_WIND_KICK, false],
-        [TALENTS.SPIRITFONT, false],
+        [TALENTS.SPIRITFONT, true],
         [TALENTS.MORNING_BREEZE, true],
         [TALENTS.JADE_EMPOWERMENT, false],
         [TALENTS.TEAR_OF_MORNING, false],
