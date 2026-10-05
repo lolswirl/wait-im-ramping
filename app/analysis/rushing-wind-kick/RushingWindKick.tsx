@@ -22,7 +22,7 @@ import {
 } from "@data/specs/monk/mistweaver/calcs";
 
 import { T } from "@util/T";
-import { Group } from "@components/StatsCard/StatsCard";
+import StatsCard, { Group, statsSummary, type StatsCardOptions } from "@components/StatsCard/StatsCard";
 import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
 import { CONTENT_WIDTH, FONT } from "@components/Theme/tokens";
 
@@ -31,15 +31,15 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 type CalcMode = "totalHealing" | "healingPerTarget" | "damage" | "spellpower";
 
 const modeOptions: { value: CalcMode; label: string}[] = [
+  { value: "spellpower", label: "Spellpower %" },
   { value: "totalHealing", label: "Total Healing" },
   { value: "healingPerTarget", label: "Healing Per Target" },
   { value: "damage", label: "Raw Damage" },
-  { value: "spellpower", label: "Spellpower %" },
 ];
 
 const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
   const theme = useTheme();
-  const [calcMode, setCalcMode] = useState<CalcMode>("totalHealing");
+  const [calcMode, setCalcMode] = useState<CalcMode>("spellpower");
 
   const mistweaver = CLASSES.MONK.SPECS.MISTWEAVER;
   const defaultTalents = mistweaver.defaultTalents!;
@@ -53,7 +53,7 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
   ]);
 
   const [talents, setTalents] = useState(allTalents);
-  const stats = mistweaver.stats;
+  const [stats, setStats] = useState<StatsCardOptions>(mistweaver.stats);
   const player: Player = { stats, talents, corePassives: mistweaver.corePassives };
 
   const rsk = SPELLS.RISING_SUN_KICK;
@@ -207,6 +207,12 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
         sx={{ maxWidth: CONTENT_WIDTH.wide }}
         accent={mistweaver.color}
         sections={[
+          {
+            key: "stats",
+            title: "stats",
+            summary: statsSummary(stats, ["intellect", "mastery"]),
+            content: <StatsCard options={stats} onOptionsChange={setStats} fields={["intellect", "mastery"]} spec={mistweaver} />,
+          },
           {
             key: "mode",
             title: "mode",
