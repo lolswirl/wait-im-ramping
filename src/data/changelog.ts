@@ -10,6 +10,7 @@ export function change(d: Date, text: string): ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+    change(date(2026, 10, 6), "Mistweaver tuning - 15% Invigorating Mists, 15% Enveloping Mist"),
     change(date(2026, 9, 22), "Mistweaver tuning - 5% healing increase, Vivify and Sheilun's Gift buffed by 15%"),
     change(date(2026, 9, 1), "Mistweaver tuning - 5% healing increase, 25% 4pc rate"),
     change(date(2026, 8, 12), "Site is fully up-to-date with 12.1 release"),
