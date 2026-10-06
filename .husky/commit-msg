@@ -1,0 +1,12 @@
+msg=$(head -n 1 "$1")
+
+case "$msg" in
+  "Merge "*|"Revert "*|"fixup! "*|"squash! "*) exit 0 ;;
+esac
+
+if ! printf '%s\n' "$msg" | grep -Eq '^(feat|fix|chore|docs|refactor|style|perf|test|build|ci|revert)(\([^)]+\))?!?: .+'; then
+  echo "commit message must look like: type(scope): summary" >&2
+  echo "  e.g. fix(data): sync monk spell data" >&2
+  echo "  types: feat fix chore docs refactor style perf test build ci revert" >&2
+  exit 1
+fi
