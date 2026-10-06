@@ -37,7 +37,7 @@ const talents = {
     },
     JADE_EMPOWERMENT: {
         name: "Jade Empowerment",
-        id: 467317,
+        id: 467316,
         icon: 'ability_thunderking_thunderstruck',
         custom: {
             spellpowerIncrease: 300,
@@ -234,7 +234,7 @@ const talents = {
         icon: 'ability_creature_cursed_04',
     },
     PEER_INTO_PEACE: {
-        name: "Peer into Peace",
+        name: "Peer Into Peace",
         id: 440008,
         icon: 'inv_staff_2h_monk_c_01',
     },
@@ -360,7 +360,7 @@ const talents = {
         custom: {
             masteryMultiplier: 0.08,
         },
-        exclusive: [467317],
+        exclusive: [467316],
     },
     EMPERORS_ELIXIR: {
         name: "Emperor's Elixir",
@@ -422,7 +422,7 @@ const talents = {
         exclusive: [388779]
     },
     YULONS_WHISPER: {
-        name: "Yulon's Whisper",
+        name: "Yu'lon's Whisper",
         id: 388038,
         icon: 'ability_monk_chiexplosion',
     },
@@ -707,7 +707,7 @@ const talents = {
         heroTalent: COTC,
     },
     YULONS_AVATAR: {
-        name: "Yulon's Avatar",
+        name: "Yu'lon's Avatar",
         id: 1262667,
         icon: 'inv_celestialserpentmount_jade',
         heroTalent: COTC,
@@ -734,7 +734,7 @@ const talents = {
         heroTalent: COTC,
     },
     YULONS_KNOWLEDGE: {
-        name: "Yulon's Knowledge",
+        name: "Yu'lon's Knowledge",
         id: 443625,
         icon: 'inv_jewelcrafting_jadeserpent',
         heroTalent: COTC,

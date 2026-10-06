@@ -194,7 +194,7 @@ const generateYulonsAvatarProc = (
                 multiplier: 1.75,
                 source: { 
                     ...TALENTS.YULONS_AVATAR, 
-                    name: "Yulon's Avatar Proc" 
+                    name: "Yu'lon's Avatar Proc" 
                 } as spell,
                 castTime: 0
             });
