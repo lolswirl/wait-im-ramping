@@ -86,7 +86,7 @@ const spells = {
         icon: 'spell_monk_envelopingmist',
         castTime: 2,
         school: SCHOOLS.NATURE,
-        coeff: 7.488, // total
+        coeff: 8.6112, // total
         custom: {
             duration: 6,
             amp: 1.1,
