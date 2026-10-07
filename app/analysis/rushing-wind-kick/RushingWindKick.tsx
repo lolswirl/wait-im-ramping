@@ -66,9 +66,9 @@ const RushingWindKickComparison: React.FC<{ title: React.ReactNode; description:
 
   const rwkBaseDamage = calculateSpellDamage(rwk, player);
   const rwkDirectHealing = calculateSpellHealing(rwk, player);
-  const rwkMaxDamageTargets = rwk.custom.maxDamageTargets;
-  const rwkMaxHealingTargets = rwk.custom.targetsHit.healing;
-  const rwkDamageIncreasePerTarget = rwk.custom.damageIncrease;
+  const rwkMaxDamageTargets = rwk.effects.maxDamageTargets;
+  const rwkMaxHealingTargets = rwk.targets.healing;
+  const rwkDamageIncreasePerTarget = rwk.effects.damageIncrease;
   const rwkDamageHealing = calculateAncientTeachingsHealing(rwkBaseDamage * (1 + rwkDamageIncreasePerTarget), player, false, rwk);
 
   let rskValues: number[] = [];

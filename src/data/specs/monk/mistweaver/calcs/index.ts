@@ -23,55 +23,55 @@ export { isTalentEnabled, calcSpellValue, calculateSpellDamageMultiplier, calcul
 const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
     {
         talent: SHARED.FEROCITY_OF_XUEN,
-        getValue: (_stats, rank) => rank * SHARED.FEROCITY_OF_XUEN.custom.damageIncrease,
+        getValue: (_stats, rank) => rank * SHARED.FEROCITY_OF_XUEN.effects.damageIncrease,
         appliesTo: (spell) => spell.category === CATEGORY.DAMAGE
     },
     {
         talent: SHARED.FAST_FEET,
-        getValue: () => SHARED.FAST_FEET.custom.risingSunKickIncrease,
+        getValue: () => SHARED.FAST_FEET.effects.risingSunKickIncrease,
         appliesTo: (spell) =>
             spell.id === SPELLS.RISING_SUN_KICK.id ||
             spell.id === TALENTS.RUSHING_WIND_KICK.id
     },
     {
         talent: SHARED.FAST_FEET,
-        getValue: () => SHARED.FAST_FEET.custom.spinningCraneKickIncrease,
+        getValue: () => SHARED.FAST_FEET.effects.spinningCraneKickIncrease,
         appliesTo: (spell) => spell.id === SPELLS.SPINNING_CRANE_KICK.id
     },
     {
         talent: SHARED.CHI_PROFICIENCY,
-        getValue: (_stats, rank) => rank * SHARED.CHI_PROFICIENCY.custom.magicDamageIncrease,
+        getValue: (_stats, rank) => rank * SHARED.CHI_PROFICIENCY.effects.magicDamageIncrease,
         appliesTo: (spell) => spell.school === SCHOOLS.NATURE
     },
     {
         talent: SHARED.MARTIAL_INSTINCTS,
-        getValue: (_stats, rank) => rank * SHARED.MARTIAL_INSTINCTS.custom.damageIncrease,
+        getValue: (_stats, rank) => rank * SHARED.MARTIAL_INSTINCTS.effects.damageIncrease,
         appliesTo: (spell) => spell.school === SCHOOLS.PHYSICAL
     },
     {
         talent: TALENTS.YULONS_KNOWLEDGE,
-        getValue: () => TALENTS.YULONS_KNOWLEDGE.custom.rskDamageIncrease,
+        getValue: () => TALENTS.YULONS_KNOWLEDGE.effects.rskDamageIncrease,
         appliesTo: (spell) =>
             spell.id === SPELLS.RISING_SUN_KICK.id ||
             spell.id === TALENTS.RUSHING_WIND_KICK.id
     },
     {
         talent: TALENTS.MORNING_BREEZE,
-        getValue: (stats) => ((stats?.mastery ?? 0) / 100 * TALENTS.MORNING_BREEZE.custom.masteryMultiplier),
+        getValue: (stats) => ((stats?.mastery ?? 0) / 100 * TALENTS.MORNING_BREEZE.effects.masteryMultiplier),
         appliesTo: (spell) =>
             spell.id === SPELLS.RISING_SUN_KICK.id ||
             spell.id === TALENTS.RUSHING_WIND_KICK.id
     },
     {
         talent: TALENTS.SPIRITFONT,
-        getValue: (_stats, rank) => TALENTS.SPIRITFONT.custom.rskIncreaseByRank[rank],
+        getValue: (_stats, rank) => TALENTS.SPIRITFONT.effects.rskIncreaseByRank[rank],
         appliesTo: (spell) =>
             spell.id === SPELLS.RISING_SUN_KICK.id ||
             spell.id === TALENTS.RUSHING_WIND_KICK.id
     },
     {
         talent: TIER.T36_MISTWEAVER_2SET,
-        getValue: () => TIER.T36_MISTWEAVER_2SET.custom.rskDamageIncrease,
+        getValue: () => TIER.T36_MISTWEAVER_2SET.effects.rskDamageIncrease,
         appliesTo: (spell) => spell.id === SPELLS.RISING_SUN_KICK.id
     },
 ];
@@ -79,54 +79,54 @@ const DAMAGE_MULTIPLIER_RULES: TalentRule[] = [
 const HEALING_MULTIPLIER_RULES: TalentRule[] = [
     {
         talent: TALENTS.SPIRITFONT,
-        getValue: (_stats, rank) => TALENTS.SPIRITFONT.custom.envmIncreaseByRank[rank],
+        getValue: (_stats, rank) => TALENTS.SPIRITFONT.effects.envmIncreaseByRank[rank],
         appliesTo: (spell) => spell.id === SPELLS.ENVELOPING_MIST.id
     },
     {
         talent: SHARED.CHI_PROFICIENCY,
-        getValue: (_stats, rank) => rank * SHARED.CHI_PROFICIENCY.custom.healingDoneIncrease,
+        getValue: (_stats, rank) => rank * SHARED.CHI_PROFICIENCY.effects.healingDoneIncrease,
         appliesTo: (spell) => spell.category === CATEGORY.HEALING || spell.category === CATEGORY.COOLDOWN || spell.id === TALENTS.RUSHING_WIND_KICK.id || spell.id === TALENTS.HARMONIC_SURGE.id
     },
     { // this isn't entirely correct, since amp rush is just from rems
         talent: TALENTS.AMPLIFIED_RUSH,
-        getValue: () => TALENTS.AMPLIFIED_RUSH.custom.gustOfMistsIncrease,
+        getValue: () => TALENTS.AMPLIFIED_RUSH.effects.gustOfMistsIncrease,
         appliesTo: (spell) => spell.id === TALENTS.GUST_OF_MISTS.id
     },
     {
         talent: TALENTS.TEAR_OF_MORNING,
-        getValue: () => TALENTS.TEAR_OF_MORNING.custom.sheilunsGiftIncrease,
+        getValue: () => TALENTS.TEAR_OF_MORNING.effects.sheilunsGiftIncrease,
         appliesTo: (spell) => spell.id === SPELLS.SHEILUNS_GIFT.id
     },
     {
         talent: TALENTS.TEAR_OF_MORNING,
-        getValue: () => TALENTS.TEAR_OF_MORNING.custom.invigoratingMistsIncrease,
+        getValue: () => TALENTS.TEAR_OF_MORNING.effects.invigoratingMistsIncrease,
         appliesTo: (spell) => spell.id === TALENTS.INVIGORATING_MISTS.id
     },
     {
         talent: TALENTS.WAY_OF_THE_SERPENT,
-        getValue: () => TALENTS.WAY_OF_THE_SERPENT.custom.sheilunsGiftIncrease,
+        getValue: () => TALENTS.WAY_OF_THE_SERPENT.effects.sheilunsGiftIncrease,
         appliesTo: (spell) => spell.id === SPELLS.SHEILUNS_GIFT.id
     },
     {
         talent: TALENTS.WAY_OF_THE_SERPENT,
-        getValue: () => TALENTS.WAY_OF_THE_SERPENT.custom.renewingMistIncrease,
+        getValue: () => TALENTS.WAY_OF_THE_SERPENT.effects.renewingMistIncrease,
         appliesTo: (spell) => spell.id === SPELLS.RENEWING_MIST.id
     },
     {
         talent: TALENTS.UPLIFTED_SPIRITS,
-        getValue: () => TALENTS.UPLIFTED_SPIRITS.custom.revivalIncrease,
+        getValue: () => TALENTS.UPLIFTED_SPIRITS.effects.revivalIncrease,
         appliesTo: (spell) => spell.id === SPELLS.REVIVAL.id || spell.id == TALENTS.RESTORAL.id,
     },
     {
         talent: TALENTS.VITAL_EXPENDITURE,
-        getValue: () => TALENTS.VITAL_EXPENDITURE.custom.soomIncrease,
+        getValue: () => TALENTS.VITAL_EXPENDITURE.effects.soomIncrease,
         appliesTo: (spell) => 
             spell.id === SPELLS.SOOTHING_MIST.id || 
             spell.id === TALENTS.SPIRITFONT_SOOTHING_MIST.id
     },
     {
         talent: TIER.T36_MISTWEAVER_2SET,
-        getValue: () => TIER.T36_MISTWEAVER_2SET.custom.rwkHealingIncrease,
+        getValue: () => TIER.T36_MISTWEAVER_2SET.effects.rwkHealingIncrease,
         appliesTo: (spell) => spell.id === TALENTS.RUSHING_WIND_KICK.id
     },
 ];
@@ -145,19 +145,19 @@ export const calculateGustOfMists = (player: Player): number => {
 };
 
 export const getAncientTeachingsBaseTransfer = (): number => {
-    return TALENTS.ANCIENT_TEACHINGS.custom.transferRate;
+    return TALENTS.ANCIENT_TEACHINGS.effects.transferRate;
 };
 
 export const getAncientTeachingsArmorModifier = (): number => {
-    return TALENTS.ANCIENT_TEACHINGS.custom.armorModifier;
+    return TALENTS.ANCIENT_TEACHINGS.effects.armorModifier;
 };
 
 export const getJadefireTeachingsTransfer = (): number => {
-    return TALENTS.JADEFIRE_TEACHINGS.custom.transferRate;
+    return TALENTS.JADEFIRE_TEACHINGS.effects.transferRate;
 };
 
 export const getMeditativeFocusTransfer = (): number => {
-    return TALENTS.MEDITATIVE_FOCUS.custom.transferRate;
+    return TALENTS.MEDITATIVE_FOCUS.effects.transferRate;
 };
 
 export const getCombinedTeachingsTransfer = (player: Player, includeJadefire: boolean = true): number => {
@@ -175,15 +175,15 @@ export const getCombinedTeachingsTransfer = (player: Player, includeJadefire: bo
 };
 
 export const getWayOfTheCraneTransferPerTarget = (): number => {
-    return TALENTS.WAY_OF_THE_CRANE.custom.transferRate;
+    return TALENTS.WAY_OF_THE_CRANE.effects.transferRate;
 };
 
 export const getWayOfTheCraneTargets = (): number => {
-    return TALENTS.WAY_OF_THE_CRANE.custom.targetsPerSCK;
+    return TALENTS.WAY_OF_THE_CRANE.effects.targetsPerSCK;
 };
 
 export const getWayOfTheCraneArmorModifier = (): number => {
-    return TALENTS.WAY_OF_THE_CRANE.custom.armorModifier;
+    return TALENTS.WAY_OF_THE_CRANE.effects.armorModifier;
 };
 
 export const getWayOfTheCraneTransfer = (): number => {

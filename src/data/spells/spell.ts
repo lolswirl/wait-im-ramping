@@ -29,6 +29,10 @@ export default interface spell {
     icon: string;
     castTime?: number;
     cooldown?: number;
+    duration?: number;
+    replaceGCD?: number;
+    maxStacks?: number;
+    targets?: number | { damage?: number; healing?: number };
     hasted?: boolean;
     gcd?: boolean;
     empowerLevel?: number;
@@ -44,7 +48,7 @@ export default interface spell {
         spellpower?: number;
     };
 
-    custom?: {
+    effects?: {
         [key: string]: any;
     };
 
@@ -108,8 +112,8 @@ export const calculateEffectiveCastTime = (
     }
 
     const baseGCD = calculateGCD(haste);
-    const gcd = spell.custom?.replaceGCD !== undefined
-        ? Math.min(spell.custom.replaceGCD / (1 + haste / 100), baseGCD)
+    const gcd = spell.replaceGCD !== undefined
+        ? Math.min(spell.replaceGCD / (1 + haste / 100), baseGCD)
         : baseGCD;
     const effectiveTime = Math.max(castTime, gcd);
     const isGCDConstrained = castTime < gcd;

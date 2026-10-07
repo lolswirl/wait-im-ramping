@@ -42,15 +42,15 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const intellect = mistweaver.stats.intellect;
 
     const wayOfTheCrane = TALENTS.WAY_OF_THE_CRANE;
-    const wayOfTheCraneTigerPalmHits = wayOfTheCrane.custom.tigerPalmHits;
+    const wayOfTheCraneTigerPalmHits = wayOfTheCrane.effects.tigerPalmHits;
 
     const craneStyle = TALENTS.CRANE_STYLE;
-    const craneStyleRisingSunKickGOM = craneStyle.custom.risingSunKickGOM;
-    const craneStyleBlackoutKickGOM = craneStyle.custom.blackoutKickGOM;
-    const craneStyleBlackoutKickGOMChance = craneStyle.custom.gomChance;
+    const craneStyleRisingSunKickGOM = craneStyle.effects.risingSunKickGOM;
+    const craneStyleBlackoutKickGOM = craneStyle.effects.blackoutKickGOM;
+    const craneStyleBlackoutKickGOMChance = craneStyle.effects.gomChance;
 
     const teachingsOfTheMonastery = TALENTS.TEACHINGS_OF_THE_MONASTERY;
-    const totmMaxStacks = teachingsOfTheMonastery.custom.maxStacks;
+    const totmMaxStacks = teachingsOfTheMonastery.maxStacks;
 
     const player: Player = { stats: mistweaver.stats, talents: selectedTalents, corePassives: mistweaver.corePassives };
 
@@ -59,7 +59,7 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
 
     const jadeBond = TALENTS.JADE_BOND;
     const includeChiJiGusts = selectedTalents.get(SPELLS.CHI_JI);
-    const chijiGustHealing = gustOfMistHealingAbsolute * (1 + (selectedTalents.get(jadeBond) ? jadeBond.custom.gustIncrease : 0));
+    const chijiGustHealing = gustOfMistHealingAbsolute * (1 + (selectedTalents.get(jadeBond) ? jadeBond.effects.gustIncrease : 0));
     const chijiGustSpellpower = (chijiGustHealing / intellect) * 100;
 
     const tigerPalm = SPELLS.TIGER_PALM;
@@ -99,8 +99,8 @@ const HarmonicSurge: React.FC<{ title: string; description: string }> = ({ title
     const cjlData = calculateAncientTeachingsData(cjl, player);
     const cjlSpCoeff = (cjlData.healing / intellect) * 100;
     const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
-    const jadeEmpowermentIncrease = jadeEmpowerment.custom.spellpowerIncrease / 100;
-    const jadeEmpowermentChain = jadeEmpowermentIncrease * jadeEmpowerment.custom.chainVal;
+    const jadeEmpowermentIncrease = jadeEmpowerment.effects.spellpowerIncrease / 100;
+    const jadeEmpowermentChain = jadeEmpowermentIncrease * jadeEmpowerment.effects.chainVal;
     const jeSpellpowerCalc = (value: number) => cjlSpCoeff * value;
     const jeValues = Array.from({ length: 5 }, (_, i) => i + 1);
     let jeSpellpowers = jeValues.map(value => jeSpellpowerCalc(jadeEmpowermentIncrease + (value - 1) * jadeEmpowermentChain));

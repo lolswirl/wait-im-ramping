@@ -91,11 +91,11 @@ const resolveRskValue = (
   if (player.talents.get(TALENTS.RUSHING_WIND_KICK) === true) {
     const rwk = TALENTS.RUSHING_WIND_KICK;
     const rwkBaseDamage = calculateSpellDamage(rwk, player);
-    const rwkDamage = rwkBaseDamage * (1 + rwk.custom.damageIncrease * Math.min(targets, rwk.custom.maxDamageTargets));
+    const rwkDamage = rwkBaseDamage * (1 + rwk.effects.damageIncrease * Math.min(targets, rwk.effects.maxDamageTargets));
     if (asHealing) {
       const atHealing = calculateAncientTeachingsHealing(rwkDamage, player, false, rwk);
       // assuming 4.5 rems on avg for efficiency
-      const directHealing = calculateSpellHealing(rwk, player) * rwk.custom.targetsHit.healing * 0.9;
+      const directHealing = calculateSpellHealing(rwk, player) * rwk.targets.healing * 0.9;
       return atHealing + directHealing;
     }
     return rwkDamage;
@@ -107,14 +107,14 @@ const resolveRskValue = (
 };
 
 const bokProcsReset = (hits: number): boolean => {
-  const totmResetChance = TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.resetChance;
+  const totmResetChance = TALENTS.TEACHINGS_OF_THE_MONASTERY.effects.resetChance;
   for (let i = 0; i < hits; i++) if (Math.random() < totmResetChance) return true;
   return false;
 };
 
 const rskTierProcsReset = (player: Player): boolean => {
   if (player.talents.get(TIER.T36_MISTWEAVER_4SET) !== true) return false;
-  return Math.random() < TIER.T36_MISTWEAVER_4SET.custom.resetChance;
+  return Math.random() < TIER.T36_MISTWEAVER_4SET.effects.resetChance;
 };
 
 const chosenRsk = (talents: TalentMap): spell & { cooldown: number } => {
@@ -141,7 +141,7 @@ const calculateHarmonicSurgeValue = (
   const perChargeDamage = calculateSpellDamage(hs, player);
   const perChargeHealing = calculateSpellHealing(hs, player);
   const totalDamage = sqrtScaledDamage(perChargeDamage * stacks, targets);
-  const totalHealing = perChargeHealing * stacks * hs.custom.targetsHit.healing;
+  const totalHealing = perChargeHealing * stacks * hs.targets.healing;
   return asHealing ? totalHealing : totalDamage;
 };
 
@@ -154,7 +154,7 @@ const modelMeleeRotationWithStacks = (
 ): ModelResult => {
   const hasWotC = player.talents.get(TALENTS.WAY_OF_THE_CRANE) === true;
   const hasHarmonicSurge = player.talents.get(TALENTS.HARMONIC_SURGE) === true;
-  const tpHits = hasWotC ? TALENTS.WAY_OF_THE_CRANE.custom.tigerPalmHits : 1;
+  const tpHits = hasWotC ? TALENTS.WAY_OF_THE_CRANE.effects.tigerPalmHits : 1;
   const tpDamage = calculateSpellDamage(SPELLS.TIGER_PALM, player);
   const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, player);
   const tpValue = (asHealing
@@ -164,7 +164,7 @@ const modelMeleeRotationWithStacks = (
     ? calculateAncientTeachingsHealing(bokDamage, player, true, SPELLS.BLACKOUT_KICK)
     : bokDamage;
   const bokCleaveTargets = hasWotC ? Math.min(targets - 1, 2) : 0;
-  const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.custom.blackoutKickEffectiveness;
+  const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.effects.blackoutKickEffectiveness;
   const rskSpell = chosenRsk(player.talents);
   const rskValue = resolveRskValue(targets, asHealing, player);
 
@@ -179,7 +179,7 @@ const modelMeleeRotationWithStacks = (
       getValue: () => rskValue,
       onCast: (state, cooldowns) => {
         if (hasHarmonicSurge) {
-          state.potentialEnergyStacks = Math.min(state.potentialEnergyStacks + 1, TALENTS.HARMONIC_SURGE.custom.maxStacks);
+          state.potentialEnergyStacks = Math.min(state.potentialEnergyStacks + 1, TALENTS.HARMONIC_SURGE.maxStacks);
         }
         if (rskTierProcsReset(player)) cooldowns[0] = 0;
       },
@@ -233,7 +233,7 @@ export const modelMeleeRotation = (
 ): ModelResult =>
   modelMeleeRotationWithStacks(
     totalTime, targets, asHealing, player,
-    TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks
+    TALENTS.TEACHINGS_OF_THE_MONASTERY.maxStacks
   );
 
 export const modelMeleeRotationAt2Stacks = (
@@ -242,7 +242,7 @@ export const modelMeleeRotationAt2Stacks = (
   asHealing: boolean,
   player: Player
 ): ModelResult =>
-  modelMeleeRotationWithStacks(totalTime, targets, asHealing, player, TALENTS.TEACHINGS_OF_THE_MONASTERY.custom.maxStacks / 2);
+  modelMeleeRotationWithStacks(totalTime, targets, asHealing, player, TALENTS.TEACHINGS_OF_THE_MONASTERY.maxStacks / 2);
 
 export const modelSpinningCraneKick = (
   totalTime: number,
@@ -275,8 +275,8 @@ export const calculateJadeEmpowermentData = (
   const jadeEmpowerment = TALENTS.JADE_EMPOWERMENT;
   const cjl = SPELLS.CRACKLING_JADE_LIGHTNING;
   const effectiveTargets = Math.min(targets, 5);
-  const jeMultiplier = (1 + jadeEmpowerment.custom.spellpowerIncrease / 100)
-    * (1 + jadeEmpowerment.custom.chainVal * (effectiveTargets - 1));
+  const jeMultiplier = (1 + jadeEmpowerment.effects.spellpowerIncrease / 100)
+    * (1 + jadeEmpowerment.effects.chainVal * (effectiveTargets - 1));
   const channelData = calculateAncientTeachingsData(cjl, player);
   return {
     damage: channelData.damage * jeMultiplier,
@@ -323,7 +323,7 @@ export const modelRSKWithSCKAndBok = (
   const sckBase = calculateSpellDamage(SPELLS.SPINNING_CRANE_KICK, player);
   const bokDamage = calculateSpellDamage(SPELLS.BLACKOUT_KICK, player);
   const bokCleaveTargets = hasWotC ? Math.min(targets - 1, 2) : 0;
-  const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.custom.blackoutKickEffectiveness;
+  const bokCleaveEffectiveness = TALENTS.WAY_OF_THE_CRANE.effects.blackoutKickEffectiveness;
   const bokValue = asHealing
     ? calculateAncientTeachingsHealing(bokDamage, player, true, SPELLS.BLACKOUT_KICK)
     : bokDamage;

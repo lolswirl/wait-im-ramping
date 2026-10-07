@@ -34,7 +34,7 @@ const SheilunVsDocJ: React.FC<{ title: React.ReactNode; description: React.React
 
   // docj calcs
   const sck = SPELLS.SPINNING_CRANE_KICK;
-  const danceofChijiIncrease = TALENTS.DANCE_OF_CHI_JI.custom.spellpowerIncrease;
+  const danceofChijiIncrease = TALENTS.DANCE_OF_CHI_JI.effects.spellpowerIncrease;
 
   const docjSpellpowerCalc = () => {
     const sckDamage = calculateSpellDamage(sck, player) * (danceofChijiIncrease / 100);

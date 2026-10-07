@@ -12,15 +12,15 @@ export const calculateUnityWithin = (targets: number, unityWithin: boolean): Uni
     const unityWithinMultiplier = unityWithin ? 2 : 1;
 
     const sotbo = TALENTS.STRENGTH_OF_THE_BLACK_OX;
-    const sotboTargetsHit = Math.min(targets, sotbo.custom?.targetsHit);
+    const sotboTargetsHit = Math.min(targets, sotbo.targets);
     const sotboAbsorb = (sotboTargetsHit - 1) * (sotbo.coeff * unityWithinMultiplier)
-        + 1 * (sotbo.coeff * unityWithinMultiplier * TALENTS.STAMPEDE_OF_THE_ANCIENTS.custom.mainTargetIncrease);
+        + 1 * (sotbo.coeff * unityWithinMultiplier * TALENTS.STAMPEDE_OF_THE_ANCIENTS.effects.mainTargetIncrease);
 
     const cotwt = TALENTS.COURAGE_OF_THE_WHITE_TIGER;
     const cotwtHeal = cotwt.coeff.healing * unityWithinMultiplier;
 
     const fotrc = TALENTS.FLIGHT_OF_THE_RED_CRANE;
-    const fotrcTargetsHit = Math.min(targets, fotrc.custom?.targetsHit);
+    const fotrcTargetsHit = Math.min(targets, fotrc.targets);
     const fotrcHeal = fotrc.coeff * fotrcTargetsHit; // unity multi already incorporated into coeff
 
     const totalSpCoeff = sotboAbsorb + cotwtHeal + fotrcHeal;

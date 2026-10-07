@@ -121,9 +121,7 @@ const spells = {
         id: 31884,
         icon: "spell_holy_avenginewrath",
         castTime: 0,
-        custom: {
-            duration: 20,
-        },
+        duration: 20,
         category: CATEGORY.COOLDOWN,
     },
     LIGHT_OF_DAWN: {

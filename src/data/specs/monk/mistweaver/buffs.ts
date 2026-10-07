@@ -37,7 +37,7 @@ export const MISTWEAVER_MONK_BUFFS = (spellList: spell[]): spell[] => {
                     thunderFocusTeaUsed = false;
                     break;
                 case SPELLS.RENEWING_MIST.id:
-                    spell = { ...spell, custom: { duration: 30 } };
+                    spell = { ...spell, duration: 30 };
                     thunderFocusTeaUsed = false;
                     break;
                 default:
@@ -71,7 +71,7 @@ export const MISTWEAVER_MONK_BUFFS = (spellList: spell[]): spell[] => {
             spell = {
                 ...spell,
                 castTime: base * 0.7,
-                custom: { ...spell.custom, replaceGCD: GCD * 0.7 },
+                replaceGCD: GCD * 0.7,
             };
         }
 

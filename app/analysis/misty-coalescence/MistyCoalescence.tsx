@@ -26,7 +26,7 @@ import { T } from '@util/T';
 import TALENTS from '@data/talents';
 
 const MAX_WIDTH = 1100;
-const MAX_INCREASE = TALENTS.MISTY_COALESCENCE.custom.maxIncrease;
+const MAX_INCREASE = TALENTS.MISTY_COALESCENCE.effects.maxIncrease;
 const DUNGEON_MAX_PLAYERS = 5;
 const RAID_MAX_PLAYERS = 20;
 const DUNGEON_RATE = MAX_INCREASE / DUNGEON_MAX_PLAYERS;

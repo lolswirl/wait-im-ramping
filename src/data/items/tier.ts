@@ -26,7 +26,7 @@ const tier = {
         name: "12.1 Mistweaver 2pc",
         id: 1296619,
         icon: "inv_shoulder_leather_raidmonkulatek_d_01",
-        custom: {
+        effects: {
             rwkHealingIncrease: 1.0,
             rskDamageIncrease: 0.3,
         }
@@ -35,7 +35,7 @@ const tier = {
         name: "12.1 Mistweaver 4pc",
         id: 1296620,
         icon: "inv_helm_leather_raidmonkulatek_d_01",
-        custom: {
+        effects: {
             resetChance: 0.25,
         }
     }

@@ -23,17 +23,17 @@ export function calculateSheilunsGiftBreakdown(
   const { stats, talents } = player;
 
   let sheilunBaseHealing = calculateSpellHealing(SPELLS.SHEILUNS_GIFT, player);
-  let sheilunCloudHealing = sheilunBaseHealing * SPELLS.SHEILUNS_GIFT.custom.coeffPerStack;
+  let sheilunCloudHealing = sheilunBaseHealing * SPELLS.SHEILUNS_GIFT.effects.coeffPerStack;
 
   const sheilunTargetsHit = talents.get(TALENTS.LEGACY_OF_WISDOM) 
-    ? TALENTS.LEGACY_OF_WISDOM.custom.targetsHit 
-    : SPELLS.SHEILUNS_GIFT.custom.targetsHit;
+    ? TALENTS.LEGACY_OF_WISDOM.effects.targetsHit 
+    : SPELLS.SHEILUNS_GIFT.targets;
 
   const sheilunMainMultiplier = 1 + (talents.get(TALENTS.INVIGORATING_MISTS) 
-  ? TALENTS.INVIGORATING_MISTS.custom.sheilunsMainTargetIncrease
+  ? TALENTS.INVIGORATING_MISTS.effects.sheilunsMainTargetIncrease
   : 0);
   
-  const maxClouds = SPELLS.SHEILUNS_GIFT.custom.maxStacks;
+  const maxClouds = SPELLS.SHEILUNS_GIFT.maxStacks;
   const cloudCounts = Array.from({ length: maxClouds + 1 }, (_, i) => i);
   
   return cloudCounts.map(cloudCount => {

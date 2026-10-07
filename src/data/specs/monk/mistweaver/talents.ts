@@ -10,7 +10,7 @@ const talents = {
         id: 274586,
         icon: 'ability_monk_vivify',
         coeff: 3.71657,
-        custom: {
+        effects: {
             sheilunsMainTargetIncrease: 5.0,
         }
     },
@@ -18,7 +18,7 @@ const talents = {
         name: "Legacy of Wisdom",
         id: 404408,
         icon: 'misc_legionfall_monk',
-        custom: {
+        effects: {
             targetsHit: 5,
             castTime: -0.5,
         },
@@ -28,7 +28,7 @@ const talents = {
         name: "Emperor's Favor",
         id: 471761,
         icon: 'inv_leather_raidmonkt2_d_01_helm',
-        custom: {
+        effects: {
             increase: 1.2,
             castTime: 0,
             targetsHit: 1,
@@ -39,7 +39,7 @@ const talents = {
         name: "Jade Empowerment",
         id: 467316,
         icon: 'ability_thunderking_thunderstruck',
-        custom: {
+        effects: {
             spellpowerIncrease: 300,
             chainVal: 0.25,
         },
@@ -49,7 +49,7 @@ const talents = {
         name: "Dance of Chi-Ji",
         id: 438439,
         icon: 'ability_monk_cranekick_new',
-        custom: {
+        effects: {
             spellpowerIncrease: 400
         }
     },
@@ -57,7 +57,7 @@ const talents = {
         name: "Ancient Teachings",
         id: 388023,
         icon: 'inv_misc_book_07',
-        custom: {
+        effects: {
             transferRate: 0.25,
             armorModifier: 0.7, // sad
         }
@@ -66,7 +66,7 @@ const talents = {
         name: "Amplified Rush",
         id: 1271431,
         icon: 'ability_monk_rushingjadewind',
-        custom: {
+        effects: {
             gustOfMistsIncrease: 1.0,
         }
     },
@@ -74,7 +74,7 @@ const talents = {
         name: "Jadefire Teachings",
         id: 467293,
         icon: 'inv_misc_book_07',
-        custom: {
+        effects: {
             transferRate: 3.2,
             armorModifier: 0.7, // sad
         },
@@ -84,7 +84,7 @@ const talents = {
         name: "Way of the Crane",
         id: 388779,
         icon: 'monk_stance_redcrane',
-        custom: {
+        effects: {
             targetsPerSCK: 1,
             transferRate: 2.80,
             armorModifier: 0.7,
@@ -105,7 +105,7 @@ const talents = {
         name: "Crane Style",
         id: 446260,
         icon: 'ability_monk_mightyoxkick',
-        custom: {
+        effects: {
             risingSunKickGOM: 2,
             blackoutKickGOM: 1,
             spinningCraneKickGOM: 1,
@@ -116,8 +116,8 @@ const talents = {
         name: "Teachings of the Monastery",
         id: 116645,
         icon: 'passive_monk_teachingsofmonastery',
-        custom: {
-            maxStacks: 4,
+        maxStacks: 4,
+        effects: {
             resetChance: 0.2,
         }
     },
@@ -133,15 +133,13 @@ const talents = {
         id: 343655,
         icon: 'ability_monk_jadeserpentbreath',
         formula: (stats) => (stats.totalHp ?? 0) * 24 / 100 * (1 + stats.versatility / 100),
-        custom: {
-            targetsHit: 5,
-        }
+        targets: 5,
     },
     JADE_BOND: {
         name: "Jade Bond",
         id: 388031,
         icon: 'inv_inscription_deck_jadeserpent',
-        custom: {
+        effects: {
             duration: 25,
             gustIncrease: 0.2,
             soothingBreathIncrease: 5,
@@ -157,7 +155,7 @@ const talents = {
         name: "Mist Wrap",
         id: 197900,
         icon: 'ability_monk_pathofmists',
-        custom: {
+        effects: {
             duration: 1,
             amp: 0.1,
         }
@@ -166,7 +164,7 @@ const talents = {
         name: "Rapid Diffusion",
         id: 388847,
         icon: 'ability_monk_chiswirl',
-        custom: {
+        effects: {
             duration: 6,
         }
     },
@@ -174,7 +172,7 @@ const talents = {
         name: "Chi Harmony",
         id: 448392,
         icon: 'ability_monk_counteractmagic',
-        custom: {
+        effects: {
             duration: 8,
             amp: 1.25,
         }
@@ -183,7 +181,7 @@ const talents = {
         name: "Lotus Infusion",
         id: 458431,
         icon: 'inv_misc_herb_chamlotus',
-        custom: {
+        effects: {
             additionalDuration: 2,
             amp: 1.06,
         }
@@ -207,7 +205,7 @@ const talents = {
         name: "Tear of Morning",
         id: 387991,
         icon: 'ability_monk_uplift',
-        custom: {
+        effects: {
             sheilunsGiftIncrease: 0.20,
             invigoratingMistsIncrease: 0.20,
         },
@@ -246,8 +244,8 @@ const talents = {
         cooldown: 12,
         school: SCHOOLS.NATURE,
         coeff: { damage: 1.8694, healing: 5 }, // healing might be wrong, ph for now
-        custom: {
-            targetsHit: { healing: 5 },
+        targets: { healing: 5 },
+        effects: {
             maxDamageTargets: 5,
             damageIncrease: 0.06
         },
@@ -273,7 +271,7 @@ const talents = {
         name: "Shaohao's Lessons",
         id: 400089,
         icon: "ability_monk_dematerialize",
-        custom: {
+        effects: {
             secondsPerCloud: 8,
         }
     },
@@ -281,7 +279,7 @@ const talents = {
         name: "Veil of Pride",
         id: 400053,
         icon: "ability_monk_vivify",
-        custom: {
+        effects: {
             secondsPerCloud: 4,
         }
     },
@@ -300,7 +298,7 @@ const talents = {
         id: 1260511,
         icon: 'inv12_apextalent_monk_spiritfont',
         maxRank: 4,
-        custom: {
+        effects: {
             rskIncreaseByRank: [0, 0, 0.1, 0.2, 0.2],
             envmIncreaseByRank: [0, 0, 0.1, 0.2, 0.2],
         }
@@ -334,7 +332,7 @@ const talents = {
         name: "Uplifted Spirits",
         id: 388551,
         icon: 'inv_helm_leather_raidmonkgoblin_d_01',
-        custom: {
+        effects: {
             revivalIncrease: 0.15,
         }
     },
@@ -357,7 +355,7 @@ const talents = {
         name: "Morning Breeze",
         id: 1277302,
         icon: 'expansionicon_mistsofpandaria',
-        custom: {
+        effects: {
             masteryMultiplier: 0.08,
         },
         exclusive: [467316],
@@ -366,7 +364,7 @@ const talents = {
         name: "Emperor's Elixir",
         id: 1268807,
         icon: 'inv_drink_25_honeytea',
-        custom: {
+        effects: {
             ancientTeachingsEffectiveness: 0.2,
         }
     },
@@ -379,7 +377,7 @@ const talents = {
         name: "Focused Thunder",
         id: 197895,
         icon: 'spell_monk_nimblebrew',
-        custom: {
+        effects: {
             tftCharges: 2,
         }
     },
@@ -401,9 +399,7 @@ const talents = {
         school: SCHOOLS.NATURE,
         castTime: 0,
         coeff: 1.04,
-        custom: {
-            targetsHit: 5,
-        },
+        targets: 5,
         category: CATEGORY.DAMAGE,
     },
     OVERFLOWING_MISTS: {
@@ -415,7 +411,7 @@ const talents = {
         name: "Way of the Serpent",
         id: 1243155,
         icon: 'monk_stance_wiseserpent',
-        custom: {
+        effects: {
             sheilunsGiftIncrease: 0.15,
             renewingMistIncrease: 0.30
         },
@@ -430,7 +426,7 @@ const talents = {
         name: "Misty Coalescence",
         id: 1268817,
         icon: 'inv_ability_monk_renewingmists_active',
-        custom: {
+        effects: {
             maxIncrease: 300,
         }
     },
@@ -468,7 +464,7 @@ const talents = {
         name: "Vital Expenditure",
         id: 1299572,
         icon: "ability_monk_soothingmists",
-        custom: {
+        effects: {
             soomIncrease: 3.0
         }
     },
@@ -491,10 +487,8 @@ const talents = {
         },
         school: SCHOOLS.NATURE,
         category: CATEGORY.DAMAGE,
-        custom: {
-            maxStacks: 6,
-            targetsHit: { healing: 5 }, // damage is technically unlimited targets
-        }
+        maxStacks: 6,
+        targets: { healing: 5 }, // damage is technically unlimited targets
     },
     ASPECT_OF_HARMONY: {
         name: "Aspect of Harmony",
@@ -567,7 +561,7 @@ const talents = {
         id: 451024,
         icon: 'ability_titankeeper_piercingcorruption',
         heroTalent: MOH,
-        custom: {
+        effects: {
             percentOfDamage: 15,
         }
     },
@@ -595,7 +589,7 @@ const talents = {
         icon: 'inv_misc_herb_mountainsilversage',
         heroTalent: MOH,
         spellModifier: 388023,
-        custom: {
+        effects: {
             transferRate: 0.50
         }
     },
@@ -607,7 +601,7 @@ const talents = {
         icon: 'ability_monk_provoke',
         heroTalent: COTC,
         spellModifier: 137024,
-        custom: {
+        effects: {
             vivifyIncrease: 0.06,
             envIncrease: 0.06,
             sckIncrease: 0 // yay
@@ -637,9 +631,7 @@ const talents = {
         icon: 'ability_monk_chargingoxwave',
         heroTalent: COTC,
         coeff: 1.5,
-        custom: {
-            targetsHit: 5,
-        }
+        targets: 5,
     },
     FLIGHT_OF_THE_RED_CRANE: {
         name: "Flight of the Red Crane",
@@ -647,16 +639,14 @@ const talents = {
         icon: 'inv_pet_cranegod',
         heroTalent: COTC,
         coeff: 1.25 * 2, // doubling since unity within is the only accessor
-        custom: {
-            targetsHit: 5,
-        }
+        targets: 5,
     },
     STAMPEDE_OF_THE_ANCIENTS: {
         name: "Stampede of the Ancients",
         id: 1262756,
         icon: 'monk_ability_summonoxstatue',
         heroTalent: COTC,
-        custom: {
+        effects: {
             mainTargetIncrease: 4.0,
         }
     },
@@ -665,7 +655,7 @@ const talents = {
         id: 1273154,
         icon: 'ability_monk_chiswirl',
         heroTalent: COTC,
-        custom: {
+        effects: {
             singleTargetBonus: 1.0, // +100% at 1 target
             reductionPerTarget: 0.20, // -20% per additional target
         }
@@ -717,7 +707,7 @@ const talents = {
         id: 202424,
         icon: 'ability_monk_domeofmist',
         heroTalent: COTC,
-        custom: {
+        effects: {
             cooldown: 75,
         }
     },
@@ -738,7 +728,7 @@ const talents = {
         id: 443625,
         icon: 'inv_jewelcrafting_jadeserpent',
         heroTalent: COTC,
-        custom: {
+        effects: {
             rskDamageIncrease: 0.15,
         }
     },

@@ -5,7 +5,7 @@ const talents = {
         name: "Fast Feet",
         id: 388809,
         icon: 'ability_monk_risingsunkick',
-        custom: {
+        effects: {
             risingSunKickIncrease: 0.7,
             spinningCraneKickIncrease: 0.1,
         },
@@ -15,7 +15,7 @@ const talents = {
         id: 450426,
         icon: 'ability_monk_chiswirl',
         maxRank: 2,
-        custom: {
+        effects: {
             magicDamageIncrease: 0.02,
             healingDoneIncrease: 0.02,
         },
@@ -25,7 +25,7 @@ const talents = {
         id: 388674,
         icon: 'ability_mount_pinktiger',
         maxRank: 2,
-        custom: {
+        effects: {
             damageIncrease: 0.02,
         }
     },
@@ -34,7 +34,7 @@ const talents = {
         id: 450427,
         icon: 'ability_monk_palmstrike',
         maxRank: 2,
-        custom: {
+        effects: {
             damageIncrease: 0.02,
         }
     },
@@ -92,7 +92,7 @@ const talents = {
         name: "Calming Presence",
         id: 388664,
         icon: 'inv_misc_orb_01',
-        custom: {
+        effects: {
             damageReduction: 3, // percent
         }
     },

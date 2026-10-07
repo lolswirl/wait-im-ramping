@@ -226,8 +226,8 @@ export default function TimelineVisualizer({ selectedSpec, haste, rotations = []
           if (!isOffGCDInstant) {
             let castTime = calculateCastTime(ability, haste);
             const baseGCD = calculateGCD(haste);
-            const gcd = ability.custom?.replaceGCD !== undefined
-              ? Math.min(ability.custom.replaceGCD / (1 + haste / 100), baseGCD)
+            const gcd = ability.replaceGCD !== undefined
+              ? Math.min(ability.replaceGCD / (1 + haste / 100), baseGCD)
               : baseGCD;
             time += castTime > gcd ? castTime : gcd;
             spellCount++;
@@ -334,8 +334,8 @@ export default function TimelineVisualizer({ selectedSpec, haste, rotations = []
 
           if (!isOffGCDInstant) {
             const baseGCD = calculateGCD(haste);
-            const gcd = ability.custom?.replaceGCD !== undefined
-              ? Math.min(ability.custom.replaceGCD / (1 + haste / 100), baseGCD)
+            const gcd = ability.replaceGCD !== undefined
+              ? Math.min(ability.replaceGCD / (1 + haste / 100), baseGCD)
               : baseGCD;
             if (duration > gcd) {
               drawCast(g, x, y, duration, scale, true);

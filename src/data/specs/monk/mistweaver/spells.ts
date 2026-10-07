@@ -61,9 +61,7 @@ const spells = {
         cooldown: 9,
         school: SCHOOLS.NATURE,
         coeff: 1.9665,
-        custom: {
-            duration: 20
-        },
+        duration: 20,
         category: CATEGORY.HEALING,
         periodic: true,
     },
@@ -74,9 +72,7 @@ const spells = {
         castTime: 1,
         school: SCHOOLS.NATURE,
         coeff: 2.10 * 12, // 210 sp% per sec, pip turns this into 12s baseline
-        custom: {
-            replaceGCD: 1
-        },
+        replaceGCD: 1,
         category: CATEGORY.HEALING,
         periodic: true,
     },
@@ -87,8 +83,8 @@ const spells = {
         castTime: 2,
         school: SCHOOLS.NATURE,
         coeff: 8.6112, // total
-        custom: {
-            duration: 6,
+        duration: 6,
+        effects: {
             amp: 1.1,
         },
         category: CATEGORY.HEALING,
@@ -110,10 +106,10 @@ const spells = {
         castTime: 2,
         school: SCHOOLS.NATURE,
         coeff: 4.79504,
-        custom: {
+        targets: 3,
+        maxStacks: 10,
+        effects: {
             coeffPerStack: 0.05,
-            targetsHit: 3,
-            maxStacks: 10,
         },
         category: CATEGORY.HEALING,
     },
@@ -133,9 +129,7 @@ const spells = {
         id: 325197,
         icon: 'inv_pet_cranegod',
         castTime: 0,
-        custom: {
-            duration: 12,
-        },
+        duration: 12,
         category: CATEGORY.COOLDOWN,
         exclusive: [322118],
     },
@@ -144,9 +138,7 @@ const spells = {
         id: 322118,
         icon: 'ability_monk_dragonkick',
         castTime: 0,
-        custom: {
-            duration: 12,
-        },
+        duration: 12,
         category: CATEGORY.COOLDOWN,
         exclusive: [325197],
     },
@@ -180,7 +172,7 @@ const spells = {
             damage: 1.716 * 5,
             healing: 11 * 5,
         },
-        custom: {
+        effects: {
             maxTargets: 5,
         },
         category: CATEGORY.COOLDOWN,

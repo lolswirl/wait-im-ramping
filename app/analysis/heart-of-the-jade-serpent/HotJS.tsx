@@ -74,8 +74,8 @@ interface BaselineData {
 
 const createAffectedAbilities = (talents: Map<spell, boolean>): AbilityCooldown[] => {
     const chrysalisEnabled = talents.get(TALENTS.CHRYSALIS);
-    const lifeCocoonCooldown = chrysalisEnabled && TALENTS.CHRYSALIS.custom?.cooldown
-        ? TALENTS.CHRYSALIS.custom.cooldown
+    const lifeCocoonCooldown = chrysalisEnabled && TALENTS.CHRYSALIS.effects?.cooldown
+        ? TALENTS.CHRYSALIS.effects.cooldown
         : SPELLS.LIFE_COCOON.cooldown;
     
     return [

@@ -111,7 +111,7 @@ const hasValue = (s: spell) =>
   s.coeff !== undefined || s.formula !== undefined || s.value?.damage !== undefined || s.value?.healing !== undefined;
 
 const getMaxTargets = (s: spell, type: SpellType): number => {
-  const th = (s as any).custom?.targetsHit;
+  const th = s.targets;
   if (!th) return 1;
   if (typeof th === "number") return th;
   return (type === CATEGORY.DAMAGE ? th.damage : th.healing) ?? 1;

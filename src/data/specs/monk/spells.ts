@@ -22,7 +22,7 @@ const spells = {
         name: "Teachings of the Monastery",
         id: 116645,
         icon: 'passive_monk_teachingsofmonastery',
-        custom: {
+        effects: {
             rskResetChance: 12, // percent
         }
     },

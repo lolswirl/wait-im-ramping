@@ -247,7 +247,7 @@ const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React
     const wayOfTheCrane = selectedTalents.get(TALENTS.WAY_OF_THE_CRANE) || false;
     
     const totm = TALENTS.TEACHINGS_OF_THE_MONASTERY;
-    const totmResetChance = totm.custom.resetChance;
+    const totmResetChance = totm.effects.resetChance;
     
     // Get RGB values for TalentOption
     const rgb = hexToRgb("4ea55c");
@@ -297,7 +297,7 @@ const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React
         steps.forEach(step => {
             if (step.id === MISTWEAVER_SPELLS.TIGER_PALM.id) {
                 const stacksToAdd = wayOfTheCrane ? 2 : 1;
-                totmStacks = Math.min(totmStacks + stacksToAdd, totm.custom.maxStacks);
+                totmStacks = Math.min(totmStacks + stacksToAdd, totm.maxStacks);
             } else if (step.id === MISTWEAVER_SPELLS.BLACKOUT_KICK.id) {
                 const totalBokHits = 1 + totmStacks;
                 const hitsPerTarget = wayOfTheCrane ? Math.min(3, targets) : 1;
@@ -318,7 +318,7 @@ const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React
             totalHits,
             totalGCDs
         };
-    }, [wayOfTheCrane, targets, attempts, totm.custom.maxStacks, totmResetChance]);
+    }, [wayOfTheCrane, targets, attempts, totm.maxStacks, totmResetChance]);
     
     const chartData = useMemo(() => 
         createChartData(rotations, calculateRotationStats), 

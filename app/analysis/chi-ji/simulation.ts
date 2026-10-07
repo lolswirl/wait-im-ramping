@@ -65,11 +65,11 @@ export const applyEnvelopingMist = (allies: AllyState[], options: SimulationOpti
     
     const envelopingMist = SPELLS.ENVELOPING_MIST;
     const mistWrap = TALENTS.MIST_WRAP;
-    const baseDuration = envelopingMist.custom.duration;
-    const baseAmp = envelopingMist.custom.amp;
+    const baseDuration = envelopingMist.duration;
+    const baseAmp = envelopingMist.effects.amp;
 
-    const duration = isTalentEnabled(options, TALENTS.MIST_WRAP) ? baseDuration + mistWrap.custom.duration : baseDuration;
-    const amp = isTalentEnabled(options, TALENTS.MIST_WRAP) ? baseAmp + mistWrap.custom.amp : baseAmp;
+    const duration = isTalentEnabled(options, TALENTS.MIST_WRAP) ? baseDuration + mistWrap.effects.duration : baseDuration;
+    const amp = isTalentEnabled(options, TALENTS.MIST_WRAP) ? baseAmp + mistWrap.effects.amp : baseAmp;
 
     target.buffs.envelopingMist.remaining = duration;
     target.buffs.envelopingMist.amp = amp;
@@ -78,8 +78,8 @@ export const applyEnvelopingMist = (allies: AllyState[], options: SimulationOpti
 };
 
 export const applyRenewingMistToTarget = (renewingMist: spell, target: AllyState, options: SimulationOptions) => {
-    target.buffs.renewingMist.remaining = renewingMist.custom?.duration;
-    target.buffs.renewingMist.amp = isTalentEnabled(options, TALENTS.LOTUS_INFUSION) ? TALENTS.LOTUS_INFUSION.custom.amp : 1;
+    target.buffs.renewingMist.remaining = renewingMist.duration ?? SPELLS.RENEWING_MIST.duration;
+    target.buffs.renewingMist.amp = isTalentEnabled(options, TALENTS.LOTUS_INFUSION) ? TALENTS.LOTUS_INFUSION.effects.amp : 1;
 
     return target;
 };
@@ -91,10 +91,10 @@ export const applyRapidDiffusionRenewingMist = (allies: AllyState[], options: Si
     const rapidDiffusion = TALENTS.RAPID_DIFFUSION;
     const lotusInfusion = TALENTS.LOTUS_INFUSION;
 
-    const rapidDiffusionHealing = (renewingMistHealing  / renewingMist.custom.duration ) * rapidDiffusion.custom.duration;
+    const rapidDiffusionHealing = (renewingMistHealing  / renewingMist.duration ) * rapidDiffusion.effects.duration;
 
-    target.buffs.renewingMist.remaining = rapidDiffusion.custom.duration;
-    target.buffs.renewingMist.amp = isTalentEnabled(options, TALENTS.LOTUS_INFUSION) ? lotusInfusion.custom.amp : 1;
+    target.buffs.renewingMist.remaining = rapidDiffusion.effects.duration;
+    target.buffs.renewingMist.amp = isTalentEnabled(options, TALENTS.LOTUS_INFUSION) ? lotusInfusion.effects.amp : 1;
 
     const amplifiedHealing = calculateHealingWithAmp(rapidDiffusionHealing, target);
     
@@ -174,40 +174,40 @@ export const calculateRotationHPS = async (
     
     const jadeBond = TALENTS.JADE_BOND;
     const jadeBondOpt = isTalentEnabled(options, TALENTS.JADE_BOND);
-    const chijiDuration = jadeBondOpt ? jadeBond.custom.duration : SPELLS.CHI_JI.custom.duration;
+    const chijiDuration = jadeBondOpt ? jadeBond.effects.duration : SPELLS.CHI_JI.duration;
     let chiJiActive = false;
     let chiJiTimeRemaining = 0;
 
     const focusedThunderOpt = isTalentEnabled(options, TALENTS.FOCUSED_THUNDER);
-    const tftChargesTotal = focusedThunderOpt ? TALENTS.FOCUSED_THUNDER.custom.tftCharges : 1;
+    const tftChargesTotal = focusedThunderOpt ? TALENTS.FOCUSED_THUNDER.effects.tftCharges : 1;
     let tftChargesRemaining = 0;
 
     const emperorsElixirOpt = isTalentEnabled(options, TALENTS.EMPERORS_ELIXIR);
     const jfs = TALENTS.JADEFIRE_STOMP;
-    const jfsMaxTargets = jfs.custom.targetsHit;
-    const eeATEffectiveness = TALENTS.EMPERORS_ELIXIR.custom.ancientTeachingsEffectiveness;
+    const jfsMaxTargets = jfs.targets;
+    const eeATEffectiveness = TALENTS.EMPERORS_ELIXIR.effects.ancientTeachingsEffectiveness;
 
     const wayOfTheCrane = TALENTS.WAY_OF_THE_CRANE;
     const wayOfTheCraneOpt = isTalentEnabled(options, TALENTS.WAY_OF_THE_CRANE);
-    const wayOfTheCraneTargetsPerSCK = wayOfTheCrane.custom.targetsPerSCK;
-    const wayOfTheCraneTigerPalmHits = wayOfTheCraneOpt ? wayOfTheCrane.custom.tigerPalmHits : 1;
+    const wayOfTheCraneTargetsPerSCK = wayOfTheCrane.effects.targetsPerSCK;
+    const wayOfTheCraneTigerPalmHits = wayOfTheCraneOpt ? wayOfTheCrane.effects.tigerPalmHits : 1;
 
     const craneStyle = TALENTS.CRANE_STYLE;
     const craneStyleOpt = isTalentEnabled(options, TALENTS.CRANE_STYLE);
-    const craneStyleRisingSunKickGOM = craneStyle.custom.risingSunKickGOM;
-    const craneStyleBlackoutKickGOM = craneStyle.custom.blackoutKickGOM;
-    const craneStyleSpinningCraneKickGOM = craneStyle.custom.spinningCraneKickGOM;
-    const craneStyleGOMChance = craneStyle.custom.gomChance;
+    const craneStyleRisingSunKickGOM = craneStyle.effects.risingSunKickGOM;
+    const craneStyleBlackoutKickGOM = craneStyle.effects.blackoutKickGOM;
+    const craneStyleSpinningCraneKickGOM = craneStyle.effects.spinningCraneKickGOM;
+    const craneStyleGOMChance = craneStyle.effects.gomChance;
 
     const teachingsOfTheMonastery = TALENTS.TEACHINGS_OF_THE_MONASTERY;
-    const totmMaxStacks = teachingsOfTheMonastery.custom.maxStacks;
+    const totmMaxStacks = teachingsOfTheMonastery.maxStacks;
 
     const gustOfMistHealing = calculateGustOfMists(player);
 
-    const chijiGustHealing = gustOfMistHealing * ( 1 + (jadeBondOpt ? TALENTS.JADE_BOND.custom.gustIncrease : 0));
+    const chijiGustHealing = gustOfMistHealing * ( 1 + (jadeBondOpt ? TALENTS.JADE_BOND.effects.gustIncrease : 0));
     const celestialHarmony = TALENTS.CELESTIAL_HARMONY;
     const celestialHarmonyChiCocoonAmount = celestialHarmony.formula!(options);
-    const celestialHarmonyChiCocoonMaxTargets = celestialHarmony.custom.targetsHit;
+    const celestialHarmonyChiCocoonMaxTargets = celestialHarmony.targets;
 
     const rapidDiffusionOpt = isTalentEnabled(options, TALENTS.RAPID_DIFFUSION);
 
@@ -217,8 +217,8 @@ export const calculateRotationHPS = async (
 
     const calculateRenewingMistHealing = (spellObj: spell): number => {
         const renewingMistBaseHealing = calculateSpellHealing(spellObj, player);
-        const renewingMistBaseHPS = renewingMistBaseHealing / SPELLS.RENEWING_MIST.custom.duration;
-        return renewingMistBaseHPS * spellObj.custom?.duration;
+        const renewingMistBaseHPS = renewingMistBaseHealing / SPELLS.RENEWING_MIST.duration;
+        return renewingMistBaseHPS * (spellObj.duration ?? SPELLS.RENEWING_MIST.duration);
     };
 
     const calculateSpellHealingBreakdown = (spellObj: spell, totmStacks: number, allies: AllyState[], chiJiActive: boolean) => {
@@ -279,7 +279,7 @@ export const calculateRotationHPS = async (
 
                 if (isTalentEnabled(options, TALENTS.RUSHING_WIND_KICK)) {
                     const rwk = TALENTS.RUSHING_WIND_KICK;
-                    const rwkHealTargets = Math.min(rwk.custom.targetsHit.healing, allies.length);
+                    const rwkHealTargets = Math.min(rwk.targets.healing, allies.length);
                     const rwkDirectHeal = calculateSpellHealing(spellObj, player);
                     const rwkHealTargetAllies = getRandomAllies(allies, rwkHealTargets);
                     breakdown.baseHealing = rwkHealTargetAllies.reduce((sum, a) => sum + calculateHealingWithAmp(rwkDirectHeal, a), 0);
@@ -314,8 +314,8 @@ export const calculateRotationHPS = async (
                 }
 
                 if (wayOfTheCraneOpt) {
-                    const bokEffectiveness = wayOfTheCrane.custom.blackoutKickEffectiveness;
-                    const bokMaxAdditionalHits = wayOfTheCrane.custom.blackoutKickHits;
+                    const bokEffectiveness = wayOfTheCrane.effects.blackoutKickEffectiveness;
+                    const bokMaxAdditionalHits = wayOfTheCrane.effects.blackoutKickHits;
                     const wayOfTheCraneBokHits = Math.min(options.enemyCount - 1, bokMaxAdditionalHits);
                     
                     if (wayOfTheCraneBokHits > 0) {
