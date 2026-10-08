@@ -354,13 +354,13 @@ const SetupOptions: React.FC<{
     );
 };
 
-const StatCell: React.FC<{ value: string; label: string; first?: boolean }> = ({ value, label, first }) => (
-    <Box sx={{ flex: 1, px: 2, py: 1.5, borderLeft: first ? 'none' : `1px solid ${HAIRLINE}` }}>
-        <Typography sx={{ fontFamily: 'monospace', fontSize: FONT.heading, lineHeight: 1.1 }}>
-            {value}
-        </Typography>
-        <Typography sx={{ fontSize: FONT.micro, color: 'text.disabled' }}>
+const SummaryPair: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+    <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.75 }}>
+        <Typography sx={{ fontSize: FONT.small, color: 'text.disabled' }}>
             {label}
+        </Typography>
+        <Typography sx={{ fontFamily: 'monospace', fontSize: FONT.small, color: 'text.primary' }}>
+            {value}
         </Typography>
     </Box>
 );
@@ -416,31 +416,32 @@ const Results: React.FC<{
                                     {ability.spell.name}
                                 </Typography>
                                 <Typography sx={{ fontFamily: 'monospace', fontSize: FONT.micro, color: 'text.disabled' }}>
-                                    {castsPerMinute.toFixed(1)} {T("cpm")}
-                                    {avgCooldown > 0 && <> · {avgCooldown.toFixed(1)}s {T("avg cd")}</>}
-                                    {' · '}
-                                    <Box component="span" sx={{ color: extraCasts > 0 ? '#4ade80' : 'inherit' }}>
-                                        +{extraCasts} {T("Extra").toLowerCase()}
-                                    </Box>
+                                    {castsPerMinute.toFixed(1)}{T("cpm")}
+                                    {avgCooldown > 0 && <>, {avgCooldown.toFixed(1)}s {T("avg cd")}</>}
                                 </Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.75 }}>
-                                <Typography sx={{ fontFamily: 'monospace', fontSize: FONT.heading, lineHeight: 1, color: ability.color }}>
-                                    {withHotJS}
-                                </Typography>
-                                <Typography sx={{ fontSize: FONT.small, color: 'text.secondary' }}>
-                                    {T(pluralize(withHotJS, "Cast")).toLowerCase()}
+                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 0.25 }}>
+                                <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.75 }}>
+                                    <Typography sx={{ fontFamily: 'monospace', fontSize: FONT.heading, lineHeight: 1, color: ability.color }}>
+                                        {withHotJS}
+                                    </Typography>
+                                    <Typography sx={{ fontSize: FONT.small, color: 'text.secondary' }}>
+                                        {T(pluralize(withHotJS, "Cast")).toLowerCase()}
+                                    </Typography>
+                                </Box>
+                                <Typography sx={{ fontFamily: 'monospace', fontSize: FONT.micro, color: extraCasts > 0 ? '#4ade80' : 'text.disabled' }}>
+                                    +{extraCasts} {T("Extra").toLowerCase()}
                                 </Typography>
                             </Box>
                         </Box>
                     );
                 })}
             </Box>
-            <Box sx={{ display: 'flex', borderTop: `1px solid ${HAIRLINE}` }}>
-                <StatCell first value={`${events.length}`} label={T("Heart of the Jade Serpent windows").toLowerCase()} />
-                <StatCell value={`${((uptime / timeRange) * 100).toFixed(1)}%`} label={`${T("uptime")} · ${uptime.toFixed(1)}s`} />
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', columnGap: 3, rowGap: 0.5, px: 2, py: 1.25, borderTop: `1px solid ${HAIRLINE}` }}>
+                <SummaryPair label={T("windows")} value={`${events.length}`} />
+                <SummaryPair label={T("uptime")} value={`${((uptime / timeRange) * 100).toFixed(1)}% (${uptime.toFixed(1)}s)`} />
                 {avatarProcsPerMinute !== null && (
-                    <StatCell value={avatarProcsPerMinute.toFixed(2)} label={T("Yu'lon's Avatar procs / min").toLowerCase()} />
+                    <SummaryPair label={T("Yu'lon's Avatar ppm")} value={avatarProcsPerMinute.toFixed(2)} />
                 )}
             </Box>
         </Card>

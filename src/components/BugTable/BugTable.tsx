@@ -29,10 +29,17 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
                         <Typography variant="body2" component="div" sx={{ color: STATUS_COLORS[bug.status ?? STATUS.OPEN] }}>
                             {bug.title}
                         </Typography>
-                        <Typography sx={{ fontSize: FONT.micro, color: "text.disabled" }}>
-                            {bug.spell.name} · <span style={{ fontFamily: "monospace" }}>{getLatestBuild(bug.buildsTested) || "—"}</span>
-                            {bug.logs && bug.logs.length > 0 && " · logs"}
-                        </Typography>
+                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                            <Typography sx={{ flex: 1, minWidth: 0, fontSize: FONT.micro, color: "text.disabled", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                {bug.spell.name}
+                            </Typography>
+                            {bug.logs && bug.logs.length > 0 && (
+                                <AttachFile sx={{ fontSize: "0.85rem", color: "primary.main", opacity: 0.8 }} />
+                            )}
+                            <Typography sx={{ fontFamily: "monospace", fontSize: FONT.micro, color: "text.disabled" }}>
+                                {getLatestBuild(bug.buildsTested) || "—"}
+                            </Typography>
+                        </Box>
                     </Box>
                 </Box>
             ),

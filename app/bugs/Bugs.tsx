@@ -6,6 +6,7 @@ import { SearchOff } from "@mui/icons-material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import SwirlLink from "@components/SwirlLink/SwirlLink";
+import SwirlButton from "@components/Buttons/SwirlButton";
 import BugTable from "@components/BugTable/BugTable";
 import BugDialog from "@components/BugDialog/BugDialog";
 import BugFilters from "@components/BugFilters/BugFilters";
@@ -152,22 +153,14 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
                         />
                     </>
                 ) : (
-                    <Box sx={{ py: 5, display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
+                    <Box sx={{ py: 5, display: "flex", flexDirection: "column", alignItems: "center", gap: 1.5 }}>
                         <SearchOff sx={{ fontSize: 32, color: "text.disabled" }} />
                         <Typography sx={{ fontSize: FONT.body, color: "text.secondary" }}>
-                            {isDefault ? "No bugs found for this spec" : (
-                                <>
-                                    No bugs match these filters · <Box
-                                        component="span"
-                                        role="button"
-                                        onClick={clearAllFilters}
-                                        sx={{ color: "primary.light", cursor: "pointer", "&:hover": { textDecoration: "underline wavy" } }}
-                                    >
-                                        reset
-                                    </Box>
-                                </>
-                            )}
+                            {isDefault ? "No bugs found for this spec" : "No bugs match these filters"}
                         </Typography>
+                        {!isDefault && (
+                            <SwirlButton onClick={clearAllFilters} color="error">Reset</SwirlButton>
+                        )}
                     </Box>
                 )}
             </Box>
