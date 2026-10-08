@@ -58,7 +58,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
     };
 
     return (
-        <Box sx={{ mb: 1, display: "flex", alignItems: "flex-end", gap: 1, flexWrap: "wrap", width: "80%", mx: "auto" }}>
+        <Box sx={{ mb: 1, display: "flex", alignItems: "flex-end", gap: 1, flexWrap: "wrap", width: { xs: "100%", md: "80%" }, mx: "auto" }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 <Typography variant="caption" sx={{ fontSize: FONT.micro, fontWeight: 600, opacity: 0.45, px: 0.5 }}>spec</Typography>
                 <SpecializationSelect
@@ -70,7 +70,7 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                 />
             </Box>
 
-            <Box sx={{ flexGrow: 1, minWidth: 200, maxWidth: 300, display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            <Box sx={{ flexGrow: 1, minWidth: { xs: 140, sm: 200 }, maxWidth: { xs: "none", sm: 300 }, display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 <Typography variant="caption" sx={{ fontSize: FONT.micro, fontWeight: 600, opacity: 0.45, px: 0.5 }}>search</Typography>
                 <TextField
                     variant="outlined"

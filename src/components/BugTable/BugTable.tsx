@@ -1,11 +1,11 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import SwirlTable, { SwirlColumn } from "@components/SwirlTable/SwirlTable";
 import { Bug, SEVERITY_COLORS, STATUS, STATUS_COLORS, getLatestBuild, getBuildSortValue } from "@data/bugs";
 import { extractTextFromReactNode } from "@util/extractTextFromReactNode";
 import { AttachFile } from "@mui/icons-material";
-import { FONT } from "@components/Theme/tokens";
+import { FONT, ICON } from "@components/Theme/tokens";
 
 interface BugTableProps {
     bugs: Bug[];
@@ -14,6 +14,31 @@ interface BugTableProps {
 }
 
 const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+    const mobileColumns: SwirlColumn<Bug>[] = [
+        {
+            key: "title",
+            label: "Bug",
+            width: "1fr",
+            render: bug => (
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1.25, minWidth: 0, width: "100%" }}>
+                    <SpellButton selectedSpell={bug.spell} size={ICON.md} showName />
+                    <Box sx={{ flex: 1, minWidth: 0 }}>
+                        <Typography variant="body2" component="div" sx={{ color: STATUS_COLORS[bug.status ?? STATUS.OPEN] }}>
+                            {bug.title}
+                        </Typography>
+                        <Typography sx={{ fontSize: FONT.micro, color: "text.disabled" }}>
+                            {bug.spell.name} · <span style={{ fontFamily: "monospace" }}>{getLatestBuild(bug.buildsTested) || "—"}</span>
+                            {bug.logs && bug.logs.length > 0 && " · logs"}
+                        </Typography>
+                    </Box>
+                </Box>
+            ),
+        },
+    ];
+
     const columns: SwirlColumn<Bug>[] = [
         {
             key: "title",
@@ -52,11 +77,12 @@ const BugTable: React.FC<BugTableProps> = ({ bugs, iconSize, onRowClick }) => {
     ];
 
     return (
-        <Box sx={{ width: "80%", mx: "auto" }}>
+        <Box sx={{ width: { xs: "100%", md: "80%" }, mx: "auto" }}>
             <SwirlTable
                 rows={bugs}
                 rowKey={(_, i) => String(i)}
-                columns={columns}
+                columns={isMobile ? mobileColumns : columns}
+                hideHeader={isMobile}
                 onRowClick={onRowClick}
                 accentColor={bug => SEVERITY_COLORS[bug.severity]}
                 defaultSortKey="build"

@@ -24,6 +24,7 @@ interface SwirlTableProps<T> {
     accentColor?: (row: T) => string | undefined;
     defaultSortKey?: string;
     defaultSortDir?: "asc" | "desc";
+    hideHeader?: boolean;
 }
 
 function SwirlTable<T>({
@@ -34,6 +35,7 @@ function SwirlTable<T>({
     accentColor,
     defaultSortKey,
     defaultSortDir = "asc",
+    hideHeader = false,
 }: SwirlTableProps<T>) {
     const [sortKey, setSortKey] = useState<string>(defaultSortKey ?? "");
     const [sortDir, setSortDir] = useState<"asc" | "desc">(defaultSortDir);
@@ -69,7 +71,7 @@ function SwirlTable<T>({
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "100%" }}>
             {/* header */}
-            <Box sx={{
+            {!hideHeader && <Box sx={{
                 display: "grid",
                 gridTemplateColumns: accentColor ? `${ACCENT_WIDTH}px ${gridTemplateColumns}` : gridTemplateColumns,
                 py: 0.75,
@@ -107,7 +109,7 @@ function SwirlTable<T>({
                         </Box>
                     );
                 })}
-            </Box>
+            </Box>}
 
             {/* rows */}
             <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
