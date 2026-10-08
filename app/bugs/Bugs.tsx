@@ -1,7 +1,7 @@
 ﻿"use client";
 import React, { useState, useEffect } from "react";
 import { Box, Container, Typography } from "@mui/material";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { SearchOff } from "@mui/icons-material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
@@ -17,10 +17,21 @@ import { Bug, STATUS } from "@data/bugs";
 import { useBugFilters } from "@hooks/useBugFilters";
 import { pluralize } from "@util/stringManipulation";
 import { exportBugsToExcel } from "@util/exportBugsToExcel";
+import { extractTextFromReactNode } from "@util/extractTextFromReactNode";
 import { FONT, ICON } from "@components/Theme/tokens";
+
+const bugSlug = (bug: Bug): string => {
+    const title = extractTextFromReactNode(bug.title)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")
+        .slice(0, 60);
+    return `${bug.spell.id}-${title}`;
+};
 
 const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const searchParams = useSearchParams();
+    const router = useRouter();
     
     const getInitialSpec = (): specialization => {
         const specParam = searchParams.get('spec');
@@ -32,11 +43,11 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
     };
 
     const [selectedSpec, setSelectedSpec] = useState<specialization>(getInitialSpec());
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [selectedBug, setSelectedBug] = useState<Bug | null>(null);
     const [bugUpdateOpen, setBugUpdateOpen] = useState(false);
 
     const bugs = selectedSpec.bugs || [];
+    const bugParam = searchParams.get('bug');
+    const selectedBug = bugParam ? bugs.find(bug => bugSlug(bug) === bugParam) ?? null : null;
     const iconSize = ICON.lg;
 
     const {
@@ -63,14 +74,22 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
         }
     }, [searchParams, selectedSpec]);
 
+    const setBugParam = (slug: string | null) => {
+        const params = new URLSearchParams(searchParams.toString());
+        if (slug) {
+            params.set('bug', slug);
+        } else {
+            params.delete('bug');
+        }
+        router.replace(`?${params.toString()}`, { scroll: false });
+    };
+
     const handleRowClick = (bug: Bug) => {
-        setSelectedBug(bug);
-        setDialogOpen(true);
+        setBugParam(bugSlug(bug));
     };
 
     const handleDialogClose = () => {
-        setDialogOpen(false);
-        setSelectedBug(null);
+        setBugParam(null);
     };
 
     const handleExportToExcel = () => {
@@ -124,11 +143,6 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
                             iconSize={iconSize}
                             onRowClick={handleRowClick}
                         />
-                        <BugDialog
-                            open={dialogOpen}
-                            bug={selectedBug}
-                            onClose={handleDialogClose}
-                        />
                         <BugUpdateWorkflow
                             open={bugUpdateOpen}
                             onClose={handleCloseBugUpdate}
@@ -157,6 +171,12 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
                     </Box>
                 )}
             </Box>
+            <BugDialog
+                open={selectedBug !== null}
+                bug={selectedBug}
+                onClose={handleDialogClose}
+                shareQuery={selectedBug ? `?spec=${selectedSpec.key}&bug=${bugSlug(selectedBug)}` : undefined}
+            />
         </Container>
     );
 };
