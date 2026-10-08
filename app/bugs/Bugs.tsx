@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Container, Typography } from "@mui/material";
 import { useSearchParams } from "next/navigation";
+import { SearchOff } from "@mui/icons-material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
 import SwirlLink from "@components/SwirlLink/SwirlLink";
@@ -137,13 +138,23 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
                         />
                     </>
                 ) : (
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ textAlign: "center", mt: 2 }}
-                    >
-                        No bugs found for the selected filters.
-                    </Typography>
+                    <Box sx={{ py: 5, display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
+                        <SearchOff sx={{ fontSize: 32, color: "text.disabled" }} />
+                        <Typography sx={{ fontSize: FONT.body, color: "text.secondary" }}>
+                            {isDefault ? "No bugs found for this spec" : (
+                                <>
+                                    No bugs match these filters · <Box
+                                        component="span"
+                                        role="button"
+                                        onClick={clearAllFilters}
+                                        sx={{ color: "primary.light", cursor: "pointer", "&:hover": { textDecoration: "underline wavy" } }}
+                                    >
+                                        reset
+                                    </Box>
+                                </>
+                            )}
+                        </Typography>
+                    </Box>
                 )}
             </Box>
         </Container>
