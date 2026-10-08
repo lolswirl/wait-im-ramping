@@ -187,7 +187,6 @@ const ToolGrid = () => (
                             position: 'relative', zIndex: 1, color: 'white',
                             backgroundColor: 'rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(8px)',
                             px: 1.5, py: 1.5, borderRadius: 1,
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                             border: '1px solid rgba(255,255,255,0.1)',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                         }}>
@@ -242,7 +241,6 @@ const Byline = () => (
                 </Typography>
             </Box>
         </Link>
-        <Typography sx={{ color: 'text.disabled' }}>·</Typography>
         <StatusChip />
     </Box>
 );

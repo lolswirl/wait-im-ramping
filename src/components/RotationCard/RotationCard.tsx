@@ -87,15 +87,9 @@ export const RotationCard: React.FC<RotationCardProps> = ({
                                     hps
                                 </Typography>
                             </Typography>
-                            <Box sx={{ display: 'flex', gap: 1 }}>
-                                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                                    {formatNumber(rotation.duration, 1)}s
-                                </Typography>
-                                <Typography variant="caption" sx={{ color: 'text.secondary' }}>·</Typography>
-                                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                                    {formatNumber(Math.round(rotation.totalHealing))} total
-                                </Typography>
-                            </Box>
+                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                                {formatNumber(rotation.duration, 1)}s, {formatNumber(Math.round(rotation.totalHealing))} total
+                            </Typography>
                         </Box>
                         <IconButton size="small" onClick={onDelete} color="error" sx={{ p: 0, mt: 0.25 }}>
                             <DeleteTwoTone fontSize="small" />

@@ -33,9 +33,6 @@ const RampAnswer: React.FC<{ seconds: number; accent: string }> = ({ seconds, ac
             backgroundColor: hasAnswer ? `${accent}0d` : 'transparent',
             transition: 'border-color 0.2s ease, background-color 0.2s ease',
         }}>
-            <Typography sx={{ fontSize: FONT.micro, fontWeight: 700, letterSpacing: 1.2, color: 'text.disabled' }}>
-                start ramping
-            </Typography>
             <Box sx={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 0.25, my: 0.25 }}>
                 <Typography sx={{
                     fontSize: FONT.display,

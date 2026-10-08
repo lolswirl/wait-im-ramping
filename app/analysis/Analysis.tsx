@@ -231,7 +231,7 @@ const Analysis: React.FC<{ title: string; description: string }> = ({ title, des
                                 {`${displayedPages.length} of ${filteredAnalysisPages.length} tools`}
                             </Typography>
                             <FilterChip
-                                label={`Clear (${selectedTags.length})`}
+                                label={`Reset (${selectedTags.length})`}
                                 accent={theme.palette.error.main}
                                 onClick={() => setSelectedTags([])}
                             />

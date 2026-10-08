@@ -134,7 +134,7 @@ const SpecializationSelect: React.FC<SpecializationSelectProps> = ({
                 backgroundColor: "rgba(0, 0, 0, 0.3) !important",
                 backdropFilter: BLUR.surface,
                 border: "1px solid rgba(255,255,255,0.1)",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                boxShadow: "none",
                 maxHeight: 400,
                 borderRadius: 1,
                 backgroundImage: 'none',

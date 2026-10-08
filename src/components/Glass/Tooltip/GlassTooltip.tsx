@@ -17,7 +17,7 @@ export const GlassTooltip = (props: TooltipProps) => {
                         backgroundColor: "rgba(0, 0, 0, 0.3)",
                         backdropFilter: BLUR.surface,
                         border: "1px solid rgba(255,255,255,0.1)",
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                        boxShadow: "none",
                         ...((slotProps?.tooltip as any)?.sx),
                     }
                 },
