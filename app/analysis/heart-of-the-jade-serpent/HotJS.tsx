@@ -5,30 +5,27 @@ import {
     Box,
     Card,
     CardContent,
+    Container,
     Typography,
-    Slider,
-    Chip,
-    Stack,
-    Divider,
-    useTheme,
-    Checkbox,
 } from '@mui/material';
 import { GlassTooltip } from '@components/Glass';
 
 import IconButtonBase from '@components/SpellButtons/IconButtonBase';
 import SpellButton from '@components/SpellButtons/SpellButton';
 import PageHeader from '@components/PageHeader/PageHeader';
-import SwirlChip from '@components/SwirlChip/SwirlChip';
-import TalentsCard from '@components/TalentsCard/TalentsCard';
+import { FieldCells } from '@components/FieldCells/FieldCells';
+import ConfigPanel from '@components/ConfigPanel/ConfigPanel';
+import StatsCard, { Group, type StatsCardOptions } from '@components/StatsCard/StatsCard';
+import TalentsCard, { TalentOption } from '@components/TalentsCard/TalentsCard';
 import SPELLS from "@data/spells";
 import spell, { GCD } from '@data/spells/spell';
 import { T } from '@util/T';
 import { pluralize } from '@util/stringManipulation';
 import TALENTS from '@data/talents';
 import { CLASSES } from '@data/class';
-import { FONT, ICON } from "@components/Theme/tokens";
+import { CONTENT_WIDTH, FONT, HAIRLINE, ICON } from "@components/Theme/tokens";
 
-const MAX_WIDTH = 1100;
+const YULONS_AVATAR_RPPM = 1.5;
 const TIMELINE_HEIGHT = 500;
 const MAIN_TIMELINE_Y_RATIO = 2.5;
 const CAST_PRIORITY = [
@@ -323,237 +320,132 @@ const simulateWithHotJS = (
     return updatedEvents;
 };
 
-const TimeSliderCard: React.FC<{
+const MAX_MINUTES = 10;
+const RECOVERY_OPTION: spell = { ...TALENTS.HEART_OF_THE_JADE_SERPENT, name: "Cooldown recovery" };
+
+const SetupOptions: React.FC<{
     timeRange: number;
     onTimeRangeChange: (value: number) => void;
-}> = ({ timeRange, onTimeRangeChange }) => (
-    <Card variant="outlined" sx={{ 
-        p: 2, 
-        background: `linear-gradient(135deg, rgba(54, 162, 235, 0.1), rgba(54, 162, 235, 0.05))`, 
-        borderColor: 'rgba(54, 162, 235, 0.3)',
-        '& .MuiSlider-root': { color: 'rgba(54, 162, 235, 0.8)' },
-        '& .MuiSlider-thumb': {
-            backgroundColor: 'rgb(54, 162, 235)',
-            '&:hover': { boxShadow: '0px 0px 0px 8px rgba(54, 162, 235, 0.16)' },
-        },
-        '& .MuiSlider-track': { backgroundColor: 'rgb(54, 162, 235)' },
-        '& .MuiSlider-rail': { backgroundColor: 'rgba(54, 162, 235, 0.3)' },
-    }}>
-        <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', color: 'rgb(54, 162, 235)' }}>
-            Time Range
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            {timeRange} seconds ({formatTime(timeRange)})
-        </Typography>
-        <Slider
-            value={timeRange}
-            onChange={(_, newValue) => onTimeRangeChange(newValue as number)}
-            min={60}
-            max={600}
-            step={30}
-            marks={[
-                { value: 120, label: '2m' },
-                { value: 300, label: '5m' },
-                { value: 600, label: '10m' }
-            ]}
-            sx={{
-                '& .MuiSlider-markLabel': {
-                    color: 'text.secondary',
-                    fontSize: FONT.small,
-                },
-            }}
-        />
-    </Card>
-);
-
-const OptionsCard: React.FC<{
     cdrEnabled: boolean;
     onCdrEnabledChange: (value: boolean) => void;
-}> = ({ cdrEnabled, onCdrEnabledChange }) => (
-    <Card variant="outlined" sx={{ 
-        p: 2, 
-        background: `linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05))`, 
-        borderColor: 'rgba(76, 175, 80, 0.3)' 
-    }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <OptionCheckbox
-                checked={cdrEnabled}
-                onChange={onCdrEnabledChange}
-                title={T("Enable Increased Cooldown Recovery Rate")}
-                description={T("Apply increased cooldown recovery rate effects from Heart of the Jade Serpent")}
+    color: string;
+}> = ({ timeRange, onTimeRangeChange, cdrEnabled, onCdrEnabledChange, color }) => {
+    const options = { minutes: timeRange / 60 };
+
+    const handleOptionsChange = (update: (prev: typeof options) => typeof options) => {
+        const minutes = Math.min(Math.max(update(options).minutes, 1), MAX_MINUTES);
+        onTimeRangeChange(minutes * 60);
+    };
+
+    return (
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1 }}>
+            <FieldCells
+                fields={[{ key: 'minutes', label: 'minutes', min: 1, stepper: true }]}
+                options={options}
+                onOptionsChange={handleOptionsChange}
+            />
+            <TalentOption
+                talent={RECOVERY_OPTION}
+                isChecked={cdrEnabled}
+                onChange={(_, checked) => onCdrEnabledChange(checked)}
+                color={color}
             />
         </Box>
-    </Card>
-);
+    );
+};
 
-const OptionCheckbox: React.FC<{
-    checked: boolean;
-    onChange: (value: boolean) => void;
-    title: string;
-    description: string;
-}> = ({ checked, onChange, title, description }) => (
-    <Box 
-        sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            p: 1, 
-            borderRadius: 1,
-            border: `1px solid rgba(76, 175, 80, 0.2)`,
-            backgroundColor: checked ? `rgba(76, 175, 80, 0.1)` : 'transparent',
-            transition: 'all 0.2s ease',
-            cursor: 'pointer',
-            '&:hover': {
-                backgroundColor: `rgba(76, 175, 80, 0.05)`,
-                borderColor: `rgba(76, 175, 80, 0.4)`,
-            }
-        }}
-        onClick={() => onChange(!checked)}
-    >
-        <Checkbox
-            checked={checked}
-            onChange={(e) => onChange(e.target.checked)}
-            onClick={(e) => e.stopPropagation()}
-            sx={{
-                color: `rgba(76, 175, 80, 0.6)`,
-                '&.Mui-checked': { color: `rgb(76, 175, 80)` },
-                '&:hover': { backgroundColor: `rgba(76, 175, 80, 0.1)` },
-            }}
-        />
-        <Box sx={{ flex: 1 }}>
-            <Typography variant="body2" sx={{ 
-                fontWeight: 'bold',
-                color: checked ? `rgb(76, 175, 80)` : 'text.primary',
-                transition: 'color 0.2s ease'
-            }}>
-                {title}
-            </Typography>
-            <Typography variant="caption" color="text.secondary">
-                {description}
-            </Typography>
-        </Box>
+const StatCell: React.FC<{ value: string; label: string; first?: boolean }> = ({ value, label, first }) => (
+    <Box sx={{ flex: 1, px: 2, py: 1.5, borderLeft: first ? 'none' : `1px solid ${HAIRLINE}` }}>
+        <Typography sx={{ fontFamily: 'monospace', fontSize: FONT.heading, lineHeight: 1.1 }}>
+            {value}
+        </Typography>
+        <Typography sx={{ fontSize: FONT.micro, color: 'text.disabled' }}>
+            {label}
+        </Typography>
     </Box>
 );
 
-const StatsCard: React.FC<{
+const Results: React.FC<{
     events: HotJSEvent[];
     timeRange: number;
     abilities: AbilityCooldown[];
     abilityData: SimulationData;
     baselineData: BaselineData;
-}> = ({ events, timeRange, abilities, abilityData, baselineData }) => (
-    <Box sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <Stack spacing={1}>
-            <Card variant="outlined" sx={{ 
-                p: 2, 
-                background: `linear-gradient(135deg, rgba(156, 39, 176, 0.1), rgba(156, 39, 176, 0.05))`, 
-                borderColor: 'rgba(156, 39, 176, 0.3)'
-            }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: 'rgb(156, 39, 176)' }}>
-                    Heart of the Jade Serpent Events: {events.length}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    Total Uptime: {events.reduce((sum, event) => sum + event.duration, 0).toFixed(1)}s
-                    ({((events.reduce((sum, event) => sum + event.duration, 0) / timeRange) * 100).toFixed(1)}%)
-                </Typography>
-            </Card>
-            {abilities.map(ability => {
-                const withHotJS = abilityData[ability.spell.name].availableTimes.length;
-                const baseline = baselineData[ability.spell.name].availableTimes.length;
-                const extraCasts = withHotJS - baseline;
-                const castsPerMinute = (withHotJS / timeRange) * 60;
-                
-                const castTimes = abilityData[ability.spell.name].availableTimes;
-                let avgCooldown = 0;
-                if (castTimes.length > 1) {
-                    const cooldowns: number[] = [];
-                    for (let i = 1; i < castTimes.length; i++) {
-                        cooldowns.push(castTimes[i] - castTimes[i - 1]);
+    avatarProcsPerMinute: number | null;
+}> = ({ events, timeRange, abilities, abilityData, baselineData, avatarProcsPerMinute }) => {
+    const uptime = events.reduce((sum, event) => sum + event.duration, 0);
+
+    return (
+        <Card variant="outlined" sx={{ width: '100%', maxWidth: CONTENT_WIDTH.wide, display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' } }}>
+                {abilities.map((ability, index) => {
+                    const withHotJS = abilityData[ability.spell.name].availableTimes.length;
+                    const baseline = baselineData[ability.spell.name].availableTimes.length;
+                    const extraCasts = withHotJS - baseline;
+                    const castsPerMinute = (withHotJS / timeRange) * 60;
+
+                    const castTimes = abilityData[ability.spell.name].availableTimes;
+                    let avgCooldown = 0;
+                    if (castTimes.length > 1) {
+                        const cooldowns: number[] = [];
+                        for (let i = 1; i < castTimes.length; i++) {
+                            cooldowns.push(castTimes[i] - castTimes[i - 1]);
+                        }
+                        avgCooldown = cooldowns.reduce((sum, cd) => sum + cd, 0) / cooldowns.length;
                     }
-                    avgCooldown = cooldowns.reduce((sum, cd) => sum + cd, 0) / cooldowns.length;
-                }
-                
-                return (
-                    <Card key={ability.spell.name} variant="outlined" sx={{ 
-                        p: 2, 
-                        background: `linear-gradient(135deg, ${ability.color}20, ${ability.color}10)`, 
-                        borderColor: `${ability.color}50`
-                    }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                            <SpellButton selectedSpell={ability.spell} size={ICON.md} />
-                            <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: ability.color }}>
-                                {ability.spell.name}
-                            </Typography>
+
+                    return (
+                        <Box key={ability.spell.name} sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1.5,
+                            px: 2,
+                            py: 1.5,
+                            borderTop: {
+                                xs: index > 0 ? `1px solid ${HAIRLINE}` : 'none',
+                                md: index > 1 ? `1px solid ${HAIRLINE}` : 'none',
+                            },
+                            borderLeft: {
+                                xs: 'none',
+                                md: index % 2 === 1 ? `1px solid ${HAIRLINE}` : 'none',
+                            },
+                        }}>
+                            <SpellButton selectedSpell={ability.spell} size={ICON.lg} />
+                            <Box sx={{ flex: 1, minWidth: 0 }}>
+                                <Typography sx={{ fontSize: FONT.body, fontWeight: 600 }}>
+                                    {ability.spell.name}
+                                </Typography>
+                                <Typography sx={{ fontFamily: 'monospace', fontSize: FONT.micro, color: 'text.disabled' }}>
+                                    {castsPerMinute.toFixed(1)} {T("cpm")}
+                                    {avgCooldown > 0 && <> · {avgCooldown.toFixed(1)}s {T("avg cd")}</>}
+                                    {' · '}
+                                    <Box component="span" sx={{ color: extraCasts > 0 ? '#4ade80' : 'inherit' }}>
+                                        +{extraCasts} {T("Extra").toLowerCase()}
+                                    </Box>
+                                </Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.75 }}>
+                                <Typography sx={{ fontFamily: 'monospace', fontSize: FONT.heading, lineHeight: 1, color: ability.color }}>
+                                    {withHotJS}
+                                </Typography>
+                                <Typography sx={{ fontSize: FONT.small, color: 'text.secondary' }}>
+                                    {T(pluralize(withHotJS, "Cast")).toLowerCase()}
+                                </Typography>
+                            </Box>
                         </Box>
-                        <Stack direction="row" spacing={1} flexWrap="wrap">
-                            <SwirlChip
-                                message={`${withHotJS} ${T(pluralize(withHotJS, "Cast"))}`}
-                                size="small" 
-                                variant='outlined'
-                                sx={{
-                                    fontWeight: null,
-                                    backgroundColor: ability.color + '20', 
-                                    color: ability.color, 
-                                    borderColor: ability.color + '50',
-                                    '&:hover': {
-                                        backgroundColor: ability.color + '30',
-                                        borderColor: ability.color + '70',
-                                    }
-                                }}
-                            />
-                            <SwirlChip 
-                                message={`+${extraCasts} ${T("Extra")}`} 
-                                size="small" 
-                                variant='outlined'
-                                sx={{ 
-                                    fontWeight: null,
-                                    backgroundColor: extraCasts > 0 ? '#4ade8020' : 'transparent',
-                                    color: extraCasts > 0 ? '#4ade80' : 'rgba(255,255,255,0.5)',
-                                    borderColor: extraCasts > 0 ? '#4ade8050' : 'rgba(255,255,255,0.2)',
-                                    '&:hover': {
-                                        backgroundColor: extraCasts > 0 ? '#4ade8030' : 'rgba(255,255,255,0.05)',
-                                        borderColor: extraCasts > 0 ? '#4ade8070' : 'rgba(255,255,255,0.3)',
-                                    }
-                                }}
-                            />
-                            <SwirlChip 
-                                message={`${castsPerMinute.toFixed(1)} ${T("cpm")}`} 
-                                size="small" 
-                                variant='outlined'
-                                sx={{
-                                    fontWeight: null,
-                                    backgroundColor: 'rgba(255,255,255,0.1)',
-                                    color: 'white',
-                                    borderColor: 'rgba(255,255,255,0.2)',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255,255,255,0.15)',
-                                        borderColor: 'rgba(255,255,255,0.3)',
-                                    }
-                                }}
-                            />
-                            {avgCooldown > 0 && (
-                                <SwirlChip 
-                                    message={`${avgCooldown.toFixed(1)}s ${T("avg cd")}`}
-                                    size="small" 
-                                    variant='outlined'
-                                    sx={{
-                                        fontWeight: null,
-                                        backgroundColor: 'rgba(255,255,255,0.1)',
-                                        color: 'white',
-                                        borderColor: 'rgba(255,255,255,0.2)',
-                                        '&:hover': {
-                                            backgroundColor: 'rgba(255,255,255,0.15)',
-                                            borderColor: 'rgba(255,255,255,0.3)',
-                                        }
-                                    }}
-                                />
-                            )}
-                        </Stack>
-                    </Card>
-                );
-            })}
-        </Stack>
-    </Box>
-);
+                    );
+                })}
+            </Box>
+            <Box sx={{ display: 'flex', borderTop: `1px solid ${HAIRLINE}` }}>
+                <StatCell first value={`${events.length}`} label={T("Heart of the Jade Serpent windows").toLowerCase()} />
+                <StatCell value={`${((uptime / timeRange) * 100).toFixed(1)}%`} label={`${T("uptime")} · ${uptime.toFixed(1)}s`} />
+                {avatarProcsPerMinute !== null && (
+                    <StatCell value={avatarProcsPerMinute.toFixed(2)} label={T("Yu'lon's Avatar procs / min").toLowerCase()} />
+                )}
+            </Box>
+        </Card>
+    );
+};
 
 const TimelineView: React.FC<{
     events: HotJSEvent[];
@@ -566,32 +458,24 @@ const TimelineView: React.FC<{
     
     return (
         <Card variant="outlined" sx={{
-            maxWidth: MAX_WIDTH,
-            width: "95%",
-            mx: "auto"
+            maxWidth: CONTENT_WIDTH.wide,
+            width: "100%",
         }}>
             <CardContent>
+                <Typography sx={{ mb: 1, fontSize: FONT.micro, color: 'text.disabled' }}>
+                    {T("Assumes every spell is used on cooldown as it becomes available")}
+                </Typography>
                 <Box sx={{ 
                     overflowX: 'auto',
                     overflowY: 'hidden',
                     maxWidth: '100%',
-                    '&::-webkit-scrollbar': { height: 8 },
-                    '&::-webkit-scrollbar-track': {
-                        backgroundColor: 'rgba(255,255,255,0.1)',
-                        borderRadius: 1,
-                    },
-                    '&::-webkit-scrollbar-thumb': {
-                        backgroundColor: 'rgba(255,255,255,0.3)',
-                        borderRadius: 1,
-                    },
                 }}>
                     <Box sx={{ 
                         position: 'relative', 
                         height: TIMELINE_HEIGHT, 
                         width: Math.max(1200, timeRange * 6 + leftMargin),
-                        backgroundColor: 'rgba(20, 20, 20, 0.8)',
                         borderRadius: 1,
-                        border: '1px solid rgba(255,255,255,0.1)',
+                        border: `1px solid ${HAIRLINE}`,
                     }}>
                         <Box sx={{
                             position: 'absolute',
@@ -766,6 +650,7 @@ const HotJS: React.FC<{ title: React.ReactNode; description: React.ReactNode }> 
     
     const [timeRange, setTimeRange] = useState<number>(300);
     const [cdrEnabled, setCdrEnabled] = useState<boolean>(true);
+    const [stats, setStats] = useState<StatsCardOptions>(mistweaver.stats);
     
     const allTalents = new Map<spell, boolean>([
         [TALENTS.YULONS_AVATAR, true],
@@ -780,6 +665,8 @@ const HotJS: React.FC<{ title: React.ReactNode; description: React.ReactNode }> 
 
     const affectedAbilities = useMemo(() => createAffectedAbilities(talents), [talents]);
     const celestialConduitCastTime = SPELLS.CELESTIAL_CONDUIT.castTime;
+    const yulonsAvatarEnabled = !!talents.get(TALENTS.YULONS_AVATAR);
+    const avatarProcsPerMinute = YULONS_AVATAR_RPPM * (1 + stats.haste / 100);
 
     const simulation = useMemo(() => {
         const { abilityData, baselineData } = initializeAbilityData(affectedAbilities);
@@ -789,9 +676,8 @@ const HotJS: React.FC<{ title: React.ReactNode; description: React.ReactNode }> 
             celestialConduitCastTime
         );
         
-        const yulonsAvatarEnabled = talents.get(TALENTS.YULONS_AVATAR);
-        const yulonsAvatarProcEvents = yulonsAvatarEnabled 
-            ? generateYulonsAvatarProc(timeRange, 1.5, conduitEvents)
+        const yulonsAvatarProcEvents = yulonsAvatarEnabled
+            ? generateYulonsAvatarProc(timeRange, avatarProcsPerMinute, conduitEvents)
             : [];
         
         const allEvents = [...conduitEvents, ...yulonsAvatarProcEvents];
@@ -818,47 +704,66 @@ const HotJS: React.FC<{ title: React.ReactNode; description: React.ReactNode }> 
         timeRange, 
         celestialConduitCastTime, 
         cdrEnabled,
-        talents,
+        yulonsAvatarEnabled,
+        avatarProcsPerMinute,
         affectedAbilities
     ]);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+        <Container sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center' }}>
             <PageHeader title={title} subtitle={description} />
-            
-            <Card variant="outlined" sx={{ maxWidth: MAX_WIDTH, width: "95%", mx: "auto", mb: 2 }}>
-                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
-                    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2, gap: 2 }}>
-                        <SwirlChip message="We are assuming every spell is being used on cooldown as it becomes available" borderColor="#ffa726"/>
-                        <OptionsCard
-                            cdrEnabled={cdrEnabled}
-                            onCdrEnabledChange={setCdrEnabled}
-                        />
-                        <TalentsCard
-                            options={talents}
-                            color={mistweaver.color}
-                            onChange={handleTalentChange}
-                            card
-                            label={"Talents"}
-                        />
-                        <TimeSliderCard
-                            timeRange={timeRange}
-                            onTimeRangeChange={setTimeRange}
-                        />
-                    </Box>
-                    
-                    <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', md: 'block' } }} />
-                    <Divider sx={{ display: { md: 'none' } }} />
 
-                    <StatsCard
-                        events={simulation.events}
-                        timeRange={timeRange}
-                        abilities={affectedAbilities}
-                        abilityData={simulation.abilityData}
-                        baselineData={simulation.baselineData}
-                    />
-                </Box>
-            </Card>
+            <ConfigPanel
+                sx={{ maxWidth: CONTENT_WIDTH.wide }}
+                accent={mistweaver.color}
+                sections={[
+                    {
+                        key: "stats",
+                        title: "stats",
+                        summary: `${stats.haste}% haste`,
+                        content: <StatsCard options={stats} onOptionsChange={setStats} fields={["haste"]} spec={mistweaver} />,
+                    },
+                    {
+                        key: "talents",
+                        title: "talents",
+                        summary: `${[...talents.values()].filter(Boolean).length} active`,
+                        defaultOpen: true,
+                        content: (
+                            <Group>
+                                <TalentsCard
+                                    label="Talents"
+                                    options={talents}
+                                    color={mistweaver.color}
+                                    onChange={handleTalentChange}
+                                />
+                            </Group>
+                        ),
+                    },
+                    {
+                        key: "setup",
+                        title: "setup",
+                        summary: `${timeRange / 60} min · recovery ${cdrEnabled ? "on" : "off"}`,
+                        content: (
+                            <SetupOptions
+                                timeRange={timeRange}
+                                onTimeRangeChange={setTimeRange}
+                                cdrEnabled={cdrEnabled}
+                                onCdrEnabledChange={setCdrEnabled}
+                                color={mistweaver.color}
+                            />
+                        ),
+                    },
+                ]}
+            />
+
+            <Results
+                events={simulation.events}
+                timeRange={timeRange}
+                abilities={affectedAbilities}
+                abilityData={simulation.abilityData}
+                baselineData={simulation.baselineData}
+                avatarProcsPerMinute={yulonsAvatarEnabled ? avatarProcsPerMinute : null}
+            />
 
             <TimelineView
                 events={simulation.events}
@@ -866,7 +771,7 @@ const HotJS: React.FC<{ title: React.ReactNode; description: React.ReactNode }> 
                 abilityData={simulation.abilityData}
                 timeRange={timeRange}
             />
-        </div>
+        </Container>
     );
 };
 
