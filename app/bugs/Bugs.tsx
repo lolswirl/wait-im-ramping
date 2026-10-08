@@ -16,7 +16,7 @@ import { Bug, STATUS } from "@data/bugs";
 import { useBugFilters } from "@hooks/useBugFilters";
 import { pluralize } from "@util/stringManipulation";
 import { exportBugsToExcel } from "@util/exportBugsToExcel";
-import { FONT } from "@components/Theme/tokens";
+import { FONT, ICON } from "@components/Theme/tokens";
 
 const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const searchParams = useSearchParams();
@@ -36,7 +36,7 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
     const [bugUpdateOpen, setBugUpdateOpen] = useState(false);
 
     const bugs = selectedSpec.bugs || [];
-    const iconSize = 32;
+    const iconSize = ICON.lg;
 
     const {
         selectedSeverity,
