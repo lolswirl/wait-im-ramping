@@ -1147,6 +1147,13 @@ const BUGS: Bug[] = [
         title: <><SpellLink spell={TALENTS.MORNING_BREEZE} /> puts one charge on cooldown if used with 2 charges ready</>,
         description: <>If pressing <SpellLink spell={SPELLS.THUNDER_FOCUS_TEA}/> with two charges available (from 4pc), <SpellLink spell={TALENTS.MORNING_BREEZE}/> will put one charge on cooldown instead of doing nothing (since both charges are off cooldown). Acts -fine-, considering you get the cooldown reduction from the empower on the first charge and its available practically immediately anyways.</>,
         buildsTested: ["68412"],
+    },
+    {
+        spell: TALENTS.RUSHING_WIND_KICK,
+        severity: SEVERITY.MEDIUM,
+        title: <>Does not heal targets with HoTs from Master of Harmony</>,
+        description: <><SpellLink spell={TALENTS.RUSHING_WIND_KICK}/> does not heal targets that have a HoT from Master of Harmony on them: <SpellLink spell={TALENTS.COALESCENCE}/>, <SpellLink spell={TALENTS.PURIFIED_SPIRIT}/>, or the <SpellLink spell={TALENTS.ASPECT_OF_HARMONY_HOT}/> HoT.</>,
+        buildsTested: ["69933"],
     }
 ];
 

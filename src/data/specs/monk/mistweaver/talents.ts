@@ -577,6 +577,12 @@ const talents = {
         icon: 'ability_monk_effuse',
         heroTalent: MOH,
     },
+    PURIFIED_SPIRIT: {
+        name: "Purified Spirit",
+        id: 450867,
+        icon: 'ability_monk_explodingjadeblossom',
+        heroTalent: MOH,
+    },
     MANIFESTATION: {
         name: "Manifestation",
         id: 450875,
