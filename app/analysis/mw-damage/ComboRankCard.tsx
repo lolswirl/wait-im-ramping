@@ -48,7 +48,7 @@ const ComboRankCard: React.FC<Props> = ({ targetCount, spellById }) => {
         </Tabs>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            All Combos · {targetCount} target{targetCount !== 1 ? 's' : ''}, 500s{comboResults !== null ? ` · ${comboResults.length} combinations` : ''}
+            All Combos, {targetCount} target{targetCount !== 1 ? 's' : ''}, 500s{comboResults !== null ? `, ${comboResults.length} combinations` : ''}
           </Typography>
           <SwirlButton
             color="success"

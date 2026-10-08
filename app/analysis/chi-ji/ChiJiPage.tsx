@@ -153,7 +153,7 @@ const ChiJiPage: React.FC<{ title: React.ReactNode; description: React.ReactNode
                         {
                             key: "targets",
                             title: "targets",
-                            summary: `${options.enemyCount} ${pluralize(options.enemyCount, "enemy", "enemies")} · ${options.allyCount} ${pluralize(options.allyCount, "ally", "allies")}`,
+                            summary: `${options.enemyCount} ${pluralize(options.enemyCount, "enemy", "enemies")}, ${options.allyCount} ${pluralize(options.allyCount, "ally", "allies")}`,
                             content: <TargetCountsCard options={options} onOptionsChange={setOptions} />,
                         },
                         {

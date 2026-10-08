@@ -211,7 +211,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
             {
               key: "options",
               title: "options",
-              summary: `${timeSpent}s · ${targetCount} ${targetCount === 1 ? "target" : "targets"}`,
+              summary: `${timeSpent}s, ${targetCount} ${targetCount === 1 ? "target" : "targets"}`,
               content: (
                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
                   <FieldCells
@@ -270,7 +270,7 @@ const DamageComparison: React.FC<{ title: React.ReactNode; description: React.Re
             <Tab label={"DPS"} />
           </Tabs>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            {timeSpent}s · {targetCount} target{targetCount !== 1 ? 's' : ''}
+            {timeSpent}s, {targetCount} target{targetCount !== 1 ? 's' : ''}
           </Typography>
         </Box>
         <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>

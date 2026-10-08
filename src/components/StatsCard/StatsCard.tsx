@@ -63,7 +63,7 @@ export const statsSummary = (options: StatsCardOptions, fields?: (keyof StatsCar
     const compact = present.filter(entry => entry.summary.compact).map(format).join(" ");
     const separate = present.filter(entry => !entry.summary.compact).map(format);
 
-    return [...separate, ...(compact ? [compact] : [])].join(" · ");
+    return [...separate, ...(compact ? [compact] : [])].join(", ");
 };
 
 const StatsCard: React.FC<StatsCardProps> = ({ options, onOptionsChange, label, fields, spec }) => {

@@ -353,7 +353,7 @@ const RisingSunKickResets: React.FC<{ title: React.ReactNode; description: React
                     {
                         key: "setup",
                         title: "setup",
-                        summary: `${attempts} attempts · ${targets} ${pluralize(targets, "target")}`,
+                        summary: `${attempts} attempts, ${targets} ${pluralize(targets, "target")}`,
                         content: (
                             <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                 <SpellInfoDisplay

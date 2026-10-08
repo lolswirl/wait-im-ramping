@@ -743,7 +743,7 @@ const HotJS: React.FC<{ title: React.ReactNode; description: React.ReactNode }> 
                     {
                         key: "setup",
                         title: "setup",
-                        summary: `${timeRange / 60} min · recovery ${cdrEnabled ? "on" : "off"}`,
+                        summary: `${timeRange / 60} min, recovery ${cdrEnabled ? "on" : "off"}`,
                         content: (
                             <SetupOptions
                                 timeRange={timeRange}
