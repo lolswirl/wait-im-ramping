@@ -47,6 +47,8 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
         setSearchText,
         severities,
         statuses,
+        isDefault,
+        clearAllFilters,
         filtered,
     } = useBugFilters(bugs, selectedSpec);
 
@@ -109,6 +111,8 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
                     onSeverityChange={setSelectedSeverity}
                     statuses={statuses}
                     severities={severities}
+                    count={`${filtered.length}/${bugs.length} ${pluralize(bugs.length, "bug")}`}
+                    onReset={isDefault ? undefined : clearAllFilters}
                     onExportToExcel={handleExportToExcel}
                     onOpenBugUpdate={handleOpenBugUpdate}
                 />
@@ -131,15 +135,6 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
                             originalIndices={openBugIndices}
                             specKey={selectedSpec.name}
                         />
-                        <div>
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                                sx={{ textAlign: "center", mt: 2 }}
-                            >
-                                {filtered.length}/{bugs.length} {pluralize(bugs.length, "bug")}
-                            </Typography>
-                        </div>
                     </>
                 ) : (
                     <Typography

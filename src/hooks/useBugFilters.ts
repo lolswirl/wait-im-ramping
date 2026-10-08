@@ -146,7 +146,11 @@ export const useBugFilters = (bugs: Bug[], selectedSpec: specialization) => {
         setSelectedSeverity("All");
         setSelectedStatus(STATUS.OPEN);
         setSearchText("");
-        router.replace(window.location.pathname, { scroll: false });
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete('search');
+        params.delete('severity');
+        params.delete('status');
+        router.replace(`?${params.toString()}`, { scroll: false });
     };
 
     return {

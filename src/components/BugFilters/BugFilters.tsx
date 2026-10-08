@@ -1,8 +1,7 @@
 import React from "react";
-import { Box, TextField, InputAdornment, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import BuildIcon from "@mui/icons-material/Build";
-import CloseIcon from "@mui/icons-material/Close";
 import { useRouter, useSearchParams } from "next/navigation";
 import { T } from "@util/T";
 import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
@@ -12,6 +11,7 @@ import { SEVERITY_COLORS } from "@data/bugs";
 import { useIsLocalhost } from "@hooks/useIsLocalhost";
 import { CONTROL_HEIGHT, FONT } from "@components/Theme/tokens";
 import { SwirlIconButton } from "@components/Buttons/SwirlIconButton";
+import SwirlButton from "@components/Buttons/SwirlButton";
 
 interface BugFiltersProps {
     selectedSpec: specialization;
@@ -24,6 +24,8 @@ interface BugFiltersProps {
     onSeverityChange: (val: string) => void;
     statuses: string[];
     severities: string[];
+    count: string;
+    onReset?: () => void;
     onExportToExcel?: () => void;
     onOpenBugUpdate?: () => void;
 }
@@ -39,6 +41,8 @@ const BugFilters: React.FC<BugFiltersProps> = ({
     onSeverityChange,
     statuses,
     severities,
+    count,
+    onReset,
     onExportToExcel,
     onOpenBugUpdate,
 }) => {
@@ -84,23 +88,6 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                             '&.Mui-focused fieldset': { borderColor: 'text.secondary' },
                         },
                     }}
-                    slotProps={{
-                        input: {
-                            endAdornment: search ? (
-                                <InputAdornment position="end">
-                                    <SwirlIconButton
-                                        onClick={() => onSearchChange('')}
-                                        edge="end"
-                                        tint="danger"
-                                        width={32}
-                                        height={32}
-                                    >
-                                        <CloseIcon fontSize="small" />
-                                    </SwirlIconButton>
-                                </InputAdornment>
-                            ) : null,
-                        },
-                    }}
                 />
             </Box>
 
@@ -122,8 +109,20 @@ const BugFilters: React.FC<BugFiltersProps> = ({
                 }))}
             />
 
+            {onReset && (
+                <SwirlButton onClick={onReset} color="error" sx={{ height: CONTROL_HEIGHT }}>
+                    Reset
+                </SwirlButton>
+            )}
+
+            <Box sx={{ marginLeft: "auto", display: "flex", alignItems: "center", height: CONTROL_HEIGHT }}>
+                <Typography sx={{ fontFamily: "monospace", fontSize: FONT.small, color: "text.secondary", whiteSpace: "nowrap" }}>
+                    {count}
+                </Typography>
+            </Box>
+
             {onExportToExcel && (
-                <Box sx={{ marginLeft: "auto" }}>
+                <Box>
                     <GlassTooltip title={"Export to Excel"}>
                         <SwirlIconButton
                             onClick={onExportToExcel}
