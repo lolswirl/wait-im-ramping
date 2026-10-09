@@ -239,15 +239,17 @@ function ResponsiveAppBar() {
                             }}
                         >
                             <img src="/apple-icon.png" alt="Logo" style={{ width: 20, height: 20, transform: 'translateY(1px)' }} />
-                            <span style={{
-                                background: isHomePage || titleHovered ? RAINBOW_GRADIENT : "none",
-                                WebkitBackgroundClip: isHomePage || titleHovered ? "text" : "unset",
-                                WebkitTextFillColor: isHomePage || titleHovered ? "transparent" : "white",
-                                backgroundClip: isHomePage || titleHovered ? "text" : "unset",
-                                transition: "all 0.3s ease",
-                            }}>
-                                Wait, I'm Ramping!
-                            </span>
+                            {!isHomePage && (
+                                <span style={{
+                                    background: titleHovered ? RAINBOW_GRADIENT : "none",
+                                    WebkitBackgroundClip: titleHovered ? "text" : "unset",
+                                    WebkitTextFillColor: titleHovered ? "transparent" : "white",
+                                    backgroundClip: titleHovered ? "text" : "unset",
+                                    transition: "all 0.3s ease",
+                                }}>
+                                    Wait, I'm Ramping!
+                                </span>
+                            )}
                             {displayBranch && (
                                 <Typography
                                     component="span"
