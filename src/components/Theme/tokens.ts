@@ -40,6 +40,9 @@ export const FIELD_HEIGHT = 53;
 // single-row controls - selects, search, filter spec chip
 export const CONTROL_HEIGHT = 42;
 
+// config chips, filter chips, table header
+export const CHIP_HEIGHT = 32;
+
 export const RADIUS = {
     card: 8,
     control: 4,

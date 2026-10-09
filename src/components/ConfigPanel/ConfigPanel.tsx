@@ -2,7 +2,7 @@
 import React, { useState, useRef } from "react";
 import { Box, Collapse, Typography, useTheme } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
-import { FONT, TINT } from "@components/Theme/tokens";
+import { CHIP_HEIGHT, FONT, TINT } from "@components/Theme/tokens";
 
 export interface ConfigSection {
     key: string;
@@ -17,10 +17,12 @@ interface ConfigPanelProps {
     sections: ConfigSection[];
     accent?: string;
     onReset?: () => void;
+    // extra chips in the row, before the sections
+    leading?: React.ReactNode;
     sx?: object;
 }
 
-const ConfigPanel: React.FC<ConfigPanelProps> = ({ sections, accent, onReset, sx }) => {
+const ConfigPanel: React.FC<ConfigPanelProps> = ({ sections, accent, onReset, leading, sx }) => {
     const theme = useTheme();
     const accentColor = accent ?? theme.palette.primary.main;
     const [activeKey, setActiveKey] = useState<string | null>(
@@ -33,7 +35,8 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({ sections, accent, onReset, sx
 
     return (
         <Box sx={{ width: "100%", ...sx }}>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 1 }}>
+                {leading}
                 {sections.map(section => {
                     const isActive = section.key === activeKey;
                     return (
@@ -53,7 +56,8 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({ sections, accent, onReset, sx
                                 alignItems: "center",
                                 gap: 1,
                                 px: 1.5,
-                                py: 0.75,
+                                height: CHIP_HEIGHT,
+                                boxSizing: "border-box",
                                 borderRadius: 1,
                                 border: "1px solid",
                                 borderColor: isActive ? accentColor : "divider",
@@ -65,17 +69,19 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({ sections, accent, onReset, sx
                                 "&:hover": { borderColor: accentColor },
                             }}
                         >
-                            <Typography sx={{ fontSize: FONT.micro, fontWeight: 700, letterSpacing: 0.5, color: "text.disabled" }}>
-                                {section.title}
-                            </Typography>
-                            {section.icon && (
-                                <Box sx={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
-                                    {section.icon}
-                                </Box>
-                            )}
-                            <Typography component="div" sx={{ fontSize: FONT.small, fontFamily: "monospace", color: "text.primary" }}>
-                                {section.summary}
-                            </Typography>
+                            <Box sx={{ display: "inline-flex", alignItems: "baseline", gap: 1 }}>
+                                <Typography sx={{ fontSize: FONT.micro, fontWeight: 700, letterSpacing: 0.5, color: "text.disabled" }}>
+                                    {section.title}
+                                </Typography>
+                                {section.icon && (
+                                    <Box sx={{ display: "flex", alignSelf: "center", flexShrink: 0 }}>
+                                        {section.icon}
+                                    </Box>
+                                )}
+                                <Typography component="div" sx={{ fontSize: FONT.small, fontFamily: "monospace", color: "text.primary" }}>
+                                    {section.summary}
+                                </Typography>
+                            </Box>
                             <ExpandMore sx={{
                                 fontSize: 15,
                                 color: "text.disabled",
