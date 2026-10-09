@@ -38,7 +38,7 @@ const tools = [
     },
     {
         title: "Analysis",
-        description: "Compare healing mechanics with the math behind them",
+        description: "Compare healing mechanics with the math",
         path: "/analysis",
         preview: "/previews/heart-of-the-jade-serpent.png"
     },
@@ -144,19 +144,43 @@ const Hero = () => (
 );
 
 const ToolCard = ({ tool, height }: { tool: typeof tools[number]; height: number }) => (
-    <RainbowCard href={tool.path} sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <RainbowCard
+        href={tool.path}
+        sx={{
+            display: { xs: 'grid', sm: 'flex' },
+            gridTemplateColumns: '110px 1fr',
+            flexDirection: 'column',
+            height: '100%',
+            overflow: 'hidden',
+            '&:hover .tool-shot': { opacity: 1, transform: 'scale(1.03)' },
+        }}
+    >
         <Box sx={{
-            height,
-            backgroundImage: `url(${tool.preview})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            borderBottom: `1px solid ${HAIRLINE}`,
-        }} />
-        <Box sx={{ p: 2, textAlign: 'center' }}>
+            position: 'relative',
+            overflow: 'hidden',
+            height: { xs: 'auto', sm: height },
+            minHeight: 76,
+            borderBottom: { sm: `1px solid ${HAIRLINE}` },
+            borderRight: { xs: `1px solid ${HAIRLINE}`, sm: 'none' },
+        }}>
+            <Box
+                className="tool-shot"
+                sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    backgroundImage: `url(${tool.preview})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    opacity: 0.7,
+                    transition: 'opacity 0.25s ease, transform 0.4s ease',
+                }}
+            />
+        </Box>
+        <Box sx={{ p: { xs: 1.5, sm: 2 }, textAlign: { xs: 'left', sm: 'center' } }}>
             <Typography sx={{ fontSize: FONT.subhead, fontWeight: 700, mb: 0.25, color: 'text.primary' }}>
                 {tool.title}
             </Typography>
-            <Typography sx={{ fontSize: FONT.body, color: 'text.secondary' }}>
+            <Typography sx={{ fontSize: { xs: FONT.small, sm: FONT.body }, color: 'text.secondary' }}>
                 {tool.description}
             </Typography>
         </Box>
