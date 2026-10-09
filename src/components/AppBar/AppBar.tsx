@@ -16,19 +16,19 @@ import {
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { useBranchName, useIsNonProd } from "@lib/betaModeClient";
 import { T } from "@util/T";
-import { useSpec } from "@context/SpecContext";
-import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
 import SwirlButton from "@components/Buttons/SwirlButton";
 import { NavIconButton } from "@components/Buttons/NavIconButton";
 import { GlassBox } from "@components/Glass";
 import { RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
-import { BLUR, CONTROL_HEIGHT, FONT, SECTIONS } from "@components/Theme/tokens";
+import { BLUR, SECTIONS } from "@components/Theme/tokens";
+
+// the logo links home
+const NAV_SECTIONS = SECTIONS.filter(section => section.path !== "/");
 
 function ResponsiveAppBar() {
     const pathname = usePathname();
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const [titleHovered, setTitleHovered] = React.useState(false);
-    const { spec, setSpec } = useSpec();
     const isNonProd = useIsNonProd();
     const branchName = useBranchName();
     const displayBranch = isNonProd && branchName ? ` [${branchName}]` : "";
@@ -52,29 +52,14 @@ function ResponsiveAppBar() {
             role="presentation"
         >
             <Box sx={{ 
-                p: 3, 
-                display: "flex", 
-                alignItems: "center", 
-                gap: 2,
+                px: 2,
+                py: 1,
+                display: "flex",
+                justifyContent: "flex-end",
                 borderBottom: "1px solid",
                 borderColor: "rgba(255,255,255,0.1)"
             }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, flexGrow: 1 }}>
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            fontWeight: 700,
-                            color: "white",
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: 0.5,
-                        }}
-                    >
-                        <img src="/apple-icon.png" alt="Logo" style={{ width: 16, height: 16, transform: 'translateY(2px)' }} />
-                        <span>Wait, I'm Ramping!</span>
-                    </Typography>
-                </Box>
-                <NavIconButton 
+                <NavIconButton
                     onClick={handleDrawerToggle}
                     size="small"
                     hoverColor="#ef4444"
@@ -85,7 +70,7 @@ function ResponsiveAppBar() {
 
             {/* mobile nav */}
             <List sx={{ px: 1, py: 2 }}>
-                {SECTIONS.map(({ label, path, color }) => {
+                {NAV_SECTIONS.map(({ label, path, color }) => {
                     const isActive = path === "/"
                         ? pathname === path
                         : pathname?.startsWith(path);
@@ -148,47 +133,6 @@ function ResponsiveAppBar() {
                     );
                 })}
             </List>
-
-            <Box sx={{ flexGrow: 1 }} />
-
-            <Box sx={{ 
-                p: 3, 
-                borderTop: "1px solid",
-                borderColor: "rgba(255,255,255,0.1)"
-            }}>
-                <Typography 
-                    variant="subtitle2" 
-                    sx={{ 
-                        mb: 2, 
-                        color: "rgba(255,255,255,0.7)",
-                        fontSize: FONT.small,
-                        fontWeight: 600,
-                        letterSpacing: "0.5px"
-                    }}
-                >
-                    Settings
-                </Typography>
-                <Box 
-                    sx={{ 
-                        position: 'relative', 
-                        zIndex: 1, 
-                        color: 'white',
-                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                        backdropFilter: BLUR.surface,
-                        px: 1,
-                        py: 0.5,
-                        borderRadius: 1,
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        height: 'fit-content',
-                        width: 'fit-content'
-                    }}
-                >
-                    {spec && <SpecializationSelect selectedSpec={spec} onSpecChange={setSpec} short withLabel height={CONTROL_HEIGHT} />}
-                </Box>
-            </Box>
         </Box>
     );
 
@@ -268,7 +212,7 @@ function ResponsiveAppBar() {
 
                         {/* desktop navigation */}
                         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 1, mb: "-2px" }}>
-                            {SECTIONS.map(({ label, path, color }) => {
+                            {NAV_SECTIONS.map(({ label, path, color }) => {
                                 const isActive = path === "/"
                                     ? pathname === path
                                     : pathname?.startsWith(path);
@@ -285,10 +229,6 @@ function ResponsiveAppBar() {
                                     </SwirlButton>
                                 );
                             })}
-                        </Box>
-
-                        <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", ml: 1 }}>
-                            {spec && <SpecializationSelect selectedSpec={spec} onSpecChange={setSpec} short withLabel height={32} />}
                         </Box>
 
                         {/* mobile menu button */}
