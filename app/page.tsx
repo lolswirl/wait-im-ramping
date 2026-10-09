@@ -180,8 +180,6 @@ const ToolGrid = () => (
 
 const Byline = () => (
     <Box sx={{
-        borderTop: '1px solid rgba(255,255,255,0.05)',
-        pt: 2.5,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -191,9 +189,9 @@ const Byline = () => (
                 <Avatar
                     src={"/swirl_panda.jpg"}
                     alt="swirl"
-                    sx={{ width: 22, height: 22, borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}
+                    sx={{ width: 24, height: 24, borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}
                 />
-                <Typography sx={{ fontSize: FONT.small, fontWeight: 600, color: 'text.secondary', transition: 'color 0.2s' }}>
+                <Typography sx={{ fontSize: FONT.body, fontWeight: 600, color: 'text.secondary', transition: 'color 0.2s' }}>
                     made by{' '}
                     <Box
                         component="span"
