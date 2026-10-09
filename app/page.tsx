@@ -121,11 +121,10 @@ const Hero = () => (
         },
     }}>
         <Typography
+            variant="h2"
             component="h1"
             sx={{
                 fontWeight: 'bold',
-                fontSize: '2.75rem',
-                lineHeight: 1.1,
                 background: `linear-gradient(90deg, ${[...RAINBOW_COLORS, ...RAINBOW_COLORS].join(', ')})`,
                 backgroundSize: '200% auto',
                 WebkitBackgroundClip: 'text',
@@ -136,8 +135,8 @@ const Hero = () => (
         >
             Wait, I'm Ramping!
         </Typography>
-        <Typography sx={{ fontSize: FONT.subhead, color: 'text.secondary' }}>
-            Healer theorycrafting tools for World of Warcraft
+        <Typography variant="h6" color="text.secondary">
+            Healer theorycrafting and optimization tools for World of Warcraft
         </Typography>
         <StatusLine />
     </Box>
