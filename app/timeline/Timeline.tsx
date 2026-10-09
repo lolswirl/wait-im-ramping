@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Typography, Box, Card, Divider, useMediaQuery, useTheme, } from '@mui/material';
 
 import TimelineVisualizer from '@components/TimelineVisualizer/TimelineVisualizer';
-import SpecializationSelect from '@components/SpecializationSelect/SpecializationSelect';
+import { SpecChip } from '@components/FilterChips/FilterChips';
 import SpellButtons from '@components/SpellButtons/SpellButtons';
 import CurrentRotationControl from '@components/CurrentRotationControl/CurrentRotationControl';
 import PageHeader from '@components/PageHeader/PageHeader';
@@ -114,13 +114,8 @@ const Timeline: React.FC<{ title: React.ReactNode; description: React.ReactNode 
             <Box sx={{ maxWidth: { xs: '90%', sm: '90%', md: CONTENT_WIDTH.narrow }, width: { xs: '90%', sm: '90%', md: '100%' }, mx: 'auto' }}>
                 <ConfigPanel
                     accent={spec.color}
+                    leading={<SpecChip accent={spec.color} spec={spec} onChange={handleSpecChange} />}
                     sections={[
-                        {
-                            key: "spec",
-                            title: "spec",
-                            summary: spec.name.toLowerCase(),
-                            content: <SpecializationSelect short withLabel selectedSpec={spec} onSpecChange={handleSpecChange} />,
-                        },
                         {
                             key: "stats",
                             title: "stats",

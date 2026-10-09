@@ -4,7 +4,7 @@ import { Card, Box, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
 import PageHeader from '@components/PageHeader/PageHeader';
-import SpecializationSelect from '@components/SpecializationSelect/SpecializationSelect';
+import { SpecChip } from '@components/FilterChips/FilterChips';
 import SpellButtons from '@components/SpellButtons/SpellButtons';
 import SpellTable from '@components/SpellTable/SpellTable';
 import SwirlChip from '@components/SwirlChip/SwirlChip';
@@ -138,13 +138,8 @@ const WhenDoIRamp: React.FC<{ title: React.ReactNode; description: React.ReactNo
             <Box sx={{ maxWidth: CONTENT_WIDTH.narrow, width: { xs: "90%", sm: "90%", md: "100%" }, mx: "auto" }}>
                 <ConfigPanel
                     accent={spec.color}
+                    leading={<SpecChip accent={spec.color} spec={spec} onChange={handleSpecChange} />}
                     sections={[
-                        {
-                            key: "spec",
-                            title: "spec",
-                            summary: spec.name.toLowerCase(),
-                            content: <SpecializationSelect short withLabel selectedSpec={spec} onSpecChange={handleSpecChange} />,
-                        },
                         {
                             key: "stats",
                             title: "stats",
