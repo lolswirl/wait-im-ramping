@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import RainbowCard from "@components/Buttons/RainbowCard";
+import { CHIP_HEIGHT } from "@components/Theme/tokens";
 
 const ACCENT_WIDTH = 7;
 
@@ -14,6 +15,7 @@ export interface SwirlColumn<T> {
     align?: "left" | "right" | "center";
     width?: string | number;
     sortValue?: (row: T) => string | number;
+    sortDescFirst?: boolean;
 }
 
 interface SwirlTableProps<T> {
@@ -25,6 +27,8 @@ interface SwirlTableProps<T> {
     defaultSortKey?: string;
     defaultSortDir?: "asc" | "desc";
     hideHeader?: boolean;
+    dense?: boolean;
+    dimmed?: (row: T) => boolean;
 }
 
 function SwirlTable<T>({
@@ -36,6 +40,8 @@ function SwirlTable<T>({
     defaultSortKey,
     defaultSortDir = "asc",
     hideHeader = false,
+    dense = false,
+    dimmed,
 }: SwirlTableProps<T>) {
     const [sortKey, setSortKey] = useState<string>(defaultSortKey ?? "");
     const [sortDir, setSortDir] = useState<"asc" | "desc">(defaultSortDir);
@@ -47,7 +53,7 @@ function SwirlTable<T>({
             setSortDir(d => d === "asc" ? "desc" : "asc");
         } else {
             setSortKey(key);
-            setSortDir("asc");
+            setSortDir(columns.find(c => c.key === key)?.sortDescFirst ? "desc" : "asc");
         }
     };
 
@@ -74,7 +80,9 @@ function SwirlTable<T>({
             {!hideHeader && <Box sx={{
                 display: "grid",
                 gridTemplateColumns: accentColor ? `${ACCENT_WIDTH}px ${gridTemplateColumns}` : gridTemplateColumns,
-                py: 0.75,
+                alignItems: "center",
+                height: CHIP_HEIGHT,
+                boxSizing: "border-box",
                 borderRadius: 1,
                 backgroundColor: "background.paper",
                 border: "1px solid",
@@ -112,7 +120,7 @@ function SwirlTable<T>({
             </Box>}
 
             {/* rows */}
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: dense ? 0.25 : 0.5 }}>
                 {sorted.map((row, i) => {
                     const accent = accentColor?.(row);
                     return (
@@ -125,6 +133,7 @@ function SwirlTable<T>({
                                 alignItems: "center",
                                 cursor: onRowClick ? "pointer" : "default",
                                 overflow: "hidden",
+                                opacity: dimmed?.(row) ? 0.45 : 1,
                             }}
                         >
                             {accent !== undefined && (
@@ -135,7 +144,7 @@ function SwirlTable<T>({
                                     key={col.key}
                                     sx={{
                                         px: 1.5,
-                                        py: 1.25,
+                                        py: dense ? 0.5 : 1.25,
                                         display: "flex",
                                         alignItems: "center",
                                         justifyContent: col.align === "right" ? "flex-end" : col.align === "center" ? "center" : "flex-start",
