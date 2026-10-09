@@ -193,7 +193,7 @@ export const spellReference = {
   label: "Spell Reference",
   path: "/analysis/spell-reference",
   preview: "/previews/spell-reference.png",
-  description: "Spellpower coefficients and absolute values for spells",
+  description: "Spellpower for every spell and talent, with your stats and talents applied",
   tags: [],
   createdDate: date(2026, 5, 31),
   component: SpellReference,

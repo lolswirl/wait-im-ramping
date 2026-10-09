@@ -34,7 +34,7 @@ const quickAccessPages = [
     },
     {
         title: "Spell Reference",
-        description: "View spellpower data for all relevant spells and talents",
+        description: "Spellpower for every spell and talent, with your stats and talents applied",
         icon: <Percent sx={{ fontSize: quickAccessIconSize }} />,
         path: "/analysis/spell-reference",
         preview: "/previews/spell-reference.png"
