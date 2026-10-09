@@ -10,6 +10,7 @@ const talents = {
         id: 274586,
         icon: 'ability_monk_vivify',
         coeff: 3.71657,
+        category: CATEGORY.HEALING,
         effects: {
             sheilunsMainTargetIncrease: 5.0,
         }
