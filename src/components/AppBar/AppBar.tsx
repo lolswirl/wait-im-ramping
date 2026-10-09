@@ -200,6 +200,8 @@ function ResponsiveAppBar() {
                                     sx={{
                                         fontSize: { xs: "0.65rem", md: "0.75rem" },
                                         fontWeight: 500,
+                                        lineHeight: 1,
+                                        transform: "translateY(1px)",
                                         color: "rgba(255,255,255,0.7)",
                                     }}
                                 >
