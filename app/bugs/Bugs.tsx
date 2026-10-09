@@ -12,7 +12,8 @@ import BugDialog from "@components/BugDialog/BugDialog";
 import BugFilters from "@components/BugFilters/BugFilters";
 import BugUpdateWorkflow from "@components/BugUpdateWorkflow/BugUpdateWorkflow";
 
-import { CLASSES, specialization, getSpecializationByKey } from "@data/class";
+import { getSpecializationByKey } from "@data/class";
+import { useSpec } from "@context/SpecContext";
 import { Bug, STATUS } from "@data/bugs";
 
 import { useBugFilters } from "@hooks/useBugFilters";
@@ -34,16 +35,7 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
     const searchParams = useSearchParams();
     const router = useRouter();
     
-    const getInitialSpec = (): specialization => {
-        const specParam = searchParams.get('spec');
-        if (specParam) {
-            const urlSpec = getSpecializationByKey(specParam);
-            if (urlSpec) return urlSpec;
-        }
-        return CLASSES.MONK.SPECS.MISTWEAVER;
-    };
-
-    const [selectedSpec, setSelectedSpec] = useState<specialization>(getInitialSpec());
+    const { spec: selectedSpec, setSpec: setSelectedSpec } = useSpec();
     const [bugUpdateOpen, setBugUpdateOpen] = useState(false);
 
     const bugs = selectedSpec.bugs || [];

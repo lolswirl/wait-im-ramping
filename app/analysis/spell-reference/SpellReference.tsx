@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Box,
   Container,
@@ -18,7 +18,8 @@ import { SearchChip, SelectChip, SpecChip } from "@components/FilterChips/Filter
 
 import spell, { CATEGORY, CATEGORY_COLORS, calculateCastTime } from "@data/spells/spell";
 import { formatNumber, formatPercent } from "@util/stringManipulation";
-import { CLASSES, specialization } from "@data/class";
+import { specialization } from "@data/class";
+import { useSpec } from "@context/SpecContext";
 import { Player, SpellModifier, TalentMap, isTalentEnabled } from "@data/shared/engine";
 import { getSpecEngine } from "@data/shared/specEngines";
 import type { HeroTree } from "@data/heroTalents";
@@ -176,7 +177,7 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [spec, setSpec] = useState<specialization>(CLASSES.MONK.SPECS.MISTWEAVER);
+  const { spec, setSpec } = useSpec();
   const [stats, setStats] = useState<StatsCardOptions>({ ...spec.stats });
   const [specTalents, setSpecTalents] = useState<TalentMap>(spec.defaultTalents?.spec ?? new Map());
   const [heroTalents, setHeroTalents] = useState(spec.defaultTalents?.hero ?? new Map<spell, boolean>());
@@ -190,14 +191,15 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
     [specTalents, heroTalents, classTalents, tierSet]
   );
 
-  const handleSpecChange = (newSpec: specialization) => {
-    setSpec(newSpec);
-    setStats({ ...newSpec.stats });
-    setSpecTalents(newSpec.defaultTalents?.spec ?? new Map());
-    setHeroTalents(newSpec.defaultTalents?.hero ?? new Map());
-    setClassTalents(newSpec.defaultTalents?.class ?? new Map());
-    setTierSet(newSpec.tierSet ?? new Map());
+  const resetConfig = (target: specialization) => {
+    setStats({ ...target.stats });
+    setSpecTalents(target.defaultTalents?.spec ?? new Map());
+    setHeroTalents(target.defaultTalents?.hero ?? new Map());
+    setClassTalents(target.defaultTalents?.class ?? new Map());
+    setTierSet(target.tierSet ?? new Map());
   };
+
+  useEffect(() => resetConfig(spec), [spec]);
 
   const allSpells = useMemo(() => [
     ...Object.values(spec.spells),
@@ -348,8 +350,8 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
       <ConfigPanel
         sx={{ maxWidth: CONTENT_WIDTH.wide }}
         accent={spec.color}
-        onReset={() => handleSpecChange(spec)}
-        leading={<SpecChip accent={spec.color} spec={spec} onChange={handleSpecChange} />}
+        onReset={() => resetConfig(spec)}
+        leading={<SpecChip accent={spec.color} spec={spec} onChange={setSpec} />}
         sections={[
           {
             key: "stats",
