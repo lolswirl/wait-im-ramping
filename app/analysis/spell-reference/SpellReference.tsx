@@ -3,8 +3,9 @@ import React, { useState, useMemo } from "react";
 import {
   Box,
   Container,
-  TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { GlassTooltip } from "@components/Glass";
 import SwirlTable, { SwirlColumn } from "@components/SwirlTable/SwirlTable";
@@ -12,19 +13,19 @@ import SwirlTable, { SwirlColumn } from "@components/SwirlTable/SwirlTable";
 import PageHeader from "@components/PageHeader/PageHeader";
 import StatsCard, { Group, statsSummary, type StatsCardOptions } from "@components/StatsCard/StatsCard";
 import ConfigPanel from "@components/ConfigPanel/ConfigPanel";
-import { CONTENT_WIDTH, ICON } from "@components/Theme/tokens";
-import SpecializationSelect from "@components/SpecializationSelect/SpecializationSelect";
+import { CONTENT_WIDTH, FONT, HAIRLINE, ICON, RADIUS } from "@components/Theme/tokens";
+import { SearchChip, SelectChip, SpecChip } from "@components/FilterChips/FilterChips";
 
-import spell, { CATEGORY, CATEGORY_COLORS } from "@data/spells/spell";
-import { formatNumber, formatPercent, pluralize } from "@util/stringManipulation";
+import spell, { CATEGORY, CATEGORY_COLORS, calculateCastTime } from "@data/spells/spell";
+import { formatNumber, formatPercent } from "@util/stringManipulation";
 import { CLASSES, specialization } from "@data/class";
-import { Player, SpellModifier, TalentMap } from "@data/shared/engine";
+import { Player, SpellModifier, TalentMap, isTalentEnabled } from "@data/shared/engine";
 import { getSpecEngine } from "@data/shared/specEngines";
+import type { HeroTree } from "@data/heroTalents";
 import TalentsCard from "@components/TalentsCard/TalentsCard";
 import HeroTalentsCard from "@components/TalentsCard/HeroTalentsCard";
 
 import SpellButton from "@components/SpellButtons/SpellButton";
-import FieldCells from "@components/FieldCells/FieldCells";
 
 
 type SpellRow = {
@@ -34,10 +35,13 @@ type SpellRow = {
   spCoeff: number | null;
   absolute: number | null;
   modifiers?: SpellModifier[];
-  targets?: number;
+  targets: number;
+  available: boolean;
 };
 
 type SpellType = typeof CATEGORY.DAMAGE | typeof CATEGORY.HEALING;
+
+const ALL_TYPES = "All";
 
 const coeffTypes = (s: spell): SpellType[] => {
   if (s.formula !== undefined) {
@@ -117,27 +121,69 @@ const getMaxTargets = (s: spell, type: SpellType): number => {
   return (type === CATEGORY.DAMAGE ? th.damage : th.healing) ?? 1;
 };
 
-const expandRows = (s: spell, player: Player, specKey: string): SpellRow[] =>
-  coeffTypes(s).flatMap(type => {
-    const maxTargets = getMaxTargets(s, type);
-    if (maxTargets > 1) {
-      return [
-        { spell: s, type, targets: 1, ...resolveValue(s, type, player, specKey, 1) },
-        { spell: s, type, targets: maxTargets, ...resolveValue(s, type, player, specKey, maxTargets) },
-      ];
-    }
-    return [{ spell: s, type, ...resolveValue(s, type, player, specKey, 1) }];
+const isAvailable = (s: spell, talents: TalentMap, activeTrees: Set<HeroTree>): boolean => {
+  if (talents.has(s) && !isTalentEnabled(talents, s)) return false;
+  if (s.heroTalent && activeTrees.size > 0 && !activeTrees.has(s.heroTalent)) return false;
+  return true;
+};
+
+const expandRows = (s: spell, player: Player, specKey: string, activeTrees: Set<HeroTree>): SpellRow[] =>
+  coeffTypes(s).map(type => {
+    const targets = getMaxTargets(s, type);
+    const resolved = resolveValue(s, type, player, specKey, targets);
+    return {
+      spell: s,
+      type,
+      targets,
+      ...resolved,
+      available: isAvailable(s, player.talents, activeTrees),
+    };
   });
 
-const isDev = process.env.NODE_ENV === 'development';
+const spellName = (s: spell) => s.display?.name ?? s.name;
+
+const rowTags = (row: SpellRow): string[] => {
+  const tags: string[] = [];
+  if (row.spell.periodic) tags.push(row.type === CATEGORY.DAMAGE ? "DoT" : "HoT");
+  if (row.targets > 1) tags.push(`${row.targets} targets`);
+  if (!row.available) tags.push("not talented");
+  return tags;
+};
+
+const numeric = { fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" };
+
+const formatMultiplier = (multiplier: number) => `×${parseFloat(multiplier.toFixed(3))}`;
+
+const tooltipRule = <Box sx={{ gridColumn: "1 / -1", height: "1px", backgroundColor: HAIRLINE, my: 0.25 }} />;
+
+const dash = <Typography variant="body2" color="text.disabled">—</Typography>;
+
+const EmptyMessage: React.FC<{ message: string; hint: string }> = ({ message, hint }) => (
+  <Box sx={{
+    width: "100%",
+    maxWidth: CONTENT_WIDTH.wide,
+    py: 4,
+    textAlign: "center",
+    border: `1px dashed ${HAIRLINE}`,
+    borderRadius: `${RADIUS.card}px`,
+  }}>
+    <Typography variant="body2">{message}</Typography>
+    <Typography variant="caption" color="text.disabled">{hint}</Typography>
+  </Box>
+);
 
 const SpellReference: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [spec, setSpec] = useState<specialization>(CLASSES.MONK.SPECS.MISTWEAVER);
   const [stats, setStats] = useState<StatsCardOptions>({ ...spec.stats });
   const [specTalents, setSpecTalents] = useState<TalentMap>(spec.defaultTalents?.spec ?? new Map());
   const [heroTalents, setHeroTalents] = useState(spec.defaultTalents?.hero ?? new Map<spell, boolean>());
   const [classTalents, setClassTalents] = useState<TalentMap>(spec.defaultTalents?.class ?? new Map());
   const [tierSet, setTierSet] = useState(spec.tierSet ?? new Map<spell, boolean>());
+  const [search, setSearch] = useState("");
+  const [typeFilter, setTypeFilter] = useState<string>(ALL_TYPES);
 
   const talents = useMemo(
     (): TalentMap => new Map([...specTalents, ...heroTalents, ...classTalents, ...tierSet]),
@@ -160,8 +206,140 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
 
   const rows = useMemo(() => {
     const player: Player = { stats, talents, corePassives: spec.corePassives ?? [] };
-    return allSpells.flatMap(s => expandRows(s, player, spec.key));
-  }, [spec, allSpells, stats.intellect, stats.haste, stats.crit, stats.versatility, stats.mastery, stats.totalHp, talents]);
+    const activeTrees = new Set<HeroTree>();
+    for (const [talent, enabled] of heroTalents) {
+      if (enabled && talent.heroTalent) activeTrees.add(talent.heroTalent);
+    }
+    return allSpells.flatMap(s => expandRows(s, player, spec.key, activeTrees));
+  }, [spec, allSpells, stats.intellect, stats.haste, stats.crit, stats.versatility, stats.mastery, stats.totalHp, talents, heroTalents]);
+
+  const visibleRows = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    return rows.filter(row =>
+      (typeFilter === ALL_TYPES || row.type === typeFilter) &&
+      spellName(row.spell).toLowerCase().includes(query)
+    );
+  }, [rows, search, typeFilter]);
+
+  const columns: SwirlColumn<SpellRow>[] = [
+    {
+      key: "spell",
+      label: "Spell",
+      width: "2fr",
+      sortValue: row => spellName(row.spell),
+      render: row => (
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 0 }}>
+          <SpellButton selectedSpell={{ ...row.spell, icon: row.spell.display?.icon ?? row.spell.icon }} size={ICON.md} />
+          <Box sx={{ minWidth: 0 }}>
+            <Typography variant="body2" fontWeight="bold" noWrap>{spellName(row.spell)}</Typography>
+            <Typography variant="caption" color="text.disabled" component="div" noWrap>
+              <Box component="span" sx={{ color: CATEGORY_COLORS[row.type] }}>{row.type.toLowerCase()}</Box>
+              {rowTags(row).map(tag => ` · ${tag}`)}
+            </Typography>
+          </Box>
+        </Box>
+      ),
+    },
+    {
+      key: "cast",
+      label: "Cast",
+      width: "0.8fr",
+      align: "right",
+      sortValue: row => row.spell.castTime !== undefined ? calculateCastTime(row.spell, stats.haste) : -1,
+      render: row => {
+        if (row.spell.castTime === undefined) return dash;
+        return (
+          <Box sx={{ textAlign: "right" }}>
+            <Typography variant="body2" color="text.secondary" sx={numeric}>
+              {row.spell.castTime === 0 ? "instant" : `${calculateCastTime(row.spell, stats.haste).toFixed(2)}s`}
+            </Typography>
+            {row.spell.cooldown !== undefined && (
+              <Typography variant="caption" color="text.disabled" component="div" sx={numeric}>
+                {row.spell.cooldown}s cd
+              </Typography>
+            )}
+          </Box>
+        );
+      },
+    },
+    {
+      key: "baseSp",
+      label: "Base SP%",
+      width: "1fr",
+      align: "right",
+      sortDescFirst: true,
+      sortValue: row => row.baseSpCoeff ?? -1,
+      render: row => row.baseSpCoeff === null ? dash : (
+        <Typography variant="body2" color="text.secondary" sx={numeric}>
+          {formatPercent(row.baseSpCoeff)}
+        </Typography>
+      ),
+    },
+    {
+      key: "effectiveSp",
+      label: "Effective SP%",
+      width: "1fr",
+      align: "right",
+      sortDescFirst: true,
+      sortValue: row => row.spCoeff ?? -1,
+      render: row => {
+        if (row.spCoeff === null) return dash;
+        const value = <Typography variant="body2" sx={numeric}>{formatPercent(row.spCoeff)}</Typography>;
+        if (row.baseSpCoeff === null || !row.modifiers?.length) return value;
+        const totalMultiplier = row.modifiers.reduce((acc, m) => acc * m.multiplier, 1);
+        return (
+          <GlassTooltip
+            placement="left"
+            title={
+              <Box sx={{ display: "grid", gridTemplateColumns: "auto auto", columnGap: 1.5, rowGap: 0.25 }}>
+                <Typography variant="caption" color="text.secondary">base</Typography>
+                <Typography variant="caption" align="right" sx={numeric}>{formatPercent(row.baseSpCoeff)}</Typography>
+                {tooltipRule}
+                {row.modifiers.map((m, i) => (
+                  <React.Fragment key={i}>
+                    <Typography variant="caption" color="text.secondary">{m.label.toLowerCase()}</Typography>
+                    <Typography variant="caption" align="right" sx={numeric}>{formatMultiplier(m.multiplier)}</Typography>
+                  </React.Fragment>
+                ))}
+                {tooltipRule}
+                <Typography variant="caption" color="text.secondary">total multiplier</Typography>
+                <Typography variant="caption" align="right" sx={numeric}>{formatMultiplier(totalMultiplier)}</Typography>
+                <Typography variant="caption" fontWeight="bold">effective</Typography>
+                <Typography variant="caption" align="right" fontWeight="bold" sx={numeric}>{formatPercent(row.spCoeff)}</Typography>
+              </Box>
+            }
+          >
+            <Box component="span" sx={{ display: "inline-block", cursor: "help", textDecoration: "underline dotted", textUnderlineOffset: 3 }}>
+              {value}
+            </Box>
+          </GlassTooltip>
+        );
+      },
+    },
+    {
+      key: "absolute",
+      label: "Per cast",
+      width: "1fr",
+      align: "right",
+      sortDescFirst: true,
+      sortValue: row => row.absolute ?? -1,
+      render: row => {
+        if (row.absolute === null) return dash;
+        return (
+          <Box sx={{ textAlign: "right" }}>
+            <Typography variant="body2" fontWeight="bold" sx={numeric}>{formatNumber(row.absolute)}</Typography>
+            {row.targets > 1 && (
+              <Typography variant="caption" color="text.disabled" component="div" sx={numeric}>
+                {formatNumber(row.absolute / row.targets)} each
+              </Typography>
+            )}
+          </Box>
+        );
+      },
+    },
+  ];
+
+  const mobileHidden = ["cast", "baseSp"];
 
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 1, alignItems: "center" }}>
@@ -171,13 +349,8 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
         sx={{ maxWidth: CONTENT_WIDTH.wide }}
         accent={spec.color}
         onReset={() => handleSpecChange(spec)}
+        leading={<SpecChip accent={spec.color} spec={spec} onChange={handleSpecChange} />}
         sections={[
-          {
-            key: "spec",
-            title: "spec",
-            summary: spec.name.toLowerCase(),
-            content: <SpecializationSelect short withLabel selectedSpec={spec} onSpecChange={handleSpecChange} />,
-          },
           {
             key: "stats",
             title: "stats",
@@ -231,151 +404,45 @@ const SpellReference: React.FC<{ title: React.ReactNode; description: React.Reac
               </Group>
             ),
           }] : []),
-          // ...(isDev ? [{
-          //   key: "nerf",
-          //   title: "nerf sim",
-          //   summary: `${nerfPercent}%`,
-          //   content: (
-          //     <FieldCells
-          //       fields={[{ key: "nerfPercent", label: "Nerf Percent", min: -100, adornment: "%" }]}
-          //       options={{ nerfPercent }}
-          //       onOptionsChange={newOptions => setNerfPercent(newOptions.nerfPercent ?? 0)}
-          //     />
-          //   ),
-          // }] : []),
         ]}
       />
 
-      <Box sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide }}>
-        <SwirlTable
-          rows={rows}
-          rowKey={(row, i) => `${row.spell.id}-${row.type}-${row.targets ?? i}`}
-          columns={[
-            {
-              key: "spell",
-              label: "Spell",
-              width: "2fr",
-              sortValue: row => row.spell.display?.name ?? row.spell.name,
-              render: row => (
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <SpellButton selectedSpell={{ ...row.spell, icon: row.spell.display?.icon ?? row.spell.icon }} size={ICON.md} />
-                  <Box>
-                    <Typography variant="body2" fontWeight="bold">{row.spell.display?.name ?? row.spell.name}</Typography>
-                    {row.targets !== undefined && (
-                      <Typography variant="caption" color="text.disabled">{row.targets} {pluralize(row.targets, "target")}</Typography>
-                    )}
-                  </Box>
-                </Box>
-              ),
-            },
-            {
-              key: "type",
-              label: "Type",
-              width: "1fr",
-              align: "center",
-              sortValue: row => row.type,
-              render: row => {
-                const typeColor = CATEGORY_COLORS[row.type as keyof typeof CATEGORY_COLORS] ?? "#ffffff";
-                return (
-                  <Box sx={{
-                    display: "inline-flex",
-                    px: 1,
-                    py: 0.25,
-                    borderRadius: 1,
-                    border: `1px solid ${typeColor}66`,
-                    backgroundColor: typeColor + "14",
-                  }}>
-                    <Typography variant="caption" sx={{ color: typeColor, fontWeight: 600 }}>
-                      {row.type}
-                    </Typography>
-                  </Box>
-                );
-              },
-            },
-            {
-              key: "baseSp",
-              label: "Base SP%",
-              width: "1fr",
-              align: "right",
-              sortValue: row => row.baseSpCoeff ?? -1,
-              render: row => (
-                <Typography variant="body2" color="text.secondary">
-                  {row.baseSpCoeff !== null ? formatPercent(row.baseSpCoeff) : "—"}
-                </Typography>
-              ),
-            },
-            {
-              key: "effectiveSp",
-              label: "Effective SP%",
-              width: "1fr",
-              align: "right",
-              sortValue: row => row.spCoeff ?? -1,
-              render: row => {
-                if (row.spCoeff === null) return <Typography variant="body2">—</Typography>;
-                const value = <Typography variant="body2">{formatPercent(row.spCoeff)}</Typography>;
-                if (row.baseSpCoeff === null || !row.modifiers?.length) return value;
-                return (
-                  <GlassTooltip
-                    placement="left"
-                    title={
-                      <Box sx={{ display: "grid", gridTemplateColumns: "auto auto", columnGap: 1.5, rowGap: 0.25 }}>
-                        <Typography variant="caption" color="text.secondary">base</Typography>
-                        <Typography variant="caption" align="right">{formatPercent(row.baseSpCoeff)}</Typography>
-                        {row.modifiers.map(m => (
-                          <React.Fragment key={m.label}>
-                            <Typography variant="caption" color="text.secondary">{m.label.toLowerCase()}</Typography>
-                            <Typography variant="caption" align="right">
-                              {m.multiplier >= 1 ? "+" : ""}{((m.multiplier - 1) * 100).toFixed(1)}%
-                            </Typography>
-                          </React.Fragment>
-                        ))}
-                        <Typography variant="caption" fontWeight="bold">effective</Typography>
-                        <Typography variant="caption" align="right" fontWeight="bold">{formatPercent(row.spCoeff)}</Typography>
-                      </Box>
-                    }
-                  >
-                    <Box component="span" sx={{ cursor: "help", textDecoration: "underline dotted", textUnderlineOffset: 3 }}>
-                      {value}
-                    </Box>
-                  </GlassTooltip>
-                );
-              },
-            },
-            {
-              key: "absolute",
-              label: `Throughput`,
-              width: "1fr",
-              align: "right",
-              sortValue: row => row.absolute ?? -1,
-              render: row => (
-                <Typography variant="body2" fontWeight="bold">
-                  {formatNumber(row.absolute!)}
-                </Typography>
-              ),
-            },
-          // ...(isDev ? [{
-          //   key: "nerf",
-          //   label: `After (${nerfPercent > 0 ? "+" : ""}${nerfPercent}%)`,
-          //   width: "1fr",
-          //   align: "right" as const,
-          //   sortValue: (row: SpellRow) => (row.absolute ?? -1) * (1 + nerfPercent / 100),
-          //   render: (row: SpellRow) => {
-          //     if (row.absolute === null) return <Typography variant="body2" color="text.disabled">—</Typography>;
-          //     const adjusted = row.absolute * (1 + nerfPercent / 100);
-          //     return (
-          //       <Box sx={{ textAlign: "right" }}>
-          //         <Typography variant="body2" fontWeight="bold">{formatNumber(adjusted)}</Typography>
-          //         <Typography variant="caption" color={nerfPercent < 0 ? "error.main" : "success.main"}>
-          //           {nerfPercent > 0 ? "+" : ""}{nerfPercent.toFixed(1)}%
-          //         </Typography>
-          //       </Box>
-          //     );
-          //   },
-          // }] : []),
-          ] as SwirlColumn<SpellRow>[]}
-          accentColor={row => CATEGORY_COLORS[row.type as keyof typeof CATEGORY_COLORS] ?? "#ffffff"}
+      <Box sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide, display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+        <SearchChip accent={spec.color} value={search} onChange={setSearch} placeholder="spell name..." />
+        <SelectChip
+          accent={spec.color}
+          title="type"
+          value={typeFilter}
+          options={[ALL_TYPES, CATEGORY.DAMAGE, CATEGORY.HEALING].map(t => ({ value: t, label: t }))}
+          onChange={setTypeFilter}
+          active={typeFilter !== ALL_TYPES}
         />
+        <Typography sx={{ ml: "auto", px: 1, fontSize: FONT.micro, fontWeight: 600, color: "text.disabled" }}>
+          {visibleRows.length} of {rows.length}
+        </Typography>
       </Box>
+
+      {allSpells.length === 0 ? (
+        <EmptyMessage
+          message={`No spell data for ${spec.name} yet`}
+          hint="Pick another spec to see its spells"
+        />
+      ) : visibleRows.length === 0 ? (
+        <EmptyMessage message="No spells match" hint="Clear the search or change the type filter" />
+      ) : (
+        <Box sx={{ width: "100%", maxWidth: CONTENT_WIDTH.wide }}>
+          <SwirlTable
+            rows={visibleRows}
+            rowKey={row => `${row.spell.id}-${row.type}`}
+            columns={isMobile ? columns.filter(c => !mobileHidden.includes(c.key)) : columns}
+            accentColor={row => CATEGORY_COLORS[row.type] ?? "#ffffff"}
+            defaultSortKey="absolute"
+            defaultSortDir="desc"
+            dense
+            dimmed={row => !row.available}
+          />
+        </Box>
+      )}
     </Container>
   );
 };
