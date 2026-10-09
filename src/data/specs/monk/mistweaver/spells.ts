@@ -1,5 +1,7 @@
 import spell, { CATEGORY } from '@data/spells/spell';
 import { SCHOOLS } from '@data/shared/schools';
+import { HERO_TREES } from '@data/heroTalents';
+const COTC = HERO_TREES.CONDUIT_OF_THE_CELESTIALS;
 
 const spells = {
     // damaging abilities
@@ -165,6 +167,7 @@ const spells = {
         name: 'Celestial Conduit',
         id: 443028,
         icon: 'inv_ability_conduitofthecelestialsmonk_celestialconduit',
+        heroTalent: COTC,
         castTime: 4,
         cooldown: 90,
         school: SCHOOLS.NATURE,
