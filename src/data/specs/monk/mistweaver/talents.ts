@@ -311,6 +311,7 @@ const talents = {
             name: "Soothing Mist (Spiritfont)"
         },
         coeff: 3.36 * 5, // always 5 targets combined
+        category: CATEGORY.HEALING,
     },
     SPIRITFONT_CHI_COCOON: {
         name: "Chi Cocoon",
