@@ -6,50 +6,45 @@ import {
     Container,
     Box,
     Avatar,
-    Divider,
 } from "@mui/material";
 import RainbowCard, { RAINBOW_COLORS, RAINBOW_GRADIENT } from "@components/Buttons/RainbowCard";
-import { Timeline, Analytics, TimerTwoTone, BugReport, Percent } from "@mui/icons-material";
 import SwirlLink from "@components/SwirlLink/SwirlLink";
+import { CONTENT_WIDTH, FONT, HAIRLINE } from "@components/Theme/tokens";
 import { CHANGELOG } from "@data/changelog";
-import { CONTENT_WIDTH, FONT } from "@components/Theme/tokens";
 
 const CURRENT_PATCH = "12.1";
 
-const quickAccessIconSize = 22;
-const quickAccessPages = [
+const leadTools = [
     {
         title: "When Do I Ramp?",
-        description: "Calculate ramp timings for spell cast efficiency and planning",
-        icon: <TimerTwoTone sx={{ fontSize: quickAccessIconSize }} />,
+        description: "Calculate when to start your ramp before a mechanic",
         path: "/when-do-i-ramp",
         preview: "/previews/when-do-i-ramp.png"
     },
     {
         title: "Spell Timeline",
-        description: "Create customized timelines for spell casts and cooldowns",
-        icon: <Timeline sx={{ fontSize: quickAccessIconSize }} />,
+        description: "Build timelines for spell casts and cooldowns",
         path: "/timeline",
         preview: "/previews/timeline.png"
-    },
+    }
+];
+
+const tools = [
     {
-        title: "Spell Reference",
-        description: "Spellpower for every spell and talent, with your stats and talents applied",
-        icon: <Percent sx={{ fontSize: quickAccessIconSize }} />,
+        title: "Reference",
+        description: "View spellpower data for every spell and talent",
         path: "/analysis/spell-reference",
         preview: "/previews/spell-reference.png"
     },
     {
-        title: "Graph & Analysis Tools",
-        description: "Compare healing mechanics with data-driven insights",
-        icon: <Analytics sx={{ fontSize: quickAccessIconSize }} />,
+        title: "Analysis",
+        description: "Compare healing mechanics with the math behind them",
         path: "/analysis",
         preview: "/previews/heart-of-the-jade-serpent.png"
     },
     {
-        title: "Bugs & Issues",
-        description: "Track known issues and bugs affecting specializations",
-        icon: <BugReport sx={{ fontSize: quickAccessIconSize }} />,
+        title: "Bugs",
+        description: "Track known bugs and issues by specialization",
         path: "/bugs",
         preview: "/previews/bugs.png"
     }
@@ -67,7 +62,7 @@ const relativeTime = (date: Date): string => {
     return `${Math.floor(days / 30)} months ago`;
 };
 
-const StatusChip = () => {
+const StatusLine = () => {
     const latest = CHANGELOG[0].date;
     const [hasNew, setHasNew] = useState(false);
 
@@ -82,36 +77,16 @@ const StatusChip = () => {
     };
 
     return (
-        <Box sx={{
-            display: 'inline-flex',
-            alignItems: 'stretch',
-            borderRadius: 1,
-            height: 24,
-            overflow: 'hidden',
-            border: '1px solid',
-            borderColor: 'divider',
-        }}>
-            <Box sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 0.75,
-                px: 1.25,
-                py: 0.5,
-                backgroundColor: STATUS_GREEN + '14',
-                borderRight: '1px solid',
-                borderColor: 'divider',
-            }}>
-                <Box sx={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: STATUS_GREEN }} />
-                <Typography sx={{ fontSize: FONT.micro, fontFamily: 'monospace', fontWeight: 700, color: STATUS_GREEN }}>
+        <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.75 }}>
+            <Box sx={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: STATUS_GREEN }} />
+            <Typography component="div" sx={{ fontSize: FONT.small, color: 'text.secondary' }}>
+                current for patch{' '}
+                <Box component="span" sx={{ fontFamily: 'monospace', fontWeight: 700, color: STATUS_GREEN }}>
                     {CURRENT_PATCH}
-                </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 1.25, py: 0.5, backgroundColor: 'background.paper' }}>
-                <Typography sx={{ fontSize: FONT.micro, color: 'text.disabled' }}>
-                    updated {relativeTime(latest)}
-                </Typography>
-                <Box sx={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
-                    <SwirlLink href="/changelog" variant="body2" fontWeight={700} sx={{ fontSize: FONT.micro }} onClick={markSeen}>
+                </Box>
+                {' · '}updated {relativeTime(latest)}{' · '}
+                <Box component="span" sx={{ position: 'relative' }}>
+                    <SwirlLink href="/changelog" fontWeight={700} sx={{ fontSize: FONT.small }} onClick={markSeen}>
                         what's new
                     </SwirlLink>
                     {hasNew && (
@@ -127,7 +102,7 @@ const StatusChip = () => {
                         }} />
                     )}
                 </Box>
-            </Box>
+            </Typography>
         </Box>
     );
 };
@@ -146,10 +121,11 @@ const Hero = () => (
         },
     }}>
         <Typography
-            variant="h2"
             component="h1"
             sx={{
                 fontWeight: 'bold',
+                fontSize: '2.75rem',
+                lineHeight: 1.1,
                 background: `linear-gradient(90deg, ${[...RAINBOW_COLORS, ...RAINBOW_COLORS].join(', ')})`,
                 backgroundSize: '200% auto',
                 WebkitBackgroundClip: 'text',
@@ -160,50 +136,44 @@ const Hero = () => (
         >
             Wait, I'm Ramping!
         </Typography>
-        <Typography variant="h6" color="text.secondary" sx={{ maxWidth: CONTENT_WIDTH.wide, mx: 'auto' }}>
-            Healer theorycrafting and optimization tools for World of Warcraft
+        <Typography sx={{ fontSize: FONT.subhead, color: 'text.secondary' }}>
+            Healer theorycrafting tools for World of Warcraft
         </Typography>
+        <StatusLine />
     </Box>
 );
 
+const ToolCard = ({ tool, height }: { tool: typeof tools[number]; height: number }) => (
+    <RainbowCard href={tool.path} sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <Box sx={{
+            height,
+            backgroundImage: `url(${tool.preview})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            borderBottom: `1px solid ${HAIRLINE}`,
+        }} />
+        <Box sx={{ p: 2, textAlign: 'center' }}>
+            <Typography sx={{ fontSize: FONT.subhead, fontWeight: 700, mb: 0.25, color: 'text.primary' }}>
+                {tool.title}
+            </Typography>
+            <Typography sx={{ fontSize: FONT.body, color: 'text.secondary' }}>
+                {tool.description}
+            </Typography>
+        </Box>
+    </RainbowCard>
+);
+
 const ToolGrid = () => (
-    <Box sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        gap: 2,
-    }}>
-        {quickAccessPages.map(tool => (
-            <RainbowCard key={tool.path} sx={{ display: 'flex', flexDirection: 'column', width: { xs: '100%', sm: 350 } }}>
-                <Link href={tool.path} style={{ textDecoration: 'none', color: 'inherit', height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    <Box sx={{ height: 140, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Box sx={{
-                            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                            backgroundImage: `url(${tool.preview})`,
-                            backgroundSize: 'cover', backgroundPosition: 'center',
-                            opacity: 0.8, filter: 'blur(0.5px)',
-                        }} />
-                        <Box sx={{
-                            position: 'relative', zIndex: 1, color: 'white',
-                            backgroundColor: 'rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(8px)',
-                            px: 1.5, py: 1.5, borderRadius: 1,
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        }}>
-                            {tool.icon}
-                        </Box>
-                    </Box>
-                    <Divider />
-                    <Box sx={{ p: 2, flexGrow: 1 }}>
-                        <Typography sx={{ fontSize: FONT.subhead, fontWeight: 700, textAlign: 'center', mb: 0.5 }}>
-                            {tool.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-                            {tool.description}
-                        </Typography>
-                    </Box>
-                </Link>
-            </RainbowCard>
+    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(6, 1fr)' }, gap: 2 }}>
+        {leadTools.map(tool => (
+            <Box key={tool.path} sx={{ gridColumn: { md: 'span 3' } }}>
+                <ToolCard tool={tool} height={180} />
+            </Box>
+        ))}
+        {tools.map(tool => (
+            <Box key={tool.path} sx={{ gridColumn: { md: 'span 2' } }}>
+                <ToolCard tool={tool} height={120} />
+            </Box>
         ))}
     </Box>
 );
@@ -215,8 +185,6 @@ const Byline = () => (
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 2,
-        flexWrap: 'wrap',
     }}>
         <Link href="/about" style={{ textDecoration: 'none', color: 'inherit' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer', '&:hover': { '& p': { color: 'text.primary' } } }}>
@@ -241,13 +209,12 @@ const Byline = () => (
                 </Typography>
             </Box>
         </Link>
-        <StatusChip />
     </Box>
 );
 
 const Home = () => (
     <Container maxWidth="lg" sx={{ mt: 1, mb: 2 }}>
-        <Box sx={{ maxWidth: CONTENT_WIDTH.wide, mx: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <Box sx={{ maxWidth: CONTENT_WIDTH.wide, mx: 'auto', display: 'flex', flexDirection: 'column', gap: 3 }}>
             <Hero />
             <ToolGrid />
             <Byline />
