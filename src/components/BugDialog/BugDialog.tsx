@@ -37,38 +37,28 @@ const Fact: React.FC<{ label: string; children: React.ReactNode }> = ({ label, c
     </Box>
 );
 
-const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose, shareQuery }) => {
-    const [copied, setCopied] = useState(false);
+export const BUG_DIALOG_PAPER_SX = {
+    backgroundColor: "background.paper",
+    backgroundImage: "none",
+    borderRadius: 2,
+    border: "1px solid",
+    borderColor: "divider",
+    overflow: "hidden",
+    maxWidth: 680,
+};
 
-    if (!bug) return null;
+interface BugDetailsProps {
+    bug: Bug;
+    onClose: () => void;
+    actions?: React.ReactNode;
+}
 
+export const BugDetails: React.FC<BugDetailsProps> = ({ bug, onClose, actions }) => {
     const severityColor = SEVERITY_COLORS[bug.severity];
     const status = bug.status ?? STATUS.OPEN;
 
-    const handleCopyLink = async () => {
-        await navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}${shareQuery}`);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-    };
-
     return (
-        <Dialog
-            open={open}
-            onClose={onClose}
-            maxWidth="md"
-            fullWidth
-            PaperProps={{
-                sx: {
-                    backgroundColor: "background.paper",
-                    backgroundImage: "none",
-                    borderRadius: 2,
-                    border: "1px solid",
-                    borderColor: "divider",
-                    overflow: "hidden",
-                    maxWidth: 680,
-                },
-            }}
-        >
+        <>
             <Box sx={{ display: "flex", borderBottom: `1px solid ${HAIRLINE}` }}>
                 <Box sx={{ width: 7, flexShrink: 0, backgroundColor: severityColor }} />
                 <Box sx={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: 2, px: 2.5, py: 2 }}>
@@ -81,14 +71,8 @@ const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose, shareQuery })
                             {bug.title}
                         </Typography>
                     </Box>
-                    <Box sx={{ display: "flex", gap: 1, alignSelf: "flex-start" }}>
-                        {shareQuery && (
-                            <GlassTooltip title={copied ? "Copied" : "Copy link"}>
-                                <SwirlIconButton onClick={handleCopyLink} aria-label="Copy link">
-                                    {copied ? <CheckIcon sx={{ fontSize: 18 }} /> : <LinkIcon sx={{ fontSize: 18 }} />}
-                                </SwirlIconButton>
-                            </GlassTooltip>
-                        )}
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, alignSelf: "flex-start" }}>
+                        {actions}
                         <GlassTooltip title="Close">
                             <SwirlIconButton onClick={onClose} aria-label="Close">
                                 <CloseIcon sx={{ fontSize: 18 }} />
@@ -186,6 +170,34 @@ const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose, shareQuery })
                     )}
                 </Box>
             </Box>
+        </>
+    );
+};
+
+const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose, shareQuery }) => {
+    const [copied, setCopied] = useState(false);
+
+    if (!bug) return null;
+
+    const handleCopyLink = async () => {
+        await navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}${shareQuery}`);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    return (
+        <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth PaperProps={{ sx: BUG_DIALOG_PAPER_SX }}>
+            <BugDetails
+                bug={bug}
+                onClose={onClose}
+                actions={shareQuery && (
+                    <GlassTooltip title={copied ? "Copied" : "Copy link"}>
+                        <SwirlIconButton onClick={handleCopyLink} aria-label="Copy link">
+                            {copied ? <CheckIcon sx={{ fontSize: 18 }} /> : <LinkIcon sx={{ fontSize: 18 }} />}
+                        </SwirlIconButton>
+                    </GlassTooltip>
+                )}
+            />
         </Dialog>
     );
 };
