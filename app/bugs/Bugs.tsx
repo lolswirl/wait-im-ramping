@@ -141,7 +141,8 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
                             onClose={handleCloseBugUpdate}
                             bugs={openBugs}
                             originalIndices={openBugIndices}
-                            specKey={selectedSpec.name}
+                            specKey={selectedSpec.key}
+                            specName={selectedSpec.name}
                         />
                     </>
                 ) : (

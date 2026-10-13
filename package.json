@@ -39,6 +39,7 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
+    "bugs": "node scripts/bug-update-server.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
