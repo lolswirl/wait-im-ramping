@@ -1,8 +1,18 @@
 import React from "react";
 import { Box, Button, Theme, useTheme } from "@mui/material";
 import { T } from "@util/T";
-import { useIsNonProd } from "@lib/betaModeClient";
-import { FONT, INK, TINT, tintedControl, tintedDisabled } from "@components/Theme/tokens";
+import { RAINBOW_COLORS } from "@components/Buttons/RainbowCard";
+import { FONT, HAIRLINE_SOFT, INK, TINT, tintedControl } from "@components/Theme/tokens";
+
+const REST_BORDER = "rgba(255,255,255,0.15)";
+const DISABLED_INK = "rgba(255,255,255,0.22)";
+
+// semantic colors come from the site rainbow, not the mui defaults
+const SEMANTIC: Record<string, string> = {
+    success: RAINBOW_COLORS[1],
+    warning: RAINBOW_COLORS[2],
+    info: RAINBOW_COLORS[4],
+};
 
 interface SwirlButtonProps {
     children: React.ReactNode;
@@ -17,9 +27,12 @@ interface SwirlButtonProps {
     startIcon?: React.ReactNode;
 }
 
-const resolveAccent = (color: string, theme: Theme, isNonProd: boolean): string => {
+const resolveAccent = (color: string, theme: Theme): string => {
     if (!color || color === "inherit") {
-        return isNonProd ? "#ff7700ff" : "#90caf9";
+        return theme.palette.primary.main;
+    }
+    if (SEMANTIC[color]) {
+        return SEMANTIC[color];
     }
     const palette = theme.palette as unknown as Record<string, { main?: string }>;
     return palette[color]?.main ?? color;
@@ -38,8 +51,7 @@ const SwirlButton: React.FC<SwirlButtonProps> = ({
     startIcon = null,
 }) => {
     const theme = useTheme();
-    const isNonProd = useIsNonProd();
-    const accent = resolveAccent(color, theme, isNonProd);
+    const accent = resolveAccent(color, theme);
     const isNav = variant === "nav";
     const hasIcon = Boolean(startIcon);
 
@@ -64,6 +76,8 @@ const SwirlButton: React.FC<SwirlButtonProps> = ({
 
     const tintedSx = {
         ...tintedControl(accent, selected),
+        ...(!selected && { color: INK.secondary, borderColor: REST_BORDER }),
+        "&:hover": { borderColor: accent, color: accent },
         height: 30,
         minWidth: 0,
         p: 0,
@@ -74,8 +88,9 @@ const SwirlButton: React.FC<SwirlButtonProps> = ({
             display: "flex",
             alignItems: "center",
             px: 0.9,
+            color: accent,
             backgroundColor: accent + TINT.wash,
-            borderRight: `1px solid ${accent}${TINT.divider}`,
+            borderRight: `1px solid ${REST_BORDER}`,
             "& svg": { fontSize: 15 },
         },
         "& .sb-label": {
@@ -89,11 +104,12 @@ const SwirlButton: React.FC<SwirlButtonProps> = ({
             ? { "&:hover .sb-label::after": { transform: "scaleX(1)" } }
             : { "&::after": underline, "&:hover::after": { transform: "scaleX(1)" } }),
         "&.Mui-disabled": {
-            ...tintedDisabled,
+            borderColor: HAIRLINE_SOFT,
+            color: DISABLED_INK,
             "& .sb-icon": {
                 backgroundColor: "transparent",
-                borderRightColor: tintedDisabled.borderColor,
-                color: "text.disabled",
+                borderRightColor: HAIRLINE_SOFT,
+                color: DISABLED_INK,
             },
         },
     };
