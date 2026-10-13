@@ -82,8 +82,13 @@ export const BugDetails: React.FC<BugDetailsProps> = ({ bug, onClose, actions })
                 </Box>
             </Box>
 
-            <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 220px" }, overflowY: "auto" }}>
-                <Box sx={{ px: 2.5, py: 2, display: "flex", flexDirection: "column", gap: 2 }}>
+            <Box sx={{
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", sm: "1fr 220px" },
+                gridTemplateRows: { sm: "minmax(0, 1fr)" },
+                overflowY: { xs: "auto", sm: "hidden" },
+            }}>
+                <Box sx={{ px: 2.5, py: 2, display: "flex", flexDirection: "column", gap: 2, overflowY: { sm: "auto" } }}>
                     {bug.description && (
                         <Section label="Description">
                             <Typography component="div" variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>
@@ -125,6 +130,7 @@ export const BugDetails: React.FC<BugDetailsProps> = ({ bug, onClose, actions })
                     display: "flex",
                     flexDirection: "column",
                     gap: 1.5,
+                    overflowY: { sm: "auto" },
                     borderLeft: { xs: "none", sm: `1px solid ${HAIRLINE}` },
                     borderTop: { xs: `1px solid ${HAIRLINE}`, sm: "none" },
                 }}>
