@@ -13,7 +13,7 @@ const getBranchName = () => {
 const SITE_NAME = "Wait, I'm Ramping!";
 const SITE_DESCRIPTION =
     "Tools that help healers plan, visualize, and theorycraft their healing.";
-const SITE_URL = "https://www.waitimramping.com/";
+export const SITE_URL = "https://waitimramping.com/";
 const SITE_IMAGE = SITE_URL + "description.png";
 
 export function PageMetadata(
@@ -38,6 +38,10 @@ export function PageMetadata(
             template: `%s`,
         },
         description: formattedDescription,
+        metadataBase: new URL(SITE_URL),
+        alternates: {
+            canonical: "./",
+        },
         openGraph: {
             type: "website",
             url,
