@@ -38,10 +38,9 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
+    "start": "next dev --turbopack",
     "bugs": "node scripts/bug-update-server.mjs",
     "build": "next build",
-    "start": "next start",
     "lint": "next lint",
     "prepare": "husky || true"
   },
