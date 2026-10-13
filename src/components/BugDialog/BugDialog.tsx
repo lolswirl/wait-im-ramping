@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Dialog, Typography, Box } from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import SpellButton from "@components/SpellButtons/SpellButton";
 import SwirlLink from "@components/SwirlLink/SwirlLink";
 import SwirlChip from "@components/SwirlChip/SwirlChip";
-import SwirlButton from "@components/Buttons/SwirlButton";
+import { SwirlIconButton } from "@components/Buttons/SwirlIconButton";
+import { GlassTooltip } from "@components/Glass";
 import { formatLogUrl } from "@util/stringManipulation";
 import { Bug, SEVERITY_COLORS, STATUS, STATUS_COLORS } from "@data/bugs";
 import { FONT, HAIRLINE, ICON } from "@components/Theme/tokens";
@@ -62,7 +65,7 @@ const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose, shareQuery })
                     border: "1px solid",
                     borderColor: "divider",
                     overflow: "hidden",
-                    maxWidth: 820,
+                    maxWidth: 680,
                 },
             }}
         >
@@ -77,6 +80,20 @@ const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose, shareQuery })
                         <Typography component="div" sx={{ fontSize: FONT.subhead, fontWeight: 600, lineHeight: 1.3 }}>
                             {bug.title}
                         </Typography>
+                    </Box>
+                    <Box sx={{ display: "flex", gap: 1, alignSelf: "flex-start" }}>
+                        {shareQuery && (
+                            <GlassTooltip title={copied ? "Copied" : "Copy link"}>
+                                <SwirlIconButton onClick={handleCopyLink} aria-label="Copy link">
+                                    {copied ? <CheckIcon sx={{ fontSize: 18 }} /> : <LinkIcon sx={{ fontSize: 18 }} />}
+                                </SwirlIconButton>
+                            </GlassTooltip>
+                        )}
+                        <GlassTooltip title="Close">
+                            <SwirlIconButton onClick={onClose} aria-label="Close">
+                                <CloseIcon sx={{ fontSize: 18 }} />
+                            </SwirlIconButton>
+                        </GlassTooltip>
                     </Box>
                 </Box>
             </Box>
@@ -168,15 +185,6 @@ const BugDialog: React.FC<BugDialogProps> = ({ open, bug, onClose, shareQuery })
                         </Fact>
                     )}
                 </Box>
-            </Box>
-
-            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: 2, py: 0.75, borderTop: `1px solid ${HAIRLINE}` }}>
-                {shareQuery ? (
-                    <SwirlButton onClick={handleCopyLink} startIcon={<LinkIcon sx={{ fontSize: 16 }} />}>
-                        {copied ? "Copied" : "Copy link"}
-                    </SwirlButton>
-                ) : <Box />}
-                <SwirlButton onClick={onClose}>Close</SwirlButton>
             </Box>
         </Dialog>
     );
