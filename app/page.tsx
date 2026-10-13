@@ -12,7 +12,7 @@ import SwirlLink from "@components/SwirlLink/SwirlLink";
 import { CONTENT_WIDTH, FONT, HAIRLINE } from "@components/Theme/tokens";
 import { CHANGELOG } from "@data/changelog";
 
-const CURRENT_PATCH = "12.1";
+const CURRENT_PATCH = "12.1.5";
 
 const leadTools = [
     {
