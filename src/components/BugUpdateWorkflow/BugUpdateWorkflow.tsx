@@ -7,6 +7,7 @@ import {
     Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { ArrowBack, BugReport, Check, HelpOutline, RemoveCircleOutline, SkipNext } from "@mui/icons-material";
 import { Bug, STATUS } from "@data/bugs";
 import { BugDetails, BUG_DIALOG_PAPER_SX } from "@components/BugDialog/BugDialog";
 import SwirlButton from "@components/Buttons/SwirlButton";
@@ -158,13 +159,13 @@ const BugUpdateWorkflow: React.FC<BugUpdateWorkflowProps> = ({
                         Is this bug still broken in build {buildNumber}?
                     </Typography>
                     <Box sx={footerSx}>
-                        <SwirlButton onClick={handlePrevious} disabled={currentBugIndex === 0}>Previous</SwirlButton>
-                        <SwirlButton onClick={handleSkipRest}>Skip Rest</SwirlButton>
+                        <SwirlButton onClick={handlePrevious} disabled={currentBugIndex === 0} startIcon={<ArrowBack />}>Back</SwirlButton>
+                        <SwirlButton onClick={handleSkipRest} startIcon={<SkipNext />}>Skip Rest</SwirlButton>
                         <Box sx={{ flex: 1 }} />
-                        <SwirlButton onClick={() => handleBugResponse('fixed')} color="success">No (Fixed)</SwirlButton>
-                        <SwirlButton onClick={() => handleBugResponse('removed')} color="info">Removed</SwirlButton>
-                        <SwirlButton onClick={() => handleBugResponse('unknown')} color="warning">I Don't Know</SwirlButton>
-                        <SwirlButton onClick={() => handleBugResponse('broken')} color="error">Yes (Broken)</SwirlButton>
+                        <SwirlButton onClick={() => handleBugResponse('fixed')} color="success" startIcon={<Check />}>Fixed</SwirlButton>
+                        <SwirlButton onClick={() => handleBugResponse('removed')} color="info" startIcon={<RemoveCircleOutline />}>Removed</SwirlButton>
+                        <SwirlButton onClick={() => handleBugResponse('unknown')} color="warning" startIcon={<HelpOutline />}>Not Sure</SwirlButton>
+                        <SwirlButton onClick={() => handleBugResponse('broken')} color="error" startIcon={<BugReport />}>Still Broken</SwirlButton>
                     </Box>
                 </>
             ) : (
