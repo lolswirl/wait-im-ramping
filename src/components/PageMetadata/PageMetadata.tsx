@@ -39,6 +39,10 @@ export function PageMetadata(
         },
         description: formattedDescription,
         metadataBase: new URL(SITE_URL),
+        icons: {
+            icon: branchName ? "/icon-dev.svg" : "/icon.svg",
+            apple: "/apple-icon.png",
+        },
         alternates: {
             canonical: "./",
         },
