@@ -1,7 +1,7 @@
 ﻿"use client";
 import React, { useState, useEffect } from "react";
 import { Box, Container, Typography } from "@mui/material";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { SearchOff } from "@mui/icons-material";
 
 import PageHeader from "@components/PageHeader/PageHeader";
@@ -33,7 +33,7 @@ const bugSlug = (bug: Bug): string => {
 
 const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode }> = ({ title, description }) => {
     const searchParams = useSearchParams();
-    const router = useRouter();
+    const pathname = usePathname();
     
     const { spec: selectedSpec, setSpec: setSelectedSpec } = useSpec();
     const [bugUpdateOpen, setBugUpdateOpen] = useState(false);
@@ -74,7 +74,8 @@ const BugsPage: React.FC<{ title: React.ReactNode; description: React.ReactNode 
         } else {
             params.delete('bug');
         }
-        router.replace(`?${params.toString()}`, { scroll: false });
+        const query = params.toString();
+        window.history.replaceState(null, "", query ? `?${query}` : pathname);
     };
 
     const handleRowClick = (bug: Bug) => {
